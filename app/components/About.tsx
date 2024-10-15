@@ -62,10 +62,10 @@ export default function About({ setActiveSection }: AboutProps) {
               <b>Namaste!</b>
             </p>
             <p className="text-lg text-gray-700 dark:text-gray-300">
-              I'm a passionate Software Developer from Mumbai, India, with a love for <b>problem-solving</b> and a strong dedication to <b>automating workflows</b>. I specialize in developing AI tools and experimenting with the latest <b>ML/DL models</b> to push the boundaries of what's possible.
+              Im a passionate Software Developer from Mumbai, India, with a love for <b>problem-solving</b> and a strong dedication to <b>automating workflows</b>. I specialize in developing AI tools and experimenting with the latest <b>ML/DL models</b> to push the boundaries of whats possible.
             </p>
             <p className="text-lg text-gray-700 dark:text-gray-300">
-              My journey in software development is driven by a desire to create <b>efficient, scalable</b> solutions that make a difference. I thrive on tackling complex challenges and turning them into streamlined, effective processes. Whether it's developing algorithms to enhance <b>machine learning</b> capabilities or creating automation scripts to save time and reduce errors, I am always looking for ways to <b>innovate</b> and <b>improve</b>.
+              My journey in software development is driven by a desire to create <b>efficient, scalable</b> solutions that make a difference. I thrive on tackling complex challenges and turning them into streamlined, effective processes. Whether its developing algorithms to enhance <b>machine learning</b> capabilities or creating automation scripts to save time and reduce errors, I am always looking for ways to <b>innovate</b> and <b>improve</b>.
             </p>
           </motion.div>
           <div className="lg:w-1/2 w-full">
