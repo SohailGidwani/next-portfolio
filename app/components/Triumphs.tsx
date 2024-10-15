@@ -107,8 +107,8 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
       </div>
       <div className="md:w-1/2 flex flex-col p-6">
         <CardHeader className="flex-shrink-0 p-0 mb-4">
-          <CardTitle className="text-2xl md:text-3xl flex items-center text-indigo-800 dark:text-indigo-400">
-            <Award className="mr-2 h-6 w-6 md:h-8 md:w-8 text-indigo-600 dark:text-indigo-400" />
+          <CardTitle className="text-2xl md:text-3xl flex items-center text-blue-900 dark:text-blue-400">
+            <Award className="mr-2 h-6 w-6 md:h-8 md:w-8 text-blue-600 dark:text-blue-400" />
             {cert.title}
           </CardTitle>
           <CardDescription className="text-gray-600 dark:text-gray-300 text-base md:text-lg mt-2">{cert.issuer} - {cert.date}</CardDescription>
@@ -123,7 +123,7 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
   return (
     <section id="triumphs" ref={sectionRef} className="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold mb-12 text-center text-indigo-800 dark:text-indigo-400">Triumphs & Certifications</h2>
+        <h2 className="text-4xl font-bold mb-12 text-center text-blue-900 dark:text-blue-400">Triumphs & Certifications</h2>
         <Carousel items={certificateCards} />
       </div>
     </section>

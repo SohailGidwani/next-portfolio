@@ -37,11 +37,11 @@ export default function Skills({ setActiveSection }: SkillsProps) {
   const skillCategories = [
     {
       category: "Programming Languages",
-      skills: ["Python", "JavaScript", "TypeScript", "Java", "C++", "R"]
+      skills: ["Python", "JavaScript", "TypeScript", "Java", "C++"]
     },
     {
       category: "Machine Learning / AI",
-      skills: ["TensorFlow", "PyTorch", "Scikit-learn", "Keras", "OpenCV", "NLTK"]
+      skills: ["TensorFlow", "PyTorch", "Scikit-learn", "Keras", "OpenCV", "NLTK", "HuggingFace Transformers", " spaCy", "OpenCV", "Pandas", "Numpy", "SeaBorn", "Matplotlib"]
     },
     {
       category: "Web Development",
@@ -49,22 +49,22 @@ export default function Skills({ setActiveSection }: SkillsProps) {
     },
     {
       category: "Databases",
-      skills: ["PostgreSQL", "MongoDB", "Redis", "Elasticsearch", "MySQL"]
+      skills: ["PostgreSQL", "MongoDB", "Redis", "Elasticsearch", "MySQL", "Vector DBs"]
     },
     {
       category: "Cloud Platforms",
-      skills: ["AWS", "Google Cloud Platform", "Azure", "Heroku"]
+      skills: ["AWS", "Google Cloud Platform", "Azure", "Heroku", "CloudFlare"]
     },
     {
       category: "Tools & Others",
-      skills: ["Git", "Docker", "Kubernetes", "CI/CD", "Agile Methodologies", "RESTful APIs"]
+      skills: ["Git", "Docker", "Kubernetes", "CI/CD", "Agile Methodologies", "RESTful APIs", "Bitbucket", "TFS", "Linux", "Serverless Deployments"]
     }
   ]
 
   return (
     <section id="skills" ref={sectionRef} className="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-8 text-center text-indigo-800 dark:text-indigo-400">Skills</h2>
+        <h2 className="text-3xl font-bold mb-8 text-center text-blue-900 dark:text-blue-400">Skills</h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {skillCategories.map((category, index) => (
             <motion.div

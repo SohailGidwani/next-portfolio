@@ -50,7 +50,7 @@ export default function About({ setActiveSection }: AboutProps) {
   return (
     <section id="about" ref={sectionRef} className="py-20 bg-white dark:bg-gray-800 transition-colors duration-300">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-12 text-center text-indigo-800 dark:text-indigo-400">About Me</h2>
+        <h2 className="text-3xl font-bold mb-12 text-center text-blue-900 dark:text-blue-400">About Me</h2>
         <div className="flex flex-col lg:flex-row gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -73,9 +73,9 @@ export default function About({ setActiveSection }: AboutProps) {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
-              className="bg-indigo-100 dark:bg-indigo-900 rounded-lg p-8 h-full"
+              className="bg-blue-100 dark:bg-blue-900 rounded-lg p-8 h-full"
             >
-              <h3 className="text-2xl font-semibold text-indigo-800 dark:text-indigo-200 mb-6 text-center">
+              <h3 className="text-2xl font-semibold text-blue-900 dark:text-blue-200 mb-6 text-center">
                 What Drives Me
               </h3>
               <div className="relative h-40">
@@ -88,10 +88,10 @@ export default function About({ setActiveSection }: AboutProps) {
                     transition={{ duration: 0.5 }}
                     className="absolute inset-0 flex flex-col items-center justify-center text-center"
                   >
-                    <h4 className="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">
+                    <h4 className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
                       {qualities[activeQuality].title}
                     </h4>
-                    <p className="text-lg text-indigo-800 dark:text-indigo-200">
+                    <p className="text-lg text-blue-800 dark:text-blue-200">
                       {qualities[activeQuality].description}
                     </p>
                   </motion.div>
@@ -103,7 +103,7 @@ export default function About({ setActiveSection }: AboutProps) {
                     key={index}
                     onClick={() => setActiveQuality(index)}
                     className={`w-3 h-3 rounded-full transition-colors duration-200 ${
-                      index === activeQuality ? 'bg-indigo-600 dark:bg-indigo-400' : 'bg-indigo-300 dark:bg-indigo-700'
+                      index === activeQuality ? 'bg-blue-600 dark:bg-blue-400' : 'bg-blue-300 dark:bg-blue-700'
                     }`}
                     aria-label={`View quality ${index + 1}`}
                   />

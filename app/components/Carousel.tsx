@@ -30,18 +30,20 @@ export default function Carousel({ items, autoScrollInterval = 10000 }: Carousel
 
   return (
     <div className="relative w-full overflow-hidden">
-      <AnimatePresence initial={false} mode="wait">
-        <motion.div
-          key={currentIndex}
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -100 }}
-          transition={{ type: "tween", ease: "easeInOut", duration: 0.5 }}
-          className="w-full"
-        >
-          {items[currentIndex]}
-        </motion.div>
-      </AnimatePresence>
+      <div className="h-[600px] md:h-[500px]">
+        <AnimatePresence initial={false} mode="wait">
+          <motion.div
+            key={currentIndex}
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -100 }}
+            transition={{ type: "tween", ease: "easeInOut", duration: 0.5 }}
+            className="absolute inset-0"
+          >
+            {items[currentIndex]}
+          </motion.div>
+        </AnimatePresence>
+      </div>
       <button
         onClick={() => navigate(-1)}
         className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/80 dark:bg-gray-800/80 text-gray-800 dark:text-white rounded-full p-2 shadow-lg z-20 hover:bg-white dark:hover:bg-gray-800 transition-colors duration-200"
@@ -54,7 +56,7 @@ export default function Carousel({ items, autoScrollInterval = 10000 }: Carousel
         className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/80 dark:bg-gray-800/80 text-gray-800 dark:text-white rounded-full p-2 shadow-lg z-20 hover:bg-white dark:hover:bg-gray-800 transition-colors duration-200"
         aria-label="Next slide"
       >
-        <ChevronRight className="w-6 h-6" />
+        <ChevronRight  className="w-6 h-6" />
       </button>
       <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
         {items.map((_, index) => (
@@ -62,7 +64,7 @@ export default function Carousel({ items, autoScrollInterval = 10000 }: Carousel
             key={index}
             onClick={() => setCurrentIndex(index)}
             className={`w-3 h-3 rounded-full transition-colors duration-200 ${
-              index === currentIndex ? 'bg-indigo-600' : 'bg-gray-300 hover:bg-gray-400'
+              index === currentIndex ? 'bg-blue-600' : 'bg-gray-300 hover:bg-gray-400'
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />

@@ -54,7 +54,7 @@ export default function Education({ setActiveSection }: EducationProps) {
   return (
     <section id="education" ref={sectionRef} className="py-20 bg-white dark:bg-gray-800 transition-colors duration-300">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-8 text-center text-indigo-800 dark:text-indigo-400">Education</h2>
+        <h2 className="text-3xl font-bold mb-8 text-center text-blue-900 dark:text-blue-400">Education</h2>
         <div className="grid gap-6 md:grid-cols-2">
           {education.map((edu, index) => (
             <motion.div
@@ -65,7 +65,7 @@ export default function Education({ setActiveSection }: EducationProps) {
             >
               <Card className="h-full dark:bg-gray-700">
                 <CardHeader className="flex flex-row items-center space-x-4 pb-2">
-                  <GraduationCap size={24} className="text-indigo-600 dark:text-indigo-400" />
+                  <GraduationCap size={24} className="text-blue-600 dark:text-blue-400" />
                   <CardTitle>{edu.degree}</CardTitle>
                 </CardHeader>
                 <CardContent>

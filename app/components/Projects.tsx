@@ -7,6 +7,8 @@ import { Badge } from "@/app/components/ui/badge"
 import { Button } from "@/app/components/ui/button"
 import { Github, ExternalLink } from 'lucide-react'
 import Carousel from './Carousel'
+import imagecaption from '@/public/images/BE-Project.jpg'
+import blogsite from '@/public/images/BlogSite.jpg'
 
 interface ProjectsProps {
   setActiveSection: (section: string) => void;
@@ -18,7 +20,7 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries: IntersectionObserverEntry[]) => {
-        const [entry] = entries
+        const [entry] =  entries
         if (entry.isIntersecting) {
           setActiveSection('projects')
         }
@@ -42,7 +44,7 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
       title: "Image Feature Detection & Captioning",
       description: `• Implemented CNN and VGG-16 models for image feature extraction and LSTM (BLEU score: 0.65)/Transformer (BLEU score: 0.80)
       models for caption generation.• Created a user-friendly web interface using Streamlit, demonstrating full-stack capabilities in AI application development.`,
-      image: "/placeholder.svg?height=300&width=400",
+      image: imagecaption,
       tags: ["Python", "TensorFlow", "CNN", "Transformer", "LSTM", "StreamLit"],
       github: "https://github.com/yourusername/ai-image-recognition",
       demo: "https://ai-image-recognition-demo.com"
@@ -50,9 +52,8 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
     {
       title: "ScribeGlobe (Medium-like Blogging site) ",
       description: `Built with React.js and Vite for a responsive user experience. Developed serverless backend using Hono on Cloudflare Workers.
-      • Implemented PostgreSQL for efficient data storage and retrieval, demonstrating proficiency in SQL database management.
-      `,
-      image: "/placeholder.svg?height=300&width=400",
+      • Implemented PostgreSQL for efficient data storage and retrieval, demonstrating proficiency in SQL database management.`,
+      image: blogsite,
       tags: ["React", "Vite", "Typescript", "Tailwind", "HONO", "CloudFlare", "PostgreSQL"],
       github: "https://github.com/yourusername/nlp-chatbot",
       demo: "https://nlp-chatbot-demo.com"
@@ -80,7 +81,7 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
       </div>
       <div className="md:w-1/2 flex flex-col p-6">
         <CardHeader className="flex-shrink-0 p-0 mb-4">
-          <CardTitle className="text-2xl md:text-3xl text-indigo-800 dark:text-indigo-400">{project.title}</CardTitle>
+          <CardTitle className="text-2xl md:text-3xl text-blue-900 dark:text-blue-400">{project.title}</CardTitle>
           <CardDescription className="text-gray-600 dark:text-gray-300 text-base md:text-lg mt-2">{project.description}</CardDescription>
         </CardHeader>
         <CardContent className="flex-grow flex flex-col justify-between p-0">
@@ -111,7 +112,7 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
   return (
     <section id="projects" ref={sectionRef} className="py-20 bg-white dark:bg-gray-800 transition-colors duration-300">
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold mb-12 text-center text-indigo-800 dark:text-indigo-400">Projects</h2>
+        <h2 className="text-4xl font-bold mb-12 text-center text-blue-900 dark:text-blue-400">Projects</h2>
         <Carousel items={projectCards} />
       </div>
     </section>

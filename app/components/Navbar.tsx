@@ -49,7 +49,7 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <a href="#" className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">SG</a>
+            <a href="#" className="text-2xl font-bold text-blue-600 dark:text-blue-400">SG</a>
           </div>
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
@@ -59,8 +59,8 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
                   onClick={() => scrollToSection(item)}
                   variant="ghost"
                   className={`${
-                    activeSection === item.toLowerCase() ? 'text-indigo-600 dark:text-indigo-400' : 'text-gray-600 dark:text-gray-300'
-                  } hover:text-indigo-600 dark:hover:text-indigo-400`}
+                    activeSection === item.toLowerCase() ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300'
+                  } hover:text-blue-600 dark:hover:text-blue-400`}
                 >
                   {item}
                 </Button>
@@ -88,8 +88,8 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
                 onClick={() => scrollToSection(item)}
                 variant="ghost"
                 className={`${
-                  activeSection === item.toLowerCase() ? 'text-indigo-600 dark:text-indigo-400' : 'text-gray-600 dark:text-gray-300'
-                } hover:text-indigo-600 dark:hover:text-indigo-400 block w-full text-left`}
+                  activeSection === item.toLowerCase() ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300'
+                } hover:text-blue-600 dark:hover:text-blue-400 block w-full text-left`}
               >
                 {item}
               </Button>

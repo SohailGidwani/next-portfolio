@@ -43,7 +43,7 @@ export default function Hero({ setActiveSection }: HeroProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 text-indigo-800 dark:text-indigo-400">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4 text-blue-900 dark:text-blue-400">
             Sohail Gidwani
           </h1>
           <h2 className="text-2xl md:text-3xl mb-6 text-gray-600 dark:text-gray-300">
@@ -73,7 +73,7 @@ export default function Hero({ setActiveSection }: HeroProps) {
               }
             }}
             size="lg"
-            className="bg-indigo-600 hover:bg-indigo-700 text-white"
+            className="bg-blue-600 hover:bg-blue-700 text-white"
           >
             Get in Touch <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
