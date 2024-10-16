@@ -69,37 +69,37 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
   ]
 
   const projectCards = projects.map((project, index) => (
-    <Card key={index} className="w-full flex flex-col md:flex-row dark:bg-gray-700 overflow-hidden shadow-lg">
-      <div className="md:w-1/2">
+    <Card key={index} className="w-full flex flex-col dark:bg-gray-700 overflow-hidden shadow-lg">
+      <div className="relative h-48 md:h-64">
         <Image
           src={project.image}
           alt={project.title}
-          width={400}
-          height={300}
-          className="w-full h-64 md:h-full object-cover"
+          layout="fill"
+          objectFit="cover"
+          className="rounded-t-lg"
         />
       </div>
-      <div className="md:w-1/2 flex flex-col p-6">
-        <CardHeader className="flex-shrink-0 p-0 mb-4">
-          <CardTitle className="text-2xl md:text-3xl text-blue-900 dark:text-blue-400">{project.title}</CardTitle>
-          <CardDescription className="text-gray-600 dark:text-gray-300 text-base md:text-lg mt-2">{project.description}</CardDescription>
+      <div className="flex flex-col p-4 md:p-6 flex-grow">
+        <CardHeader className="p-0 mb-2 md:mb-4">
+          <CardTitle className="text-xl md:text-2xl text-blue-900 dark:text-blue-400">{project.title}</CardTitle>
+          <CardDescription className="text-gray-600 dark:text-gray-300 text-sm md:text-base mt-2">{project.description}</CardDescription>
         </CardHeader>
-        <CardContent className="flex-grow flex flex-col justify-between p-0">
+        <CardContent className="p-0 flex flex-col justify-between flex-grow">
           <div className="flex flex-wrap gap-2 mb-4">
             {project.tags.map((tag, tagIndex) => (
-              <Badge key={tagIndex} variant="secondary" className="text-sm">{tag}</Badge>
+              <Badge key={tagIndex} variant="secondary" className="text-xs md:text-sm">{tag}</Badge>
             ))}
           </div>
-          <div className="flex justify-between mt-4">
-            <Button variant="outline" size="sm" asChild>
+          <div className="flex justify-between mt-2 md:mt-4">
+            <Button variant="outline" size="sm" asChild className="text-xs md:text-sm">
               <a href={project.github} target="_blank" rel="noopener noreferrer">
-                <Github className="mr-2 h-4 w-4" />
+                <Github className="mr-1 md:mr-2 h-3 w-3 md:h-4 md:w-4" />
                 GitHub
               </a>
             </Button>
-            <Button variant="outline" size="sm" asChild>
+            <Button variant="outline" size="sm" asChild className="text-xs md:text-sm">
               <a href={project.demo} target="_blank" rel="noopener noreferrer">
-                <ExternalLink className="mr-2 h-4 w-4" />
+                <ExternalLink className="mr-1 md:mr-2 h-3 w-3 md:h-4 md:w-4" />
                 Demo
               </a>
             </Button>

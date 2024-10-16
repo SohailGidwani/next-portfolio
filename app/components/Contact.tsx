@@ -18,7 +18,7 @@ interface ContactItem {
   y: number;
 }
 
-const ContactStar: React.FC<ContactItem & { onHover: () => void; isActive: boolean }> = ({ icon, label, value, link, x, y, onHover, isActive }) => {
+const ContactStar: React.FC<ContactItem & { onInteraction: () => void; isActive: boolean }> = ({ icon, label, value, link, x, y, onInteraction, isActive }) => {
   const { theme } = useTheme()
 
   return (
@@ -26,7 +26,8 @@ const ContactStar: React.FC<ContactItem & { onHover: () => void; isActive: boole
       className="absolute cursor-pointer"
       style={{ left: `${x}%`, top: `${y}%` }}
       whileHover={{ scale: 1.2 }}
-      onHoverStart={onHover}
+      onHoverStart={onInteraction}
+      onClick={onInteraction}
     >
       <motion.div
         className={`w-12 h-12 rounded-full flex items-center justify-center ${
@@ -121,7 +122,7 @@ export default function Contact({ setActiveSection }: ContactProps) {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-3xl font-bold mb-12 text-center text-blue-900 dark:text-blue-400 "
+          className="text-3xl font-bold mb-12 text-center text-blue-900 dark:text-blue-400"
         >
           Contact Constellation (Taurus)
         </motion.h2>
@@ -151,7 +152,7 @@ export default function Contact({ setActiveSection }: ContactProps) {
             <ContactStar
               key={index}
               {...item}
-              onHover={() => setActiveItem(index)}
+              onInteraction={() => setActiveItem(activeItem === index ? null : index)}
               isActive={activeItem === index}
             />
           ))}
