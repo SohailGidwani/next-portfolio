@@ -1,9 +1,8 @@
 "use client"
 
 import { useEffect, useRef, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Briefcase, X } from 'lucide-react'
-import { Button } from "@/app/components/ui/button"
+import { motion } from 'framer-motion'
+import { Briefcase } from 'lucide-react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/app/components/ui/dialog"
 
 interface ExperienceProps {

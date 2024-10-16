@@ -66,7 +66,7 @@ const ContactStar: React.FC<ContactItem & { onHover: () => void; isActive: boole
 export default function Contact({ setActiveSection }: ContactProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const [activeItem, setActiveItem] = useState<number | null>(null)
-  const { theme } = useTheme()
+  
 
   useEffect(() => {
     const observer = new IntersectionObserver(
