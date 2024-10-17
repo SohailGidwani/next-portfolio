@@ -69,22 +69,22 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
   ]
 
   const projectCards = projects.map((project, index) => (
-    <Card key={index} className="w-full flex flex-col dark:bg-gray-700 overflow-hidden shadow-lg">
-      <div className="relative h-48 md:h-64">
+    <Card key={index} className="w-full flex flex-col md:flex-row dark:bg-gray-700 overflow-hidden shadow-lg">
+      <div className="md:w-1/2 relative h-48 md:h-[400px]">
         <Image
           src={project.image}
           alt={project.title}
           layout="fill"
           objectFit="cover"
-          className="rounded-t-lg"
+          className="rounded-t-lg md:rounded-l-lg md:rounded-t-none"
         />
       </div>
-      <div className="flex flex-col p-4 md:p-6 flex-grow">
-        <CardHeader className="p-0 mb-2 md:mb-4">
+      <div className="md:w-1/2 flex flex-col p-4 md:p-6 h-full md:h-[400px] overflow-y-auto">
+        <CardHeader className="flex-shrink-0 p-0 mb-2 md:mb-4">
           <CardTitle className="text-xl md:text-2xl text-blue-900 dark:text-blue-400">{project.title}</CardTitle>
           <CardDescription className="text-gray-600 dark:text-gray-300 text-sm md:text-base mt-2">{project.description}</CardDescription>
         </CardHeader>
-        <CardContent className="p-0 flex flex-col justify-between flex-grow">
+        <CardContent className="flex-grow flex flex-col justify-between p-0">
           <div className="flex flex-wrap gap-2 mb-4">
             {project.tags.map((tag, tagIndex) => (
               <Badge key={tagIndex} variant="secondary" className="text-xs md:text-sm">{tag}</Badge>
