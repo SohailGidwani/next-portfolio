@@ -61,7 +61,7 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
     {
       title: "Predictive Analytics Dashboard",
       description: "Built a web-based dashboard for visualizing and analyzing predictive models for business intelligence.",
-      image: "/placeholder.svg?height=300&width=400",
+      image: blogsite,
       tags: ["Python", "Scikit-learn", "D3.js", "Flask"],
       github: "https://github.com/yourusername/predictive-analytics-dashboard",
       demo: "https://predictive-analytics-demo.com"

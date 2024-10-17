@@ -124,7 +124,7 @@ export default function Contact({ setActiveSection }: ContactProps) {
           transition={{ duration: 0.5 }}
           className="text-3xl font-bold mb-12 text-center text-blue-900 dark:text-blue-400"
         >
-          Contact Constellation (Taurus)
+          Contact Constellation
         </motion.h2>
         <div className="relative h-[600px] bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-xl">
           {taurusStars.map((star, index) => (
