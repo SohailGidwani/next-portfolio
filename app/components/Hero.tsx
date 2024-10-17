@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { TypeAnimation } from 'react-type-animation'
-import { FaFileAlt, FaPython, FaNodeJs } from 'react-icons/fa'
+import { FaFileAlt, FaPython,} from 'react-icons/fa'
 import { SiTensorflow, SiNumpy, SiScikitlearn, SiPytorch } from 'react-icons/si'
 import { useTheme } from 'next-themes'
 
