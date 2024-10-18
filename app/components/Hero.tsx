@@ -15,6 +15,7 @@ export default function Hero({ setActiveSection }: HeroProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const { theme, systemTheme } = useTheme()
   const [isHovered, setIsHovered] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -25,6 +26,7 @@ export default function Hero({ setActiveSection }: HeroProps) {
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
 
   useEffect(() => {
+    setMounted(true)
     const observer = new IntersectionObserver(
       (entries: IntersectionObserverEntry[]) => {
         const [entry] = entries
@@ -45,6 +47,10 @@ export default function Hero({ setActiveSection }: HeroProps) {
       }
     }
   }, [setActiveSection])
+
+  if (!mounted) {
+    return null
+  }
 
   const currentTheme = theme === 'system' ? systemTheme : theme
   const isDark = currentTheme === 'dark'
