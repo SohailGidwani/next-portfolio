@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Briefcase } from 'lucide-react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/app/components/ui/dialog"
-import { useTheme } from 'next-themes'
+// import { useTheme } from 'next-themes'
 
 interface ExperienceProps {
   setActiveSection: (section: string) => void;
