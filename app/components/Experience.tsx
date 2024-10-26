@@ -21,7 +21,7 @@ interface ExperienceItem {
 export default function Experience({ setActiveSection }: ExperienceProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const [selectedExperience, setSelectedExperience] = useState<ExperienceItem | null>(null)
-  const { theme } = useTheme()
+  // const { theme } = useTheme()
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
