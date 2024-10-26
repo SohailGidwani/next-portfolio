@@ -80,7 +80,7 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
     },
   ]
 
-  const isDark = theme === 'dark'
+
 
   const TimelineView = () => (
     <div className="relative">
