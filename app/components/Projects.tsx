@@ -9,6 +9,7 @@ import { Github, ExternalLink } from 'lucide-react'
 import Carousel from './Carousel'
 import imagecaption from '@/public/images/BE-Project.jpg'
 import blogsite from '@/public/images/BlogSite.jpg'
+import techupdates from '@/public/images/techupdates.png'
 
 interface ProjectsProps {
   setActiveSection: (section: string) => void;
@@ -46,8 +47,8 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
       models for caption generation.• Created a user-friendly web interface using Streamlit, demonstrating full-stack capabilities in AI application development.`,
       image: imagecaption,
       tags: ["Python", "TensorFlow", "CNN", "Transformer", "LSTM", "StreamLit"],
-      github: "https://github.com/yourusername/ai-image-recognition",
-      demo: "https://ai-image-recognition-demo.com"
+      github: "https://github.com/SohailGidwani/Image-Caption",
+      // demo: "https://ai-image-recognition-demo.com"
     },
     {
       title: "ScribeGlobe (Medium-like Blogging site) ",
@@ -55,17 +56,17 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
       • Implemented PostgreSQL for efficient data storage and retrieval, demonstrating proficiency in SQL database management.`,
       image: blogsite,
       tags: ["React", "Vite", "Typescript", "Tailwind", "HONO", "CloudFlare", "PostgreSQL"],
-      github: "https://github.com/yourusername/nlp-chatbot",
-      demo: "https://nlp-chatbot-demo.com"
+      github: "https://github.com/SohailGidwani/0---100-FullStack/tree/main/Week%2012/medium",
+      // demo: "https://nlp-chatbot-demo.com"
     },
     {
-      title: "Predictive Analytics Dashboard",
-      description: "Built a web-based dashboard for visualizing and analyzing predictive models for business intelligence.",
-      image: blogsite,
-      tags: ["Python", "Scikit-learn", "D3.js", "Flask"],
-      github: "https://github.com/yourusername/predictive-analytics-dashboard",
-      demo: "https://predictive-analytics-demo.com"
-    }
+      title: "Tech-updates (Personal Tech News Aggregator)",
+      image: techupdates,
+      description: `Built a personalized news aggregator that scrapes and categorizes tech articles using AI. Implemented web scraping from multiple sources like Medium, Y Combinator, and Crunchbase.       • Integrated Azure OpenAI for intelligent article categorization and Qdrant vector database for efficient content management.       • Developed REST API with Flask and PostgreSQL for data persistence, with a responsive React frontend for article viewing.`,
+      tags: ["React", "Vite", "Python", "Flask", "Azure OpenAI", "Qdrant(vectorDB)", "PostgreSQL", "Web Scraping"],
+      github: "https://github.com/SohailGidwani/Project-TechUpdates",
+      // demo: "https://tech-updates-demo.com"
+      }
   ]
 
   const projectCards = projects.map((project, index) => (
@@ -97,12 +98,12 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
                 GitHub
               </a>
             </Button>
-            <Button variant="outline" size="sm" asChild className="text-xs md:text-sm">
+            {/* <Button variant="outline" size="sm" asChild className="text-xs md:text-sm">
               <a href={project.demo} target="_blank" rel="noopener noreferrer">
                 <ExternalLink className="mr-1 md:mr-2 h-3 w-3 md:h-4 md:w-4" />
                 Demo
               </a>
-            </Button>
+            </Button> */}
           </div>
         </CardContent>
       </div>
