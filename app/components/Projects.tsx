@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/app/components/ui/card"
 import { Badge } from "@/app/components/ui/badge"
 import { Button } from "@/app/components/ui/button"
-import { Github, ExternalLink } from 'lucide-react'
+// import { Github, ExternalLink } from 'lucide-react'
 import Carousel from './Carousel'
 import imagecaption from '@/public/images/BE-Project.jpg'
 import blogsite from '@/public/images/BlogSite.jpg'
