@@ -3,8 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { TypeAnimation } from 'react-type-animation'
-import { FaFileAlt, FaPython,} from 'react-icons/fa'
-import { SiTensorflow, SiNumpy, SiScikitlearn, SiPytorch } from 'react-icons/si'
+import { FaFileAlt, FaBrain, FaCode, FaGamepad, FaFilm, FaSwimmer } from 'react-icons/fa'
 import { useTheme } from 'next-themes'
 
 interface HeroProps {
@@ -161,27 +160,27 @@ export default function Hero({ setActiveSection }: HeroProps) {
         </motion.div>
 
         <motion.div 
-          className="mt-16 flex justify-center items-center space-x-4"
+          className="mt-16 flex justify-center items-center space-x-4 flex-wrap"
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.6 }}
         >
           {[
-            { Icon: FaPython, name: 'Python' },
-            { Icon: SiTensorflow, name: 'TensorFlow' },
-            { Icon: SiNumpy, name: 'Numpy' },
-            { Icon: SiScikitlearn, name: 'Scikit-Learn' },
-            { Icon: SiPytorch, name: 'PyTorch' },
+            { Icon: FaBrain, name: 'AI/ML' },
+            { Icon: FaCode, name: 'Full Stack' },
+            { Icon: FaGamepad, name: 'Gaming' },
+            { Icon: FaFilm, name: 'Movies' },
+            { Icon: FaSwimmer, name: 'Swimming' },
           ].map(({ Icon, name }) => (
             <motion.div
               key={name}
-              className="flex flex-col items-center"
+              className="flex flex-col items-center m-2"
               whileHover={{ scale: 1.1 }}
             >
-              <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-2 ${
+              <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-2 ${
                 isDark ? 'bg-blue-700' : 'bg-blue-200'
               }`}>
-                <Icon className={`w-6 h-6 ${isDark ? 'text-blue-200' : 'text-blue-700'}`} />
+                <Icon className={`w-8 h-8 ${isDark ? 'text-blue-200' : 'text-blue-700'}`} />
               </div>
               <span className={`text-sm ${isDark ? 'text-blue-200' : 'text-blue-800'}`}>{name}</span>
             </motion.div>
