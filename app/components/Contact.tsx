@@ -20,9 +20,9 @@ interface ContactItem {
 const contactItems: ContactItem[] = [
   { icon: <Mail className="w-6 h-6" />, label: "Email", value: "sohailgidwani15@gmail.com", link: "mailto:sohailgidwani15@gmail.com" },
   { icon: <Phone className="w-6 h-6" />, label: "Phone", value: "+91 9503151319", link: "tel:+919503151319" },
-  { icon: <MapPin className="w-6 h-6" />, label: "Location", value: "Mumbai, India" },
   { icon: <Linkedin className="w-6 h-6" />, label: "LinkedIn", value: "sohail-gidwani", link: "https://www.linkedin.com/in/sohail-gidwani/" },
   { icon: <Github className="w-6 h-6" />, label: "GitHub", value: "SohailGidwani", link: "https://github.com/SohailGidwani" },
+  { icon: <MapPin className="w-6 h-6" />, label: "Location", value: "Mumbai, India" },
 ]
 
 function ContactCard({ item, index, isDark }: { item: ContactItem; index: number; isDark: boolean }) {
