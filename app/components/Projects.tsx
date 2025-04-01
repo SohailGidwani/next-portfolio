@@ -9,7 +9,7 @@ import { Github} from 'lucide-react'
 import Carousel from './Carousel'
 import imagecaption from '@/public/images/BE-Project.jpg'
 import blogsite from '@/public/images/BlogSite.jpg'
-import techupdates from '@/public/images/techupdates.png'
+import techupdates from '@/public/images/Tech Updates.png'
 
 interface ProjectsProps {
   setActiveSection: (section: string) => void;

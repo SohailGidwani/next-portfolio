@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, useAnimation } from 'framer-motion'
 import { Mail, Phone, MapPin, Linkedin, Github } from 'lucide-react'
 import { useTheme } from 'next-themes'
@@ -25,9 +25,7 @@ const contactItems: ContactItem[] = [
   { icon: <Github className="w-6 h-6" />, label: "GitHub", value: "SohailGidwani", link: "https://github.com/SohailGidwani" },
 ]
 
-function ContactCard({ item, index }: { item: ContactItem; index: number }) {
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
+function ContactCard({ item, index, isDark }: { item: ContactItem; index: number; isDark: boolean }) {
   const controls = useAnimation()
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -46,7 +44,7 @@ function ContactCard({ item, index }: { item: ContactItem; index: number }) {
       initial={{ opacity: 0, y: 50 }}
       animate={controls}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className={`p-6 rounded-lg shadow-lg ${isDark ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'} hover:shadow-xl transition-shadow duration-300`}
+      className={`p-6 rounded-lg shadow-lg ${isDark ? 'bg-gray-900 text-white' : 'bg-white text-gray-800'} hover:shadow-xl transition-shadow duration-300`}
     >
       <div className="flex items-center mb-4">
         <div className={`w-12 h-12 rounded-full flex items-center justify-center ${isDark ? 'bg-blue-600' : 'bg-blue-100'}`}>
@@ -72,8 +70,12 @@ function ContactCard({ item, index }: { item: ContactItem; index: number }) {
 
 export default function Contact({ setActiveSection }: ContactProps) {
   const sectionRef = useRef<HTMLElement>(null)
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
+  const { theme, systemTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -97,11 +99,20 @@ export default function Contact({ setActiveSection }: ContactProps) {
     }
   }, [setActiveSection])
 
+  // Handle theme detection
+  const currentTheme = theme === 'system' ? systemTheme : theme
+  const isDark = mounted && currentTheme === 'dark'
+
+  // Don't render anything until mounted to avoid hydration mismatch
+  if (!mounted) {
+    return <section id="contact" className="py-20 bg-gray-100"></section>
+  }
+
   return (
     <section 
       id="contact" 
       ref={sectionRef} 
-      className={`py-20 transition-colors duration-300 ${isDark ? 'bg-gray-900' : 'bg-gray-100'}`}
+      className={`py-20 transition-colors duration-300 ${isDark ? 'bg-gray-800' : 'bg-gray-100'}`}
     >
       <div className="max-w-6xl mx-auto px-4">
         <motion.h2 
@@ -114,7 +125,7 @@ export default function Contact({ setActiveSection }: ContactProps) {
         </motion.h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {contactItems.map((item, index) => (
-            <ContactCard key={item.label} item={item} index={index} />
+            <ContactCard key={item.label} item={item} index={index} isDark={isDark} />
           ))}
         </div>
         <motion.div 
