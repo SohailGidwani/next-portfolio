@@ -97,7 +97,9 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
   // Handle theme detection
   const currentTheme = theme === 'system' ? systemTheme : theme
   const isDark = mounted && currentTheme === 'dark'
-
+  if(isDark==mounted){
+    console.log("Theme is Dark")
+  }
   // Don't render themed content until mounted
   if (!mounted) {
     return <section id="experience" className="py-20 bg-gray-50"></section>
