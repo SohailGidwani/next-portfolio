@@ -121,7 +121,6 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
           <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${isDark ? 'text-blue-400' : 'text-blue-900'}`}>
             Professional Experience
           </h2>
-          <div className="h-1 w-24 bg-blue-600 mx-auto"></div>
         </motion.div>
 
         {/* Desktop Timeline View */}
@@ -162,7 +161,8 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                         className={activeExperience === index ? 'text-white' : 'text-blue-600 dark:text-blue-400'} 
                       />
                     {/* Date Label - Alternating top/bottom for better spacing */}
-                    <div className={`absolute ${index % 2 === 0 ? 'top-20' : 'bottom-20'} left-1/2 transform -translate-x-1/2 whitespace-nowrap`}>
+                    {/* <div className={`absolute ${index % 2 === 0 ? 'top-20' : 'bottom-20'} left-1/2 transform -translate-x-1/2 whitespace-nowrap`}> */}
+                    <div className={`absolute ${index % 2 === 0 ? 'bottom-20' : 'bottom-20'} left-1/2 transform -translate-x-1/2 whitespace-nowrap`}>
                       <div className={`px-4 py-2 rounded-full ${
                         activeExperience === index 
                           ? 'bg-blue-600 text-white' 
@@ -402,7 +402,8 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
       
       {/* Detailed Project Modal */}
       <Dialog open={!!selectedExperience} onOpenChange={() => setSelectedExperience(null)}>
-        <DialogContent className="max-w-3xl">
+        {/* <DialogContent className="max-w-3xl"> */}
+        <DialogContent className="w-full max-w-3xl max-h-[90vh] sm:max-h-none overflow-y-auto sm:overflow-visible">
           <DialogHeader>
             <DialogTitle className="text-2xl text-blue-600 dark:text-blue-400">
               {selectedExperience?.title}
