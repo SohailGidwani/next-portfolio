@@ -41,7 +41,7 @@ export default function Skills({ setActiveSection }: SkillsProps) {
     },
     {
       category: "Machine Learning / AI",
-      skills: ["TensorFlow", "PyTorch", "Scikit-learn", "Keras", "OpenCV", "NLTK", "HuggingFace Transformers", " spaCy", "OpenCV", "Pandas", "Numpy", "SeaBorn", "Matplotlib"]
+      skills: ["TensorFlow", "PyTorch", "Scikit-learn", "Keras", "OpenCV", "NLTK", "HuggingFace Transformers", " spaCy", "Pandas", "Numpy", "SeaBorn", "Matplotlib"]
     },
     {
       category: "Web Development",
