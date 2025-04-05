@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 import { Badge } from "@/app/components/ui/badge"
 import { Button } from "@/app/components/ui/button"
 import { Github, ExternalLink, Code, ArrowRight } from 'lucide-react'
+// import { ExternalLink, Code, ArrowRight } from 'lucide-react'
 import Carousel from './Carousel'
 import imagecaption from '@/public/images/BE-Project.jpg'
 import blogsite from '@/public/images/BlogSite.jpg'
