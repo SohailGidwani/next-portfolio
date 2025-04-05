@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { Award, Calendar, Medal, ExternalLink, ChevronRight } from 'lucide-react'
+import { Award, Calendar, Medal} from 'lucide-react'
 // import { ExternalLink, ChevronRight } from 'lucide-react'
 import { Button } from "@/app/components/ui/button"
 import Carousel from './Carousel'
