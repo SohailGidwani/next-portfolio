@@ -82,7 +82,7 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
       date: "Jan 18th - 20th , 2022",
       description: "Participated in Intra-College Hacakthon, creating a Healthcare & consulation web app, using MERN stack.",
       image: rubix,
-      isAward: false
+      isAward: true
     },
     {
       title: "Trident",
@@ -90,7 +90,7 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
       date: "Sept 28, 2019",
       description: "Participated in a code event which had 3 rounds, 1.Blind-code, 2.Pattern problem & 3.Complexity based.",
       image: trident,
-      isAward: false
+      isAward: true
     },
     {
       title: "Crack-The-Code",
@@ -163,7 +163,7 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
             </p>
           </div>
           
-          <div className="mt-6">
+          {/* <div className="mt-6">
             <Button 
               variant="default" 
               size="sm" 
@@ -172,7 +172,7 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
               <span>View Certificate</span>
               <ChevronRight className="ml-2 h-4 w-4" />
             </Button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
@@ -191,10 +191,6 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-blue-900 dark:text-blue-400">
             Triumphs & Certifications
           </h2>
-          <div className="h-1 w-24 bg-blue-600 mx-auto mb-6"></div>
-          <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            A collection of achievements, awards, and professional certifications that highlight my journey
-          </p>
         </motion.div>
         
         <motion.div
@@ -206,7 +202,7 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
           <Carousel items={certificateCards} />
         </motion.div>
         
-        <div className="mt-12 text-center">
+        {/* <div className="mt-12 text-center">
           <Button 
             variant="outline" 
             size="lg" 
@@ -216,7 +212,7 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
             <span>View All Certifications</span>
             <ExternalLink className="ml-2 h-4 w-4" />
           </Button>
-        </div>
+        </div> */}
       </div>
       
       {/* Custom Scrollbar Styles */}

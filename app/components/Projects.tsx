@@ -135,14 +135,14 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
               </a>
             </Button>
             
-            <Button 
+            {/* <Button 
               variant="default" 
               size="sm" 
               className="rounded-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700"
             >
               <span>Learn More</span>
               <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+            </Button> */}
           </div>
         </div>
       </div>
@@ -162,10 +162,6 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-blue-900 dark:text-blue-400">
             Featured Projects
           </h2>
-          <div className="h-1 w-24 bg-blue-600 mx-auto mb-6"></div>
-          <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            A showcase of my technical skills and creative problem-solving through real-world applications
-          </p>
         </motion.div>
         
         <motion.div
@@ -177,7 +173,7 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
           <Carousel items={projectCards} />
         </motion.div>
         
-        <div className="mt-12 text-center">
+        {/* <div className="mt-12 text-center">
           <Button 
             variant="outline" 
             size="lg" 
@@ -187,7 +183,7 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
             <span>View All Projects on GitHub</span>
             <ExternalLink className="ml-2 h-4 w-4" />
           </Button>
-        </div>
+        </div> */}
       </div>
       
       {/* Custom Scrollbar Styles */}
