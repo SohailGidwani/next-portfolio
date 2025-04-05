@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Award, Calendar, Medal} from 'lucide-react'
 // import { ExternalLink, ChevronRight } from 'lucide-react'
-import { Button } from "@/app/components/ui/button"
+// import { Button } from "@/app/components/ui/button"
 import Carousel from './Carousel'
 import AskPandaAI from "@/public/images/AskPandaAI-Certificate.jpg"
 import fullstack from "@/public/images/0-100 Full stack dev course.png"
