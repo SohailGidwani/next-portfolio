@@ -2,8 +2,8 @@
 
 import { useEffect, useRef } from 'react'
 import Image from 'next/image'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/app/components/ui/card"
-import { Award } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { Award, Calendar, Medal } from 'lucide-react'
 import Carousel from './Carousel'
 import AskPandaAI from "@/public/images/AskPandaAI-Certificate.jpg"
 import fullstack from "@/public/images/0-100 Full stack dev course.png"
@@ -28,7 +28,7 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
           setActiveSection('triumphs')
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.3 }
     )
 
     if (sectionRef.current) {
@@ -45,87 +45,168 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
   const certificates = [
     {
       title: "Certificate Of Achievement - AskPandaAI",
-      issuer: "CTO | IIFL Finance Ltd",
+      issuer: "CTO - IIFL Finance Ltd",
       date: "Jun 13th, 2024",
       description: "Designed and implemented NLP-powered chatbot for real-time internal employee access to financial data, improving employee support efficiency. Used: Python, Flask, Qdrant(VectorDB), Azure-OpenAI-service, Blob storage,PostgreSQL, Zoho ticketing service, ReactJS.",
-      image: AskPandaAI
+      image: AskPandaAI,
+      isAward: true
     },
     {
       title: "0-100 Full Stack Web Development Course",
       issuer: "Harkirat Singh",
       date: "Apr 2024",
       description: "Mastered full-stack web development, including frontend frameworks, backend architecture, databases, DevOps practices, and cloud deployment.",
-      image: fullstack
+      image: fullstack,
+      isAward: false
     },
     {
       title: "Tech-a-thon (Hackathon)",
       issuer: "IIFL",
       date: "Oct 6th & 7th, 2023",
       description: "Won 1st prize for making AI-powered Customer support chatbot",
-      image: techathon
+      image: techathon,
+      isAward: true
     },
     {
       title: "Feynwick Certificate",
       issuer: "CSI - KJSIEIT",
       date: "April 24th, 2021",
       description: "Participated in an Inter-College code contest, brushing up DSA skills.",
-      image: feynwick
+      image: feynwick,
+      isAward: false
     },
     {
       title: "Rubix-Hackathon",
       issuer: "CSI - TSEC",
       date: "Jan 18th - 20th , 2022",
       description: "Participated in Intra-College Hacakthon, creating a Healthcare & consulation web app, using MERN stack.",
-      image: rubix
+      image: rubix,
+      isAward: true
     },
     {
       title: "Trident",
       issuer: "Code Cell - TSEC",
       date: "Sept 28, 2019",
       description: "Participated in a code event which had 3 rounds, 1.Blind-code, 2.Pattern problem & 3.Complexity based.",
-      image: trident
+      image: trident,
+      isAward: true
     },
     {
       title: "Crack-The-Code",
       issuer: "Dot Com Club, Jai Hind College",
       date: "Nov, 2017",
       description: "Won 2nd prize at a coding contest in my 11th grade.",
-      image: ctc
+      image: ctc,
+      isAward: true
     }
   ]
 
   const certificateCards = certificates.map((cert, index) => (
-    <Card key={index} className="w-full flex flex-col md:flex-row dark:bg-gray-700 overflow-hidden shadow-lg">
-      <div className="md:w-1/2">
-        <Image
-          src={cert.image}
-          alt={cert.title}
-          width={400}
-          height={300}
-          className="w-full h-64 md:h-full object-cover"
-        />
+    <div key={index} className="h-full w-full overflow-hidden">
+      <div className="h-full flex flex-col md:flex-row bg-white dark:bg-gray-700 shadow-lg rounded-xl overflow-hidden border border-gray-100 dark:border-gray-600">
+        {/* Left Side - Image with Overlay */}
+        <div className="md:w-1/2 relative h-64 md:h-full overflow-hidden group">
+          <Image
+            src={cert.image || "/placeholder.svg"}
+            alt={cert.title}
+            layout="fill"
+            objectFit="cover"
+            className="transition-transform duration-700 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col justify-end p-6">
+            {cert.isAward && (
+              <div className="absolute top-4 right-4 bg-yellow-500 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center">
+                <Medal className="mr-1 h-3 w-3" />
+                Award
+              </div>
+            )}
+            <h3 className="text-white text-2xl md:text-3xl font-bold mb-2">{cert.title}</h3>
+            <div className="flex items-center text-white/90 text-sm">
+              <Calendar className="mr-2 h-4 w-4" />
+              {cert.date}
+            </div>
+          </div>
+        </div>
+        
+        {/* Right Side - Content */}
+        <div className="md:w-1/2 flex flex-col p-6 md:p-8 bg-white dark:bg-gray-700">
+          <div className="hidden md:block mb-6">
+            <div className="flex items-center">
+              {cert.isAward ? (
+                <div className="flex items-center bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 px-3 py-1 rounded-full text-sm font-medium mb-3">
+                  <Medal className="mr-2 h-4 w-4" />
+                  Triumph
+                </div>
+              ) : (
+                <div className="flex items-center bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 px-3 py-1 rounded-full text-sm font-medium mb-3">
+                  <Award className="mr-2 h-4 w-4" />
+                  Certification
+                </div>
+              )}
+            </div>
+            <h3 className="text-2xl md:text-3xl font-bold text-blue-900 dark:text-blue-400 mb-2">{cert.title}</h3>
+            <div className="flex items-center text-gray-600 dark:text-gray-400 mb-2">
+              <span className="font-medium">{cert.issuer}</span>
+              <span className="mx-2">•</span>
+              <span className="flex items-center">
+                <Calendar className="mr-1 h-4 w-4" />
+                {cert.date}
+              </span>
+            </div>
+            <div className="w-16 h-1 bg-blue-600 rounded-full"></div>
+          </div>
+          
+          <div className="flex-grow overflow-y-auto pr-2 custom-scrollbar">
+            <p className="text-gray-700 dark:text-gray-300 text-sm md:text-base leading-relaxed">
+              {cert.description}
+            </p>
+          </div>
+        </div>
       </div>
-      <div className="md:w-1/2 flex flex-col p-6">
-        <CardHeader className="flex-shrink-0 p-0 mb-4">
-          <CardTitle className="text-2xl md:text-3xl flex items-center text-blue-900 dark:text-blue-400">
-            <Award className="mr-2 h-6 w-6 md:h-8 md:w-8 text-blue-600 dark:text-blue-400" />
-            {cert.title}
-          </CardTitle>
-          <CardDescription className="text-gray-600 dark:text-gray-300 text-base md:text-lg mt-2">{cert.issuer} - {cert.date}</CardDescription>
-        </CardHeader>
-        <CardContent className="flex-grow overflow-y-auto p-0">
-          <p className="text-gray-700 dark:text-gray-300 text-base md:text-lg">{cert.description}</p>
-        </CardContent>
-      </div>
-    </Card>
+    </div>
   ))
 
   return (
     <section id="triumphs" ref={sectionRef} className="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold mb-12 text-center text-blue-900 dark:text-blue-400">Triumphs & Certifications</h2>
-        <Carousel items={certificateCards} />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-blue-900 dark:text-blue-400">
+            Triumphs & Certifications
+          </h2>
+        </motion.div>
+        
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          viewport={{ once: true }}
+        >
+          <Carousel items={certificateCards} />
+        </motion.div>
       </div>
+      
+      {/* Custom Scrollbar Styles */}
+      <style jsx global>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background-color: rgba(156, 163, 175, 0.5);
+          border-radius: 20px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background-color: rgba(156, 163, 175, 0.7);
+        }
+      `}</style>
     </section>
   )
 }
