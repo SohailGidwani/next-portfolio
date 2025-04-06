@@ -5,8 +5,7 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Badge } from "@/app/components/ui/badge"
 import { Button } from "@/app/components/ui/button"
-import { Github} from 'lucide-react'
-// import { ExternalLink, Code, ArrowRight } from 'lucide-react'
+import { Github } from 'lucide-react'
 import Carousel from './Carousel'
 import imagecaption from '@/public/images/BE-Project.jpg'
 import blogsite from '@/public/images/BlogSite.jpg'
@@ -49,7 +48,6 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
       image: imagecaption,
       tags: ["Python", "TensorFlow", "CNN", "Transformer", "LSTM", "StreamLit"],
       github: "https://github.com/SohailGidwani/Image-Caption",
-      // demo: "https://ai-image-recognition-demo.com"
     },
     {
       title: "ScribeGlobe (Medium-like Blogging site) ",
@@ -58,7 +56,6 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
       image: blogsite,
       tags: ["React", "Vite", "Typescript", "Tailwind", "HONO", "CloudFlare", "PostgreSQL"],
       github: "https://github.com/SohailGidwani/0---100-FullStack/tree/main/Week%2012/medium",
-      // demo: "https://nlp-chatbot-demo.com"
     },
     {
       title: "Tech-updates (Personal Tech News Aggregator)",
@@ -66,13 +63,12 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
       description: `Built a personalized news aggregator that scrapes and categorizes tech articles using AI. Implemented web scraping from multiple sources like Medium, Y Combinator, and Crunchbase.       • Integrated Azure OpenAI for intelligent article categorization and Qdrant vector database for efficient content management.       • Developed REST API with Flask and PostgreSQL for data persistence, with a responsive React frontend for article viewing.`,
       tags: ["React", "Vite", "Python", "Flask", "Azure OpenAI", "Qdrant(vectorDB)", "PostgreSQL", "Web Scraping"],
       github: "https://github.com/SohailGidwani/Project-TechUpdates",
-      // demo: "https://tech-updates-demo.com"
     }
   ]
 
   const projectCards = projects.map((project, index) => (
     <div key={index} className="h-full w-full overflow-hidden">
-      <div className="h-full flex flex-col md:flex-row bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl overflow-hidden">
+      <div className="h-full flex flex-col md:flex-row bg-white dark:bg-gray-700 shadow-lg rounded-xl overflow-hidden border border-gray-100 dark:border-gray-600">
         {/* Image Section with Overlay */}
         <div className="md:w-1/2 relative h-64 md:h-full overflow-hidden group">
           <Image
@@ -100,7 +96,7 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
         </div>
         
         {/* Content Section */}
-        <div className="md:w-1/2 flex flex-col p-6 md:p-8">
+        <div className="md:w-1/2 flex flex-col p-6 md:p-8 bg-white dark:bg-gray-700">
           <div className="hidden md:block mb-4">
             <h3 className="text-2xl md:text-3xl font-bold text-blue-900 dark:text-blue-400 mb-2">{project.title}</h3>
             <div className="w-16 h-1 bg-blue-600 rounded-full"></div>
@@ -135,15 +131,6 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
                 <span>View Code</span>
               </a>
             </Button>
-            
-            {/* <Button 
-              variant="default" 
-              size="sm" 
-              className="rounded-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700"
-            >
-              <span>Learn More</span>
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button> */}
           </div>
         </div>
       </div>
@@ -151,7 +138,7 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
   ))
 
   return (
-    <section id="projects" ref={sectionRef} className="py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 transition-colors duration-300">
+    <section id="projects" ref={sectionRef} className="py-20 bg-white dark:bg-gray-800 transition-colors duration-300">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -173,18 +160,6 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
         >
           <Carousel items={projectCards} />
         </motion.div>
-        
-        {/* <div className="mt-12 text-center">
-          <Button 
-            variant="outline" 
-            size="lg" 
-            className="rounded-full border-blue-600 dark:border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20"
-          >
-            <Code className="mr-2 h-5 w-5" />
-            <span>View All Projects on GitHub</span>
-            <ExternalLink className="ml-2 h-4 w-4" />
-          </Button>
-        </div> */}
       </div>
       
       {/* Custom Scrollbar Styles */}

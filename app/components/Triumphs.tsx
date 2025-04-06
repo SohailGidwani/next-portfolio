@@ -3,9 +3,7 @@
 import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { Award, Calendar, Medal} from 'lucide-react'
-// import { ExternalLink, ChevronRight } from 'lucide-react'
-// import { Button } from "@/app/components/ui/button"
+import { Award, Calendar, Medal } from 'lucide-react'
 import Carousel from './Carousel'
 import AskPandaAI from "@/public/images/AskPandaAI-Certificate.jpg"
 import fullstack from "@/public/images/0-100 Full stack dev course.png"
@@ -105,7 +103,7 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
 
   const certificateCards = certificates.map((cert, index) => (
     <div key={index} className="h-full w-full overflow-hidden">
-      <div className="h-full flex flex-col md:flex-row bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl overflow-hidden">
+      <div className="h-full flex flex-col md:flex-row bg-white dark:bg-gray-700 shadow-lg rounded-xl overflow-hidden border border-gray-100 dark:border-gray-600">
         {/* Left Side - Image with Overlay */}
         <div className="md:w-1/2 relative h-64 md:h-full overflow-hidden group">
           <Image
@@ -116,12 +114,12 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
             className="transition-transform duration-700 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col justify-end p-6">
-            {/* {cert.isAward && (
+            {cert.isAward && (
               <div className="absolute top-4 right-4 bg-yellow-500 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center">
                 <Medal className="mr-1 h-3 w-3" />
                 Award
               </div>
-            )} */}
+            )}
             <h3 className="text-white text-2xl md:text-3xl font-bold mb-2">{cert.title}</h3>
             <div className="flex items-center text-white/90 text-sm">
               <Calendar className="mr-2 h-4 w-4" />
@@ -131,7 +129,7 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
         </div>
         
         {/* Right Side - Content */}
-        <div className="md:w-1/2 flex flex-col p-6 md:p-8">
+        <div className="md:w-1/2 flex flex-col p-6 md:p-8 bg-white dark:bg-gray-700">
           <div className="hidden md:block mb-6">
             <div className="flex items-center">
               {cert.isAward ? (
@@ -163,24 +161,13 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
               {cert.description}
             </p>
           </div>
-          
-          {/* <div className="mt-6">
-            <Button 
-              variant="default" 
-              size="sm" 
-              className="rounded-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700"
-            >
-              <span>View Certificate</span>
-              <ChevronRight className="ml-2 h-4 w-4" />
-            </Button>
-          </div> */}
         </div>
       </div>
     </div>
   ))
 
   return (
-    <section id="triumphs" ref={sectionRef} className="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
+    <section id="triumphs" ref={sectionRef} className="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -202,18 +189,6 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
         >
           <Carousel items={certificateCards} />
         </motion.div>
-        
-        {/* <div className="mt-12 text-center">
-          <Button 
-            variant="outline" 
-            size="lg" 
-            className="rounded-full border-blue-600 dark:border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20"
-          >
-            <Award className="mr-2 h-5 w-5" />
-            <span>View All Certifications</span>
-            <ExternalLink className="ml-2 h-4 w-4" />
-          </Button>
-        </div> */}
       </div>
       
       {/* Custom Scrollbar Styles */}

@@ -14,7 +14,9 @@ export default function Carousel({ items, autoScrollInterval = 15000 }: Carousel
   const [isHovering, setIsHovering] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
   const [dragStartX, setDragStartX] = useState(0)
+  const [showControls, setShowControls] = useState(false)
   const carouselRef = useRef<HTMLDivElement>(null)
+  const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     if (isHovering || isDragging) return
@@ -33,6 +35,18 @@ export default function Carousel({ items, autoScrollInterval = 15000 }: Carousel
       if (newIndex < 0) return items.length - 1
       return newIndex
     })
+    
+    // Show controls when navigating
+    setShowControls(true)
+    
+    // Hide controls after 2 seconds
+    if (controlsTimeoutRef.current) {
+      clearTimeout(controlsTimeoutRef.current)
+    }
+    
+    controlsTimeoutRef.current = setTimeout(() => {
+      setShowControls(false)
+    }, 2000)
   }
 
   const handleDragStart = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
@@ -67,11 +81,29 @@ export default function Carousel({ items, autoScrollInterval = 15000 }: Carousel
     setIsDragging(false)
   }
 
+  const handleTouchStart = () => {
+    // Show controls on touch
+    setShowControls(true)
+    
+    // Hide controls after 2 seconds
+    if (controlsTimeoutRef.current) {
+      clearTimeout(controlsTimeoutRef.current)
+    }
+    
+    controlsTimeoutRef.current = setTimeout(() => {
+      setShowControls(false)
+    }, 2000)
+  }
+
   return (
     <div 
       className="relative w-full overflow-hidden rounded-2xl shadow-lg"
       onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
+      onMouseLeave={() => {
+        setIsHovering(false);
+        setShowControls(false);
+      }}
+      onTouchStart={handleTouchStart}
       ref={carouselRef}
     >
       <div 
@@ -97,8 +129,8 @@ export default function Carousel({ items, autoScrollInterval = 15000 }: Carousel
         </AnimatePresence>
       </div>
       
-      {/* Navigation Arrows */}
-      <div className="absolute inset-0 flex items-center justify-between pointer-events-none px-4">
+      {/* Navigation Arrows - Desktop */}
+      <div className="absolute inset-0 hidden md:flex items-center justify-between pointer-events-none px-4">
         <motion.button
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: isHovering ? 1 : 0, x: isHovering ? 0 : -10 }}
@@ -119,6 +151,31 @@ export default function Carousel({ items, autoScrollInterval = 15000 }: Carousel
           aria-label="Next slide"
         >
           <ChevronRight className="w-5 h-5" />
+        </motion.button>
+      </div>
+      
+      {/* Navigation Arrows - Mobile */}
+      <div className="absolute inset-0 md:hidden flex items-center justify-between pointer-events-none px-4">
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: showControls ? 0.9 : 0 }}
+          transition={{ duration: 0.2 }}
+          onClick={() => navigate(-1)}
+          className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md text-gray-800 dark:text-white rounded-full p-2 shadow-lg pointer-events-auto z-20"
+          aria-label="Previous slide"
+        >
+          <ChevronLeft className="w-4 h-4" />
+        </motion.button>
+        
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: showControls ? 0.9 : 0 }}
+          transition={{ duration: 0.2 }}
+          onClick={() => navigate(1)}
+          className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md text-gray-800 dark:text-white rounded-full p-2 shadow-lg pointer-events-auto z-20"
+          aria-label="Next slide"
+        >
+          <ChevronRight className="w-4 h-4" />
         </motion.button>
       </div>
       
