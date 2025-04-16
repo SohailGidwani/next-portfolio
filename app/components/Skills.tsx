@@ -235,7 +235,7 @@ export default function Skills({ setActiveSection }: SkillsProps) {
       skills: [
         { 
           name: "AWS", 
-          lightLogo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original.svg",
+          lightLogo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg",
           darkLogo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg",
           proficiency: 4 
         },
