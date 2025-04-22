@@ -2,32 +2,48 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Code, Lightbulb, Users, Zap } from 'lucide-react'
+import { Code, Lightbulb, Users, Zap, BookOpen, Rocket } from 'lucide-react'
 
 interface AboutProps {
   setActiveSection: (section: string) => void;
 }
 
-const qualities = [
+interface Quality {
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  color: string;
+  detailedDescription: string;
+}
+
+const qualities: Quality[] = [
   { 
     title: "Innovative", 
     description: "Always seeking new solutions",
-    icon: <Lightbulb className="w-5 h-5 md:w-6 md:h-6 text-yellow-500" />
+    icon: <Lightbulb className="w-5 h-5 md:w-6 md:h-6" />,
+    color: "text-yellow-500",
+    detailedDescription: "Innovation drives my approach to problem-solving. I constantly explore new technologies and methodologies to create unique solutions that stand out."
   },
   { 
     title: "Dedicated", 
     description: "Committed to excellence in every project",
-    icon: <Zap className="w-5 h-5 md:w-6 md:h-6 text-orange-500" />
+    icon: <Zap className="w-5 h-5 md:w-6 md:h-6" />,
+    color: "text-orange-500",
+    detailedDescription: "My dedication ensures that every project receives my full attention and effort. I'm committed to delivering high-quality work that exceeds expectations."
   },
   { 
     title: "Collaborative", 
     description: "Thrives in team environments",
-    icon: <Users className="w-5 h-5 md:w-6 md:h-6 text-green-500" />
+    icon: <Users className="w-5 h-5 md:w-6 md:h-6" />,
+    color: "text-green-500",
+    detailedDescription: "I believe great ideas emerge from collaboration. I enjoy working in teams, sharing knowledge, and combining diverse perspectives to achieve common goals."
   },
   { 
     title: "Adaptable", 
     description: "Quick to learn and apply new technologies",
-    icon: <Code className="w-5 h-5 md:w-6 md:h-6 text-purple-500" />
+    icon: <Code className="w-5 h-5 md:w-6 md:h-6" />,
+    color: "text-purple-500",
+    detailedDescription: "Adaptability is essential in the fast-evolving tech landscape. I quickly learn new technologies and frameworks, applying them effectively to solve complex problems."
   },
 ]
 
@@ -35,6 +51,8 @@ export default function About({ setActiveSection }: AboutProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const [activeQuality, setActiveQuality] = useState(0)
   const [isHovering, setIsHovering] = useState(false)
+  const bioRef = useRef<HTMLDivElement>(null)
+  const qualitiesRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -80,11 +98,13 @@ export default function About({ setActiveSection }: AboutProps) {
           <h2 className="text-2xl md:text-4xl font-bold mb-4 text-blue-900 dark:text-blue-400">
             About Me
           </h2>
+          {/* <div className="h-1 w-16 md:w-24 bg-blue-600 mx-auto"></div> */}
         </motion.div>
         
         <div className="flex flex-col lg:flex-row gap-8 md:gap-12 items-stretch">
           {/* Left Column - Bio */}
           <motion.div
+            ref={bioRef}
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
@@ -94,15 +114,22 @@ export default function About({ setActiveSection }: AboutProps) {
             <div className="relative">
               <div className="absolute -left-3 md:-left-4 top-0 h-full w-1 bg-blue-600 rounded-full"></div>
               <div className="space-y-4 md:space-y-6 pl-4 md:pl-6">
-                <motion.p 
+                <motion.div 
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.1 }}
                   viewport={{ once: true }}
-                  className="text-lg md:text-xl text-gray-700 dark:text-gray-300 font-medium"
+                  className="flex items-center"
                 >
-                  <span className="text-xl md:text-2xl font-bold text-blue-600 dark:text-blue-400">Namaste!</span>
-                </motion.p>
+                  <span className="text-xl md:text-2xl font-bold text-blue-600 dark:text-blue-400 mr-2">Namaste!</span>
+                  <motion.div
+                    animate={{ rotate: [0, 10, 0, 10, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 5 }}
+                    className="inline-block"
+                  >
+                    👋
+                  </motion.div>
+                </motion.div>
                 
                 <motion.p 
                   initial={{ opacity: 0, y: 10 }}
@@ -131,16 +158,41 @@ export default function About({ setActiveSection }: AboutProps) {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.4 }}
               viewport={{ once: true }}
-              className="mt-6 p-4 md:p-6 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-100 dark:border-blue-800"
+              className="mt-6 p-4 md:p-6 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-100 dark:border-blue-800 relative overflow-hidden"
             >
-              <p className="text-blue-900 dark:text-blue-300 italic text-sm md:text-base">
+              <div className="absolute -right-2 -bottom-2 opacity-10">
+                <BookOpen className="w-16 h-16 text-blue-900 dark:text-blue-300" />
+              </div>
+              <p className="text-blue-900 dark:text-blue-300 italic text-sm md:text-base relative z-10">
                 "I believe that technology should simplify life, not complicate it. My goal is to create solutions that are both powerful and intuitive."
               </p>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.5 }}
+              viewport={{ once: true }}
+              className="flex flex-wrap gap-3 mt-6 pl-4 md:pl-6"
+            >
+              <div className="flex items-center bg-gray-100 dark:bg-gray-700 px-3 py-2 rounded-full">
+                <Rocket className="w-4 h-4 text-blue-600 dark:text-blue-400 mr-2" />
+                <span className="text-sm text-gray-700 dark:text-gray-300">AI Enthusiast</span>
+              </div>
+              <div className="flex items-center bg-gray-100 dark:bg-gray-700 px-3 py-2 rounded-full">
+                <Code className="w-4 h-4 text-blue-600 dark:text-blue-400 mr-2" />
+                <span className="text-sm text-gray-700 dark:text-gray-300">Full Stack Developer</span>
+              </div>
+              <div className="flex items-center bg-gray-100 dark:bg-gray-700 px-3 py-2 rounded-full">
+                <Lightbulb className="w-4 h-4 text-blue-600 dark:text-blue-400 mr-2" />
+                <span className="text-sm text-gray-700 dark:text-gray-300">Problem Solver</span>
+              </div>
             </motion.div>
           </motion.div>
           
           {/* Right Column - Qualities */}
           <motion.div
+            ref={qualitiesRef}
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
@@ -173,7 +225,9 @@ export default function About({ setActiveSection }: AboutProps) {
                           ? 'bg-white/20' 
                           : 'bg-blue-100 dark:bg-blue-900/30'
                       }`}>
-                        {quality.icon}
+                        <span className={activeQuality === index ? 'text-white' : quality.color}>
+                          {quality.icon}
+                        </span>
                       </div>
                       <h4 className={`ml-2 md:ml-3 font-bold text-sm md:text-base ${
                         activeQuality === index 
@@ -205,13 +259,30 @@ export default function About({ setActiveSection }: AboutProps) {
                     className="p-4 md:p-6 bg-white/90 dark:bg-gray-800/90 rounded-lg shadow-sm border border-blue-100 dark:border-blue-900/30"
                   >
                     <p className="text-gray-700 dark:text-gray-300 text-center text-xs md:text-sm">
-                      <span className="text-blue-600 dark:text-blue-400 font-medium">
+                      <span className={`font-medium ${qualities[activeQuality].color}`}>
                         {qualities[activeQuality].title}:
                       </span> {" "}
-                      This quality helps me approach problems with a fresh perspective and deliver exceptional results.
+                      {qualities[activeQuality].detailedDescription}
                     </p>
                   </motion.div>
                 </AnimatePresence>
+              </div>
+              
+              <div className="w-full mt-6 flex justify-center">
+                <div className="flex space-x-2">
+                  {qualities.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setActiveQuality(index)}
+                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                        activeQuality === index 
+                          ? 'bg-blue-600 dark:bg-blue-400 w-4' 
+                          : 'bg-gray-300 dark:bg-gray-600'
+                      }`}
+                      aria-label={`View ${qualities[index].title}`}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </motion.div>
