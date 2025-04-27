@@ -392,7 +392,7 @@ function CodeVisualization({ isDark }: { isDark: boolean }) {
   }, [currentLine, isTyping, fullCode])
 
   // Function to get syntax highlighting classes
-  const getSyntaxClass = (line: string, index: number) => {
+  const getSyntaxClass = (line: string) => {
     if (line.trim().startsWith("function")) {
       return isDark ? "text-purple-400" : "text-purple-600"
     } else if (line.trim().startsWith("const") || line.trim().startsWith("let") || line.trim().startsWith("var")) {
@@ -449,7 +449,7 @@ function CodeVisualization({ isDark }: { isDark: boolean }) {
             {codeLines.map((line, index) => (
               <div key={index} className="flex">
                 <span className={`mr-4 select-none ${isDark ? "text-gray-600" : "text-gray-400"}`}>{index + 1}</span>
-                <span className={getSyntaxClass(line, index)}>{line}</span>
+                <span className={getSyntaxClass(line)}>{line}</span>
               </div>
             ))}
 
