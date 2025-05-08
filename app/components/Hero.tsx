@@ -72,10 +72,10 @@ export default function Hero({ setActiveSection }: HeroProps) {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden"
+      className="relative overflow-hidden w-full"
       style={{
-        height: "calc(100vh - 80px)",
-        maxHeight: "800px",
+        height: "100vh", // Full viewport height
+        minHeight: "700px", // Minimum height to ensure content fits
       }}
     >
       {/* Base gradient background */}
@@ -83,13 +83,60 @@ export default function Hero({ setActiveSection }: HeroProps) {
         className="absolute inset-0 transition-colors duration-1000"
         style={{
           background: isDark
-            ? "linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)"
+            ? "linear-gradient(135deg, #0a1025 0%, #111639 50%, #1e1145 100%)"
             : "linear-gradient(135deg, #f8fafc 0%, #ede9fe 100%)",
         }}
       />
 
-      {/* Animated gradient overlay */}
-      <div className="absolute inset-0 overflow-hidden opacity-30">
+      {/* Animated background elements - with higher opacity */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Animated wave SVG */}
+        <svg
+          className="absolute w-full h-full"
+          preserveAspectRatio="none"
+          viewBox="0 0 1440 800"
+          style={{ opacity: isDark ? 0.15 : 0.1 }}
+        >
+          <motion.path
+            d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+            fill={isDark ? "rgb(59, 130, 246, 0.5)" : "rgb(37, 99, 235, 0.3)"}
+            animate={{
+              d: [
+                "M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
+                "M0,128L48,144C96,160,192,192,288,197.3C384,203,480,181,576,186.7C672,192,768,224,864,213.3C960,203,1056,149,1152,138.7C1248,128,1344,160,1392,176L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
+                "M0,96L48,122.7C96,149,192,203,288,192C384,181,480,107,576,80C672,53,768,75,864,101.3C960,128,1056,160,1152,165.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
+              ],
+              y: [0, 10, 0],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Number.POSITIVE_INFINITY,
+              repeatType: "reverse",
+              ease: "easeInOut",
+            }}
+          />
+          <motion.path
+            d="M0,224L48,213.3C96,203,192,181,288,154.7C384,128,480,96,576,122.7C672,149,768,235,864,266.7C960,299,1056,277,1152,261.3C1248,245,1344,235,1392,229.3L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+            fill={isDark ? "rgb(139, 92, 246, 0.5)" : "rgb(124, 58, 237, 0.3)"}
+            animate={{
+              d: [
+                "M0,224L48,213.3C96,203,192,181,288,154.7C384,128,480,96,576,122.7C672,149,768,235,864,266.7C960,299,1056,277,1152,261.3C1248,245,1344,235,1392,229.3L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
+                "M0,288L48,272C96,256,192,224,288,213.3C384,203,480,213,576,229.3C672,245,768,267,864,261.3C960,256,1056,224,1152,197.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
+                "M0,160L48,170.7C96,181,192,203,288,208C384,213,480,203,576,181.3C672,160,768,128,864,128C960,128,1056,160,1152,186.7C1248,213,1344,235,1392,245.3L1440,256L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
+              ],
+              y: [0, -10, 0],
+            }}
+            transition={{
+              duration: 15,
+              repeat: Number.POSITIVE_INFINITY,
+              repeatType: "reverse",
+              ease: "easeInOut",
+              delay: 5,
+            }}
+          />
+        </svg>
+
+        {/* Animated gradient overlay with higher opacity */}
         <motion.div
           className="absolute inset-0 w-[200%] h-[200%]"
           animate={{
@@ -104,55 +151,28 @@ export default function Hero({ setActiveSection }: HeroProps) {
           }}
           style={{
             background: isDark
-              ? "radial-gradient(circle at 30% 40%, rgba(79, 70, 229, 0.4) 0%, transparent 40%), radial-gradient(circle at 70% 60%, rgba(124, 58, 237, 0.4) 0%, transparent 40%)"
-              : "radial-gradient(circle at 30% 40%, rgba(79, 70, 229, 0.2) 0%, transparent 40%), radial-gradient(circle at 70% 60%, rgba(124, 58, 237, 0.2) 0%, transparent 40%)",
+              ? "radial-gradient(circle at 30% 40%, rgba(79, 70, 229, 0.15) 0%, transparent 40%), radial-gradient(circle at 70% 60%, rgba(124, 58, 237, 0.15) 0%, transparent 40%)"
+              : "radial-gradient(circle at 30% 40%, rgba(79, 70, 229, 0.1) 0%, transparent 40%), radial-gradient(circle at 70% 60%, rgba(124, 58, 237, 0.1) 0%, transparent 40%)",
           }}
         />
-      </div>
 
-      {/* Animated mesh grid */}
-      <div className="absolute inset-0 overflow-hidden">
-        <svg width="100%" height="100%" className="absolute inset-0 opacity-[0.03]">
-          <defs>
-            <pattern id="grid-pattern" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke={isDark ? "white" : "black"} strokeWidth="0.5" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#grid-pattern)" />
-        </svg>
-        <motion.div
-          className="absolute inset-0"
-          animate={{
-            scale: [1, 1.1, 1],
-            rotate: [0, 1, 0],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Number.POSITIVE_INFINITY,
-            repeatType: "reverse",
-            ease: "linear",
-          }}
-        />
-      </div>
-
-      {/* Floating orbs */}
-      <div className="absolute inset-0 overflow-hidden">
+        {/* Floating orbs with higher opacity */}
         {[...Array(8)].map((_, i) => {
           const size = Math.random() * 300 + 100
           return (
             <motion.div
               key={i}
-              className={`absolute rounded-full blur-3xl`}
+              className="absolute rounded-full blur-3xl"
               style={{
                 width: size,
                 height: size,
                 background: isDark
                   ? i % 2 === 0
-                    ? "rgba(59, 130, 246, 0.03)"
-                    : "rgba(139, 92, 246, 0.03)"
+                    ? "rgba(59, 130, 246, 0.08)"
+                    : "rgba(139, 92, 246, 0.08)"
                   : i % 2 === 0
-                    ? "rgba(59, 130, 246, 0.03)"
-                    : "rgba(139, 92, 246, 0.03)",
+                    ? "rgba(59, 130, 246, 0.06)"
+                    : "rgba(139, 92, 246, 0.06)",
                 top: `${Math.random() * 100}%`,
                 left: `${Math.random() * 100}%`,
               }}
@@ -169,57 +189,35 @@ export default function Hero({ setActiveSection }: HeroProps) {
             />
           )
         })}
+
+        {/* Subtle stars/particles */}
+        {[...Array(50)].map((_, i) => (
+          <motion.div
+            key={`star-${i}`}
+            className="absolute rounded-full"
+            style={{
+              width: Math.random() * 3 + 1,
+              height: Math.random() * 3 + 1,
+              backgroundColor: isDark ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.3)",
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              opacity: [0.2, 0.8, 0.2],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: Math.random() * 3 + 2,
+              repeat: Number.POSITIVE_INFINITY,
+              repeatType: "reverse",
+              delay: Math.random() * 5,
+            }}
+          />
+        ))}
       </div>
 
-      {/* Animated lines */}
-      <div className="absolute inset-0 overflow-hidden">
-        <svg width="100%" height="100%" className="absolute inset-0" style={{ opacity: isDark ? 0.05 : 0.03 }}>
-          <motion.path
-            d="M0,100 C150,200 350,0 500,100 C650,200 850,0 1000,100"
-            stroke={isDark ? "white" : "black"}
-            strokeWidth="1"
-            fill="none"
-            initial={{ pathLength: 0, pathOffset: 1 }}
-            animate={{ pathLength: 1, pathOffset: 0 }}
-            transition={{
-              duration: 15,
-              repeat: Number.POSITIVE_INFINITY,
-              ease: "linear",
-            }}
-          />
-          <motion.path
-            d="M0,300 C150,400 350,200 500,300 C650,400 850,200 1000,300"
-            stroke={isDark ? "white" : "black"}
-            strokeWidth="1"
-            fill="none"
-            initial={{ pathLength: 0, pathOffset: 1 }}
-            animate={{ pathLength: 1, pathOffset: 0 }}
-            transition={{
-              duration: 15,
-              repeat: Number.POSITIVE_INFINITY,
-              ease: "linear",
-              delay: 5,
-            }}
-          />
-          <motion.path
-            d="M0,500 C150,600 350,400 500,500 C650,600 850,400 1000,500"
-            stroke={isDark ? "white" : "black"}
-            strokeWidth="1"
-            fill="none"
-            initial={{ pathLength: 0, pathOffset: 1 }}
-            animate={{ pathLength: 1, pathOffset: 0 }}
-            transition={{
-              duration: 15,
-              repeat: Number.POSITIVE_INFINITY,
-              ease: "linear",
-              delay: 10,
-            }}
-          />
-        </svg>
-      </div>
-
-      {/* Main content */}
-      <div className="relative z-10 container mx-auto px-6 h-full flex flex-col justify-center items-center py-10">
+      {/* Main content - centered */}
+      <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center">
         <motion.div
           className="max-w-3xl mx-auto text-center"
           style={{ opacity }}
@@ -227,41 +225,28 @@ export default function Hero({ setActiveSection }: HeroProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          {/* Subtle badge */}
-          <motion.div
-            className={`inline-block px-3 py-1 rounded-full text-xs font-medium mb-4 ${
-              isDark ? "bg-blue-900/50 text-blue-300" : "bg-blue-100 text-blue-700"
-            }`}
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            PORTFOLIO
-          </motion.div>
-
-          {/* Name */}
+          {/* Name - made larger and with more spacing */}
           <motion.h1
-            className={`text-4xl sm:text-5xl md:text-6xl font-bold mb-4 tracking-tight ${
-              isDark ? "text-white" : "text-gray-900"
-            }`}
+            className="text-5xl sm:text-6xl md:text-7xl font-bold mb-6 tracking-tight"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            Sohail{" "}
+            <span className={isDark ? "text-white" : "text-gray-900"}>Sohail</span>
+            <br />
             <span
-              className={`${
+              className={
                 isDark
                   ? "text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400"
                   : "text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600"
-              }`}
+              }
             >
               Gidwani
             </span>
           </motion.h1>
 
           {/* Rotating titles */}
-          <div className="h-20 mb-6">
+          <div className="h-24 mb-8">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
@@ -271,10 +256,14 @@ export default function Hero({ setActiveSection }: HeroProps) {
                 transition={{ duration: 0.5 }}
                 className="flex flex-col items-center"
               >
-                <h2 className={`text-xl sm:text-2xl font-medium mb-1 ${isDark ? "text-gray-300" : "text-gray-700"}`}>
+                <h2
+                  className={`text-xl sm:text-2xl md:text-3xl font-medium mb-2 ${
+                    isDark ? "text-gray-300" : "text-gray-700"
+                  }`}
+                >
                   {showcaseItems[activeIndex].title}
                 </h2>
-                <p className={`text-sm max-w-lg ${isDark ? "text-gray-400" : "text-gray-600"}`}>
+                <p className={`text-sm sm:text-base max-w-lg ${isDark ? "text-gray-400" : "text-gray-600"}`}>
                   {showcaseItems[activeIndex].description}
                 </p>
               </motion.div>
@@ -282,7 +271,7 @@ export default function Hero({ setActiveSection }: HeroProps) {
           </div>
 
           {/* Indicator dots */}
-          <div className="flex justify-center space-x-3 mb-8">
+          <div className="flex justify-center space-x-3 mb-10">
             {[0, 1, 2].map((index) => (
               <button
                 key={index}
@@ -301,11 +290,11 @@ export default function Hero({ setActiveSection }: HeroProps) {
             ))}
           </div>
 
-          {/* Resume button */}
+          {/* Resume button - with new animation */}
           <motion.button
-            className={`group relative overflow-hidden px-6 py-3 rounded-full font-medium text-base ${
-              isDark ? "bg-blue-600 text-white hover:bg-blue-700" : "bg-blue-600 text-white hover:bg-blue-700"
-            } transition-colors duration-300`}
+            className={`group relative overflow-hidden px-8 py-4 rounded-full font-medium text-base ${
+              isDark ? "text-white" : "text-white"
+            } transition-colors duration-300 z-10`}
             onHoverStart={() => setIsResumeHovered(true)}
             onHoverEnd={() => setIsResumeHovered(false)}
             onClick={() => window.open("/documents/Sohail_Gidwani_Resume_2024.pdf", "_blank")}
@@ -315,36 +304,77 @@ export default function Hero({ setActiveSection }: HeroProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
+            {/* Button background with gradient animation */}
+            <motion.div
+              className="absolute inset-0 rounded-full"
+              style={{
+                background: isDark
+                  ? "linear-gradient(90deg, #3b82f6, #8b5cf6, #3b82f6)"
+                  : "linear-gradient(90deg, #2563eb, #7c3aed, #2563eb)",
+                backgroundSize: "200% 100%",
+              }}
+              animate={{
+                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+              }}
+              transition={{
+                duration: 5,
+                repeat: Number.POSITIVE_INFINITY,
+                repeatType: "loop",
+                ease: "linear",
+              }}
+            />
+
+            {/* Button content */}
             <span className="relative z-10 flex items-center">
-              <FaFileAlt className="mr-2" />
+              <motion.span
+                className="mr-2 flex items-center justify-center"
+                animate={
+                  isResumeHovered
+                    ? {
+                        rotate: [0, 360],
+                        transition: { duration: 0.5 },
+                      }
+                    : {}
+                }
+              >
+                <FaFileAlt />
+              </motion.span>
               <span>View Resume</span>
             </span>
 
-            {/* Button glow effect */}
+            {/* Button shine effect */}
             <motion.div
-              className={`absolute inset-0 ${isDark ? "bg-blue-500" : "bg-blue-500"}`}
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: isResumeHovered ? 1 : 0, opacity: isResumeHovered ? 0.2 : 0 }}
-              transition={{ duration: 0.3 }}
-              style={{ originX: 0, originY: 0 }}
+              className="absolute inset-0 w-[200%] h-full"
+              style={{
+                background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
+                transform: "translateX(-100%)",
+              }}
+              animate={
+                isResumeHovered
+                  ? {
+                      x: ["0%", "100%"],
+                      transition: { duration: 1, ease: "easeInOut" },
+                    }
+                  : {}
+              }
             />
           </motion.button>
 
-          {/* Decorative element */}
-          <motion.div
-            className={`mt-8 w-20 h-1 rounded-full mx-auto ${
+          {/* Decorative line */}
+          {/* <motion.div
+            className={`mt-16 w-24 h-1 rounded-full mx-auto ${
               isDark ? "bg-gradient-to-r from-blue-400 to-purple-400" : "bg-gradient-to-r from-blue-600 to-purple-600"
             }`}
             initial={{ width: 0 }}
-            animate={{ width: "5rem" }}
+            animate={{ width: "6rem" }}
             transition={{ duration: 0.8, delay: 0.6 }}
-          />
+          /> */}
         </motion.div>
       </div>
 
       {/* Scroll indicator */}
       <motion.div
-        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10"
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1, duration: 0.8 }}
@@ -360,10 +390,19 @@ export default function Hero({ setActiveSection }: HeroProps) {
           }}
           whileHover={{ y: 5 }}
         >
-          <span className={`text-xs uppercase tracking-widest mb-1 ${isDark ? "text-gray-400" : "text-gray-600"}`}>
-            Scroll
+          <span className={`text-xs uppercase tracking-widest mb-2 ${isDark ? "text-gray-400" : "text-gray-600"}`}>
+            SCROLL
           </span>
-          <motion.div animate={{ y: [0, 5, 0] }} transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}>
+          <motion.div
+            animate={{
+              y: [0, 8, 0],
+            }}
+            transition={{
+              duration: 1.5,
+              repeat: Number.POSITIVE_INFINITY,
+              repeatType: "loop",
+            }}
+          >
             <FaArrowDown className={`${isDark ? "text-gray-400" : "text-gray-600"}`} />
           </motion.div>
         </motion.div>
