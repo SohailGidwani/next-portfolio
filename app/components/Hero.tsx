@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
+import { motion, useScroll, useTransform } from "framer-motion"
 import { useTheme } from "next-themes"
 import { FaFileAlt, FaArrowDown } from "react-icons/fa"
 
@@ -13,7 +13,6 @@ export default function Hero({ setActiveSection }: HeroProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const { theme, systemTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
-  const [activeIndex, setActiveIndex] = useState(0)
   const [isResumeHovered, setIsResumeHovered] = useState(false)
 
   // For parallax scrolling effect
@@ -42,16 +41,10 @@ export default function Hero({ setActiveSection }: HeroProps) {
       observer.observe(sectionRef.current)
     }
 
-    // Auto-advance the active index
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % 3)
-    }, 4000)
-
     return () => {
       if (sectionRef.current) {
         observer.unobserve(sectionRef.current)
       }
-      clearInterval(interval)
     }
   }, [setActiveSection])
 
@@ -62,21 +55,14 @@ export default function Hero({ setActiveSection }: HeroProps) {
   const currentTheme = theme === "system" ? systemTheme : theme
   const isDark = currentTheme === "dark"
 
-  // Content for the rotating showcase
-  const showcaseItems = [
-    { title: "Software Developer", description: "Building elegant solutions to complex problems" },
-    { title: "AI Enthusiast", description: "Exploring the frontiers of artificial intelligence" },
-    { title: "ML Expert", description: "Creating intelligent systems that learn and adapt" },
-  ]
-
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden w-full"
-      style={{
-        height: "100vh", // Full viewport height
-        minHeight: "700px", // Minimum height to ensure content fits
-      }}
+      className="relative overflow-hidden w-full h-screen"
+      // style={{
+      //   // Subtract navbar height (80px) from viewport height
+      //   height: "calc(100vh - 80px)",
+      // }}
     >
       {/* Base gradient background */}
       <div
@@ -245,56 +231,28 @@ export default function Hero({ setActiveSection }: HeroProps) {
             </span>
           </motion.h1>
 
-          {/* Rotating titles */}
-          <div className="h-24 mb-8">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeIndex}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
-                className="flex flex-col items-center"
-              >
-                <h2
-                  className={`text-xl sm:text-2xl md:text-3xl font-medium mb-2 ${
-                    isDark ? "text-gray-300" : "text-gray-700"
-                  }`}
-                >
-                  {showcaseItems[activeIndex].title}
-                </h2>
-                <p className={`text-sm sm:text-base max-w-lg ${isDark ? "text-gray-400" : "text-gray-600"}`}>
-                  {showcaseItems[activeIndex].description}
-                </p>
-              </motion.div>
-            </AnimatePresence>
-          </div>
+          {/* Static title and description - replacing the rotating content */}
+          <motion.div
+            className="mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <h2
+              className={`text-xl sm:text-2xl md:text-3xl font-medium mb-2 ${isDark ? "text-gray-300" : "text-gray-700"}`}
+            >
+              Software Developer
+            </h2>
+            <p className={`text-sm sm:text-base max-w-lg mx-auto ${isDark ? "text-gray-400" : "text-gray-600"}`}>
+              Building elegant solutions to complex problems
+            </p>
+          </motion.div>
 
-          {/* Indicator dots */}
-          <div className="flex justify-center space-x-3 mb-10">
-            {[0, 1, 2].map((index) => (
-              <button
-                key={index}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  activeIndex === index
-                    ? isDark
-                      ? "bg-blue-400 w-8"
-                      : "bg-blue-600 w-8"
-                    : isDark
-                      ? "bg-gray-700"
-                      : "bg-gray-300"
-                }`}
-                onClick={() => setActiveIndex(index)}
-                aria-label={`View ${showcaseItems[index].title}`}
-              />
-            ))}
-          </div>
-
-          {/* Resume button - with new animation */}
+          {/* Resume button - with simplified animation */}
           <motion.button
-            className={`group relative overflow-hidden px-8 py-4 rounded-full font-medium text-base ${
-              isDark ? "text-white" : "text-white"
-            } transition-colors duration-300 z-10`}
+            className={`relative overflow-hidden px-8 py-3 rounded-full font-medium text-base ${
+              isDark ? "bg-blue-600 text-white hover:bg-blue-700" : "bg-blue-600 text-white hover:bg-blue-700"
+            } transition-all duration-300`}
             onHoverStart={() => setIsResumeHovered(true)}
             onHoverEnd={() => setIsResumeHovered(false)}
             onClick={() => window.open("/documents/Sohail_Gidwani_Resume_2024.pdf", "_blank")}
@@ -304,60 +262,10 @@ export default function Hero({ setActiveSection }: HeroProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            {/* Button background with gradient animation */}
-            <motion.div
-              className="absolute inset-0 rounded-full"
-              style={{
-                background: isDark
-                  ? "linear-gradient(90deg, #3b82f6, #8b5cf6, #3b82f6)"
-                  : "linear-gradient(90deg, #2563eb, #7c3aed, #2563eb)",
-                backgroundSize: "200% 100%",
-              }}
-              animate={{
-                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-              }}
-              transition={{
-                duration: 5,
-                repeat: Number.POSITIVE_INFINITY,
-                repeatType: "loop",
-                ease: "linear",
-              }}
-            />
-
-            {/* Button content */}
-            <span className="relative z-10 flex items-center">
-              <motion.span
-                className="mr-2 flex items-center justify-center"
-                animate={
-                  isResumeHovered
-                    ? {
-                        rotate: [0, 360],
-                        transition: { duration: 0.5 },
-                      }
-                    : {}
-                }
-              >
-                <FaFileAlt />
-              </motion.span>
+            <span className="flex items-center">
+              <FaFileAlt className="mr-2" />
               <span>View Resume</span>
             </span>
-
-            {/* Button shine effect */}
-            <motion.div
-              className="absolute inset-0 w-[200%] h-full"
-              style={{
-                background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
-                transform: "translateX(-100%)",
-              }}
-              animate={
-                isResumeHovered
-                  ? {
-                      x: ["0%", "100%"],
-                      transition: { duration: 1, ease: "easeInOut" },
-                    }
-                  : {}
-              }
-            />
           </motion.button>
 
           {/* Decorative line */}
