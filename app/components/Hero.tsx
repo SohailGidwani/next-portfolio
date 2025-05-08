@@ -13,7 +13,7 @@ export default function Hero({ setActiveSection }: HeroProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const { theme, systemTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
-  const [isResumeHovered, setIsResumeHovered] = useState(false)
+  // const [isResumeHovered, setIsResumeHovered] = useState(false)
 
   // For parallax scrolling effect
   const { scrollYProgress } = useScroll({
@@ -253,8 +253,8 @@ export default function Hero({ setActiveSection }: HeroProps) {
             className={`relative overflow-hidden px-8 py-3 rounded-full font-medium text-base ${
               isDark ? "bg-blue-600 text-white hover:bg-blue-700" : "bg-blue-600 text-white hover:bg-blue-700"
             } transition-all duration-300`}
-            onHoverStart={() => setIsResumeHovered(true)}
-            onHoverEnd={() => setIsResumeHovered(false)}
+            // onHoverStart={() => setIsResumeHovered(true)}
+            // onHoverEnd={() => setIsResumeHovered(false)}
             onClick={() => window.open("/documents/Sohail_Gidwani_Resume_2024.pdf", "_blank")}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
