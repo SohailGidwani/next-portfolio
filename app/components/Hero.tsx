@@ -39,7 +39,7 @@ export default function Hero({ setActiveSection }: HeroProps) {
   const [mounted, setMounted] = useState(false)
   const [isResumeHovered, setIsResumeHovered] = useState(false)
   const [isScrollHovered, setIsScrollHovered] = useState(false)
-  const [namePosition, setNamePosition] = useState({ x: 0, y: 0, width: 0, height: 0 })
+  // const [namePosition, setNamePosition] = useState({ x: 0, y: 0, width: 0, height: 0 })
 
   // Memoize random positions to prevent re-randomization on re-renders
   const orbPositions = useMemo(() => generateRandomPositions(8), [])
@@ -67,20 +67,15 @@ export default function Hero({ setActiveSection }: HeroProps) {
       { threshold: 0.3 },
     )
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
+    const currentSectionRef = sectionRef.current
+    if (currentSectionRef) {
+      observer.observe(currentSectionRef)
     }
 
     // Calculate and store the position of the name element for the animation
     const updateNamePosition = () => {
       if (nameRef.current) {
         const rect = nameRef.current.getBoundingClientRect()
-        setNamePosition({
-          x: rect.left,
-          y: rect.top,
-          width: rect.width,
-          height: rect.height,
-        })
 
         // Dispatch event with name position data
         window.dispatchEvent(
@@ -106,8 +101,7 @@ export default function Hero({ setActiveSection }: HeroProps) {
       window.dispatchEvent(
         new CustomEvent("heroScroll", {
           detail: {
-            scrollY,
-            heroHeight: window.innerHeight,
+            scrollY
           },
         }),
       )
@@ -118,8 +112,8 @@ export default function Hero({ setActiveSection }: HeroProps) {
     window.addEventListener("scroll", handleScroll)
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current)
+      if (currentSectionRef) {
+        observer.unobserve(currentSectionRef)
       }
       window.removeEventListener("resize", updateNamePosition)
       window.removeEventListener("scroll", handleScroll)

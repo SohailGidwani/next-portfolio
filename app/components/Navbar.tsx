@@ -55,11 +55,10 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
       // Handle initials animation based on scroll position
       if (logoRef.current && namePosition.width > 0) {
         const logoRect = logoRef.current.getBoundingClientRect()
-        const heroHeight = window.innerHeight
 
         // Calculate how far we've scrolled through the hero section
         // Use a smaller divisor to make the animation happen sooner
-        const scrollProgress = Math.min(1, scrollY / (heroHeight / 2))
+        const scrollProgress = Math.min(1, scrollY / (window.innerHeight / 2))
 
         if (scrollProgress > 0) {
           setInitialsAnimating(true)
