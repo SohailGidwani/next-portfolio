@@ -96,7 +96,7 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
     // Listen for hero scroll events
     const handleHeroScroll = (e: Event) => {
       const customEvent = e as CustomEvent
-      const { scrollY, heroHeight } = customEvent.detail
+      const { scrollY } = customEvent.detail
 
       // Show navbar with even a small scroll
       const scrollThreshold = 10 // Very small threshold

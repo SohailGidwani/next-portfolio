@@ -101,7 +101,9 @@ export default function Hero({ setActiveSection }: HeroProps) {
       window.dispatchEvent(
         new CustomEvent("heroScroll", {
           detail: {
-            scrollY
+            scrollY,
+            heroHeight: window.innerHeight,
+
           },
         }),
       )
