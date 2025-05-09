@@ -1,19 +1,47 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, useMemo } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { useTheme } from "next-themes"
-import { FaFileAlt, FaArrowDown } from "react-icons/fa"
+import { FaFileAlt, FaChevronDown } from "react-icons/fa"
 
 interface HeroProps {
   setActiveSection: (section: string) => void
+}
+
+// Generate random positions and sizes only once
+const generateRandomPositions = (count: number) => {
+  return Array.from({ length: count }, () => ({
+    size: Math.random() * 300 + 100,
+    top: `${Math.random() * 100}%`,
+    left: `${Math.random() * 100}%`,
+    xMovement: [Math.random() * 100 - 50, Math.random() * 100 - 50, Math.random() * 100 - 50],
+    yMovement: [Math.random() * 100 - 50, Math.random() * 100 - 50, Math.random() * 100 - 50],
+    duration: Math.random() * 30 + 30,
+  }))
+}
+
+// Generate random star properties
+const generateRandomStars = (count: number) => {
+  return Array.from({ length: count }, () => ({
+    size: Math.random() * 3 + 1,
+    top: `${Math.random() * 100}%`,
+    left: `${Math.random() * 100}%`,
+    duration: Math.random() * 3 + 2,
+    delay: Math.random() * 5,
+  }))
 }
 
 export default function Hero({ setActiveSection }: HeroProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const { theme, systemTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
-  // const [isResumeHovered, setIsResumeHovered] = useState(false)
+  const [isResumeHovered, setIsResumeHovered] = useState(false)
+  const [isScrollHovered, setIsScrollHovered] = useState(false)
+
+  // Memoize random positions to prevent re-randomization on re-renders
+  const orbPositions = useMemo(() => generateRandomPositions(8), [])
+  const starPositions = useMemo(() => generateRandomStars(50), [])
 
   // For parallax scrolling effect
   const { scrollYProgress } = useScroll({
@@ -48,6 +76,14 @@ export default function Hero({ setActiveSection }: HeroProps) {
     }
   }, [setActiveSection])
 
+  // Function to scroll to the about section
+  const scrollToAbout = () => {
+    const aboutSection = document.getElementById("about")
+    if (aboutSection) {
+      aboutSection.scrollIntoView({ behavior: "smooth" })
+    }
+  }
+
   if (!mounted) {
     return null
   }
@@ -56,14 +92,7 @@ export default function Hero({ setActiveSection }: HeroProps) {
   const isDark = currentTheme === "dark"
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative overflow-hidden w-full h-screen"
-      // style={{
-      //   // Subtract navbar height (80px) from viewport height
-      //   height: "calc(100vh - 80px)",
-      // }}
-    >
+    <section ref={sectionRef} className="relative overflow-hidden w-full h-screen">
       {/* Base gradient background */}
       <div
         className="absolute inset-0 transition-colors duration-1000"
@@ -142,61 +171,58 @@ export default function Hero({ setActiveSection }: HeroProps) {
           }}
         />
 
-        {/* Floating orbs with higher opacity */}
-        {[...Array(8)].map((_, i) => {
-          const size = Math.random() * 300 + 100
-          return (
-            <motion.div
-              key={i}
-              className="absolute rounded-full blur-3xl"
-              style={{
-                width: size,
-                height: size,
-                background: isDark
-                  ? i % 2 === 0
-                    ? "rgba(59, 130, 246, 0.08)"
-                    : "rgba(139, 92, 246, 0.08)"
-                  : i % 2 === 0
-                    ? "rgba(59, 130, 246, 0.06)"
-                    : "rgba(139, 92, 246, 0.06)",
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                x: [Math.random() * 100 - 50, Math.random() * 100 - 50, Math.random() * 100 - 50],
-                y: [Math.random() * 100 - 50, Math.random() * 100 - 50, Math.random() * 100 - 50],
-              }}
-              transition={{
-                duration: Math.random() * 30 + 30,
-                repeat: Number.POSITIVE_INFINITY,
-                repeatType: "reverse",
-                ease: "linear",
-              }}
-            />
-          )
-        })}
+        {/* Floating orbs with higher opacity - using memoized positions */}
+        {orbPositions.map((orb, i) => (
+          <motion.div
+            key={`orb-${i}`}
+            className="absolute rounded-full blur-3xl"
+            style={{
+              width: orb.size,
+              height: orb.size,
+              background: isDark
+                ? i % 2 === 0
+                  ? "rgba(59, 130, 246, 0.08)"
+                  : "rgba(139, 92, 246, 0.08)"
+                : i % 2 === 0
+                  ? "rgba(59, 130, 246, 0.06)"
+                  : "rgba(139, 92, 246, 0.06)",
+              top: orb.top,
+              left: orb.left,
+            }}
+            animate={{
+              x: orb.xMovement,
+              y: orb.yMovement,
+            }}
+            transition={{
+              duration: orb.duration,
+              repeat: Number.POSITIVE_INFINITY,
+              repeatType: "reverse",
+              ease: "linear",
+            }}
+          />
+        ))}
 
-        {/* Subtle stars/particles */}
-        {[...Array(50)].map((_, i) => (
+        {/* Subtle stars/particles - using memoized positions */}
+        {starPositions.map((star, i) => (
           <motion.div
             key={`star-${i}`}
             className="absolute rounded-full"
             style={{
-              width: Math.random() * 3 + 1,
-              height: Math.random() * 3 + 1,
+              width: star.size,
+              height: star.size,
               backgroundColor: isDark ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.3)",
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
+              top: star.top,
+              left: star.left,
             }}
             animate={{
               opacity: [0.2, 0.8, 0.2],
               scale: [1, 1.2, 1],
             }}
             transition={{
-              duration: Math.random() * 3 + 2,
+              duration: star.duration,
               repeat: Number.POSITIVE_INFINITY,
               repeatType: "reverse",
-              delay: Math.random() * 5,
+              delay: star.delay,
             }}
           />
         ))}
@@ -231,7 +257,7 @@ export default function Hero({ setActiveSection }: HeroProps) {
             </span>
           </motion.h1>
 
-          {/* Static title and description - replacing the rotating content */}
+          {/* Elegant title and description */}
           <motion.div
             className="mb-12"
             initial={{ opacity: 0, y: 20 }}
@@ -239,82 +265,175 @@ export default function Hero({ setActiveSection }: HeroProps) {
             transition={{ duration: 0.5, delay: 0.3 }}
           >
             <h2
-              className={`text-xl sm:text-2xl md:text-3xl font-medium mb-2 ${isDark ? "text-gray-300" : "text-gray-700"}`}
+              className={`text-xl sm:text-2xl md:text-3xl font-medium mb-3 ${
+                isDark ? "text-gray-200" : "text-gray-800"
+              }`}
             >
               Software Developer
             </h2>
             <p className={`text-sm sm:text-base max-w-lg mx-auto ${isDark ? "text-gray-400" : "text-gray-600"}`}>
-              Building elegant solutions to complex problems
+              Building elegant solutions to complex problems with AI/ML expertise
             </p>
           </motion.div>
 
-          {/* Resume button - with simplified animation */}
-          <motion.button
-            className={`relative overflow-hidden px-8 py-3 rounded-full font-medium text-base ${
-              isDark ? "bg-blue-600 text-white hover:bg-blue-700" : "bg-blue-600 text-white hover:bg-blue-700"
-            } transition-all duration-300`}
-            // onHoverStart={() => setIsResumeHovered(true)}
-            // onHoverEnd={() => setIsResumeHovered(false)}
-            onClick={() => window.open("/documents/Sohail_Gidwani_Resume_2024.pdf", "_blank")}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
-            <span className="flex items-center">
-              <FaFileAlt className="mr-2" />
-              <span>View Resume</span>
-            </span>
-          </motion.button>
+          {/* Action buttons container - always side by side */}
+          <div className="flex justify-center items-center space-x-4">
+            {/* Scroll for more button */}
+            <motion.button
+              className="group relative overflow-hidden px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-300"
+              onHoverStart={() => setIsScrollHovered(true)}
+              onHoverEnd={() => setIsScrollHovered(false)}
+              onClick={scrollToAbout}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              {/* Button border */}
+              <span
+                className={`absolute inset-0 rounded-full border ${isDark ? "border-purple-500" : "border-purple-600"}`}
+              />
 
-          {/* Decorative line */}
-          {/* <motion.div
-            className={`mt-16 w-24 h-1 rounded-full mx-auto ${
-              isDark ? "bg-gradient-to-r from-blue-400 to-purple-400" : "bg-gradient-to-r from-blue-600 to-purple-600"
-            }`}
-            initial={{ width: 0 }}
-            animate={{ width: "6rem" }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          /> */}
+              {/* Liquid fill effect */}
+              <div className="absolute inset-0 overflow-hidden rounded-full">
+                <motion.div
+                  className={`absolute bottom-0 left-0 right-0 rounded-full ${
+                    isDark ? "bg-purple-600" : "bg-purple-600"
+                  }`}
+                  initial={{ height: "0%" }}
+                  animate={{ height: isScrollHovered ? "100%" : "0%" }}
+                  transition={{
+                    duration: 0.4,
+                    ease: [0.25, 0.1, 0.25, 1],
+                  }}
+                  style={{
+                    transformOrigin: "bottom",
+                    borderRadius: "9999px",
+                  }}
+                >
+                  {/* Liquid bubbles effect */}
+                  {isScrollHovered && (
+                    <>
+                      <motion.div
+                        className="absolute rounded-full bg-purple-400/30 w-3 h-3"
+                        animate={{
+                          y: [0, -15],
+                          x: [0, 3],
+                          opacity: [0, 0.8, 0],
+                        }}
+                        transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, repeatDelay: 0.3 }}
+                        style={{ left: "20%", bottom: "10%" }}
+                      />
+                      <motion.div
+                        className="absolute rounded-full bg-purple-400/30 w-2 h-2"
+                        animate={{
+                          y: [0, -10],
+                          x: [0, -2],
+                          opacity: [0, 0.6, 0],
+                        }}
+                        transition={{ duration: 0.8, repeat: Number.POSITIVE_INFINITY, repeatDelay: 0.5 }}
+                        style={{ left: "60%", bottom: "20%" }}
+                      />
+                    </>
+                  )}
+                </motion.div>
+              </div>
+
+              {/* Button content */}
+              <span
+                className={`relative z-10 flex items-center ${
+                  isDark
+                    ? isScrollHovered
+                      ? "text-white"
+                      : "text-purple-500"
+                    : isScrollHovered
+                      ? "text-white"
+                      : "text-purple-600"
+                }`}
+              >
+                <span>Scroll for more</span>
+                <FaChevronDown className="ml-2" />
+              </span>
+            </motion.button>
+
+            {/* Resume button with liquid fill */}
+            <motion.button
+              className="group relative overflow-hidden px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-300"
+              onHoverStart={() => setIsResumeHovered(true)}
+              onHoverEnd={() => setIsResumeHovered(false)}
+              onClick={() => window.open("/documents/Sohail_Gidwani_Resume_2024.pdf", "_blank")}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+            >
+              {/* Button border */}
+              <span
+                className={`absolute inset-0 rounded-full border ${isDark ? "border-blue-500" : "border-blue-600"}`}
+              />
+
+              {/* Liquid fill effect with container for overflow control */}
+              <div className="absolute inset-0 overflow-hidden rounded-full">
+                <motion.div
+                  className={`absolute bottom-0 left-0 right-0 rounded-full ${isDark ? "bg-blue-600" : "bg-blue-600"}`}
+                  initial={{ height: "0%" }}
+                  animate={{ height: isResumeHovered ? "100%" : "0%" }}
+                  transition={{
+                    duration: 0.4,
+                    ease: [0.25, 0.1, 0.25, 1],
+                  }}
+                  style={{
+                    transformOrigin: "bottom",
+                    borderRadius: "9999px",
+                  }}
+                >
+                  {/* Liquid bubbles effect */}
+                  {isResumeHovered && (
+                    <>
+                      <motion.div
+                        className="absolute rounded-full bg-blue-400/30 w-3 h-3"
+                        animate={{
+                          y: [0, -15],
+                          x: [0, 3],
+                          opacity: [0, 0.8, 0],
+                        }}
+                        transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, repeatDelay: 0.3 }}
+                        style={{ left: "20%", bottom: "10%" }}
+                      />
+                      <motion.div
+                        className="absolute rounded-full bg-blue-400/30 w-2 h-2"
+                        animate={{
+                          y: [0, -10],
+                          x: [0, -2],
+                          opacity: [0, 0.6, 0],
+                        }}
+                        transition={{ duration: 0.8, repeat: Number.POSITIVE_INFINITY, repeatDelay: 0.5 }}
+                        style={{ left: "60%", bottom: "20%" }}
+                      />
+                    </>
+                  )}
+                </motion.div>
+              </div>
+
+              {/* Button content */}
+              <span
+                className={`relative z-10 flex items-center ${
+                  isDark
+                    ? isResumeHovered
+                      ? "text-white"
+                      : "text-blue-500"
+                    : isResumeHovered
+                      ? "text-white"
+                      : "text-blue-600"
+                }`}
+              >
+                <span>View Resume</span>
+                <FaFileAlt className="ml-2" />
+              </span>
+            </motion.button>
+          </div>
         </motion.div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 0.8 }}
-      >
-        <motion.div
-          className="flex flex-col items-center cursor-pointer"
-          onClick={() => {
-            // Scroll to the next section
-            const aboutSection = document.getElementById("about")
-            if (aboutSection) {
-              aboutSection.scrollIntoView({ behavior: "smooth" })
-            }
-          }}
-          whileHover={{ y: 5 }}
-        >
-          <span className={`text-xs uppercase tracking-widest mb-2 ${isDark ? "text-gray-400" : "text-gray-600"}`}>
-            SCROLL
-          </span>
-          <motion.div
-            animate={{
-              y: [0, 8, 0],
-            }}
-            transition={{
-              duration: 1.5,
-              repeat: Number.POSITIVE_INFINITY,
-              repeatType: "loop",
-            }}
-          >
-            <FaArrowDown className={`${isDark ? "text-gray-400" : "text-gray-600"}`} />
-          </motion.div>
-        </motion.div>
-      </motion.div>
     </section>
   )
 }
