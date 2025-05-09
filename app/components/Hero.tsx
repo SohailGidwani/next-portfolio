@@ -1,39 +1,68 @@
 "use client"
 
-import { useEffect, useRef, useState } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
-import { TypeAnimation } from 'react-type-animation'
-import { FaFileAlt, FaBrain, FaCode, FaGamepad, FaFilm, FaSwimmer } from 'react-icons/fa'
-import { useTheme } from 'next-themes'
+import { useEffect, useRef, useState, useMemo } from "react"
+import { motion, useScroll, useTransform } from "framer-motion"
+import { useTheme } from "next-themes"
+import { FaFileAlt, FaChevronDown } from "react-icons/fa"
 
 interface HeroProps {
-  setActiveSection: (section: string) => void;
+  setActiveSection: (section: string) => void
+}
+
+// Generate random positions and sizes only once
+const generateRandomPositions = (count: number) => {
+  return Array.from({ length: count }, () => ({
+    size: Math.random() * 300 + 100,
+    top: `${Math.random() * 100}%`,
+    left: `${Math.random() * 100}%`,
+    xMovement: [Math.random() * 100 - 50, Math.random() * 100 - 50, Math.random() * 100 - 50],
+    yMovement: [Math.random() * 100 - 50, Math.random() * 100 - 50, Math.random() * 100 - 50],
+    duration: Math.random() * 30 + 30,
+  }))
+}
+
+// Generate random star properties
+const generateRandomStars = (count: number) => {
+  return Array.from({ length: count }, () => ({
+    size: Math.random() * 3 + 1,
+    top: `${Math.random() * 100}%`,
+    left: `${Math.random() * 100}%`,
+    duration: Math.random() * 3 + 2,
+    delay: Math.random() * 5,
+  }))
 }
 
 export default function Hero({ setActiveSection }: HeroProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const { theme, systemTheme } = useTheme()
-  const [isHovered, setIsHovered] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const [isResumeHovered, setIsResumeHovered] = useState(false)
+  const [isScrollHovered, setIsScrollHovered] = useState(false)
 
+  // Memoize random positions to prevent re-randomization on re-renders
+  const orbPositions = useMemo(() => generateRandomPositions(8), [])
+  const starPositions = useMemo(() => generateRandomStars(50), [])
+
+  // For parallax scrolling effect
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ["start start", "end start"]
+    offset: ["start start", "end start"],
   })
 
-  const yText = useTransform(scrollYProgress, [0, 1], ["0%", "100%"])
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
 
   useEffect(() => {
     setMounted(true)
+
+    // Intersection observer for section detection
     const observer = new IntersectionObserver(
-      (entries: IntersectionObserverEntry[]) => {
+      (entries) => {
         const [entry] = entries
         if (entry.isIntersecting) {
-          setActiveSection('hero')
+          setActiveSection("hero")
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.3 },
     )
 
     if (sectionRef.current) {
@@ -47,160 +76,364 @@ export default function Hero({ setActiveSection }: HeroProps) {
     }
   }, [setActiveSection])
 
+  // Function to scroll to the about section
+  const scrollToAbout = () => {
+    const aboutSection = document.getElementById("about")
+    if (aboutSection) {
+      aboutSection.scrollIntoView({ behavior: "smooth" })
+    }
+  }
+
   if (!mounted) {
     return null
   }
 
-  const currentTheme = theme === 'system' ? systemTheme : theme
-  const isDark = currentTheme === 'dark'
+  const currentTheme = theme === "system" ? systemTheme : theme
+  const isDark = currentTheme === "dark"
 
   return (
-    <section 
-      ref={sectionRef} 
-      className={`relative min-h-screen flex items-center justify-center overflow-hidden transition-colors duration-300 ${
-        isDark 
-          ? 'bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white' 
-          : 'bg-gradient-to-br from-blue-50 via-blue-100 to-purple-100 text-gray-900'
-      }`}
-    >
+    <section ref={sectionRef} className="relative overflow-hidden w-full h-screen">
+      {/* Base gradient background */}
+      <div
+        className="absolute inset-0 transition-colors duration-1000"
+        style={{
+          background: isDark
+            ? "linear-gradient(135deg, #0a1025 0%, #111639 50%, #1e1145 100%)"
+            : "linear-gradient(135deg, #f8fafc 0%, #ede9fe 100%)",
+        }}
+      />
+
+      {/* Animated background elements - with higher opacity */}
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(50)].map((_, i) => (
-          <motion.div
-            key={i}
-            className={`absolute rounded-full ${isDark ? 'bg-blue-500' : 'bg-blue-400'}`}
-            style={{
-              width: Math.random() * 4 + 1,
-              height: Math.random() * 4 + 1,
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-            }}
+        {/* Animated wave SVG */}
+        <svg
+          className="absolute w-full h-full"
+          preserveAspectRatio="none"
+          viewBox="0 0 1440 800"
+          style={{ opacity: isDark ? 0.15 : 0.1 }}
+        >
+          <motion.path
+            d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+            fill={isDark ? "rgb(59, 130, 246, 0.5)" : "rgb(37, 99, 235, 0.3)"}
             animate={{
-              y: [0, Math.random() * 100 - 50],
-              opacity: [0, 1, 0],
+              d: [
+                "M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
+                "M0,128L48,144C96,160,192,192,288,197.3C384,203,480,181,576,186.7C672,192,768,224,864,213.3C960,203,1056,149,1152,138.7C1248,128,1344,160,1392,176L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
+                "M0,96L48,122.7C96,149,192,203,288,192C384,181,480,107,576,80C672,53,768,75,864,101.3C960,128,1056,160,1152,165.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
+              ],
+              y: [0, 10, 0],
             }}
             transition={{
-              duration: Math.random() * 5 + 5,
-              repeat: Infinity,
+              duration: 20,
+              repeat: Number.POSITIVE_INFINITY,
               repeatType: "reverse",
+              ease: "easeInOut",
+            }}
+          />
+          <motion.path
+            d="M0,224L48,213.3C96,203,192,181,288,154.7C384,128,480,96,576,122.7C672,149,768,235,864,266.7C960,299,1056,277,1152,261.3C1248,245,1344,235,1392,229.3L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+            fill={isDark ? "rgb(139, 92, 246, 0.5)" : "rgb(124, 58, 237, 0.3)"}
+            animate={{
+              d: [
+                "M0,224L48,213.3C96,203,192,181,288,154.7C384,128,480,96,576,122.7C672,149,768,235,864,266.7C960,299,1056,277,1152,261.3C1248,245,1344,235,1392,229.3L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
+                "M0,288L48,272C96,256,192,224,288,213.3C384,203,480,213,576,229.3C672,245,768,267,864,261.3C960,256,1056,224,1152,197.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
+                "M0,160L48,170.7C96,181,192,203,288,208C384,213,480,203,576,181.3C672,160,768,128,864,128C960,128,1056,160,1152,186.7C1248,213,1344,235,1392,245.3L1440,256L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
+              ],
+              y: [0, -10, 0],
+            }}
+            transition={{
+              duration: 15,
+              repeat: Number.POSITIVE_INFINITY,
+              repeatType: "reverse",
+              ease: "easeInOut",
+              delay: 5,
+            }}
+          />
+        </svg>
+
+        {/* Animated gradient overlay with higher opacity */}
+        <motion.div
+          className="absolute inset-0 w-[200%] h-[200%]"
+          animate={{
+            x: [0, -500],
+            y: [0, -500],
+          }}
+          transition={{
+            duration: 60,
+            repeat: Number.POSITIVE_INFINITY,
+            repeatType: "reverse",
+            ease: "linear",
+          }}
+          style={{
+            background: isDark
+              ? "radial-gradient(circle at 30% 40%, rgba(79, 70, 229, 0.15) 0%, transparent 40%), radial-gradient(circle at 70% 60%, rgba(124, 58, 237, 0.15) 0%, transparent 40%)"
+              : "radial-gradient(circle at 30% 40%, rgba(79, 70, 229, 0.1) 0%, transparent 40%), radial-gradient(circle at 70% 60%, rgba(124, 58, 237, 0.1) 0%, transparent 40%)",
+          }}
+        />
+
+        {/* Floating orbs with higher opacity - using memoized positions */}
+        {orbPositions.map((orb, i) => (
+          <motion.div
+            key={`orb-${i}`}
+            className="absolute rounded-full blur-3xl"
+            style={{
+              width: orb.size,
+              height: orb.size,
+              background: isDark
+                ? i % 2 === 0
+                  ? "rgba(59, 130, 246, 0.08)"
+                  : "rgba(139, 92, 246, 0.08)"
+                : i % 2 === 0
+                  ? "rgba(59, 130, 246, 0.06)"
+                  : "rgba(139, 92, 246, 0.06)",
+              top: orb.top,
+              left: orb.left,
+            }}
+            animate={{
+              x: orb.xMovement,
+              y: orb.yMovement,
+            }}
+            transition={{
+              duration: orb.duration,
+              repeat: Number.POSITIVE_INFINITY,
+              repeatType: "reverse",
+              ease: "linear",
+            }}
+          />
+        ))}
+
+        {/* Subtle stars/particles - using memoized positions */}
+        {starPositions.map((star, i) => (
+          <motion.div
+            key={`star-${i}`}
+            className="absolute rounded-full"
+            style={{
+              width: star.size,
+              height: star.size,
+              backgroundColor: isDark ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.3)",
+              top: star.top,
+              left: star.left,
+            }}
+            animate={{
+              opacity: [0.2, 0.8, 0.2],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: star.duration,
+              repeat: Number.POSITIVE_INFINITY,
+              repeatType: "reverse",
+              delay: star.delay,
             }}
           />
         ))}
       </div>
 
-      <motion.div
-        className="container mx-auto px-4 z-10 text-center"
-        style={{ y: yText, opacity }}
-      >
-        <motion.h1 
-          className={`text-5xl md:text-7xl font-bold mb-4 bg-clip-text text-transparent ${
-            isDark 
-              ? 'bg-gradient-to-r from-blue-400 to-purple-600' 
-              : 'bg-gradient-to-r from-blue-600 to-purple-800'
-          }`}
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          Sohail Gidwani
-        </motion.h1>
-        <h2 className={`text-2xl md:text-4xl mb-6 ${isDark ? 'text-blue-200' : 'text-blue-800'}`}>
-          <TypeAnimation
-            sequence={[
-              'Software Developer',
-              2000,
-              'AI Enthusiast',
-              2000,
-              'Machine Learning Expert',
-              2000,
-            ]}
-            wrapper="span"
-            cursor={true}
-            repeat={Infinity}
-          />
-        </h2>
-        <motion.p 
-          className={`text-xl mb-8 max-w-2xl mx-auto ${isDark ? 'text-gray-300' : 'text-gray-700'}`}
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          Passionate about creating innovative AI solutions and pushing the boundaries of technology.
-        </motion.p>
+      {/* Main content - centered */}
+      <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center">
         <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          className="max-w-3xl mx-auto text-center"
+          style={{ opacity }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
         >
-          <motion.button
-            className={`relative overflow-hidden px-8 py-3 rounded-full font-semibold text-lg transition-all duration-300 ${
-              isDark
-                ? 'bg-blue-600 text-white hover:bg-blue-700'
-                : 'bg-blue-100 text-blue-800 hover:bg-blue-200'
-            }`}
-            onHoverStart={() => setIsHovered(true)}
-            onHoverEnd={() => setIsHovered(false)}
-            onClick={() => window.open('/documents/Sohail_Gidwani_Resume_2024.pdf', '_blank')}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+          {/* Name - made larger and with more spacing */}
+          <motion.h1
+            className="text-5xl sm:text-6xl md:text-7xl font-bold mb-6 tracking-tight"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <span className="relative z-10 flex items-center justify-center">
-              <FaFileAlt className="mr-2" />
-              View Resume
-            </span>
-            <motion.div
-              className={`absolute inset-0 ${
-                isDark ? 'bg-blue-500' : 'bg-blue-300'
-              }`}
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: isHovered ? 1 : 0, opacity: isHovered ? 1 : 0 }}
-              transition={{ duration: 0.3 }}
-              style={{ originX: 0, originY: 0 }}
-            />
-          </motion.button>
-        </motion.div>
-
-        <motion.div 
-          className="mt-16 flex justify-center items-center space-x-4 flex-wrap"
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-        >
-          {[
-            { Icon: FaBrain, name: 'AI/ML' },
-            { Icon: FaCode, name: 'Full Stack' },
-            { Icon: FaGamepad, name: 'Gaming' },
-            { Icon: FaFilm, name: 'Movies' },
-            { Icon: FaSwimmer, name: 'Swimming' },
-          ].map(({ Icon, name }) => (
-            <motion.div
-              key={name}
-              className="flex flex-col items-center m-2"
-              whileHover={{ scale: 1.1 }}
+            <span className={isDark ? "text-white" : "text-gray-900"}>Sohail</span>
+            <br />
+            <span
+              className={
+                isDark
+                  ? "text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400"
+                  : "text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600"
+              }
             >
-              <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-2 ${
-                isDark ? 'bg-blue-700' : 'bg-blue-200'
-              }`}>
-                <Icon className={`w-8 h-8 ${isDark ? 'text-blue-200' : 'text-blue-700'}`} />
-              </div>
-              <span className={`text-sm ${isDark ? 'text-blue-200' : 'text-blue-800'}`}>{name}</span>
-            </motion.div>
-          ))}
-        </motion.div>
-      </motion.div>
+              Gidwani
+            </span>
+          </motion.h1>
 
-      <motion.div
-        className="absolute justify-center items-center bottom-16 transform -translate-x-1/2"
-        animate={{
-          y: [0, -10, 0],
-        }}
-        transition={{
-          duration: 1.5,
-          repeat: Infinity,
-          repeatType: "reverse",
-        }}
-      >
-        <span className={isDark ? 'text-blue-300' : 'text-blue-700'}>Scroll to explore</span>
-      </motion.div>
+          {/* Elegant title and description */}
+          <motion.div
+            className="mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <h2
+              className={`text-xl sm:text-2xl md:text-3xl font-medium mb-3 ${
+                isDark ? "text-gray-200" : "text-gray-800"
+              }`}
+            >
+              Software Developer
+            </h2>
+            <p className={`text-sm sm:text-base max-w-lg mx-auto ${isDark ? "text-gray-400" : "text-gray-600"}`}>
+              Building elegant solutions to complex problems with AI/ML expertise
+            </p>
+          </motion.div>
+
+          {/* Action buttons container - always side by side */}
+          <div className="flex justify-center items-center space-x-4">
+            {/* Scroll for more button */}
+            <motion.button
+              className="group relative overflow-hidden px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-300"
+              onHoverStart={() => setIsScrollHovered(true)}
+              onHoverEnd={() => setIsScrollHovered(false)}
+              onClick={scrollToAbout}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              {/* Button border */}
+              <span
+                className={`absolute inset-0 rounded-full border ${isDark ? "border-purple-500" : "border-purple-600"}`}
+              />
+
+              {/* Liquid fill effect */}
+              <div className="absolute inset-0 overflow-hidden rounded-full">
+                <motion.div
+                  className={`absolute bottom-0 left-0 right-0 rounded-full ${
+                    isDark ? "bg-purple-600" : "bg-purple-600"
+                  }`}
+                  initial={{ height: "0%" }}
+                  animate={{ height: isScrollHovered ? "100%" : "0%" }}
+                  transition={{
+                    duration: 0.4,
+                    ease: [0.25, 0.1, 0.25, 1],
+                  }}
+                  style={{
+                    transformOrigin: "bottom",
+                    borderRadius: "9999px",
+                  }}
+                >
+                  {/* Liquid bubbles effect */}
+                  {isScrollHovered && (
+                    <>
+                      <motion.div
+                        className="absolute rounded-full bg-purple-400/30 w-3 h-3"
+                        animate={{
+                          y: [0, -15],
+                          x: [0, 3],
+                          opacity: [0, 0.8, 0],
+                        }}
+                        transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, repeatDelay: 0.3 }}
+                        style={{ left: "20%", bottom: "10%" }}
+                      />
+                      <motion.div
+                        className="absolute rounded-full bg-purple-400/30 w-2 h-2"
+                        animate={{
+                          y: [0, -10],
+                          x: [0, -2],
+                          opacity: [0, 0.6, 0],
+                        }}
+                        transition={{ duration: 0.8, repeat: Number.POSITIVE_INFINITY, repeatDelay: 0.5 }}
+                        style={{ left: "60%", bottom: "20%" }}
+                      />
+                    </>
+                  )}
+                </motion.div>
+              </div>
+
+              {/* Button content */}
+              <span
+                className={`relative z-10 flex items-center ${
+                  isDark
+                    ? isScrollHovered
+                      ? "text-white"
+                      : "text-purple-500"
+                    : isScrollHovered
+                      ? "text-white"
+                      : "text-purple-600"
+                }`}
+              >
+                <span>Scroll for more</span>
+                <FaChevronDown className="ml-2" />
+              </span>
+            </motion.button>
+
+            {/* Resume button with liquid fill */}
+            <motion.button
+              className="group relative overflow-hidden px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-300"
+              onHoverStart={() => setIsResumeHovered(true)}
+              onHoverEnd={() => setIsResumeHovered(false)}
+              onClick={() => window.open("/documents/Sohail_Gidwani_Resume_2024.pdf", "_blank")}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+            >
+              {/* Button border */}
+              <span
+                className={`absolute inset-0 rounded-full border ${isDark ? "border-blue-500" : "border-blue-600"}`}
+              />
+
+              {/* Liquid fill effect with container for overflow control */}
+              <div className="absolute inset-0 overflow-hidden rounded-full">
+                <motion.div
+                  className={`absolute bottom-0 left-0 right-0 rounded-full ${isDark ? "bg-blue-600" : "bg-blue-600"}`}
+                  initial={{ height: "0%" }}
+                  animate={{ height: isResumeHovered ? "100%" : "0%" }}
+                  transition={{
+                    duration: 0.4,
+                    ease: [0.25, 0.1, 0.25, 1],
+                  }}
+                  style={{
+                    transformOrigin: "bottom",
+                    borderRadius: "9999px",
+                  }}
+                >
+                  {/* Liquid bubbles effect */}
+                  {isResumeHovered && (
+                    <>
+                      <motion.div
+                        className="absolute rounded-full bg-blue-400/30 w-3 h-3"
+                        animate={{
+                          y: [0, -15],
+                          x: [0, 3],
+                          opacity: [0, 0.8, 0],
+                        }}
+                        transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, repeatDelay: 0.3 }}
+                        style={{ left: "20%", bottom: "10%" }}
+                      />
+                      <motion.div
+                        className="absolute rounded-full bg-blue-400/30 w-2 h-2"
+                        animate={{
+                          y: [0, -10],
+                          x: [0, -2],
+                          opacity: [0, 0.6, 0],
+                        }}
+                        transition={{ duration: 0.8, repeat: Number.POSITIVE_INFINITY, repeatDelay: 0.5 }}
+                        style={{ left: "60%", bottom: "20%" }}
+                      />
+                    </>
+                  )}
+                </motion.div>
+              </div>
+
+              {/* Button content */}
+              <span
+                className={`relative z-10 flex items-center ${
+                  isDark
+                    ? isResumeHovered
+                      ? "text-white"
+                      : "text-blue-500"
+                    : isResumeHovered
+                      ? "text-white"
+                      : "text-blue-600"
+                }`}
+              >
+                <span>View Resume</span>
+                <FaFileAlt className="ml-2" />
+              </span>
+            </motion.button>
+          </div>
+        </motion.div>
+      </div>
     </section>
   )
 }
