@@ -34,10 +34,12 @@ const generateRandomStars = (count: number) => {
 
 export default function Hero({ setActiveSection }: HeroProps) {
   const sectionRef = useRef<HTMLElement>(null)
+  const nameRef = useRef<HTMLDivElement>(null)
   const { theme, systemTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [isResumeHovered, setIsResumeHovered] = useState(false)
   const [isScrollHovered, setIsScrollHovered] = useState(false)
+  // const [namePosition, setNamePosition] = useState({ x: 0, y: 0, width: 0, height: 0 })
 
   // Memoize random positions to prevent re-randomization on re-renders
   const orbPositions = useMemo(() => generateRandomPositions(8), [])
@@ -65,16 +67,60 @@ export default function Hero({ setActiveSection }: HeroProps) {
       { threshold: 0.3 },
     )
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
+    const currentSectionRef = sectionRef.current
+    if (currentSectionRef) {
+      observer.observe(currentSectionRef)
     }
 
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current)
+    // Calculate and store the position of the name element for the animation
+    const updateNamePosition = () => {
+      if (nameRef.current) {
+        const rect = nameRef.current.getBoundingClientRect()
+
+        // Dispatch event with name position data
+        window.dispatchEvent(
+          new CustomEvent("namePosition", {
+            detail: {
+              x: rect.left,
+              y: rect.top,
+              width: rect.width,
+              height: rect.height,
+              text: "SG",
+            },
+          }),
+        )
       }
     }
-  }, [setActiveSection])
+
+    // Update name position on scroll to ensure accurate animation
+    const handleScroll = () => {
+      updateNamePosition()
+
+      // Dispatch scroll event for navbar to detect
+      const scrollY = window.scrollY
+      window.dispatchEvent(
+        new CustomEvent("heroScroll", {
+          detail: {
+            scrollY,
+            heroHeight: window.innerHeight,
+
+          },
+        }),
+      )
+    }
+
+    updateNamePosition()
+    window.addEventListener("resize", updateNamePosition)
+    window.addEventListener("scroll", handleScroll)
+
+    return () => {
+      if (currentSectionRef) {
+        observer.unobserve(currentSectionRef)
+      }
+      window.removeEventListener("resize", updateNamePosition)
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [setActiveSection, mounted])
 
   // Function to scroll to the about section
   const scrollToAbout = () => {
@@ -92,7 +138,15 @@ export default function Hero({ setActiveSection }: HeroProps) {
   const isDark = currentTheme === "dark"
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden w-full h-screen">
+    <section
+      ref={sectionRef}
+      className="relative overflow-hidden w-full h-screen"
+      style={{
+        minHeight: "100vh",
+        marginTop: 0,
+        paddingTop: 0,
+      }}
+    >
       {/* Base gradient background */}
       <div
         className="absolute inset-0 transition-colors duration-1000"
@@ -237,15 +291,15 @@ export default function Hero({ setActiveSection }: HeroProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          {/* Name - made larger and with more spacing */}
+          {/* Name - now on the same line with different styling */}
           <motion.h1
+            ref={nameRef}
             className="text-5xl sm:text-6xl md:text-7xl font-bold mb-6 tracking-tight"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <span className={isDark ? "text-white" : "text-gray-900"}>Sohail</span>
-            <br />
+            <span className={isDark ? "text-white" : "text-gray-900"}>Sohail </span>
             <span
               className={
                 isDark
@@ -254,6 +308,10 @@ export default function Hero({ setActiveSection }: HeroProps) {
               }
             >
               Gidwani
+            </span>
+            {/* Hidden span with initials for animation purposes */}
+            <span id="name-initials" className="sr-only">
+              SG
             </span>
           </motion.h1>
 
