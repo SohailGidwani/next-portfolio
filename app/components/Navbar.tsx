@@ -1,14 +1,14 @@
 "use client"
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from "react"
 import { Button } from "@/app/components/ui/button"
-import { Menu, Moon, Sun, X, ChevronRight } from 'lucide-react'
+import { Menu, Moon, Sun, X, ChevronRight } from "lucide-react"
 import { useTheme } from "next-themes"
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useTransform, useSpring } from "framer-motion"
 
 interface NavbarProps {
-  activeSection: string;
-  setActiveSection: (section: string) => void;
+  activeSection: string
+  setActiveSection: (section: string) => void
 }
 
 export default function Navbar({ activeSection, setActiveSection }: NavbarProps) {
@@ -17,38 +17,123 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
   const [mounted, setMounted] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
+  const [namePosition, setNamePosition] = useState({ x: 0, y: 0, width: 0, height: 0 })
+  const [initialsAnimating, setInitialsAnimating] = useState(false)
   const navbarRef = useRef<HTMLDivElement>(null)
+  const logoRef = useRef<HTMLAnchorElement>(null)
+
+  // Motion values for the initials animation with springs for smoother motion
+  const initialsX = useSpring(0, { stiffness: 100, damping: 20 })
+  const initialsY = useSpring(0, { stiffness: 100, damping: 20 })
+  const initialsScale = useSpring(1, { stiffness: 100, damping: 15 })
+  const initialsOpacity = useSpring(0, { stiffness: 100, damping: 20 })
+  const navbarOpacity = useSpring(0, { stiffness: 100, damping: 20 })
+  const navbarY = useSpring(-100, { stiffness: 100, damping: 20 })
+
+  // Transform for opacity
+  const opacityValue = useTransform(initialsOpacity, [0, 0.5, 1], [0, 0.8, 1])
 
   useEffect(() => {
     setMounted(true)
-    
+
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20)
-      
+      const scrollY = window.scrollY
+      setScrolled(scrollY > 20)
+
       // Calculate scroll progress
       const windowHeight = document.documentElement.scrollHeight - window.innerHeight
-      const scrolled = window.scrollY
-      const progress = (scrolled / windowHeight) * 100
+      const progress = (scrollY / windowHeight) * 100
       setScrollProgress(progress)
-    }
-    
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
 
-  const navItems = ['About', 'Experience', 'Education', 'Skills', 'Projects', 'Triumphs', 'Contact']
+      // Show navbar with even a small scroll
+      const scrollThreshold = 10 // Very small threshold
+      const navbarVisibility = Math.min(1, scrollY / 100) // Smooth transition over 100px of scroll
+
+      navbarOpacity.set(navbarVisibility)
+      navbarY.set(scrollY > scrollThreshold ? 0 : -100)
+
+      // Handle initials animation based on scroll position
+      if (logoRef.current && namePosition.width > 0) {
+        const logoRect = logoRef.current.getBoundingClientRect()
+        const heroHeight = window.innerHeight
+
+        // Calculate how far we've scrolled through the hero section
+        // Use a smaller divisor to make the animation happen sooner
+        const scrollProgress = Math.min(1, scrollY / (heroHeight / 2))
+
+        if (scrollProgress > 0) {
+          setInitialsAnimating(true)
+
+          // Calculate the position for the animation
+          const startX = namePosition.x + namePosition.width / 2 - logoRect.width / 2
+          const startY = namePosition.y + namePosition.height / 2 - logoRect.height / 2
+          const endX = logoRect.left
+          const endY = logoRect.top
+
+          // Interpolate between start and end positions
+          const currentX = startX + (endX - startX) * scrollProgress
+          const currentY = startY + (endY - startY) * scrollProgress
+
+          // Scale down from the name size to the logo size
+          const scaleValue = 1 + (1 - scrollProgress) * 2
+
+          initialsX.set(currentX - endX)
+          initialsY.set(currentY - endY)
+          initialsScale.set(scaleValue)
+          initialsOpacity.set(scrollProgress)
+        } else {
+          setInitialsAnimating(true)
+          initialsOpacity.set(0)
+        }
+      }
+    }
+
+    // Listen for name position updates
+    const handleNamePosition = (e: Event) => {
+      const customEvent = e as CustomEvent
+      setNamePosition(customEvent.detail)
+    }
+
+    // Listen for hero scroll events
+    const handleHeroScroll = (e: Event) => {
+      const customEvent = e as CustomEvent
+      const { scrollY, heroHeight } = customEvent.detail
+
+      // Show navbar with even a small scroll
+      const scrollThreshold = 10 // Very small threshold
+      const navbarVisibility = Math.min(1, scrollY / 100) // Smooth transition over 100px of scroll
+
+      navbarOpacity.set(navbarVisibility)
+      navbarY.set(scrollY > scrollThreshold ? 0 : -100)
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    window.addEventListener("namePosition", handleNamePosition)
+    window.addEventListener("heroScroll", handleHeroScroll)
+
+    // Initial scroll check
+    handleScroll()
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+      window.removeEventListener("namePosition", handleNamePosition)
+      window.removeEventListener("heroScroll", handleHeroScroll)
+    }
+  }, [namePosition, initialsX, initialsY, initialsScale, initialsOpacity, navbarOpacity, navbarY])
+
+  const navItems = ["About", "Experience", "Education", "Skills", "Projects", "Triumphs", "Contact"]
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId.toLowerCase())
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
+      element.scrollIntoView({ behavior: "smooth" })
       setActiveSection(sectionId.toLowerCase())
     }
     setIsOpen(false)
   }
 
   const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark')
+    setTheme(theme === "dark" ? "light" : "dark")
   }
 
   if (!mounted) {
@@ -63,31 +148,57 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
     open: {
       opacity: 1,
       y: 0,
-    }
+    },
   }
 
   const itemVariants = {
     closed: { opacity: 0, y: 20 },
-    open: { opacity: 1, y: 0 }
+    open: { opacity: 1, y: 0 },
   }
 
   return (
     <>
       <motion.nav
         ref={navbarRef}
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.5 }}
-        className={`sticky top-0 z-50 transition-all duration-300 ${
-          scrolled 
-            ? 'bg-white/70 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800' 
-            : 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm'
+        style={{
+          opacity: navbarOpacity,
+          y: navbarY,
+        }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
+          scrolled
+            ? "bg-white/70 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800"
+            : "bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
-              <a href="#" className="text-2xl font-bold text-blue-600 dark:text-blue-400">SG</a>
+              <motion.a
+                ref={logoRef}
+                href="#"
+                className="text-2xl font-bold text-blue-600 dark:text-blue-400 relative"
+                style={{
+                  opacity: opacityValue,
+                }}
+              >
+                {/* Static logo */}
+                <span className={initialsAnimating ? "opacity-0" : "opacity-100"}>SG</span>
+
+                {/* Animated logo that transitions from the name */}
+                {initialsAnimating && (
+                  <motion.span
+                    className="absolute top-0 left-0 text-2xl font-bold text-blue-600 dark:text-blue-400"
+                    style={{
+                      x: initialsX,
+                      y: initialsY,
+                      scale: initialsScale,
+                      transformOrigin: "center",
+                    }}
+                  >
+                    SG
+                  </motion.span>
+                )}
+              </motion.a>
             </div>
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
@@ -97,9 +208,9 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
                     onClick={() => scrollToSection(item)}
                     variant="ghost"
                     className={`${
-                      activeSection === item.toLowerCase() 
-                        ? 'text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/20' 
-                        : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100/50 dark:hover:bg-gray-800/50'
+                      activeSection === item.toLowerCase()
+                        ? "text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/20"
+                        : "text-gray-600 dark:text-gray-300 hover:bg-gray-100/50 dark:hover:bg-gray-800/50"
                     } hover:text-blue-600 dark:hover:text-blue-400 transition-all`}
                   >
                     {item}
@@ -108,18 +219,18 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
               </div>
             </div>
             <div className="flex items-center">
-              <Button 
-                onClick={toggleTheme} 
-                variant="ghost" 
-                size="icon" 
+              <Button
+                onClick={toggleTheme}
+                variant="ghost"
+                size="icon"
                 className="mr-2 bg-gray-100/50 dark:bg-gray-800/50 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 rounded-full"
               >
-                {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
               </Button>
               <div className="md:hidden">
-                <Button 
-                  onClick={() => setIsOpen(!isOpen)} 
-                  variant="ghost" 
+                <Button
+                  onClick={() => setIsOpen(!isOpen)}
+                  variant="ghost"
                   size="icon"
                   className="bg-gray-100/50 dark:bg-gray-800/50 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 rounded-full"
                 >
@@ -129,10 +240,10 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
             </div>
           </div>
         </div>
-        
+
         {/* Scroll Progress Bar */}
         <div className="absolute bottom-0 left-0 h-0.5 bg-gray-200 dark:bg-gray-700 w-full">
-          <motion.div 
+          <motion.div
             className="h-full bg-gradient-to-r from-blue-400 to-blue-600"
             initial={{ width: "0%" }}
             animate={{ width: `${scrollProgress}%` }}
@@ -140,7 +251,7 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
           />
         </div>
       </motion.nav>
-      
+
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -150,34 +261,34 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
             variants={menuVariants}
             className="md:hidden fixed inset-0 z-50 flex items-center justify-center"
           >
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="absolute inset-0 bg-black/60 backdrop-blur-md"
               onClick={() => setIsOpen(false)}
             />
-            
-            <motion.div 
+
+            <motion.div
               className="relative z-10 w-11/12 max-w-sm mx-auto bg-white/10 dark:bg-gray-900/20 backdrop-blur-xl rounded-2xl p-6 border border-white/20 dark:border-gray-800/30 shadow-xl"
               variants={menuVariants}
             >
               <div className="flex justify-between items-center mb-6 pb-4 border-b border-white/10 dark:border-gray-800/30">
                 <h2 className="text-xl font-bold text-white">Menu</h2>
-                <Button 
-                  onClick={() => setIsOpen(false)} 
-                  variant="ghost" 
+                <Button
+                  onClick={() => setIsOpen(false)}
+                  variant="ghost"
                   size="icon"
                   className="bg-white/10 hover:bg-white/20 rounded-full"
                 >
                   <X className="h-5 w-5 text-white" />
                 </Button>
               </div>
-              
+
               <div className="space-y-2">
                 {navItems.map((item, index) => (
-                  <motion.div 
-                    key={item} 
+                  <motion.div
+                    key={item}
                     variants={itemVariants}
                     custom={index}
                     initial="closed"
@@ -190,23 +301,24 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
                       variant="ghost"
                       className={`
                         group relative w-full justify-start text-left px-4 py-3 rounded-xl transition-all duration-300
-                        ${activeSection === item.toLowerCase() 
-                          ? 'bg-blue-600/20 text-white' 
-                          : 'text-white/90 hover:bg-white/10'
+                        ${
+                          activeSection === item.toLowerCase()
+                            ? "bg-blue-600/20 text-white"
+                            : "text-white/90 hover:bg-white/10"
                         }
                       `}
                     >
                       <div className="flex items-center w-full">
                         <span className="text-lg">{item}</span>
-                        <ChevronRight 
+                        <ChevronRight
                           className={`ml-auto h-4 w-4 transition-transform duration-300 ${
-                            activeSection === item.toLowerCase() ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
-                          }`} 
+                            activeSection === item.toLowerCase() ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                          }`}
                         />
                       </div>
-                      
+
                       {activeSection === item.toLowerCase() && (
-                        <motion.div 
+                        <motion.div
                           layoutId="activeIndicator"
                           className="absolute left-0 top-1/2 transform -translate-y-1/2 w-1 h-8 bg-blue-400 rounded-r-full"
                         />
@@ -215,16 +327,16 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
                   </motion.div>
                 ))}
               </div>
-              
+
               <div className="mt-8 pt-4 border-t border-white/10 dark:border-gray-800/30 flex justify-between items-center">
                 <span className="text-sm text-white/70">Theme</span>
-                <Button 
-                  onClick={toggleTheme} 
-                  variant="outline" 
+                <Button
+                  onClick={toggleTheme}
+                  variant="outline"
                   size="sm"
                   className="bg-white/10 hover:bg-white/20 border-white/20 text-white"
                 >
-                  {theme === 'dark' ? (
+                  {theme === "dark" ? (
                     <div className="flex items-center">
                       <Sun className="h-4 w-4 mr-2" />
                       <span>Light Mode</span>
