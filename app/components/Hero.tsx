@@ -35,13 +35,11 @@ const generateRandomStars = (count: number) => {
 export default function Hero({ setActiveSection }: HeroProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const nameRef = useRef<HTMLDivElement>(null)
-  const sRef = useRef<HTMLSpanElement>(null)
-  const gRef = useRef<HTMLSpanElement>(null)
   const { theme, systemTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [isResumeHovered, setIsResumeHovered] = useState(false)
   const [isScrollHovered, setIsScrollHovered] = useState(false)
-  const [initialsVisible, setInitialsVisible] = useState(true)
+  // const [namePosition, setNamePosition] = useState({ x: 0, y: 0, width: 0, height: 0 })
 
   // Memoize random positions to prevent re-randomization on re-renders
   const orbPositions = useMemo(() => generateRandomPositions(8), [])
@@ -76,18 +74,17 @@ export default function Hero({ setActiveSection }: HeroProps) {
 
     // Calculate and store the position of the name element for the animation
     const updateNamePosition = () => {
-      if (nameRef.current && sRef.current && gRef.current) {
-        const nameRect = nameRef.current.getBoundingClientRect()
-        const sRect = sRef.current.getBoundingClientRect()
-        const gRect = gRef.current.getBoundingClientRect()
+      if (nameRef.current) {
+        const rect = nameRef.current.getBoundingClientRect()
 
         // Dispatch event with name position data
         window.dispatchEvent(
           new CustomEvent("namePosition", {
             detail: {
-              nameRect,
-              sRect,
-              gRect,
+              x: rect.left,
+              y: rect.top,
+              width: rect.width,
+              height: rect.height,
               text: "SG",
             },
           }),
@@ -106,16 +103,10 @@ export default function Hero({ setActiveSection }: HeroProps) {
           detail: {
             scrollY,
             heroHeight: window.innerHeight,
+
           },
         }),
       )
-
-      // Hide the initials when scrolling starts
-      if (scrollY > 10) {
-        setInitialsVisible(false)
-      } else {
-        setInitialsVisible(true)
-      }
     }
 
     updateNamePosition()
@@ -303,23 +294,12 @@ export default function Hero({ setActiveSection }: HeroProps) {
           {/* Name - now on the same line with different styling */}
           <motion.h1
             ref={nameRef}
-            className="text-5xl sm:text-6xl md:text-7xl font-bold mb-6 tracking-tight relative"
+            className="text-5xl sm:text-6xl md:text-7xl font-bold mb-6 tracking-tight"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <span className={isDark ? "text-white" : "text-gray-900"}>
-              <span className="inline-block">Sohail </span>
-              <span className="relative inline-block">
-                {/* The S that will be animated */}
-                <span
-                  ref={sRef}
-                  className={`${initialsVisible ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}
-                >
-                  S
-                </span>
-              </span>
-            </span>
+            <span className={isDark ? "text-white" : "text-gray-900"}>Sohail </span>
             <span
               className={
                 isDark
@@ -327,16 +307,11 @@ export default function Hero({ setActiveSection }: HeroProps) {
                   : "text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600"
               }
             >
-              <span className="relative inline-block">
-                {/* The G that will be animated */}
-                <span
-                  ref={gRef}
-                  className={`${initialsVisible ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}
-                >
-                  G
-                </span>
-              </span>
-              <span className="inline-block">idwani</span>
+              Gidwani
+            </span>
+            {/* Hidden span with initials for animation purposes */}
+            <span id="name-initials" className="sr-only">
+              SG
             </span>
           </motion.h1>
 
