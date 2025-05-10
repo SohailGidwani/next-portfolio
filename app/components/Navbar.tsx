@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import { Button } from "@/app/components/ui/button"
 import { Menu, Moon, Sun, X, ChevronRight } from "lucide-react"
 import { useTheme } from "next-themes"
-import { motion, AnimatePresence, useTransform, useSpring } from "framer-motion"
+import { motion, AnimatePresence, useSpring } from "framer-motion"
 
 interface NavbarProps {
   activeSection: string
@@ -17,21 +17,25 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
   const [mounted, setMounted] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
-  const [namePosition, setNamePosition] = useState({ x: 0, y: 0, width: 0, height: 0 })
-  const [initialsAnimating, setInitialsAnimating] = useState(false)
+  const [namePosition, setNamePosition] = useState<any>({ nameRect: null, sRect: null, gRect: null })
   const navbarRef = useRef<HTMLDivElement>(null)
   const logoRef = useRef<HTMLAnchorElement>(null)
+  const sLogoRef = useRef<HTMLSpanElement>(null)
+  const gLogoRef = useRef<HTMLSpanElement>(null)
 
   // Motion values for the initials animation with springs for smoother motion
-  const initialsX = useSpring(0, { stiffness: 100, damping: 20 })
-  const initialsY = useSpring(0, { stiffness: 100, damping: 20 })
-  const initialsScale = useSpring(1, { stiffness: 100, damping: 15 })
-  const initialsOpacity = useSpring(0, { stiffness: 100, damping: 20 })
+  const sX = useSpring(0, { stiffness: 100, damping: 20 })
+  const sY = useSpring(0, { stiffness: 100, damping: 20 })
+  const sScale = useSpring(1, { stiffness: 100, damping: 15 })
+  const sOpacity = useSpring(0, { stiffness: 100, damping: 20 })
+
+  const gX = useSpring(0, { stiffness: 100, damping: 20 })
+  const gY = useSpring(0, { stiffness: 100, damping: 20 })
+  const gScale = useSpring(1, { stiffness: 100, damping: 15 })
+  const gOpacity = useSpring(0, { stiffness: 100, damping: 20 })
+
   const navbarOpacity = useSpring(0, { stiffness: 100, damping: 20 })
   const navbarY = useSpring(-100, { stiffness: 100, damping: 20 })
-
-  // Transform for opacity
-  const opacityValue = useTransform(initialsOpacity, [0, 0.5, 1], [0, 0.8, 1])
 
   useEffect(() => {
     setMounted(true)
@@ -53,36 +57,49 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
       navbarY.set(scrollY > scrollThreshold ? 0 : -100)
 
       // Handle initials animation based on scroll position
-      if (logoRef.current && namePosition.width > 0) {
+      if (logoRef.current && sLogoRef.current && gLogoRef.current && namePosition.sRect && namePosition.gRect) {
         const logoRect = logoRef.current.getBoundingClientRect()
+        const sLogoRect = sLogoRef.current.getBoundingClientRect()
+        const gLogoRect = gLogoRef.current.getBoundingClientRect()
 
         // Calculate how far we've scrolled through the hero section
         // Use a smaller divisor to make the animation happen sooner
         const scrollProgress = Math.min(1, scrollY / (window.innerHeight / 2))
 
         if (scrollProgress > 0) {
-          setInitialsAnimating(true)
+          // Calculate the position for the S animation
+          const startSX = namePosition.sRect.left
+          const startSY = namePosition.sRect.top
+          const endSX = sLogoRect.left
+          const endSY = sLogoRect.top
 
-          // Calculate the position for the animation
-          const startX = namePosition.x + namePosition.width / 2 - logoRect.width / 2
-          const startY = namePosition.y + namePosition.height / 2 - logoRect.height / 2
-          const endX = logoRect.left
-          const endY = logoRect.top
+          // Calculate the position for the G animation
+          const startGX = namePosition.gRect.left
+          const startGY = namePosition.gRect.top
+          const endGX = gLogoRect.left
+          const endGY = gLogoRect.top
 
           // Interpolate between start and end positions
-          const currentX = startX + (endX - startX) * scrollProgress
-          const currentY = startY + (endY - startY) * scrollProgress
+          const currentSX = startSX + (endSX - startSX) * scrollProgress
+          const currentSY = startSY + (endSY - startSY) * scrollProgress
+          const currentGX = startGX + (endGX - startGX) * scrollProgress
+          const currentGY = startGY + (endGY - startGY) * scrollProgress
 
           // Scale down from the name size to the logo size
           const scaleValue = 1 + (1 - scrollProgress) * 2
 
-          initialsX.set(currentX - endX)
-          initialsY.set(currentY - endY)
-          initialsScale.set(scaleValue)
-          initialsOpacity.set(scrollProgress)
+          sX.set(currentSX - endSX)
+          sY.set(currentSY - endSY)
+          sScale.set(scaleValue)
+          sOpacity.set(scrollProgress)
+
+          gX.set(currentGX - endGX)
+          gY.set(currentGY - endGY)
+          gScale.set(scaleValue)
+          gOpacity.set(scrollProgress)
         } else {
-          setInitialsAnimating(true)
-          initialsOpacity.set(0)
+          sOpacity.set(0)
+          gOpacity.set(0)
         }
       }
     }
@@ -118,7 +135,7 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
       window.removeEventListener("namePosition", handleNamePosition)
       window.removeEventListener("heroScroll", handleHeroScroll)
     }
-  }, [namePosition, initialsX, initialsY, initialsScale, initialsOpacity, navbarOpacity, navbarY])
+  }, [namePosition, sX, sY, sScale, sOpacity, gX, gY, gScale, gOpacity, navbarOpacity, navbarY])
 
   const navItems = ["About", "Experience", "Education", "Skills", "Projects", "Triumphs", "Contact"]
 
@@ -175,28 +192,43 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
               <motion.a
                 ref={logoRef}
                 href="#"
-                className="text-2xl font-bold text-blue-600 dark:text-blue-400 relative"
+                className="text-2xl font-bold relative"
                 style={{
-                  opacity: opacityValue,
+                  opacity: navbarOpacity,
                 }}
               >
-                {/* Static logo */}
-                <span className={initialsAnimating ? "opacity-0" : "opacity-100"}>SG</span>
+                {/* Animated S from the name */}
+                <motion.span
+                  ref={sLogoRef}
+                  className="absolute top-0 left-0 text-2xl font-bold text-gray-900 dark:text-white"
+                  style={{
+                    x: sX,
+                    y: sY,
+                    scale: sScale,
+                    opacity: sOpacity,
+                    transformOrigin: "center",
+                  }}
+                >
+                  S
+                </motion.span>
 
-                {/* Animated logo that transitions from the name */}
-                {initialsAnimating && (
-                  <motion.span
-                    className="absolute top-0 left-0 text-2xl font-bold text-blue-600 dark:text-blue-400"
-                    style={{
-                      x: initialsX,
-                      y: initialsY,
-                      scale: initialsScale,
-                      transformOrigin: "center",
-                    }}
-                  >
-                    SG
-                  </motion.span>
-                )}
+                {/* Animated G from the name */}
+                <motion.span
+                  ref={gLogoRef}
+                  className="absolute top-0 left-[1em] text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400"
+                  style={{
+                    x: gX,
+                    y: gY,
+                    scale: gScale,
+                    opacity: gOpacity,
+                    transformOrigin: "center",
+                  }}
+                >
+                  G
+                </motion.span>
+
+                {/* Invisible placeholder to maintain layout */}
+                <span className="invisible">SG</span>
               </motion.a>
             </div>
             <div className="hidden md:block">
