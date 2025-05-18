@@ -47,7 +47,7 @@ export default function Education({ setActiveSection }: EducationProps) {
       institution: "Jai Hind College, Mumbai",
       year: "2017 - 2019",
       cgpa: "Percentage - 71.38%",
-      description: "Graduated with honors. Specialized in algorithms and data structures. Participated in various hackathons and coding competitions."
+      description: "Coursework: Physics, Chemistry, Mathematics, English, Computer Science (Software & Hardware)"
     }
   ]
 
