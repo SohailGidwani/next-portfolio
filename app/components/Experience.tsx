@@ -69,7 +69,7 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
     {
       title: "Full-Stack/AI Developer",
       company: "IIFL Finance Ltd",
-      date: "June, 2023 - Present",
+      date: "June, 2023 - May, 2025",
       description:
         "Leading AI initiatives and developing cutting-edge machine learning models for various client projects. Mentoring junior developers and contributing to the company's AI research efforts.",
       projects: [
@@ -77,7 +77,7 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
         "Gold Loan Image Audit App: Engineered AI-powered application using models like GroundingDino, Swin-Transformer, enhancing fraud detection and reducing potential loan fraud by 15%.",
         "Cross-functional Collaboration: Worked closely with data science and security teams to implement best practices for data handling and model deployment, ensuring robust and secure AI solutions.",
       ],
-      isLatest: true,
+      isLatest: false,
     },
     {
       title: "Web Developer (Intern)",
