@@ -114,12 +114,12 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
             className="transition-transform duration-700 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col justify-end p-6">
-            {cert.isAward && (
+            {/* {cert.isAward && (
               <div className="absolute top-4 right-4 bg-yellow-500 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center">
                 <Medal className="mr-1 h-3 w-3" />
                 Award
               </div>
-            )}
+            )} */}
             <h3 className="text-white text-2xl md:text-3xl font-bold mb-2">{cert.title}</h3>
             <div className="flex items-center text-white/90 text-sm">
               <Calendar className="mr-2 h-4 w-4" />
