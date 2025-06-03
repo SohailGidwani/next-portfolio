@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useMemo } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { useTheme } from "next-themes"
 import { FaFileAlt, FaChevronDown } from "react-icons/fa"
+import { Moon, Sun } from "lucide-react"
 
 interface HeroProps {
   setActiveSection: (section: string) => void
@@ -35,12 +36,12 @@ const generateRandomStars = (count: number) => {
 export default function Hero({ setActiveSection }: HeroProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const nameRef = useRef<HTMLDivElement>(null)
-  const { theme, systemTheme } = useTheme()
+  const heroThemeToggleRef = useRef<HTMLButtonElement>(null)
+  const { theme, setTheme, systemTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [isResumeHovered, setIsResumeHovered] = useState(false)
   const [isScrollHovered, setIsScrollHovered] = useState(false)
-  // const [namePosition, setNamePosition] = useState({ x: 0, y: 0, width: 0, height: 0 })
-
+  const [scrollY, setScrollY] = useState(0)
   // Memoize random positions to prevent re-randomization on re-renders
   const orbPositions = useMemo(() => generateRandomPositions(8), [])
   const starPositions = useMemo(() => generateRandomStars(50), [])
@@ -52,6 +53,10 @@ export default function Hero({ setActiveSection }: HeroProps) {
   })
 
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
+
+  // Transform for theme toggle animation
+  const themeToggleOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0])
+  const themeToggleY = useTransform(scrollYProgress, [0, 0.3], [0, -50])
 
   useEffect(() => {
     setMounted(true)
@@ -92,32 +97,60 @@ export default function Hero({ setActiveSection }: HeroProps) {
       }
     }
 
+    // Update theme toggle position for navbar animation
+    const updateThemeTogglePosition = () => {
+      if (heroThemeToggleRef.current) {
+        const rect = heroThemeToggleRef.current.getBoundingClientRect()
+
+        // Dispatch event with theme toggle position data
+        window.dispatchEvent(
+          new CustomEvent("heroThemeTogglePosition", {
+            detail: {
+              x: rect.left,
+              y: rect.top,
+              width: rect.width,
+              height: rect.height,
+            },
+          }),
+        )
+      }
+    }
+
     // Update name position on scroll to ensure accurate animation
     const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      setScrollY(currentScrollY)
+
       updateNamePosition()
+      updateThemeTogglePosition()
 
       // Dispatch scroll event for navbar to detect
-      const scrollY = window.scrollY
       window.dispatchEvent(
         new CustomEvent("heroScroll", {
           detail: {
-            scrollY,
+            scrollY: currentScrollY,
             heroHeight: window.innerHeight,
-
           },
         }),
       )
     }
 
     updateNamePosition()
-    window.addEventListener("resize", updateNamePosition)
+    updateThemeTogglePosition()
+    window.addEventListener("resize", () => {
+      updateNamePosition()
+      updateThemeTogglePosition()
+    })
     window.addEventListener("scroll", handleScroll)
 
     return () => {
       if (currentSectionRef) {
         observer.unobserve(currentSectionRef)
       }
-      window.removeEventListener("resize", updateNamePosition)
+      window.removeEventListener("resize", () => {
+        updateNamePosition()
+        updateThemeTogglePosition()
+      })
       window.removeEventListener("scroll", handleScroll)
     }
   }, [setActiveSection, mounted])
@@ -128,6 +161,11 @@ export default function Hero({ setActiveSection }: HeroProps) {
     if (aboutSection) {
       aboutSection.scrollIntoView({ behavior: "smooth" })
     }
+  }
+
+  // Function to toggle theme
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark")
   }
 
   if (!mounted) {
@@ -156,6 +194,26 @@ export default function Hero({ setActiveSection }: HeroProps) {
             : "linear-gradient(135deg, #f8fafc 0%, #ede9fe 100%)",
         }}
       />
+
+      {/* Theme Toggle Button - Top Right Corner */}
+      <motion.button
+        ref={heroThemeToggleRef}
+        onClick={toggleTheme}
+        className={`fixed top-6 right-6 z-40 p-3 rounded-full transition-all duration-300 ${
+          isDark ? "bg-gray-800/50 hover:bg-gray-700/60 text-yellow-400" : "bg-white/50 hover:bg-white/70 text-gray-700"
+        } backdrop-blur-md border ${isDark ? "border-gray-700/50" : "border-gray-200/50"} shadow-lg hover:shadow-xl`}
+        style={{
+          opacity: themeToggleOpacity,
+          y: themeToggleY,
+        }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, delay: 0.8 }}
+      >
+        {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+      </motion.button>
 
       {/* Animated background elements - with higher opacity */}
       <div className="absolute inset-0 overflow-hidden">

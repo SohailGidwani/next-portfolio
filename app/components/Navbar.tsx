@@ -18,9 +18,12 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
   const [scrolled, setScrolled] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
   const [namePosition, setNamePosition] = useState({ x: 0, y: 0, width: 0, height: 0 })
+  const [heroThemeTogglePosition, setHeroThemeTogglePosition] = useState({ x: 0, y: 0, width: 0, height: 0 })
   const [initialsAnimating, setInitialsAnimating] = useState(false)
+  const [themeToggleAnimating, setThemeToggleAnimating] = useState(false)
   const navbarRef = useRef<HTMLDivElement>(null)
   const logoRef = useRef<HTMLAnchorElement>(null)
+  const navbarThemeToggleRef = useRef<HTMLButtonElement>(null)
 
   // Motion values for the initials animation with springs for smoother motion
   const initialsX = useSpring(0, { stiffness: 100, damping: 20 })
@@ -30,8 +33,15 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
   const navbarOpacity = useSpring(0, { stiffness: 100, damping: 20 })
   const navbarY = useSpring(-100, { stiffness: 100, damping: 20 })
 
+  // Motion values for theme toggle animation
+  const themeToggleX = useSpring(0, { stiffness: 100, damping: 20 })
+  const themeToggleY = useSpring(0, { stiffness: 100, damping: 20 })
+  const themeToggleScale = useSpring(1, { stiffness: 100, damping: 15 })
+  const themeToggleOpacity = useSpring(0, { stiffness: 100, damping: 20 })
+
   // Transform for opacity
   const opacityValue = useTransform(initialsOpacity, [0, 0.5, 1], [0, 0.8, 1])
+  const themeToggleOpacityValue = useTransform(themeToggleOpacity, [0, 0.5, 1], [0, 0.8, 1])
 
   useEffect(() => {
     setMounted(true)
@@ -85,12 +95,48 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
           initialsOpacity.set(0)
         }
       }
+
+      // Handle theme toggle animation based on scroll position
+      if (navbarThemeToggleRef.current && heroThemeTogglePosition.width > 0) {
+        const navbarToggleRect = navbarThemeToggleRef.current.getBoundingClientRect()
+
+        // Calculate scroll progress for theme toggle animation
+        const themeToggleScrollProgress = Math.min(1, scrollY / (window.innerHeight * 0.3))
+
+        if (themeToggleScrollProgress > 0) {
+          setThemeToggleAnimating(true)
+
+          // Calculate the position for the theme toggle animation
+          const startX = heroThemeTogglePosition.x + heroThemeTogglePosition.width / 2 - navbarToggleRect.width / 2
+          const startY = heroThemeTogglePosition.y + heroThemeTogglePosition.height / 2 - navbarToggleRect.height / 2
+          const endX = navbarToggleRect.left
+          const endY = navbarToggleRect.top
+
+          // Interpolate between start and end positions
+          const currentX = startX + (endX - startX) * themeToggleScrollProgress
+          const currentY = startY + (endY - startY) * themeToggleScrollProgress
+
+          themeToggleX.set(currentX - endX)
+          themeToggleY.set(currentY - endY)
+          themeToggleScale.set(1)
+          themeToggleOpacity.set(themeToggleScrollProgress)
+        } else {
+          setThemeToggleAnimating(false)
+          themeToggleOpacity.set(0)
+        }
+      }
     }
 
     // Listen for name position updates
     const handleNamePosition = (e: Event) => {
       const customEvent = e as CustomEvent
       setNamePosition(customEvent.detail)
+    }
+
+    // Listen for hero theme toggle position updates
+    const handleHeroThemeTogglePosition = (e: Event) => {
+      const customEvent = e as CustomEvent
+      setHeroThemeTogglePosition(customEvent.detail)
     }
 
     // Listen for hero scroll events
@@ -108,6 +154,7 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
 
     window.addEventListener("scroll", handleScroll)
     window.addEventListener("namePosition", handleNamePosition)
+    window.addEventListener("heroThemeTogglePosition", handleHeroThemeTogglePosition)
     window.addEventListener("heroScroll", handleHeroScroll)
 
     // Initial scroll check
@@ -116,9 +163,23 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
     return () => {
       window.removeEventListener("scroll", handleScroll)
       window.removeEventListener("namePosition", handleNamePosition)
+      window.removeEventListener("heroThemeTogglePosition", handleHeroThemeTogglePosition)
       window.removeEventListener("heroScroll", handleHeroScroll)
     }
-  }, [namePosition, initialsX, initialsY, initialsScale, initialsOpacity, navbarOpacity, navbarY])
+  }, [
+    namePosition,
+    heroThemeTogglePosition,
+    initialsX,
+    initialsY,
+    initialsScale,
+    initialsOpacity,
+    navbarOpacity,
+    navbarY,
+    themeToggleX,
+    themeToggleY,
+    themeToggleScale,
+    themeToggleOpacity,
+  ])
 
   const navItems = ["About", "Experience", "Education", "Skills", "Projects", "Triumphs", "Contact"]
 
@@ -219,12 +280,36 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
             </div>
             <div className="flex items-center">
               <Button
+                ref={navbarThemeToggleRef}
                 onClick={toggleTheme}
                 variant="ghost"
                 size="icon"
-                className="mr-2 bg-gray-100/50 dark:bg-gray-800/50 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 rounded-full"
+                className="mr-2 bg-gray-100/50 dark:bg-gray-800/50 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 rounded-full relative flex items-center justify-center"
+                style={{
+                  opacity: themeToggleAnimating ? themeToggleOpacityValue : 1,
+                }}
               >
-                {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                {/* Static theme toggle */}
+                <div
+                  className={`flex items-center justify-center ${themeToggleAnimating ? "opacity-0" : "opacity-100"}`}
+                >
+                  {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                </div>
+
+                {/* Animated theme toggle that transitions from hero */}
+                {themeToggleAnimating && (
+                  <motion.div
+                    className="absolute inset-0 flex items-center justify-center"
+                    style={{
+                      x: themeToggleX,
+                      y: themeToggleY,
+                      scale: themeToggleScale,
+                      transformOrigin: "center",
+                    }}
+                  >
+                    {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                  </motion.div>
+                )}
               </Button>
               <div className="md:hidden">
                 <Button
