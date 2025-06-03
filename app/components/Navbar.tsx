@@ -279,38 +279,42 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
               </div>
             </div>
             <div className="flex items-center">
-              <Button
-                ref={navbarThemeToggleRef}
-                onClick={toggleTheme}
-                variant="ghost"
-                size="icon"
-                className="mr-2 bg-gray-100/50 dark:bg-gray-800/50 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 rounded-full relative flex items-center justify-center"
-                style={{
-                  opacity: themeToggleAnimating ? themeToggleOpacityValue : 1,
-                }}
-              >
-                {/* Static theme toggle */}
-                <div
-                  className={`flex items-center justify-center ${themeToggleAnimating ? "opacity-0" : "opacity-100"}`}
-                >
-                  {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-                </div>
-
-                {/* Animated theme toggle that transitions from hero */}
-                {themeToggleAnimating && (
-                  <motion.div
-                    className="absolute inset-0 flex items-center justify-center"
+                <motion.div
                     style={{
-                      x: themeToggleX,
-                      y: themeToggleY,
-                      scale: themeToggleScale,
-                      transformOrigin: "center",
+                      opacity: themeToggleAnimating ? themeToggleOpacityValue : 1,
                     }}
+                    className="mr-2"
                   >
-                    {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                    <Button
+                      ref={navbarThemeToggleRef}
+                      onClick={toggleTheme}
+                      variant="ghost"
+                      size="icon"
+                      className="bg-gray-100/50 dark:bg-gray-800/50 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 rounded-full relative flex items-center justify-center"
+                    >
+                      {/* Static theme toggle */}
+                      <div
+                        className={`flex items-center justify-center ${themeToggleAnimating ? "opacity-0" : "opacity-100"}`}
+                      >
+                        {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                      </div>
+
+                      {/* Animated theme toggle that transitions from hero */}
+                      {themeToggleAnimating && (
+                        <motion.div
+                          className="absolute inset-0 flex items-center justify-center"
+                          style={{
+                            x: themeToggleX,
+                            y: themeToggleY,
+                            scale: themeToggleScale,
+                            transformOrigin: "center",
+                          }}
+                        >
+                          {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                        </motion.div>
+                      )}
+                    </Button>
                   </motion.div>
-                )}
-              </Button>
               <div className="md:hidden">
                 <Button
                   onClick={() => setIsOpen(!isOpen)}

@@ -41,7 +41,7 @@ export default function Hero({ setActiveSection }: HeroProps) {
   const [mounted, setMounted] = useState(false)
   const [isResumeHovered, setIsResumeHovered] = useState(false)
   const [isScrollHovered, setIsScrollHovered] = useState(false)
-  const [scrollY, setScrollY] = useState(0)
+  // const [scrollY, setScrollY] = useState(0)
   // Memoize random positions to prevent re-randomization on re-renders
   const orbPositions = useMemo(() => generateRandomPositions(8), [])
   const starPositions = useMemo(() => generateRandomStars(50), [])
@@ -119,7 +119,7 @@ export default function Hero({ setActiveSection }: HeroProps) {
     // Update name position on scroll to ensure accurate animation
     const handleScroll = () => {
       const currentScrollY = window.scrollY
-      setScrollY(currentScrollY)
+      // setScrollY(currentScrollY)
 
       updateNamePosition()
       updateThemeTogglePosition()
