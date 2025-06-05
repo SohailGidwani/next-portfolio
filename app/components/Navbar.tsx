@@ -35,7 +35,7 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
 
   // Motion values for theme toggle animation
   const themeToggleX = useSpring(0, { stiffness: 100, damping: 20 })
-  const themeToggleY = useSpring(0, { stiffness: 100, damping: 20 })
+  const themeToggleY = useSpring(0, { stiffness: 100, damping: 15 })
   const themeToggleScale = useSpring(1, { stiffness: 100, damping: 15 })
   const themeToggleOpacity = useSpring(0, { stiffness: 100, damping: 20 })
 
@@ -218,128 +218,149 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
 
   return (
     <>
-      <motion.nav
-        ref={navbarRef}
+      {/* Island Navbar Container */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-3 px-4"
         style={{
           opacity: navbarOpacity,
           y: navbarY,
         }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
-          scrolled
-            ? "bg-white/70 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800"
-            : "bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm"
-        }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center">
-              <motion.a
-                ref={logoRef}
-                href="#"
-                className="text-2xl font-bold text-blue-600 dark:text-blue-400 relative"
-                style={{
-                  opacity: opacityValue,
-                }}
-              >
-                {/* Static logo */}
-                <span className={initialsAnimating ? "opacity-0" : "opacity-100"}>SG</span>
+        <motion.nav
+          ref={navbarRef}
+          className={`
+            relative rounded-3xl transition-all duration-300 shadow-lg w-[95%] max-w-5xl overflow-hidden
+            ${
+              scrolled
+                ? "bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-gray-200/50 dark:border-gray-700/50 shadow-xl"
+                : "bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg border border-gray-200/30 dark:border-gray-700/30"
+            }
+          `}
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          <div className="px-6 py-3 pb-4">
+            <div className="flex items-center justify-between">
+              {/* Logo Section */}
+              <div className="flex items-center">
+                <motion.a
+                  ref={logoRef}
+                  href="#"
+                  className="text-2xl font-bold text-blue-600 dark:text-blue-400 relative mr-6"
+                  style={{
+                    opacity: opacityValue,
+                  }}
+                >
+                  {/* Static logo */}
+                  <span className={initialsAnimating ? "opacity-0" : "opacity-100"}>SG</span>
 
-                {/* Animated logo that transitions from the name */}
-                {initialsAnimating && (
-                  <motion.span
-                    className="absolute top-0 left-0 text-2xl font-bold text-blue-600 dark:text-blue-400"
-                    style={{
-                      x: initialsX,
-                      y: initialsY,
-                      scale: initialsScale,
-                      transformOrigin: "center",
-                    }}
-                  >
-                    SG
-                  </motion.span>
-                )}
-              </motion.a>
-            </div>
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-baseline space-x-4">
+                  {/* Animated logo that transitions from the name */}
+                  {initialsAnimating && (
+                    <motion.span
+                      className="absolute top-0 left-0 text-2xl font-bold text-blue-600 dark:text-blue-400"
+                      style={{
+                        x: initialsX,
+                        y: initialsY,
+                        scale: initialsScale,
+                        transformOrigin: "center",
+                      }}
+                    >
+                      SG
+                    </motion.span>
+                  )}
+                </motion.a>
+              </div>
+
+              {/* Desktop Navigation */}
+              <div className="hidden lg:flex items-center space-x-1">
                 {navItems.map((item) => (
                   <Button
                     key={item}
                     onClick={() => scrollToSection(item)}
                     variant="ghost"
-                    className={`${
-                      activeSection === item.toLowerCase()
-                        ? "text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/20"
-                        : "text-gray-600 dark:text-gray-300 hover:bg-gray-100/50 dark:hover:bg-gray-800/50"
-                    } hover:text-blue-600 dark:hover:text-blue-400 transition-all`}
+                    size="sm"
+                    className={`
+                      px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
+                      ${
+                        activeSection === item.toLowerCase()
+                          ? "text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/20"
+                          : "text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100/50 dark:hover:bg-gray-800/50"
+                      }
+                    `}
                   >
                     {item}
                   </Button>
                 ))}
               </div>
-            </div>
-            <div className="flex items-center">
-                <motion.div
-                    style={{
-                      opacity: themeToggleAnimating ? themeToggleOpacityValue : 1,
-                    }}
-                    className="mr-2"
-                  >
-                    <Button
-                      ref={navbarThemeToggleRef}
-                      onClick={toggleTheme}
-                      variant="ghost"
-                      size="icon"
-                      className="bg-gray-100/50 dark:bg-gray-800/50 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 rounded-full relative flex items-center justify-center"
-                    >
-                      {/* Static theme toggle */}
-                      <div
-                        className={`flex items-center justify-center ${themeToggleAnimating ? "opacity-0" : "opacity-100"}`}
-                      >
-                        {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-                      </div>
 
-                      {/* Animated theme toggle that transitions from hero */}
-                      {themeToggleAnimating && (
-                        <motion.div
-                          className="absolute inset-0 flex items-center justify-center"
-                          style={{
-                            x: themeToggleX,
-                            y: themeToggleY,
-                            scale: themeToggleScale,
-                            transformOrigin: "center",
-                          }}
-                        >
-                          {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-                        </motion.div>
-                      )}
-                    </Button>
-                  </motion.div>
-              <div className="md:hidden">
-                <Button
-                  onClick={() => setIsOpen(!isOpen)}
-                  variant="ghost"
-                  size="icon"
-                  className="bg-gray-100/50 dark:bg-gray-800/50 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 rounded-full"
+              {/* Right Section - Theme Toggle and Mobile Menu */}
+              <div className="flex items-center space-x-2">
+                {/* Theme Toggle */}
+                <motion.div
+                  style={{
+                    opacity: themeToggleAnimating ? themeToggleOpacityValue : 1,
+                  }}
                 >
-                  {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-                </Button>
+                  <Button
+                    ref={navbarThemeToggleRef}
+                    onClick={toggleTheme}
+                    variant="ghost"
+                    size="icon"
+                    className="w-9 h-9 rounded-full bg-gray-100/50 dark:bg-gray-800/50 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 relative flex items-center justify-center"
+                  >
+                    {/* Static theme toggle */}
+                    <div
+                      className={`flex items-center justify-center ${themeToggleAnimating ? "opacity-0" : "opacity-100"}`}
+                    >
+                      {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                    </div>
+
+                    {/* Animated theme toggle that transitions from hero */}
+                    {themeToggleAnimating && (
+                      <motion.div
+                        className="absolute inset-0 flex items-center justify-center"
+                        style={{
+                          x: themeToggleX,
+                          y: themeToggleY,
+                          scale: themeToggleScale,
+                          transformOrigin: "center",
+                        }}
+                      >
+                        {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                      </motion.div>
+                    )}
+                  </Button>
+                </motion.div>
+
+                {/* Mobile Menu Button */}
+                <div className="lg:hidden">
+                  <Button
+                    onClick={() => setIsOpen(!isOpen)}
+                    variant="ghost"
+                    size="icon"
+                    className="w-9 h-9 rounded-full bg-gray-100/50 dark:bg-gray-800/50 hover:bg-gray-200/50 dark:hover:bg-gray-700/50"
+                  >
+                    {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Scroll Progress Bar */}
-        <div className="absolute bottom-0 left-0 h-0.5 bg-gray-200 dark:bg-gray-700 w-full">
-          <motion.div
-            className="h-full bg-gradient-to-r from-blue-400 to-blue-600"
-            initial={{ width: "0%" }}
-            animate={{ width: `${scrollProgress}%` }}
-            transition={{ duration: 0.1 }}
-          />
-        </div>
-      </motion.nav>
+          {/* Scroll Progress Bar - Integrated at the bottom */}
+          <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-200/20 dark:bg-gray-700/20 overflow-hidden">
+            <motion.div
+              className="h-full bg-gradient-to-r from-blue-400 to-blue-600"
+              initial={{ width: "0%" }}
+              animate={{ width: `${scrollProgress}%` }}
+              transition={{ duration: 0.1 }}
+            />
+          </div>
+        </motion.nav>
+      </motion.div>
 
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -347,7 +368,7 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
             animate="open"
             exit="closed"
             variants={menuVariants}
-            className="md:hidden fixed inset-0 z-50 flex items-center justify-center"
+            className="lg:hidden fixed inset-0 z-50 flex items-center justify-center"
           >
             <motion.div
               initial={{ opacity: 0 }}
