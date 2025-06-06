@@ -27,6 +27,32 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
   const [mounted, setMounted] = useState(false)
   const { theme, systemTheme } = useTheme()
 
+  // Handle active section detection - moved before mounted check
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries: IntersectionObserverEntry[]) => {
+        const [entry] = entries
+        if (entry.isIntersecting) {
+          setActiveSection("experience")
+        }
+      },
+      {
+        threshold: 0.3,
+        rootMargin: "-10% 0px -10% 0px", // Add margin for better detection
+      },
+    )
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current)
+      }
+    }
+  }, [setActiveSection])
+
   // Set mounted state to handle theme detection
   useEffect(() => {
     setMounted(true)
@@ -41,29 +67,6 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
     window.addEventListener("resize", checkMobile)
     return () => window.removeEventListener("resize", checkMobile)
   }, [])
-
-  // Handle active section detection
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries: IntersectionObserverEntry[]) => {
-        const [entry] = entries
-        if (entry.isIntersecting) {
-          setActiveSection("experience")
-        }
-      },
-      { threshold: 0.3 },
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current)
-      }
-    }
-  }, [setActiveSection])
 
   const experiences: ExperienceItem[] = [
     {
@@ -98,17 +101,6 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
   const currentTheme = theme === "system" ? systemTheme : theme
   const isDark = mounted && currentTheme === "dark"
 
-  // Render a minimal placeholder while mounting
-  if (!mounted) {
-    return (
-      <section id="experience" className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-12 text-center text-blue-900">Professional Experience</h2>
-        </div>
-      </section>
-    )
-  }
-
   return (
     <section
       id="experience"
@@ -123,7 +115,7 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
         </div>
 
         {/* Desktop View */}
-        {!isMobile && (
+        {!isMobile && mounted && (
           <div className="hidden md:block max-w-5xl mx-auto">
             {/* Simple Pill Navigation */}
             <div className="flex justify-center mb-12">
@@ -235,7 +227,7 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
         )}
 
         {/* Mobile Timeline View */}
-        {isMobile && (
+        {isMobile && mounted && (
           <div className="md:hidden">
             <div className="flex justify-start mb-8 overflow-x-auto pb-2 -mx-4 px-4">
               <div className="inline-flex bg-white dark:bg-gray-800 rounded-full p-1 shadow-md">
@@ -322,6 +314,16 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
             </AnimatePresence>
           </div>
         )}
+
+        {/* Fallback for when not mounted */}
+        {!mounted && (
+          <div className="text-center">
+            <h2 className="text-3xl font-bold mb-12 text-blue-900">Professional Experience</h2>
+            <div className="bg-white rounded-xl shadow-lg p-10">
+              <p className="text-gray-600">Loading experience...</p>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Detailed Project Modal */}
@@ -370,4 +372,3 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
     </section>
   )
 }
-
