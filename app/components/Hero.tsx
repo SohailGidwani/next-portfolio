@@ -54,9 +54,9 @@ export default function Hero({ setActiveSection }: HeroProps) {
 
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
 
-  // Transform for theme toggle animation
-  const themeToggleOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0])
-  const themeToggleY = useTransform(scrollYProgress, [0, 0.3], [0, -50])
+  // Transform for theme toggle animation - more aggressive fade out
+  const themeToggleOpacity = useTransform(scrollYProgress, [0, 0.10], [1, 0])
+  const themeToggleY = useTransform(scrollYProgress, [0, 0.1], [0, -100])
 
   useEffect(() => {
     setMounted(true)
@@ -205,6 +205,7 @@ export default function Hero({ setActiveSection }: HeroProps) {
         style={{
           opacity: themeToggleOpacity,
           y: themeToggleY,
+          display: scrollYProgress.get() > 0.2 ? "none" : "block",
         }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
