@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useEffect, useRef, useState } from "react"
 import { motion, useAnimation } from "framer-motion"
-import { Mail, Phone, MapPin, Linkedin, Github } from "lucide-react"
+import { Mail, Phone, MapPin, Linkedin, Github, ArrowRight } from "lucide-react"
 import { useTheme } from "next-themes"
 import { useInView } from "react-intersection-observer"
 
@@ -17,6 +17,7 @@ interface ContactItem {
   label: string
   value: string
   link?: string
+  description: string
 }
 
 const contactItems: ContactItem[] = [
@@ -25,24 +26,39 @@ const contactItems: ContactItem[] = [
     label: "Email",
     value: "sohailgidwani15@gmail.com",
     link: "mailto:sohailgidwani15@gmail.com",
+    description: "Drop me a line anytime",
   },
-  { icon: <Phone className="w-6 h-6" />, label: "Phone", value: "+91 9503151319", link: "tel:+919503151319" },
+  {
+    icon: <Phone className="w-6 h-6" />,
+    label: "Phone",
+    value: "+91 9503151319",
+    link: "tel:+919503151319",
+    description: "Let's have a conversation",
+  },
   {
     icon: <Linkedin className="w-6 h-6" />,
     label: "LinkedIn",
     value: "sohail-gidwani",
     link: "https://www.linkedin.com/in/sohail-gidwani/",
+    description: "Connect professionally",
   },
   {
     icon: <Github className="w-6 h-6" />,
     label: "GitHub",
     value: "SohailGidwani",
     link: "https://github.com/SohailGidwani",
+    description: "Check out my code",
   },
-  { icon: <MapPin className="w-6 h-6" />, label: "Location", value: "Mumbai, India" },
+  {
+    icon: <MapPin className="w-6 h-6" />,
+    label: "Location",
+    value: "Mumbai, India",
+    description: "Where I'm based",
+  },
 ]
 
-function ContactCard({ item, index, isDark }: { item: ContactItem; index: number; isDark: boolean }) {
+// Mobile-specific compact card
+function MobileContactCard({ item, index, isDark }: { item: ContactItem; index: number; isDark: boolean }) {
   const controls = useAnimation()
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -58,31 +74,112 @@ function ContactCard({ item, index, isDark }: { item: ContactItem; index: number
   return (
     <motion.div
       ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      animate={controls}
+      transition={{ duration: 0.4, delay: index * 0.1 }}
+      className={`flex items-center p-3 rounded-lg shadow-md ${
+        isDark ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
+      } border`}
+    >
+      <div
+        className={`w-10 h-10 rounded-lg flex items-center justify-center mr-3 ${
+          isDark ? "bg-blue-600/20 text-blue-400" : "bg-blue-100 text-blue-600"
+        }`}
+      >
+        {item.icon}
+      </div>
+      <div className="min-w-0 flex-1">
+        <h3 className={`text-sm font-bold ${isDark ? "text-white" : "text-gray-900"}`}>{item.label}</h3>
+        {item.link ? (
+          <a
+            href={item.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`text-xs flex items-center ${isDark ? "text-blue-400" : "text-blue-600"} truncate`}
+          >
+            <span className="truncate">{item.value}</span>
+            <ArrowRight className="w-3 h-3 ml-1 flex-shrink-0" />
+          </a>
+        ) : (
+          <p className={`text-xs ${isDark ? "text-gray-300" : "text-gray-700"} truncate`}>{item.value}</p>
+        )}
+      </div>
+    </motion.div>
+  )
+}
+
+// Desktop card with animations
+function DesktopContactCard({ item, index, isDark }: { item: ContactItem; index: number; isDark: boolean }) {
+  const controls = useAnimation()
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  })
+  const [isHovered, setIsHovered] = useState(false)
+
+  useEffect(() => {
+    if (inView) {
+      controls.start({ opacity: 1, y: 0 })
+    }
+  }, [controls, inView])
+
+  return (
+    <motion.div
+      ref={ref}
       initial={{ opacity: 0, y: 50 }}
       animate={controls}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className={`p-6 rounded-lg shadow-lg ${isDark ? "bg-gray-900 text-white" : "bg-white text-gray-800"} hover:shadow-xl transition-shadow duration-300`}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+      className={`relative group p-6 rounded-2xl shadow-lg backdrop-blur-sm border transition-all duration-300 ${
+        isDark
+          ? "bg-gray-800/80 border-gray-700/50 hover:border-blue-500/50"
+          : "bg-white/80 border-gray-200/50 hover:border-blue-500/50"
+      } hover:shadow-2xl hover:-translate-y-2`}
     >
-      <div className="flex items-center mb-4">
-        <div
-          className={`w-12 h-12 rounded-full flex items-center justify-center ${isDark ? "bg-blue-600" : "bg-blue-100"}`}
-        >
-          {item.icon}
+      {/* Glow effect on hover */}
+      <motion.div
+        className={`absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+          isDark ? "bg-blue-500/10" : "bg-blue-500/5"
+        }`}
+        animate={isHovered ? { scale: 1.05 } : { scale: 1 }}
+        transition={{ duration: 0.3 }}
+      />
+
+      <div className="relative z-10">
+        <div className="flex items-center mb-4">
+          <motion.div
+            className={`w-14 h-14 rounded-xl flex items-center justify-center ${
+              isDark ? "bg-blue-600/20 text-blue-400" : "bg-blue-100 text-blue-600"
+            } group-hover:scale-110 transition-transform duration-300`}
+            animate={isHovered ? { rotate: 360 } : { rotate: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            {item.icon}
+          </motion.div>
+          <div className="ml-4">
+            <h3 className={`text-xl font-bold ${isDark ? "text-white" : "text-gray-900"}`}>{item.label}</h3>
+            <p className={`text-sm ${isDark ? "text-gray-400" : "text-gray-600"}`}>{item.description}</p>
+          </div>
         </div>
-        <h3 className="ml-4 text-xl font-semibold">{item.label}</h3>
+
+        {item.link ? (
+          <motion.a
+            href={item.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`text-lg font-medium flex items-center group/link ${
+              isDark ? "text-blue-400 hover:text-blue-300" : "text-blue-600 hover:text-blue-800"
+            }`}
+            whileHover={{ x: 5 }}
+          >
+            {item.value}
+            <ArrowRight className="w-4 h-4 ml-2 group-hover/link:translate-x-1 transition-transform duration-200" />
+          </motion.a>
+        ) : (
+          <p className={`text-lg font-medium ${isDark ? "text-gray-300" : "text-gray-700"}`}>{item.value}</p>
+        )}
       </div>
-      {item.link ? (
-        <a
-          href={item.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`text-lg ${isDark ? "text-blue-400 hover:text-blue-300" : "text-blue-600 hover:text-blue-800"} hover:underline`}
-        >
-          {item.value}
-        </a>
-      ) : (
-        <p className="text-lg">{item.value}</p>
-      )}
     </motion.div>
   )
 }
@@ -92,7 +189,7 @@ export default function Contact({ setActiveSection }: ContactProps) {
   const { theme, systemTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
-  // Handle active section detection - moved before mounted check
+  // Handle active section detection
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries: IntersectionObserverEntry[]) => {
@@ -102,8 +199,8 @@ export default function Contact({ setActiveSection }: ContactProps) {
         }
       },
       {
-        threshold: 0.3, // Changed from 0.5 to 0.3 for consistency
-        rootMargin: "-10% 0px -10% 0px", // Added for better detection
+        threshold: 0.3,
+        rootMargin: "-10% 0px -10% 0px",
       },
     )
 
@@ -130,22 +227,44 @@ export default function Contact({ setActiveSection }: ContactProps) {
     <section
       id="contact"
       ref={sectionRef}
-      className={`py-20 transition-colors duration-300 ${isDark ? "bg-gray-800" : "bg-gray-100"}`}
+      className={`py-16 md:py-20 transition-colors duration-300 ${isDark ? "bg-gray-800" : "bg-gray-100"}`}
     >
       <div className="max-w-6xl mx-auto px-4">
-        <motion.h2
-          initial={{ opacity: 0, y: -20 }}
+        {/* Updated Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className={`text-4xl font-bold mb-12 text-center ${isDark ? "text-blue-400" : "text-blue-600"}`}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-10 md:mb-16"
         >
-          Get in Touch
-        </motion.h2>
+          <motion.h2
+            className={`text-3xl md:text-5xl lg:text-6xl font-bold ${isDark ? "text-blue-400" : "text-blue-900"}`}
+          >
+            Let's Connect
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className={`text-lg md:text-xl lg:text-2xl max-w-3xl mx-auto mt-3 md:mt-4 ${
+              isDark ? "text-gray-300" : "text-gray-700"
+            }`}
+          >
+            Ready to bring your ideas to life? Let's collaborate and create something amazing together!
+          </motion.p>
+        </motion.div>
 
-        {/* Show content regardless of mounted state, but with fallback styling */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Mobile Cards (shown only on small screens) */}
+        <div className="md:hidden space-y-3">
           {contactItems.map((item, index) => (
-            <ContactCard key={item.label} item={item} index={index} isDark={isDark} />
+            <MobileContactCard key={item.label} item={item} index={index} isDark={isDark} />
+          ))}
+        </div>
+
+        {/* Desktop Cards (hidden on small screens) */}
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8">
+          {contactItems.map((item, index) => (
+            <DesktopContactCard key={item.label} item={item} index={index} isDark={isDark} />
           ))}
         </div>
 
@@ -153,9 +272,9 @@ export default function Contact({ setActiveSection }: ContactProps) {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
-          className="mt-16 text-center"
+          className="mt-10 md:mt-16 text-center"
         >
-          <p className={`text-xl ${isDark ? "text-gray-300" : "text-gray-700"}`}>
+          <p className={`text-base md:text-xl ${isDark ? "text-gray-300" : "text-gray-700"}`}>
             I'm always open to new opportunities and collaborations. Feel free to reach out!
           </p>
         </motion.div>
