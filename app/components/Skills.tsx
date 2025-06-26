@@ -279,6 +279,12 @@ export default function Skills({ setActiveSection }: SkillsProps) {
           proficiency: 5,
         },
         {
+          name: "N8N",
+          logo: "https://cdn.simpleicons.org/n8n/ea4b71",
+          proficiency: 4,
+
+        },
+        {
           name: "Docker",
           logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
           proficiency: 4,
