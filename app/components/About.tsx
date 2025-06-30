@@ -143,7 +143,7 @@ export default function About({ setActiveSection }: AboutProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 z-50 flex items-center justify-center bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm lg:absolute"
           >
             <motion.div
               initial={{
@@ -168,7 +168,7 @@ export default function About({ setActiveSection }: AboutProps) {
                   setShowGreeting(false)
                 }, 1500)
               }}
-              className="text-center"
+              className="text-center px-4"
             >
               <motion.div
                 animate={{
@@ -180,10 +180,12 @@ export default function About({ setActiveSection }: AboutProps) {
                   repeat: 1,
                   ease: "easeInOut",
                 }}
-                className="inline-flex items-center gap-4 px-8 py-6 rounded-2xl bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-2xl"
+                className="inline-flex items-center gap-2 md:gap-4 px-4 md:px-8 py-3 md:py-6 rounded-xl md:rounded-2xl bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-2xl"
               >
-                <span className="text-4xl md:text-6xl font-bold">Namaste!</span>
-                <motion.span>
+                <span className="text-2xl md:text-4xl lg:text-6xl font-bold">Namaste!</span>
+                <motion.span
+                  className="text-2xl md:text-4xl lg:text-6xl"
+                >
                   🙏
                 </motion.span>
               </motion.div>
@@ -191,7 +193,7 @@ export default function About({ setActiveSection }: AboutProps) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8, duration: 0.6 }}
-                className="mt-4 text-lg md:text-xl text-gray-600 dark:text-gray-300 font-medium"
+                className="mt-2 md:mt-4 text-sm md:text-lg lg:text-xl text-gray-600 dark:text-gray-300 font-medium"
               >
                 Welcome to my story
               </motion.p>
