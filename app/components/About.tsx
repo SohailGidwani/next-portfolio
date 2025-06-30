@@ -127,7 +127,7 @@ export default function About({ setActiveSection }: AboutProps) {
                     transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 5 }}
                     className="inline-block"
                   >
-                    👋
+                    🙏
                   </motion.div>
                 </motion.div>
                 
