@@ -1,18 +1,18 @@
 "use client"
 
-import { useEffect, useRef } from 'react'
-import Image from 'next/image'
-import { motion } from 'framer-motion'
+import { useEffect, useRef } from "react"
+import Image from "next/image"
+import { motion } from "framer-motion"
 import { Badge } from "@/app/components/ui/badge"
 import { Button } from "@/app/components/ui/button"
-import { Github } from 'lucide-react'
-import Carousel from './Carousel'
+import { Github } from "lucide-react"
+import Carousel from "./Carousel"
 import imagecaption from '@/public/images/BE-Project.jpg'
 import blogsite from '@/public/images/BlogSite.jpg'
 import techupdates from '@/public/images/Tech Updates.png'
 
 interface ProjectsProps {
-  setActiveSection: (section: string) => void;
+  setActiveSection: (section: string) => void
 }
 
 export default function Projects({ setActiveSection }: ProjectsProps) {
@@ -21,12 +21,12 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries: IntersectionObserverEntry[]) => {
-        const [entry] =  entries
+        const [entry] = entries
         if (entry.isIntersecting) {
-          setActiveSection('projects')
+          setActiveSection("projects")
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     )
 
     if (sectionRef.current) {
@@ -43,16 +43,14 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
   const projects = [
     {
       title: "Image Feature Detection & Captioning",
-      description: `• Implemented CNN and VGG-16 models for image feature extraction and LSTM (BLEU score: 0.65)/Transformer (BLEU score: 0.80)
-      models for caption generation.• Created a user-friendly web interface using Streamlit, demonstrating full-stack capabilities in AI application development.`,
+      description: `• Implemented CNN and VGG-16 models for image feature extraction and LSTM (BLEU score: 0.65)/Transformer (BLEU score: 0.80) models for caption generation.• Created a user-friendly web interface using Streamlit, demonstrating full-stack capabilities in AI application development.`,
       image: imagecaption,
       tags: ["Python", "TensorFlow", "CNN", "Transformer", "LSTM", "StreamLit"],
       github: "https://github.com/SohailGidwani/Image-Caption",
     },
     {
       title: "ScribeGlobe (Medium-like Blogging site) ",
-      description: `Built with React.js and Vite for a responsive user experience. Developed serverless backend using Hono on Cloudflare Workers.
-      • Implemented PostgreSQL for efficient data storage and retrieval, demonstrating proficiency in SQL database management.`,
+      description: `Built with React.js and Vite for a responsive user experience. Developed serverless backend using Hono on Cloudflare Workers. • Implemented PostgreSQL for efficient data storage and retrieval, demonstrating proficiency in SQL database management.`,
       image: blogsite,
       tags: ["React", "Vite", "Typescript", "Tailwind", "HONO", "CloudFlare", "PostgreSQL"],
       github: "https://github.com/SohailGidwani/0---100-FullStack/tree/main/Week%2012/medium",
@@ -60,29 +58,35 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
     {
       title: "Tech-updates (Personal Tech News Aggregator)",
       image: techupdates,
-      description: `Built a personalized news aggregator that scrapes and categorizes tech articles using AI. Implemented web scraping from multiple sources like Medium, Y Combinator, and Crunchbase.       • Integrated Azure OpenAI for intelligent article categorization and Qdrant vector database for efficient content management.       • Developed REST API with Flask and PostgreSQL for data persistence, with a responsive React frontend for article viewing.`,
+      description: `Built a personalized news aggregator that scrapes and categorizes tech articles using AI. Implemented web scraping from multiple sources like Medium, Y Combinator, and Crunchbase. • Integrated Azure OpenAI for intelligent article categorization and Qdrant vector database for efficient content management. • Developed REST API with Flask and PostgreSQL for data persistence, with a responsive React frontend for article viewing.`,
       tags: ["React", "Vite", "Python", "Flask", "Azure OpenAI", "Qdrant(vectorDB)", "PostgreSQL", "Web Scraping"],
       github: "https://github.com/SohailGidwani/Project-TechUpdates",
-    }
+    },
   ]
 
   const projectCards = projects.map((project, index) => (
     <div key={index} className="h-full w-full overflow-hidden">
-      <div className="h-full flex flex-col md:flex-row bg-white dark:bg-gray-700 shadow-lg rounded-xl overflow-hidden border border-gray-100 dark:border-gray-600">
-        {/* Image Section with Overlay */}
+      <div className="h-full flex flex-col md:flex-row bg-white dark:bg-gray-700 overflow-hidden border border-gray-100 dark:border-gray-600">
+        {/* Image Section with Fixed Aspect Ratio */}
         <div className="md:w-1/2 relative h-64 md:h-full overflow-hidden group">
-          <Image
-            src={project.image || "/placeholder.svg"}
-            alt={project.title}
-            layout="fill"
-            objectFit="cover"
-            className="transition-transform duration-700 group-hover:scale-105"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col justify-end p-6">
-            <h3 className="text-white text-2xl md:text-3xl font-bold mb-2">{project.title}</h3>
-            <div className="flex flex-wrap gap-2 mb-4">
+          <div className="absolute inset-0 bg-gray-200 dark:bg-gray-600">
+            <Image
+              src={project.image || "/placeholder.svg"}
+              alt={project.title}
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col justify-end p-4 md:p-6">
+            <h3 className="text-white text-xl md:text-2xl font-bold mb-2 line-clamp-2">{project.title}</h3>
+            <div className="flex flex-wrap gap-2 mb-2">
               {project.tags.slice(0, 3).map((tag, tagIndex) => (
-                <Badge key={tagIndex} variant="outline" className="bg-white/20 text-white border-none backdrop-blur-sm text-xs">
+                <Badge
+                  key={tagIndex}
+                  variant="outline"
+                  className="bg-white/20 text-white border-none backdrop-blur-sm text-xs"
+                >
                   {tag}
                 </Badge>
               ))}
@@ -94,43 +98,49 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
             </div>
           </div>
         </div>
-        
-        {/* Content Section */}
-        <div className="md:w-1/2 flex flex-col p-6 md:p-8 bg-white dark:bg-gray-700">
-          <div className="hidden md:block mb-4">
-            <h3 className="text-2xl md:text-3xl font-bold text-blue-900 dark:text-blue-400 mb-2">{project.title}</h3>
-            <div className="w-16 h-1 bg-blue-600 rounded-full"></div>
-          </div>
-          
-          <div className="flex-grow overflow-y-auto pr-2 custom-scrollbar">
-            <p className="text-gray-700 dark:text-gray-300 text-sm md:text-base leading-relaxed mb-6">
-              {project.description}
-            </p>
-            
-            <div className="hidden md:flex flex-wrap gap-2 mb-6">
-              {project.tags.map((tag, tagIndex) => (
-                <Badge 
-                  key={tagIndex} 
-                  className="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
-                >
-                  {tag}
-                </Badge>
-              ))}
+
+        {/* Content Section with Fixed Height and Scrolling */}
+        <div className="md:w-1/2 flex flex-col bg-white dark:bg-gray-700 h-80 md:h-full">
+          <div className="p-4 md:p-6 flex-shrink-0">
+            <div className="hidden md:block mb-4">
+              <h3 className="text-xl md:text-2xl font-bold text-blue-900 dark:text-blue-400 mb-2 line-clamp-2">
+                {project.title}
+              </h3>
+              <div className="w-12 h-1 bg-blue-600 rounded-full"></div>
             </div>
           </div>
-          
-          <div className="mt-4 flex items-center justify-between">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              asChild 
-              className="rounded-full border-blue-600 dark:border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20"
-            >
-              <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center">
-                <Github className="mr-2 h-4 w-4" />
-                <span>View Code</span>
-              </a>
-            </Button>
+
+          <div className="flex-1 overflow-y-auto px-4 md:px-6 pb-4 md:pb-6 custom-scrollbar">
+            <div className="space-y-4">
+              <p className="text-gray-700 dark:text-gray-300 text-sm md:text-base leading-relaxed">
+                {project.description}
+              </p>
+
+              <div className="hidden md:flex flex-wrap gap-2">
+                {project.tags.map((tag, tagIndex) => (
+                  <Badge
+                    key={tagIndex}
+                    className="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors text-xs"
+                  >
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+
+              <div className="pt-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  asChild
+                  className="rounded-full border-blue-600 dark:border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 bg-transparent"
+                >
+                  <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center">
+                    <Github className="mr-2 h-4 w-4" />
+                    <span>View Code</span>
+                  </a>
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -147,21 +157,20 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-blue-900 dark:text-blue-400">
-            Featured Projects
-          </h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-blue-900 dark:text-blue-400">Featured Projects</h2>
         </motion.div>
-        
+
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           viewport={{ once: true }}
+          className="mb-12"
         >
           <Carousel items={projectCards} />
         </motion.div>
       </div>
-      
+
       {/* Custom Scrollbar Styles */}
       <style jsx global>{`
         .custom-scrollbar::-webkit-scrollbar {
