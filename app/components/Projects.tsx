@@ -4,13 +4,12 @@ import { useEffect, useRef } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { Badge } from "@/app/components/ui/badge"
-import { Button } from "@/app/components/ui/button"
-import { Github } from "lucide-react"
 import Link from "next/link"
 import Carousel from "./Carousel"
 import imagecaption from '@/public/images/BE-Project.jpg'
 import blogsite from '@/public/images/BlogSite.jpg'
 import techupdates from '@/public/images/Tech Updates.png'
+import { Github, ExternalLink } from "lucide-react"
 
 interface ProjectsProps {
   setActiveSection: (section: string) => void
@@ -132,28 +131,23 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
                 ))}
               </div>
 
-              <div className="pt-2 flex gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  asChild
-                  className="rounded-full border-blue-600 dark:border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:scale-105 transition-all duration-200 hover:shadow-md"
+              <div className="pt-2 flex gap-3">
+                <a 
+                  href={project.github} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-700 rounded-lg bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:focus:ring-blue-400/20"
                 >
-                  <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center">
-                    <Github className="mr-2 h-4 w-4" />
-                    <span>View Code</span>
-                  </a>
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  asChild
-                  className="rounded-full border-emerald-600 dark:border-emerald-500 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:scale-105 transition-all duration-200 hover:shadow-md"
+                  <Github className="h-4 w-4" />
+                  <span>View Code</span>
+                </a>
+                <Link 
+                  href={`/projects/${project.id}`}
+                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600 rounded-lg bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 hover:border-gray-300 dark:hover:border-gray-500 transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500/20 dark:focus:ring-gray-400/20"
                 >
-                  <Link href={`/projects/${project.id}`} className="flex items-center">
-                    <span>View Details</span>
-                  </Link>
-                </Button>
+                  <span>View Details</span>
+                  <ExternalLink className="h-4 w-4" />
+                </Link>
               </div>
             </div>
           </div>
@@ -163,7 +157,7 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
   ))
 
   return (
-    <section id="projects" ref={sectionRef} className="py-20 bg-white dark:bg-gray-800 transition-colors duration-300">
+    <section id="projects" ref={sectionRef} className="py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

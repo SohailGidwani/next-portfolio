@@ -174,7 +174,7 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
     <section
       id="triumphs"
       ref={sectionRef}
-      className="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300"
+      className="py-20 bg-white dark:bg-gray-900 transition-colors duration-300"
     >
       <div className="container mx-auto px-4">
         <motion.div

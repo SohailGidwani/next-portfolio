@@ -346,7 +346,7 @@ export default function Skills({ setActiveSection }: SkillsProps) {
     <section
       id="skills"
       ref={sectionRef}
-      className={`py-16 md:py-20 transition-colors duration-300 ${isDark ? "bg-gray-900" : "bg-gray-50"}`}
+      className="py-16 bg-white dark:bg-gray-900 transition-colors duration-300"
     >
       <div className="container mx-auto px-4">
         <motion.div

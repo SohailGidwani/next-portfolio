@@ -227,7 +227,7 @@ export default function Contact({ setActiveSection }: ContactProps) {
     <section
       id="contact"
       ref={sectionRef}
-      className={`py-16 md:py-20 transition-colors duration-300 ${isDark ? "bg-gray-800" : "bg-gray-100"}`}
+      className={`py-16 md:py-20 transition-colors duration-300 bg-white dark:bg-gray-900`}
     >
       <div className="max-w-6xl mx-auto px-4">
         {/* Updated Header */}

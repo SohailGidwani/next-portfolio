@@ -100,7 +100,11 @@ export default function Education({ setActiveSection }: EducationProps) {
   }
 
   return (
-    <section id="education" ref={sectionRef} className="py-16 md:py-20 bg-white dark:bg-gray-800 transition-colors duration-300">
+    <section
+      id="education"
+      ref={sectionRef}
+      className="py-16 bg-white dark:bg-gray-900 transition-colors duration-300"
+    >
       <div className="container mx-auto px-4">
         {/* Header Section */}
         <motion.div
@@ -131,7 +135,7 @@ export default function Education({ setActiveSection }: EducationProps) {
               >
                 <Card 
                   className={`h-full cursor-pointer transition-all duration-300 ${
-                    isDark ? 'bg-gray-700 border-gray-600 hover:border-blue-500' : 'bg-white border-gray-200 hover:border-blue-300'
+                    isDark ? 'bg-gray-800 border-gray-800 hover:border-blue-500' : 'bg-white border-gray-200 hover:border-blue-300'
                   } hover:shadow-lg`}
                   onClick={() => toggleCard(index)}
                 >

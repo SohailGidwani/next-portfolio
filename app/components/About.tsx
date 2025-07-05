@@ -86,7 +86,7 @@ export default function About({ setActiveSection }: AboutProps) {
   }, [isHovering])
 
   return (
-    <section id="about" ref={sectionRef} className="py-16 md:py-20 bg-white dark:bg-gray-800 transition-colors duration-300">
+    <section id="about" ref={sectionRef} className="py-16 md:py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
