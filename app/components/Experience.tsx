@@ -39,7 +39,7 @@ function BottomSheetModal({ open, onClose, experience }: { open: boolean, onClos
     };
     window.addEventListener('keydown', handleKey);
     window.history.pushState({ modal: true }, '');
-    const handlePopState = (e: PopStateEvent) => {
+    const handlePopState = () => {
       if (open) onClose();
     };
     window.addEventListener('popstate', handlePopState);
@@ -68,7 +68,7 @@ function BottomSheetModal({ open, onClose, experience }: { open: boolean, onClos
         transition={{ duration: 0.2 }}
         className="w-full max-w-lg mx-auto bg-white dark:bg-gray-900 rounded-t-2xl shadow-lg p-4 pt-2 relative"
         style={{ minHeight: '60vh', maxHeight: '85vh', overflowY: 'auto' }}
-        onClick={e => e.stopPropagation()}
+        onClick={event => event.stopPropagation()}
       >
         {/* Drag handle */}
         <div className="w-12 h-1.5 bg-gray-300 dark:bg-gray-700 rounded-full mx-auto mb-3" />
@@ -141,14 +141,10 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
       },
     )
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
+    const ref = sectionRef.current;
+    if (ref) observer.observe(ref);
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current)
-      }
+      if (ref) observer.unobserve(ref);
     }
   }, [setActiveSection])
 
