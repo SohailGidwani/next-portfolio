@@ -6,6 +6,7 @@ import { motion } from "framer-motion"
 import { Badge } from "@/app/components/ui/badge"
 import { Button } from "@/app/components/ui/button"
 import { Github } from "lucide-react"
+import Link from "next/link"
 import Carousel from "./Carousel"
 import imagecaption from '@/public/images/BE-Project.jpg'
 import blogsite from '@/public/images/BlogSite.jpg'
@@ -42,6 +43,7 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
 
   const projects = [
     {
+      id: "image-captioning",
       title: "Image Feature Detection & Captioning",
       description: `• Implemented CNN and VGG-16 models for image feature extraction and LSTM (BLEU score: 0.65)/Transformer (BLEU score: 0.80) models for caption generation.• Created a user-friendly web interface using Streamlit, demonstrating full-stack capabilities in AI application development.`,
       image: imagecaption,
@@ -49,6 +51,7 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
       github: "https://github.com/SohailGidwani/Image-Caption",
     },
     {
+      id: "scribeglobe",
       title: "ScribeGlobe (Medium-like Blogging site) ",
       description: `Built with React.js and Vite for a responsive user experience. Developed serverless backend using Hono on Cloudflare Workers. • Implemented PostgreSQL for efficient data storage and retrieval, demonstrating proficiency in SQL database management.`,
       image: blogsite,
@@ -56,6 +59,7 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
       github: "https://github.com/SohailGidwani/0---100-FullStack/tree/main/Week%2012/medium",
     },
     {
+      id: "tech-updates",
       title: "Tech-updates (Personal Tech News Aggregator)",
       image: techupdates,
       description: `Built a personalized news aggregator that scrapes and categorizes tech articles using AI. Implemented web scraping from multiple sources like Medium, Y Combinator, and Crunchbase. • Integrated Azure OpenAI for intelligent article categorization and Qdrant vector database for efficient content management. • Developed REST API with Flask and PostgreSQL for data persistence, with a responsive React frontend for article viewing.`,
@@ -128,17 +132,27 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
                 ))}
               </div>
 
-              <div className="pt-2">
+              <div className="pt-2 flex gap-2">
                 <Button
                   variant="outline"
                   size="sm"
                   asChild
-                  className="rounded-full border-blue-600 dark:border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 bg-transparent"
+                  className="rounded-full border-blue-600 dark:border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:scale-105 transition-all duration-200 hover:shadow-md"
                 >
                   <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center">
                     <Github className="mr-2 h-4 w-4" />
                     <span>View Code</span>
                   </a>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  asChild
+                  className="rounded-full border-emerald-600 dark:border-emerald-500 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:scale-105 transition-all duration-200 hover:shadow-md"
+                >
+                  <Link href={`/projects/${project.id}`} className="flex items-center">
+                    <span>View Details</span>
+                  </Link>
                 </Button>
               </div>
             </div>
