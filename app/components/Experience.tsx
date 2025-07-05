@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Briefcase, Calendar, Building, ChevronRight, ExternalLink, Clock } from "lucide-react"
+import { Briefcase, Calendar, Building, ChevronRight, ExternalLink, Clock, X } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/app/components/ui/dialog"
 import { useTheme } from "next-themes"
 
@@ -17,6 +17,105 @@ interface ExperienceItem {
   description: string
   projects: string[]
   isLatest?: boolean
+}
+
+// Add a custom BottomSheetModal component for mobile
+function BottomSheetModal({ open, onClose, experience }: { open: boolean, onClose: () => void, experience: ExperienceItem | null }) {
+  // Prevent background scroll when modal is open
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [open]);
+
+  // Handle escape key and back gesture
+  useEffect(() => {
+    if (!open) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKey);
+    window.history.pushState({ modal: true }, '');
+    const handlePopState = (e: PopStateEvent) => {
+      if (open) onClose();
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('keydown', handleKey);
+      window.removeEventListener('popstate', handlePopState);
+      if (open) window.history.back();
+    };
+  }, [open, onClose]);
+
+  if (!open || !experience) return null;
+
+  return (
+    <motion.div
+      initial={{ y: '100%' }}
+      animate={{ y: 0 }}
+      exit={{ y: '100%' }}
+      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/40"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ y: 40, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: 40, opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        className="w-full max-w-lg mx-auto bg-white dark:bg-gray-900 rounded-t-2xl shadow-lg p-4 pt-2 relative"
+        style={{ minHeight: '60vh', maxHeight: '85vh', overflowY: 'auto' }}
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Drag handle */}
+        <div className="w-12 h-1.5 bg-gray-300 dark:bg-gray-700 rounded-full mx-auto mb-3" />
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="absolute right-4 top-4 rounded-full p-1 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
+          aria-label="Close"
+        >
+          <X className="w-5 h-5 text-gray-500 dark:text-gray-300" />
+        </button>
+        <div className="mb-2">
+          <h2 className="text-xl font-bold text-blue-600 dark:text-blue-400 mb-1">{experience.title}</h2>
+          <div className="flex items-center text-gray-600 dark:text-gray-400 text-sm mb-1">
+            <Building size={16} className="mr-2" />
+            <span className="font-medium">{experience.company}</span>
+          </div>
+          <div className="flex items-center text-xs text-gray-500 dark:text-gray-500">
+            <Calendar size={16} className="mr-2" />
+            <span>{experience.date}</span>
+            {experience.isLatest && (
+              <span className="ml-2 inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">
+                Current
+              </span>
+            )}
+          </div>
+        </div>
+        <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg mb-4">
+          <p className="text-gray-700 dark:text-gray-300 text-sm">{experience.description}</p>
+        </div>
+        <h4 className="text-base font-bold text-gray-800 dark:text-gray-200 mb-3 flex items-center">
+          <Briefcase className="mr-2 text-blue-600 dark:text-blue-400" size={18} />
+          Key Points
+        </h4>
+        <div className="space-y-3">
+          {experience.projects.map((project, index) => (
+            <div
+              key={index}
+              className="bg-white dark:bg-gray-800 p-3 rounded-lg border-l-4 border-blue-600 shadow-sm"
+            >
+              <p className="text-gray-700 dark:text-gray-300 text-xs">{project}</p>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+    </motion.div>
+  );
 }
 
 export default function Experience({ setActiveSection }: ExperienceProps) {
@@ -72,7 +171,7 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
     {
       title: "Full-Stack/AI Developer",
       company: "IIFL Finance Ltd",
-      date: "June, 2023 - May, 2025",
+      date: "June, 2023 - Present",
       description:
         "Leading AI initiatives and developing cutting-edge machine learning models for various client projects. Mentoring junior developers and contributing to the company's AI research efforts.",
       projects: [
@@ -327,48 +426,56 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
       </div>
 
       {/* Detailed Project Modal */}
-      <Dialog open={!!selectedExperience} onOpenChange={() => setSelectedExperience(null)}>
-        <DialogContent className="w-full max-w-3xl max-h-[90vh] sm:max-h-none overflow-y-auto sm:overflow-visible">
-          <DialogHeader>
-            <DialogTitle className="text-2xl text-blue-600 dark:text-blue-400">{selectedExperience?.title}</DialogTitle>
-            <DialogDescription>
-              <div className="flex flex-col sm:flex-row sm:items-center text-gray-600 dark:text-gray-400">
-                <div className="flex items-center mb-1 sm:mb-0">
-                  <Building size={16} className="mr-2" />
-                  <span className="font-medium">{selectedExperience?.company}</span>
+      {!isMobile && (
+        <Dialog open={!!selectedExperience} onOpenChange={() => setSelectedExperience(null)}>
+          <DialogContent className="w-full max-w-3xl max-h-[90vh] sm:max-h-none overflow-y-auto sm:overflow-visible">
+            <DialogHeader>
+              <DialogTitle className="text-2xl text-blue-600 dark:text-blue-400">{selectedExperience?.title}</DialogTitle>
+              <DialogDescription>
+                <div className="flex flex-col sm:flex-row sm:items-center text-gray-600 dark:text-gray-400">
+                  <div className="flex items-center mb-1 sm:mb-0">
+                    <Building size={16} className="mr-2" />
+                    <span className="font-medium">{selectedExperience?.company}</span>
+                  </div>
+                  <span className="hidden sm:inline mx-2">•</span>
+                  <div className="flex items-center">
+                    <Calendar size={16} className="mr-2" />
+                    <span>{selectedExperience?.date}</span>
+                  </div>
                 </div>
-                <span className="hidden sm:inline mx-2">•</span>
-                <div className="flex items-center">
-                  <Calendar size={16} className="mr-2" />
-                  <span>{selectedExperience?.date}</span>
-                </div>
+              </DialogDescription>
+            </DialogHeader>
+            <div className="mt-6">
+              <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg mb-6">
+                <p className="text-gray-700 dark:text-gray-300">{selectedExperience?.description}</p>
               </div>
-            </DialogDescription>
-          </DialogHeader>
-
-          <div className="mt-6">
-            <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg mb-6">
-              <p className="text-gray-700 dark:text-gray-300">{selectedExperience?.description}</p>
+              <h4 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4 flex items-center">
+                <Briefcase className="mr-2 text-blue-600 dark:text-blue-400" size={20} />
+                Key Points
+              </h4>
+              <div className="space-y-4">
+                {selectedExperience?.projects.map((project, index) => (
+                  <div
+                    key={index}
+                    className="bg-white dark:bg-gray-800 p-4 rounded-lg border-l-4 border-blue-600 shadow-sm"
+                  >
+                    <p className="text-gray-700 dark:text-gray-300">{project}</p>
+                  </div>
+                ))}
+              </div>
             </div>
-
-            <h4 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4 flex items-center">
-              <Briefcase className="mr-2 text-blue-600 dark:text-blue-400" size={20} />
-              Key Points
-            </h4>
-
-            <div className="space-y-4">
-              {selectedExperience?.projects.map((project, index) => (
-                <div
-                  key={index}
-                  className="bg-white dark:bg-gray-800 p-4 rounded-lg border-l-4 border-blue-600 shadow-sm"
-                >
-                  <p className="text-gray-700 dark:text-gray-300">{project}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+          </DialogContent>
+        </Dialog>
+      )}
+      {isMobile && (
+        <AnimatePresence>
+          <BottomSheetModal
+            open={!!selectedExperience}
+            onClose={() => setSelectedExperience(null)}
+            experience={selectedExperience}
+          />
+        </AnimatePresence>
+      )}
     </section>
   )
 }

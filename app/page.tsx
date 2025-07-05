@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from 'react'
-import { ThemeProvider } from "next-themes"
+import { ThemeProvider } from "./components/ThemeProvider"
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
