@@ -12,6 +12,7 @@ import Projects from './components/Projects'
 import Triumphs from './components/Triumphs'
 import Contact from './components/Contact'
 import ScrollAnimation from './components/ScrollAnimation'
+import ProjectStructuredData from './components/ProjectStructuredData'
 import { Toaster } from 'react-hot-toast'
 
 export default function Portfolio() {
@@ -19,6 +20,7 @@ export default function Portfolio() {
 
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <ProjectStructuredData />
       <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
         <Navbar activeSection={activeSection} setActiveSection={setActiveSection} />
         <ScrollAnimation>
