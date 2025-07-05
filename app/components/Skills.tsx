@@ -361,19 +361,21 @@ export default function Skills({ setActiveSection }: SkillsProps) {
         </motion.div>
 
         {/* Show content regardless of mounted state, but with fallback styling */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 items-start">
           {skillCategories.map((category, index) => (
             <motion.div
               key={category.category}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="h-full"
+              whileHover={{ y: -5 }}
             >
               <Card
-                className={`h-full overflow-hidden border ${
-                  isDark ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
-                } hover:shadow-md transition-all duration-300 ${
+                className={`overflow-hidden border w-full cursor-pointer transition-all duration-300 ${
+                  isDark
+                    ? "bg-gray-800 border-gray-700 hover:border-blue-500"
+                    : "bg-white border-gray-200 hover:border-blue-300"
+                } hover:shadow-lg ${
                   expandedCategory === index
                     ? `border-l-4 ${
                         isDark
@@ -381,7 +383,7 @@ export default function Skills({ setActiveSection }: SkillsProps) {
                           : "border-l-" + category.lightAccentColor.split("-").pop()
                       }`
                     : ""
-                }`}
+                } ${expandedCategory !== index ? "min-h-[220px]" : ""}`}
               >
                 <CardHeader className="pb-2">
                   <div

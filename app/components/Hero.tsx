@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useMemo } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { useTheme } from "next-themes"
-import { FaFileAlt, FaChevronDown } from "react-icons/fa"
+import { FaFileAlt, FaChevronDown, FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa"
 import { Moon, Sun } from "lucide-react"
 
 interface HeroProps {
@@ -215,6 +215,44 @@ export default function Hero({ setActiveSection }: HeroProps) {
       >
         {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
       </motion.button>
+
+      {/* Social Icons - Bottom Right (only within Hero) */}
+      <div className="absolute bottom-6 right-6 z-30 flex flex-col items-center space-y-3">
+        <a
+          href="https://github.com/sohailgidwani"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="GitHub"
+          className={`p-3 rounded-full shadow-lg backdrop-blur-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 group
+            ${isDark ? "bg-gray-800/60 text-white" : "bg-white/10 text-gray-800"}
+            hover:ring-2 hover:ring-blue-500 hover:scale-110 hover:bg-blue-500/20 dark:hover:bg-blue-500/20"
+          }`}
+        >
+          <FaGithub className="w-5 h-5 group-hover:text-blue-500 transition-colors duration-200" />
+        </a>
+        <a
+          href="https://www.linkedin.com/in/sohailgidwani/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="LinkedIn"
+          className={`p-3 rounded-full shadow-lg backdrop-blur-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 group
+            ${isDark ? "bg-gray-800/60 text-white" : "bg-white/10 text-gray-800"}
+            hover:ring-2 hover:ring-blue-500 hover:scale-110 hover:bg-blue-500/20 dark:hover:bg-blue-500/20"
+          }`}
+        >
+          <FaLinkedin className="w-5 h-5 group-hover:text-blue-500 transition-colors duration-200" />
+        </a>
+        <a
+          href="mailto:sohailgidwani@gmail.com"
+          aria-label="Email"
+          className={`p-3 rounded-full shadow-lg backdrop-blur-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 group
+            ${isDark ? "bg-gray-800/60 text-white" : "bg-white/10 text-gray-800"}
+            hover:ring-2 hover:ring-blue-500 hover:scale-110 hover:bg-blue-500/20 dark:hover:bg-blue-500/20"
+          }`}
+        >
+          <FaEnvelope className="w-5 h-5 group-hover:text-blue-500 transition-colors duration-200" />
+        </a>
+      </div>
 
       {/* Animated background elements - with higher opacity */}
       <div className="absolute inset-0 overflow-hidden">
