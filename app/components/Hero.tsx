@@ -231,7 +231,7 @@ export default function Hero({ setActiveSection }: HeroProps) {
           <FaGithub className="w-5 h-5 group-hover:text-blue-500 transition-colors duration-200" />
         </a>
         <a
-          href="https://www.linkedin.com/in/sohailgidwani/"
+          href="https://www.linkedin.com/in/sohail-gidwani/"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="LinkedIn"
