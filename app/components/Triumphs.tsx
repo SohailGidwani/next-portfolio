@@ -13,6 +13,7 @@ import feynwick from "@/public/images/FeynwickCertificate.jpg"
 import rubix from "@/public/images/Rubix-hackathon.png"
 import techathon from "@/public/images/Tech-a-thon-IIFL.jpg"
 import trident from "@/public/images/Trident_Tsec.jpg"
+import { triggerHaptic } from "./ui/haptics"
 // import { FaBullhorn } from "react-icons/fa"
 
 interface TriumphsProps {
@@ -27,10 +28,14 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
       (entries: IntersectionObserverEntry[]) => {
         const [entry] = entries
         if (entry.isIntersecting) {
+          triggerHaptic(10);
           setActiveSection("triumphs")
         }
       },
-      { threshold: 0.3 },
+      {
+        threshold: 0.3,
+        rootMargin: "-10% 0px -10% 0px",
+      },
     )
 
     if (sectionRef.current) {

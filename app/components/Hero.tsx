@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion"
 import { useTheme } from "next-themes"
 import { FaFileAlt, FaChevronDown, FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa"
 import { Moon, Sun } from "lucide-react"
+import { triggerHaptic } from "./ui/haptics"
 
 interface HeroProps {
   setActiveSection: (section: string) => void
@@ -63,13 +64,17 @@ export default function Hero({ setActiveSection }: HeroProps) {
 
     // Intersection observer for section detection
     const observer = new IntersectionObserver(
-      (entries) => {
+      (entries: IntersectionObserverEntry[]) => {
         const [entry] = entries
         if (entry.isIntersecting) {
+          triggerHaptic(10);
           setActiveSection("hero")
         }
       },
-      { threshold: 0.3 },
+      {
+        threshold: 0.3,
+        rootMargin: "-10% 0px -10% 0px",
+      },
     )
 
     const currentSectionRef = sectionRef.current

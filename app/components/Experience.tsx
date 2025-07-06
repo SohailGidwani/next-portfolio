@@ -161,6 +161,7 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
       (entries: IntersectionObserverEntry[]) => {
         const [entry] = entries
         if (entry.isIntersecting) {
+          triggerHaptic(10);
           setActiveSection("experience")
         }
       },

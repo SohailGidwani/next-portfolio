@@ -44,6 +44,7 @@ export default function Skills({ setActiveSection }: SkillsProps) {
       (entries: IntersectionObserverEntry[]) => {
         const [entry] = entries
         if (entry.isIntersecting) {
+          triggerHaptic(10);
           setActiveSection("skills")
         }
       },

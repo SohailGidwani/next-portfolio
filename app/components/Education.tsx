@@ -38,10 +38,14 @@ export default function Education({ setActiveSection }: EducationProps) {
       (entries: IntersectionObserverEntry[]) => {
         const [entry] = entries
         if (entry.isIntersecting) {
-          setActiveSection('education')
+          triggerHaptic(10);
+          setActiveSection("education")
         }
       },
-      { threshold: 0.3 }
+      {
+        threshold: 0.3,
+        rootMargin: "-10% 0px -10% 0px",
+      },
     )
 
     if (sectionRef.current) {

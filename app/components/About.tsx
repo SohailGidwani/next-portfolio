@@ -60,10 +60,14 @@ export default function About({ setActiveSection }: AboutProps) {
       (entries: IntersectionObserverEntry[]) => {
         const [entry] = entries
         if (entry.isIntersecting) {
-          setActiveSection('about')
+          triggerHaptic(10);
+          setActiveSection("about")
         }
       },
-      { threshold: 0.3 }
+      {
+        threshold: 0.3,
+        rootMargin: "-10% 0px -10% 0px",
+      },
     )
 
     if (sectionRef.current) {

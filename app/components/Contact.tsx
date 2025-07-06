@@ -199,6 +199,7 @@ export default function Contact({ setActiveSection }: ContactProps) {
       (entries: IntersectionObserverEntry[]) => {
         const [entry] = entries
         if (entry.isIntersecting) {
+          triggerHaptic(10);
           setActiveSection("contact")
         }
       },

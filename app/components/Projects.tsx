@@ -25,10 +25,14 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
       (entries: IntersectionObserverEntry[]) => {
         const [entry] = entries
         if (entry.isIntersecting) {
+          triggerHaptic(10);
           setActiveSection("projects")
         }
       },
-      { threshold: 0.3 },
+      {
+        threshold: 0.3,
+        rootMargin: "-10% 0px -10% 0px",
+      },
     )
 
     const currentRef = sectionRef.current
