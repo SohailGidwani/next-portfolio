@@ -1,11 +1,12 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence, PanInfo } from "framer-motion"
 import { Briefcase, Calendar, Building, ChevronRight, ExternalLink, Clock, X } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/app/components/ui/dialog"
 import { useTheme } from "next-themes"
 import ScrollAnimation from "./ScrollAnimation"
+import ReactDOM from "react-dom"
 
 interface ExperienceProps {
   setActiveSection: (section: string) => void
@@ -51,28 +52,49 @@ function BottomSheetModal({ open, onClose, experience }: { open: boolean, onClos
     };
   }, [open, onClose]);
 
+  // Drag-to-close logic
+  const dragThreshold = 100; // px
+  function handleDragEnd(
+    event: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo
+  ) {
+    if (info.offset.y > dragThreshold) {
+      if (typeof window !== 'undefined' && 'vibrate' in window.navigator) {
+        window.navigator.vibrate(15);
+      }
+      onClose();
+    }
+  }
+
   if (!open || !experience) return null;
 
-  return (
+  const modalContent = (
     <motion.div
-      initial={{ y: '100%' }}
-      animate={{ y: 0 }}
-      exit={{ y: '100%' }}
-      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/40"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.18 }}
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 backdrop-blur-sm"
       onClick={onClose}
     >
       <motion.div
-        initial={{ y: 40, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: 40, opacity: 0 }}
-        transition={{ duration: 0.2 }}
-        className="w-full max-w-lg mx-auto bg-white dark:bg-gray-900 rounded-t-2xl shadow-lg p-4 pt-2 relative"
-        style={{ minHeight: '60vh', maxHeight: '85vh', overflowY: 'auto' }}
+        drag="y"
+        dragConstraints={{ top: 0, bottom: 0 }}
+        dragElastic={0.18}
+        onDragEnd={handleDragEnd}
+        initial={{ y: '100%' }}
+        animate={{ y: 0 }}
+        exit={{ y: '100%' }}
+        transition={{ type: 'spring', stiffness: 320, damping: 32, bounce: 0.22 }}
+        className="w-full max-w-lg mx-auto bg-white dark:bg-gray-900 rounded-t-2xl shadow-lg p-4 pt-2 relative touch-pan-y"
+        style={{ minHeight: '60vh', maxHeight: '85vh', overflowY: 'auto', WebkitTouchCallout: 'none', WebkitUserSelect: 'none', userSelect: 'none' }}
         onClick={event => event.stopPropagation()}
       >
         {/* Drag handle */}
-        <div className="w-12 h-1.5 bg-gray-300 dark:bg-gray-700 rounded-full mx-auto mb-3" />
+        <div
+          className="w-16 h-2.5 bg-gray-300 dark:bg-gray-700 rounded-full mx-auto mb-4 shadow-sm cursor-grab active:cursor-grabbing transition-all duration-200"
+          style={{ boxShadow: '0 2px 8px 0 rgba(0,0,0,0.08)' }}
+        />
         {/* Close button */}
         <button
           onClick={onClose}
@@ -117,6 +139,11 @@ function BottomSheetModal({ open, onClose, experience }: { open: boolean, onClos
       </motion.div>
     </motion.div>
   );
+
+  if (typeof window !== "undefined") {
+    return ReactDOM.createPortal(modalContent, document.body);
+  }
+  return null;
 }
 
 export default function Experience({ setActiveSection }: ExperienceProps) {
