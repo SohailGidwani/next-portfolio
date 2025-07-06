@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Briefcase, Calendar, Building, ChevronRight, ExternalLink, Clock, X } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/app/components/ui/dialog"
 import { useTheme } from "next-themes"
+import ScrollAnimation from "./ScrollAnimation"
 
 interface ExperienceProps {
   setActiveSection: (section: string) => void
@@ -203,21 +204,30 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
       className="py-16 bg-white dark:bg-gray-900 transition-colors duration-300"
     >
       <div className="container mx-auto px-4">
+        <ScrollAnimation variant="fadeUp" duration={0.6}>
         <div className="text-center mb-12">
           <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${isDark ? "text-blue-400" : "text-blue-900"}`}>
             Professional Experience
           </h2>
         </div>
+        </ScrollAnimation>
 
         {/* Desktop View */}
         {!isMobile && mounted && (
+          <ScrollAnimation variant="fadeUp" delay={0.2}>
           <div className="hidden md:block max-w-5xl mx-auto">
             {/* Simple Pill Navigation */}
-            <div className="flex justify-center mb-12">
+              <motion.div 
+                className="flex justify-center mb-12"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                viewport={{ once: true }}
+              >
               <div className="inline-flex bg-white dark:bg-gray-800 rounded-full p-1.5 shadow-md overflow-x-auto max-w-full">
                 <div className="flex flex-nowrap">
                   {experiences.map((exp, index) => (
-                    <button
+                      <motion.button
                       key={index}
                       onClick={() => setActiveExperience(index)}
                       className={`relative px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap ${
@@ -225,22 +235,40 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                           ? "bg-blue-600 text-white"
                           : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                       }`}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.4 + index * 0.1, duration: 0.3 }}
+                        viewport={{ once: true }}
                     >
                       {exp.company}
                       {exp.isLatest && (
-                        <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                          <motion.span 
+                            className="absolute -top-1 -right-1 flex h-3 w-3"
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ delay: 0.6, duration: 0.3 }}
+                          >
                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                           <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
-                        </span>
+                          </motion.span>
                       )}
-                    </button>
+                      </motion.button>
                   ))}
                 </div>
               </div>
-            </div>
+              </motion.div>
 
             {/* Experience Content */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden min-h-[500px]">
+              <motion.div 
+                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden min-h-[500px]"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -2 }}
+              >
               <div className="h-1 bg-blue-600"></div>
 
               <AnimatePresence mode="wait">
@@ -254,81 +282,137 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                 >
                   <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-8">
                     <div>
-                      <h3 className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-3">
+                        <motion.h3 
+                          className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-3"
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.4, delay: 0.1 }}
+                        >
                         {experiences[activeExperience].title}
-                      </h3>
+                        </motion.h3>
 
-                      <div className="flex items-center mb-2 text-gray-600 dark:text-gray-400">
+                        <motion.div 
+                          className="flex items-center mb-2 text-gray-600 dark:text-gray-400"
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.4, delay: 0.2 }}
+                        >
                         <Building size={18} className="mr-2" />
                         <span className="font-medium">{experiences[activeExperience].company}</span>
-                      </div>
+                        </motion.div>
 
-                      <div className="flex items-center text-gray-600 dark:text-gray-400">
+                        <motion.div 
+                          className="flex items-center text-gray-600 dark:text-gray-400"
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.4, delay: 0.3 }}
+                        >
                         <Calendar size={18} className="mr-2" />
                         <span>{experiences[activeExperience].date}</span>
                         {experiences[activeExperience].isLatest && (
-                          <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">
+                            <motion.span 
+                              className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300"
+                              initial={{ scale: 0 }}
+                              animate={{ scale: 1 }}
+                              transition={{ delay: 0.4, duration: 0.3 }}
+                            >
                             <Clock size={12} className="mr-1" />
                             Current
-                          </span>
+                            </motion.span>
                         )}
+                        </motion.div>
                       </div>
+
+                      <motion.button
+                        onClick={() => setSelectedExperience(experiences[activeExperience])}
+                        className="mt-6 lg:mt-0 px-5 py-2.5 bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-lg font-medium text-sm flex items-center self-start"
+                        whileHover={{ scale: 1.05, x: 5 }}
+                        whileTap={{ scale: 0.95 }}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.4, delay: 0.4 }}
+                      >
+                        More info <ChevronRight size={16} className="ml-1" />
+                      </motion.button>
                     </div>
 
-                    <button
-                      onClick={() => setSelectedExperience(experiences[activeExperience])}
-                      className="mt-6 lg:mt-0 px-5 py-2.5 bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-lg font-medium text-sm flex items-center self-start"
+                    <motion.p 
+                      className="text-gray-700 dark:text-gray-300 leading-relaxed mb-8 text-lg"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 0.5 }}
                     >
-                      More info <ChevronRight size={16} className="ml-1" />
-                    </button>
-                  </div>
-
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-8 text-lg">
                     {experiences[activeExperience].description}
-                  </p>
+                    </motion.p>
 
                   <div>
-                    <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4 flex items-center">
+                      <motion.h4 
+                        className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4 flex items-center"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, delay: 0.6 }}
+                      >
                       <Briefcase size={18} className="mr-2 text-blue-600 dark:text-blue-400" />
                       Key Points
-                    </h4>
+                      </motion.h4>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                      <motion.div 
+                        className="grid grid-cols-1 lg:grid-cols-2 gap-6"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, delay: 0.7 }}
+                      >
                       {experiences[activeExperience].projects.slice(0, 2).map((project, idx) => (
-                        <div
+                          <motion.div
                           key={idx}
                           className="bg-gray-50 dark:bg-gray-700 p-5 rounded-lg border-l-4 border-blue-600"
+                            initial={{ opacity: 0, x: idx === 0 ? -20 : 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.4, delay: 0.8 + idx * 0.1 }}
+                            whileHover={{ y: -2, scale: 1.02 }}
                         >
                           <p className="text-gray-700 dark:text-gray-300 text-base">
                             {project.length > 180 ? `${project.substring(0, 180)}...` : project}
                           </p>
-                        </div>
+                          </motion.div>
                       ))}
-                    </div>
+                      </motion.div>
 
                     {experiences[activeExperience].projects.length > 2 && (
-                      <button
+                        <motion.button
                         onClick={() => setSelectedExperience(experiences[activeExperience])}
                         className="mt-6 text-blue-600 dark:text-blue-400 font-medium text-sm flex items-center"
+                          whileHover={{ x: 5 }}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ duration: 0.4, delay: 1.0 }}
                       >
                         More info <ExternalLink size={14} className="ml-1" />
-                      </button>
+                        </motion.button>
                     )}
                   </div>
                 </motion.div>
               </AnimatePresence>
+              </motion.div>
             </div>
-          </div>
+          </ScrollAnimation>
         )}
 
         {/* Mobile Timeline View */}
         {isMobile && mounted && (
+          <ScrollAnimation variant="fadeUp" delay={0.2}>
           <div className="md:hidden">
-            <div className="flex justify-start mb-8 overflow-x-auto pb-2 -mx-4 px-4">
+              <motion.div 
+                className="flex justify-start mb-8 overflow-x-auto pb-2 -mx-4 px-4"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                viewport={{ once: true }}
+              >
               <div className="inline-flex bg-white dark:bg-gray-800 rounded-full p-1 shadow-md">
                 <div className="flex flex-nowrap">
                   {experiences.map((exp, index) => (
-                    <button
+                      <motion.button
                       key={index}
                       onClick={() => setActiveExperience(index)}
                       className={`relative px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-300 whitespace-nowrap ${
@@ -336,19 +420,30 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                           ? "bg-blue-600 text-white"
                           : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                       }`}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.4 + index * 0.1, duration: 0.3 }}
+                        viewport={{ once: true }}
                     >
                       {exp.company}
                       {exp.isLatest && (
-                        <span className="absolute -top-1 -right-1 flex h-2 w-2">
+                          <motion.span 
+                            className="absolute -top-1 -right-1 flex h-2 w-2"
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ delay: 0.6, duration: 0.3 }}
+                          >
                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                           <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-                        </span>
+                          </motion.span>
                       )}
-                    </button>
+                      </motion.button>
                   ))}
                 </div>
               </div>
-            </div>
+              </motion.div>
 
             <AnimatePresence mode="wait">
               <motion.div
@@ -408,6 +503,7 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
               </motion.div>
             </AnimatePresence>
           </div>
+          </ScrollAnimation>
         )}
 
         {/* Fallback for when not mounted */}
@@ -423,45 +519,45 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
 
       {/* Detailed Project Modal */}
       {!isMobile && (
-        <Dialog open={!!selectedExperience} onOpenChange={() => setSelectedExperience(null)}>
-          <DialogContent className="w-full max-w-3xl max-h-[90vh] sm:max-h-none overflow-y-auto sm:overflow-visible">
-            <DialogHeader>
-              <DialogTitle className="text-2xl text-blue-600 dark:text-blue-400">{selectedExperience?.title}</DialogTitle>
-              <DialogDescription>
-                <div className="flex flex-col sm:flex-row sm:items-center text-gray-600 dark:text-gray-400">
-                  <div className="flex items-center mb-1 sm:mb-0">
-                    <Building size={16} className="mr-2" />
-                    <span className="font-medium">{selectedExperience?.company}</span>
-                  </div>
-                  <span className="hidden sm:inline mx-2">•</span>
-                  <div className="flex items-center">
-                    <Calendar size={16} className="mr-2" />
-                    <span>{selectedExperience?.date}</span>
-                  </div>
+      <Dialog open={!!selectedExperience} onOpenChange={() => setSelectedExperience(null)}>
+        <DialogContent className="w-full max-w-3xl max-h-[90vh] sm:max-h-none overflow-y-auto sm:overflow-visible">
+          <DialogHeader>
+            <DialogTitle className="text-2xl text-blue-600 dark:text-blue-400">{selectedExperience?.title}</DialogTitle>
+            <DialogDescription>
+              <div className="flex flex-col sm:flex-row sm:items-center text-gray-600 dark:text-gray-400">
+                <div className="flex items-center mb-1 sm:mb-0">
+                  <Building size={16} className="mr-2" />
+                  <span className="font-medium">{selectedExperience?.company}</span>
                 </div>
-              </DialogDescription>
-            </DialogHeader>
-            <div className="mt-6">
-              <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg mb-6">
-                <p className="text-gray-700 dark:text-gray-300">{selectedExperience?.description}</p>
+                <span className="hidden sm:inline mx-2">•</span>
+                <div className="flex items-center">
+                  <Calendar size={16} className="mr-2" />
+                  <span>{selectedExperience?.date}</span>
+                </div>
               </div>
-              <h4 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4 flex items-center">
-                <Briefcase className="mr-2 text-blue-600 dark:text-blue-400" size={20} />
-                Key Points
-              </h4>
-              <div className="space-y-4">
-                {selectedExperience?.projects.map((project, index) => (
-                  <div
-                    key={index}
-                    className="bg-white dark:bg-gray-800 p-4 rounded-lg border-l-4 border-blue-600 shadow-sm"
-                  >
-                    <p className="text-gray-700 dark:text-gray-300">{project}</p>
-                  </div>
-                ))}
-              </div>
+            </DialogDescription>
+          </DialogHeader>
+          <div className="mt-6">
+            <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg mb-6">
+              <p className="text-gray-700 dark:text-gray-300">{selectedExperience?.description}</p>
             </div>
-          </DialogContent>
-        </Dialog>
+            <h4 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4 flex items-center">
+              <Briefcase className="mr-2 text-blue-600 dark:text-blue-400" size={20} />
+              Key Points
+            </h4>
+            <div className="space-y-4">
+              {selectedExperience?.projects.map((project, index) => (
+                <div
+                  key={index}
+                  className="bg-white dark:bg-gray-800 p-4 rounded-lg border-l-4 border-blue-600 shadow-sm"
+                >
+                  <p className="text-gray-700 dark:text-gray-300">{project}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
       )}
       {isMobile && (
         <AnimatePresence>

@@ -7,6 +7,7 @@ import { motion, useAnimation } from "framer-motion"
 import { Mail, Phone, MapPin, Linkedin, Github, ArrowRight } from "lucide-react"
 import { useTheme } from "next-themes"
 import { useInView } from "react-intersection-observer"
+import ScrollAnimation from "./ScrollAnimation"
 
 interface ContactProps {
   setActiveSection: (section: string) => void
@@ -231,17 +232,11 @@ export default function Contact({ setActiveSection }: ContactProps) {
     >
       <div className="max-w-6xl mx-auto px-4">
         {/* Updated Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-10 md:mb-16"
-        >
-          <motion.h2
-            className={`text-3xl md:text-5xl lg:text-6xl font-bold ${isDark ? "text-blue-400" : "text-blue-900"}`}
-          >
+        <ScrollAnimation variant="fadeUp" duration={0.8}>
+          <div className="text-center mb-10 md:mb-16">
+            <h2 className={`text-3xl md:text-5xl lg:text-6xl font-bold ${isDark ? "text-blue-400" : "text-blue-900"}`}>
             Let's Connect
-          </motion.h2>
+            </h2>
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -252,32 +247,34 @@ export default function Contact({ setActiveSection }: ContactProps) {
           >
             Ready to bring your ideas to life? Let's collaborate and create something amazing together!
           </motion.p>
-        </motion.div>
+          </div>
+        </ScrollAnimation>
 
         {/* Mobile Cards (shown only on small screens) */}
+        <ScrollAnimation variant="fadeUp" stagger={true} staggerDelay={0.1}>
         <div className="md:hidden space-y-3">
           {contactItems.map((item, index) => (
             <MobileContactCard key={item.label} item={item} index={index} isDark={isDark} />
           ))}
         </div>
+        </ScrollAnimation>
 
         {/* Desktop Cards (hidden on small screens) */}
+        <ScrollAnimation variant="fadeUp" stagger={true} staggerDelay={0.15}>
         <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8">
           {contactItems.map((item, index) => (
             <DesktopContactCard key={item.label} item={item} index={index} isDark={isDark} />
           ))}
         </div>
+        </ScrollAnimation>
 
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="mt-10 md:mt-16 text-center"
-        >
+        <ScrollAnimation variant="fadeUp" delay={0.5}>
+          <div className="mt-10 md:mt-16 text-center">
           <p className={`text-base md:text-xl ${isDark ? "text-gray-300" : "text-gray-700"}`}>
             I'm always open to new opportunities and collaborations. Feel free to reach out!
           </p>
-        </motion.div>
+          </div>
+        </ScrollAnimation>
       </div>
     </section>
   )

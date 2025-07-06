@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/app/components/ui/ca
 import { motion, AnimatePresence } from "framer-motion"
 import { Code, Database, Cloud, Cpu, Globe, PenToolIcon as Tool, ChevronDown, ChevronUp, Zap } from "lucide-react"
 import { useTheme } from "next-themes"
+import ScrollAnimation from "./ScrollAnimation"
 
 interface SkillsProps {
   setActiveSection: (section: string) => void
@@ -349,26 +350,22 @@ export default function Skills({ setActiveSection }: SkillsProps) {
       className="py-16 bg-white dark:bg-gray-900 transition-colors duration-300"
     >
       <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-10"
-        >
+        <ScrollAnimation variant="fadeUp" duration={0.6}>
+          <div className="text-center mb-10">
           <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${isDark ? "text-blue-400" : "text-blue-900"}`}>
             Skills
           </h2>
-        </motion.div>
+          </div>
+        </ScrollAnimation>
 
         {/* Show content regardless of mounted state, but with fallback styling */}
+        <ScrollAnimation variant="fadeUp" stagger={true} staggerDelay={0.1}>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 items-start">
           {skillCategories.map((category, index) => (
             <motion.div
               key={category.category}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ y: -5 }}
+                whileHover={{ y: -5, scale: 1.02 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
             >
               <Card
                 className={`overflow-hidden border w-full cursor-pointer transition-all duration-300 ${
@@ -391,27 +388,49 @@ export default function Skills({ setActiveSection }: SkillsProps) {
                     onClick={() => toggleCategory(index)}
                   >
                     <div className="flex items-center">
-                      <div
+                        <motion.div
                         className={`p-2 rounded-full ${isDark ? "bg-gray-700" : "bg-gray-100"} mr-3 ${
                           expandedCategory === index ? (isDark ? "text-blue-400" : "text-blue-600") : ""
                         }`}
+                          whileHover={{ scale: 1.1, rotate: 5 }}
+                          transition={{ duration: 0.2 }}
                       >
                         {category.icon}
+                        </motion.div>
+                        <CardTitle className="text-lg">{category.category}</CardTitle>
                       </div>
-                      <CardTitle className="text-lg">{category.category}</CardTitle>
-                    </div>
-                    <button
+                      <motion.button
                       className={`p-1 rounded-full ${
                         isDark ? "hover:bg-gray-700" : "hover:bg-gray-100"
                       } transition-colors duration-200`}
                       aria-label={expandedCategory === index ? "Collapse" : "Expand"}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
                     >
+                        <AnimatePresence mode="wait">
                       {expandedCategory === index ? (
+                            <motion.div
+                              key="up"
+                              initial={{ rotate: -90, opacity: 0 }}
+                              animate={{ rotate: 0, opacity: 1 }}
+                              exit={{ rotate: 90, opacity: 0 }}
+                              transition={{ duration: 0.2 }}
+                            >
                         <ChevronUp className={`h-5 w-5 ${isDark ? "text-gray-400" : "text-gray-500"}`} />
+                            </motion.div>
                       ) : (
+                            <motion.div
+                              key="down"
+                              initial={{ rotate: 90, opacity: 0 }}
+                              animate={{ rotate: 0, opacity: 1 }}
+                              exit={{ rotate: -90, opacity: 0 }}
+                              transition={{ duration: 0.2 }}
+                            >
                         <ChevronDown className={`h-5 w-5 ${isDark ? "text-gray-400" : "text-gray-500"}`} />
+                            </motion.div>
                       )}
-                    </button>
+                        </AnimatePresence>
+                      </motion.button>
                   </div>
                   <p className={`text-sm ${isDark ? "text-gray-400" : "text-gray-500"} mt-2 pl-11`}>
                     {category.description}
@@ -425,13 +444,22 @@ export default function Skills({ setActiveSection }: SkillsProps) {
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
+                          transition={{ duration: 0.4, ease: "easeInOut" }}
                         className="overflow-hidden"
                       >
-                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-2">
-                          {category.skills.map((skill) => (
-                            <div
+                          <motion.div 
+                            className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-2"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.2, duration: 0.3 }}
+                          >
+                            {category.skills.map((skill, skillIndex) => (
+                              <motion.div
                               key={skill.name}
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: 0.3 + skillIndex * 0.05, duration: 0.3 }}
+                                whileHover={{ scale: 1.05, y: -2 }}
                               className={`p-2 rounded-lg border ${
                                 isDark
                                   ? "border-gray-700 bg-gray-800/50 hover:border-blue-500"
@@ -439,25 +467,28 @@ export default function Skills({ setActiveSection }: SkillsProps) {
                               } flex flex-col items-center justify-center text-center transition-colors duration-200`}
                             >
                               {getLogoSrc(skill) ? (
-                                <div
+                                  <motion.div
                                   className={`w-6 h-6 mb-2 flex items-center justify-center ${
                                     isDark ? "bg-gray-700 rounded-full p-1" : ""
                                   }`}
+                                    whileHover={{ rotate: 360 }}
+                                    transition={{ duration: 0.6 }}
                                 >
                                   <img
                                     src={getLogoSrc(skill) || "/placeholder.svg"}
                                     alt={skill.name}
                                     className="max-w-full max-h-full object-contain"
                                   />
-                                </div>
+                                  </motion.div>
                               ) : (
-                                <div
+                                  <motion.div
                                   className={`w-6 h-6 mb-2 rounded-full ${
                                     isDark ? "bg-blue-900/30" : "bg-blue-100"
                                   } flex items-center justify-center`}
+                                    whileHover={{ scale: 1.2 }}
                                 >
                                   <Zap className={`w-3 h-3 ${isDark ? "text-blue-400" : "text-blue-600"}`} />
-                                </div>
+                                  </motion.div>
                               )}
                               <span
                                 className={`text-xs font-medium truncate w-full mb-1 ${
@@ -467,32 +498,42 @@ export default function Skills({ setActiveSection }: SkillsProps) {
                                 {skill.name}
                               </span>
                               {renderProficiency(skill.proficiency)}
-                            </div>
+                              </motion.div>
                           ))}
-                        </div>
+                          </motion.div>
                       </motion.div>
                     )}
                   </AnimatePresence>
 
                   {expandedCategory !== index && (
-                    <div className="flex flex-wrap gap-1.5 mt-2 pl-11">
+                      <motion.div 
+                        className="flex flex-wrap gap-1.5 mt-2 pl-11"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.3 }}
+                      >
                       {category.skills.map((skill, skillIndex) => (
-                        <span
+                          <motion.span
                           key={skillIndex}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: skillIndex * 0.02, duration: 0.2 }}
+                            whileHover={{ scale: 1.1 }}
                           className={`inline-block px-2 py-1 text-xs rounded-full ${
                             isDark ? "bg-gray-700 text-gray-200" : "bg-gray-100 text-gray-800"
                           } transition-colors duration-200 hover:bg-opacity-80`}
                         >
                           {skill.name}
-                        </span>
+                          </motion.span>
                       ))}
-                    </div>
+                      </motion.div>
                   )}
                 </CardContent>
               </Card>
             </motion.div>
           ))}
         </div>
+        </ScrollAnimation>
       </div>
     </section>
   )

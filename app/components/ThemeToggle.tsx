@@ -55,10 +55,10 @@ export default function ThemeToggle() {
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
     >
-      <Button
-        onClick={toggleTheme}
-        variant="ghost"
-        size="icon"
+    <Button
+      onClick={toggleTheme}
+      variant="ghost"
+      size="icon"
         className="w-10 h-10 rounded-full bg-gray-100/50 dark:bg-gray-800/50 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 transition-all duration-300 hover:shadow-lg backdrop-blur-sm overflow-hidden"
         aria-label={`Switch to ${getThemeLabel()} mode`}
       >
@@ -74,7 +74,7 @@ export default function ThemeToggle() {
             {getThemeIcon()}
           </motion.div>
         </AnimatePresence>
-      </Button>
+    </Button>
       
       {/* Tooltip */}
       <motion.div
