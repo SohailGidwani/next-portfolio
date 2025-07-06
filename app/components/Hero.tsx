@@ -248,7 +248,7 @@ export default function Hero({ setActiveSection }: HeroProps) {
           <FaLinkedin className="w-5 h-5 group-hover:text-blue-500 transition-colors duration-200" />
         </a>
         <a
-          href="mailto:sohailgidwani@gmail.com"
+          href="mailto:sohailgidwani15@gmail.com"
           aria-label="Email"
           className={`p-3 rounded-full shadow-lg backdrop-blur-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 group
             ${isDark ? "bg-gray-800/60 text-white" : "bg-white/10 text-gray-800"}
