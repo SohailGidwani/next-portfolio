@@ -8,6 +8,7 @@ import { Mail, Phone, MapPin, Linkedin, Github, ArrowRight } from "lucide-react"
 import { useTheme } from "next-themes"
 import { useInView } from "react-intersection-observer"
 import ScrollAnimation from "./ScrollAnimation"
+import { triggerHaptic } from "./ui/haptics"
 
 interface ContactProps {
   setActiveSection: (section: string) => void
@@ -97,6 +98,7 @@ function MobileContactCard({ item, index, isDark }: { item: ContactItem; index: 
             target="_blank"
             rel="noopener noreferrer"
             className={`text-xs flex items-center ${isDark ? "text-blue-400" : "text-blue-600"} truncate`}
+            onClick={() => { triggerHaptic(); }}
           >
             <span className="truncate">{item.value}</span>
             <ArrowRight className="w-3 h-3 ml-1 flex-shrink-0" />
@@ -173,6 +175,7 @@ function DesktopContactCard({ item, index, isDark }: { item: ContactItem; index:
               isDark ? "text-blue-400 hover:text-blue-300" : "text-blue-600 hover:text-blue-800"
             }`}
             whileHover={{ x: 5 }}
+            onClick={() => { triggerHaptic(); }}
           >
             {item.value}
             <ArrowRight className="w-4 h-4 ml-2 group-hover/link:translate-x-1 transition-transform duration-200" />
@@ -270,9 +273,9 @@ export default function Contact({ setActiveSection }: ContactProps) {
 
         <ScrollAnimation variant="fadeUp" delay={0.5}>
           <div className="mt-10 md:mt-16 text-center">
-          <p className={`text-base md:text-xl ${isDark ? "text-gray-300" : "text-gray-700"}`}>
-            I'm always open to new opportunities and collaborations. Feel free to reach out!
-          </p>
+            <p className={`text-base md:text-xl ${isDark ? "text-gray-300" : "text-gray-700"}`}>
+              I'm always open to new opportunities and collaborations. Feel free to reach out!
+            </p>
           </div>
         </ScrollAnimation>
       </div>

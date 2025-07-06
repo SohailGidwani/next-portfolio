@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { GraduationCap, Calendar, MapPin, Award, BookOpen, ChevronRight } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import ScrollAnimation from './ScrollAnimation'
+import { triggerHaptic } from "./ui/haptics"
 
 interface EducationProps {
   setActiveSection: (section: string) => void;
@@ -97,6 +98,7 @@ export default function Education({ setActiveSection }: EducationProps) {
   const isDark = mounted && currentTheme === "dark"
 
   const toggleCard = (index: number) => {
+    triggerHaptic();
     setExpandedCard(expandedCard === index ? null : index)
   }
 

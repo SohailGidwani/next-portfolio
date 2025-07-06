@@ -5,6 +5,7 @@ import { Button } from "@/app/components/ui/button"
 import { Moon, Sun } from "lucide-react"
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import { triggerHaptic } from "./ui/haptics"
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme()
@@ -34,6 +35,7 @@ export default function ThemeToggle() {
   }
 
   const toggleTheme = () => {
+    triggerHaptic();
     setTheme(getNextTheme())
   }
 
