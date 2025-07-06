@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { useTheme } from "next-themes"
 import ScrollAnimation from "./ScrollAnimation"
 import ReactDOM from "react-dom"
+import { triggerHaptic } from "./ui/haptics"
 
 interface ExperienceProps {
   setActiveSection: (section: string) => void
@@ -160,6 +161,7 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
       (entries: IntersectionObserverEntry[]) => {
         const [entry] = entries
         if (entry.isIntersecting) {
+          triggerHaptic(10);
           setActiveSection("experience")
         }
       },
@@ -256,7 +258,7 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                   {experiences.map((exp, index) => (
                       <motion.button
                       key={index}
-                      onClick={() => setActiveExperience(index)}
+                      onClick={() => { triggerHaptic(); setActiveExperience(index); }}
                       className={`relative px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap ${
                         activeExperience === index
                           ? "bg-blue-600 text-white"
@@ -351,7 +353,7 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                       </div>
 
                       <motion.button
-                        onClick={() => setSelectedExperience(experiences[activeExperience])}
+                        onClick={() => { triggerHaptic(); setSelectedExperience(experiences[activeExperience]); }}
                         className="mt-6 lg:mt-0 px-5 py-2.5 bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-lg font-medium text-sm flex items-center self-start"
                         whileHover={{ scale: 1.05, x: 5 }}
                         whileTap={{ scale: 0.95 }}
@@ -407,7 +409,7 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
 
                     {experiences[activeExperience].projects.length > 2 && (
                         <motion.button
-                        onClick={() => setSelectedExperience(experiences[activeExperience])}
+                        onClick={() => { triggerHaptic(); setSelectedExperience(experiences[activeExperience]); }}
                         className="mt-6 text-blue-600 dark:text-blue-400 font-medium text-sm flex items-center"
                           whileHover={{ x: 5 }}
                           initial={{ opacity: 0 }}
@@ -441,7 +443,7 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                   {experiences.map((exp, index) => (
                       <motion.button
                       key={index}
-                      onClick={() => setActiveExperience(index)}
+                      onClick={() => { triggerHaptic(); setActiveExperience(index); }}
                       className={`relative px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-300 whitespace-nowrap ${
                         activeExperience === index
                           ? "bg-blue-600 text-white"
@@ -501,7 +503,7 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                       </div>
                     </div>
                     <button
-                      onClick={() => setSelectedExperience(experiences[activeExperience])}
+                      onClick={() => { triggerHaptic(); setSelectedExperience(experiences[activeExperience]); }}
                       className="text-blue-600 dark:text-blue-400"
                     >
                       <ExternalLink size={18} />
@@ -520,7 +522,7 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                         : experiences[activeExperience].projects[0]}
                     </div>
                     <button
-                      onClick={() => setSelectedExperience(experiences[activeExperience])}
+                      onClick={() => { triggerHaptic(); setSelectedExperience(experiences[activeExperience]); }}
                       className="mt-2 text-xs text-blue-600 dark:text-blue-400 font-medium flex items-center"
                     >
                       View more <ChevronRight size={12} className="ml-1" />

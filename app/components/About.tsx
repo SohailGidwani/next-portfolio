@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Code, Lightbulb, Users, Zap, BookOpen, Rocket } from 'lucide-react'
+import { triggerHaptic } from "./ui/haptics"
 
 interface AboutProps {
   setActiveSection: (section: string) => void;
@@ -59,10 +60,14 @@ export default function About({ setActiveSection }: AboutProps) {
       (entries: IntersectionObserverEntry[]) => {
         const [entry] = entries
         if (entry.isIntersecting) {
-          setActiveSection('about')
+          triggerHaptic(10);
+          setActiveSection("about")
         }
       },
-      { threshold: 0.3 }
+      {
+        threshold: 0.3,
+        rootMargin: "-10% 0px -10% 0px",
+      },
     )
 
     if (sectionRef.current) {
@@ -215,7 +220,7 @@ export default function About({ setActiveSection }: AboutProps) {
                         ? 'bg-blue-600 text-white shadow-md' 
                         : 'bg-white/80 dark:bg-gray-800/80 hover:bg-blue-100 dark:hover:bg-blue-900/40 text-gray-800 dark:text-gray-200'
                     }`}
-                    onClick={() => setActiveQuality(index)}
+                    onClick={() => { triggerHaptic(); setActiveQuality(index); }}
                     whileHover={{ scale: 1.02 }}
                     transition={{ type: "spring", stiffness: 300, damping: 15 }}
                   >
@@ -273,7 +278,7 @@ export default function About({ setActiveSection }: AboutProps) {
                   {qualities.map((_, index) => (
                     <button
                       key={index}
-                      onClick={() => setActiveQuality(index)}
+                      onClick={() => { triggerHaptic(); setActiveQuality(index); }}
                       className={`w-2 h-2 rounded-full transition-all duration-300 ${
                         activeQuality === index 
                           ? 'bg-blue-600 dark:bg-blue-400 w-4' 

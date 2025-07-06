@@ -12,7 +12,7 @@ export default function SectionDivider() {
         aria-hidden="true"
       >
         <path
-          d="M0 2 Q 20 0, 40 2 Q 60 4, 80 2 Q 90 1, 100 2"
+          d="M0 2 L100 2"
           fill="none"
           stroke="url(#divider-gradient)"
           strokeWidth="0.5"

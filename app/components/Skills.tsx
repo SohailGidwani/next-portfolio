@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Code, Database, Cloud, Cpu, Globe, PenToolIcon as Tool, ChevronDown, ChevronUp, Zap } from "lucide-react"
 import { useTheme } from "next-themes"
 import ScrollAnimation from "./ScrollAnimation"
+import { triggerHaptic } from "./ui/haptics"
 
 interface SkillsProps {
   setActiveSection: (section: string) => void
@@ -43,6 +44,7 @@ export default function Skills({ setActiveSection }: SkillsProps) {
       (entries: IntersectionObserverEntry[]) => {
         const [entry] = entries
         if (entry.isIntersecting) {
+          triggerHaptic(10);
           setActiveSection("skills")
         }
       },
@@ -317,6 +319,7 @@ export default function Skills({ setActiveSection }: SkillsProps) {
   ]
 
   const toggleCategory = (index: number) => {
+    triggerHaptic();
     setExpandedCategory(expandedCategory === index ? null : index)
   }
 

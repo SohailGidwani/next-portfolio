@@ -5,6 +5,7 @@ import { Button } from "@/app/components/ui/button"
 import { Menu, Moon, Sun, X, ChevronRight } from "lucide-react"
 import { useTheme } from "next-themes"
 import { motion, AnimatePresence, useTransform, useSpring } from "framer-motion"
+import { triggerHaptic } from "./ui/haptics"
 
 interface NavbarProps {
   activeSection: string
@@ -184,6 +185,7 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
   const navItems = ["About", "Experience", "Education", "Skills", "Projects", "Triumphs", "Contact"]
 
   const scrollToSection = (sectionId: string) => {
+    triggerHaptic();
     const element = document.getElementById(sectionId.toLowerCase())
     if (element) {
       element.scrollIntoView({ behavior: "smooth" })
@@ -193,6 +195,7 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
   }
 
   const toggleTheme = () => {
+    triggerHaptic();
     setTheme(theme === "dark" ? "light" : "dark")
   }
 

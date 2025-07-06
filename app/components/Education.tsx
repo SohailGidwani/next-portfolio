@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { GraduationCap, Calendar, MapPin, Award, BookOpen, ChevronRight } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import ScrollAnimation from './ScrollAnimation'
+import { triggerHaptic } from "./ui/haptics"
 
 interface EducationProps {
   setActiveSection: (section: string) => void;
@@ -37,10 +38,14 @@ export default function Education({ setActiveSection }: EducationProps) {
       (entries: IntersectionObserverEntry[]) => {
         const [entry] = entries
         if (entry.isIntersecting) {
-          setActiveSection('education')
+          triggerHaptic(10);
+          setActiveSection("education")
         }
       },
-      { threshold: 0.3 }
+      {
+        threshold: 0.3,
+        rootMargin: "-10% 0px -10% 0px",
+      },
     )
 
     if (sectionRef.current) {
@@ -97,6 +102,7 @@ export default function Education({ setActiveSection }: EducationProps) {
   const isDark = mounted && currentTheme === "dark"
 
   const toggleCard = (index: number) => {
+    triggerHaptic();
     setExpandedCard(expandedCard === index ? null : index)
   }
 

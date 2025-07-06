@@ -4,6 +4,7 @@ import type React from "react"
 import { useState, useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import { triggerHaptic } from "./ui/haptics"
 
 interface CarouselProps {
   items: React.ReactNode[]
@@ -73,8 +74,10 @@ export default function Carousel({ items, autoScrollInterval = 15000 }: Carousel
 
     if (Math.abs(diffX) > 50) {
       if (diffX > 0) {
+        triggerHaptic()
         navigate(-1) // Swipe right, go to previous
       } else {
+        triggerHaptic()
         navigate(1) // Swipe left, go to next
       }
     }
@@ -202,7 +205,7 @@ export default function Carousel({ items, autoScrollInterval = 15000 }: Carousel
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: isHovering ? 1 : 0, x: isHovering ? 0 : -10 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
-          onClick={() => navigate(-1)}
+          onClick={() => { triggerHaptic(); navigate(-1) }}
           className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md text-gray-800 dark:text-white rounded-full p-4 shadow-xl hover:bg-white dark:hover:bg-gray-800 transition-all duration-300 transform hover:scale-110 pointer-events-auto border border-gray-200/50 dark:border-gray-700/50"
           aria-label="Previous slide"
         >
@@ -213,7 +216,7 @@ export default function Carousel({ items, autoScrollInterval = 15000 }: Carousel
           initial={{ opacity: 0, x: 10 }}
           animate={{ opacity: isHovering ? 1 : 0, x: isHovering ? 0 : 10 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
-          onClick={() => navigate(1)}
+          onClick={() => { triggerHaptic(); navigate(1) }}
           className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md text-gray-800 dark:text-white rounded-full p-4 shadow-xl hover:bg-white dark:hover:bg-gray-800 transition-all duration-300 transform hover:scale-110 pointer-events-auto border border-gray-200/50 dark:border-gray-700/50"
           aria-label="Next slide"
         >
@@ -227,7 +230,7 @@ export default function Carousel({ items, autoScrollInterval = 15000 }: Carousel
           initial={{ opacity: 0 }}
           animate={{ opacity: showControls ? 0.95 : 0 }}
           transition={{ duration: 0.3 }}
-          onClick={() => navigate(-1)}
+          onClick={() => { triggerHaptic(); navigate(-1) }}
           className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-md text-gray-800 dark:text-white rounded-full p-3 shadow-xl pointer-events-auto border border-gray-200/50 dark:border-gray-700/50"
           aria-label="Previous slide"
         >
@@ -238,7 +241,7 @@ export default function Carousel({ items, autoScrollInterval = 15000 }: Carousel
           initial={{ opacity: 0 }}
           animate={{ opacity: showControls ? 0.95 : 0 }}
           transition={{ duration: 0.3 }}
-          onClick={() => navigate(1)}
+          onClick={() => { triggerHaptic(); navigate(1) }}
           className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-md text-gray-800 dark:text-white rounded-full p-3 shadow-xl pointer-events-auto border border-gray-200/50 dark:border-gray-700/50"
           aria-label="Next slide"
         >
@@ -251,7 +254,7 @@ export default function Carousel({ items, autoScrollInterval = 15000 }: Carousel
         {items.map((_, index) => (
           <motion.button
             key={index}
-            onClick={() => setCurrentIndex(index)}
+            onClick={() => { triggerHaptic(); setCurrentIndex(index) }}
             className={`h-2 rounded-full transition-all duration-500 ${
               index === currentIndex
                 ? "bg-blue-600 w-8 shadow-lg"

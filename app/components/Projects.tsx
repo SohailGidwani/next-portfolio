@@ -11,6 +11,7 @@ import blogsite from '@/public/images/BlogSite.jpg'
 import techupdates from '@/public/images/Tech Updates.png'
 import { Github, ExternalLink } from "lucide-react"
 import ScrollAnimation from "./ScrollAnimation"
+import { triggerHaptic } from "./ui/haptics"
 
 interface ProjectsProps {
   setActiveSection: (section: string) => void
@@ -24,19 +25,24 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
       (entries: IntersectionObserverEntry[]) => {
         const [entry] = entries
         if (entry.isIntersecting) {
+          triggerHaptic(10);
           setActiveSection("projects")
         }
       },
-      { threshold: 0.3 },
+      {
+        threshold: 0.3,
+        rootMargin: "-10% 0px -10% 0px",
+      },
     )
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
+    const currentRef = sectionRef.current
+    if (currentRef) {
+      observer.observe(currentRef)
     }
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current)
+      if (currentRef) {
+        observer.unobserve(currentRef)
       }
     }
   }, [setActiveSection])
@@ -236,6 +242,7 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
                   className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-700 rounded-lg bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:focus:ring-blue-400/20"
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={() => { triggerHaptic(); }}
                 >
                   <Github className="h-4 w-4" />
                   <span>View Code</span>
@@ -247,6 +254,7 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
                   <Link 
                     href={`/projects/${project.id}`}
                     className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600 rounded-lg bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 hover:border-gray-300 dark:hover:border-gray-500 transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500/20 dark:focus:ring-gray-400/20"
+                    onClick={() => { triggerHaptic(); }}
                   >
                     <span>View Details</span>
                     <ExternalLink className="h-4 w-4" />
