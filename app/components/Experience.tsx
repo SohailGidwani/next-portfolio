@@ -699,7 +699,17 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
             <DialogDescription>
               <div className="flex flex-col sm:flex-row sm:items-center text-gray-600 dark:text-gray-400">
                 <div className="flex items-center mb-1 sm:mb-0">
-                  <Building size={16} className="mr-2" />
+                  <div className="relative w-5 h-5 rounded-full overflow-hidden bg-white dark:bg-gray-700 mr-2 flex-shrink-0">
+                    {selectedExperience?.logo && (
+                      <Image
+                        src={selectedExperience.logo}
+                        alt={`${selectedExperience.company} logo`}
+                        fill
+                        className="object-cover"
+                        sizes="20px"
+                      />
+                    )}
+                  </div>
                   <span className="font-medium">{selectedExperience?.company}</span>
                 </div>
                 <span className="hidden sm:inline mx-2">•</span>
@@ -714,9 +724,9 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                       transition={{ delay: 0.2, type: "spring" }}
                     >
                       <motion.div
+                        style={{ transform: 'rotate(90deg)' }}
                         animate={{ 
-                          rotate: [0, 360],
-                          scale: [1, 1.2, 1]
+                          scale: [1, 1.15, 1]
                         }}
                         transition={{
                           duration: 2,
@@ -739,7 +749,7 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
             <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg mb-6">
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{selectedExperience?.description}</p>
             </div>
-            <h4 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4 flex items-center sticky top-0 bg-white dark:bg-gray-900 py-2 -mx-2 px-2 z-10">
+              <h4 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4 flex items-center sticky top-0 bg-background py-2 -mx-2 px-2 z-10">
               <Briefcase className="mr-2 text-blue-600 dark:text-blue-400" size={20} />
               Key Points ({selectedExperience?.projects.length})
             </h4>
