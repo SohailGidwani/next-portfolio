@@ -57,7 +57,7 @@ export const metadata = {
     },
   },
   verification: {
-    google: 'your-google-verification-code', // Add your Google Search Console verification code
+    google: 'google68b24d157a03257b', // Google Search Console verification code
   },
 }
 
