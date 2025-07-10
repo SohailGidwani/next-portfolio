@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { motion, AnimatePresence, PanInfo } from "framer-motion"
-import { Briefcase, Calendar, Building, ChevronRight, ExternalLink, X, Zap } from "lucide-react"
+import { Briefcase, Calendar, ChevronRight, ExternalLink, X, Zap } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/app/components/ui/dialog"
 import { useTheme } from "next-themes"
 import ScrollAnimation from "./ScrollAnimation"
