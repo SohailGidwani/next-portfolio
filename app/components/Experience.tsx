@@ -2,12 +2,17 @@
 
 import { useEffect, useRef, useState } from "react"
 import { motion, AnimatePresence, PanInfo } from "framer-motion"
-import { Briefcase, Calendar, Building, ChevronRight, ExternalLink, Clock, X } from "lucide-react"
+import { Briefcase, Calendar, Building, ChevronRight, ExternalLink, X, Zap } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/app/components/ui/dialog"
 import { useTheme } from "next-themes"
 import ScrollAnimation from "./ScrollAnimation"
 import ReactDOM from "react-dom"
 import { triggerHaptic } from "./ui/haptics"
+import Image, { StaticImageData } from "next/image"
+// Import placeholder logos - you can replace these with actual company logos
+import AskPandaAI from "@/public/images/Insaito.png" // Placeholder for Insaito
+import fullstack from "@/public/images/iifl.png" // Placeholder for IIFL
+import feynwick from "@/public/images/iremify.png" // Placeholder for Iremfy
 
 interface ExperienceProps {
   setActiveSection: (section: string) => void
@@ -20,6 +25,8 @@ interface ExperienceItem {
   description: string
   projects: string[]
   isLatest?: boolean
+  logo: StaticImageData
+  companyColor?: string
 }
 
 // Add a custom BottomSheetModal component for mobile
@@ -107,16 +114,42 @@ function BottomSheetModal({ open, onClose, experience }: { open: boolean, onClos
         <div className="mb-2">
           <h2 className="text-xl font-bold text-blue-600 dark:text-blue-400 mb-1">{experience.title}</h2>
           <div className="flex items-center text-gray-600 dark:text-gray-400 text-sm mb-1">
-            <Building size={16} className="mr-2" />
+            <div className="relative w-4 h-4 rounded-full overflow-hidden bg-white dark:bg-gray-700 mr-2 flex-shrink-0">
+              <Image
+                src={experience.logo}
+                alt={`${experience.company} logo`}
+                fill
+                className="object-cover"
+                sizes="16px"
+              />
+            </div>
             <span className="font-medium">{experience.company}</span>
           </div>
           <div className="flex items-center text-xs text-gray-500 dark:text-gray-500">
             <Calendar size={16} className="mr-2" />
             <span>{experience.date}</span>
             {experience.isLatest && (
-              <span className="ml-2 inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">
-                Current
-              </span>
+              <motion.span 
+                className="ml-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 text-green-800 dark:text-green-300 border border-green-200 dark:border-green-700"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.2, type: "spring" }}
+              >
+                <motion.div
+                  style={{ transform: 'rotate(90deg)' }}
+                  animate={{ 
+                    scale: [1, 1.15, 1]
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                >
+                  <Zap size={10} className="text-green-600 dark:text-green-400" />
+                </motion.div>
+                ACTIVE
+              </motion.span>
             )}
           </div>
         </div>
@@ -195,17 +228,36 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
 
   const experiences: ExperienceItem[] = [
     {
+      title: "Senior Software Engineer - I ",
+      company: "Insaito, Inc.",
+      date: "May 12, 2024 - Present",
+      description:
+        "Building cutting-edge AI agent platforms from scratch, focusing on open-source LLM deployment and integration architecture. Leading the development of comprehensive AI agent builder with extensive third-party app integrations.",
+      projects: [
+        "AI Agent Builder Platform: Architecting and developing a comprehensive AI agent builder platform from the ground up, enabling users to create sophisticated AI agents with custom workflows and integrations.",
+        "Open Source LLM Deployment: Deploying and optimizing open-source large language models including Qwen 3 and Mistral Small 24B 2, ensuring efficient performance and scalability for production environments.",
+        "OAuth Integration Architecture: Building robust OAuth functionality for 100+ different applications, enabling seamless authentication and authorization across diverse third-party services and platforms.",
+        "MCP Server Development: Creating Model Context Protocol (MCP) servers for integrated applications, making all functions and capabilities available to the AI models for enhanced functionality and user experience.",
+        "Full-Stack Development: Handling end-to-end development from backend infrastructure to frontend user interfaces, ensuring cohesive and performant AI agent experiences.",
+      ],
+      isLatest: true,
+      logo: AskPandaAI, // Replace with actual Insaito logo
+      companyColor: "from-purple-500 to-pink-500",
+    },
+    {
       title: "Full-Stack/AI Developer",
       company: "IIFL Finance Ltd",
-      date: "June, 2023 - Present",
+      date: "June, 2023 - May 12, 2024",
       description:
-        "Leading AI initiatives and developing cutting-edge machine learning models for various client projects. Mentoring junior developers and contributing to the company's AI research efforts.",
+        "Led AI initiatives and developed cutting-edge machine learning models for various client projects. Mentored junior developers and contributed to the company's AI research efforts.",
       projects: [
         "Custom Data Chatbots (RAG) : Built an internal employee support chatbot using NLP, Python, and Flask. Integrated with Qdrant vector database, Azure OpenAI service, and Zoho ticketing system. This AI-powered solution significantly reduced the number of support tickets raised by employees, streamlining internal processes. (Certificate of Achievement)",
         "Gold Loan Image Audit App: Engineered AI-powered application using models like GroundingDino, Swin-Transformer, enhancing fraud detection and reducing potential loan fraud by 15%.",
         "Cross-functional Collaboration: Worked closely with data science and security teams to implement best practices for data handling and model deployment, ensuring robust and secure AI solutions.",
       ],
       isLatest: false,
+      logo: fullstack, // Replace with actual IIFL logo
+      companyColor: "from-blue-500 to-cyan-500",
     },
     {
       title: "Web Developer (Intern)",
@@ -219,6 +271,8 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
         "Implemented responsive front-end designs using React, showcasing adaptability in learning and applying new technologies.",
       ],
       isLatest: false,
+      logo: feynwick, // Replace with actual Iremfy logo
+      companyColor: "from-green-500 to-emerald-500",
     },
   ]
 
@@ -259,9 +313,9 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                       <motion.button
                       key={index}
                       onClick={() => { triggerHaptic(); setActiveExperience(index); }}
-                      className={`relative px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap ${
+                      className={`relative flex items-center gap-3 px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap ${
                         activeExperience === index
-                          ? "bg-blue-600 text-white"
+                          ? "bg-blue-600 text-white shadow-lg"
                           : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                       }`}
                         whileHover={{ scale: 1.05 }}
@@ -271,17 +325,43 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                         transition={{ delay: 0.4 + index * 0.1, duration: 0.3 }}
                         viewport={{ once: true }}
                     >
-                      {exp.company}
+                      {/* Company Logo */}
+                      <div className="relative w-6 h-6 rounded-full overflow-hidden bg-white dark:bg-gray-700 flex-shrink-0">
+                        <Image
+                          src={exp.logo}
+                          alt={`${exp.company} logo`}
+                          fill
+                          className="object-cover"
+                          sizes="24px"
+                        />
+                      </div>
+                      
+                      {/* Company Name */}
+                      <span className="font-medium">{exp.company}</span>
+                      
+                      {/* Enhanced Current Indicator */}
                       {exp.isLatest && (
-                          <motion.span 
-                            className="absolute -top-1 -right-1 flex h-3 w-3"
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{ delay: 0.6, duration: 0.3 }}
+                          <motion.div 
+                            className="flex items-center"
+                            initial={{ scale: 0, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ delay: 0.6, duration: 0.4, type: "spring" }}
                           >
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
-                          </motion.span>
+                            <motion.div
+                              className="relative"
+                              style={{ transform: 'rotate(90deg)' }}
+                              animate={{ 
+                                scale: [1, 1.15, 1]
+                              }}
+                              transition={{
+                                duration: 2,
+                                repeat: Infinity,
+                                ease: "easeInOut"
+                              }}
+                            >
+                              <Zap className="w-4 h-4 text-green-500 dark:text-green-400" />
+                            </motion.div>
+                          </motion.div>
                       )}
                       </motion.button>
                   ))}
@@ -326,7 +406,15 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ duration: 0.4, delay: 0.2 }}
                         >
-                        <Building size={18} className="mr-2" />
+                        <div className="relative w-5 h-5 rounded-full overflow-hidden bg-white dark:bg-gray-700 mr-2 flex-shrink-0">
+                          <Image
+                            src={experiences[activeExperience].logo}
+                            alt={`${experiences[activeExperience].company} logo`}
+                            fill
+                            className="object-cover"
+                            sizes="20px"
+                          />
+                        </div>
                         <span className="font-medium">{experiences[activeExperience].company}</span>
                         </motion.div>
 
@@ -339,15 +427,42 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                         <Calendar size={18} className="mr-2" />
                         <span>{experiences[activeExperience].date}</span>
                         {experiences[activeExperience].isLatest && (
-                            <motion.span 
-                              className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300"
-                              initial={{ scale: 0 }}
-                              animate={{ scale: 1 }}
-                              transition={{ delay: 0.4, duration: 0.3 }}
+                            <motion.div 
+                              className="ml-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 text-green-800 dark:text-green-300 border border-green-200 dark:border-green-700"
+                              initial={{ scale: 0, opacity: 0 }}
+                              animate={{ scale: 1, opacity: 1 }}
+                              transition={{ delay: 0.4, duration: 0.4, type: "spring" }}
                             >
-                            <Clock size={12} className="mr-1" />
-                            Current
-                            </motion.span>
+                            <motion.div
+                              className="relative"
+                              animate={{ 
+                                scale: [1, 1.3, 1],
+                                rotate: [0, 180, 360]
+                              }}
+                              transition={{
+                                duration: 3,
+                                repeat: Infinity,
+                                ease: "easeInOut"
+                              }}
+                            >
+                              <Zap size={12} className="text-green-600 dark:text-green-400" />
+                            </motion.div>
+                            <span className="bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent">
+                              ACTIVE
+                            </span>
+                            <motion.div
+                              className="w-2 h-2 bg-green-500 rounded-full"
+                              animate={{ 
+                                opacity: [1, 0.3, 1],
+                                scale: [1, 0.8, 1]
+                              }}
+                              transition={{
+                                duration: 2,
+                                repeat: Infinity,
+                                ease: "easeInOut"
+                              }}
+                            />
+                            </motion.div>
                         )}
                         </motion.div>
                       </div>
@@ -432,21 +547,21 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
           <ScrollAnimation variant="fadeUp" delay={0.2}>
           <div className="md:hidden">
               <motion.div 
-                className="flex justify-start mb-8 overflow-x-auto pb-2 -mx-4 px-4"
+                className="flex justify-center mb-8 px-4"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
                 viewport={{ once: true }}
               >
               <div className="inline-flex bg-white dark:bg-gray-800 rounded-full p-1 shadow-md">
-                <div className="flex flex-nowrap">
+                <div className="flex flex-nowrap gap-1">
                   {experiences.map((exp, index) => (
                       <motion.button
                       key={index}
                       onClick={() => { triggerHaptic(); setActiveExperience(index); }}
-                      className={`relative px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-300 whitespace-nowrap ${
+                      className={`relative flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-medium transition-all duration-300 whitespace-nowrap ${
                         activeExperience === index
-                          ? "bg-blue-600 text-white"
+                          ? "bg-blue-600 text-white shadow-lg"
                           : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                       }`}
                         whileHover={{ scale: 1.05 }}
@@ -456,17 +571,34 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                         transition={{ delay: 0.4 + index * 0.1, duration: 0.3 }}
                         viewport={{ once: true }}
                     >
-                      {exp.company}
+                      {/* Company Name - No logo on mobile */}
+                      <span className="text-xs">
+                        {exp.company.includes(',') ? exp.company.split(',')[0] : 
+                         exp.company.includes('.') ? exp.company.split('.')[0] : exp.company}
+                      </span>
+                      
+                      {/* Mobile Current Indicator */}
                       {exp.isLatest && (
-                          <motion.span 
-                            className="absolute -top-1 -right-1 flex h-2 w-2"
+                          <motion.div 
+                            className="flex items-center"
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
                             transition={{ delay: 0.6, duration: 0.3 }}
                           >
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-                          </motion.span>
+                          <motion.div
+                            style={{ transform: 'rotate(90deg)' }}
+                            animate={{ 
+                              scale: [1, 1.15, 1]
+                            }}
+                            transition={{
+                              duration: 2,
+                              repeat: Infinity,
+                              ease: "easeInOut"
+                            }}
+                          >
+                            <Zap className="w-3 h-3 text-green-500 dark:text-green-400" />
+                          </motion.div>
+                          </motion.div>
                       )}
                       </motion.button>
                   ))}
@@ -486,18 +618,30 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                 <div className="h-1 bg-blue-600"></div>
                 <div className="p-4">
                   <div className="flex justify-between items-start mb-3">
-                    <div>
+                    <div className="flex-1">
                       <h3 className="text-lg font-bold text-blue-600 dark:text-blue-400 mb-1">
                         {experiences[activeExperience].title}
                       </h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        {experiences[activeExperience].company}
-                      </p>
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className="relative w-4 h-4 rounded-full overflow-hidden bg-white dark:bg-gray-700 flex-shrink-0">
+                          <Image
+                            src={experiences[activeExperience].logo}
+                            alt={`${experiences[activeExperience].company} logo`}
+                            fill
+                            className="object-cover"
+                            sizes="16px"
+                          />
+                        </div>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 font-medium">
+                          {experiences[activeExperience].company}
+                        </p>
+                      </div>
                       <div className="flex items-center text-xs text-gray-500 dark:text-gray-500">
                         <span>{experiences[activeExperience].date}</span>
                         {experiences[activeExperience].isLatest && (
-                          <span className="ml-2 inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">
-                            Current
+                          <span className="ml-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 text-green-800 dark:text-green-300 border border-green-200 dark:border-green-700">
+                            <Zap size={10} className="text-green-600 dark:text-green-400" />
+                            ACTIVE
                           </span>
                         )}
                       </div>
@@ -549,8 +693,8 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
       {/* Detailed Project Modal */}
       {!isMobile && (
       <Dialog open={!!selectedExperience} onOpenChange={() => setSelectedExperience(null)}>
-        <DialogContent className="w-full max-w-3xl max-h-[90vh] sm:max-h-none overflow-y-auto sm:overflow-visible">
-          <DialogHeader>
+        <DialogContent className="w-full max-w-4xl max-h-[85vh] flex flex-col">
+          <DialogHeader className="flex-shrink-0">
             <DialogTitle className="text-2xl text-blue-600 dark:text-blue-400">{selectedExperience?.title}</DialogTitle>
             <DialogDescription>
               <div className="flex flex-col sm:flex-row sm:items-center text-gray-600 dark:text-gray-400">
@@ -562,26 +706,59 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                 <div className="flex items-center">
                   <Calendar size={16} className="mr-2" />
                   <span>{selectedExperience?.date}</span>
+                  {selectedExperience?.isLatest && (
+                    <motion.span 
+                      className="ml-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 text-green-800 dark:text-green-300 border border-green-200 dark:border-green-700"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.2, type: "spring" }}
+                    >
+                      <motion.div
+                        animate={{ 
+                          rotate: [0, 360],
+                          scale: [1, 1.2, 1]
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                      >
+                        <Zap size={12} className="text-green-600 dark:text-green-400" />
+                      </motion.div>
+                      <span className="bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent">
+                        ACTIVE
+                      </span>
+                    </motion.span>
+                  )}
                 </div>
               </div>
             </DialogDescription>
           </DialogHeader>
-          <div className="mt-6">
+          <div className="flex-1 overflow-y-auto mt-6 pr-2">
             <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg mb-6">
-              <p className="text-gray-700 dark:text-gray-300">{selectedExperience?.description}</p>
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{selectedExperience?.description}</p>
             </div>
-            <h4 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4 flex items-center">
+            <h4 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4 flex items-center sticky top-0 bg-white dark:bg-gray-900 py-2 -mx-2 px-2 z-10">
               <Briefcase className="mr-2 text-blue-600 dark:text-blue-400" size={20} />
-              Key Points
+              Key Points ({selectedExperience?.projects.length})
             </h4>
-            <div className="space-y-4">
+            <div className="space-y-4 pb-4">
               {selectedExperience?.projects.map((project, index) => (
-                <div
+                <motion.div
                   key={index}
-                  className="bg-white dark:bg-gray-800 p-4 rounded-lg border-l-4 border-blue-600 shadow-sm"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="bg-white dark:bg-gray-800 p-5 rounded-lg border-l-4 border-blue-600 shadow-sm hover:shadow-md transition-shadow duration-200"
                 >
-                  <p className="text-gray-700 dark:text-gray-300">{project}</p>
-                </div>
+                  <div className="flex items-start">
+                    <div className="flex-shrink-0 w-6 h-6 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mr-3 mt-1">
+                      <span className="text-blue-600 dark:text-blue-400 text-sm font-bold">{index + 1}</span>
+                    </div>
+                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed flex-1">{project}</p>
+                  </div>
+                </motion.div>
               ))}
             </div>
           </div>
