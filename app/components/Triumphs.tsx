@@ -82,7 +82,7 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
       date: "April 24th, 2021",
       description: "Participated in an Inter-College code contest, brushing up DSA skills.",
       image: feynwick,
-      isAward: false,
+      isAward: true,
     },
     {
       title: "Rubix-Hackathon",
