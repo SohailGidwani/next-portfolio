@@ -229,7 +229,7 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
     {
       title: "Senior Software Engineer - I ",
       company: "Insaito, Inc.",
-      date: "May 12, 2024 - Present",
+      date: "May 12, 2025 - Present",
       description:
         "Building cutting-edge AI agent platforms from scratch, focusing on open-source LLM deployment and integration architecture. Leading the development of comprehensive AI agent builder with extensive third-party app integrations.",
       projects: [
