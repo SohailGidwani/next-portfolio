@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { motion, AnimatePresence, PanInfo } from "framer-motion"
-import { Briefcase, Calendar, ChevronRight, ExternalLink, X, Zap } from "lucide-react"
+import { Briefcase, Calendar, ChevronRight, ExternalLink, X} from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/app/components/ui/dialog"
 import { useTheme } from "next-themes"
 import ScrollAnimation from "./ScrollAnimation"
@@ -136,18 +136,17 @@ function BottomSheetModal({ open, onClose, experience }: { open: boolean, onClos
                 transition={{ delay: 0.2, type: "spring" }}
               >
                 <motion.div
-                  style={{ transform: 'rotate(90deg)' }}
+                  className="w-2 h-2 bg-green-500 rounded-full"
                   animate={{ 
-                    scale: [1, 1.15, 1]
+                    opacity: [1, 0.3, 1],
+                    scale: [1, 0.8, 1]
                   }}
                   transition={{
                     duration: 2,
                     repeat: Infinity,
                     ease: "easeInOut"
                   }}
-                >
-                  <Zap size={10} className="text-green-600 dark:text-green-400" />
-                </motion.div>
+                />
                 ACTIVE
               </motion.span>
             )}
@@ -261,7 +260,7 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
     },
     {
       title: "Web Developer (Intern)",
-      company: "Iremfy.com",
+      company: "Iremify.com",
       date: "May, 2021 - July, 2021",
       description:
         "Designed and implemented machine learning algorithms for predictive analytics. Collaborated with cross-functional teams to integrate ML solutions into existing products.",
@@ -347,20 +346,18 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                             animate={{ scale: 1, opacity: 1 }}
                             transition={{ delay: 0.6, duration: 0.4, type: "spring" }}
                           >
-                            <motion.div
-                              className="relative"
-                              style={{ transform: 'rotate(90deg)' }}
+                             <motion.div
+                              className="w-2 h-2 bg-green-500 rounded-full"
                               animate={{ 
-                                scale: [1, 1.15, 1]
+                                opacity: [1, 0.3, 1],
+                                scale: [1, 0.8, 1]
                               }}
                               transition={{
                                 duration: 2,
                                 repeat: Infinity,
                                 ease: "easeInOut"
                               }}
-                            >
-                              <Zap className="w-4 h-4 text-green-500 dark:text-green-400" />
-                            </motion.div>
+                            />
                           </motion.div>
                       )}
                       </motion.button>
@@ -433,7 +430,7 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                               animate={{ scale: 1, opacity: 1 }}
                               transition={{ delay: 0.4, duration: 0.4, type: "spring" }}
                             >
-                            <motion.div
+                            {/* <motion.div
                               className="relative"
                               animate={{ 
                                 scale: [1, 1.3, 1],
@@ -446,10 +443,7 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                               }}
                             >
                               <Zap size={12} className="text-green-600 dark:text-green-400" />
-                            </motion.div>
-                            <span className="bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent">
-                              ACTIVE
-                            </span>
+                            </motion.div> */}
                             <motion.div
                               className="w-2 h-2 bg-green-500 rounded-full"
                               animate={{ 
@@ -462,6 +456,9 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                                 ease: "easeInOut"
                               }}
                             />
+                            <span className="bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent">
+                              ACTIVE
+                            </span>
                             </motion.div>
                         )}
                         </motion.div>
@@ -585,19 +582,18 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                             animate={{ scale: 1 }}
                             transition={{ delay: 0.6, duration: 0.3 }}
                           >
-                          <motion.div
-                            style={{ transform: 'rotate(90deg)' }}
-                            animate={{ 
-                              scale: [1, 1.15, 1]
-                            }}
-                            transition={{
-                              duration: 2,
-                              repeat: Infinity,
-                              ease: "easeInOut"
-                            }}
-                          >
-                            <Zap className="w-3 h-3 text-green-500 dark:text-green-400" />
-                          </motion.div>
+                            <motion.div
+                              className="w-2 h-2 bg-green-500 rounded-full"
+                              animate={{ 
+                                opacity: [1, 0.3, 1],
+                                scale: [1, 0.8, 1]
+                              }}
+                              transition={{
+                                duration: 2,
+                                repeat: Infinity,
+                                ease: "easeInOut"
+                              }}
+                            />
                           </motion.div>
                       )}
                       </motion.button>
@@ -640,9 +636,22 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                         <span>{experiences[activeExperience].date}</span>
                         {experiences[activeExperience].isLatest && (
                           <span className="ml-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 text-green-800 dark:text-green-300 border border-green-200 dark:border-green-700">
-                            <Zap size={10} className="text-green-600 dark:text-green-400" />
+                            {/* <Zap size={10} className="text-green-600 dark:text-green-400" /> */}
+                            <motion.div
+                              className="w-2 h-2 bg-green-500 rounded-full"
+                              animate={{ 
+                                opacity: [1, 0.3, 1],
+                                scale: [1, 0.8, 1]
+                              }}
+                              transition={{
+                                duration: 2,
+                                repeat: Infinity,
+                                ease: "easeInOut"
+                              }}
+                            />
                             ACTIVE
                           </span>
+                          
                         )}
                       </div>
                     </div>
@@ -724,18 +733,17 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                       transition={{ delay: 0.2, type: "spring" }}
                     >
                       <motion.div
-                        style={{ transform: 'rotate(90deg)' }}
+                        className="w-2 h-2 bg-green-500 rounded-full"
                         animate={{ 
-                          scale: [1, 1.15, 1]
+                          opacity: [1, 0.3, 1],
+                          scale: [1, 0.8, 1]
                         }}
                         transition={{
                           duration: 2,
                           repeat: Infinity,
                           ease: "easeInOut"
                         }}
-                      >
-                        <Zap size={12} className="text-green-600 dark:text-green-400" />
-                      </motion.div>
+                      />
                       <span className="bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent">
                         ACTIVE
                       </span>

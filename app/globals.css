@@ -78,19 +78,19 @@
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
-  /* Custom scrollbar for theme (WebKit browsers) */
+  /* Hide scrollbar completely while keeping scroll functionality */
   ::-webkit-scrollbar {
-    width: 8px;
+    display: none;
   }
-  ::-webkit-scrollbar-track {
-    background: hsl(var(--background));
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  html {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
   }
-  ::-webkit-scrollbar-thumb {
-    background: hsl(var(--muted-foreground) / 0.3);
-    border-radius: 4px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--muted-foreground) / 0.5);
+  
+  body {
+    overflow-x: hidden; /* Prevent horizontal scrolling */
   }
 
   /* Custom focus styles */
