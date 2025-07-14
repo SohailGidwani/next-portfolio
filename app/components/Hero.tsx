@@ -521,7 +521,7 @@ export default function Hero({ setActiveSection }: HeroProps) {
               className="group relative overflow-hidden px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-300"
               onHoverStart={() => setIsResumeHovered(true)}
               onHoverEnd={() => setIsResumeHovered(false)}
-              onClick={() => window.open("/documents/Sohail_Gidwani_Resume.pdf", "_blank")}
+              onClick={() => window.open("/documents/Sohail_Gidwani_Resume_July_2025.pdf", "_blank")}
               whileTap={{ scale: 0.95 }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
