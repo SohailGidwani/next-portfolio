@@ -20,10 +20,10 @@ export default function ThemeToggle() {
       <Button
         variant="ghost"
         size="icon"
-        className="w-10 h-10 rounded-full bg-gray-100/50 dark:bg-gray-800/50 hover:bg-gray-200/50 dark:hover:bg-gray-700/50"
+        className="w-10 h-10 rounded-full bg-gray-100/50 dark:bg-slate-800/50 hover:bg-gray-200/50 dark:hover:bg-slate-700/50"
         disabled
       >
-        <div className="w-4 h-4 bg-gray-300 dark:bg-gray-600 rounded animate-pulse" />
+        <div className="w-4 h-4 bg-gray-300 dark:bg-slate-600 rounded animate-pulse" />
       </Button>
     )
   }
@@ -61,7 +61,7 @@ export default function ThemeToggle() {
       onClick={toggleTheme}
       variant="ghost"
       size="icon"
-        className="w-10 h-10 rounded-full bg-gray-100/50 dark:bg-gray-800/50 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 transition-all duration-300 hover:shadow-lg backdrop-blur-sm overflow-hidden"
+        className="w-10 h-10 rounded-full bg-gray-100/50 dark:bg-slate-800/50 hover:bg-gray-200/50 dark:hover:bg-slate-700/50 transition-all duration-300 hover:shadow-lg backdrop-blur-sm overflow-hidden"
         aria-label={`Switch to ${getThemeLabel()} mode`}
       >
         <AnimatePresence mode="wait">
@@ -82,11 +82,11 @@ export default function ThemeToggle() {
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         whileHover={{ opacity: 1, y: 0 }}
-        className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs font-medium text-white bg-gray-900 dark:bg-gray-100 dark:text-gray-900 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50"
+        className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs font-medium text-white bg-gray-900 dark:bg-slate-100 dark:text-slate-900 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50"
         style={{ minWidth: '60px', maxWidth: '120px', textAlign: 'center' }}
       >
         {getThemeLabel()} Mode
-        <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900 dark:border-t-gray-100"></div>
+        <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900 dark:border-t-slate-100"></div>
       </motion.div>
     </motion.div>
   )

@@ -48,9 +48,9 @@ export default function ProjectsPage() {
 
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+      <div className="min-h-screen bg-white dark:bg-slate-950 text-gray-800 dark:text-slate-200 transition-colors duration-300">
         {/* Header */}
-        <div className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-800 dark:to-gray-900 py-20">
+        <div className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-slate-800 dark:to-slate-950 py-20">
           <div className="container mx-auto px-4">
             {/* Navigation and Theme Toggle */}
             <div className="flex justify-between items-center mb-6">
@@ -73,7 +73,7 @@ export default function ProjectsPage() {
               <h1 className="text-4xl md:text-6xl font-bold mb-6 text-blue-900 dark:text-blue-400">
                 My Projects
               </h1>
-              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              <p className="text-xl text-gray-600 dark:text-slate-300 max-w-3xl mx-auto">
                 Explore my portfolio of AI/ML and full-stack development projects. Each project showcases different aspects of my technical skills and problem-solving approach.
               </p>
             </motion.div>
@@ -92,7 +92,7 @@ export default function ProjectsPage() {
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   className="group"
                 >
-                  <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                  <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden border border-gray-200 dark:border-slate-600 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
                     {/* Project Image */}
                     <div className="relative h-48 overflow-hidden">
                       <Image
@@ -125,7 +125,7 @@ export default function ProjectsPage() {
                           </Badge>
                         ))}
                         {project.tags.length > 3 && (
-                          <Badge className="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-xs">
+                          <Badge className="bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-slate-300 text-xs">
                             +{project.tags.length - 3} more
                           </Badge>
                         )}
@@ -147,7 +147,7 @@ export default function ProjectsPage() {
                           variant="outline"
                           size="sm"
                           asChild
-                          className="rounded-full border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:scale-105 transition-all duration-200 hover:shadow-md"
+                          className="rounded-full border-gray-300 dark:border-slate-600 text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-700 hover:scale-105 transition-all duration-200 hover:shadow-md"
                         >
                           <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center">
                             <Github className="h-4 w-4" />

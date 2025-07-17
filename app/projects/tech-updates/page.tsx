@@ -77,9 +77,9 @@ Key features include automated content scraping, AI-powered categorization, pers
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <Suspense fallback={<ProjectSkeleton />}>
-        <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+        <div className="min-h-screen bg-white dark:bg-slate-950 text-gray-800 dark:text-slate-200 transition-colors duration-300">
           {/* Header */}
-          <div className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-800 dark:to-gray-900 py-20">
+          <div className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-slate-800 dark:to-slate-950 py-20">
             <div className="container mx-auto px-4">
               {/* Theme Toggle - Top Right */}
               <div className="flex justify-end mb-6">
@@ -104,7 +104,7 @@ Key features include automated content scraping, AI-powered categorization, pers
                   {project.title}
                 </h1>
                 
-                <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
+                <p className="text-xl text-gray-600 dark:text-slate-300 mb-8">
                   {project.description}
                 </p>
                 
@@ -156,7 +156,7 @@ Key features include automated content scraping, AI-powered categorization, pers
                     Project Overview
                   </h2>
                   <div className="prose prose-lg dark:prose-invert max-w-none">
-                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
+                    <p className="text-gray-700 dark:text-slate-300 leading-relaxed whitespace-pre-line">
                       {project.longDescription}
                     </p>
                   </div>
@@ -179,17 +179,17 @@ Key features include automated content scraping, AI-powered categorization, pers
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
-                        className="p-6 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow"
+                        className="p-6 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-600 hover:shadow-lg transition-shadow"
                       >
                         <div className="flex items-center mb-4">
                           <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg mr-4">
                             {feature.icon}
                           </div>
-                          <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+                          <h3 className="text-xl font-semibold text-gray-900 dark:text-slate-100">
                             {feature.title}
                           </h3>
                         </div>
-                        <p className="text-gray-600 dark:text-gray-300">
+                        <p className="text-gray-600 dark:text-slate-300">
                           {feature.description}
                         </p>
                       </motion.div>
@@ -207,12 +207,12 @@ Key features include automated content scraping, AI-powered categorization, pers
                   <h2 className="text-3xl font-bold mb-6 text-blue-900 dark:text-blue-400">
                     Technical Implementation
                   </h2>
-                  <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+                                      <div className="bg-gray-50 dark:bg-slate-800 rounded-xl p-6 border border-gray-200 dark:border-slate-600">
                     <ul className="space-y-3">
                       {project.technicalDetails.map((detail, index) => (
                         <li key={index} className="flex items-start">
                           <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 mr-3 flex-shrink-0" />
-                          <span className="text-gray-700 dark:text-gray-300">{detail}</span>
+                          <span className="text-gray-700 dark:text-slate-300">{detail}</span>
                         </li>
                       ))}
                     </ul>
@@ -235,7 +235,7 @@ Key features include automated content scraping, AI-powered categorization, pers
                         {project.challenges.map((challenge, index) => (
                           <li key={index} className="flex items-start">
                             <div className="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                            <span className="text-gray-700 dark:text-gray-300">{challenge}</span>
+                            <span className="text-gray-700 dark:text-slate-300">{challenge}</span>
                           </li>
                         ))}
                       </ul>
@@ -248,7 +248,7 @@ Key features include automated content scraping, AI-powered categorization, pers
                         {project.learnings.map((learning, index) => (
                           <li key={index} className="flex items-start">
                             <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                            <span className="text-gray-700 dark:text-gray-300">{learning}</span>
+                            <span className="text-gray-700 dark:text-slate-300">{learning}</span>
                           </li>
                         ))}
                       </ul>

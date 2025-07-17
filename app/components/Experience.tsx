@@ -9,10 +9,9 @@ import ScrollAnimation from "./ScrollAnimation"
 import ReactDOM from "react-dom"
 import { triggerHaptic } from "./ui/haptics"
 import Image, { StaticImageData } from "next/image"
-// Import placeholder logos - you can replace these with actual company logos
-import AskPandaAI from "@/public/images/Insaito.png" // Placeholder for Insaito
-import fullstack from "@/public/images/iifl.png" // Placeholder for IIFL
-import feynwick from "@/public/images/iremify.png" // Placeholder for Iremfy
+import AskPandaAI from "@/public/images/Insaito.png"
+import fullstack from "@/public/images/iifl.png"
+import feynwick from "@/public/images/iremify.png"
 
 interface ExperienceProps {
   setActiveSection: (section: string) => void
@@ -94,19 +93,19 @@ function BottomSheetModal({ open, onClose, experience }: { open: boolean, onClos
         animate={{ y: 0 }}
         exit={{ y: '100%' }}
         transition={{ type: 'spring', stiffness: 320, damping: 32, bounce: 0.22 }}
-        className="w-full max-w-lg mx-auto bg-white dark:bg-gray-900 rounded-t-2xl shadow-lg p-4 pt-2 relative touch-pan-y"
+        className="w-full max-w-lg mx-auto bg-white dark:bg-slate-950 rounded-t-2xl shadow-lg p-4 pt-2 relative touch-pan-y"
         style={{ minHeight: '60vh', maxHeight: '85vh', overflowY: 'auto', WebkitTouchCallout: 'none', WebkitUserSelect: 'none', userSelect: 'none' }}
         onClick={event => event.stopPropagation()}
       >
         {/* Drag handle */}
         <div
-          className="w-16 h-2.5 bg-gray-300 dark:bg-gray-700 rounded-full mx-auto mb-4 shadow-sm cursor-grab active:cursor-grabbing transition-all duration-200"
+          className="w-16 h-2.5 bg-gray-300 dark:bg-slate-600 rounded-full mx-auto mb-4 shadow-sm cursor-grab active:cursor-grabbing transition-all duration-200"
           style={{ boxShadow: '0 2px 8px 0 rgba(0,0,0,0.08)' }}
         />
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 rounded-full p-1 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
+          className="absolute right-4 top-4 rounded-full p-1 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700"
           aria-label="Close"
         >
           <X className="w-5 h-5 text-gray-500 dark:text-gray-300" />
@@ -114,7 +113,7 @@ function BottomSheetModal({ open, onClose, experience }: { open: boolean, onClos
         <div className="mb-2">
           <h2 className="text-xl font-bold text-blue-600 dark:text-blue-400 mb-1">{experience.title}</h2>
           <div className="flex items-center text-gray-600 dark:text-gray-400 text-sm mb-1">
-            <div className="relative w-4 h-4 rounded-full overflow-hidden bg-white dark:bg-gray-700 mr-2 flex-shrink-0">
+            <div className="relative w-4 h-4 rounded-full overflow-hidden bg-white dark:bg-slate-700 mr-2 flex-shrink-0">
               <Image
                 src={experience.logo}
                 alt={`${experience.company} logo`}
@@ -283,7 +282,7 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
     <section
       id="experience"
       ref={sectionRef}
-      className="py-16 bg-white dark:bg-gray-900 transition-colors duration-300"
+      className="py-16 bg-white dark:bg-slate-950 transition-colors duration-300"
     >
       <div className="container mx-auto px-4">
         <ScrollAnimation variant="fadeUp" duration={0.6}>

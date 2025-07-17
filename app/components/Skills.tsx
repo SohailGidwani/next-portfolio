@@ -341,7 +341,7 @@ export default function Skills({ setActiveSection }: SkillsProps) {
           <div
             key={i}
             className={`w-1 h-2 rounded-sm ${
-              i < level ? (isDark ? "bg-blue-400" : "bg-blue-500") : isDark ? "bg-gray-700" : "bg-gray-200"
+              i < level ? (isDark ? "bg-blue-400" : "bg-blue-500") : isDark ? "bg-slate-600" : "bg-gray-200"
             }`}
           />
         ))}
@@ -360,7 +360,7 @@ export default function Skills({ setActiveSection }: SkillsProps) {
     <section
       id="skills"
       ref={sectionRef}
-      className="py-16 bg-white dark:bg-gray-900 transition-colors duration-300"
+      className="py-16 bg-white dark:bg-slate-950 transition-colors duration-300"
     >
       <div className="container mx-auto px-4">
         <ScrollAnimation variant="fadeUp" duration={0.6}>
@@ -383,7 +383,7 @@ export default function Skills({ setActiveSection }: SkillsProps) {
               <Card
                 className={`overflow-hidden border w-full cursor-pointer transition-all duration-300 ${
                   isDark
-                    ? "bg-gray-800 border-gray-700 hover:border-blue-500"
+                    ? "bg-slate-800 border-slate-600 hover:border-blue-500"
                     : "bg-white border-gray-200 hover:border-blue-300"
                 } hover:shadow-lg ${
                   expandedCategory === index
@@ -402,7 +402,7 @@ export default function Skills({ setActiveSection }: SkillsProps) {
                   >
                     <div className="flex items-center">
                         <motion.div
-                        className={`p-2 rounded-full ${isDark ? "bg-gray-700" : "bg-gray-100"} mr-3 ${
+                        className={`p-2 rounded-full ${isDark ? "bg-slate-700" : "bg-gray-100"} mr-3 ${
                           expandedCategory === index ? (isDark ? "text-blue-400" : "text-blue-600") : ""
                         }`}
                           whileHover={{ scale: 1.1, rotate: 5 }}
@@ -473,11 +473,11 @@ export default function Skills({ setActiveSection }: SkillsProps) {
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ delay: 0.3 + skillIndex * 0.05, duration: 0.3 }}
                                 whileHover={{ scale: 1.05, y: -2 }}
-                              className={`p-2 rounded-lg border ${
-                                isDark
-                                  ? "border-gray-700 bg-gray-800/50 hover:border-blue-500"
-                                  : "border-gray-200 bg-white hover:border-blue-300"
-                              } flex flex-col items-center justify-center text-center transition-colors duration-200`}
+                                            className={`p-2 rounded-lg border ${
+                isDark
+                  ? "border-slate-600 bg-slate-800/50 hover:border-blue-500"
+                  : "border-gray-200 bg-white hover:border-blue-300"
+              } flex flex-col items-center justify-center text-center transition-colors duration-200`}
                             >
                               {getLogoSrc(skill) ? (
                                   <motion.div

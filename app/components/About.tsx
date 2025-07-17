@@ -91,7 +91,7 @@ export default function About({ setActiveSection }: AboutProps) {
   }, [isHovering])
 
   return (
-    <section id="about" ref={sectionRef} className="py-16 md:py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
+    <section id="about" ref={sectionRef} className="py-16 md:py-20 bg-white dark:bg-slate-950 transition-colors duration-300">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -180,17 +180,17 @@ export default function About({ setActiveSection }: AboutProps) {
               viewport={{ once: true }}
               className="flex flex-wrap gap-3 mt-6 pl-4 md:pl-6"
             >
-              <div className="flex items-center bg-gray-100 dark:bg-gray-700 px-3 py-2 rounded-full">
+              <div className="flex items-center bg-gray-100 dark:bg-slate-700 px-3 py-2 rounded-full">
                 <Rocket className="w-4 h-4 text-blue-600 dark:text-blue-400 mr-2" />
-                <span className="text-sm text-gray-700 dark:text-gray-300">AI Enthusiast</span>
+                <span className="text-sm text-gray-700 dark:text-slate-300">AI Enthusiast</span>
               </div>
-              <div className="flex items-center bg-gray-100 dark:bg-gray-700 px-3 py-2 rounded-full">
+              <div className="flex items-center bg-gray-100 dark:bg-slate-700 px-3 py-2 rounded-full">
                 <Code className="w-4 h-4 text-blue-600 dark:text-blue-400 mr-2" />
-                <span className="text-sm text-gray-700 dark:text-gray-300">Full Stack Developer</span>
+                <span className="text-sm text-gray-700 dark:text-slate-300">Full Stack Developer</span>
               </div>
-              <div className="flex items-center bg-gray-100 dark:bg-gray-700 px-3 py-2 rounded-full">
+              <div className="flex items-center bg-gray-100 dark:bg-slate-700 px-3 py-2 rounded-full">
                 <Lightbulb className="w-4 h-4 text-blue-600 dark:text-blue-400 mr-2" />
-                <span className="text-sm text-gray-700 dark:text-gray-300">Problem Solver</span>
+                <span className="text-sm text-gray-700 dark:text-slate-300">Problem Solver</span>
               </div>
             </motion.div>
           </motion.div>
@@ -206,7 +206,7 @@ export default function About({ setActiveSection }: AboutProps) {
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
           >
-            <div className="bg-gradient-to-br from-blue-50 to-white dark:from-blue-900/30 dark:to-gray-800 rounded-xl p-4 md:p-8 h-full shadow-md border border-blue-100 dark:border-blue-800/50">
+            <div className="bg-blue-50 dark:bg-blue-900/30 rounded-xl p-4 md:p-8 h-full shadow-md border border-blue-100 dark:border-blue-800/50">
               <h3 className="text-xl md:text-2xl font-semibold text-blue-900 dark:text-blue-300 mb-6 text-center">
                 What Drives Me
               </h3>
@@ -218,7 +218,7 @@ export default function About({ setActiveSection }: AboutProps) {
                     className={`p-3 md:p-5 rounded-lg cursor-pointer transition-all duration-200 ${
                       activeQuality === index 
                         ? 'bg-blue-600 text-white shadow-md' 
-                        : 'bg-white/80 dark:bg-gray-800/80 hover:bg-blue-100 dark:hover:bg-blue-900/40 text-gray-800 dark:text-gray-200'
+                        : 'bg-white/80 dark:bg-slate-800/80 hover:bg-blue-100 dark:hover:bg-blue-900/40 text-gray-800 dark:text-slate-200'
                     }`}
                     onClick={() => { triggerHaptic(); setActiveQuality(index); }}
                     whileHover={{ scale: 1.02 }}
@@ -263,7 +263,7 @@ export default function About({ setActiveSection }: AboutProps) {
                     transition={{ duration: 0.2 }}
                     className="p-4 md:p-6 bg-white/90 dark:bg-gray-800/90 rounded-lg shadow-sm border border-blue-100 dark:border-blue-900/30"
                   >
-                    <p className="text-gray-700 dark:text-gray-300 text-center text-xs md:text-sm">
+                    <p className="text-gray-700 dark:text-slate-300 text-center text-xs md:text-sm">
                       <span className={`font-medium ${qualities[activeQuality].color}`}>
                         {qualities[activeQuality].title}:
                       </span> {" "}
@@ -282,7 +282,7 @@ export default function About({ setActiveSection }: AboutProps) {
                       className={`w-2 h-2 rounded-full transition-all duration-300 ${
                         activeQuality === index 
                           ? 'bg-blue-600 dark:bg-blue-400 w-4' 
-                          : 'bg-gray-300 dark:bg-gray-600'
+                          : 'bg-gray-300 dark:bg-slate-600'
                       }`}
                       aria-label={`View ${qualities[index].title}`}
                     />

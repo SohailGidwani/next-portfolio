@@ -258,7 +258,7 @@ export default function Carousel({ items, autoScrollInterval = 15000 }: Carousel
             className={`h-2 rounded-full transition-all duration-500 ${
               index === currentIndex
                 ? "bg-blue-600 w-8 shadow-lg"
-                : "bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500 w-2"
+                : "bg-gray-300 dark:bg-slate-600 hover:bg-gray-400 dark:hover:bg-slate-500 w-2"
             }`}
             whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 0.9 }}

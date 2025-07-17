@@ -91,14 +91,14 @@ function BottomSheetModal({ open, onClose, certificate }: { open: boolean, onClo
         animate={{ y: 0 }}
         exit={{ y: '100%' }}
         transition={{ type: 'spring', stiffness: 320, damping: 32, bounce: 0.22 }}
-        className="w-full max-w-lg mx-auto bg-white dark:bg-gray-900 rounded-t-2xl shadow-lg p-4 pt-2 relative touch-pan-y"
+        className="w-full max-w-lg mx-auto bg-white dark:bg-slate-950 rounded-t-2xl shadow-lg p-4 pt-2 relative touch-pan-y"
         style={{ minHeight: '60vh', maxHeight: '85vh', overflowY: 'auto' }}
         onClick={event => event.stopPropagation()}
       >
-        <div className="w-16 h-2.5 bg-gray-300 dark:bg-gray-700 rounded-full mx-auto mb-4 shadow-sm cursor-grab active:cursor-grabbing transition-all duration-200" />
+        <div className="w-16 h-2.5 bg-gray-300 dark:bg-slate-600 rounded-full mx-auto mb-4 shadow-sm cursor-grab active:cursor-grabbing transition-all duration-200" />
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 rounded-full p-1 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
+          className="absolute right-4 top-4 rounded-full p-1 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700"
           aria-label="Close"
         >
           <X className="w-5 h-5 text-gray-500 dark:text-gray-300" />
@@ -274,7 +274,7 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
   }
 
   return (
-    <section id="triumphs" ref={sectionRef} className="py-16 md:py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
+    <section id="triumphs" ref={sectionRef} className="py-16 md:py-20 bg-white dark:bg-slate-950 transition-colors duration-300">
       <div className="container mx-auto px-4 max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -309,11 +309,11 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
                 className="flex-shrink-0 w-80 group/card snap-start"
               >
                 <div 
-                  className="bg-white dark:bg-gray-700 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100 dark:border-gray-600 h-full cursor-pointer"
+                  className="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100 dark:border-slate-600 h-full cursor-pointer"
                   onClick={() => openModal(cert)}
                 >
                   {/* Image Section */}
-                  <div className="relative h-48 overflow-hidden bg-gray-100 dark:bg-gray-600">
+                  <div className="relative h-48 overflow-hidden bg-gray-100 dark:bg-slate-700">
                     <Image
                       src={cert.image}
                       alt={cert.title}
@@ -424,7 +424,7 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
                     src={selectedCertificate.image}
                     alt={selectedCertificate.title}
                     fill
-                    className="object-contain bg-gray-50 dark:bg-gray-800"
+                    className="object-contain bg-gray-50 dark:bg-slate-800"
                   />
                 </div>
                 

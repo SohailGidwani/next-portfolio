@@ -136,7 +136,7 @@ function DesktopContactCard({ item, index, isDark }: { item: ContactItem; index:
       onHoverEnd={() => setIsHovered(false)}
       className={`relative group p-6 rounded-2xl shadow-lg backdrop-blur-sm border transition-all duration-300 ${
         isDark
-          ? "bg-gray-800/80 border-gray-700/50 hover:border-blue-500/50"
+          ? "bg-slate-800/80 border-slate-600/50 hover:border-blue-500/50"
           : "bg-white/80 border-gray-200/50 hover:border-blue-500/50"
       } hover:shadow-2xl hover:-translate-y-2`}
     >
@@ -232,7 +232,7 @@ export default function Contact({ setActiveSection }: ContactProps) {
     <section
       id="contact"
       ref={sectionRef}
-      className={`py-16 md:py-20 transition-colors duration-300 bg-white dark:bg-gray-900`}
+      className={`py-16 md:py-20 transition-colors duration-300 bg-white dark:bg-slate-950`}
     >
       <div className="max-w-6xl mx-auto px-4">
         {/* Updated Header */}
@@ -246,7 +246,7 @@ export default function Contact({ setActiveSection }: ContactProps) {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             className={`text-lg md:text-xl lg:text-2xl max-w-3xl mx-auto mt-3 md:mt-4 ${
-              isDark ? "text-gray-300" : "text-gray-700"
+              isDark ? "text-slate-300" : "text-gray-700"
             }`}
           >
             Ready to bring your ideas to life? Let's collaborate and create something amazing together!

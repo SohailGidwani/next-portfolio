@@ -235,8 +235,8 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
             relative rounded-3xl transition-all duration-300 shadow-lg w-[95%] max-w-5xl overflow-hidden
             ${
               scrolled
-                ? "bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-gray-200/50 dark:border-gray-700/50 shadow-xl"
-                : "bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg border border-gray-200/30 dark:border-gray-700/30"
+                ? "bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border border-gray-200/50 dark:border-slate-600/50 shadow-xl"
+                : "bg-white/90 dark:bg-slate-950/90 backdrop-blur-lg border border-gray-200/30 dark:border-slate-600/30"
             }
           `}
           initial={{ scale: 0.95, opacity: 0 }}
@@ -288,7 +288,7 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
                       ${
                         activeSection === item.toLowerCase()
                           ? "text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/20"
-                          : "text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100/50 dark:hover:bg-gray-800/50"
+                          : "text-gray-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100/50 dark:hover:bg-slate-800/50"
                       }
                     `}
                   >
@@ -310,7 +310,7 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
                     onClick={toggleTheme}
                     variant="ghost"
                     size="icon"
-                    className="w-9 h-9 rounded-full bg-gray-100/50 dark:bg-gray-800/50 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 relative flex items-center justify-center"
+                    className="w-9 h-9 rounded-full bg-gray-100/50 dark:bg-slate-800/50 hover:bg-gray-200/50 dark:hover:bg-slate-700/50 relative flex items-center justify-center"
                   >
                     {/* Static theme toggle */}
                     <div
@@ -342,7 +342,7 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
                     onClick={() => setIsOpen(!isOpen)}
                     variant="ghost"
                     size="icon"
-                    className="w-9 h-9 rounded-full bg-gray-100/50 dark:bg-gray-800/50 hover:bg-gray-200/50 dark:hover:bg-gray-700/50"
+                    className="w-9 h-9 rounded-full bg-gray-100/50 dark:bg-slate-800/50 hover:bg-gray-200/50 dark:hover:bg-slate-700/50"
                   >
                     {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
                   </Button>
@@ -352,7 +352,7 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
           </div>
 
           {/* Scroll Progress Bar - Integrated at the bottom */}
-          <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-200/20 dark:bg-gray-700/20 overflow-hidden">
+                        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-200/20 dark:bg-slate-600/20 overflow-hidden">
             <motion.div
               className="h-full bg-gradient-to-r from-blue-400 to-blue-600"
               initial={{ width: "0%" }}
@@ -382,7 +382,7 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
             />
 
             <motion.div
-              className="relative z-10 w-11/12 max-w-sm mx-auto bg-white/10 dark:bg-gray-900/20 backdrop-blur-xl rounded-2xl p-6 border border-white/20 dark:border-gray-800/30 shadow-xl"
+              className="relative z-10 w-11/12 max-w-sm mx-auto bg-white/10 dark:bg-slate-950/20 backdrop-blur-xl rounded-2xl p-6 border border-white/20 dark:border-slate-700/30 shadow-xl"
               variants={menuVariants}
             >
               <div className="flex justify-between items-center mb-6 pb-4 border-b border-white/10 dark:border-gray-800/30">

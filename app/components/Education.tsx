@@ -110,7 +110,7 @@ export default function Education({ setActiveSection }: EducationProps) {
     <section
       id="education"
       ref={sectionRef}
-      className="py-16 bg-white dark:bg-gray-900 transition-colors duration-300"
+      className="py-16 bg-white dark:bg-slate-950 transition-colors duration-300"
     >
       <div className="container mx-auto px-4">
         {/* Header Section */}
