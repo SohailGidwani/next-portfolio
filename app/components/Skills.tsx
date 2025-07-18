@@ -473,11 +473,11 @@ export default function Skills({ setActiveSection }: SkillsProps) {
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ delay: 0.3 + skillIndex * 0.05, duration: 0.3 }}
                                 whileHover={{ scale: 1.05, y: -2 }}
-                                            className={`p-2 rounded-lg border ${
-                isDark
+                              className={`p-2 rounded-lg border ${
+                                isDark
                   ? "border-slate-600 bg-slate-800/50 hover:border-blue-500"
-                  : "border-gray-200 bg-white hover:border-blue-300"
-              } flex flex-col items-center justify-center text-center transition-colors duration-200`}
+                                  : "border-gray-200 bg-white hover:border-blue-300"
+                              } flex flex-col items-center justify-center text-center transition-colors duration-200`}
                             >
                               {getLogoSrc(skill) ? (
                                   <motion.div
