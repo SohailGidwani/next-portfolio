@@ -48,7 +48,7 @@ export default function ProjectsPage() {
 
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <div className="min-h-screen bg-white dark:bg-slate-950 text-gray-800 dark:text-slate-200 transition-colors duration-300">
+      <div className="min-h-screen bg-white dark:bg-slate-950 text-gray-800 dark:text-slate-200 transition-colors duration-300 overflow-x-hidden">
         {/* Header */}
         <div className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-slate-800 dark:to-slate-950 py-20">
           <div className="container mx-auto px-4">
@@ -82,7 +82,7 @@ export default function ProjectsPage() {
 
         {/* Projects Grid */}
         <div className="py-20">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto">
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               {projects.map((project, index) => (
                 <motion.div

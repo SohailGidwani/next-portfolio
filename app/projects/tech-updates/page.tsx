@@ -77,7 +77,7 @@ Key features include automated content scraping, AI-powered categorization, pers
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <Suspense fallback={<ProjectSkeleton />}>
-        <div className="min-h-screen bg-white dark:bg-slate-950 text-gray-800 dark:text-slate-200 transition-colors duration-300">
+        <div className="min-h-screen bg-white dark:bg-slate-950 text-gray-800 dark:text-slate-200 transition-colors duration-300 overflow-x-hidden">
           {/* Header */}
           <div className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-slate-800 dark:to-slate-950 py-20">
             <div className="container mx-auto px-4">
@@ -124,7 +124,7 @@ Key features include automated content scraping, AI-powered categorization, pers
 
           {/* Project Content */}
           <div className="py-20">
-            <div className="container mx-auto px-4">
+            <div className="container mx-auto">
               <div className="max-w-4xl mx-auto">
                 {/* Hero Image */}
                 <motion.div

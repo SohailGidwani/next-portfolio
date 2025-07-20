@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 
 export default function ProjectSkeleton() {
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 text-gray-800 dark:text-slate-200 transition-colors duration-300">
+    <div className="min-h-screen bg-white dark:bg-slate-950 text-gray-800 dark:text-slate-200 transition-colors duration-300 overflow-x-hidden">
       {/* Header Skeleton */}
               <div className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-slate-800 dark:to-slate-950 py-20">
         <div className="container mx-auto px-4">
@@ -97,7 +97,7 @@ export default function ProjectSkeleton() {
                     className="p-6 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-600"
                   >
                                   <div className="h-6 bg-gray-200 dark:bg-slate-600 rounded mb-3" />
-              <div className="space-y-2">
+                    <div className="space-y-2">
                 <div className="h-4 bg-gray-200 dark:bg-slate-600 rounded w-full" />
                 <div className="h-4 bg-gray-200 dark:bg-slate-600 rounded w-3/4" />
                     </div>
