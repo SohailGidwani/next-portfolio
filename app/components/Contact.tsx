@@ -54,7 +54,7 @@ const contactItems: ContactItem[] = [
   {
     icon: <MapPin className="w-6 h-6" />,
     label: "Location",
-    value: "Mumbai, India",
+    value: "Los Angeles, CA",
     description: "Where I'm based",
   },
 ]
