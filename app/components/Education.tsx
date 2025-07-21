@@ -61,6 +61,20 @@ export default function Education({ setActiveSection }: EducationProps) {
 
   const education: EducationItem[] = [
     {
+      degree: "M.S in Computer Science",
+      institution: "University of Southern California",
+      year: "August 2025 - Present",
+      cgpa: "/",
+      location: "Los Angeles, CA, USA",
+      description: "Pursuing advanced studies in computer science with specialization in artificial intelligence",
+      achievements: [
+        "Admitted to the prestigious USC Viterbi School of Engineering",
+      ],
+      courses: [
+        "Analysis of Algorithms", "Database Systems"
+      ]
+    },
+    {
       degree: "B.E in Computer Engineering",
       institution: "University of Mumbai - TSEC",
       year: "2019 - 2023",

@@ -32,11 +32,11 @@ export default function Portfolio() {
         </ScrollAnimation>
         <SectionDivider />
         <ScrollAnimation>
-          <Experience setActiveSection={setActiveSection} />
+          <Education setActiveSection={setActiveSection} />
         </ScrollAnimation>
         <SectionDivider />
         <ScrollAnimation>
-          <Education setActiveSection={setActiveSection} />
+          <Experience setActiveSection={setActiveSection} />
         </ScrollAnimation>
         <SectionDivider />
         <ScrollAnimation>

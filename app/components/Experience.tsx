@@ -228,7 +228,7 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
     {
       title: "Senior Software Engineer - I ",
       company: "Insaito, Inc.",
-      date: "May 12, 2025 - Present",
+      date: "May, 2025 - July, 2025",
       description:
         "Building cutting-edge AI agent platforms from scratch, focusing on open-source LLM deployment and integration architecture. Leading the development of comprehensive AI agent builder with extensive third-party app integrations.",
       projects: [
@@ -238,14 +238,14 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
         "MCP Server Development: Creating Model Context Protocol (MCP) servers for integrated applications, making all functions and capabilities available to the AI models for enhanced functionality and user experience.",
         "Full-Stack Development: Handling end-to-end development from backend infrastructure to frontend user interfaces, ensuring cohesive and performant AI agent experiences.",
       ],
-      isLatest: true,
+      isLatest: false,
       logo: AskPandaAI, // Replace with actual Insaito logo
       companyColor: "from-purple-500 to-pink-500",
     },
     {
       title: "Full-Stack/AI Developer",
       company: "IIFL Finance Ltd",
-      date: "June, 2023 - May 12, 2024",
+      date: "June, 2023 - May, 2025",
       description:
         "Led AI initiatives and developed cutting-edge machine learning models for various client projects. Mentored junior developers and contributed to the company's AI research efforts.",
       projects: [
