@@ -304,7 +304,7 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
                 key={index}
                 initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.2 }}
                 viewport={{ once: true }}
                 className="flex-shrink-0 w-80 group/card snap-start"
               >
