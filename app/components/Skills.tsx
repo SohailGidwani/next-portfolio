@@ -10,82 +10,117 @@ import { useTheme } from "next-themes"
 import ScrollAnimation from "./ScrollAnimation"
 import { triggerHaptic } from "./ui/haptics"
 
+// ============================================================================
+// INTERFACE DEFINITIONS
+// ============================================================================
+
+// Props interface for the Skills component - receives function to update active section
 interface SkillsProps {
   setActiveSection: (section: string) => void
 }
 
+// Individual skill item structure with optional logo and proficiency level
 interface Skill {
-  name: string
-  logo?: string
-  lightLogo?: string
-  darkLogo?: string
-  proficiency?: number // 1-5 scale
+  name: string                    // Skill name (e.g., "Python", "React")
+  logo?: string                   // Default logo URL for the skill
+  lightLogo?: string             // Logo URL for light theme
+  darkLogo?: string              // Logo URL for dark theme
+  proficiency?: number           // Skill level from 1-5 (1=beginner, 5=expert)
 }
 
+// Category structure that groups related skills together
 interface SkillCategory {
-  category: string
-  icon: React.ReactNode
-  description: string
-  skills: Skill[]
-  accentColor: string
-  lightAccentColor: string
-  darkAccentColor: string
+  category: string               // Category name (e.g., "Programming Languages")
+  icon: React.ReactNode         // Lucide icon component for the category
+  description: string           // Brief description of what the category contains
+  skills: Skill[]               // Array of skills in this category
+  accentColor: string           // Border color for light theme
+  lightAccentColor: string      // Background color for light theme
+  darkAccentColor: string       // Background color for dark theme
 }
+
+// ============================================================================
+// MAIN COMPONENT
+// ============================================================================
 
 export default function Skills({ setActiveSection }: SkillsProps) {
-  const sectionRef = useRef<HTMLElement>(null)
-  const [expandedCategory, setExpandedCategory] = useState<number | null>(null)
-  const { theme, systemTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
+  // ========================================================================
+  // STATE MANAGEMENT
+  // ========================================================================
+  
+  const sectionRef = useRef<HTMLElement>(null)                    // Reference to the skills section for intersection observer
+  const [expandedCategory, setExpandedCategory] = useState<number | null>(null)  // Tracks which category is currently expanded
+  const { theme, systemTheme } = useTheme()                       // Theme context from next-themes
+  const [mounted, setMounted] = useState(false)                   // Prevents hydration mismatch by waiting for mount
 
-  // Handle active section detection - moved before mounted check
+  // ========================================================================
+  // INTERSECTION OBSERVER - ACTIVE SECTION DETECTION
+  // ========================================================================
+  
+  // This useEffect sets up an intersection observer to detect when the skills section
+  // comes into view and updates the active section in the navbar
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries: IntersectionObserverEntry[]) => {
         const [entry] = entries
         if (entry.isIntersecting) {
-          triggerHaptic(10);
-          setActiveSection("skills")
+          triggerHaptic(10);                                    // Provides haptic feedback on mobile
+          setActiveSection("skills")                            // Updates navbar to show "skills" as active
         }
       },
       {
-        threshold: 0.3,
-        rootMargin: "-10% 0px -10% 0px", // Added for better detection
+        threshold: 0.3,                                         // Triggers when 30% of section is visible
+        rootMargin: "-10% 0px -10% 0px",                       // Adds 10% margin for better detection
       },
     )
 
     if (sectionRef.current) {
-      observer.observe(sectionRef.current)
+      observer.observe(sectionRef.current)                      // Start observing the skills section
     }
 
     return () => {
       if (sectionRef.current) {
-        observer.unobserve(sectionRef.current)
+        observer.unobserve(sectionRef.current)                  // Clean up observer on unmount
       }
     }
   }, [setActiveSection])
 
+  // ========================================================================
+  // MOUNTED STATE MANAGEMENT
+  // ========================================================================
+  
+  // Prevents hydration mismatch by ensuring component is mounted before rendering
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  // Determine current theme
+  // ========================================================================
+  // THEME DETERMINATION
+  // ========================================================================
+  
+  // Determines the current theme (light/dark) for conditional styling
   const currentTheme = theme === "system" ? systemTheme : theme
   const isDark = mounted && currentTheme === "dark"
 
+  // ========================================================================
+  // SKILL CATEGORIES DATA STRUCTURE
+  // ========================================================================
+  
+  // This array defines all skill categories and their associated skills
+  // Each category has its own color scheme, icon, and list of skills
   const skillCategories: SkillCategory[] = [
     {
-      category: "Programming Languages",
-      icon: <Code className="w-5 h-5" />,
-      description: "Core languages I use for development",
-      accentColor: "border-blue-500",
-      lightAccentColor: "bg-blue-500",
-      darkAccentColor: "bg-blue-400",
-      skills: [
+      category: "Programming Languages",                        // Category header
+      icon: <Code className="w-5 h-5" />,                      // Lucide icon component
+      description: "Core languages I use for development",      // Category description
+      accentColor: "border-blue-500",                          // Light theme border color
+      lightAccentColor: "bg-blue-500",                         // Light theme background color
+      darkAccentColor: "bg-blue-400",                          // Dark theme background color
+      skills: [                                                 // Array of skills in this category
         {
-          name: "Python",
-          logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
-          proficiency: 5,
+          name: "Python",                                       // Skill name
+          logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg", // Skill logo URL
+          proficiency: 5,                                       // Proficiency level (1-5)
         },
         {
           name: "JavaScript",
@@ -110,8 +145,8 @@ export default function Skills({ setActiveSection }: SkillsProps) {
       ],
     },
     {
-      category: "Machine Learning / AI",
-      icon: <Cpu className="w-5 h-5" />,
+      category: "Machine Learning / AI",                       // Second category
+      icon: <Cpu className="w-5 h-5" />,                       // CPU icon for AI/ML
       description: "AI and data science technologies",
       accentColor: "border-purple-500",
       lightAccentColor: "bg-purple-500",
@@ -167,8 +202,8 @@ export default function Skills({ setActiveSection }: SkillsProps) {
       ],
     },
     {
-      category: "Web Development",
-      icon: <Globe className="w-5 h-5" />,
+      category: "Web Development",                              // Third category
+      icon: <Globe className="w-5 h-5" />,                     // Globe icon for web dev
       description: "Frontend and backend technologies",
       accentColor: "border-green-500",
       lightAccentColor: "bg-green-500",
@@ -211,8 +246,8 @@ export default function Skills({ setActiveSection }: SkillsProps) {
       ],
     },
     {
-      category: "Databases",
-      icon: <Database className="w-5 h-5" />,
+      category: "Databases",                                    // Fourth category
+      icon: <Database className="w-5 h-5" />,                   // Database icon
       description: "Database systems and technologies",
       accentColor: "border-amber-500",
       lightAccentColor: "bg-amber-500",
@@ -245,8 +280,8 @@ export default function Skills({ setActiveSection }: SkillsProps) {
       ],
     },
     {
-      category: "Cloud Platforms",
-      icon: <Cloud className="w-5 h-5" />,
+      category: "Cloud Platforms",                              // Fifth category
+      icon: <Cloud className="w-5 h-5" />,                      // Cloud icon
       description: "Cloud services and platforms",
       accentColor: "border-sky-500",
       lightAccentColor: "bg-sky-500",
@@ -281,8 +316,8 @@ export default function Skills({ setActiveSection }: SkillsProps) {
       ],
     },
     {
-      category: "Tools & Others",
-      icon: <Tool className="w-5 h-5" />,
+      category: "Tools & Others",                               // Sixth category
+      icon: <Tool className="w-5 h-5" />,                       // Tool icon
       description: "Development tools and methodologies",
       accentColor: "border-gray-500",
       lightAccentColor: "bg-gray-500",
@@ -328,16 +363,27 @@ export default function Skills({ setActiveSection }: SkillsProps) {
     },
   ]
 
+  // ========================================================================
+  // EVENT HANDLERS
+  // ========================================================================
+  
+  // Toggles the expanded state of a category when clicked
+  // If the same category is clicked again, it collapses
   const toggleCategory = (index: number) => {
-    triggerHaptic();
-    setExpandedCategory(expandedCategory === index ? null : index)
+    triggerHaptic();                                            // Provides haptic feedback
+    setExpandedCategory(expandedCategory === index ? null : index)  // Toggle expansion state
   }
 
-  // Function to render skill proficiency indicators
+  // ========================================================================
+  // UTILITY FUNCTIONS
+  // ========================================================================
+  
+  // Renders proficiency level indicators as small colored bars
+  // Creates 5 bars where filled bars represent the skill level
   const renderProficiency = (level = 3) => {
     return (
       <div className="flex space-x-0.5">
-        {[...Array(5)].map((_, i) => (
+        {[...Array(5)].map((_, i) => (                          // Creates array of 5 elements
           <div
             key={i}
             className={`w-1 h-2 rounded-sm ${
@@ -349,20 +395,28 @@ export default function Skills({ setActiveSection }: SkillsProps) {
     )
   }
 
-  // Get the appropriate logo based on theme
+  // Determines which logo to display based on current theme
+  // Prioritizes theme-specific logos, falls back to default logo
   const getLogoSrc = (skill: Skill) => {
-    if (isDark && skill.darkLogo) return skill.darkLogo
-    if (!isDark && skill.lightLogo) return skill.lightLogo
-    return skill.logo
+    if (isDark && skill.darkLogo) return skill.darkLogo          // Dark theme logo
+    if (!isDark && skill.lightLogo) return skill.lightLogo      // Light theme logo
+    return skill.logo                                            // Default logo
   }
 
+  // ========================================================================
+  // RENDER SECTION
+  // ========================================================================
+  
   return (
     <section
-      id="skills"
-      ref={sectionRef}
-      className="py-16 bg-white dark:bg-slate-950 transition-colors duration-300"
+      id="skills"                                               // Section ID for navigation and intersection observer
+      ref={sectionRef}                                          // Reference for intersection observer
+      className="py-16 bg-white dark:bg-slate-950 transition-colors duration-300"  // Styling with theme support
     >
       <div className="container mx-auto px-4">
+        {/* ========================================================================
+            SECTION HEADER - "Skills" title with fade-up animation
+        ======================================================================== */}
         <ScrollAnimation variant="fadeUp" duration={0.6}>
           <div className="text-center mb-10">
           <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${isDark ? "text-blue-400" : "text-blue-900"}`}>
@@ -371,55 +425,68 @@ export default function Skills({ setActiveSection }: SkillsProps) {
           </div>
         </ScrollAnimation>
 
-        {/* Show content regardless of mounted state, but with fallback styling */}
+        {/* ========================================================================
+            SKILL CATEGORIES GRID - Main content area with staggered animations
+        ======================================================================== */}
         <ScrollAnimation variant="fadeUp" stagger={true} staggerDelay={0.1}>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 items-start">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 items-start">
+          {/* Maps through each skill category and renders a card */}
           {skillCategories.map((category, index) => (
             <motion.div
               key={category.category}
-                whileHover={{ y: -5, scale: 1.02 }}
+                whileHover={{ y: -5, scale: 1.02 }}            // Hover animation: lifts card and scales slightly
                 transition={{ duration: 0.3, ease: "easeOut" }}
             >
+              {/* ========================================================================
+                  INDIVIDUAL CATEGORY CARD - Each category gets its own card
+              ======================================================================== */}
               <Card
                 className={`overflow-hidden border w-full cursor-pointer transition-all duration-300 ${
                   isDark
-                    ? "bg-slate-800 border-slate-600 hover:border-blue-500"
-                    : "bg-white border-gray-200 hover:border-blue-300"
+                    ? "bg-slate-800 border-slate-600 hover:border-blue-500"      // Dark theme styling
+                    : "bg-white border-gray-200 hover:border-blue-300"           // Light theme styling
                 } hover:shadow-lg ${
                   expandedCategory === index
                     ? `border-l-4 ${
                         isDark
-                          ? "border-l-" + category.darkAccentColor.split("-").pop()
-                          : "border-l-" + category.lightAccentColor.split("-").pop()
+                          ? "border-l-" + category.darkAccentColor.split("-").pop()    // Left border when expanded (dark)
+                          : "border-l-" + category.lightAccentColor.split("-").pop()   // Left border when expanded (light)
                       }`
                     : ""
-                } ${expandedCategory !== index ? "min-h-[220px]" : ""}`}
+                } ${expandedCategory !== index ? "min-h-[220px]" : ""}`}        // Minimum height when collapsed
               >
+                {/* ========================================================================
+                    CARD HEADER - Category title, icon, and expand/collapse button
+                ======================================================================== */}
                 <CardHeader className="pb-2">
                   <div
                     className="flex items-center justify-between cursor-pointer"
-                    onClick={() => toggleCategory(index)}
+                    onClick={() => toggleCategory(index)}                           // Click handler for expansion
                   >
                     <div className="flex items-center">
+                        {/* Category Icon with hover animation */}
                         <motion.div
                         className={`p-2 rounded-full ${isDark ? "bg-slate-700" : "bg-gray-100"} mr-3 ${
                           expandedCategory === index ? (isDark ? "text-blue-400" : "text-blue-600") : ""
                         }`}
-                          whileHover={{ scale: 1.1, rotate: 5 }}
+                          whileHover={{ scale: 1.1, rotate: 5 }}                   // Icon hover effects
                           transition={{ duration: 0.2 }}
                       >
                         {category.icon}
                         </motion.div>
                         <CardTitle className="text-lg">{category.category}</CardTitle>
                       </div>
+                      
+                      {/* Expand/Collapse Button with animated chevron */}
                       <motion.button
                       className={`p-1 rounded-full ${
                         isDark ? "hover:bg-gray-700" : "hover:bg-gray-100"
                       } transition-colors duration-200`}
                       aria-label={expandedCategory === index ? "Collapse" : "Expand"}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
+                        whileHover={{ scale: 1.1 }}                               // Button hover effect
+                        whileTap={{ scale: 0.95 }}                               // Button click effect
                     >
+                        {/* Animated chevron that rotates between up/down */}
                         <AnimatePresence mode="wait">
                       {expandedCategory === index ? (
                             <motion.div
@@ -445,46 +512,57 @@ export default function Skills({ setActiveSection }: SkillsProps) {
                         </AnimatePresence>
                       </motion.button>
                   </div>
+                  
+                  {/* Category Description */}
                   <p className={`text-sm ${isDark ? "text-gray-400" : "text-gray-500"} mt-2 pl-11`}>
                     {category.description}
                   </p>
                 </CardHeader>
 
+                {/* ========================================================================
+                    CARD CONTENT - Skills list (expanded) or skill tags (collapsed)
+                ======================================================================== */}
                 <CardContent>
+                  {/* ========================================================================
+                      EXPANDED VIEW - Shows detailed skill grid with logos and proficiency
+                  ======================================================================== */}
                   <AnimatePresence>
                     {expandedCategory === index && (
                       <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
+                        initial={{ height: 0, opacity: 0 }}                        // Start collapsed
+                        animate={{ height: "auto", opacity: 1 }}                   // Expand to full height
+                        exit={{ height: 0, opacity: 0 }}                          // Collapse on exit
                           transition={{ duration: 0.4, ease: "easeInOut" }}
                         className="overflow-hidden"
                       >
+                          {/* Skills Grid - 2-3 columns depending on screen size */}
                           <motion.div 
                             className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-2"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.2, duration: 0.3 }}
                           >
+                            {/* Maps through each skill in the category */}
                             {category.skills.map((skill, skillIndex) => (
                               <motion.div
                               key={skill.name}
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 0.3 + skillIndex * 0.05, duration: 0.3 }}
-                                whileHover={{ scale: 1.05, y: -2 }}
+                                initial={{ opacity: 0, scale: 0.8 }}              // Start small and invisible
+                                animate={{ opacity: 1, scale: 1 }}                // Animate to full size
+                                transition={{ delay: 0.3 + skillIndex * 0.05, duration: 0.3 }}  // Staggered animation
+                                whileHover={{ scale: 1.05, y: -2 }}             // Hover effect
                               className={`p-2 rounded-lg border ${
                                 isDark
-                  ? "border-slate-600 bg-slate-800/50 hover:border-blue-500"
-                                  : "border-gray-200 bg-white hover:border-blue-300"
+                  ? "border-slate-600 bg-slate-800/50 hover:border-blue-500"     // Dark theme skill card
+                                  : "border-gray-200 bg-white hover:border-blue-300"  // Light theme skill card
                               } flex flex-col items-center justify-center text-center transition-colors duration-200`}
                             >
+                              {/* Skill Logo or Fallback Icon */}
                               {getLogoSrc(skill) ? (
                                   <motion.div
                                   className={`w-6 h-6 mb-2 flex items-center justify-center ${
                                     isDark ? "bg-gray-700 rounded-full p-1" : ""
                                   }`}
-                                    whileHover={{ rotate: 360 }}
+                                    whileHover={{ rotate: 360 }}                  // Logo rotation on hover
                                     transition={{ duration: 0.6 }}
                                 >
                                   <img
@@ -494,6 +572,7 @@ export default function Skills({ setActiveSection }: SkillsProps) {
                                   />
                                   </motion.div>
                               ) : (
+                                  // Fallback icon when no logo is available
                                   <motion.div
                                   className={`w-6 h-6 mb-2 rounded-full ${
                                     isDark ? "bg-blue-900/30" : "bg-blue-100"
@@ -503,6 +582,8 @@ export default function Skills({ setActiveSection }: SkillsProps) {
                                   <Zap className={`w-3 h-3 ${isDark ? "text-blue-400" : "text-blue-600"}`} />
                                   </motion.div>
                               )}
+                              
+                              {/* Skill Name */}
                               <span
                                 className={`text-xs font-medium truncate w-full mb-1 ${
                                   isDark ? "text-gray-200" : "text-gray-800"
@@ -510,6 +591,8 @@ export default function Skills({ setActiveSection }: SkillsProps) {
                               >
                                 {skill.name}
                               </span>
+                              
+                              {/* Proficiency Level Indicators */}
                               {renderProficiency(skill.proficiency)}
                               </motion.div>
                           ))}
@@ -518,6 +601,9 @@ export default function Skills({ setActiveSection }: SkillsProps) {
                     )}
                   </AnimatePresence>
 
+                  {/* ========================================================================
+                      COLLAPSED VIEW - Shows skill names as small tags
+                  ======================================================================== */}
                   {expandedCategory !== index && (
                       <motion.div 
                         className="flex flex-wrap gap-1.5 mt-2 pl-11"
@@ -525,13 +611,14 @@ export default function Skills({ setActiveSection }: SkillsProps) {
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.3 }}
                       >
+                      {/* Maps through skills and renders them as small tag pills */}
                       {category.skills.map((skill, skillIndex) => (
                           <motion.span
                           key={skillIndex}
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: skillIndex * 0.02, duration: 0.2 }}
-                            whileHover={{ scale: 1.1 }}
+                            initial={{ opacity: 0, scale: 0.8 }}                  // Start small and invisible
+                            animate={{ opacity: 1, scale: 1 }}                    // Animate to full size
+                            transition={{ delay: skillIndex * 0.02, duration: 0.2 }}  // Very fast staggered animation
+                            whileHover={{ scale: 1.1 }}                          // Hover effect
                           className={`inline-block px-2 py-1 text-xs rounded-full ${
                             isDark ? "bg-gray-700 text-gray-200" : "bg-gray-100 text-gray-800"
                           } transition-colors duration-200 hover:bg-opacity-80`}
