@@ -71,7 +71,7 @@ export default function Education({ setActiveSection }: EducationProps) {
         "Admitted to the prestigious USC Viterbi School of Engineering",
       ],
       courses: [
-        "Analysis of Algorithms", "Database Systems"
+        "Analysis of Algorithms", "Information Retrieval and Web Search Engines"
       ]
     },
     {
