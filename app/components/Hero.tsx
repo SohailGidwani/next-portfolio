@@ -429,7 +429,7 @@ export default function Hero({ setActiveSection }: HeroProps) {
                 isDark ? "text-gray-200" : "text-gray-800"
               }`}
             >
-              Software Developer
+              AI & Full Stack Developer
             </h2>
             <p className={`text-sm sm:text-base max-w-lg mx-auto ${isDark ? "text-gray-400" : "text-gray-600"}`}>
               Building elegant solutions to complex problems with AI/ML expertise

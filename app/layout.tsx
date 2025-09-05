@@ -8,9 +8,9 @@ import { ThemeProvider } from './components/ThemeProvider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Sohail Gidwani - AI/ML Software Developer | Full Stack Developer',
-  description: 'Sohail Gidwani is a passionate Software Developer from Mumbai, India, specializing in AI/ML, Full Stack Development, and automation. View portfolio, projects, and experience.',
-  keywords: 'Sohail Gidwani, Software Developer, AI/ML Developer, Full Stack Developer, Mumbai, India, Python, React, Node.js, Machine Learning, Artificial Intelligence, Portfolio',
+  title: 'Sohail Gidwani - AI Developer | RAG Developer | Full Stack Developer',
+  description: 'Sohail Gidwani is a passionate AI Developer from Mumbai, India, specializing in RAG, Full Stack Development, and automation. View portfolio, projects, and experience.',
+  keywords: 'Sohail Gidwani, Software Developer, AI Developer, RAG Developer, Full Stack Developer, Mumbai, India, Python, React, Node.js, Machine Learning, Artificial Intelligence, Portfolio',
   authors: [{ name: 'Sohail Gidwani' }],
   creator: 'Sohail Gidwani',
   publisher: 'Sohail Gidwani',
@@ -24,8 +24,8 @@ export const metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'Sohail Gidwani - AI/ML Software Developer | Full Stack Developer',
-    description: 'Sohail Gidwani is a passionate Software Developer from Mumbai, India, specializing in AI/ML, Full Stack Development, and automation. View portfolio, projects, and experience.',
+    title: 'Sohail Gidwani - AI Developer | RAG Developer | Full Stack Developer',
+    description: 'Sohail Gidwani is a passionate AI Developer from Mumbai, India, specializing in RAG, Full Stack Development, and automation. View portfolio, projects, and experience.',
     url: 'https://portfolio-sohail-gidwanis-projects.vercel.app',
     siteName: 'Sohail Gidwani Portfolio',
     images: [
@@ -41,8 +41,8 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Sohail Gidwani - AI/ML Software Developer | Full Stack Developer',
-    description: 'Sohail Gidwani is a passionate Software Developer from Mumbai, India, specializing in AI/ML, Full Stack Development, and automation.',
+    title: 'Sohail Gidwani - AI Developer | RAG Developer | Full Stack Developer',
+    description: 'Sohail Gidwani is a passionate AI Developer from Mumbai, India, specializing in RAG, Full Stack Development, and automation.',
     images: ['/api/og'],
     creator: '@sohailgidwani',
   },

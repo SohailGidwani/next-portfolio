@@ -143,7 +143,7 @@ export default function About({ setActiveSection }: AboutProps) {
                   viewport={{ once: true }}
                   className="text-base md:text-lg text-gray-700 dark:text-gray-300 leading-relaxed"
                 >
-                  I'm a passionate Software Developer from Mumbai, India, with a love for <span className="font-semibold text-blue-900 dark:text-blue-300">problem-solving</span> and a strong dedication to <span className="font-semibold text-blue-900 dark:text-blue-300">automating workflows</span>. I specialize in developing AI tools and experimenting with the latest <span className="font-semibold text-blue-900 dark:text-blue-300">ML/DL models</span> to push the boundaries of what's possible.
+                  I'm a passionate AI Developer, with a love for <span className="font-semibold text-blue-900 dark:text-blue-300">problem-solving</span> and a strong dedication to <span className="font-semibold text-blue-900 dark:text-blue-300">building intelligent systems</span>. I specialize in developing AI tools, with a focus on <span className="font-semibold text-blue-900 dark:text-blue-300">Retrieval-Augmented Generation (RAG)</span>, and experimenting with the latest <span className="font-semibold text-blue-900 dark:text-blue-300">ML/DL models</span> to push the boundaries of what's possible.
                 </motion.p>
                 
                 <motion.p 
@@ -153,7 +153,7 @@ export default function About({ setActiveSection }: AboutProps) {
                   viewport={{ once: true }}
                   className="text-base md:text-lg text-gray-700 dark:text-gray-300 leading-relaxed"
                 >
-                  My journey in software development is driven by a desire to create <span className="font-semibold text-blue-900 dark:text-blue-300">efficient, scalable</span> solutions that make a difference. I thrive on tackling complex challenges and turning them into streamlined, effective processes. Whether it's developing algorithms to enhance <span className="font-semibold text-blue-900 dark:text-blue-300">machine learning</span> capabilities or creating automation scripts to save time and reduce errors, I am always looking for ways to <span className="font-semibold text-blue-900 dark:text-blue-300">innovate</span> and <span className="font-semibold text-blue-900 dark:text-blue-300">improve</span>.
+                  My journey in software development is driven by a desire to create <span className="font-semibold text-blue-900 dark:text-blue-300">efficient, scalable</span> solutions that make a difference. I have hands-on experience in developing and deploying <span className="font-semibold text-blue-900 dark:text-blue-300">RAG pipelines</span>, fine-tuning <span className="font-semibold text-blue-900 dark:text-blue-300">language models</span>, and building <span className="font-semibold text-blue-900 dark:text-blue-300">AI-powered applications</span>. I am always looking for ways to <span className="font-semibold text-blue-900 dark:text-blue-300">innovate</span> and <span className="font-semibold text-blue-900 dark:text-blue-300">improve</span>.
                 </motion.p>
               </div>
             </div>
