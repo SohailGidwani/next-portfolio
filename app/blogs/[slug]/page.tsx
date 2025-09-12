@@ -78,8 +78,10 @@ export default async function BlogDetail({ params }: Props) {
 
       <div className="container mx-auto px-4 py-12">
         {blog.coverImageUrl && (
-          <div className="relative h-64 md:h-96 rounded-2xl overflow-hidden shadow-2xl mb-8">
-            <ProgressiveImage src={blog.coverImageUrl} alt={blog.title} fill className="object-cover" unoptimized />
+          <div className="max-w-3xl mx-auto">
+            <div className="relative h-64 md:h-96 w-full rounded-2xl overflow-hidden shadow-2xl mb-8">
+              <ProgressiveImage src={blog.coverImageUrl} alt={blog.title} fill className="object-cover" unoptimized />
+            </div>
           </div>
         )}
         <article className="prose prose-lg dark:prose-invert max-w-3xl mx-auto">

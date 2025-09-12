@@ -48,10 +48,10 @@ export default function Portfolio() {
           <Projects setActiveSection={setActiveSection} />
         </ScrollAnimation>
         <SectionDivider />
-        <ScrollAnimation>
+        {/* <ScrollAnimation>
           <Blogs setActiveSection={setActiveSection} />
         </ScrollAnimation>
-        <SectionDivider />
+        <SectionDivider /> */}
         <ScrollAnimation>
           <Triumphs setActiveSection={setActiveSection} />
         </ScrollAnimation>
