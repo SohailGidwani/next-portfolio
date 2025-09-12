@@ -27,6 +27,8 @@ export default function AdminBlogsPage() {
     excerpt: '',
     content: '',
   })
+  const [file, setFile] = useState<File | null>(null)
+  const [uploading, setUploading] = useState(false)
   const [submitting, setSubmitting] = useState(false)
 
   const loadBlogs = async () => {
@@ -47,25 +49,39 @@ export default function AdminBlogsPage() {
     e.preventDefault()
     setSubmitting(true)
     try {
+      let coverUrl = form.coverImageUrl || ''
+      // If a file is selected, upload it first
+      if (file) {
+        setUploading(true)
+        const fd = new FormData()
+        fd.append('file', file)
+        fd.append('filename', file.name)
+        const up = await fetch('/api/uploads/image', { method: 'POST', body: fd })
+        if (!up.ok) throw new Error('Image upload failed')
+        const uploaded = await up.json()
+        coverUrl = uploaded.url
+      }
       const res = await fetch('/api/blogs', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           title: form.title,
           slug: form.slug || undefined,
-          coverImageUrl: form.coverImageUrl || undefined,
+          coverImageUrl: coverUrl || undefined,
           excerpt: form.excerpt || undefined,
           content: form.content || undefined,
         }),
       })
       if (!res.ok) throw new Error('Failed to create')
       setForm({ title: '', slug: '', coverImageUrl: '', excerpt: '', content: '' })
+      setFile(null)
       await loadBlogs()
       alert('Blog created')
     } catch (e) {
       console.error(e)
       alert('Failed to create blog')
     } finally {
+      setUploading(false)
       setSubmitting(false)
     }
   }
@@ -115,6 +131,10 @@ export default function AdminBlogsPage() {
                 </div>
               </div>
               <div>
+                <div className="text-xs text-gray-500 dark:text-slate-400 mb-1">Or upload an image (stored in DB)</div>
+                <input type="file" accept="image/*" onChange={e => setFile(e.target.files?.[0] || null)} />
+              </div>
+              <div>
                 <label className="block mb-1 text-sm">Excerpt (optional)</label>
                 <Textarea value={form.excerpt} onChange={e => setForm({ ...form, excerpt: e.target.value })} rows={3} placeholder="Short summary..." />
               </div>
@@ -123,7 +143,7 @@ export default function AdminBlogsPage() {
                 <Textarea value={form.content} onChange={e => setForm({ ...form, content: e.target.value })} rows={10} placeholder={"Write your blog content..."} />
               </div>
               <div className="flex justify-end">
-                <Button type="submit" disabled={submitting}>{submitting ? 'Saving...' : 'Add Blog'}</Button>
+                <Button type="submit" disabled={submitting || uploading}>{(submitting || uploading) ? 'Saving...' : 'Add Blog'}</Button>
               </div>
             </form>
           </CardContent>
@@ -173,4 +193,3 @@ export default function AdminBlogsPage() {
     </div>
   )
 }
-

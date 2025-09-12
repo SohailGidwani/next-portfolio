@@ -40,6 +40,18 @@ export async function initDb() {
     );
     CREATE INDEX IF NOT EXISTS idx_blogs_created_at ON blogs(created_at DESC);
     CREATE INDEX IF NOT EXISTS idx_blogs_slug ON blogs(slug);
+
+    -- Images table to store uploaded binary data
+    CREATE TABLE IF NOT EXISTS images (
+      id SERIAL PRIMARY KEY,
+      filename TEXT,
+      mime_type TEXT NOT NULL,
+      data BYTEA NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+
+    -- Optional FK to link blogs to an image (in addition to URL)
+    ALTER TABLE blogs ADD COLUMN IF NOT EXISTS cover_image_id INTEGER REFERENCES images(id) ON DELETE SET NULL;
   `)
   initialized = true
 }
