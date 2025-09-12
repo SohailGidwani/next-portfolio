@@ -59,7 +59,7 @@ export default function BlogsPage() {
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-4 text-blue-900 dark:text-blue-400">Blogs</h1>
-            <p className="text-xl text-gray-600 dark:text-slate-300">Articles and posts on things I build and learn.</p>
+            <p className="text-xl text-gray-600 dark:text-slate-300">Articles and posts on things I build, learn and explore.</p>
           </motion.div>
         </div>
       </div>

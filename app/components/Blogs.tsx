@@ -109,18 +109,14 @@ export default function Blogs({ setActiveSection }: BlogsProps) {
                     </p>
 
                     <div className="flex gap-3 mt-auto">
-                      <motion.button
+                      <Link
+                        href={`/blogs/${blog.slug}`}
                         className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 text-sm font-medium flex-1 justify-center"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => {
-                          triggerHaptic()
-                          window.location.href = `/blogs/${blog.slug}`
-                        }}
+                        onClick={() => triggerHaptic()}
                       >
                         <ExternalLink className="w-4 h-4" />
                         Read
-                      </motion.button>
+                      </Link>
                     </div>
                   </div>
                 </div>
