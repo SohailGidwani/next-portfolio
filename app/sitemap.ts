@@ -10,7 +10,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     await initDb()
     type BlogRow = { slug: string; updatedAt: string | Date | null; createdAt: string | Date | null }
     const { rows } = await pool.query<BlogRow>('SELECT slug, updated_at AS "updatedAt", created_at AS "createdAt" FROM blogs ORDER BY created_at DESC')
-    blogEntries = rows.map((r) => {
+    blogEntries = rows.map((r: BlogRow) => {
       const last = r.updatedAt ?? r.createdAt ?? new Date()
       const lastModified = last instanceof Date ? last : new Date(last)
       return {
