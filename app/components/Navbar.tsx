@@ -312,11 +312,20 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
                     size="icon"
                     className="w-9 h-9 rounded-full bg-gray-100/50 dark:bg-slate-800/50 hover:bg-gray-200/50 dark:hover:bg-slate-700/50 relative flex items-center justify-center"
                   >
-                    {/* Static theme toggle */}
-                    <div
-                      className={`flex items-center justify-center ${themeToggleAnimating ? "opacity-0" : "opacity-100"}`}
-                    >
-                      {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                    {/* Static theme toggle with animated icon swap */}
+                    <div className={`flex items-center justify-center ${themeToggleAnimating ? "opacity-0" : "opacity-100"}`}>
+                      <AnimatePresence mode="wait">
+                        <motion.div
+                          key={theme}
+                          initial={{ rotate: -180, opacity: 0 }}
+                          animate={{ rotate: 0, opacity: 1 }}
+                          exit={{ rotate: 180, opacity: 0 }}
+                          transition={{ duration: 0.3, ease: "easeInOut" }}
+                          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                        >
+                          {theme === "dark" ? <Sun className="h-4 w-4 text-yellow-500" /> : <Moon className="h-4 w-4 text-blue-600" />}
+                        </motion.div>
+                      </AnimatePresence>
                     </div>
 
                     {/* Animated theme toggle that transitions from hero */}
@@ -330,7 +339,7 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
                           transformOrigin: "center",
                         }}
                       >
-                        {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                        {theme === "dark" ? <Sun className="h-4 w-4 text-yellow-500" /> : <Moon className="h-4 w-4 text-blue-600" />}
                       </motion.div>
                     )}
                   </Button>
@@ -446,19 +455,30 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
                   onClick={toggleTheme}
                   variant="outline"
                   size="sm"
-                  className="bg-white/10 hover:bg-white/20 border-white/20 text-white"
+                  className="bg-white/10 hover:bg-white/20 border-white/20 text-white overflow-hidden"
                 >
-                  {theme === "dark" ? (
-                    <div className="flex items-center">
-                      <Sun className="h-4 w-4 mr-2" />
-                      <span>Light Mode</span>
-                    </div>
-                  ) : (
-                    <div className="flex items-center">
-                      <Moon className="h-4 w-4 mr-2" />
-                      <span>Dark Mode</span>
-                    </div>
-                  )}
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={theme}
+                      initial={{ rotate: -180, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: 180, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      className="flex items-center"
+                    >
+                      {theme === "dark" ? (
+                        <>
+                          <Sun className="h-4 w-4 mr-2 text-yellow-400" />
+                          <span>Light Mode</span>
+                        </>
+                      ) : (
+                        <>
+                          <Moon className="h-4 w-4 mr-2 text-blue-300" />
+                          <span>Dark Mode</span>
+                        </>
+                      )}
+                    </motion.div>
+                  </AnimatePresence>
                 </Button>
               </div>
             </motion.div>

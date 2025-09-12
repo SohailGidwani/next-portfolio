@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState, useMemo } from "react"
-import { motion, useScroll, useTransform } from "framer-motion"
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { useTheme } from "next-themes"
 import { FaFileAlt, FaChevronDown, FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa"
 import { Moon, Sun } from "lucide-react"
@@ -218,7 +218,19 @@ export default function Hero({ setActiveSection }: HeroProps) {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, delay: 0.8 }}
       >
-        {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+        {/* Animated icon swap for theme toggle */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={isDark ? 'dark' : 'light'}
+            initial={{ rotate: -180, opacity: 0 }}
+            animate={{ rotate: 0, opacity: 1 }}
+            exit={{ rotate: 180, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="flex items-center justify-center"
+          >
+            {isDark ? <Sun className="h-5 w-5 text-yellow-500" /> : <Moon className="h-5 w-5 text-blue-600" />}
+          </motion.div>
+        </AnimatePresence>
       </motion.button>
 
       {/* Social Icons - Bottom Right (only within Hero) */}

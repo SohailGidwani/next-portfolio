@@ -72,7 +72,19 @@ export default function Blogs({ setActiveSection }: BlogsProps) {
         </motion.div>
 
         {loading ? (
-          <div className="text-center text-gray-500 dark:text-slate-400">Loading...</div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-lg border border-gray-100 dark:border-slate-600">
+                <div className="h-48 sm:h-56 bg-gray-200 dark:bg-slate-700 shimmer" />
+                <div className="p-6 space-y-3">
+                  <div className="h-6 w-3/4 bg-gray-200 dark:bg-slate-700 rounded shimmer" />
+                  <div className="h-4 w-full bg-gray-200 dark:bg-slate-700 rounded shimmer" />
+                  <div className="h-4 w-5/6 bg-gray-200 dark:bg-slate-700 rounded shimmer" />
+                  <div className="h-9 w-full bg-gray-200 dark:bg-slate-700 rounded shimmer mt-4" />
+                </div>
+              </div>
+            ))}
+          </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8">
             {blogs.map((blog, index) => (

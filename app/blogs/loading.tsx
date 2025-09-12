@@ -11,11 +11,11 @@ export default function LoadingBlogsList() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {Array.from({ length: 6 }).map((_, i) => (
             <div key={i} className="rounded-2xl overflow-hidden shadow-lg border border-gray-100 dark:border-slate-600 bg-white dark:bg-slate-800">
-              <div className="h-48 bg-gray-200 dark:bg-slate-700 animate-pulse" />
+              <div className="h-48 bg-gray-200 dark:bg-slate-700 shimmer" />
               <div className="p-6 space-y-3">
-                <div className="h-6 w-3/4 bg-gray-200 dark:bg-slate-700 rounded animate-pulse" />
-                <div className="h-4 w-full bg-gray-200 dark:bg-slate-700 rounded animate-pulse" />
-                <div className="h-4 w-5/6 bg-gray-200 dark:bg-slate-700 rounded animate-pulse" />
+                <div className="h-6 w-3/4 bg-gray-200 dark:bg-slate-700 rounded shimmer" />
+                <div className="h-4 w-full bg-gray-200 dark:bg-slate-700 rounded shimmer" />
+                <div className="h-4 w-5/6 bg-gray-200 dark:bg-slate-700 rounded shimmer" />
               </div>
             </div>
           ))}
@@ -24,4 +24,3 @@ export default function LoadingBlogsList() {
     </div>
   )
 }
-

@@ -92,9 +92,26 @@
   body {
     overflow-x: hidden; /* Prevent horizontal scrolling */
   }
-
+  
   /* Custom focus styles */
   .focus-ring {
     @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900;
+  }
+
+  /* Shimmer effect for skeletons */
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  .shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(59,130,246,0.25), rgba(124,58,237,0.25), transparent);
+    animation: shimmer 1.6s infinite;
   }
 }

@@ -1,12 +1,12 @@
 import { initDb, pool } from '@/lib/db'
 import ThemeToggle from '@/app/components/ThemeToggle'
 import Link from 'next/link'
-import Image from 'next/image'
 import { ArrowLeft } from 'lucide-react'
 import { Metadata } from 'next'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import Script from 'next/script'
+import ProgressiveImage from '@/app/components/ProgressiveImage'
 
 type Props = { params: { slug: string } }
 
@@ -44,7 +44,7 @@ export default async function BlogDetail({ params }: Props) {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 text-gray-800 dark:text-slate-200 transition-colors duration-300">
+    <div className="min-h-screen bg-white dark:bg-slate-950 text-gray-800 dark:text-slate-200 transition-colors duration-300 overflow-x-hidden">
       <Script id="blogpost-ld" type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
@@ -79,7 +79,7 @@ export default async function BlogDetail({ params }: Props) {
       <div className="container mx-auto px-4 py-12">
         {blog.coverImageUrl && (
           <div className="relative h-64 md:h-96 rounded-2xl overflow-hidden shadow-2xl mb-8">
-            <Image src={blog.coverImageUrl} alt={blog.title} fill className="object-cover" unoptimized />
+            <ProgressiveImage src={blog.coverImageUrl} alt={blog.title} fill className="object-cover" unoptimized />
           </div>
         )}
         <article className="prose prose-lg dark:prose-invert max-w-3xl mx-auto">
