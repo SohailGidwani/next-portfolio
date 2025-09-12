@@ -182,8 +182,9 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
     themeToggleOpacity,
   ])
 
-  const navItems = ["About", "Education", "Experience", "Skills", "Projects", "Blogs", "Triumphs", "Contact"]
-
+  // const navItems = ["About", "Education", "Experience", "Skills", "Projects", "Blogs", "Triumphs", "Contact"]
+  const navItems = ["About", "Education", "Experience", "Skills", "Projects", "Triumphs", "Contact"]
+  
   const scrollToSection = (sectionId: string) => {
     triggerHaptic();
     const element = document.getElementById(sectionId.toLowerCase())
