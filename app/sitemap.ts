@@ -8,13 +8,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let blogEntries: MetadataRoute.Sitemap = []
   try {
     await initDb()
-    const { rows } = await pool.query('SELECT slug, updated_at AS "updatedAt", created_at AS "createdAt" FROM blogs ORDER BY created_at DESC')
-    blogEntries = rows.map((r: any) => ({
-      url: `${baseUrl}/blogs/${r.slug}`,
-      lastModified: r.updatedAt || r.createdAt || new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.7,
-    }))
+    type BlogRow = { slug: string; updatedAt: string | Date | null; createdAt: string | Date | null }
+    const { rows } = await pool.query<BlogRow>('SELECT slug, updated_at AS "updatedAt", created_at AS "createdAt" FROM blogs ORDER BY created_at DESC')
+    blogEntries = rows.map((r) => {
+      const last = r.updatedAt ?? r.createdAt ?? new Date()
+      const lastModified = last instanceof Date ? last : new Date(last)
+      return {
+        url: `${baseUrl}/blogs/${r.slug}`,
+        lastModified,
+        changeFrequency: 'weekly',
+        priority: 0.7,
+      }
+    })
   } catch {
     // If DB not available locally, skip dynamic blogs
   }

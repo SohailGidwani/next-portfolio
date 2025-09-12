@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import Image from "next/image"
-import { Badge } from "@/app/components/ui/badge"
 import { ExternalLink, ArrowUpRight } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
 
@@ -146,4 +145,3 @@ export default function Blogs({ setActiveSection }: BlogsProps) {
     </section>
   )
 }
-
