@@ -1,8 +1,24 @@
 import { MetadataRoute } from 'next'
+import { initDb, pool } from '@/lib/db'
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://portfolio-sohail-gidwanis-projects.vercel.app'
-  
+
+  // Fetch blogs to include individual URLs
+  let blogEntries: MetadataRoute.Sitemap = []
+  try {
+    await initDb()
+    const { rows } = await pool.query('SELECT slug, updated_at AS "updatedAt", created_at AS "createdAt" FROM blogs ORDER BY created_at DESC')
+    blogEntries = rows.map((r: any) => ({
+      url: `${baseUrl}/blogs/${r.slug}`,
+      lastModified: r.updatedAt || r.createdAt || new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    }))
+  } catch {
+    // If DB not available locally, skip dynamic blogs
+  }
+
   return [
     {
       url: baseUrl,
@@ -76,5 +92,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+    {
+      url: `${baseUrl}/blogs`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    ...blogEntries,
   ]
-} 
+}
