@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/app/components/ui/ca
 import { motion, AnimatePresence } from "framer-motion"
 import { Code, Database, Cloud, Cpu, Globe, PenToolIcon as Tool, ChevronDown, ChevronUp, Zap } from "lucide-react"
 import { useTheme } from "next-themes"
+import Image from "next/image"
 import ScrollAnimation from "./ScrollAnimation"
 import { triggerHaptic } from "./ui/haptics"
 
@@ -74,13 +75,14 @@ export default function Skills({ setActiveSection }: SkillsProps) {
       },
     )
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)                      // Start observing the skills section
+    const currentRef = sectionRef.current
+    if (currentRef) {
+      observer.observe(currentRef)                      // Start observing the skills section
     }
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current)                  // Clean up observer on unmount
+      if (currentRef) {
+        observer.unobserve(currentRef)                  // Clean up observer on unmount
       }
     }
   }, [setActiveSection])
@@ -565,9 +567,11 @@ export default function Skills({ setActiveSection }: SkillsProps) {
                                     whileHover={{ rotate: 360 }}                  // Logo rotation on hover
                                     transition={{ duration: 0.6 }}
                                 >
-                                  <img
+                                  <Image
                                     src={getLogoSrc(skill) || "/placeholder.svg"}
                                     alt={skill.name}
+                                    width={24}
+                                    height={24}
                                     className="max-w-full max-h-full object-contain"
                                   />
                                   </motion.div>

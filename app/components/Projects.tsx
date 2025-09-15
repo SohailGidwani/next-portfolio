@@ -5,6 +5,7 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import { Badge } from "@/app/components/ui/badge"
 import Link from "next/link"
+import knowledgeHub from '@/public/images/KnowledgeHub_1.png'
 import imagecaption from '@/public/images/BE-Project.jpg'
 import blogsite from '@/public/images/BlogSite.jpg'
 import techupdates from '@/public/images/Tech Updates.png'
@@ -48,6 +49,16 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
 
   const projects = [
     {
+      id: "knowledge-hub",
+      title: "Knowledge Hub - AI-Powered Document Management",
+      shortDescription: "Comprehensive document management system with OCR, semantic search, and AI-powered Q&A for academic research.",
+      description: `Built a Flask-based document management system with PostgreSQL and pgvector for vector similarity search. Implemented OCR processing with OpenCV, PyMuPDF, and Tesseract for PDF and image text extraction. Integrated local LLM (Ollama) for AI-powered question answering with RAG architecture.`,
+      image: knowledgeHub,
+      tags: ["Python", "Flask", "PostgreSQL", "pgvector", "Docker", "OCR", "AI/ML", "Vector Search", "RAG"],
+      github: "https://github.com/SohailGidwani/knowledge_hub",
+      featured: true,
+    },
+    {
       id: "image-captioning",
       title: "Image Feature Detection & Captioning",
       shortDescription: "AI-powered image captioning system using CNN, VGG-16, LSTM, and Transformer models with Streamlit interface.",
@@ -75,7 +86,7 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
       image: techupdates,
       tags: ["React", "Vite", "Python", "Flask", "Azure OpenAI", "Qdrant(vectorDB)", "PostgreSQL", "Web Scraping"],
       github: "https://github.com/SohailGidwani/Project-TechUpdates",
-      featured: true,
+      featured: false,
     },
   ]
 
@@ -95,7 +106,7 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8">
-          {projects.map((project, index) => (
+          {projects.filter(project => project.featured).map((project, index) => (
             <motion.div
               key={project.id}
               initial={{ opacity: 0, y: 30 }}

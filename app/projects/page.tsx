@@ -7,6 +7,7 @@ import { Github, ArrowRight, Home } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { ThemeProvider } from "next-themes"
+import knowledgeHub from '@/public/images/KnowledgeHub_1.png'
 import imagecaption from '@/public/images/BE-Project.jpg'
 import blogsite from '@/public/images/BlogSite.jpg'
 import techupdates from '@/public/images/Tech Updates.png'
@@ -14,6 +15,26 @@ import ThemeToggle from "@/app/components/ThemeToggle"
 
 export default function ProjectsPage() {
   const projects = [
+    {
+      id: "knowledge-hub",
+      title: "Knowledge Hub - AI-Powered Document Management",
+      shortDescription: "Comprehensive document management system with OCR, semantic search, and AI-powered Q&A for academic research",
+      description: `• Built a Flask-based document management system with PostgreSQL and pgvector for vector similarity search.• Implemented OCR processing with OpenCV, PyMuPDF, and Tesseract for PDF and image text extraction.• Integrated local LLM (Ollama) for AI-powered question answering with RAG architecture.• Created hybrid search combining full-text and semantic search with confidence-aware ranking.`,
+      image: knowledgeHub,
+      tags: ["Python", "Flask", "PostgreSQL", "pgvector", "Docker", "OCR", "AI/ML", "Vector Search", "RAG"],
+      github: "https://github.com/SohailGidwani/knowledge_hub",
+      featured: true,
+    },
+    {
+      id: "tech-updates",
+      title: "Tech-updates (Personal Tech News Aggregator)",
+      shortDescription: "AI-powered news aggregator with intelligent categorization",
+      image: techupdates,
+      description: `Built a personalized news aggregator that scrapes and categorizes tech articles using AI. Implemented web scraping from multiple sources like Medium, Y Combinator, and Crunchbase. • Integrated Azure OpenAI for intelligent article categorization and Qdrant vector database for efficient content management. • Developed REST API with Flask and PostgreSQL for data persistence, with a responsive React frontend for article viewing.`,
+      tags: ["React", "Vite", "Python", "Flask", "Azure OpenAI", "Qdrant(vectorDB)", "PostgreSQL", "Web Scraping"],
+      github: "https://github.com/SohailGidwani/Project-TechUpdates",
+      featured: false,
+    },
     {
       id: "image-captioning",
       title: "Image Feature Detection & Captioning",
@@ -32,17 +53,7 @@ export default function ProjectsPage() {
       image: blogsite,
       tags: ["React", "Vite", "Typescript", "Tailwind", "HONO", "CloudFlare", "PostgreSQL"],
       github: "https://github.com/SohailGidwani/0---100-FullStack/tree/main/Week%2012/medium",
-      featured: true,
-    },
-    {
-      id: "tech-updates",
-      title: "Tech-updates (Personal Tech News Aggregator)",
-      shortDescription: "AI-powered news aggregator with intelligent categorization",
-      image: techupdates,
-      description: `Built a personalized news aggregator that scrapes and categorizes tech articles using AI. Implemented web scraping from multiple sources like Medium, Y Combinator, and Crunchbase. • Integrated Azure OpenAI for intelligent article categorization and Qdrant vector database for efficient content management. • Developed REST API with Flask and PostgreSQL for data persistence, with a responsive React frontend for article viewing.`,
-      tags: ["React", "Vite", "Python", "Flask", "Azure OpenAI", "Qdrant(vectorDB)", "PostgreSQL", "Web Scraping"],
-      github: "https://github.com/SohailGidwani/Project-TechUpdates",
-      featured: true,
+      featured: false,
     },
   ]
 

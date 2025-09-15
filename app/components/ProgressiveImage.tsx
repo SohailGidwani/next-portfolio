@@ -19,6 +19,7 @@ export default function ProgressiveImage({ showSkeleton = true, ...props }: Prop
       )}
       <Image
         {...props}
+        alt={props.alt || ''}
         placeholder="blur"
         blurDataURL={BLUR}
         onLoad={() => setLoaded(true)}
