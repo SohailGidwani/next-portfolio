@@ -12,6 +12,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import AskPandaAI from "@/public/images/Insaito.png"
 import fullstack from "@/public/images/iifl.png"
 import feynwick from "@/public/images/iremify.png"
+import keckUSC from "@/public/images/keck_USC.png"
 
 interface ExperienceProps {
   setActiveSection: (section: string) => void
@@ -258,6 +259,20 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
   }, [isMobile, activeExperience])
 
   const experiences: ExperienceItem[] = [
+    {
+      title: "Student Worker - Research Assistant",
+      company: "Keck School of Medicine of USC",
+      date: "Oct, 2023 - Present",
+      description:
+        "Supporting research that bridges visual and textual information for healthcare by preparing multimodal datasets, training vision-language models, and evaluating their clinical alignment.",
+      projects: [
+        "VLM Multimodal Tasks: Curating and preprocessing medical imaging and textual datasets to fine-tune vision-language models that connect visual findings with clinical narratives.",
+        "Model Training & Evaluation: Running training experiments, monitoring performance metrics, and building evaluation loops that highlight model strengths and weaknesses for healthcare use cases.",
+        "Research Collaboration: Partnering with clinicians and researchers to translate experimental insights into deployable prototypes, documentation, and future study proposals.",
+      ],
+      isLatest: true,
+      logo: keckUSC,
+    },
     {
       title: "Senior Software Engineer - I ",
       company: "Insaito, Inc.",
@@ -516,7 +531,9 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.3, delay: index * 0.05 }}
-                  className="overflow-hidden rounded-3xl border border-slate-200/70 bg-white shadow-lg dark:border-slate-800 dark:bg-slate-900"
+                  // NEW: Animate expanded state with shadow
+                  animate={isOpen ? { boxShadow: '0 8px 24px 0 rgba(23, 37, 84, 0.14)', scale: 1.025 } : { boxShadow: '0 1px 3px 0 rgba(17, 24, 39, 0.06)', scale: 1 }}
+                  className={`overflow-hidden rounded-3xl border border-slate-200/70 bg-white dark:border-slate-800 dark:bg-slate-900 transition-all duration-300 mb-4 ${isOpen ? 'shadow-2xl ring-2 ring-blue-100 dark:ring-blue-900/30' : 'shadow-lg'} `}
                 >
                   <button
                     type="button"
@@ -524,7 +541,8 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                       triggerHaptic()
                       setActiveExperience((prev) => (prev === index ? -1 : index))
                     }}
-                    className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left"
+                    className="flex w-full items-center justify-between gap-4 px-5 py-6 md:py-5 md:px-5 text-left"
+                    style={{ minHeight: 64 }}
                   >
                     <div className="flex items-start gap-4">
                       <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-2xl bg-white shadow-md dark:bg-slate-800">
@@ -549,7 +567,8 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                     </div>
                     <motion.span
                       animate={{ rotate: isOpen ? 90 : 0 }}
-                      className="rounded-full border border-slate-200 p-1 text-slate-500 dark:border-slate-700 dark:text-slate-300"
+                      transition={{ type: 'spring', stiffness: 400, damping: 32 }}
+                      className="rounded-full border border-slate-200 p-1 text-slate-500 dark:border-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 shadow"
                     >
                       <ChevronRight size={16} />
                     </motion.span>
@@ -560,16 +579,16 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                       <motion.div
                         key={`${experience.company}-content`}
                         initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
+                        animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.25, ease: "easeInOut" }}
-                        className="border-t border-slate-200 px-5 pb-5 dark:border-slate-800"
+                        transition={{ duration: 0.28, ease: 'easeInOut' }}
+                        className="border-t border-slate-200 px-6 pb-6 pt-2 dark:border-slate-800"
                       >
                         <div className={`my-4 h-1 rounded-full bg-gradient-to-r ${gradient}`} />
-                        <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                        <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300 mb-3">
                           {experience.description}
                         </p>
-                        <div className="mt-4 space-y-3">
+                        <div className="mt-1 space-y-3">
                           <h4 className="flex items-center gap-2 text-sm font-semibold text-slate-900 dark:text-slate-200">
                             <Briefcase size={16} className="text-blue-600 dark:text-blue-400" />
                             Highlights
