@@ -11,18 +11,6 @@ interface HeroProps {
   setActiveSection: (section: string) => void
 }
 
-// Generate random positions and sizes only once
-const generateRandomPositions = (count: number) => {
-  return Array.from({ length: count }, () => ({
-    size: Math.random() * 300 + 100,
-    top: `${Math.random() * 100}%`,
-    left: `${Math.random() * 100}%`,
-    xMovement: [Math.random() * 100 - 50, Math.random() * 100 - 50, Math.random() * 100 - 50],
-    yMovement: [Math.random() * 100 - 50, Math.random() * 100 - 50, Math.random() * 100 - 50],
-    duration: Math.random() * 30 + 30,
-  }))
-}
-
 // Generate random star properties
 const generateRandomStars = (count: number) => {
   return Array.from({ length: count }, () => ({
@@ -44,7 +32,6 @@ export default function Hero({ setActiveSection }: HeroProps) {
   const [isScrollHovered, setIsScrollHovered] = useState(false)
   // const [scrollY, setScrollY] = useState(0)
   // Memoize random positions to prevent re-randomization on re-renders
-  const orbPositions = useMemo(() => generateRandomPositions(8), [])
   const starPositions = useMemo(() => generateRandomStars(50), [])
 
   // For parallax scrolling effect
@@ -190,13 +177,13 @@ export default function Hero({ setActiveSection }: HeroProps) {
         paddingTop: 0,
       }}
     >
-      {/* Base gradient background */}
+      {/* Base gradient background - Pitch black space theme */}
       <div
         className="absolute inset-0 transition-colors duration-1000"
         style={{
           background: isDark
-            ? "linear-gradient(135deg, #0a1025 0%, #111639 50%, #1e1145 100%)"
-            : "linear-gradient(135deg, #f8fafc 0%, #ede9fe 100%)",
+            ? "#000000"
+            : "#ffffff",
         }}
       />
 
@@ -271,106 +258,69 @@ export default function Hero({ setActiveSection }: HeroProps) {
         </a>
       </div>
 
-      {/* Animated background elements - with higher opacity */}
+      {/* Space-themed background elements */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Animated wave SVG */}
-        <svg
-          className="absolute w-full h-full"
-          preserveAspectRatio="none"
-          viewBox="0 0 1440 800"
-          style={{ opacity: isDark ? 0.15 : 0.1 }}
-        >
-          <motion.path
-            d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-            fill={isDark ? "rgb(59, 130, 246, 0.5)" : "rgb(37, 99, 235, 0.3)"}
+        {/* Distant nebula glow - more prominent */}
+        <div className="absolute inset-0">
+          <motion.div
+            className="absolute top-10 right-1/4 w-[700px] h-[700px] rounded-full filter blur-[150px]"
+            style={{
+              background: isDark
+                ? "radial-gradient(circle, rgba(138, 43, 226, 0.6) 0%, rgba(75, 0, 130, 0.4) 40%, transparent 70%)"
+                : "radial-gradient(circle, rgba(220, 200, 255, 0.5) 0%, rgba(200, 190, 240, 0.3) 40%, transparent 70%)",
+              opacity: isDark ? 0.4 : 0.35,
+            }}
             animate={{
-              d: [
-                "M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
-                "M0,128L48,144C96,160,192,192,288,197.3C384,203,480,181,576,186.7C672,192,768,224,864,213.3C960,203,1056,149,1152,138.7C1248,128,1344,160,1392,176L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
-                "M0,96L48,122.7C96,149,192,203,288,192C384,181,480,107,576,80C672,53,768,75,864,101.3C960,128,1056,160,1152,165.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
-              ],
-              y: [0, 10, 0],
+              scale: [1, 1.2, 1],
+              opacity: isDark ? [0.35, 0.5, 0.35] : [0.3, 0.45, 0.3],
             }}
             transition={{
-              duration: 20,
+              duration: 30,
               repeat: Number.POSITIVE_INFINITY,
-              repeatType: "reverse",
               ease: "easeInOut",
             }}
           />
-          <motion.path
-            d="M0,224L48,213.3C96,203,192,181,288,154.7C384,128,480,96,576,122.7C672,149,768,235,864,266.7C960,299,1056,277,1152,261.3C1248,245,1344,235,1392,229.3L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-            fill={isDark ? "rgb(139, 92, 246, 0.5)" : "rgb(124, 58, 237, 0.3)"}
+          <motion.div
+            className="absolute bottom-20 left-1/3 w-[600px] h-[600px] rounded-full filter blur-[140px]"
+            style={{
+              background: isDark
+                ? "radial-gradient(circle, rgba(59, 130, 246, 0.5) 0%, rgba(30, 144, 255, 0.3) 40%, transparent 70%)"
+                : "radial-gradient(circle, rgba(200, 220, 255, 0.5) 0%, rgba(190, 210, 250, 0.3) 40%, transparent 70%)",
+              opacity: isDark ? 0.4 : 0.35,
+            }}
             animate={{
-              d: [
-                "M0,224L48,213.3C96,203,192,181,288,154.7C384,128,480,96,576,122.7C672,149,768,235,864,266.7C960,299,1056,277,1152,261.3C1248,245,1344,235,1392,229.3L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
-                "M0,288L48,272C96,256,192,224,288,213.3C384,203,480,213,576,229.3C672,245,768,267,864,261.3C960,256,1056,224,1152,197.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
-                "M0,160L48,170.7C96,181,192,203,288,208C384,213,480,203,576,181.3C672,160,768,128,864,128C960,128,1056,160,1152,186.7C1248,213,1344,235,1392,245.3L1440,256L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
-              ],
-              y: [0, -10, 0],
+              scale: [1, 1.15, 1],
+              opacity: isDark ? [0.3, 0.45, 0.3] : [0.25, 0.4, 0.25],
             }}
             transition={{
-              duration: 15,
+              duration: 25,
               repeat: Number.POSITIVE_INFINITY,
-              repeatType: "reverse",
               ease: "easeInOut",
               delay: 5,
             }}
           />
-        </svg>
-
-        {/* Animated gradient overlay with higher opacity */}
-        <motion.div
-          className="absolute inset-0 w-[200%] h-[200%]"
-          animate={{
-            x: [0, -500],
-            y: [0, -500],
-          }}
-          transition={{
-            duration: 60,
-            repeat: Number.POSITIVE_INFINITY,
-            repeatType: "reverse",
-            ease: "linear",
-          }}
-          style={{
-            background: isDark
-              ? "radial-gradient(circle at 30% 40%, rgba(79, 70, 229, 0.15) 0%, transparent 40%), radial-gradient(circle at 70% 60%, rgba(124, 58, 237, 0.15) 0%, transparent 40%)"
-              : "radial-gradient(circle at 30% 40%, rgba(79, 70, 229, 0.1) 0%, transparent 40%), radial-gradient(circle at 70% 60%, rgba(124, 58, 237, 0.1) 0%, transparent 40%)",
-          }}
-        />
-
-        {/* Floating orbs with higher opacity - using memoized positions */}
-        {orbPositions.map((orb, i) => (
           <motion.div
-            key={`orb-${i}`}
-            className="absolute rounded-full blur-3xl"
+            className="absolute top-1/2 left-10 w-[500px] h-[500px] rounded-full filter blur-[130px]"
             style={{
-              width: orb.size,
-              height: orb.size,
               background: isDark
-                ? i % 2 === 0
-                  ? "rgba(59, 130, 246, 0.08)"
-                  : "rgba(139, 92, 246, 0.08)"
-                : i % 2 === 0
-                  ? "rgba(59, 130, 246, 0.06)"
-                  : "rgba(139, 92, 246, 0.06)",
-              top: orb.top,
-              left: orb.left,
+                ? "radial-gradient(circle, rgba(167, 139, 250, 0.4) 0%, rgba(139, 92, 246, 0.3) 40%, transparent 70%)"
+                : "radial-gradient(circle, rgba(240, 220, 255, 0.4) 0%, rgba(220, 200, 245, 0.25) 40%, transparent 70%)",
+              opacity: isDark ? 0.35 : 0.3,
             }}
             animate={{
-              x: orb.xMovement,
-              y: orb.yMovement,
+              scale: [1, 1.1, 1],
+              opacity: isDark ? [0.25, 0.4, 0.25] : [0.2, 0.35, 0.2],
             }}
             transition={{
-              duration: orb.duration,
+              duration: 28,
               repeat: Number.POSITIVE_INFINITY,
-              repeatType: "reverse",
-              ease: "linear",
+              ease: "easeInOut",
+              delay: 10,
             }}
           />
-        ))}
+        </div>
 
-        {/* Subtle stars/particles - using memoized positions */}
+        {/* Star field - twinkling stars */}
         {starPositions.map((star, i) => (
           <motion.div
             key={`star-${i}`}
@@ -378,13 +328,16 @@ export default function Hero({ setActiveSection }: HeroProps) {
             style={{
               width: star.size,
               height: star.size,
-              backgroundColor: isDark ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.3)",
               top: star.top,
               left: star.left,
+              backgroundColor: isDark ? "white" : "black",
+              boxShadow: isDark
+                ? "0 0 2px rgba(255, 255, 255, 0.8)"
+                : "0 0 2px rgba(0, 0, 0, 0.3)",
             }}
             animate={{
-              opacity: [0.2, 0.8, 0.2],
-              scale: [1, 1.2, 1],
+              opacity: [0.2, 1, 0.2],
+              scale: [0.8, 1.2, 0.8],
             }}
             transition={{
               duration: star.duration,
@@ -394,6 +347,61 @@ export default function Hero({ setActiveSection }: HeroProps) {
             }}
           />
         ))}
+
+        {/* Constellation lines */}
+        <svg className="absolute inset-0 w-full h-full opacity-30" style={{ pointerEvents: "none" }}>
+          {/* Constellation 1 - Top left */}
+          <motion.line
+            x1="15%" y1="20%" x2="20%" y2="15%"
+            stroke={isDark ? "rgba(255, 255, 255, 0.3)" : "rgba(0, 0, 0, 0.2)"}
+            strokeWidth="1"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: isDark ? 0.3 : 0.2 }}
+            transition={{ duration: 2, delay: 1 }}
+          />
+          <motion.line
+            x1="20%" y1="15%" x2="25%" y2="25%"
+            stroke={isDark ? "rgba(255, 255, 255, 0.3)" : "rgba(0, 0, 0, 0.2)"}
+            strokeWidth="1"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: isDark ? 0.3 : 0.2 }}
+            transition={{ duration: 2, delay: 1.5 }}
+          />
+          <motion.line
+            x1="15%" y1="20%" x2="25%" y2="25%"
+            stroke={isDark ? "rgba(255, 255, 255, 0.3)" : "rgba(0, 0, 0, 0.2)"}
+            strokeWidth="1"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: isDark ? 0.3 : 0.2 }}
+            transition={{ duration: 2, delay: 2 }}
+          />
+
+          {/* Constellation 2 - Top right */}
+          <motion.line
+            x1="75%" y1="25%" x2="80%" y2="20%"
+            stroke={isDark ? "rgba(255, 255, 255, 0.3)" : "rgba(0, 0, 0, 0.2)"}
+            strokeWidth="1"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: isDark ? 0.3 : 0.2 }}
+            transition={{ duration: 2, delay: 1.2 }}
+          />
+          <motion.line
+            x1="80%" y1="20%" x2="85%" y2="28%"
+            stroke={isDark ? "rgba(255, 255, 255, 0.3)" : "rgba(0, 0, 0, 0.2)"}
+            strokeWidth="1"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: isDark ? 0.3 : 0.2 }}
+            transition={{ duration: 2, delay: 1.8 }}
+          />
+
+          {/* Constellation stars */}
+          <circle cx="15%" cy="20%" r="2" fill={isDark ? "white" : "black"} opacity="0.8" />
+          <circle cx="20%" cy="15%" r="2" fill={isDark ? "white" : "black"} opacity="0.8" />
+          <circle cx="25%" cy="25%" r="2" fill={isDark ? "white" : "black"} opacity="0.8" />
+          <circle cx="75%" cy="25%" r="2" fill={isDark ? "white" : "black"} opacity="0.8" />
+          <circle cx="80%" cy="20%" r="2" fill={isDark ? "white" : "black"} opacity="0.8" />
+          <circle cx="85%" cy="28%" r="2" fill={isDark ? "white" : "black"} opacity="0.8" />
+        </svg>
       </div>
 
       {/* Main content - centered */}
@@ -417,8 +425,8 @@ export default function Hero({ setActiveSection }: HeroProps) {
             <span
               className={
                 isDark
-                  ? "text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400"
-                  : "text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600"
+                  ? "text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500"
+                  : "text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-700"
               }
             >
               Gidwani
@@ -438,12 +446,12 @@ export default function Hero({ setActiveSection }: HeroProps) {
           >
             <h2
               className={`text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold mb-4 ${
-                isDark ? "text-gray-200" : "text-gray-800"
+                isDark ? "text-gray-100" : "text-gray-800"
               }`}
             >
               AI & Full Stack Developer
             </h2>
-            <p className={`text-base sm:text-base md:text-lg lg:text-xl max-w-2xl mx-auto px-4 ${isDark ? "text-gray-400" : "text-gray-600"}`}>
+            <p className={`text-base sm:text-base md:text-lg lg:text-xl max-w-2xl mx-auto px-4 ${isDark ? "text-gray-300" : "text-gray-600"}`}>
               Building elegant solutions to complex problems with AI/ML expertise
             </p>
           </motion.div>
