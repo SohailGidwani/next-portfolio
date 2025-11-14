@@ -405,10 +405,10 @@ export default function Hero({ setActiveSection }: HeroProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          {/* Name - now on the same line with different styling */}
+          {/* Name - slightly bigger and cleaner */}
           <motion.h1
             ref={nameRef}
-            className="text-5xl sm:text-6xl md:text-7xl font-bold mb-6 tracking-tight"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -437,13 +437,13 @@ export default function Hero({ setActiveSection }: HeroProps) {
             transition={{ duration: 0.5, delay: 0.3 }}
           >
             <h2
-              className={`text-xl sm:text-2xl md:text-3xl font-medium mb-3 ${
+              className={`text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold mb-4 ${
                 isDark ? "text-gray-200" : "text-gray-800"
               }`}
             >
               AI & Full Stack Developer
             </h2>
-            <p className={`text-sm sm:text-base max-w-lg mx-auto ${isDark ? "text-gray-400" : "text-gray-600"}`}>
+            <p className={`text-base sm:text-base md:text-lg lg:text-xl max-w-2xl mx-auto px-4 ${isDark ? "text-gray-400" : "text-gray-600"}`}>
               Building elegant solutions to complex problems with AI/ML expertise
             </p>
           </motion.div>
@@ -452,7 +452,7 @@ export default function Hero({ setActiveSection }: HeroProps) {
           <div className="flex justify-center items-center space-x-4">
             {/* Scroll for more button */}
             <motion.button
-              className="group relative overflow-hidden px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-300"
+              className="group relative overflow-hidden px-6 py-3 rounded-full font-medium text-sm transition-all duration-300"
               onHoverStart={() => setIsScrollHovered(true)}
               onHoverEnd={() => setIsScrollHovered(false)}
               onClick={scrollToAbout}
@@ -530,7 +530,7 @@ export default function Hero({ setActiveSection }: HeroProps) {
 
             {/* Resume button with liquid fill */}
             <motion.button
-              className="group relative overflow-hidden px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-300"
+              className="group relative overflow-hidden px-6 py-3 rounded-full font-medium text-sm transition-all duration-300"
               onHoverStart={() => setIsResumeHovered(true)}
               onHoverEnd={() => setIsResumeHovered(false)}
               onClick={() => window.open("/documents/Sohail_Gidwani_Resume.pdf", "_blank")}
