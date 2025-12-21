@@ -9,6 +9,7 @@ import { triggerHaptic } from "./ui/haptics"
 interface NavbarProps {
   activeSection: string
   setActiveSection: (section: string) => void
+  onStartTour: () => void
 }
 
 const navItems = [
@@ -21,7 +22,7 @@ const navItems = [
   { label: "Contact", id: "contact" },
 ]
 
-export default function Navbar({ activeSection, setActiveSection }: NavbarProps) {
+export default function Navbar({ activeSection, setActiveSection, onStartTour }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
@@ -92,6 +93,16 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
                 )}
               </button>
             ))}
+            <button
+              type="button"
+              onClick={() => {
+                triggerHaptic()
+                onStartTour()
+              }}
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
+            >
+              Guided tour
+            </button>
             <ThemeToggle />
           </div>
 
@@ -119,11 +130,11 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
             onClick={() => setIsOpen(false)}
           >
             <motion.div
-              initial={{ y: -20, opacity: 0 }}
+              initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -20, opacity: 0 }}
+              exit={{ y: 20, opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="mx-auto mt-24 flex w-[92vw] max-w-md flex-col gap-3 rounded-3xl border border-border bg-card/80 p-6 shadow-xl"
+              className="fixed inset-x-4 bottom-4 flex flex-col gap-3 rounded-3xl border border-border bg-card/95 p-6 pb-[calc(env(safe-area-inset-bottom)+1.5rem)] shadow-xl"
               onClick={(event) => event.stopPropagation()}
             >
               {navItems.map((item, index) => (
@@ -142,6 +153,17 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
                   {item.label}
                 </motion.button>
               ))}
+              <button
+                type="button"
+                onClick={() => {
+                  triggerHaptic()
+                  onStartTour()
+                  setIsOpen(false)
+                }}
+                className="rounded-2xl border border-border bg-background/70 px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
+              >
+                Guided tour
+              </button>
             </motion.div>
           </motion.div>
         )}

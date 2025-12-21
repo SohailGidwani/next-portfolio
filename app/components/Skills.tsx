@@ -10,6 +10,7 @@ import { triggerHaptic } from "./ui/haptics"
 
 interface SkillsProps {
   setActiveSection: (section: string) => void
+  onSkillHover?: (skill: string | null) => void
 }
 
 interface Skill {
@@ -275,7 +276,7 @@ const skillCategories: SkillCategory[] = [
   },
 ]
 
-export default function Skills({ setActiveSection }: SkillsProps) {
+export default function Skills({ setActiveSection, onSkillHover }: SkillsProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const { theme, systemTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
@@ -326,8 +327,17 @@ export default function Skills({ setActiveSection }: SkillsProps) {
     setActiveIndex((prev) => (prev === index ? null : index))
   }
 
+  const handleSkillHover = (skill: string | null) => {
+    onSkillHover?.(skill)
+  }
+
   return (
-    <section id="skills" ref={sectionRef} className="py-16 sm:py-20">
+    <section
+      id="skills"
+      ref={sectionRef}
+      className="py-16 sm:py-20"
+      onMouseLeave={() => handleSkillHover(null)}
+    >
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -340,6 +350,9 @@ export default function Skills({ setActiveSection }: SkillsProps) {
           <h2 className="font-display text-3xl text-foreground sm:text-4xl">
             Building across the full AI and CS spectrum.
           </h2>
+          <p className="text-sm text-muted-foreground">
+            Hover a skill to spotlight related projects and experience.
+          </p>
         </motion.div>
 
         <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -383,7 +396,9 @@ export default function Skills({ setActiveSection }: SkillsProps) {
                     {previewSkills.map((skill) => (
                       <span
                         key={skill.name}
-                        className="rounded-full border border-border/70 bg-background/70 px-3 py-1 text-xs font-medium text-muted-foreground"
+                        onMouseEnter={() => handleSkillHover(skill.name)}
+                        onMouseLeave={() => handleSkillHover(null)}
+                        className="cursor-pointer rounded-full border border-border/70 bg-background/70 px-3 py-1 text-xs font-medium text-muted-foreground transition hover:border-primary/30 hover:text-foreground"
                       >
                         {skill.name}
                       </span>
@@ -405,7 +420,9 @@ export default function Skills({ setActiveSection }: SkillsProps) {
                         {group.skills.map((skill) => (
                           <div
                             key={skill.name}
-                            className="flex items-center justify-between gap-3 rounded-2xl border border-border/70 bg-background/70 px-3 py-2"
+                            className="flex cursor-pointer items-center justify-between gap-3 rounded-2xl border border-border/70 bg-background/70 px-3 py-2 transition hover:border-primary/30"
+                            onMouseEnter={() => handleSkillHover(skill.name)}
+                            onMouseLeave={() => handleSkillHover(null)}
                           >
                             <div className="flex items-center gap-2">
                               {getLogoSrc(skill) ? (

@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -13,9 +13,64 @@ import Contact from './components/Contact'
 import ProjectStructuredData from './components/ProjectStructuredData'
 import { Toaster } from 'react-hot-toast'
 import SectionDivider from './components/SectionDivider'
+import GuidedTour from './components/GuidedTour'
+import AmbientBackground from './components/AmbientBackground'
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState<string>('hero')
+  const [activeSkill, setActiveSkill] = useState<string | null>(null)
+  const [tourStep, setTourStep] = useState<number | null>(null)
+
+  const tourSteps = useMemo(
+    () => [
+      {
+        id: "hero",
+        title: "Signal Stack",
+        description: "A high-level snapshot of your focus, impact, and availability.",
+      },
+      {
+        id: "about",
+        title: "About",
+        description: "Your positioning and the kind of work you want to do next.",
+      },
+      {
+        id: "experience",
+        title: "Experience",
+        description: "Highlights from research and industry work with measurable scope.",
+      },
+      {
+        id: "skills",
+        title: "Skills",
+        description: "Your AI and systems toolkit, grouped by discipline.",
+      },
+      {
+        id: "projects",
+        title: "Projects",
+        description: "Featured builds and case studies with outcomes.",
+      },
+      {
+        id: "contact",
+        title: "Contact",
+        description: "Fast ways to connect and start a conversation.",
+      },
+    ],
+    []
+  )
+
+  const startTour = () => setTourStep(0)
+  const stopTour = () => setTourStep(null)
+  const nextTourStep = () => {
+    setTourStep((prev) => {
+      if (prev === null) return null
+      return prev + 1 >= tourSteps.length ? null : prev + 1
+    })
+  }
+  const previousTourStep = () => {
+    setTourStep((prev) => {
+      if (prev === null) return null
+      return prev - 1 < 0 ? 0 : prev - 1
+    })
+  }
 
   useEffect(() => {
     document.documentElement.style.removeProperty("overflow")
@@ -28,15 +83,13 @@ export default function Portfolio() {
     <>
       <ProjectStructuredData />
       <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 right-[-10%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.18),transparent_70%)] blur-2xl animate-float-slow" />
-          <div className="absolute top-[20%] left-[-12%] h-[360px] w-[360px] rounded-full bg-[radial-gradient(circle,rgba(251,146,60,0.2),transparent_65%)] blur-3xl animate-float-slower" />
-          <div className="absolute bottom-[-20%] right-[12%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(14,116,144,0.18),transparent_65%)] blur-3xl animate-float-slow" />
-          <div className="absolute left-1/2 top-10 h-px w-[60%] -translate-x-1/2 bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-35 animate-pulse-soft" />
-          <div className="absolute inset-0 grain" />
-        </div>
+        <AmbientBackground />
 
-        <Navbar activeSection={activeSection} setActiveSection={setActiveSection} />
+        <Navbar
+          activeSection={activeSection}
+          setActiveSection={setActiveSection}
+          onStartTour={startTour}
+        />
 
         <main className="relative">
           <Hero setActiveSection={setActiveSection} />
@@ -45,11 +98,11 @@ export default function Portfolio() {
           <SectionDivider />
           <Education setActiveSection={setActiveSection} />
           <SectionDivider />
-          <Experience setActiveSection={setActiveSection} />
+          <Experience setActiveSection={setActiveSection} activeSkill={activeSkill} />
           <SectionDivider />
-          <Skills setActiveSection={setActiveSection} />
+          <Skills setActiveSection={setActiveSection} onSkillHover={setActiveSkill} />
           <SectionDivider />
-          <Projects setActiveSection={setActiveSection} />
+          <Projects setActiveSection={setActiveSection} activeSkill={activeSkill} />
           <SectionDivider />
           <Triumphs setActiveSection={setActiveSection} />
           <SectionDivider />
@@ -57,6 +110,13 @@ export default function Portfolio() {
         </main>
         <Toaster position="bottom-right" />
       </div>
+      <GuidedTour
+        steps={tourSteps}
+        stepIndex={tourStep}
+        onClose={stopTour}
+        onNext={nextTourStep}
+        onPrevious={previousTourStep}
+      />
     </>
   )
 }

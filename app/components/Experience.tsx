@@ -5,6 +5,7 @@ import { motion } from "framer-motion"
 import { Briefcase, Calendar } from "lucide-react"
 import Image, { StaticImageData } from "next/image"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/app/components/ui/dialog"
+import { Badge } from "@/app/components/ui/badge"
 import { triggerHaptic } from "./ui/haptics"
 import AskPandaAI from "@/public/images/Insaito.png"
 import fullstack from "@/public/images/iifl.png"
@@ -13,20 +14,24 @@ import keckUSC from "@/public/images/keck_USC.png"
 
 interface ExperienceProps {
   setActiveSection: (section: string) => void
+  activeSkill?: string | null
 }
 
 interface ExperienceItem {
+  id: string
   title: string
   company: string
   date: string
   description: string
   projects: string[]
+  tags: string[]
   isLatest?: boolean
   logo: StaticImageData
 }
 
 const experiences: ExperienceItem[] = [
   {
+    id: "keck-usc",
     title: "Student Worker - Research Assistant",
     company: "Keck School of Medicine of USC",
     date: "Oct, 2023 - Present",
@@ -37,10 +42,12 @@ const experiences: ExperienceItem[] = [
       "Model Training & Evaluation: Running training experiments, monitoring performance metrics, and building evaluation loops that highlight model strengths and weaknesses for healthcare use cases.",
       "Research Collaboration: Partnering with clinicians and researchers to translate experimental insights into deployable prototypes, documentation, and future study proposals.",
     ],
+    tags: ["Python", "PyTorch", "OpenCV", "TensorFlow"],
     isLatest: true,
     logo: keckUSC,
   },
   {
+    id: "insaito",
     title: "Senior Software Engineer - I",
     company: "Insaito, Inc.",
     date: "May, 2025 - July, 2025",
@@ -53,10 +60,12 @@ const experiences: ExperienceItem[] = [
       "MCP Server Development: Creating Model Context Protocol (MCP) servers for integrated applications, making all functions and capabilities available to the AI models for enhanced functionality and user experience.",
       "Full-Stack Development: Handling end-to-end development from backend infrastructure to frontend user interfaces, ensuring cohesive and performant AI agent experiences.",
     ],
+    tags: ["TypeScript", "Next.js", "Node.js", "MongoDB"],
     isLatest: false,
     logo: AskPandaAI,
   },
   {
+    id: "iifl",
     title: "Full-Stack/AI Developer",
     company: "IIFL Finance Ltd",
     date: "June, 2023 - May, 2025",
@@ -67,10 +76,12 @@ const experiences: ExperienceItem[] = [
       "Gold Loan Image Audit App: Engineered AI-powered application using models like GroundingDino, Swin-Transformer, enhancing fraud detection and reducing potential loan fraud by 15%.",
       "Cross-functional Collaboration: Worked closely with data science and security teams to implement best practices for data handling and model deployment, ensuring robust and secure AI solutions.",
     ],
+    tags: ["Python", "Flask", "Qdrant", "Azure"],
     isLatest: false,
     logo: fullstack,
   },
   {
+    id: "iremify",
     title: "Web Developer (Intern)",
     company: "Iremify.com",
     date: "May, 2021 - July, 2021",
@@ -81,14 +92,16 @@ const experiences: ExperienceItem[] = [
       "Developed web platform back ends using NodeJS and Flask frameworks. Built APIs and data clients to consume APIs.",
       "Implemented responsive front-end designs using React, showcasing adaptability in learning and applying new technologies.",
     ],
+    tags: ["React", "Node.js", "Flask"],
     isLatest: false,
     logo: feynwick,
   },
 ]
 
-export default function Experience({ setActiveSection }: ExperienceProps) {
+export default function Experience({ setActiveSection, activeSkill }: ExperienceProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const [selected, setSelected] = useState<ExperienceItem | null>(null)
+  const normalizedSkill = activeSkill?.toLowerCase()
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -139,21 +152,39 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
         </motion.div>
 
         <div className="mt-10 space-y-8 border-l border-border pl-6">
-          {experiences.map((item, index) => (
-            <motion.button
+          {experiences.map((item, index) => {
+            const isHighlighted = normalizedSkill
+              ? item.tags.some((tag) => tag.toLowerCase() === normalizedSkill)
+              : false
+
+            return (
+            <motion.div
               key={`${item.company}-${item.title}`}
-              type="button"
+              role="button"
+              tabIndex={0}
+              aria-haspopup="dialog"
+              aria-label={`View details for ${item.title} at ${item.company}`}
               onClick={() => openModal(item)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault()
+                  openModal(item)
+                }
+              }}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: index * 0.08 }}
               viewport={{ once: true }}
-              className="group relative w-full text-left"
+              className="group relative w-full cursor-pointer text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background"
             >
               <span className="absolute -left-[34px] top-6 flex h-6 w-6 items-center justify-center rounded-full border border-border bg-card text-primary">
                 <Briefcase className="h-3.5 w-3.5" />
               </span>
-              <div className="rounded-3xl border border-border bg-card/80 p-6 shadow-[0_20px_60px_-50px_rgba(0,0,0,0.4)] transition group-hover:-translate-y-1">
+              <div
+                className={`rounded-3xl border bg-card/80 p-6 shadow-[0_20px_60px_-50px_rgba(0,0,0,0.4)] transition group-hover:-translate-y-1 ${
+                  isHighlighted ? "border-primary/40 ring-1 ring-primary/20" : "border-border"
+                }`}
+              >
                 <div className="flex flex-wrap items-center gap-4">
                   <div className="relative h-12 w-12 overflow-hidden rounded-2xl border border-border bg-background">
                     <Image
@@ -179,18 +210,38 @@ export default function Experience({ setActiveSection }: ExperienceProps) {
                   {item.date}
                 </div>
                 <p className="mt-4 text-sm text-muted-foreground">{item.description}</p>
+
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {item.tags.map((tag) => {
+                    const isTagHighlighted = normalizedSkill
+                      ? tag.toLowerCase() === normalizedSkill
+                      : false
+                    return (
+                      <Badge
+                        key={tag}
+                        variant="outline"
+                        className={`border-border/70 bg-background/60 text-[10px] font-semibold uppercase tracking-[0.2em] ${
+                          isTagHighlighted ? "border-primary/40 bg-primary/10 text-primary" : "text-muted-foreground"
+                        }`}
+                      >
+                        {tag}
+                      </Badge>
+                    )
+                  })}
+                </div>
+
                 <span className="mt-4 inline-flex text-xs font-semibold uppercase tracking-[0.2em] text-primary/70">
                   View details
                 </span>
               </div>
-            </motion.button>
-          ))}
+            </motion.div>
+          )})}
         </div>
       </div>
 
       <Dialog open={!!selected} onOpenChange={(open) => !open && setSelected(null)}>
         {selected && (
-          <DialogContent className="max-w-3xl border-border bg-card/95">
+          <DialogContent className="max-h-[85vh] max-w-3xl overflow-y-auto rounded-3xl border-border bg-card/95 top-auto bottom-4 translate-y-0 sm:bottom-auto sm:top-[50%] sm:translate-y-[-50%] sm:rounded-3xl">
             <DialogHeader>
               <div className="flex flex-wrap items-center gap-4">
                 <div className="relative h-12 w-12 overflow-hidden rounded-2xl border border-border bg-background">

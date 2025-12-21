@@ -11,42 +11,42 @@ import blogsite from "@/public/images/BlogSite.jpg"
 import techupdates from "@/public/images/Tech Updates.png"
 import ThemeToggle from "@/app/components/ThemeToggle"
 
-export default function ProjectsPage() {
-  const projects = [
-    {
-      id: "knowledge-hub",
-      title: "Knowledge Hub",
-      shortDescription: "Document management with OCR, semantic search, and RAG-based Q&A.",
-      image: knowledgeHub,
-      tags: ["Flask", "pgvector", "RAG", "OCR"],
-      github: "https://github.com/SohailGidwani/knowledge_hub",
-    },
-    {
-      id: "tech-updates",
-      title: "Tech Updates",
-      shortDescription: "Personal tech-news aggregator with AI categorization.",
-      image: techupdates,
-      tags: ["Flask", "Azure OpenAI", "Qdrant"],
-      github: "https://github.com/SohailGidwani/Project-TechUpdates",
-    },
-    {
-      id: "image-captioning",
-      title: "Image Captioning",
-      shortDescription: "CNN + Transformer pipeline for caption generation.",
-      image: imagecaption,
-      tags: ["TensorFlow", "CNN", "Transformer"],
-      github: "https://github.com/SohailGidwani/Image-Caption",
-    },
-    {
-      id: "scribeglobe",
-      title: "ScribeGlobe",
-      shortDescription: "Medium-like platform with a serverless backend on Cloudflare.",
-      image: blogsite,
-      tags: ["React", "Hono", "PostgreSQL"],
-      github: "https://github.com/SohailGidwani/0---100-FullStack/tree/main/Week%2012/medium",
-    },
-  ]
+const projects = [
+  {
+    id: "knowledge-hub",
+    title: "Knowledge Hub",
+    shortDescription: "Document management with OCR, semantic search, and RAG-based Q&A.",
+    image: knowledgeHub,
+    tags: ["Flask", "pgvector", "RAG", "OCR"],
+    github: "https://github.com/SohailGidwani/knowledge_hub",
+  },
+  {
+    id: "tech-updates",
+    title: "Tech Updates",
+    shortDescription: "Personal tech-news aggregator with AI categorization.",
+    image: techupdates,
+    tags: ["Flask", "Azure OpenAI", "Qdrant"],
+    github: "https://github.com/SohailGidwani/Project-TechUpdates",
+  },
+  {
+    id: "image-captioning",
+    title: "Image Captioning",
+    shortDescription: "CNN + Transformer pipeline for caption generation.",
+    image: imagecaption,
+    tags: ["TensorFlow", "CNN", "Transformer"],
+    github: "https://github.com/SohailGidwani/Image-Caption",
+  },
+  {
+    id: "scribeglobe",
+    title: "ScribeGlobe",
+    shortDescription: "Medium-like platform with a serverless backend on Cloudflare.",
+    image: blogsite,
+    tags: ["React", "Hono", "PostgreSQL"],
+    github: "https://github.com/SohailGidwani/0---100-FullStack/tree/main/Week%2012/medium",
+  },
+]
 
+export default function ProjectsPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="border-b border-border bg-card/60 backdrop-blur">

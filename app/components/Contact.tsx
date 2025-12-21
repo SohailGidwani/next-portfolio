@@ -2,7 +2,8 @@
 
 import { useEffect, useRef } from "react"
 import { motion } from "framer-motion"
-import { Github, Linkedin, Mail, MapPin, Phone } from "lucide-react"
+import { Copy, Github, Linkedin, Mail, MapPin, Phone } from "lucide-react"
+import { toast } from "react-hot-toast"
 import { triggerHaptic } from "./ui/haptics"
 
 interface ContactProps {
@@ -15,24 +16,28 @@ const contactItems = [
     label: "Email",
     value: "sohailgidwani15@gmail.com",
     link: "mailto:sohailgidwani15@gmail.com",
+    copyValue: "sohailgidwani15@gmail.com",
   },
   {
     icon: <Phone className="h-4 w-4" />,
     label: "Phone",
     value: "+1 9736525842",
     link: "tel:+19736525842",
+    copyValue: "+1 9736525842",
   },
   {
     icon: <Linkedin className="h-4 w-4" />,
     label: "LinkedIn",
     value: "sohail-gidwani",
     link: "https://www.linkedin.com/in/sohail-gidwani/",
+    copyValue: "https://www.linkedin.com/in/sohail-gidwani/",
   },
   {
     icon: <Github className="h-4 w-4" />,
     label: "GitHub",
     value: "SohailGidwani",
     link: "https://github.com/SohailGidwani",
+    copyValue: "https://github.com/SohailGidwani",
   },
   {
     icon: <MapPin className="h-4 w-4" />,
@@ -44,6 +49,21 @@ const contactItems = [
 export default function Contact({ setActiveSection }: ContactProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const emailAriaLabel = "Email Sohail Gidwani"
+
+  const handleCopy = async (value: string, label: string) => {
+    try {
+      if (!navigator?.clipboard) {
+        toast.error("Copy unavailable")
+        return
+      }
+      await navigator.clipboard.writeText(value)
+      triggerHaptic(10)
+      toast.success(`${label} copied`)
+    } catch (error) {
+      console.error(error)
+      toast.error("Copy failed")
+    }
+  }
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -117,20 +137,32 @@ export default function Contact({ setActiveSection }: ContactProps) {
                   </span>
                   <div>
                     <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{item.label}</p>
-                    {item.link ? (
-                      <a
-                        href={item.link}
-                        target={item.link.startsWith("http") ? "_blank" : undefined}
-                        rel={item.link.startsWith("http") ? "noreferrer" : undefined}
-                        onClick={() => triggerHaptic()}
-                        className="text-sm font-medium text-foreground hover:text-primary"
-                        aria-label={item.label === "Email" ? emailAriaLabel : item.label}
-                      >
-                        {item.value}
-                      </a>
-                    ) : (
-                      <p className="text-sm font-medium text-foreground">{item.value}</p>
-                    )}
+                    <div className="flex items-center gap-2">
+                      {item.link ? (
+                        <a
+                          href={item.link}
+                          target={item.link.startsWith("http") ? "_blank" : undefined}
+                          rel={item.link.startsWith("http") ? "noreferrer" : undefined}
+                          onClick={() => triggerHaptic()}
+                          className="text-sm font-medium text-foreground hover:text-primary"
+                          aria-label={item.label === "Email" ? emailAriaLabel : item.label}
+                        >
+                          {item.value}
+                        </a>
+                      ) : (
+                        <p className="text-sm font-medium text-foreground">{item.value}</p>
+                      )}
+                      {item.copyValue && (
+                        <button
+                          type="button"
+                          onClick={() => handleCopy(item.copyValue, item.label)}
+                          className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-border bg-background/70 text-muted-foreground transition hover:border-primary/40 hover:text-primary"
+                          aria-label={`Copy ${item.label}`}
+                        >
+                          <Copy className="h-3.5 w-3.5" />
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               </motion.div>
