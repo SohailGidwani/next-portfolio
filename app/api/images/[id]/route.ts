@@ -5,10 +5,11 @@ export const runtime = 'nodejs'
 
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   await initDb()
-  const id = Number(params.id)
+  const resolvedParams = await params
+  const id = Number(resolvedParams.id)
   if (!id || Number.isNaN(id)) {
     return new Response('Bad Request', { status: 400 })
   }
@@ -27,4 +28,3 @@ export async function GET(
     },
   })
 }
-

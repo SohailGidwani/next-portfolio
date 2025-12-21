@@ -1,3 +1,8 @@
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Enable image optimization
@@ -16,8 +21,8 @@ const nextConfig = {
   // Enable strict mode for better development
   reactStrictMode: true,
   
-  // Enable SWC minification
-  swcMinify: true,
+  // Ensure file tracing stays within this project
+  outputFileTracingRoot: __dirname,
   
   // Headers for security and performance
   async headers() {

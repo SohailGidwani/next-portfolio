@@ -8,11 +8,12 @@ import remarkGfm from "remark-gfm"
 import Script from "next/script"
 import ProgressiveImage from "@/app/components/ProgressiveImage"
 
-type Props = { params: { slug: string } }
+type Props = { params: Promise<{ slug: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params
   await initDb()
-  const { rows } = await pool.query("SELECT title, excerpt FROM blogs WHERE slug = $1 LIMIT 1", [params.slug])
+  const { rows } = await pool.query("SELECT title, excerpt FROM blogs WHERE slug = $1 LIMIT 1", [slug])
   const blog = rows[0]
   if (!blog) return { title: "Blog Not Found" }
   return {
@@ -22,10 +23,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function BlogDetail({ params }: Props) {
+  const { slug } = await params
   await initDb()
   const { rows } = await pool.query(
     'SELECT id, title, slug, excerpt, content, cover_image_url AS "coverImageUrl", created_at AS "createdAt" FROM blogs WHERE slug = $1 LIMIT 1',
-    [params.slug]
+    [slug]
   )
   const blog = rows[0]
 

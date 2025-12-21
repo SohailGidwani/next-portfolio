@@ -3,11 +3,12 @@ import { initDb, pool } from '@/lib/db'
 
 export async function DELETE(
   _req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await initDb()
-    const id = Number(params.id)
+    const resolvedParams = await params
+    const id = Number(resolvedParams.id)
     if (!id || Number.isNaN(id)) return NextResponse.json({ error: 'Invalid id' }, { status: 400 })
     await pool.query('DELETE FROM blogs WHERE id = $1', [id])
     return NextResponse.json({ ok: true })
@@ -16,4 +17,3 @@ export async function DELETE(
     return NextResponse.json({ error: 'Failed to delete blog' }, { status: 500 })
   }
 }
-
