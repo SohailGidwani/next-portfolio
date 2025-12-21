@@ -2,7 +2,7 @@ import React from "react"
 
 export default function SectionDivider() {
   return (
-    <div className="w-full my-6 md:my-10">
+    <div className="w-full my-10 md:my-14">
       <svg
         viewBox="0 0 100 4"
         width="100%"
@@ -20,9 +20,10 @@ export default function SectionDivider() {
         />
         <defs>
           <linearGradient id="divider-gradient" x1="0" y1="0" x2="100" y2="0" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#a3a3a3" stopOpacity="0.18" />
-            <stop offset="0.5" stopColor="#3b82f6" stopOpacity="0.22" />
-            <stop offset="1" stopColor="#a3a3a3" stopOpacity="0.18" />
+            <stop stopColor="#0f766e" stopOpacity="0.12" />
+            <stop offset="0.45" stopColor="#f97316" stopOpacity="0.2" />
+            <stop offset="0.7" stopColor="#14b8a6" stopOpacity="0.18" />
+            <stop offset="1" stopColor="#0f766e" stopOpacity="0.12" />
           </linearGradient>
         </defs>
       </svg>

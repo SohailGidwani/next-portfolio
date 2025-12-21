@@ -7,7 +7,6 @@ import { Button } from "@/app/components/ui/button"
 import { Github, ArrowLeft, Database, Brain, Search, FileText, ChevronLeft, ChevronRight, X, ZoomIn, ZoomOut, RotateCcw } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import { ThemeProvider } from "next-themes"
 import knowledgeHub1 from '@/public/images/KnowledgeHub_1.png'
 import knowledgeHub2 from '@/public/images/KnowledgeHub_2.png'
 import knowledgeHub3 from '@/public/images/KnowledgeHub_3.png'
@@ -198,11 +197,10 @@ This project demonstrates my expertise in full-stack development, AI/ML integrat
   }, [selectedImage, nextImage, prevImage, handleZoomIn, handleZoomOut, resetZoom])
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <Suspense fallback={<ProjectSkeleton />}>
-        <div className="min-h-screen bg-white dark:bg-slate-950 text-gray-800 dark:text-slate-200 transition-colors duration-300 overflow-x-hidden">
+    <Suspense fallback={<ProjectSkeleton />}>
+      <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
           {/* Header */}
-          <div className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-slate-800 dark:to-slate-950 py-20">
+          <div className="bg-gradient-to-br from-primary/10 via-background to-accent/10 py-20">
             <div className="container mx-auto px-4">
               {/* Theme Toggle - Top Right */}
               <div className="flex justify-end mb-6">
@@ -217,17 +215,17 @@ This project demonstrates my expertise in full-stack development, AI/ML integrat
               >
                 <Link 
                   href="/projects" 
-                  className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 mb-6 transition-colors"
+                  className="inline-flex items-center text-primary hover:text-foreground mb-6 transition-colors"
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Back to Projects
                 </Link>
                 
-                <h1 className="text-4xl md:text-6xl font-bold mb-6 text-blue-900 dark:text-blue-400">
+                <h1 className="font-display text-4xl md:text-6xl font-bold mb-6 text-foreground">
                   {project.title}
                 </h1>
                 
-                <p className="text-xl text-gray-600 dark:text-slate-300 mb-8">
+                <p className="text-xl text-muted-foreground mb-8">
                   {project.description}
                 </p>
                 
@@ -235,7 +233,7 @@ This project demonstrates my expertise in full-stack development, AI/ML integrat
                   {project.tags.map((tag, index) => (
                     <Badge
                       key={index}
-                      className="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-sm"
+                      className="bg-primary/10 text-primary text-sm"
                     >
                       {tag}
                     </Badge>
@@ -256,7 +254,7 @@ This project demonstrates my expertise in full-stack development, AI/ML integrat
                   transition={{ duration: 0.6, delay: 0.2 }}
                   className="mb-12"
                 >
-                  <h2 className="text-3xl font-bold mb-8 text-blue-900 dark:text-blue-400">
+                  <h2 className="font-display text-3xl font-bold mb-8 text-foreground">
                     How It Works
                   </h2>
                   
@@ -286,7 +284,7 @@ This project demonstrates my expertise in full-stack development, AI/ML integrat
                       {/* Close Button */}
                       <Button
                         onClick={() => setSelectedImage(null)}
-                        className="absolute top-4 right-4 z-10 bg-white text-black hover:bg-gray-200"
+                        className="absolute top-4 right-4 z-10 border border-border bg-background/80 text-foreground hover:bg-background"
                         size="sm"
                       >
                         <X className="w-4 h-4" />
@@ -295,7 +293,7 @@ This project demonstrates my expertise in full-stack development, AI/ML integrat
                       {/* Navigation Buttons */}
                       <Button
                         onClick={prevImage}
-                        className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 bg-white text-black hover:bg-gray-200"
+                        className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 border border-border bg-background/80 text-foreground hover:bg-background"
                         size="sm"
                       >
                         <ChevronLeft className="w-4 h-4" />
@@ -303,7 +301,7 @@ This project demonstrates my expertise in full-stack development, AI/ML integrat
                       
                       <Button
                         onClick={nextImage}
-                        className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 bg-white text-black hover:bg-gray-200"
+                        className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 border border-border bg-background/80 text-foreground hover:bg-background"
                         size="sm"
                       >
                         <ChevronRight className="w-4 h-4" />
@@ -313,21 +311,21 @@ This project demonstrates my expertise in full-stack development, AI/ML integrat
                       <div className="absolute top-4 left-4 z-10 flex gap-2">
                         <Button
                           onClick={handleZoomIn}
-                          className="bg-white text-black hover:bg-gray-200"
+                          className="border border-border bg-background/80 text-foreground hover:bg-background"
                           size="sm"
                         >
                           <ZoomIn className="w-4 h-4" />
                         </Button>
                         <Button
                           onClick={handleZoomOut}
-                          className="bg-white text-black hover:bg-gray-200"
+                          className="border border-border bg-background/80 text-foreground hover:bg-background"
                           size="sm"
                         >
                           <ZoomOut className="w-4 h-4" />
                         </Button>
                         <Button
                           onClick={resetZoom}
-                          className="bg-white text-black hover:bg-gray-200"
+                          className="border border-border bg-background/80 text-foreground hover:bg-background"
                           size="sm"
                         >
                           <RotateCcw className="w-4 h-4" />
@@ -353,11 +351,11 @@ This project demonstrates my expertise in full-stack development, AI/ML integrat
                       </div>
                       
                       {/* Image Counter and Keyboard Shortcuts */}
-                      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-75 text-white px-4 py-2 rounded-lg text-center">
+                      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-foreground/80 text-background px-4 py-2 rounded-lg text-center">
                         <div className="text-sm font-medium">
                           {selectedImage + 1} of {allImages.length}
                         </div>
-                        <div className="text-xs text-gray-300 mt-1">
+                        <div className="text-xs text-muted-foreground mt-1">
                           Use ← → to navigate, +/- to zoom, 0 to reset, Esc to close
                         </div>
                       </div>
@@ -372,11 +370,11 @@ This project demonstrates my expertise in full-stack development, AI/ML integrat
                   transition={{ duration: 0.6, delay: 0.4 }}
                   className="mb-12"
                 >
-                  <h2 className="text-3xl font-bold mb-6 text-blue-900 dark:text-blue-400">
+                  <h2 className="font-display text-3xl font-bold mb-6 text-foreground">
                     Project Overview
                   </h2>
                   <div className="prose prose-lg dark:prose-invert max-w-none">
-                    <p className="text-gray-700 dark:text-slate-300 leading-relaxed whitespace-pre-line">
+                    <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
                       {project.longDescription}
                     </p>
                   </div>
@@ -389,7 +387,7 @@ This project demonstrates my expertise in full-stack development, AI/ML integrat
                   transition={{ duration: 0.6, delay: 0.6 }}
                   className="mb-12"
                 >
-                  <h2 className="text-3xl font-bold mb-8 text-blue-900 dark:text-blue-400">
+                  <h2 className="font-display text-3xl font-bold mb-8 text-foreground">
                     Document Upload & Processing
                   </h2>
                   <div className="grid gap-6 md:grid-cols-2 mb-8">
@@ -421,7 +419,7 @@ This project demonstrates my expertise in full-stack development, AI/ML integrat
                   transition={{ duration: 0.6, delay: 0.8 }}
                   className="mb-12"
                 >
-                  <h2 className="text-3xl font-bold mb-8 text-blue-900 dark:text-blue-400">
+                  <h2 className="font-display text-3xl font-bold mb-8 text-foreground">
                     Key Features
                   </h2>
                   <div className="grid gap-6 md:grid-cols-2">
@@ -431,17 +429,17 @@ This project demonstrates my expertise in full-stack development, AI/ML integrat
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 1.0 + index * 0.1 }}
-                        className="p-6 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-600 hover:shadow-lg transition-shadow"
+                        className="p-6 bg-card/80 rounded-xl border border-border hover:shadow-lg transition-shadow"
                       >
                         <div className="flex items-center mb-4">
-                          <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg mr-4">
+                          <div className="p-2 bg-primary/10 rounded-lg mr-4">
                             {feature.icon}
                           </div>
-                          <h3 className="text-xl font-semibold text-gray-900 dark:text-slate-100">
+                          <h3 className="text-xl font-semibold text-foreground">
                             {feature.title}
                           </h3>
                         </div>
-                        <p className="text-gray-600 dark:text-slate-300">
+                        <p className="text-muted-foreground">
                           {feature.description}
                         </p>
                       </motion.div>
@@ -456,7 +454,7 @@ This project demonstrates my expertise in full-stack development, AI/ML integrat
                   transition={{ duration: 0.6, delay: 1.2 }}
                   className="mb-12"
                 >
-                  <h2 className="text-3xl font-bold mb-8 text-blue-900 dark:text-blue-400">
+                  <h2 className="font-display text-3xl font-bold mb-8 text-foreground">
                     AI-Powered Question Answering
                   </h2>
                   <div className="grid gap-6 md:grid-cols-2 mb-8">
@@ -488,15 +486,15 @@ This project demonstrates my expertise in full-stack development, AI/ML integrat
                   transition={{ duration: 0.6, delay: 1.0 }}
                   className="mb-12"
                 >
-                  <h2 className="text-3xl font-bold mb-6 text-blue-900 dark:text-blue-400">
+                  <h2 className="font-display text-3xl font-bold mb-6 text-foreground">
                     Technical Implementation
                   </h2>
-                  <div className="bg-gray-50 dark:bg-slate-800 rounded-xl p-6 border border-gray-200 dark:border-slate-600">
+                  <div className="bg-card/80 rounded-xl p-6 border border-border">
                     <ul className="space-y-3">
                       {project.technicalDetails.map((detail, index) => (
                         <li key={index} className="flex items-start">
-                          <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 mr-3 flex-shrink-0" />
-                          <span className="text-gray-700 dark:text-slate-300">{detail}</span>
+                          <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0" />
+                          <span className="text-muted-foreground">{detail}</span>
                         </li>
                       ))}
                     </ul>
@@ -512,27 +510,27 @@ This project demonstrates my expertise in full-stack development, AI/ML integrat
                 >
                   <div className="grid gap-8 md:grid-cols-2">
                     <div>
-                      <h3 className="text-2xl font-bold mb-4 text-blue-900 dark:text-blue-400">
+                      <h3 className="text-2xl font-bold mb-4 text-foreground">
                         Challenges Faced
                       </h3>
                       <ul className="space-y-3">
                         {project.challenges.map((challenge, index) => (
                           <li key={index} className="flex items-start">
                             <div className="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                            <span className="text-gray-700 dark:text-slate-300">{challenge}</span>
+                            <span className="text-muted-foreground">{challenge}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
                     <div>
-                      <h3 className="text-2xl font-bold mb-4 text-blue-900 dark:text-blue-400">
+                      <h3 className="text-2xl font-bold mb-4 text-foreground">
                         Key Learnings
                       </h3>
                       <ul className="space-y-3">
                         {project.learnings.map((learning, index) => (
                           <li key={index} className="flex items-start">
-                            <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                            <span className="text-gray-700 dark:text-slate-300">{learning}</span>
+                            <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0" />
+                            <span className="text-muted-foreground">{learning}</span>
                           </li>
                         ))}
                       </ul>
@@ -559,7 +557,7 @@ This project demonstrates my expertise in full-stack development, AI/ML integrat
                   <Button
                     size="lg"
                     asChild
-                    className="rounded-full bg-blue-600 hover:bg-blue-700 text-white px-8 py-3"
+                    className="rounded-full bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3"
                   >
                     <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center">
                       <Github className="mr-2 h-5 w-5" />
@@ -570,7 +568,7 @@ This project demonstrates my expertise in full-stack development, AI/ML integrat
                     variant="outline"
                     size="lg"
                     asChild
-                    className="rounded-full border-blue-600 dark:border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-8 py-3"
+                    className="rounded-full border border-primary/60 text-primary hover:bg-primary/10 px-8 py-3"
                   >
                     <Link href="/projects" className="flex items-center">
                       <ArrowLeft className="mr-2 h-5 w-5" />
@@ -581,8 +579,7 @@ This project demonstrates my expertise in full-stack development, AI/ML integrat
               </div>
             </div>
           </div>
-        </div>
-      </Suspense>
-    </ThemeProvider>
+      </div>
+    </Suspense>
   )
 }

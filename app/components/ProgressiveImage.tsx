@@ -15,7 +15,7 @@ export default function ProgressiveImage({ showSkeleton = true, ...props }: Prop
   return (
     <div className="relative w-full h-full">
       {showSkeleton && !loaded && (
-        <div className="absolute inset-0 bg-gray-200 dark:bg-slate-800 animate-pulse rounded-xl" />
+        <div className="absolute inset-0 bg-muted animate-pulse rounded-xl" />
       )}
       <Image
         {...props}
@@ -27,4 +27,3 @@ export default function ProgressiveImage({ showSkeleton = true, ...props }: Prop
     </div>
   )
 }
-

@@ -2,20 +2,66 @@
 
 import { useEffect, useRef } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { motion } from "framer-motion"
 import { Badge } from "@/app/components/ui/badge"
-import Link from "next/link"
-import knowledgeHub from '@/public/images/KnowledgeHub_1.png'
-import imagecaption from '@/public/images/BE-Project.jpg'
-import blogsite from '@/public/images/BlogSite.jpg'
-import techupdates from '@/public/images/Tech Updates.png'
-import { Github, ExternalLink, ArrowUpRight } from "lucide-react"
-// import ScrollAnimation from "./ScrollAnimation"
+import { ArrowUpRight, Github } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
+import knowledgeHub from "@/public/images/KnowledgeHub_1.png"
+import imagecaption from "@/public/images/BE-Project.jpg"
+import blogsite from "@/public/images/BlogSite.jpg"
+import techupdates from "@/public/images/Tech Updates.png"
 
 interface ProjectsProps {
   setActiveSection: (section: string) => void
 }
+
+const projects = [
+  {
+    id: "knowledge-hub",
+    title: "Knowledge Hub",
+    shortDescription: "AI-powered document management with OCR, semantic search, and RAG-based Q&A.",
+    description:
+      "Built a Flask + Postgres system with pgvector, OCR, and local LLMs to answer questions over academic docs.",
+    image: knowledgeHub,
+    tags: ["Flask", "pgvector", "RAG", "OCR"],
+    github: "https://github.com/SohailGidwani/knowledge_hub",
+    featured: true,
+  },
+  {
+    id: "image-captioning",
+    title: "Image Captioning",
+    shortDescription: "CNN + Transformer pipeline for feature extraction and caption generation.",
+    description:
+      "Implemented VGG-16 feature extraction with LSTM/Transformer generation and a Streamlit UI.",
+    image: imagecaption,
+    tags: ["TensorFlow", "CNN", "Transformer"],
+    github: "https://github.com/SohailGidwani/Image-Caption",
+    featured: true,
+  },
+  {
+    id: "scribeglobe",
+    title: "ScribeGlobe",
+    shortDescription: "Medium-like platform with a serverless backend on Cloudflare Workers.",
+    description:
+      "Built a React + Vite frontend with Hono-based APIs and Postgres persistence.",
+    image: blogsite,
+    tags: ["React", "Hono", "PostgreSQL"],
+    github: "https://github.com/SohailGidwani/0---100-FullStack/tree/main/Week%2012/medium",
+    featured: true,
+  },
+  {
+    id: "tech-updates",
+    title: "Tech Updates",
+    shortDescription: "Personal tech-news aggregator with AI-driven categorization.",
+    description:
+      "Scrapes multiple sources, categorizes via Azure OpenAI, and serves articles via Flask + React.",
+    image: techupdates,
+    tags: ["Flask", "Azure OpenAI", "Qdrant"],
+    github: "https://github.com/SohailGidwani/Project-TechUpdates",
+    featured: false,
+  },
+]
 
 export default function Projects({ setActiveSection }: ProjectsProps) {
   const sectionRef = useRef<HTMLElement>(null)
@@ -25,14 +71,14 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
       (entries: IntersectionObserverEntry[]) => {
         const [entry] = entries
         if (entry.isIntersecting) {
-          triggerHaptic(10);
+          triggerHaptic(10)
           setActiveSection("projects")
         }
       },
       {
         threshold: 0.3,
         rootMargin: "-10% 0px -10% 0px",
-      },
+      }
     )
 
     const currentRef = sectionRef.current
@@ -47,177 +93,143 @@ export default function Projects({ setActiveSection }: ProjectsProps) {
     }
   }, [setActiveSection])
 
-  const projects = [
-    {
-      id: "knowledge-hub",
-      title: "Knowledge Hub - AI-Powered Document Management",
-      shortDescription: "Comprehensive document management system with OCR, semantic search, and AI-powered Q&A for academic research.",
-      description: `Built a Flask-based document management system with PostgreSQL and pgvector for vector similarity search. Implemented OCR processing with OpenCV, PyMuPDF, and Tesseract for PDF and image text extraction. Integrated local LLM (Ollama) for AI-powered question answering with RAG architecture.`,
-      image: knowledgeHub,
-      tags: ["Python", "Flask", "PostgreSQL", "pgvector", "Docker", "OCR", "AI/ML", "Vector Search", "RAG"],
-      github: "https://github.com/SohailGidwani/knowledge_hub",
-      featured: true,
-    },
-    {
-      id: "image-captioning",
-      title: "Image Feature Detection & Captioning",
-      shortDescription: "AI-powered image captioning system using CNN, VGG-16, LSTM, and Transformer models with Streamlit interface.",
-      description: `Implemented CNN and VGG-16 models for image feature extraction and LSTM (BLEU score: 0.65)/Transformer (BLEU score: 0.80) models for caption generation. Created a user-friendly web interface using Streamlit, demonstrating full-stack capabilities in AI application development.`,
-      image: imagecaption,
-      tags: ["Python", "TensorFlow", "CNN", "Transformer", "LSTM", "StreamLit"],
-      github: "https://github.com/SohailGidwani/Image-Caption",
-      featured: true,
-    },
-    {
-      id: "scribeglobe",
-      title: "ScribeGlobe",
-      shortDescription: "Medium-like blogging platform with serverless backend using Hono on Cloudflare Workers.",
-      description: `Built with React.js and Vite for a responsive user experience. Developed serverless backend using Hono on Cloudflare Workers. Implemented PostgreSQL for efficient data storage and retrieval, demonstrating proficiency in SQL database management.`,
-      image: blogsite,
-      tags: ["React", "Vite", "Typescript", "Tailwind", "HONO", "CloudFlare", "PostgreSQL"],
-      github: "https://github.com/SohailGidwani/0---100-FullStack/tree/main/Week%2012/medium",
-      featured: true,
-    },
-    {
-      id: "tech-updates",
-      title: "Tech-Updates",
-      shortDescription: "Personal tech news aggregator with AI-powered categorization and web scraping capabilities.",
-      description: `Built a personalized news aggregator that scrapes and categorizes tech articles using AI. Implemented web scraping from multiple sources like Medium, Y Combinator, and Crunchbase. Integrated Azure OpenAI for intelligent article categorization. Developed REST API with Flask and PostgreSQL for data persistence, with a responsive React frontend for article viewing.`,
-      image: techupdates,
-      tags: ["React", "Vite", "Python", "Flask", "Azure OpenAI", "Qdrant(vectorDB)", "PostgreSQL", "Web Scraping"],
-      github: "https://github.com/SohailGidwani/Project-TechUpdates",
-      featured: false,
-    },
-  ]
+  const [primary, ...rest] = projects
 
   return (
-    <section id="projects" ref={sectionRef} className="py-16 md:py-20 bg-white dark:bg-slate-950 transition-colors duration-300">
-      <div className="container mx-auto px-4 max-w-7xl">
+    <section id="projects" ref={sectionRef} className="py-16 sm:py-20">
+      <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
-          className="text-center mb-12 md:mb-16"
+          className="flex flex-wrap items-end justify-between gap-6"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-blue-900 dark:text-blue-400">
-            Featured Projects
-          </h2>
-        </motion.div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8">
-          {projects.filter(project => project.featured).map((project, index) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              viewport={{ once: true, amount: 0.3 }}
-              className="group"
-            >
-              <div className="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 dark:border-slate-600 h-full flex flex-col">
-                {/* Image Section */}
-                                  <div className="relative h-48 sm:h-56 overflow-hidden bg-gray-100 dark:bg-slate-700">
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    priority={index === 0}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
-
-                {/* Content Section */}
-                <div className="p-6 flex flex-col flex-1">
-                  <div className="flex items-start justify-between mb-3">
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white line-clamp-2 flex-1">
-                      {project.title}
-                    </h3>
-                    <motion.div
-                      className="ml-3 p-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      whileHover={{ scale: 1.1 }}
-                    >
-                      <ArrowUpRight className="w-4 h-4" />
-                    </motion.div>
-                  </div>
-
-                  <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4 line-clamp-3 flex-1">
-                    {project.shortDescription}
-                  </p>
-
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-4 mt-auto">
-                    {project.tags.slice(0, 4).map((tag, tagIndex) => (
-                      <Badge
-                        key={tagIndex}
-                        variant="outline"
-                        className="bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-700 text-xs px-2 py-1 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors duration-200"
-                      >
-                        {tag}
-                      </Badge>
-                    ))}
-                    {project.tags.length > 4 && (
-                      <Badge
-                        variant="outline"
-                        className="bg-gray-50 dark:bg-slate-600 text-gray-600 dark:text-slate-300 border-gray-200 dark:border-slate-500 text-xs px-2 py-1"
-                      >
-                        +{project.tags.length - 4}
-                      </Badge>
-                    )}
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="flex gap-3">
-                    <motion.a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-slate-600 text-gray-700 dark:text-slate-200 rounded-lg hover:bg-gray-200 dark:hover:bg-slate-500 transition-colors duration-200 text-sm font-medium flex-1 justify-center"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => triggerHaptic()}
-                    >
-                      <Github className="w-4 h-4" />
-                      Code
-                    </motion.a>
-                    <motion.button
-                      className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 text-sm font-medium flex-1 justify-center"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => {
-                        triggerHaptic();
-                        window.location.href = `/projects/${project.id}`;
-                      }}
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                      Details
-                    </motion.button>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* View All Projects Link */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          viewport={{ once: true }}
-          className="text-center mt-12"
-        >
+          <div className="space-y-3">
+            <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Projects</p>
+            <h2 className="font-display text-3xl text-foreground sm:text-4xl">
+              Selected builds with measurable outcomes.
+            </h2>
+          </div>
           <Link
             href="/projects"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 font-medium"
-            onClick={() => triggerHaptic()}
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
           >
-            View All Projects
-            <ArrowUpRight className="w-4 h-4" />
+            View all
+            <ArrowUpRight className="h-4 w-4" />
           </Link>
         </motion.div>
+
+        <div className="mt-10 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="group rounded-3xl border border-border bg-card/80 p-6 shadow-[0_24px_80px_-60px_rgba(0,0,0,0.5)]"
+          >
+            <div className="relative mb-6 h-56 w-full overflow-hidden rounded-2xl">
+              <Image
+                src={primary.image}
+                alt={primary.title}
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                sizes="(max-width: 1024px) 100vw, 60vw"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />
+            </div>
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <h3 className="font-display text-2xl text-foreground">{primary.title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{primary.shortDescription}</p>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Link
+                  href={`/projects/${primary.id}`}
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-background/70 text-foreground transition hover:border-primary/40"
+                  onClick={() => triggerHaptic()}
+                  aria-label={`View ${primary.title}`}
+                >
+                  <ArrowUpRight className="h-4 w-4" />
+                </Link>
+                <a
+                  href={primary.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-background/70 text-foreground transition hover:border-primary/40"
+                  onClick={() => triggerHaptic()}
+                  aria-label={`Open ${primary.title} on GitHub`}
+                >
+                  <Github className="h-4 w-4" />
+                </a>
+              </div>
+            </div>
+            <p className="mt-4 text-sm text-muted-foreground">{primary.description}</p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {primary.tags.map((tag) => (
+                <Badge
+                  key={tag}
+                  variant="outline"
+                  className="border-border/70 bg-background/60 text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground"
+                >
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+          </motion.div>
+
+          <div className="grid gap-4">
+            {rest.map((project, index) => (
+              <motion.div
+                key={project.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="group rounded-3xl border border-border bg-card/80 p-5"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h4 className="font-display text-xl text-foreground">{project.title}</h4>
+                    <p className="mt-2 text-sm text-muted-foreground">{project.shortDescription}</p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <Link
+                      href={`/projects/${project.id}`}
+                      className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/70 text-foreground transition hover:border-primary/40"
+                      onClick={() => triggerHaptic()}
+                      aria-label={`View ${project.title}`}
+                    >
+                      <ArrowUpRight className="h-4 w-4" />
+                    </Link>
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/70 text-foreground transition hover:border-primary/40"
+                      onClick={() => triggerHaptic()}
+                      aria-label={`Open ${project.title} on GitHub`}
+                    >
+                      <Github className="h-4 w-4" />
+                    </a>
+                  </div>
+                </div>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {project.tags.map((tag) => (
+                    <Badge
+                      key={tag}
+                      variant="outline"
+                      className="border-border/70 bg-background/60 text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground"
+                    >
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   )
