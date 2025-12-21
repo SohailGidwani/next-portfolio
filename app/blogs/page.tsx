@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 import Link from "next/link"
 import Image from "next/image"
 import ThemeToggle from "@/app/components/ThemeToggle"
-import { ArrowLeft, Home } from "lucide-react"
+import { ArrowUpRight, Home } from "lucide-react"
 import { useEffect, useState } from "react"
 import Script from "next/script"
 
@@ -24,7 +24,7 @@ export default function BlogsPage() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await fetch('/api/blogs', { cache: 'no-store' })
+        const res = await fetch("/api/blogs", { cache: "no-store" })
         const data = await res.json()
         setBlogs(Array.isArray(data) ? data : [])
       } catch (e) {
@@ -37,72 +37,109 @@ export default function BlogsPage() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 text-gray-800 dark:text-slate-200 transition-colors duration-300 overflow-x-hidden">
-      <Script id="blogs-ld" type="application/ld+json" dangerouslySetInnerHTML={{
-        __html: JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'CollectionPage',
-          name: 'Blogs',
-          description: 'Articles and posts by Sohail Gidwani',
-          url: '/blogs'
-        })
-      }} />
-      <div className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-slate-800 dark:to-slate-950 py-20">
-        <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center mb-6">
-            <Link href="/" className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors">
-              <Home className="w-4 h-4 mr-2" />
-              Back to Portfolio
-            </Link>
-            <ThemeToggle />
-          </div>
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+      <Script
+        id="blogs-ld"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            name: "Blogs",
+            description: "Articles and posts by Sohail Gidwani",
+            url: "/blogs",
+          }),
+        }}
+      />
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4 text-blue-900 dark:text-blue-400">Blogs</h1>
-            <p className="text-xl text-gray-600 dark:text-slate-300">Articles and posts on things I build, learn and explore.</p>
-          </motion.div>
+      <div className="border-b border-border bg-card/60 backdrop-blur">
+        <div className="container mx-auto flex flex-wrap items-center justify-between gap-4 px-4 py-6">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground"
+          >
+            <Home className="h-4 w-4" />
+            Back to portfolio
+          </Link>
+          <ThemeToggle />
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-16">
-        {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="rounded-2xl overflow-hidden shadow-lg border border-gray-100 dark:border-slate-600 bg-white dark:bg-slate-800">
-                <div className="h-48 bg-gray-200 dark:bg-slate-700 shimmer" />
-                <div className="p-6 space-y-3">
-                  <div className="h-6 w-3/4 bg-gray-200 dark:bg-slate-700 rounded shimmer" />
-                  <div className="h-4 w-full bg-gray-200 dark:bg-slate-700 rounded shimmer" />
-                  <div className="h-4 w-5/6 bg-gray-200 dark:bg-slate-700 rounded shimmer" />
+      <div className="container mx-auto px-4 py-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="space-y-4"
+        >
+          <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Blogs</p>
+          <h1 className="font-display text-4xl text-foreground sm:text-5xl">Notes, experiments, and write-ups</h1>
+          <p className="max-w-2xl text-base text-muted-foreground">
+            Articles on AI, engineering, and the systems I like to build.
+          </p>
+        </motion.div>
+
+        <div className="mt-10">
+          {loading ? (
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="rounded-2xl border border-border bg-card/80 p-6">
+                  <div className="h-40 rounded-xl bg-muted shimmer" />
+                  <div className="mt-6 space-y-3">
+                    <div className="h-5 w-3/4 rounded bg-muted shimmer" />
+                    <div className="h-4 w-full rounded bg-muted shimmer" />
+                    <div className="h-4 w-5/6 rounded bg-muted shimmer" />
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        ) : blogs.length === 0 ? (
-          <div className="text-center text-gray-500 dark:text-slate-400">No blogs yet.</div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {blogs.map((blog, index) => (
-              <motion.div key={blog.id} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: index * 0.05 }} className="group bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-slate-600">
-                <div className="relative h-48 bg-gray-100 dark:bg-slate-700">
-                  {blog.coverImageUrl ? (
-                    <Image src={blog.coverImageUrl} alt={blog.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" unoptimized />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-400">No Image</div>
-                  )}
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">{blog.title}</h3>
-                  <p className="text-gray-600 dark:text-slate-300 line-clamp-3 min-h-[3.5rem]">{blog.excerpt || 'Read more'}</p>
-                  <Link href={`/blogs/${blog.slug}`} className="inline-flex items-center mt-4 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">
-                    Read more
-                    <ArrowLeft className="w-0 h-0 opacity-0 -ml-2" />
-                  </Link>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        )}
+              ))}
+            </div>
+          ) : blogs.length === 0 ? (
+            <div className="rounded-3xl border border-border bg-card/80 p-10 text-center text-sm text-muted-foreground">
+              No blogs yet.
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {blogs.map((blog, index) => (
+                <motion.div
+                  key={blog.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: index * 0.05 }}
+                  className="group flex flex-col rounded-3xl border border-border bg-card/80 shadow-[0_18px_50px_-40px_rgba(0,0,0,0.45)]"
+                >
+                  <div className="relative h-48 w-full overflow-hidden rounded-t-3xl bg-background/70">
+                    {blog.coverImageUrl ? (
+                      <Image
+                        src={blog.coverImageUrl}
+                        alt={blog.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        unoptimized
+                      />
+                    ) : (
+                      <div className="flex h-full items-center justify-center text-xs uppercase tracking-[0.3em] text-muted-foreground">
+                        No image
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex flex-1 flex-col p-6">
+                    <h3 className="font-display text-xl text-foreground">{blog.title}</h3>
+                    <p className="mt-3 text-sm text-muted-foreground line-clamp-3">
+                      {blog.excerpt || "Read more"}
+                    </p>
+                    <Link
+                      href={`/blogs/${blog.slug}`}
+                      className="mt-6 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary"
+                    >
+                      Read more
+                      <ArrowUpRight className="h-4 w-4" />
+                    </Link>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

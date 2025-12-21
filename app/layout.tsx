@@ -1,11 +1,24 @@
 import '@/app/globals.css'
-import { Inter } from 'next/font/google'
+import { Fraunces, Space_Grotesk, JetBrains_Mono } from 'next/font/google'
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import Script from 'next/script'
 import { ThemeProvider } from './components/ThemeProvider'
 
-const inter = Inter({ subsets: ['latin'] })
+const display = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-display',
+})
+
+const body = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-body',
+})
+
+const mono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+})
 
 export const metadata = {
   title: 'Sohail Gidwani - AI Developer | AI Agent Engineer | RAG Developer | Full Stack Developer',
@@ -76,8 +89,8 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="manifest" href="/site.webmanifest" />
-        <meta name="theme-color" content="#0f172a" />
-        <meta name="msapplication-TileColor" content="#0f172a" />
+        <meta name="theme-color" content="#f5efe7" />
+        <meta name="msapplication-TileColor" content="#f5efe7" />
         {/* Structured Data */}
         <Script
           id="structured-data"
@@ -118,7 +131,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={inter.className}>
+      <body className={`${body.variable} ${display.variable} ${mono.variable} font-body`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
           <Analytics />
