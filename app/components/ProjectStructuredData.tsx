@@ -4,12 +4,19 @@ export default function ProjectStructuredData() {
   const projectsData = [
     {
       "@type": "CreativeWork",
+      "name": "Knowledge Hub - AI-Powered Document Management",
+      "description": "Document management system with OCR, semantic search, and RAG-powered question answering.",
+      "author": { "@id": "https://sohailgidwani.app/#person" },
+      "url": "https://github.com/SohailGidwani/knowledge_hub",
+      "keywords": ["Python", "Flask", "PostgreSQL", "pgvector", "OCR", "RAG", "Semantic Search"],
+      "dateCreated": "2024",
+      "genre": "AI/ML Project"
+    },
+    {
+      "@type": "CreativeWork",
       "name": "Image Feature Detection & Captioning",
       "description": "AI-powered image captioning system using CNN, VGG-16, LSTM, and Transformer models with Streamlit web interface",
-      "author": {
-        "@type": "Person",
-        "name": "Sohail Gidwani"
-      },
+      "author": { "@id": "https://sohailgidwani.app/#person" },
       "url": "https://github.com/SohailGidwani/Image-Caption",
       "keywords": ["Python", "TensorFlow", "CNN", "Transformer", "LSTM", "StreamLit", "Machine Learning", "Computer Vision"],
       "dateCreated": "2024",
@@ -19,10 +26,7 @@ export default function ProjectStructuredData() {
       "@type": "WebApplication",
       "name": "ScribeGlobe (Medium-like Blogging site)",
       "description": "Full-stack blogging platform built with React.js, Vite, TypeScript, and serverless backend using Hono on Cloudflare Workers",
-      "author": {
-        "@type": "Person",
-        "name": "Sohail Gidwani"
-      },
+      "author": { "@id": "https://sohailgidwani.app/#person" },
       "url": "https://github.com/SohailGidwani/0---100-FullStack/tree/main/Week%2012/medium",
       "keywords": ["React", "Vite", "TypeScript", "Tailwind", "HONO", "CloudFlare", "PostgreSQL", "Full Stack"],
       "dateCreated": "2024",
@@ -32,10 +36,7 @@ export default function ProjectStructuredData() {
       "@type": "WebApplication",
       "name": "Tech-updates (Personal Tech News Aggregator)",
       "description": "AI-powered news aggregator that scrapes and categorizes tech articles using Azure OpenAI and Qdrant vector database",
-      "author": {
-        "@type": "Person",
-        "name": "Sohail Gidwani"
-      },
+      "author": { "@id": "https://sohailgidwani.app/#person" },
       "url": "https://github.com/SohailGidwani/Project-TechUpdates",
       "keywords": ["React", "Vite", "Python", "Flask", "Azure OpenAI", "Qdrant", "PostgreSQL", "Web Scraping", "AI"],
       "dateCreated": "2024",

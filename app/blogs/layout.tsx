@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Blogs - Sohail Gidwani | Articles and Insights',
     description: 'Read my latest blogs on development, AI/ML, and personal projects.',
-    url: 'https://portfolio-sohail-gidwanis-projects.vercel.app/blogs',
+    url: 'https://sohailgidwani.app/blogs',
     siteName: 'Sohail Gidwani Portfolio',
     images: [
       { url: '/api/og', width: 1200, height: 630, alt: 'Blogs' },

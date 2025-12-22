@@ -4,10 +4,16 @@ export const metadata: Metadata = {
   title: 'Knowledge Hub - AI-Powered Document Management | Sohail Gidwani',
   description: 'A comprehensive document management and ingestion service built with Flask, SQLAlchemy, and Postgres+pgvector. Features OCR capabilities, semantic search, and AI-powered question answering for academic research.',
   keywords: 'Knowledge Hub, Document Management, AI, OCR, Vector Search, RAG, Flask, PostgreSQL, pgvector, Academic Tools, USC, MS CS',
+  alternates: {
+    canonical: '/projects/knowledge-hub',
+  },
+  authors: [{ name: 'Sohail Gidwani', url: 'https://sohailgidwani.app' }],
+  creator: 'Sohail Gidwani',
+  publisher: 'Sohail Gidwani',
   openGraph: {
     title: 'Knowledge Hub - AI-Powered Document Management | Sohail Gidwani',
     description: 'A comprehensive document management and ingestion service with OCR, semantic search, and AI-powered Q&A for academic research.',
-    url: 'https://portfolio-sohail-gidwanis-projects.vercel.app/projects/knowledge-hub',
+    url: 'https://sohailgidwani.app/projects/knowledge-hub',
     siteName: 'Sohail Gidwani Portfolio',
     images: [
       {

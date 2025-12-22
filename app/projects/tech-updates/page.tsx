@@ -10,6 +10,7 @@ import Image from "next/image"
 import techupdates from '@/public/images/Tech Updates.png'
 import ProjectSkeleton from "@/app/components/ProjectSkeleton"
 import ThemeToggle from "@/app/components/ThemeToggle"
+import ProjectDetailStructuredData from "@/app/components/ProjectDetailStructuredData"
 
 export default function TechUpdatesPage() {
   const project = {
@@ -74,7 +75,16 @@ Key features include automated content scraping, AI-powered categorization, pers
   }
 
   return (
-    <Suspense fallback={<ProjectSkeleton />}>
+    <>
+      <ProjectDetailStructuredData
+        title={project.title}
+        description={project.description}
+        slug="tech-updates"
+        image="/images/Tech%20Updates.png"
+        keywords={project.tags}
+        github={project.github}
+      />
+      <Suspense fallback={<ProjectSkeleton />}>
       <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
           {/* Header */}
           <div className="bg-gradient-to-br from-primary/10 via-background to-accent/10 py-20">
@@ -287,6 +297,7 @@ Key features include automated content scraping, AI-powered categorization, pers
             </div>
           </div>
       </div>
-    </Suspense>
+      </Suspense>
+    </>
   )
 }

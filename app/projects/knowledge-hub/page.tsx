@@ -15,6 +15,7 @@ import knowledgeHub5 from '@/public/images/KnowledgeHub_5.png'
 import ProjectSkeleton from "@/app/components/ProjectSkeleton"
 import ProjectDocument from "@/app/components/ProjectDocument"
 import ThemeToggle from "@/app/components/ThemeToggle"
+import ProjectDetailStructuredData from "@/app/components/ProjectDetailStructuredData"
 
 export default function KnowledgeHubPage() {
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
@@ -197,7 +198,16 @@ This project demonstrates my expertise in full-stack development, AI/ML integrat
   }, [selectedImage, nextImage, prevImage, handleZoomIn, handleZoomOut, resetZoom])
 
   return (
-    <Suspense fallback={<ProjectSkeleton />}>
+    <>
+      <ProjectDetailStructuredData
+        title={project.title}
+        description={project.description}
+        slug="knowledge-hub"
+        image="/images/KnowledgeHub_1.png"
+        keywords={project.tags}
+        github={project.github}
+      />
+      <Suspense fallback={<ProjectSkeleton />}>
       <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
           {/* Header */}
           <div className="bg-gradient-to-br from-primary/10 via-background to-accent/10 py-20">
@@ -580,6 +590,7 @@ This project demonstrates my expertise in full-stack development, AI/ML integrat
             </div>
           </div>
       </div>
-    </Suspense>
+      </Suspense>
+    </>
   )
 }

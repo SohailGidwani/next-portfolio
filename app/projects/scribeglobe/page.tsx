@@ -10,6 +10,7 @@ import Image from "next/image"
 import blogsite from '@/public/images/BlogSite.jpg'
 import ProjectSkeleton from "@/app/components/ProjectSkeleton"
 import ThemeToggle from "@/app/components/ThemeToggle"
+import ProjectDetailStructuredData from "@/app/components/ProjectDetailStructuredData"
 
 export default function ScribeGlobePage() {
   const project = {
@@ -74,7 +75,16 @@ Key features include user authentication, article creation and editing, real-tim
   }
 
   return (
-    <Suspense fallback={<ProjectSkeleton />}>
+    <>
+      <ProjectDetailStructuredData
+        title={project.title}
+        description={project.description}
+        slug="scribeglobe"
+        image="/images/BlogSite.jpg"
+        keywords={project.tags}
+        github={project.github}
+      />
+      <Suspense fallback={<ProjectSkeleton />}>
       <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
           {/* Header */}
           <div className="bg-gradient-to-br from-primary/10 via-background to-accent/10 py-20">
@@ -287,6 +297,7 @@ Key features include user authentication, article creation and editing, real-tim
             </div>
           </div>
       </div>
-    </Suspense>
+      </Suspense>
+    </>
   )
 }

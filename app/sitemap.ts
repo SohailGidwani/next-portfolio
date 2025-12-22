@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next'
 import { initDb, pool } from '@/lib/db'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://portfolio-sohail-gidwanis-projects.vercel.app'
+  const baseUrl = 'https://sohailgidwani.app'
 
   // Fetch blogs to include individual URLs
   let blogEntries: MetadataRoute.Sitemap = []

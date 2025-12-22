@@ -32,14 +32,14 @@ export const metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://portfolio-sohail-gidwanis-projects.vercel.app'),
+  metadataBase: new URL('https://sohailgidwani.app'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     title: 'Sohail Gidwani - AI Developer | AI Agent Engineer | RAG Developer | Full Stack Developer',
     description: 'Sohail Gidwani is a passionate AI Developer specializing in RAG, Full Stack Development, and automation. View portfolio, projects, and experience.',
-    url: 'https://portfolio-sohail-gidwanis-projects.vercel.app',
+    url: 'https://sohailgidwani.app',
     siteName: 'Sohail Gidwani Portfolio',
     images: [
       {
@@ -98,34 +98,49 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Person",
-              "name": "Sohail Gidwani",
-              "jobTitle": "Software Developer",
-              "description": "AI/ML Software Developer specializing in Full Stack Development and automation",
-              "url": "https://portfolio-sohail-gidwanis-projects.vercel.app",
-              "image": "https://portfolio-sohail-gidwanis-projects.vercel.app/api/og",
-              "sameAs": [
-                "https://github.com/SohailGidwani",
-                "https://linkedin.com/in/sohail-gidwani"
-              ],
-              "address": {
-                "@type": "PostalAddress",
-                "addressLocality": "Mumbai",
-                "addressCountry": "India"
-              },
-              "alumniOf": {
-                "@type": "CollegeOrUniversity",
-                "name": "University of Mumbai - TSEC"
-              },
-              "knowsAbout": [
-                "Artificial Intelligence",
-                "Machine Learning",
-                "Full Stack Development",
-                "Python",
-                "React",
-                "Node.js",
-                "TensorFlow",
-                "PostgreSQL"
+              "@graph": [
+                {
+                  "@type": "Person",
+                  "@id": "https://sohailgidwani.app/#person",
+                  "name": "Sohail Gidwani",
+                  "jobTitle": "AI / CS Engineer",
+                  "description": "AI/ML software developer specializing in full-stack development and applied intelligence.",
+                  "url": "https://sohailgidwani.app",
+                  "image": "https://sohailgidwani.app/api/og",
+                  "sameAs": [
+                    "https://github.com/SohailGidwani",
+                    "https://www.linkedin.com/in/sohail-gidwani/"
+                  ],
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Mumbai",
+                    "addressCountry": "India"
+                  },
+                  "alumniOf": {
+                    "@type": "CollegeOrUniversity",
+                    "name": "University of Mumbai - TSEC"
+                  },
+                  "knowsAbout": [
+                    "Artificial Intelligence",
+                    "Machine Learning",
+                    "Full Stack Development",
+                    "Python",
+                    "React",
+                    "Node.js",
+                    "TensorFlow",
+                    "PostgreSQL"
+                  ]
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://sohailgidwani.app/#website",
+                  "name": "Sohail Gidwani Portfolio",
+                  "url": "https://sohailgidwani.app",
+                  "publisher": {
+                    "@id": "https://sohailgidwani.app/#person"
+                  },
+                  "inLanguage": "en"
+                }
               ]
             })
           }}

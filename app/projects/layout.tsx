@@ -4,10 +4,16 @@ export const metadata: Metadata = {
   title: 'Projects - Sohail Gidwani | AI/ML & Full Stack Developer',
   description: 'Explore my portfolio of AI/ML and full-stack development projects. Each project showcases different aspects of my technical skills and problem-solving approach.',
   keywords: 'Sohail Gidwani Projects, AI/ML Projects, Full Stack Development, Image Captioning, Blog Platform, News Aggregator, Portfolio',
+  alternates: {
+    canonical: '/projects',
+  },
+  authors: [{ name: 'Sohail Gidwani', url: 'https://sohailgidwani.app' }],
+  creator: 'Sohail Gidwani',
+  publisher: 'Sohail Gidwani',
   openGraph: {
     title: 'Projects - Sohail Gidwani | AI/ML & Full Stack Developer',
     description: 'Explore my portfolio of AI/ML and full-stack development projects. Each project showcases different aspects of my technical skills and problem-solving approach.',
-    url: 'https://portfolio-sohail-gidwanis-projects.vercel.app/projects',
+    url: 'https://sohailgidwani.app/projects',
     siteName: 'Sohail Gidwani Portfolio',
     images: [
       {
