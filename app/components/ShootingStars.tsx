@@ -18,7 +18,6 @@ export default function ShootingStars() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const starsRef = useRef<Star[]>([])
   const animationRef = useRef<number>(0)
-  const timeRef = useRef<number>(0)
 
   useEffect(() => {
     const canvas = canvasRef.current
