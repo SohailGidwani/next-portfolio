@@ -132,10 +132,11 @@ export default function Projects({ setActiveSection, activeSkill }: ProjectsProp
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
+                  whileHover={{ y: -4, transition: { duration: 0.2 } }}
                   transition={{ duration: 0.4 }}
                   viewport={{ once: true }}
-                  className={`group rounded-3xl border bg-card/80 p-6 shadow-[0_24px_80px_-60px_rgba(0,0,0,0.5)] ${
-                    primaryHighlighted ? "border-primary/40 ring-1 ring-primary/20" : "border-border"
+                  className={`group cursor-pointer rounded-3xl border bg-card/80 p-6 shadow-[0_24px_80px_-60px_rgba(0,0,0,0.5)] transition-shadow duration-300 hover:shadow-[0_32px_100px_-50px_rgba(0,0,0,0.6)] ${
+                    primaryHighlighted ? "border-primary/40 ring-1 ring-primary/20" : "border-border hover:border-primary/30"
                   }`}
                 >
                   <div className="relative mb-6 h-56 w-full overflow-hidden rounded-2xl">
@@ -207,10 +208,11 @@ export default function Projects({ setActiveSection, activeSkill }: ProjectsProp
                       key={project.id}
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
+                      whileHover={{ y: -3, transition: { duration: 0.2 } }}
                       transition={{ duration: 0.4, delay: index * 0.08 }}
                       viewport={{ once: true }}
-                      className={`group rounded-3xl border bg-card/80 p-5 ${
-                        isHighlighted ? "border-primary/40 ring-1 ring-primary/20" : "border-border"
+                      className={`group cursor-pointer rounded-3xl border bg-card/80 p-5 transition-shadow duration-300 hover:shadow-[0_20px_60px_-40px_rgba(0,0,0,0.4)] ${
+                        isHighlighted ? "border-primary/40 ring-1 ring-primary/20" : "border-border hover:border-primary/30"
                       }`}
                     >
                       <div className="flex items-start justify-between gap-4">
