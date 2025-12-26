@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sohail Gidwani - Portfolio
+
+A modern, performant portfolio website built with Next.js 15, featuring smooth animations, dark/light theme support, and a blog system powered by PostgreSQL.
+
+**Live:** [sohailgidwani.app](https://sohailgidwani.app)
+
+## Features
+
+- **Modern UI/UX** - Clean design with Framer Motion animations, hover interactions, and shooting star background effects
+- **Dark/Light Mode** - System-aware theme switching with smooth transitions
+- **Blog System** - Full CRUD blog with PostgreSQL backend and Markdown support
+- **SEO Optimized** - Schema.org structured data, dynamic OG images, sitemap generation
+- **Responsive** - Mobile-first design with adaptive layouts
+- **Guided Tour** - Interactive onboarding for first-time visitors
+- **Performance** - Optimized images, code splitting, and minimal bundle size
+
+## Tech Stack
+
+| Category | Technologies |
+|----------|-------------|
+| **Framework** | Next.js 15, React 19, TypeScript |
+| **Styling** | Tailwind CSS, Framer Motion |
+| **Database** | PostgreSQL (Neon) |
+| **UI Components** | Radix UI, Lucide Icons |
+| **Deployment** | Vercel |
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- PostgreSQL database (or [Neon](https://neon.tech) for serverless)
+
+### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/SohailGidwani/next-portfolio.git
+cd next-portfolio
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env.local
+# Add your DATABASE_URL to .env.local
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the site.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```env
+DATABASE_URL=postgresql://user:password@host:5432/database?sslmode=require
+```
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+app/
+├── api/                # API routes (blogs, images, OG generation)
+├── blogs/              # Blog pages with dynamic routing
+├── components/         # React components
+│   ├── ui/             # Reusable UI primitives
+│   ├── Hero.tsx        # Landing section with shooting stars
+│   ├── Projects.tsx    # Featured projects grid
+│   ├── Skills.tsx      # Technical skills showcase
+│   └── ...
+├── projects/           # Individual project pages
+├── layout.tsx          # Root layout with metadata
+└── page.tsx            # Home page
+lib/
+├── db.ts               # PostgreSQL connection
+└── utils.ts            # Utility functions
+public/
+├── images/             # Project screenshots
+└── skill-icons/        # Technology icons
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Scripts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server |
+| `npm run build` | Build for production |
+| `npm run start` | Start production server |
+| `npm run lint` | Run ESLint |
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+MIT
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+Built by [Sohail Gidwani](https://github.com/SohailGidwani)
