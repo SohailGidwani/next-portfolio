@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 import { ArrowDownRight, Github, Linkedin, Mail, MapPin, Sparkles } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
+import ShootingStars from "./ShootingStars"
 
 interface HeroProps {
   setActiveSection: (section: string) => void
@@ -74,7 +75,12 @@ export default function Hero({ setActiveSection }: HeroProps) {
       ref={sectionRef}
       className="relative flex min-h-[100svh] items-center overflow-hidden pt-28 pb-12 sm:pt-32"
     >
-      <div className="container mx-auto px-4">
+      {/* Shooting Stars Background */}
+      <div className="pointer-events-none absolute inset-0">
+        <ShootingStars />
+      </div>
+
+      <div className="container relative mx-auto px-4">
         <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -97,23 +103,29 @@ export default function Hero({ setActiveSection }: HeroProps) {
             </div>
 
             <div className="flex flex-wrap gap-3">
-              <button
+              <motion.button
                 type="button"
                 onClick={scrollToProjects}
-                className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition hover:-translate-y-0.5"
+                className="group inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20"
+                whileHover={{ y: -2, scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
                 View Projects
-                <ArrowDownRight className="h-4 w-4" />
-              </button>
-              <a
+                <ArrowDownRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
+              </motion.button>
+              <motion.a
                 href="/documents/Sohail_Gidwani_Resume.pdf"
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => triggerHaptic()}
-                className="inline-flex items-center gap-2 rounded-full border border-border bg-card/80 px-5 py-2.5 text-sm font-semibold text-foreground transition hover:-translate-y-0.5 hover:border-primary/40"
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-card/80 px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-primary/40"
+                whileHover={{ y: -2, scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
                 Download Resume
-              </a>
+              </motion.a>
             </div>
 
             <div className="flex flex-wrap items-center gap-4 pt-4 text-sm text-muted-foreground">
@@ -122,31 +134,40 @@ export default function Hero({ setActiveSection }: HeroProps) {
                 Open to remote + on-site
               </div>
               <div className="flex items-center gap-3">
-                <a
+                <motion.a
                   href="mailto:sohailgidwani15@gmail.com"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/70 text-foreground transition hover:-translate-y-0.5 hover:border-primary/40"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/70 text-foreground transition-colors hover:border-primary/40 hover:text-primary"
                   aria-label="Email"
+                  whileHover={{ y: -3, scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
                   <Mail className="h-4 w-4" />
-                </a>
-                <a
+                </motion.a>
+                <motion.a
                   href="https://github.com/SohailGidwani"
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/70 text-foreground transition hover:-translate-y-0.5 hover:border-primary/40"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/70 text-foreground transition-colors hover:border-primary/40 hover:text-primary"
                   aria-label="GitHub"
+                  whileHover={{ y: -3, scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
                   <Github className="h-4 w-4" />
-                </a>
-                <a
+                </motion.a>
+                <motion.a
                   href="https://linkedin.com/in/sohail-gidwani"
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/70 text-foreground transition hover:-translate-y-0.5 hover:border-primary/40"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/70 text-foreground transition-colors hover:border-primary/40 hover:text-primary"
                   aria-label="LinkedIn"
+                  whileHover={{ y: -3, scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
                   <Linkedin className="h-4 w-4" />
-                </a>
+                </motion.a>
               </div>
             </div>
           </motion.div>
