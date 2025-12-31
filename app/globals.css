@@ -160,7 +160,7 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(59,130,246,0.25), rgba(124,58,237,0.25), transparent);
+    background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.15), hsl(var(--primary) / 0.25), transparent);
     animation: shimmer 1.6s infinite;
   }
 }
