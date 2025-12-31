@@ -15,6 +15,7 @@ import { Toaster } from 'react-hot-toast'
 import SectionDivider from './components/SectionDivider'
 import GuidedTour from './components/GuidedTour'
 import AmbientBackground from './components/AmbientBackground'
+import CommandPalette from './components/CommandPalette'
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState<string>('hero')
@@ -82,6 +83,8 @@ export default function Portfolio() {
   return (
     <>
       <ProjectStructuredData />
+      <CommandPalette onNavigate={setActiveSection} />
+
       <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
         <AmbientBackground />
 
