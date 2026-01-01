@@ -22,8 +22,8 @@ const mono = JetBrains_Mono({
 
 export const metadata = {
   title: 'Sohail Gidwani - AI Developer | AI Agent Engineer | RAG Developer | Full Stack Developer',
-  description: 'Sohail Gidwani is a passionate AI Agent Engineer specializing in RAG, Full Stack Development, and automation. View portfolio, projects, and experience.',
-  keywords: 'Sohail Gidwani, Software Developer, AI Agent Engineer, AI Developer, RAG Developer, Full Stack Developer, Mumbai, India, Python, React, Node.js, Machine Learning, Artificial Intelligence, Portfolio',
+  description: 'Sohail Gidwani is a passionate AI Agent Engineer specializing in RAG, Full Stack Development, and automation. USC Computer Science graduate student interested in AI, gaming, and travel. View portfolio, projects, and experience.',
+  keywords: 'Sohail Gidwani, Software Developer, AI Agent Engineer, AI Developer, RAG Developer, Full Stack Developer, Mumbai, India, Python, React, Node.js, Machine Learning, Artificial Intelligence, Portfolio, Gaming, Travel, Personal Interests',
   authors: [{ name: 'Sohail Gidwani' }],
   creator: 'Sohail Gidwani',
   publisher: 'Sohail Gidwani',
@@ -38,7 +38,7 @@ export const metadata = {
   },
   openGraph: {
     title: 'Sohail Gidwani - AI Developer | AI Agent Engineer | RAG Developer | Full Stack Developer',
-    description: 'Sohail Gidwani is a passionate AI Developer specializing in RAG, Full Stack Development, and automation. View portfolio, projects, and experience.',
+    description: 'Sohail Gidwani is a passionate AI Developer specializing in RAG, Full Stack Development, and automation. USC Computer Science graduate student interested in AI, gaming, and travel.',
     url: 'https://sohailgidwani.app',
     siteName: 'Sohail Gidwani Portfolio',
     images: [
@@ -55,7 +55,7 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Sohail Gidwani - AI Developer | AI Agent Engineer | RAG Developer | Full Stack Developer',
-    description: 'Sohail Gidwani is a passionate AI Developer specializing in RAG, Full Stack Development, and automation.',
+    description: 'Sohail Gidwani is a passionate AI Developer specializing in RAG, Full Stack Development, and automation. USC CS student interested in AI, gaming, and travel.',
     images: ['/api/og'],
     creator: '@sohailgidwani',
   },
@@ -81,7 +81,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" />
         <link rel="icon" href="/favicon.ico?v=2" />
@@ -173,6 +173,83 @@ export default function RootLayout({
                       "@type": "Occupation",
                       "name": "Full-Stack AI Developer",
                       "skills": "Python, Flask, React, PostgreSQL, Vector Databases, LLM Integration"
+                    }
+                  ],
+                  "interestIn": [
+                    "Artificial Intelligence",
+                    "Video Games",
+                    "Gaming",
+                    "Travel",
+                    "Technology",
+                    "Machine Learning Research"
+                  ],
+                  "knowsLanguage": [
+                    {
+                      "@type": "Language",
+                      "name": "English"
+                    },
+                    {
+                      "@type": "Language",
+                      "name": "Hindi"
+                    }
+                  ],
+                  "hobbies": [
+                    "Video Games (God of War, The Last of Us, Ghost of Tsushima, Spider-Man, FIFA)",
+                    "Marvel Universe (Spider-Man, Iron Man)",
+                    "Swimming",
+                    "Coffee",
+                    "Watching Sunsets at Santa Monica Pier"
+                  ],
+                  "hasSkill": [
+                    {
+                      "@type": "DefinedTerm",
+                      "name": "TensorFlow",
+                      "inDefinedTermSet": "Machine Learning / AI"
+                    },
+                    {
+                      "@type": "DefinedTerm",
+                      "name": "PyTorch",
+                      "inDefinedTermSet": "Machine Learning / AI"
+                    },
+                    {
+                      "@type": "DefinedTerm",
+                      "name": "Flask",
+                      "inDefinedTermSet": "Backend Development"
+                    },
+                    {
+                      "@type": "DefinedTerm",
+                      "name": "React",
+                      "inDefinedTermSet": "Frontend Development"
+                    },
+                    {
+                      "@type": "DefinedTerm",
+                      "name": "Next.js",
+                      "inDefinedTermSet": "Frontend Development"
+                    },
+                    {
+                      "@type": "DefinedTerm",
+                      "name": "PostgreSQL",
+                      "inDefinedTermSet": "Databases"
+                    },
+                    {
+                      "@type": "DefinedTerm",
+                      "name": "RAG Systems",
+                      "inDefinedTermSet": "Machine Learning / AI"
+                    },
+                    {
+                      "@type": "DefinedTerm",
+                      "name": "Vector Databases (Qdrant, pgvector)",
+                      "inDefinedTermSet": "Databases"
+                    },
+                    {
+                      "@type": "DefinedTerm",
+                      "name": "Azure OpenAI",
+                      "inDefinedTermSet": "Cloud & AI Services"
+                    },
+                    {
+                      "@type": "DefinedTerm",
+                      "name": "Docker",
+                      "inDefinedTermSet": "DevOps & Cloud"
                     }
                   ]
                 },

@@ -5,6 +5,7 @@ import { motion } from "framer-motion"
 import { Copy, Github, Linkedin, Mail, MapPin, Phone } from "lucide-react"
 import { toast } from "react-hot-toast"
 import { triggerHaptic } from "./ui/haptics"
+import ContactForm from "./ContactForm"
 
 interface ContactProps {
   setActiveSection: (section: string) => void
@@ -95,39 +96,49 @@ export default function Contact({ setActiveSection }: ContactProps) {
   return (
     <section id="contact" ref={sectionRef} className="py-16 sm:py-20">
       <div className="container mx-auto px-4">
-        <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="space-y-6"
-          >
-            <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Contact</p>
-            <h2 className="font-display text-3xl text-foreground sm:text-4xl">
-              Let&apos;s build the next AI experience together.
-            </h2>
-            <p className="text-base text-muted-foreground">
-              I&apos;m open to full-time roles, research collaborations, and product experiments. Share your
-              vision and we&apos;ll map the next steps.
-            </p>
-            <a
-              href="mailto:sohailgidwani15@gmail.com"
-              onClick={() => triggerHaptic()}
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition hover:-translate-y-0.5"
-              aria-label={emailAriaLabel}
-            >
-              Start a conversation
-            </a>
-          </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+          className="mb-10 space-y-3"
+        >
+          <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Contact</p>
+          <h2 className="font-display text-3xl text-foreground sm:text-4xl">
+            Let&apos;s build the next AI experience together.
+          </h2>
+          <p className="max-w-2xl text-base text-muted-foreground">
+            I&apos;m open to full-time roles, research collaborations, and product experiments. Share your
+            vision and we&apos;ll map the next steps.
+          </p>
+        </motion.div>
 
-          <div className="grid gap-3">
+        <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
+          {/* Contact Form */}
+          <ContactForm />
+
+          {/* Contact Info */}
+          <div className="space-y-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="space-y-2"
+            >
+              <h3 className="font-display text-xl text-foreground">Or reach out directly</h3>
+              <p className="text-sm text-muted-foreground">
+                Prefer other channels? Here's how to connect.
+              </p>
+            </motion.div>
+
+            <div className="grid gap-3">
             {contactItems.map((item, index) => (
               <motion.div
                 key={item.label}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
+                transition={{ duration: 0.4, delay: 0.15 + index * 0.05 }}
                 viewport={{ once: true }}
                 className="rounded-2xl border border-border bg-card/80 p-4"
               >
@@ -167,6 +178,7 @@ export default function Contact({ setActiveSection }: ContactProps) {
                 </div>
               </motion.div>
             ))}
+            </div>
           </div>
         </div>
       </div>

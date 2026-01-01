@@ -129,16 +129,17 @@ export default function Projects({ setActiveSection, activeSkill }: ProjectsProp
 
         <div className="mt-10 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
               {primary && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                  transition={{ duration: 0.4 }}
-                  viewport={{ once: true }}
-                  className={`group cursor-pointer rounded-3xl border bg-card/80 p-6 shadow-[0_24px_80px_-60px_rgba(0,0,0,0.5)] transition-shadow duration-300 hover:shadow-[0_32px_100px_-50px_rgba(0,0,0,0.6)] ${
-                    primaryHighlighted ? "border-primary/40 ring-1 ring-primary/20" : "border-border hover:border-primary/30"
-                  }`}
-                >
+                <Link href={`/projects/${primary.id}`} className="block">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                    transition={{ duration: 0.4 }}
+                    viewport={{ once: true }}
+                    className={`group cursor-pointer rounded-3xl border bg-card/80 p-6 shadow-[0_24px_80px_-60px_rgba(0,0,0,0.5)] transition-shadow duration-300 hover:shadow-[0_32px_100px_-50px_rgba(0,0,0,0.6)] ${
+                      primaryHighlighted ? "border-primary/40 ring-1 ring-primary/20" : "border-border hover:border-primary/30"
+                    }`}
+                  >
                   <div className="relative mb-6 h-56 w-full overflow-hidden rounded-2xl">
                     <Image
                       src={primary.image}
@@ -156,24 +157,28 @@ export default function Projects({ setActiveSection, activeSkill }: ProjectsProp
                       <p className="mt-2 text-sm text-muted-foreground">{primary.shortDescription}</p>
                     </div>
                     <div className="flex flex-col gap-2">
-                      <Link
-                        href={`/projects/${primary.id}`}
+                      <span
+                        role="button"
+                        tabIndex={0}
+                        onClick={(e) => {
+                          e.preventDefault()
+                          e.stopPropagation()
+                          triggerHaptic()
+                          window.open(primary.github, "_blank", "noreferrer")
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault()
+                            e.stopPropagation()
+                            triggerHaptic()
+                            window.open(primary.github, "_blank", "noreferrer")
+                          }
+                        }}
                         className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-background/70 text-foreground transition hover:border-primary/40"
-                        onClick={() => triggerHaptic()}
-                        aria-label={`View ${primary.title}`}
-                      >
-                        <ArrowUpRight className="h-4 w-4" />
-                      </Link>
-                      <a
-                        href={primary.github}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-background/70 text-foreground transition hover:border-primary/40"
-                        onClick={() => triggerHaptic()}
                         aria-label={`Open ${primary.title} on GitHub`}
                       >
                         <Github className="h-4 w-4" />
-                      </a>
+                      </span>
                     </div>
                   </div>
                   <p className="mt-4 text-sm text-muted-foreground">{primary.description}</p>
@@ -195,7 +200,8 @@ export default function Projects({ setActiveSection, activeSkill }: ProjectsProp
                       )
                     })}
                   </div>
-                </motion.div>
+                  </motion.div>
+                </Link>
               )}
 
           <div className="grid gap-4">
@@ -204,41 +210,45 @@ export default function Projects({ setActiveSection, activeSkill }: ProjectsProp
                     ? project.tags.some((tag) => tag.toLowerCase() === normalizedSkill)
                     : false
                   return (
-                    <motion.div
-                      key={project.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      whileHover={{ y: -3, transition: { duration: 0.2 } }}
-                      transition={{ duration: 0.4, delay: index * 0.08 }}
-                      viewport={{ once: true }}
-                      className={`group cursor-pointer rounded-3xl border bg-card/80 p-5 transition-shadow duration-300 hover:shadow-[0_20px_60px_-40px_rgba(0,0,0,0.4)] ${
-                        isHighlighted ? "border-primary/40 ring-1 ring-primary/20" : "border-border hover:border-primary/30"
-                      }`}
-                    >
+                    <Link key={project.id} href={`/projects/${project.id}`} className="block">
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        whileHover={{ y: -3, transition: { duration: 0.2 } }}
+                        transition={{ duration: 0.4, delay: index * 0.08 }}
+                        viewport={{ once: true }}
+                        className={`group cursor-pointer rounded-3xl border bg-card/80 p-5 transition-shadow duration-300 hover:shadow-[0_20px_60px_-40px_rgba(0,0,0,0.4)] ${
+                          isHighlighted ? "border-primary/40 ring-1 ring-primary/20" : "border-border hover:border-primary/30"
+                        }`}
+                      >
                       <div className="flex items-start justify-between gap-4">
                         <div>
                           <h4 className="font-display text-xl text-foreground">{project.title}</h4>
                           <p className="mt-2 text-sm text-muted-foreground">{project.shortDescription}</p>
                         </div>
                         <div className="flex flex-col gap-2">
-                          <Link
-                            href={`/projects/${project.id}`}
+                          <span
+                            role="button"
+                            tabIndex={0}
+                            onClick={(e) => {
+                              e.preventDefault()
+                              e.stopPropagation()
+                              triggerHaptic()
+                              window.open(project.github, "_blank", "noreferrer")
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter" || e.key === " ") {
+                                e.preventDefault()
+                                e.stopPropagation()
+                                triggerHaptic()
+                                window.open(project.github, "_blank", "noreferrer")
+                              }
+                            }}
                             className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/70 text-foreground transition hover:border-primary/40"
-                            onClick={() => triggerHaptic()}
-                            aria-label={`View ${project.title}`}
-                          >
-                            <ArrowUpRight className="h-4 w-4" />
-                          </Link>
-                          <a
-                            href={project.github}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/70 text-foreground transition hover:border-primary/40"
-                            onClick={() => triggerHaptic()}
                             aria-label={`Open ${project.title} on GitHub`}
                           >
                             <Github className="h-4 w-4" />
-                          </a>
+                          </span>
                         </div>
                       </div>
                       <div className="mt-4 flex flex-wrap gap-2">
@@ -259,7 +269,8 @@ export default function Projects({ setActiveSection, activeSkill }: ProjectsProp
                           )
                         })}
                       </div>
-                    </motion.div>
+                      </motion.div>
+                    </Link>
                   )
                 })}
           </div>

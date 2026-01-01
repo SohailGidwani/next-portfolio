@@ -12,6 +12,8 @@ import Triumphs from './components/Triumphs'
 import Contact from './components/Contact'
 import Personal from './components/Personal'
 import ProjectStructuredData from './components/ProjectStructuredData'
+import FAQStructuredData from './components/FAQStructuredData'
+import BreadcrumbStructuredData from './components/BreadcrumbStructuredData'
 import { Toaster } from 'react-hot-toast'
 import SectionDivider from './components/SectionDivider'
 import GuidedTour from './components/GuidedTour'
@@ -54,6 +56,11 @@ export default function Portfolio() {
         description: "Featured builds and case studies with outcomes.",
       },
       {
+        id: "personal",
+        title: "Personal",
+        description: "Get to know me beyond the professional side - my interests, hobbies, and what I enjoy.",
+      },
+      {
         id: "contact",
         title: "Contact",
         description: "Fast ways to connect and start a conversation.",
@@ -88,6 +95,8 @@ export default function Portfolio() {
     <>
       <SkipLink />
       <ProjectStructuredData />
+      <FAQStructuredData />
+      <BreadcrumbStructuredData />
       <CommandPalette onNavigate={setActiveSection} />
       <KeyboardShortcuts />
 
