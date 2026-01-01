@@ -103,32 +103,77 @@ export default function RootLayout({
                   "@type": "Person",
                   "@id": "https://sohailgidwani.app/#person",
                   "name": "Sohail Gidwani",
+                  "givenName": "Sohail",
+                  "familyName": "Gidwani",
                   "jobTitle": "AI / CS Engineer",
-                  "description": "AI/ML software developer specializing in full-stack development and applied intelligence.",
+                  "description": "AI/ML software developer specializing in full-stack development, RAG systems, and applied intelligence. Currently pursuing M.S. in Computer Science at USC.",
                   "url": "https://sohailgidwani.app",
                   "image": "https://sohailgidwani.app/api/og",
+                  "email": "sohailgidwani15@gmail.com",
                   "sameAs": [
                     "https://github.com/SohailGidwani",
                     "https://www.linkedin.com/in/sohail-gidwani/"
                   ],
                   "address": {
                     "@type": "PostalAddress",
-                    "addressLocality": "Mumbai",
-                    "addressCountry": "India"
+                    "addressLocality": "Los Angeles",
+                    "addressRegion": "CA",
+                    "addressCountry": "US"
                   },
-                  "alumniOf": {
-                    "@type": "CollegeOrUniversity",
-                    "name": "University of Mumbai - TSEC"
+                  "alumniOf": [
+                    {
+                      "@type": "CollegeOrUniversity",
+                      "name": "University of Southern California",
+                      "department": "Viterbi School of Engineering",
+                      "url": "https://www.usc.edu"
+                    },
+                    {
+                      "@type": "CollegeOrUniversity",
+                      "name": "Thadomal Shahani Engineering College",
+                      "url": "https://tsec.edu"
+                    }
+                  ],
+                  "hasCredential": {
+                    "@type": "EducationalOccupationalCredential",
+                    "credentialCategory": "degree",
+                    "educationalLevel": "Master's Degree",
+                    "name": "M.S. in Computer Science"
+                  },
+                  "worksFor": {
+                    "@type": "EducationalOrganization",
+                    "name": "Keck School of Medicine of USC",
+                    "url": "https://keck.usc.edu"
                   },
                   "knowsAbout": [
                     "Artificial Intelligence",
                     "Machine Learning",
+                    "Large Language Models",
+                    "RAG Systems",
                     "Full Stack Development",
                     "Python",
+                    "TypeScript",
                     "React",
+                    "Next.js",
                     "Node.js",
                     "TensorFlow",
-                    "PostgreSQL"
+                    "PyTorch",
+                    "PostgreSQL",
+                    "Vector Databases"
+                  ],
+                  "hasOccupation": [
+                    {
+                      "@type": "Occupation",
+                      "name": "Research Assistant",
+                      "occupationLocation": {
+                        "@type": "City",
+                        "name": "Los Angeles"
+                      }
+                    },
+                    {
+                      "@type": "Occupation",
+                      "name": "Full-Stack AI Developer",
+                      "skills": "Python, Flask, React, PostgreSQL, Vector Databases, LLM Integration"
+                    }
                   ]
                 },
                 {
@@ -139,6 +184,23 @@ export default function RootLayout({
                   "publisher": {
                     "@id": "https://sohailgidwani.app/#person"
                   },
+                  "inLanguage": "en",
+                  "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": "https://sohailgidwani.app/#projects",
+                    "query-input": "required name=search_term_string"
+                  }
+                },
+                {
+                  "@type": "ProfilePage",
+                  "@id": "https://sohailgidwani.app/#profilepage",
+                  "url": "https://sohailgidwani.app",
+                  "name": "Sohail Gidwani - AI Developer Portfolio",
+                  "mainEntity": {
+                    "@id": "https://sohailgidwani.app/#person"
+                  },
+                  "dateCreated": "2024-01-01",
+                  "dateModified": new Date().toISOString().split('T')[0],
                   "inLanguage": "en"
                 }
               ]

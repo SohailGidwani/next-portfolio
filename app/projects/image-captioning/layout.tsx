@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     siteName: 'Sohail Gidwani Portfolio',
     images: [
       {
-        url: '/images/BE-Project.jpg',
+        url: '/api/og?title=Image%20Captioning&description=CNN%20%2B%20Transformer%20pipeline%20for%20feature%20extraction%20and%20caption%20generation&type=project&tags=TensorFlow,CNN,Transformer,VGG-16',
         width: 1200,
         height: 630,
         alt: 'Image Captioning Project',
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Image Feature Detection & Captioning - Sohail Gidwani',
     description: 'An AI-powered system that automatically generates descriptive captions for images using advanced deep learning models.',
-    images: ['/images/BE-Project.jpg'],
+    images: ['/api/og?title=Image%20Captioning&description=CNN%20%2B%20Transformer%20pipeline%20for%20feature%20extraction%20and%20caption%20generation&type=project&tags=TensorFlow,CNN,Transformer,VGG-16'],
     creator: '@sohailgidwani',
   },
 }

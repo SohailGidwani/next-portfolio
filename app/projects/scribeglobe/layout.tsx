@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     siteName: 'Sohail Gidwani Portfolio',
     images: [
       {
-        url: '/images/BlogSite.jpg',
+        url: '/api/og?title=ScribeGlobe&description=Medium-like%20platform%20with%20a%20serverless%20backend%20on%20Cloudflare%20Workers&type=project&tags=React,Hono,PostgreSQL,Cloudflare',
         width: 1200,
         height: 630,
         alt: 'ScribeGlobe Blog Platform',
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'ScribeGlobe - Medium-like Blogging Platform - Sohail Gidwani',
     description: 'A modern, full-stack blogging platform built with React and serverless architecture.',
-    images: ['/images/BlogSite.jpg'],
+    images: ['/api/og?title=ScribeGlobe&description=Medium-like%20platform%20with%20a%20serverless%20backend%20on%20Cloudflare%20Workers&type=project&tags=React,Hono,PostgreSQL,Cloudflare'],
     creator: '@sohailgidwani',
   },
 }

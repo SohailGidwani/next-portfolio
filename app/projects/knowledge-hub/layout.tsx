@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     siteName: 'Sohail Gidwani Portfolio',
     images: [
       {
-        url: '/images/KnowledgeHub_1.png',
+        url: '/api/og?title=Knowledge%20Hub&description=AI-powered%20document%20management%20with%20OCR%2C%20semantic%20search%2C%20and%20RAG-based%20Q%26A&type=project&tags=Flask,pgvector,RAG,OCR',
         width: 1200,
         height: 630,
         alt: 'Knowledge Hub - AI-Powered Document Management System',
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Knowledge Hub - AI-Powered Document Management',
     description: 'A comprehensive document management system with OCR, semantic search, and AI-powered Q&A for academic research.',
-    images: ['/images/KnowledgeHub_1.png'],
+    images: ['/api/og?title=Knowledge%20Hub&description=AI-powered%20document%20management%20with%20OCR%2C%20semantic%20search%2C%20and%20RAG-based%20Q%26A&type=project&tags=Flask,pgvector,RAG,OCR'],
     creator: '@sohailgidwani',
   },
 }

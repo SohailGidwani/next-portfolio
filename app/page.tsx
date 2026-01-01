@@ -16,6 +16,7 @@ import SectionDivider from './components/SectionDivider'
 import GuidedTour from './components/GuidedTour'
 import AmbientBackground from './components/AmbientBackground'
 import CommandPalette from './components/CommandPalette'
+import SkipLink from './components/SkipLink'
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState<string>('hero')
@@ -82,6 +83,7 @@ export default function Portfolio() {
 
   return (
     <>
+      <SkipLink />
       <ProjectStructuredData />
       <CommandPalette onNavigate={setActiveSection} />
 
@@ -94,7 +96,7 @@ export default function Portfolio() {
           onStartTour={startTour}
         />
 
-        <main className="relative">
+        <main id="main-content" className="relative" role="main">
           <Hero setActiveSection={setActiveSection} />
           <SectionDivider />
           <About setActiveSection={setActiveSection} />
