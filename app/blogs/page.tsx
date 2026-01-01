@@ -100,42 +100,40 @@ export default function BlogsPage() {
           ) : (
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {blogs.map((blog, index) => (
-                <motion.div
-                  key={blog.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: index * 0.05 }}
-                  className="group flex flex-col rounded-3xl border border-border bg-card/80 shadow-[0_18px_50px_-40px_rgba(0,0,0,0.45)]"
-                >
-                  <div className="relative h-48 w-full overflow-hidden rounded-t-3xl bg-background/70">
-                    {blog.coverImageUrl ? (
-                      <Image
-                        src={blog.coverImageUrl}
-                        alt={blog.title}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        unoptimized
-                      />
-                    ) : (
-                      <div className="flex h-full items-center justify-center text-xs uppercase tracking-[0.3em] text-muted-foreground">
-                        No image
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex flex-1 flex-col p-6">
-                    <h3 className="font-display text-xl text-foreground">{blog.title}</h3>
-                    <p className="mt-3 text-sm text-muted-foreground line-clamp-3">
-                      {blog.excerpt || "Read more"}
-                    </p>
-                    <Link
-                      href={`/blogs/${blog.slug}`}
-                      className="mt-6 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary"
-                    >
-                      Read more
-                      <ArrowUpRight className="h-4 w-4" />
-                    </Link>
-                  </div>
-                </motion.div>
+                <Link key={blog.id} href={`/blogs/${blog.slug}`} className="block">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: index * 0.05 }}
+                    className="group flex h-full cursor-pointer flex-col rounded-3xl border border-border bg-card/80 shadow-[0_18px_50px_-40px_rgba(0,0,0,0.45)] transition hover:-translate-y-1 hover:border-primary/30"
+                  >
+                    <div className="relative h-48 w-full overflow-hidden rounded-t-3xl bg-background/70">
+                      {blog.coverImageUrl ? (
+                        <Image
+                          src={blog.coverImageUrl}
+                          alt={blog.title}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          unoptimized
+                        />
+                      ) : (
+                        <div className="flex h-full items-center justify-center text-xs uppercase tracking-[0.3em] text-muted-foreground">
+                          No image
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex flex-1 flex-col p-6">
+                      <h3 className="font-display text-xl text-foreground">{blog.title}</h3>
+                      <p className="mt-3 text-sm text-muted-foreground line-clamp-3">
+                        {blog.excerpt || "Read more"}
+                      </p>
+                      <span className="mt-6 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+                        Read more
+                        <ArrowUpRight className="h-4 w-4" />
+                      </span>
+                    </div>
+                  </motion.div>
+                </Link>
               ))}
             </div>
           )}

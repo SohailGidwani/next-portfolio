@@ -3,7 +3,22 @@
 import type { ReactNode } from "react"
 import { useEffect, useRef, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
-import { Cloud, Code, Cpu, Database, Globe, PenToolIcon as Tool } from "lucide-react"
+import {
+  Cloud,
+  Code,
+  Cpu,
+  Database,
+  Globe,
+  PenToolIcon as Tool,
+  Type,
+  FileText,
+  Search,
+  RefreshCcw,
+  Users,
+  Network,
+  GitMerge,
+  Zap,
+} from "lucide-react"
 import { useTheme } from "next-themes"
 import Image from "next/image"
 import { triggerHaptic } from "./ui/haptics"
@@ -18,6 +33,7 @@ interface Skill {
   logo?: string
   lightLogo?: string
   darkLogo?: string
+  icon?: ReactNode
   proficiency?: number
 }
 
@@ -61,14 +77,14 @@ const skillCategories: SkillCategory[] = [
         logo: "/skill-icons/opencv.svg",
         proficiency: 4,
       },
-      { name: "NLTK", proficiency: 4 },
+      { name: "NLTK", icon: <Type className="h-5 w-5 text-primary" />, proficiency: 4 },
       {
         name: "HuggingFace",
         lightLogo: "/skill-icons/huggingface.svg",
         darkLogo: "/skill-icons/huggingface.svg",
         proficiency: 5,
       },
-      { name: "spaCy", proficiency: 3 },
+      { name: "spaCy", icon: <FileText className="h-5 w-5 text-primary" />, proficiency: 3 },
       {
         name: "Pandas",
         logo: "/skill-icons/pandas.svg",
@@ -184,7 +200,7 @@ const skillCategories: SkillCategory[] = [
         logo: "/skill-icons/redis.svg",
         proficiency: 3,
       },
-      { name: "Elasticsearch", proficiency: 3 },
+      { name: "Elasticsearch", icon: <Search className="h-5 w-5 text-primary" />, proficiency: 3 },
       {
         name: "MySQL",
         logo: "/skill-icons/mysql.svg",
@@ -257,9 +273,9 @@ const skillCategories: SkillCategory[] = [
         logo: "/skill-icons/kubernetes.svg",
         proficiency: 3,
       },
-      { name: "CI/CD", proficiency: 4 },
-      { name: "Agile", proficiency: 5 },
-      { name: "RESTful APIs", proficiency: 5 },
+      { name: "CI/CD", icon: <RefreshCcw className="h-5 w-5 text-primary" />, proficiency: 4 },
+      { name: "Agile", icon: <Users className="h-5 w-5 text-primary" />, proficiency: 5 },
+      { name: "RESTful APIs", icon: <Network className="h-5 w-5 text-primary" />, proficiency: 5 },
       {
         name: "Linux",
         logo: "/skill-icons/linux.svg",
@@ -270,8 +286,8 @@ const skillCategories: SkillCategory[] = [
         logo: "/skill-icons/bitbucket.svg",
         proficiency: 4,
       },
-      { name: "TFS", proficiency: 3 },
-      { name: "Serverless", proficiency: 4 },
+      { name: "TFS", icon: <GitMerge className="h-5 w-5 text-primary" />, proficiency: 3 },
+      { name: "Serverless", icon: <Zap className="h-5 w-5 text-primary" />, proficiency: 4 },
     ],
   },
 ]
@@ -433,6 +449,8 @@ export default function Skills({ setActiveSection, onSkillHover }: SkillsProps) 
                                   height={20}
                                   className="h-5 w-5"
                                 />
+                              ) : skill.icon ? (
+                                skill.icon
                               ) : (
                                 <span className="h-5 w-5 rounded-full bg-primary/20" />
                               )}

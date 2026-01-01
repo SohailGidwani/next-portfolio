@@ -128,9 +128,36 @@
   .tour-highlight {
     position: relative;
     border-radius: 32px;
-    box-shadow: 0 0 0 1px hsl(var(--primary) / 0.45),
-      0 0 0 10px hsl(var(--primary) / 0.12);
-    transition: box-shadow 0.3s ease;
+    box-shadow: 0 0 0 2px hsl(var(--primary) / 0.5),
+      0 0 0 6px hsl(var(--primary) / 0.15),
+      0 0 40px 8px hsl(var(--primary) / 0.1);
+    animation: tour-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes tour-pulse {
+    0%, 100% {
+      box-shadow: 0 0 0 2px hsl(var(--primary) / 0.5),
+        0 0 0 6px hsl(var(--primary) / 0.15),
+        0 0 40px 8px hsl(var(--primary) / 0.1);
+    }
+    50% {
+      box-shadow: 0 0 0 3px hsl(var(--primary) / 0.6),
+        0 0 0 10px hsl(var(--primary) / 0.2),
+        0 0 60px 12px hsl(var(--primary) / 0.15);
+    }
+  }
+
+  @keyframes tour-dialog-glow {
+    0%, 100% {
+      box-shadow: 0 0 30px -5px hsl(var(--primary) / 0.35),
+        0 30px 80px -60px rgba(0, 0, 0, 0.5);
+      border-color: hsl(var(--primary) / 0.5);
+    }
+    50% {
+      box-shadow: 0 0 50px 0px hsl(var(--primary) / 0.5),
+        0 30px 80px -60px rgba(0, 0, 0, 0.5);
+      border-color: hsl(var(--primary) / 0.7);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

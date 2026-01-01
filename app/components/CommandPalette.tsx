@@ -144,17 +144,17 @@ export default function CommandPalette({ onNavigate }: CommandPaletteProps) {
         category: "actions",
       },
       // Links
-      {
-        id: "blogs",
-        label: "Blogs",
-        description: "Read articles",
-        icon: <FileText className="h-4 w-4" />,
-        action: () => {
-          window.location.href = "/blogs"
-        },
-        keywords: ["articles", "posts", "writing"],
-        category: "links",
-      },
+      // {
+      //   id: "blogs",
+      //   label: "Blogs",
+      //   description: "Read articles",
+      //   icon: <FileText className="h-4 w-4" />,
+      //   action: () => {
+      //     window.location.href = "/blogs"
+      //   },
+      //   keywords: ["articles", "posts", "writing"],
+      //   category: "links",
+      // },
       {
         id: "resume",
         label: "Resume",

@@ -182,19 +182,19 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
 
       <Dialog open={!!selected} onOpenChange={(open) => !open && setSelected(null)}>
         {selected && (
-          <DialogContent className="max-w-3xl">
+          <DialogContent className="max-h-[85vh] max-w-3xl overflow-y-auto rounded-3xl border-border bg-card/95 top-auto bottom-4 translate-y-0 sm:bottom-auto sm:top-[50%] sm:translate-y-[-50%] sm:rounded-3xl">
             <DialogHeader>
               <DialogTitle className="font-display text-2xl text-foreground">{selected.title}</DialogTitle>
               <DialogDescription className="text-sm text-muted-foreground">
                 {selected.issuer} · {selected.date}
               </DialogDescription>
             </DialogHeader>
-            <div className="relative mt-4 h-64 w-full overflow-hidden rounded-2xl">
+            <div className="relative mt-4 aspect-video w-full overflow-hidden rounded-2xl bg-background/50">
               <Image
                 src={selected.image}
                 alt={selected.title}
                 fill
-                className="object-cover"
+                className="object-contain"
                 sizes="(max-width: 1024px) 100vw, 700px"
               />
             </div>
