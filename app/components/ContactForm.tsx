@@ -136,6 +136,12 @@ export default function ContactForm() {
     setIsSubmitting(true)
 
     try {
+      // Format message with subject if provided
+      const emailSubject = formData.subject || `Portfolio Contact from ${formData.name}`
+      const emailMessage = formData.subject
+        ? `Subject: ${formData.subject}\n\n${formData.message}`
+        : formData.message
+
       // Call Web3Forms directly from client side
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
@@ -147,8 +153,10 @@ export default function ContactForm() {
           access_key: "5d372928-63ad-4c81-9874-9aa9b38e79df",
           name: formData.name,
           email: formData.email,
-          subject: formData.subject || `Portfolio Contact from ${formData.name}`,
-          message: formData.message,
+          subject: emailSubject,
+          message: emailMessage,
+          from_name: formData.name,
+          replyto: formData.email,
         }),
       })
 
