@@ -1,13 +1,45 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
-import { ArrowDownRight, Github, Linkedin, Mail, MapPin, Sparkles } from "lucide-react"
+import { ArrowDownRight, Check, Github, Linkedin, Mail, MapPin, Sparkles } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
 import ShootingStars from "./ShootingStars"
+import AnimatedCounter from "./AnimatedCounter"
+import toast from "react-hot-toast"
 
 interface HeroProps {
   setActiveSection: (section: string) => void
+}
+
+function CopyEmailButton() {
+  const [copied, setCopied] = useState(false)
+  const email = "sohailgidwani15@gmail.com"
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(email)
+      triggerHaptic()
+      setCopied(true)
+      toast.success("Email copied!")
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      toast.error("Failed to copy")
+    }
+  }
+
+  return (
+    <motion.button
+      onClick={handleCopy}
+      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/70 text-foreground transition-colors hover:border-primary/40 hover:text-primary"
+      aria-label="Copy email address"
+      whileHover={{ y: -3, scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      transition={{ type: "spring", stiffness: 400, damping: 17 }}
+    >
+      {copied ? <Check className="h-4 w-4 text-green-500" /> : <Mail className="h-4 w-4" />}
+    </motion.button>
+  )
 }
 
 const highlights = [
@@ -26,9 +58,9 @@ const highlights = [
 ]
 
 const stats = [
-  { label: "AI/ML Projects", value: "12+" },
-  { label: "AI Systems", value: "6+" },
-  { label: "Years Building", value: "4" },
+  { label: "AI/ML Projects", value: 12, suffix: "+" },
+  { label: "AI Systems", value: 6, suffix: "+" },
+  { label: "Years Building", value: 4, suffix: "" },
 ]
 
 export default function Hero({ setActiveSection }: HeroProps) {
@@ -134,16 +166,7 @@ export default function Hero({ setActiveSection }: HeroProps) {
                 Open to remote + on-site
               </div>
               <div className="flex items-center gap-3">
-                <motion.a
-                  href="mailto:sohailgidwani15@gmail.com"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/70 text-foreground transition-colors hover:border-primary/40 hover:text-primary"
-                  aria-label="Email"
-                  whileHover={{ y: -3, scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                >
-                  <Mail className="h-4 w-4" />
-                </motion.a>
+                <CopyEmailButton />
                 <motion.a
                   href="https://github.com/SohailGidwani"
                   target="_blank"
@@ -180,7 +203,7 @@ export default function Hero({ setActiveSection }: HeroProps) {
           >
             <div className="rounded-3xl border border-border bg-card/80 p-6 shadow-[0_30px_80px_-60px_rgba(0,0,0,0.5)] backdrop-blur">
               <div className="flex items-center justify-between">
-                <h2 className="font-display text-xl text-foreground">Signal Stack</h2>
+                <h2 className="font-display text-xl text-foreground">At a Glance</h2>
               </div>
 
               <div className="mt-6 space-y-4">
@@ -195,7 +218,9 @@ export default function Hero({ setActiveSection }: HeroProps) {
               <div className="mt-6 grid grid-cols-3 gap-3">
                 {stats.map((stat) => (
                   <div key={stat.label} className="rounded-2xl border border-border/70 bg-background/60 p-3 text-center">
-                    <p className="font-display text-lg text-foreground">{stat.value}</p>
+                    <p className="font-display text-lg text-foreground">
+                      <AnimatedCounter value={stat.value} suffix={stat.suffix} />
+                    </p>
                     <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
                       {stat.label}
                     </p>

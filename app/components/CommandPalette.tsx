@@ -9,6 +9,7 @@ import {
   FolderKanban,
   Github,
   GraduationCap,
+  Heart,
   Home,
   Linkedin,
   Mail,
@@ -41,7 +42,13 @@ export default function CommandPalette({ onNavigate }: CommandPaletteProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [search, setSearch] = useState("")
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const [isMac, setIsMac] = useState(true)
   const { theme, setTheme } = useTheme()
+
+  // Detect OS on mount
+  useEffect(() => {
+    setIsMac(navigator.platform.toUpperCase().indexOf('MAC') >= 0)
+  }, [])
 
   const scrollToSection = useCallback(
     (sectionId: string) => {
@@ -119,6 +126,15 @@ export default function CommandPalette({ onNavigate }: CommandPaletteProps) {
         icon: <Trophy className="h-4 w-4" />,
         action: () => scrollToSection("triumphs"),
         keywords: ["achievements", "awards", "certificates"],
+        category: "navigation",
+      },
+      {
+        id: "personal",
+        label: "Personal",
+        description: "Beyond the code",
+        icon: <Heart className="h-4 w-4" />,
+        action: () => scrollToSection("personal"),
+        keywords: ["hobbies", "interests", "games", "marvel"],
         category: "navigation",
       },
       {
@@ -283,10 +299,20 @@ export default function CommandPalette({ onNavigate }: CommandPaletteProps) {
           triggerHaptic()
           setIsOpen(true)
         }}
-        className="fixed bottom-6 right-6 z-40 hidden items-center gap-2 rounded-full border border-border bg-card/90 px-3 py-2 text-xs text-muted-foreground shadow-lg backdrop-blur transition hover:border-primary/40 hover:text-foreground md:inline-flex"
+        className="fixed bottom-6 right-6 z-40 hidden items-center gap-1.5 rounded-full border border-border bg-card/90 px-3 py-2 text-xs text-muted-foreground shadow-lg backdrop-blur transition hover:border-primary/40 hover:text-foreground md:inline-flex"
       >
-        <Command className="h-3 w-3" />
-        <span>K</span>
+        {isMac ? (
+          <>
+            <Command className="h-3 w-3" />
+            <span>K</span>
+          </>
+        ) : (
+          <>
+            <span className="font-medium">Ctrl</span>
+            <span>+</span>
+            <span>K</span>
+          </>
+        )}
       </button>
 
       <AnimatePresence>

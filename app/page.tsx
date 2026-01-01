@@ -10,6 +10,7 @@ import Skills from './components/Skills'
 import Projects from './components/Projects'
 import Triumphs from './components/Triumphs'
 import Contact from './components/Contact'
+import Personal from './components/Personal'
 import ProjectStructuredData from './components/ProjectStructuredData'
 import { Toaster } from 'react-hot-toast'
 import SectionDivider from './components/SectionDivider'
@@ -17,6 +18,8 @@ import GuidedTour from './components/GuidedTour'
 import AmbientBackground from './components/AmbientBackground'
 import CommandPalette from './components/CommandPalette'
 import SkipLink from './components/SkipLink'
+import BackToTop from './components/BackToTop'
+import KeyboardShortcuts from './components/KeyboardShortcuts'
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState<string>('hero')
@@ -27,7 +30,7 @@ export default function Portfolio() {
     () => [
       {
         id: "hero",
-        title: "Signal Stack",
+        title: "At a Glance",
         description: "A high-level snapshot of your focus, impact, and availability.",
       },
       {
@@ -86,6 +89,7 @@ export default function Portfolio() {
       <SkipLink />
       <ProjectStructuredData />
       <CommandPalette onNavigate={setActiveSection} />
+      <KeyboardShortcuts />
 
       <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
         <AmbientBackground />
@@ -111,9 +115,12 @@ export default function Portfolio() {
           <SectionDivider />
           <Triumphs setActiveSection={setActiveSection} />
           <SectionDivider />
+          <Personal setActiveSection={setActiveSection} />
+          <SectionDivider />
           <Contact setActiveSection={setActiveSection} />
         </main>
         <Toaster position="bottom-right" />
+        <BackToTop />
       </div>
       <GuidedTour
         steps={tourSteps}
