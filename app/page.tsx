@@ -33,12 +33,12 @@ export default function Portfolio() {
       {
         id: "hero",
         title: "At a Glance",
-        description: "A high-level snapshot of your focus, impact, and availability.",
+        description: "A high-level snapshot of my focus, impact, and availability.",
       },
       {
         id: "about",
         title: "About",
-        description: "Your positioning and the kind of work you want to do next.",
+        description: "My positioning and the kind of work I want to do next.",
       },
       {
         id: "experience",
