@@ -5,7 +5,6 @@ import { motion } from "framer-motion"
 import { Copy, Github, Linkedin, Mail, MapPin, Phone } from "lucide-react"
 import { toast } from "react-hot-toast"
 import { triggerHaptic } from "./ui/haptics"
-import ContactForm from "./ContactForm"
 
 interface ContactProps {
   setActiveSection: (section: string) => void
@@ -96,88 +95,71 @@ export default function Contact({ setActiveSection }: ContactProps) {
   return (
     <section id="contact" ref={sectionRef} className="py-16 sm:py-20">
       <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="mb-10 space-y-3"
-        >
-          <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Contact</p>
-          <h2 className="font-display text-3xl text-foreground sm:text-4xl">
-            Let&apos;s build the next AI experience together.
-          </h2>
-          <p className="max-w-2xl text-base text-muted-foreground">
-            I&apos;m open to full-time roles, research collaborations, and product experiments. Share your
-            vision and we&apos;ll map the next steps.
-          </p>
-        </motion.div>
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="space-y-3 lg:self-center"
+          >
+            <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Contact</p>
+            <h2 className="font-display text-3xl text-foreground sm:text-4xl">
+              Let&apos;s build the next AI experience together.
+            </h2>
+            <p className="max-w-2xl text-base text-muted-foreground">
+              I&apos;m open to full-time roles, research collaborations, and product experiments. Reach out
+              directly and we&apos;ll map the next steps.
+            </p>
+          </motion.div>
 
-        <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
-          {/* Contact Form */}
-          <ContactForm />
-
-          {/* Contact Info */}
-          <div className="space-y-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              viewport={{ once: true }}
-              className="space-y-2"
-            >
-              <h3 className="font-display text-xl text-foreground">Or reach out directly</h3>
-              <p className="text-sm text-muted-foreground">
-                Prefer other channels? Here's how to connect.
-              </p>
-            </motion.div>
-
-            <div className="grid gap-3">
-            {contactItems.map((item, index) => (
-              <motion.div
-                key={item.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.15 + index * 0.05 }}
-                viewport={{ once: true }}
-                className="rounded-2xl border border-border bg-card/80 p-4"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                    {item.icon}
-                  </span>
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{item.label}</p>
-                    <div className="flex items-center gap-2">
-                      {item.link ? (
-                        <a
-                          href={item.link}
-                          target={item.link.startsWith("http") ? "_blank" : undefined}
-                          rel={item.link.startsWith("http") ? "noreferrer" : undefined}
-                          onClick={() => triggerHaptic()}
-                          className="text-sm font-medium text-foreground hover:text-primary"
-                          aria-label={item.label === "Email" ? emailAriaLabel : item.label}
-                        >
-                          {item.value}
-                        </a>
-                      ) : (
-                        <p className="text-sm font-medium text-foreground">{item.value}</p>
-                      )}
-                      {item.copyValue && (
-                        <button
-                          type="button"
-                          onClick={() => handleCopy(item.copyValue, item.label)}
-                          className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-border bg-background/70 text-muted-foreground transition hover:border-primary/40 hover:text-primary"
-                          aria-label={`Copy ${item.label}`}
-                        >
-                          <Copy className="h-3.5 w-3.5" />
-                        </button>
-                      )}
+          <div className="lg:justify-self-end">
+            <div className="grid max-w-2xl gap-3">
+              {contactItems.map((item, index) => (
+                <motion.div
+                  key={item.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.15 + index * 0.05 }}
+                  viewport={{ once: true }}
+                  className="rounded-2xl border border-border bg-card/80 p-4"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                      {item.icon}
+                    </span>
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{item.label}</p>
+                      <div className="flex items-center gap-2">
+                        {item.link ? (
+                          <a
+                            href={item.link}
+                            target={item.link.startsWith("http") ? "_blank" : undefined}
+                            rel={item.link.startsWith("http") ? "noreferrer" : undefined}
+                            onClick={() => triggerHaptic()}
+                            className="text-sm font-medium text-foreground hover:text-primary"
+                            aria-label={item.label === "Email" ? emailAriaLabel : item.label}
+                          >
+                            {item.value}
+                          </a>
+                        ) : (
+                          <p className="text-sm font-medium text-foreground">{item.value}</p>
+                        )}
+                        {item.copyValue && (
+                          <button
+                            type="button"
+                            onClick={() => handleCopy(item.copyValue, item.label)}
+                            className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-border bg-background/70 text-muted-foreground transition hover:border-primary/40 hover:text-primary"
+                            aria-label={`Copy ${item.label}`}
+                          >
+                            <Copy className="h-3.5 w-3.5" />
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              ))}
             </div>
           </div>
         </div>
