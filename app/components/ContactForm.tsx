@@ -12,6 +12,7 @@ const RATE_LIMIT_WINDOW = 5 * 60 * 1000 // 5 minutes in milliseconds
 const MAX_SUBMISSIONS = 3 // Maximum submissions per window
 
 export default function ContactForm() {
+  const web3FormsAccessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -133,6 +134,11 @@ export default function ContactForm() {
       return
     }
 
+    if (!web3FormsAccessKey) {
+      toast.error("Contact form unavailable. Missing Web3Forms access key.")
+      return
+    }
+
     setIsSubmitting(true)
 
     try {
@@ -150,7 +156,7 @@ export default function ContactForm() {
           "Accept": "application/json",
         },
         body: JSON.stringify({
-          access_key: "5d372928-63ad-4c81-9874-9aa9b38e79df",
+          access_key: web3FormsAccessKey,
           name: formData.name,
           email: formData.email,
           subject: emailSubject,
