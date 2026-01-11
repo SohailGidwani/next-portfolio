@@ -3,7 +3,11 @@
 import { useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 import { Calendar, GraduationCap, MapPin } from "lucide-react"
+import Image, { StaticImageData } from "next/image"
 import { triggerHaptic } from "./ui/haptics"
+import uscLogo from "@/public/images/USC.jpg"
+import tsecLogo from "@/public/images/TSEC.jpeg"
+import jaiHindLogo from "@/public/images/JaiHind.jpg"
 
 interface EducationProps {
   setActiveSection: (section: string) => void
@@ -18,6 +22,7 @@ interface EducationItem {
   location?: string
   achievements?: string[]
   courses?: string[]
+  logo: StaticImageData
 }
 
 const education: EducationItem[] = [
@@ -25,25 +30,26 @@ const education: EducationItem[] = [
     degree: "M.S in Computer Science",
     institution: "University of Southern California",
     year: "August 2025 - Present",
-    cgpa: "GPA - 3.5/4.0",
+    cgpa: "GPA - 3.5 / 4.0",
     location: "Los Angeles, CA, USA",
     description: "Advanced studies in AI systems, retrieval, and large-scale software engineering.",
-    achievements: ["Admitted to the USC Viterbi School of Engineering"],
-    courses: ["Analysis of Algorithms", "Information Retrieval and Web Search Engines"],
+    achievements: [],
+    courses: ["Analysis of Algorithms", "Information Retrieval and Web Search Engines", "ML for Data Science", "Applied NLP"],
+    logo: uscLogo,
   },
   {
     degree: "B.E in Computer Engineering",
     institution: "University of Mumbai - TSEC",
     year: "2019 - 2023",
-    cgpa: "CGPA - 9.05/10",
+    cgpa: "CGPA - 9.05 / 10",
     location: "Mumbai, India",
     description:
       "Focus on AI/ML, cloud computing, and full-stack development with strong academic performance.",
     achievements: [
-      "Graduated with distinction (CGPA: 9.05/10)",
-      "Capstone project in AI/ML domain",
+
     ],
     courses: ["Artificial Intelligence", "Machine Learning", "Advanced DBMS", "Cloud Computing"],
+    logo: tsecLogo,
   },
   {
     degree: "Science - HSC",
@@ -52,8 +58,9 @@ const education: EducationItem[] = [
     cgpa: "Percentage - 71.38%",
     location: "Mumbai, India",
     description: "Foundation in science and mathematics with early exposure to computer science.",
-    achievements: ["Secured 71.38% in HSC examinations"],
+    achievements: [],
     courses: ["Physics", "Chemistry", "Mathematics", "Computer Science"],
+    logo: jaiHindLogo,
   },
 ]
 
@@ -117,10 +124,21 @@ export default function Education({ setActiveSection }: EducationProps) {
                 <GraduationCap className="h-3.5 w-3.5" />
               </span>
               <div className="rounded-3xl border border-border bg-card/80 p-6 shadow-[0_20px_60px_-50px_rgba(0,0,0,0.4)]">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div>
-                    <h3 className="font-display text-xl text-foreground">{item.degree}</h3>
-                    <p className="text-sm text-muted-foreground">{item.institution}</p>
+                <div className="flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="relative h-12 w-12 overflow-hidden rounded-2xl border border-border bg-background">
+                      <Image
+                        src={item.logo}
+                        alt={`${item.institution} logo`}
+                        fill
+                        className="object-cover scale-100"
+                        sizes="48px"
+                      />
+                    </div>
+                    <div>
+                      <h3 className="font-display text-xl text-foreground">{item.degree}</h3>
+                      <p className="text-sm text-muted-foreground">{item.institution}</p>
+                    </div>
                   </div>
                   <span className="rounded-full border border-border bg-background/70 px-3 py-1 text-xs font-semibold text-muted-foreground">
                     {item.cgpa}
