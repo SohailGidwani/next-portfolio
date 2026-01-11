@@ -41,6 +41,11 @@ export default function Portfolio() {
         description: "My positioning and the kind of work I want to do next.",
       },
       {
+        id: "education",
+        title: "Education",
+        description: "Academic foundations and coursework shaping my AI systems focus.",
+      },
+      {
         id: "experience",
         title: "Experience",
         description: "Highlights from research and industry work with measurable scope.",

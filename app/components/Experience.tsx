@@ -32,7 +32,7 @@ interface ExperienceItem {
 const experiences: ExperienceItem[] = [
   {
     id: "keck-usc",
-    title: "Student Worker - Research Assistant",
+    title: "Research Assistant - Student Worker",
     company: "Keck School of Medicine of USC",
     date: "Oct, 2023 - Present",
     description:
