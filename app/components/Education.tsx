@@ -29,7 +29,7 @@ const education: EducationItem[] = [
   {
     degree: "M.S in Computer Science",
     institution: "University of Southern California",
-    year: "August 2025 - Present",
+    year: "August 2025 - May 2027",
     cgpa: "GPA - 3.5 / 4.0",
     location: "Los Angeles, CA, USA",
     description: "Advanced studies in AI systems, retrieval, and large-scale software engineering.",
@@ -40,7 +40,7 @@ const education: EducationItem[] = [
   {
     degree: "B.E in Computer Engineering",
     institution: "University of Mumbai - TSEC",
-    year: "2019 - 2023",
+    year: "Aug 2019 - May 2023",
     cgpa: "CGPA - 9.05 / 10",
     location: "Mumbai, India",
     description:
@@ -48,7 +48,7 @@ const education: EducationItem[] = [
     achievements: [
 
     ],
-    courses: ["Artificial Intelligence", "Machine Learning", "Advanced DBMS", "Cloud Computing"],
+    courses: ["Artificial Intelligence", "Machine Learning", "Advanced DBMS", "Cloud Computing", "Data Structures & Algorithms", "Operating Systems", "Software Engineering", "Object-Oriented Programming", "Big Data Analytics", "Computer Networks", "Cryptography & System Security", "Blockchain"],
     logo: tsecLogo,
   },
   {

@@ -90,7 +90,7 @@ export default function About({ setActiveSection }: AboutProps) {
               </p>
             </div>
             <div className="rounded-3xl border border-border bg-card/70 p-6 text-sm text-muted-foreground">
-              <p className="font-display text-lg text-foreground">Signature focus</p>
+              <p className="font-display text-lg text-foreground">Focus</p>
               <p className="mt-2">
                 Intelligent systems, human-centered UX, and robust engineering practices that keep
                 AI products dependable.

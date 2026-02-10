@@ -105,6 +105,8 @@ const skillCategories: SkillCategory[] = [
         logo: "/skill-icons/seaborn.png",
         proficiency: 4,
       },
+      { name: "MCP", icon: <Network className="h-5 w-5 text-primary" />, proficiency: 4 },
+      { name: "LLMOps", icon: <RefreshCcw className="h-5 w-5 text-primary" />, proficiency: 4 },
     ],
   },
   {
@@ -137,6 +139,7 @@ const skillCategories: SkillCategory[] = [
         logo: "/skill-icons/cplusplus.svg",
         proficiency: 3,
       },
+      { name: "SQL", icon: <Database className="h-5 w-5 text-primary" />, proficiency: 4 },
     ],
   },
   {
@@ -178,6 +181,12 @@ const skillCategories: SkillCategory[] = [
         darkLogo: "/skill-icons/flask.svg",
         proficiency: 5,
       },
+      { name: "Hono", icon: <Zap className="h-5 w-5 text-primary" />, proficiency: 3 },
+      { name: "FastAPI", icon: <Zap className="h-5 w-5 text-primary" />, proficiency: 4 },
+      { name: "Tailwind CSS", icon: <Code className="h-5 w-5 text-primary" />, proficiency: 4 },
+      { name: "WebRTC", icon: <Network className="h-5 w-5 text-primary" />, proficiency: 3 },
+      { name: "HTML5", icon: <Globe className="h-5 w-5 text-primary" />, proficiency: 5 },
+      { name: "CSS3", icon: <Globe className="h-5 w-5 text-primary" />, proficiency: 5 },
     ],
   },
   {
@@ -211,6 +220,8 @@ const skillCategories: SkillCategory[] = [
         logo: "/skill-icons/qdrant.png",
         proficiency: 4,
       },
+      { name: "Oracle", icon: <Database className="h-5 w-5 text-primary" />, proficiency: 3 },
+      { name: "SQLAlchemy", icon: <Database className="h-5 w-5 text-primary" />, proficiency: 4 },
     ],
   },
   {

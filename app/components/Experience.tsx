@@ -32,14 +32,14 @@ interface ExperienceItem {
 const experiences: ExperienceItem[] = [
   {
     id: "keck-usc",
-    title: "Research Assistant - Student Worker",
+    title: "Student Worker / Research Assistant",
     company: "Keck School of Medicine of USC",
-    date: "Oct, 2023 - Present",
+    date: "Oct, 2025 - Present",
     description:
-      "Supporting research that bridges visual and textual information for healthcare by preparing multimodal datasets, training vision-language models, and evaluating their clinical alignment.",
+      "Building VLM experimentation workflows for multimodal healthcare tasks, including dataset curation, model fine-tuning, and clinical evaluation pipelines.",
     projects: [
-      "VLM Multimodal Tasks: Curating and preprocessing medical imaging and textual datasets to fine-tune vision-language models that connect visual findings with clinical narratives.",
-      "Model Training & Evaluation: Running training experiments, monitoring performance metrics, and building evaluation loops that highlight model strengths and weaknesses for healthcare use cases.",
+      "VLM Multimodal Tasks: Curating and preprocessing medical imaging and textual datasets to fine-tune vision-language models for multimodal healthcare tasks connecting visual findings with clinical narratives.",
+      "Model Training & Evaluation: Designing and running training experiments, tracking performance metrics, and building evaluation pipelines to benchmark model accuracy for healthcare use cases.",
       "Research Collaboration: Partnering with clinicians and researchers to translate experimental insights into deployable prototypes, documentation, and future study proposals.",
     ],
     tags: ["Python", "PyTorch", "OpenCV", "TensorFlow"],
@@ -66,14 +66,15 @@ const experiences: ExperienceItem[] = [
   },
   {
     id: "iifl",
-    title: "Full-Stack/AI Developer",
+    title: "Full Stack - Software Developer",
     company: "IIFL Finance Ltd",
     date: "June, 2023 - May, 2025",
     description:
-      "Led AI initiatives and developed cutting-edge machine learning models for various client projects. Mentored junior developers and contributed to the company's AI research efforts.",
+      "Built internal employee support chatbot, AI-powered fraud detection, and automated user support systems across multiple business verticals.",
     projects: [
-      "Custom Data Chatbots (RAG) : Built an internal employee support chatbot using NLP, Python, and Flask. Integrated with Qdrant vector database, Azure OpenAI service, and Zoho ticketing system. This AI-powered solution significantly reduced the number of support tickets raised by employees, streamlining internal processes. (Certificate of Achievement)",
+      "Custom Data Chatbots (RAG): Built an internal employee support chatbot using NLP, Python, and Flask. Integrated with Qdrant vector database, Azure OpenAI service, and Zoho ticketing system. This AI-powered solution significantly reduced the number of support tickets raised by employees, streamlining internal processes. (Certificate of Achievement)",
       "Gold Loan Image Audit App: Engineered AI-powered application using models like GroundingDino, Swin-Transformer, enhancing fraud detection and reducing potential loan fraud by 15%.",
+      "CapitalGenie: Designed and implemented an automated user support system leveraging internal APIs and GPT-4o to fetch user data, diagnose issues, and generate personalized responses, accelerating resolution by 70%.",
       "Cross-functional Collaboration: Worked closely with data science and security teams to implement best practices for data handling and model deployment, ensuring robust and secure AI solutions.",
     ],
     tags: ["Python", "Flask", "Qdrant", "Azure"],

@@ -21,9 +21,9 @@ const projects = [
   {
     id: "knowledge-hub",
     title: "Knowledge Hub",
-    shortDescription: "AI-powered document management with OCR, semantic search, and RAG-based Q&A.",
+    shortDescription: "Local-first AI portal for handwritten notes with OCR, semantic search, and RAG-based Q&A.",
     description:
-      "Built a Flask + Postgres system with pgvector, OCR, and local LLMs to answer questions over academic docs.",
+      "Built a local-first Flask + Postgres portal with pgvector, OCR for handwritten notes, and Ollama-powered LLMs to answer questions over academic docs.",
     image: knowledgeHub,
     tags: ["Flask", "pgvector", "RAG", "OCR"],
     github: "https://github.com/SohailGidwani/knowledge_hub",
@@ -32,9 +32,9 @@ const projects = [
   {
     id: "image-captioning",
     title: "Image Captioning",
-    shortDescription: "CNN + Transformer pipeline for feature extraction and caption generation.",
+    shortDescription: "CNN + Transformer pipeline achieving a BLEU score of 0.80.",
     description:
-      "Implemented VGG-16 feature extraction with LSTM/Transformer generation and a Streamlit UI.",
+      "Developed an AI app using CNN/VGG-16 for image feature extraction and an LSTM/Transformer-based captioning model achieving a BLEU score of 0.80, with a Streamlit interface.",
     image: imagecaption,
     tags: ["TensorFlow", "CNN", "Transformer"],
     github: "https://github.com/SohailGidwani/Image-Caption",
@@ -56,7 +56,7 @@ const projects = [
     title: "Tech Updates",
     shortDescription: "Personal tech-news aggregator with AI-driven categorization.",
     description:
-      "Scrapes multiple sources, categorizes via Azure OpenAI, and serves articles via Flask + React.",
+      "Uses Python for scraping and TypeScript for data handling, categorizes via Azure OpenAI, and serves articles via Flask + React.",
     image: techupdates,
     tags: ["Flask", "Azure OpenAI", "Qdrant"],
     github: "https://github.com/SohailGidwani/Project-TechUpdates",
