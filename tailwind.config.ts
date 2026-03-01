@@ -89,6 +89,7 @@ module.exports = {
         "float-slow": "float 12s ease-in-out infinite",
         "float-slower": "float 18s ease-in-out infinite",
         "pulse-soft": "pulse-soft 6s ease-in-out infinite",
+        "spin-slow": "spin 8s linear infinite",
       },
     },
   },

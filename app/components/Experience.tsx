@@ -32,17 +32,17 @@ interface ExperienceItem {
 const experiences: ExperienceItem[] = [
   {
     id: "keck-usc",
-    title: "Student Worker / Research Assistant",
+    title: "Research Assistant - Multi-Modal AI for Alzheimer's Disease",
     company: "Keck School of Medicine of USC",
     date: "Oct, 2025 - Present",
     description:
-      "Building VLM experimentation workflows for multimodal healthcare tasks, including dataset curation, model fine-tuning, and clinical evaluation pipelines.",
+      "Architecting multi-modal deep learning pipelines for Alzheimer's disease prediction using neuroimaging and clinical data, with end-to-end experimentation infrastructure across ~160M parameter models.",
     projects: [
-      "VLM Multimodal Tasks: Curating and preprocessing medical imaging and textual datasets to fine-tune vision-language models for multimodal healthcare tasks connecting visual findings with clinical narratives.",
-      "Model Training & Evaluation: Designing and running training experiments, tracking performance metrics, and building evaluation pipelines to benchmark model accuracy for healthcare use cases.",
-      "Research Collaboration: Partnering with clinicians and researchers to translate experimental insights into deployable prototypes, documentation, and future study proposals.",
+      "Multi-Modal Deep Learning Pipeline: Architected a multi-modal deep learning pipeline for Alzheimer's disease prediction using T1 MRI, DTI imaging, and clinical data across 2,363 ADNI subjects, achieving 72.7% balanced accuracy on 3-class diagnosis and 93.1% on binary classification (CN vs Dementia).",
+      "Missing-Modality Fusion: Designed missing-modality fusion via cross-attention with modality dropout, enabling robust inference when imaging data is incomplete (39.4% DTI coverage); nearly doubled preclinical amyloid detection sensitivity from 29% to 56% between model iterations.",
+      "Experimentation Infrastructure: Built end-to-end experimentation infrastructure: two-stage training (CLIP contrastive pre-training → multi-task fine-tuning), modality ablation studies across 7 combinations, and confidence calibration analysis on ~160M parameter models.",
     ],
-    tags: ["Python", "PyTorch", "OpenCV", "TensorFlow"],
+    tags: ["Python", "PyTorch", "Deep Learning", "CLIP"],
     isLatest: true,
     logo: keckUSC,
   },
