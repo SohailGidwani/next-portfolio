@@ -305,7 +305,7 @@ const skillCategories: SkillCategory[] = [
 
 export default function Skills({ setActiveSection, onSkillHover }: SkillsProps) {
   const sectionRef = useRef<HTMLElement>(null)
-  const { theme, systemTheme } = useTheme()
+  const { resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [activeIndex, setActiveIndex] = useState<number | null>(0)
 
@@ -340,8 +340,7 @@ export default function Skills({ setActiveSection, onSkillHover }: SkillsProps) 
     }
   }, [setActiveSection])
 
-  const currentTheme = theme === "system" ? systemTheme : theme
-  const isDark = mounted && currentTheme === "dark"
+  const isDark = mounted && resolvedTheme === "dark"
 
   const getLogoSrc = (skill: Skill) => {
     if (isDark && skill.darkLogo) return skill.darkLogo

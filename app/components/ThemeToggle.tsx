@@ -7,14 +7,14 @@ import { AnimatePresence, motion } from "framer-motion"
 import { triggerHaptic } from "./ui/haptics"
 
 export default function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
+  const { resolvedTheme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  const isDark = theme === "dark"
+  const isDark = resolvedTheme === "dark"
 
   const toggleTheme = () => {
     triggerHaptic()
@@ -38,7 +38,7 @@ export default function ThemeToggle() {
       <span className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/10 via-transparent to-accent/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
       <AnimatePresence mode="wait">
         <motion.span
-          key={theme}
+          key={resolvedTheme}
           initial={{ opacity: 0, rotate: -90, scale: 0.8 }}
           animate={{ opacity: 1, rotate: 0, scale: 1 }}
           exit={{ opacity: 0, rotate: 90, scale: 0.8 }}

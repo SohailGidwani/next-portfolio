@@ -26,19 +26,19 @@ export default function ProjectDocument({
       transition={{ duration: 0.6, delay }}
       className="mb-12"
     >
-      <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-blue-900 dark:text-blue-400">
+      <h2 className="font-display text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-foreground">
         Technical Documentation
       </h2>
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-700 rounded-xl p-4 sm:p-6 lg:p-8 border border-blue-200 dark:border-slate-600">
+      <div className="bg-card/80 rounded-xl p-4 sm:p-6 lg:p-8 border border-border">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div className="flex-1 min-w-0">
-            <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-slate-100 mb-2 break-words">
+            <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2 break-words">
               {title}
             </h3>
-            <p className="text-sm sm:text-base text-gray-600 dark:text-slate-300 mb-4 leading-relaxed">
+            <p className="text-sm sm:text-base text-muted-foreground mb-4 leading-relaxed">
               {description}
             </p>
-            <div className="flex items-center text-xs sm:text-sm text-gray-500 dark:text-slate-400">
+            <div className="flex items-center text-xs sm:text-sm text-muted-foreground">
               <FileText className="w-4 h-4 mr-2 flex-shrink-0" />
               <span>PDF • {size}</span>
             </div>
@@ -46,7 +46,7 @@ export default function ProjectDocument({
           <div className="flex-shrink-0 w-full sm:w-auto">
             <Button
               asChild
-              className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base"
+              className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base"
             >
               <a 
                 href={url} 

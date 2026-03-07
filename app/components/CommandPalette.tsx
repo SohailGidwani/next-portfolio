@@ -43,7 +43,7 @@ export default function CommandPalette({ onNavigate }: CommandPaletteProps) {
   const [search, setSearch] = useState("")
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [isMac, setIsMac] = useState(true)
-  const { theme, setTheme } = useTheme()
+  const { resolvedTheme, setTheme } = useTheme()
 
   // Detect OS on mount
   useEffect(() => {
@@ -149,11 +149,11 @@ export default function CommandPalette({ onNavigate }: CommandPaletteProps) {
       // Actions
       {
         id: "toggle-theme",
-        label: theme === "dark" ? "Light Mode" : "Dark Mode",
+        label: resolvedTheme === "dark" ? "Light Mode" : "Dark Mode",
         description: "Toggle theme",
-        icon: theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />,
+        icon: resolvedTheme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />,
         action: () => {
-          setTheme(theme === "dark" ? "light" : "dark")
+          setTheme(resolvedTheme === "dark" ? "light" : "dark")
           setIsOpen(false)
         },
         keywords: ["theme", "dark", "light", "mode"],
@@ -208,7 +208,7 @@ export default function CommandPalette({ onNavigate }: CommandPaletteProps) {
         category: "links",
       },
     ],
-    [theme, setTheme, scrollToSection]
+    [resolvedTheme, setTheme, scrollToSection]
   )
 
   const filteredCommands = useMemo(() => {
