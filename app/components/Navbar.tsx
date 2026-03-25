@@ -33,7 +33,7 @@ export default function Navbar({ activeSection, setActiveSection, onStartTour }:
     }
 
     onScroll()
-    window.addEventListener("scroll", onScroll)
+    window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 

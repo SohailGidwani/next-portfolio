@@ -12,7 +12,10 @@ export async function GET(request: NextRequest) {
   const type = searchParams.get('type') // 'project', 'blog', or default
   const tags = searchParams.get('tags')?.split(',').slice(0, 4) || []
 
-  // If no custom params, show default portfolio OG image
+  const headers = {
+    'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800',
+  }
+
   if (!title) {
     return new ImageResponse(
       (
@@ -135,6 +138,7 @@ export async function GET(request: NextRequest) {
       {
         width: 1200,
         height: 630,
+        headers,
       }
     )
   }
@@ -308,6 +312,7 @@ export async function GET(request: NextRequest) {
     {
       width: 1200,
       height: 630,
+      headers,
     }
   )
 } 

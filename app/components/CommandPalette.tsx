@@ -45,9 +45,9 @@ export default function CommandPalette({ onNavigate }: CommandPaletteProps) {
   const [isMac, setIsMac] = useState(true)
   const { resolvedTheme, setTheme } = useTheme()
 
-  // Detect OS on mount
   useEffect(() => {
-    setIsMac(navigator.platform.toUpperCase().indexOf('MAC') >= 0)
+    const platform = (navigator as Navigator & { userAgentData?: { platform: string } }).userAgentData?.platform ?? navigator.userAgent
+    setIsMac(/mac/i.test(platform))
   }, [])
 
   const scrollToSection = useCallback(

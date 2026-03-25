@@ -160,7 +160,7 @@ export default function Education({ setActiveSection }: EducationProps) {
 
                 <p className="mt-4 text-sm text-muted-foreground">{item.description}</p>
 
-                {item.achievements && (
+                {item.achievements && item.achievements.length > 0 && (
                   <div className="mt-4 flex flex-wrap gap-2">
                     {item.achievements.map((achievement) => (
                       <span

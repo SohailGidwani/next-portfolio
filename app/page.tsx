@@ -61,6 +61,11 @@ export default function Portfolio() {
         description: "Featured builds and case studies with outcomes.",
       },
       {
+        id: "triumphs",
+        title: "Triumphs",
+        description: "Certifications, awards, and milestones along the way.",
+      },
+      {
         id: "personal",
         title: "Personal",
         description: "Get to know me beyond the professional side - my interests, hobbies, and what I enjoy.",
