@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        // disallow: ['/private/', '/admin/', '/api/'], // Uncomment if you have these in the future
+        disallow: ['/private/', '/admin/', '/api/'],
       },
     ],
     sitemap: 'https://sohailgidwani.app/sitemap.xml',
