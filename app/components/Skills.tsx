@@ -376,9 +376,9 @@ export default function Skills({ setActiveSection, onSkillHover }: SkillsProps) 
           <h2 className="font-display text-3xl text-foreground sm:text-4xl">
             Tools I actually use, not just ones I've heard of.
           </h2>
-          <p className="text-sm text-muted-foreground">
+          {/* <p className="text-sm text-muted-foreground">
             Hover any skill to see where I've used it.
-          </p>
+          </p> */}
         </motion.div>
 
         <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
