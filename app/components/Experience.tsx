@@ -152,7 +152,8 @@ export default function Experience({ setActiveSection, activeSkill }: Experience
           </h2>
         </motion.div>
 
-        <div className="mt-10 space-y-8 border-l border-border pl-6">
+        <div className="relative mt-10 space-y-8 pl-10">
+          <div className="pointer-events-none absolute left-3 top-3 bottom-3 w-px -translate-x-1/2 bg-gradient-to-b from-border/0 via-border to-border/0" />
           {experiences.map((item, index) => {
             const isHighlighted = normalizedSkill
               ? item.tags.some((tag) => tag.toLowerCase() === normalizedSkill)
@@ -178,8 +179,8 @@ export default function Experience({ setActiveSection, activeSkill }: Experience
               viewport={{ once: true }}
               className="group relative w-full cursor-pointer text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background"
             >
-              <span className="absolute -left-[34px] top-6 flex h-6 w-6 items-center justify-center rounded-full border border-border bg-card text-primary">
-                <Briefcase className="h-3.5 w-3.5" />
+              <span className="absolute -left-10 top-6 flex h-6 w-6 items-center justify-center rounded-full border border-border bg-card text-primary shadow-sm">
+                <Briefcase className="h-3 w-3" />
               </span>
               <div
                 className={`rounded-3xl border bg-card/80 p-6 shadow-card transition group-hover:-translate-y-1 ${

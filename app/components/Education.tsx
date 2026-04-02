@@ -110,7 +110,8 @@ export default function Education({ setActiveSection }: EducationProps) {
           </h2>
         </motion.div>
 
-        <div className="mt-10 space-y-8 border-l border-border pl-6">
+        <div className="relative mt-10 space-y-8 pl-10">
+          <div className="pointer-events-none absolute left-3 top-3 bottom-3 w-px -translate-x-1/2 bg-gradient-to-b from-border/0 via-border to-border/0" />
           {education.map((item, index) => (
             <motion.div
               key={item.degree}
@@ -120,8 +121,8 @@ export default function Education({ setActiveSection }: EducationProps) {
               viewport={{ once: true }}
               className="relative"
             >
-              <span className="absolute -left-[34px] top-2 flex h-6 w-6 items-center justify-center rounded-full border border-border bg-card text-primary">
-                <GraduationCap className="h-3.5 w-3.5" />
+              <span className="absolute -left-10 top-2 flex h-6 w-6 items-center justify-center rounded-full border border-border bg-card text-primary shadow-sm">
+                <GraduationCap className="h-3 w-3" />
               </span>
               <div className="rounded-3xl border border-border bg-card/80 p-6 shadow-card">
                 <div className="flex flex-wrap items-center justify-between gap-4">
