@@ -15,12 +15,14 @@ import ProjectDetailStructuredData from "@/app/components/ProjectDetailStructure
 export default function ImageCaptioningPage() {
   const project = {
     title: "Image Feature Detection & Captioning",
-    description: "An AI-powered system that automatically generates descriptive captions for images using advanced deep learning models. This project demonstrates the integration of computer vision and natural language processing to create meaningful image descriptions.",
-    longDescription: `This project implements a sophisticated image captioning system that combines computer vision and natural language processing. The system uses CNN and VGG-16 models for feature extraction from images, then employs both LSTM and Transformer architectures for generating human-like captions.
+    description: "Trained a CNN + Transformer pipeline that generates captions for images. The Transformer model scored 0.80 BLEU. Built a Streamlit UI so you can try it yourself.",
+    longDescription: `I wanted to build something that could look at an image and describe what's in it. The idea was straightforward, but getting it to actually work well took some effort.
 
-The project achieved impressive results with BLEU scores of 0.65 for LSTM and 0.80 for Transformer models, demonstrating the effectiveness of attention mechanisms in caption generation. The user interface was built using Streamlit, providing an intuitive way for users to upload images and receive instant captions.
+I used VGG-16 as the image encoder to extract feature vectors, then fed those into two different decoders: an LSTM and a Transformer. The LSTM got a BLEU score of 0.65, which was decent, but the Transformer with attention hit 0.80 and generated noticeably better captions. The attention mechanism really helped the model focus on the right parts of the image.
 
-Key technical challenges included optimizing model performance, handling diverse image types, and ensuring real-time inference capabilities. The project showcases full-stack development skills in AI application development, from model training to deployment.`,
+I wrapped the whole thing in a Streamlit app so you can upload any image and get a caption back in a few seconds. It's a simple UI, but it makes the model feel real instead of just numbers in a notebook.
+
+The hardest part was honestly the training pipeline. VGG-16 is memory-hungry, the Transformer needed careful hyperparameter tuning, and I spent more time on data preprocessing than I'd like to admit.`,
     image: imagecaption,
     tags: ["Python", "TensorFlow", "CNN", "Transformer", "LSTM", "StreamLit", "Computer Vision", "NLP"],
     github: "https://github.com/SohailGidwani/Image-Caption",
@@ -28,46 +30,46 @@ Key technical challenges included optimizing model performance, handling diverse
       {
         icon: <Brain className="w-6 h-6" />,
         title: "Advanced AI Models",
-        description: "Implemented CNN and VGG-16 for feature extraction, LSTM and Transformer for caption generation"
+        description: "VGG-16 for image feature extraction, then LSTM and Transformer decoders for generating captions"
       },
       {
         icon: <Zap className="w-6 h-6" />,
         title: "High Performance",
-        description: "Achieved BLEU scores of 0.65 (LSTM) and 0.80 (Transformer) for caption quality"
+        description: "LSTM hit 0.65 BLEU, Transformer got 0.80. The attention mechanism made a real difference"
       },
       {
         icon: <Code className="w-6 h-6" />,
         title: "User-Friendly Interface",
-        description: "Built with Streamlit for easy image upload and instant caption generation"
+        description: "Streamlit app where you upload an image and get a caption back in seconds"
       },
       {
         icon: <ExternalLink className="w-6 h-6" />,
         title: "Real-time Processing",
-        description: "Optimized for fast inference and real-time caption generation"
+        description: "Tuned the pipeline so inference runs fast enough to feel instant"
       }
     ],
     technicalDetails: [
-      "CNN and VGG-16 models for image feature extraction",
-      "LSTM architecture with attention mechanisms",
-      "Transformer model for improved caption quality",
-      "BLEU score evaluation metrics",
-      "Streamlit web interface for user interaction",
-      "Image preprocessing and augmentation techniques",
-      "Model optimization for deployment"
+      "CNN and VGG-16 for pulling features out of images",
+      "LSTM decoder with attention",
+      "Transformer decoder that outperformed the LSTM by 15 BLEU points",
+      "Evaluated with BLEU scores across both architectures",
+      "Streamlit frontend for uploading images and viewing captions",
+      "Image preprocessing and augmentation during training",
+      "Model optimization to keep inference time reasonable"
     ],
     challenges: [
-      "Balancing model complexity with inference speed",
-      "Handling diverse image types and content",
-      "Optimizing BLEU scores for better caption quality",
-      "Creating an intuitive user interface",
-      "Managing model memory requirements"
+      "The Transformer gave better captions but was noticeably slower, had to find the right size/speed tradeoff",
+      "The model struggled with unusual image compositions that weren't well represented in training data",
+      "Getting BLEU above 0.70 on the LSTM took a lot of hyperparameter tuning before I switched to the Transformer",
+      "Making the Streamlit UI responsive enough that it didn't feel like you were waiting forever",
+      "VGG-16 is memory-hungry, had to be strategic about batch sizes during training"
     ],
     learnings: [
-      "Deep learning model architecture design",
-      "Computer vision and NLP integration",
-      "Performance optimization techniques",
-      "User interface design for AI applications",
-      "Model evaluation and metrics analysis"
+      "Transformers really do outperform LSTMs on sequence tasks once you get the training right",
+      "Connecting a vision encoder to a language decoder is tricky, the feature vector interface matters a lot",
+      "Attention maps are useful for debugging, not just for boosting scores",
+      "Even a simple Streamlit UI makes a model way more convincing in a demo",
+      "BLEU is a useful metric but doesn't always match how good a caption actually reads"
     ]
   }
 

@@ -182,7 +182,7 @@ export default function Experience({ setActiveSection, activeSkill }: Experience
                 <Briefcase className="h-3.5 w-3.5" />
               </span>
               <div
-                className={`rounded-3xl border bg-card/80 p-6 shadow-[0_20px_60px_-50px_rgba(0,0,0,0.4)] transition group-hover:-translate-y-1 ${
+                className={`rounded-3xl border bg-card/80 p-6 shadow-card transition group-hover:-translate-y-1 ${
                   isHighlighted ? "border-primary/40 ring-1 ring-primary/20" : "border-border"
                 }`}
               >

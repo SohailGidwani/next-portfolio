@@ -26,14 +26,14 @@ export default function KnowledgeHubPage() {
   
   const project = {
     title: "Knowledge Hub - AI-Powered Document Management System",
-    description: "A comprehensive document management and ingestion service built with Flask, SQLAlchemy, and Postgres+pgvector. Features OCR capabilities, semantic search, and AI-powered question answering for academic research and homework preparation.",
-    longDescription: `Knowledge Hub is a sophisticated document management system I developed to streamline my MS in CS coursework at USC. This project addresses the common challenge of managing and searching through vast amounts of academic materials, research papers, and course documents.
+    description: "A document manager I built for my USC coursework. It does OCR on handwritten notes and PDFs, runs semantic search with pgvector, and answers questions about your docs using a local LLM.",
+    longDescription: `I built Knowledge Hub because I was tired of digging through hundreds of course PDFs and lecture notes during my MS in CS at USC. I wanted one place where I could dump all my documents and actually find what I needed quickly.
 
-The system combines modern web technologies with AI capabilities to provide intelligent document processing, semantic search, and question-answering functionality. Built with Flask and PostgreSQL with pgvector extension, it offers both traditional full-text search and advanced vector-based semantic search.
+The system takes in PDFs and images, runs OCR to extract text (even from handwritten notes), chunks everything up, and stores vector embeddings in PostgreSQL with pgvector. That gives me two ways to search: regular full-text search and semantic search, where I can ask a question in plain English and get back the most relevant passages.
 
-Key features include automated OCR processing for PDFs and images, intelligent document chunking, vector embeddings for semantic search, and integration with local LLM (Ollama) for AI-powered question answering. The system is containerized with Docker for easy deployment and includes comprehensive API endpoints for document management.
+The part I'm most proud of is the Q&A feature. It uses RAG with a local LLM running on Ollama (gemma3:1b) to answer questions about my documents and cite exactly where the answer came from. No API keys, no cloud dependency, everything runs locally.
 
-This project demonstrates my expertise in full-stack development, AI/ML integration, database design, and system architecture. It has significantly improved my academic workflow by enabling quick retrieval of relevant information from course materials and research papers.`,
+The whole thing is a Flask API with SQLAlchemy, containerized with Docker so setup is just \`docker-compose up\`. It's genuinely useful. I still use it to prep for exams and review research papers.`,
     images: {
       howItWorks: { src: knowledgeHub1, alt: "Knowledge Hub - How It Works Dashboard" },
       upload: [
@@ -47,7 +47,7 @@ This project demonstrates my expertise in full-stack development, AI/ML integrat
     },
     technicalDocument: {
       title: "Knowledge Hub Technical Deep Dive",
-      description: "Comprehensive technical documentation covering architecture, implementation details, and system design decisions.",
+      description: "Architecture overview, implementation details, and the design decisions behind the system.",
       url: "/documents/Knowledge Hub — Technical Deep Dive (design Doc).pdf",
       size: "827 KB"
     },
@@ -57,50 +57,50 @@ This project demonstrates my expertise in full-stack development, AI/ML integrat
       {
         icon: <Database className="w-6 h-6" />,
         title: "Document Management",
-        description: "Upload, store, and organize documents with automatic metadata extraction and categorization"
+        description: "Upload docs, and the system pulls out metadata and organizes everything automatically"
       },
       {
         icon: <Brain className="w-6 h-6" />,
         title: "AI-Powered OCR",
-        description: "Automatic text extraction from PDFs and images using OpenCV, PyMuPDF, and Tesseract"
+        description: "Extracts text from PDFs and images using OpenCV, PyMuPDF, and Tesseract"
       },
       {
         icon: <Search className="w-6 h-6" />,
         title: "Semantic Search",
-        description: "Vector-based similarity search using pgvector and Sentence-Transformers for intelligent content discovery"
+        description: "Find related content with vector similarity search, powered by pgvector and Sentence-Transformers"
       },
       {
         icon: <FileText className="w-6 h-6" />,
         title: "Question Answering",
-        description: "RAG-powered Q&A system with local LLM integration for contextual answers with citations"
+        description: "Ask questions about your docs and get answers with citations, powered by a local LLM through RAG"
       }
     ],
     technicalDetails: [
-      "Flask REST API with SQLAlchemy ORM for backend services",
-      "PostgreSQL with pgvector extension for vector similarity search",
-      "Docker containerization for easy deployment and scaling",
-      "OCR processing with OpenCV, PyMuPDF, and Tesseract",
-      "Vector embeddings using Sentence-Transformers (all-MiniLM-L6-v2)",
-      "Local LLM integration with Ollama (gemma3:1b)",
-      "Hybrid search combining full-text and semantic search",
-      "Intelligent document chunking (300-700 tokens with overlaps)",
-      "Confidence-aware ranking for OCR results",
-      "RESTful API with comprehensive endpoints for document management"
+      "Flask API with SQLAlchemy for the backend",
+      "PostgreSQL + pgvector for vector similarity search",
+      "Dockerized the whole stack for easy setup",
+      "OCR pipeline using OpenCV, PyMuPDF, and Tesseract",
+      "Sentence-Transformers (all-MiniLM-L6-v2) for generating vector embeddings",
+      "Ollama running gemma3:1b locally for Q&A",
+      "Hybrid search that combines full-text and semantic results",
+      "Document chunking at 300-700 tokens with overlap",
+      "OCR results ranked by confidence score",
+      "REST API with endpoints for upload, search, and Q&A"
     ],
     challenges: [
-      "Implementing efficient vector search with large document collections",
-      "Optimizing OCR processing for various document types and quality",
-      "Designing hybrid search algorithms for optimal relevance ranking",
-      "Managing memory requirements for vector embeddings and LLM inference",
-      "Creating intuitive API design for complex document operations"
+      "pgvector queries got slow with larger doc collections, had to tune indexing and query params",
+      "OCR quality varied a lot depending on scan quality and handwriting, so I added confidence scoring to filter out bad results",
+      "Combining full-text and semantic search results into a single ranked list took a lot of trial and error",
+      "Running embeddings and an LLM locally eats RAM, had to be careful about batch sizes and model selection",
+      "Figuring out the right chunk size and overlap for different document types without losing context"
     ],
     learnings: [
-      "Advanced database design with vector extensions",
-      "AI/ML integration in production web applications",
-      "Document processing and OCR optimization techniques",
-      "Vector database operations and similarity search algorithms",
-      "RAG (Retrieval-Augmented Generation) system implementation",
-      "Container orchestration and deployment strategies"
+      "pgvector is powerful but you need to think about indexing strategy early",
+      "Wiring up ML models into a web app has more plumbing than you'd expect",
+      "OCR is never as clean as you want it to be, confidence-based filtering helps a lot",
+      "Chunk size matters more than the embedding model for search quality",
+      "RAG is only as good as your retrieval step, garbage in garbage out",
+      "Docker Compose makes multi-service setups way less painful"
     ]
   }
 

@@ -129,7 +129,7 @@ export default function AdminBlogsPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="mb-8 rounded-3xl border border-border bg-card/80 p-6 shadow-[0_20px_60px_-50px_rgba(0,0,0,0.4)]"
+          className="mb-8 rounded-3xl border border-border bg-card/80 p-6 shadow-card"
         >
           <div className="mb-6 flex items-center gap-3">
             <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/10 text-primary">
@@ -250,7 +250,7 @@ export default function AdminBlogsPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="rounded-3xl border border-border bg-card/80 p-6 shadow-[0_20px_60px_-50px_rgba(0,0,0,0.4)]"
+          className="rounded-3xl border border-border bg-card/80 p-6 shadow-card"
         >
           <div className="mb-6 flex items-center gap-3">
             <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/10 text-primary">

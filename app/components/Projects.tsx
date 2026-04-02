@@ -21,9 +21,9 @@ const projects = [
   {
     id: "knowledge-hub",
     title: "Knowledge Hub",
-    shortDescription: "Local-first AI portal for handwritten notes with OCR, semantic search, and RAG-based Q&A.",
+    shortDescription: "My go-to tool for studying. Upload notes, search them semantically, ask questions with RAG.",
     description:
-      "Built a local-first Flask + Postgres portal with pgvector, OCR for handwritten notes, and Ollama-powered LLMs to answer questions over academic docs.",
+      "Flask + Postgres app with pgvector that does OCR on handwritten notes and uses Ollama to answer questions over my course docs. Built it because I was tired of digging through PDFs.",
     image: knowledgeHub,
     tags: ["Flask", "pgvector", "RAG", "OCR"],
     github: "https://github.com/SohailGidwani/knowledge_hub",
@@ -32,9 +32,9 @@ const projects = [
   {
     id: "image-captioning",
     title: "Image Captioning",
-    shortDescription: "CNN + Transformer pipeline achieving a BLEU score of 0.80.",
+    shortDescription: "Feed it an image, get a caption. Transformer model hit 0.80 BLEU.",
     description:
-      "Developed an AI app using CNN/VGG-16 for image feature extraction and an LSTM/Transformer-based captioning model achieving a BLEU score of 0.80, with a Streamlit interface.",
+      "CNN/VGG-16 pulls features from images, then an LSTM and Transformer generate captions. The Transformer version hit 0.80 BLEU. Wrapped it in Streamlit so anyone could try it.",
     image: imagecaption,
     tags: ["TensorFlow", "CNN", "Transformer"],
     github: "https://github.com/SohailGidwani/Image-Caption",
@@ -43,9 +43,9 @@ const projects = [
   {
     id: "scribeglobe",
     title: "ScribeGlobe",
-    shortDescription: "Medium-like platform with a serverless backend on Cloudflare Workers.",
+    shortDescription: "A Medium clone I built to learn serverless. Hono on Cloudflare Workers.",
     description:
-      "Built a React + Vite frontend with Hono-based APIs and Postgres persistence.",
+      "React + Vite frontend, Hono APIs running on Cloudflare Workers, Postgres for storage. Basically, I wanted to understand edge computing so I built a whole blogging platform.",
     image: blogsite,
     tags: ["React", "Hono", "PostgreSQL"],
     github: "https://github.com/SohailGidwani/0---100-FullStack/tree/main/Week%2012/medium",
@@ -54,9 +54,9 @@ const projects = [
   {
     id: "tech-updates",
     title: "Tech Updates",
-    shortDescription: "Personal tech-news aggregator with AI-driven categorization.",
+    shortDescription: "Scrapes tech news and uses AI to sort it. My personal reading feed.",
     description:
-      "Uses Python for scraping and TypeScript for data handling, categorizes via Azure OpenAI, and serves articles via Flask + React.",
+      "Python scrapes articles from Medium, YC, and Crunchbase. Azure OpenAI categorizes them, Qdrant stores the vectors, and a Flask + React frontend serves it all up.",
     image: techupdates,
     tags: ["Flask", "Azure OpenAI", "Qdrant"],
     github: "https://github.com/SohailGidwani/Project-TechUpdates",
@@ -114,12 +114,12 @@ export default function Projects({ setActiveSection, activeSkill }: ProjectsProp
           <div className="space-y-3">
             <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Projects</p>
             <h2 className="font-display text-3xl text-foreground sm:text-4xl">
-              Selected builds with measurable outcomes.
+              Things I've built that I'm proud of.
             </h2>
           </div>
           <Link
             href="/projects"
-            className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-card/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
             onClick={() => triggerHaptic()}
           >
             View all
@@ -136,7 +136,7 @@ export default function Projects({ setActiveSection, activeSkill }: ProjectsProp
                     whileHover={{ y: -4, transition: { duration: 0.2 } }}
                     transition={{ duration: 0.4 }}
                     viewport={{ once: true }}
-                    className={`group cursor-pointer rounded-3xl border bg-card/80 p-6 shadow-[0_24px_80px_-60px_rgba(0,0,0,0.5)] transition-shadow duration-300 hover:shadow-[0_32px_100px_-50px_rgba(0,0,0,0.6)] ${
+                    className={`group cursor-pointer rounded-2xl border bg-card/80 p-6 shadow-card transition-shadow duration-300 hover:shadow-card-hover ${
                       primaryHighlighted ? "border-primary/40 ring-1 ring-primary/20" : "border-border hover:border-primary/30"
                     }`}
                   >
@@ -217,7 +217,7 @@ export default function Projects({ setActiveSection, activeSkill }: ProjectsProp
                         whileHover={{ y: -3, transition: { duration: 0.2 } }}
                         transition={{ duration: 0.4, delay: index * 0.08 }}
                         viewport={{ once: true }}
-                        className={`group cursor-pointer rounded-3xl border bg-card/80 p-5 transition-shadow duration-300 hover:shadow-[0_20px_60px_-40px_rgba(0,0,0,0.4)] ${
+                        className={`group cursor-pointer rounded-2xl border bg-card/80 p-5 transition-shadow duration-300 hover:shadow-card ${
                           isHighlighted ? "border-primary/40 ring-1 ring-primary/20" : "border-border hover:border-primary/30"
                         }`}
                       >

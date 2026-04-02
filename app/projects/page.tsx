@@ -15,7 +15,7 @@ const projects = [
   {
     id: "knowledge-hub",
     title: "Knowledge Hub",
-    shortDescription: "Document management with OCR, semantic search, and RAG-based Q&A.",
+    shortDescription: "Upload notes, search them semantically, ask questions with RAG.",
     image: knowledgeHub,
     tags: ["Flask", "pgvector", "RAG", "OCR"],
     github: "https://github.com/SohailGidwani/knowledge_hub",
@@ -23,7 +23,7 @@ const projects = [
   {
     id: "tech-updates",
     title: "Tech Updates",
-    shortDescription: "Personal tech-news aggregator with AI categorization.",
+    shortDescription: "Scrapes tech news from multiple sources, AI sorts it for me.",
     image: techupdates,
     tags: ["Flask", "Azure OpenAI", "Qdrant"],
     github: "https://github.com/SohailGidwani/Project-TechUpdates",
@@ -31,7 +31,7 @@ const projects = [
   {
     id: "image-captioning",
     title: "Image Captioning",
-    shortDescription: "CNN + Transformer pipeline for caption generation.",
+    shortDescription: "Give it an image, get a caption. Transformer model hit 0.80 BLEU.",
     image: imagecaption,
     tags: ["TensorFlow", "CNN", "Transformer"],
     github: "https://github.com/SohailGidwani/Image-Caption",
@@ -39,7 +39,7 @@ const projects = [
   {
     id: "scribeglobe",
     title: "ScribeGlobe",
-    shortDescription: "Medium-like platform with a serverless backend on Cloudflare.",
+    shortDescription: "A Medium clone built on Cloudflare Workers. Serverless all the way.",
     image: blogsite,
     tags: ["React", "Hono", "PostgreSQL"],
     github: "https://github.com/SohailGidwani/0---100-FullStack/tree/main/Week%2012/medium",
@@ -70,10 +70,9 @@ export default function ProjectsPage() {
           className="space-y-4"
         >
           <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Projects</p>
-          <h1 className="font-display text-4xl text-foreground sm:text-5xl">Full project archive</h1>
+          <h1 className="font-display text-4xl text-foreground sm:text-5xl">All projects</h1>
           <p className="max-w-2xl text-base text-muted-foreground">
-            Explore detailed case studies across AI/ML systems, retrieval pipelines, and full-stack
-            product builds.
+            Everything I've shipped, from AI pipelines to full-stack apps. Click into any of them for the full story.
           </p>
         </motion.div>
 
@@ -84,7 +83,7 @@ export default function ProjectsPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
-                className="group flex h-full cursor-pointer flex-col rounded-3xl border border-border bg-card/80 p-5 shadow-[0_18px_50px_-40px_rgba(0,0,0,0.45)] transition hover:-translate-y-1 hover:border-primary/30"
+                className="group flex h-full cursor-pointer flex-col rounded-3xl border border-border bg-card/80 p-5 shadow-card transition hover:-translate-y-1 hover:border-primary/30"
               >
                 <div className="relative h-40 w-full overflow-hidden rounded-2xl">
                   <Image

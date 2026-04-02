@@ -15,12 +15,12 @@ import ProjectDetailStructuredData from "@/app/components/ProjectDetailStructure
 export default function ScribeGlobePage() {
   const project = {
     title: "ScribeGlobe (Medium-like Blogging site)",
-    description: "A modern, full-stack blogging platform built with React and serverless architecture. Features a responsive design, real-time content management, and scalable backend infrastructure.",
-    longDescription: `ScribeGlobe is a comprehensive blogging platform that replicates the functionality of Medium while incorporating modern web development practices. The project demonstrates full-stack development capabilities with a focus on performance, scalability, and user experience.
+    description: "A Medium-style blogging platform I built to learn serverless. React + Vite frontend, Hono running on Cloudflare Workers, Postgres for the data.",
+    longDescription: `I wanted to build something real to learn serverless and edge computing, so I made a Medium-style blogging platform from scratch. The idea was simple: if I could get a full CRUD app running on Cloudflare Workers with a real database, I'd actually understand how serverless works beyond the marketing pitch.
 
-The frontend is built with React.js and Vite, providing a fast and responsive user interface. The backend utilizes Hono framework on Cloudflare Workers for serverless architecture, ensuring high availability and cost-effectiveness. PostgreSQL serves as the primary database, handling user data, articles, and content management efficiently.
+The frontend is React + Vite with TypeScript and Tailwind. Nothing fancy, but it's fast and the DX is great. The interesting part is the backend: I used Hono as the framework running on Cloudflare Workers, which means the API runs at the edge, close to wherever the user is. Postgres handles all the data (users, articles, auth tokens).
 
-Key features include user authentication, article creation and editing, real-time preview, markdown support, and responsive design. The project showcases modern development practices including TypeScript for type safety, Tailwind CSS for styling, and comprehensive error handling.`,
+You can sign up, write posts with markdown, preview them in real time, and publish. The whole thing is typed end-to-end with TypeScript, which caught a ton of bugs before they happened. I also spent a lot of time on the responsive layout since blog content needs to read well on any screen size.`,
     image: blogsite,
     tags: ["React", "Vite", "Typescript", "Tailwind", "HONO", "CloudFlare", "PostgreSQL", "Full Stack"],
     github: "https://github.com/SohailGidwani/0---100-FullStack/tree/main/Week%2012/medium",
@@ -28,49 +28,49 @@ Key features include user authentication, article creation and editing, real-tim
       {
         icon: <Globe className="w-6 h-6" />,
         title: "Modern Frontend",
-        description: "Built with React.js and Vite for fast development and optimal performance"
+        description: "React + Vite, so hot reloads are instant and the production build is tiny"
       },
       {
         icon: <Database className="w-6 h-6" />,
         title: "Serverless Backend",
-        description: "Hono framework on Cloudflare Workers for scalable, cost-effective infrastructure"
+        description: "Hono on Cloudflare Workers, so the API runs at the edge and I'm not paying for idle servers"
       },
       {
         icon: <Code className="w-6 h-6" />,
         title: "Type Safety",
-        description: "Full TypeScript implementation ensuring code reliability and maintainability"
+        description: "TypeScript everywhere, frontend and backend. Catches most of my dumb mistakes at compile time"
       },
       {
         icon: <Zap className="w-6 h-6" />,
         title: "Responsive Design",
-        description: "Tailwind CSS for beautiful, mobile-first responsive user interface"
+        description: "Tailwind CSS for styling. Blog content looks good on phones, tablets, and desktop"
       }
     ],
     technicalDetails: [
-      "React.js with Vite for fast development and building",
-      "TypeScript for type safety and better development experience",
-      "Tailwind CSS for utility-first styling",
-      "Hono framework for serverless API development",
-      "Cloudflare Workers for edge computing and global deployment",
-      "PostgreSQL database for data persistence",
-      "User authentication and authorization system",
-      "Markdown support for rich content creation",
-      "Real-time preview and editing capabilities",
-      "Responsive design for all device types"
+      "React 18 + Vite for the frontend, with lazy-loaded routes",
+      "TypeScript across the full stack, shared types between client and server",
+      "Tailwind CSS for all styling, no custom CSS files",
+      "Hono as the API framework, built specifically for edge runtimes",
+      "Deployed on Cloudflare Workers, cold starts are basically zero",
+      "PostgreSQL for storing users, articles, and session data",
+      "Auth system with hashed passwords and JWT tokens",
+      "Markdown editor with live preview as you type",
+      "Optimistic UI updates so the app feels snappy",
+      "Mobile-first layout that scales up to wide screens"
     ],
     challenges: [
-      "Implementing serverless architecture with Cloudflare Workers",
-      "Managing database connections in serverless environment",
-      "Creating responsive design for complex content layouts",
-      "Handling real-time content updates and synchronization",
-      "Optimizing performance for global edge deployment"
+      "Cloudflare Workers can't hold persistent DB connections, so I had to figure out connection pooling with serverless",
+      "Hono's ecosystem is smaller than Express, so I wrote a few middleware pieces myself",
+      "Getting markdown rendering to look consistent across browsers took more CSS tweaking than I expected",
+      "Auth in a stateless serverless environment meant I couldn't rely on sessions, had to go full JWT",
+      "Debugging Workers locally vs. deployed behaved differently, especially around environment variables"
     ],
     learnings: [
-      "Serverless architecture design and implementation",
-      "Modern React development with TypeScript",
-      "Database design for content management systems",
-      "Edge computing and global deployment strategies",
-      "Full-stack development with modern tooling"
+      "Serverless isn't magic. You still have to think about cold starts, connection limits, and state management",
+      "TypeScript on both sides of the stack saves a ton of time when you change a data shape",
+      "Hono is a really solid framework for edge APIs. I'd pick it again over Express for Workers",
+      "Building auth from scratch taught me more than any tutorial. JWTs, hashing, token refresh, all of it",
+      "Vite's dev server speed genuinely changes how you build. Going back to Webpack would hurt"
     ]
   }
 

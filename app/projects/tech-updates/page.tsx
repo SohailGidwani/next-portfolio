@@ -15,12 +15,12 @@ import ProjectDetailStructuredData from "@/app/components/ProjectDetailStructure
 export default function TechUpdatesPage() {
   const project = {
     title: "Tech-updates (Personal Tech News Aggregator)",
-    description: "An intelligent news aggregator that uses AI to scrape, categorize, and present personalized tech news from multiple sources. Features advanced content management and real-time updates.",
-    longDescription: `Tech-updates is a sophisticated news aggregation platform that combines web scraping, artificial intelligence, and modern web development to deliver personalized tech news. The system automatically collects articles from multiple sources including Medium, Y Combinator, and Crunchbase, then uses Azure OpenAI for intelligent categorization and content analysis.
+    description: "I wanted my own tech news feed, so I built one. It scrapes articles from Medium, YC, and Crunchbase, then uses Azure OpenAI to sort everything into categories.",
+    longDescription: `I got tired of checking five different sites every morning for tech news, so I built a thing that does it for me. Tech-updates scrapes articles from Medium, Y Combinator's Hacker News, and Crunchbase on a schedule, then pipes them through Azure OpenAI to auto-categorize everything (AI/ML, startups, web dev, etc.).
 
-The backend is built with Flask and PostgreSQL, providing a robust REST API for data management. The frontend uses React with Vite for optimal performance and user experience. The system integrates Qdrant vector database for efficient content storage and retrieval, enabling fast search and recommendation features.
+The backend is Flask + PostgreSQL for the core API and data storage. The cool part is the Qdrant vector database: every article gets embedded and stored as a vector, so I can do similarity search. If you're reading about LLMs, it'll surface related articles you might've missed. It's not just keyword matching, it actually understands the content.
 
-Key features include automated content scraping, AI-powered categorization, personalized news feeds, and a responsive web interface. The project demonstrates advanced full-stack development skills with AI integration, database design, and modern web technologies.`,
+The frontend is React + Vite. Nothing groundbreaking there, but it's fast and the UI updates as new articles come in. I built this mostly because I wanted to work with vector databases and see how well GPT-based models handle content categorization at scale. Turns out, pretty well.`,
     image: techupdates,
     tags: ["React", "Vite", "Python", "Flask", "Azure OpenAI", "Qdrant(vectorDB)", "PostgreSQL", "Web Scraping", "AI"],
     github: "https://github.com/SohailGidwani/Project-TechUpdates",
@@ -28,49 +28,49 @@ Key features include automated content scraping, AI-powered categorization, pers
       {
         icon: <Brain className="w-6 h-6" />,
         title: "AI-Powered Categorization",
-        description: "Azure OpenAI integration for intelligent article categorization and analysis"
+        description: "Articles go through Azure OpenAI, which tags them by topic so I don't have to read everything myself"
       },
       {
         icon: <Database className="w-6 h-6" />,
         title: "Vector Database",
-        description: "Qdrant vector database for efficient content storage and similarity search"
+        description: "Every article gets embedded in Qdrant, so 'find me more like this' actually works"
       },
       {
         icon: <Globe className="w-6 h-6" />,
         title: "Multi-Source Scraping",
-        description: "Automated web scraping from Medium, Y Combinator, and Crunchbase"
+        description: "Scrapers run on a schedule, pulling articles from Medium, YC, and Crunchbase automatically"
       },
       {
         icon: <Zap className="w-6 h-6" />,
         title: "Real-time Updates",
-        description: "Flask REST API with PostgreSQL for real-time content management"
+        description: "Flask API + Postgres on the backend. New articles show up in the feed as they're scraped"
       }
     ],
     technicalDetails: [
-      "React.js with Vite for fast frontend development",
-      "Flask REST API for backend services",
-      "PostgreSQL database for data persistence",
-      "Azure OpenAI for intelligent content categorization",
-      "Qdrant vector database for similarity search",
-      "Web scraping from multiple tech news sources",
-      "Real-time content updates and notifications",
-      "Responsive design for all device types",
-      "Content filtering and personalization",
-      "Search and recommendation algorithms"
+      "React + Vite frontend with category filtering and search",
+      "Flask REST API handling scraping triggers, CRUD, and AI calls",
+      "PostgreSQL for article storage, user prefs, and scraping metadata",
+      "Azure OpenAI (GPT-4) for categorizing and summarizing articles",
+      "Qdrant vector DB storing article embeddings for similarity search",
+      "Custom scrapers for Medium (RSS parsing), YC (HTML scraping), and Crunchbase",
+      "Cron-based scraping schedule so the feed stays fresh",
+      "Mobile-friendly layout built with Tailwind",
+      "Filter by category, source, or date range",
+      "Similar article recommendations powered by cosine similarity on embeddings"
     ],
     challenges: [
-      "Implementing reliable web scraping across multiple sources",
-      "Integrating Azure OpenAI for content categorization",
-      "Managing vector database operations efficiently",
-      "Handling real-time content updates and synchronization",
-      "Optimizing search performance with large datasets"
+      "Every site structures its HTML differently, so each scraper needed custom parsing logic that breaks when they redesign",
+      "Azure OpenAI rate limits hit hard when you're categorizing hundreds of articles at once. Had to add batching and retry logic",
+      "Qdrant was new to me, and figuring out the right embedding dimensions and distance metrics took real experimentation",
+      "Deduplication is tricky when the same story gets covered by multiple sources with different titles",
+      "Keeping the scraping schedule reliable without hammering the source sites or getting IP-blocked"
     ],
     learnings: [
-      "AI integration in web applications",
-      "Vector database design and optimization",
-      "Web scraping techniques and best practices",
-      "Real-time data management and synchronization",
-      "Full-stack development with AI components"
+      "LLMs are surprisingly good at categorization if you write clear prompts and give them structured output formats",
+      "Vector databases aren't just hype. Similarity search on embeddings works way better than keyword search for articles",
+      "Web scraping is fragile by nature. You need good error handling and alerts for when a scraper silently breaks",
+      "Rate limiting and backoff aren't optional when you're calling external APIs in a loop",
+      "Building something I actually use every day kept me motivated in ways a tutorial project never would"
     ]
   }
 

@@ -150,7 +150,7 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: index * 0.05 }}
               viewport={{ once: true }}
-              className="group flex flex-col rounded-3xl border border-border bg-card/80 p-4 text-left shadow-[0_18px_50px_-40px_rgba(0,0,0,0.45)] transition hover:-translate-y-1"
+              className="group flex flex-col rounded-3xl border border-border bg-card/80 p-4 text-left shadow-card transition hover:-translate-y-1"
             >
               <div className="relative h-40 w-full overflow-hidden rounded-2xl">
                 <Image

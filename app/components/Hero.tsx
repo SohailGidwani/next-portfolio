@@ -28,7 +28,7 @@ function RoleBadge() {
   }, [])
 
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground backdrop-blur-sm">
+    <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground backdrop-blur-sm">
       <Sparkles className="h-3.5 w-3.5 shrink-0 text-primary" />
       <AnimatePresence mode="wait">
         <motion.span
@@ -97,8 +97,8 @@ function CopyEmailButton() {
   return (
     <motion.button
       onClick={handleCopy}
-      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/70 text-foreground transition-colors hover:border-primary/40 hover:text-primary"
-      aria-label="Copy email address"
+      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/80 text-foreground transition-colors hover:border-primary/40 hover:text-primary"
+                  aria-label="Copy email address"
       whileHover={{ y: -3, scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       transition={{ type: "spring", stiffness: 400, damping: 17 }}
@@ -216,7 +216,7 @@ function CodePanel() {
           </span>
           <motion.span
             animate={{ opacity: [1, 0] }}
-            transition={{ repeat: Infinity, duration: 1, ease: "steps(2)" }}
+            transition={{ repeat: Infinity, duration: 1, times: [0, 1], ease: "linear" }}
             className="inline-block h-[1.1em] w-[2px] bg-primary"
           />
         </motion.div>
@@ -412,8 +412,7 @@ export default function Hero({ setActiveSection }: HeroProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, delay: 0.95 }}
             >
-              Building intelligent systems that blend machine learning,
-              software engineering, and thoughtful product design.
+              I build AI systems that actually work in production, not just in notebooks. Full-stack engineering meets applied ML.
             </motion.p>
 
             <motion.div
@@ -454,7 +453,7 @@ export default function Hero({ setActiveSection }: HeroProps) {
                   href="https://github.com/SohailGidwani"
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/70 text-foreground transition-colors hover:border-primary/40 hover:text-primary"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/80 text-foreground transition-colors hover:border-primary/40 hover:text-primary"
                   aria-label="GitHub"
                   whileHover={{ y: -3, scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -466,7 +465,7 @@ export default function Hero({ setActiveSection }: HeroProps) {
                   href="https://linkedin.com/in/sohail-gidwani"
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/70 text-foreground transition-colors hover:border-primary/40 hover:text-primary"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/80 text-foreground transition-colors hover:border-primary/40 hover:text-primary"
                   aria-label="LinkedIn"
                   whileHover={{ y: -3, scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -484,7 +483,7 @@ export default function Hero({ setActiveSection }: HeroProps) {
               className="flex items-center gap-2 text-sm text-muted-foreground"
             >
               <MapPin className="h-3.5 w-3.5 text-primary" />
-              Los Angeles · Open to remote + on-site
+              Los Angeles · Open to remote and on-site
             </motion.div>
           </div>
 

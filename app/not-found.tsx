@@ -33,7 +33,7 @@ export default function NotFound() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="w-full max-w-xl rounded-3xl border border-border bg-card/80 p-8 text-center shadow-[0_30px_80px_-60px_rgba(0,0,0,0.4)]"
+          className="w-full max-w-xl rounded-3xl border border-border bg-card/80 p-8 text-center shadow-card"
         >
           <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground">404</p>
           <h1 className="mt-4 font-display text-4xl text-foreground sm:text-5xl">

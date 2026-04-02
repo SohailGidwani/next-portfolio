@@ -112,7 +112,7 @@ export default function Navbar({ activeSection, setActiveSection, onStartTour }:
             <button
               type="button"
               onClick={() => setIsOpen((prev) => !prev)}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/70 text-foreground shadow-sm"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/80 text-foreground shadow-sm"
               aria-label={isOpen ? "Close menu" : "Open menu"}
             >
               {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}

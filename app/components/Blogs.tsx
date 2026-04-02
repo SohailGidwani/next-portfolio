@@ -74,7 +74,7 @@ export default function Blogs({ setActiveSection }: BlogsProps) {
           </div>
           <Link
             href="/blogs"
-            className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-card/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
             onClick={() => triggerHaptic()}
           >
             View all
@@ -105,7 +105,7 @@ export default function Blogs({ setActiveSection }: BlogsProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true, amount: 0.3 }}
-                className="group flex flex-col rounded-3xl border border-border bg-card/80 shadow-[0_18px_50px_-40px_rgba(0,0,0,0.45)]"
+                className="group flex flex-col rounded-3xl border border-border bg-card/80 shadow-card"
               >
                 <div className="relative h-44 overflow-hidden rounded-t-3xl bg-background/70">
                   {blog.coverImageUrl ? (

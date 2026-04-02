@@ -2,10 +2,8 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
 	],
   theme: {
     container: {
@@ -59,6 +57,10 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+      },
+      boxShadow: {
+        card: "0 20px 60px -50px rgba(0,0,0,0.4)",
+        "card-hover": "0 28px 80px -40px rgba(0,0,0,0.5)",
       },
       borderRadius: {
         lg: "var(--radius)",

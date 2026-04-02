@@ -32,7 +32,7 @@ export default function ThemeToggle() {
       type="button"
       onClick={toggleTheme}
       whileTap={{ scale: 0.96 }}
-      className="group relative flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/70 text-foreground shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:border-primary/40"
+      className="group relative flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/80 text-foreground shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:border-primary/40"
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
     >
       <span className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/10 via-transparent to-accent/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />

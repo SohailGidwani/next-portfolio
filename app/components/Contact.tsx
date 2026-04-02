@@ -1,9 +1,8 @@
 "use client"
 
-import { useEffect, useRef } from "react"
-import { motion } from "framer-motion"
-import { Copy, Github, Linkedin, Mail, MapPin, Phone } from "lucide-react"
-import { toast } from "react-hot-toast"
+import { useEffect, useRef, useState } from "react"
+import { AnimatePresence, motion } from "framer-motion"
+import { Check, Copy, Github, Linkedin, Mail, MapPin, Phone } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
 
 interface ContactProps {
@@ -49,19 +48,17 @@ const contactItems = [
 export default function Contact({ setActiveSection }: ContactProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const emailAriaLabel = "Email Sohail Gidwani"
+  const [copiedLabel, setCopiedLabel] = useState<string | null>(null)
 
   const handleCopy = async (value: string, label: string) => {
     try {
-      if (!navigator?.clipboard) {
-        toast.error("Copy unavailable")
-        return
-      }
+      if (!navigator?.clipboard) return
       await navigator.clipboard.writeText(value)
       triggerHaptic(10)
-      toast.success(`${label} copied`)
+      setCopiedLabel(label)
+      setTimeout(() => setCopiedLabel(null), 2000)
     } catch (error) {
       console.error(error)
-      toast.error("Copy failed")
     }
   }
 
@@ -105,11 +102,10 @@ export default function Contact({ setActiveSection }: ContactProps) {
           >
             <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Contact</p>
             <h2 className="font-display text-3xl text-foreground sm:text-4xl">
-              Let&apos;s build the next AI experience together.
+              Want to work together? Let&apos;s talk.
             </h2>
             <p className="max-w-2xl text-base text-muted-foreground">
-              I&apos;m open to full-time roles, research collaborations, and product experiments. Reach out
-              directly and we&apos;ll map the next steps.
+              I&apos;m looking for full-time roles, research collaborations, or interesting side projects. Drop me a message and we&apos;ll figure it out from there.
             </p>
           </motion.div>
 
@@ -125,38 +121,62 @@ export default function Contact({ setActiveSection }: ContactProps) {
                   className="rounded-2xl border border-border bg-card/80 p-4"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
                       {item.icon}
                     </span>
-                    <div>
+                    <div className="min-w-0 flex-1">
                       <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{item.label}</p>
-                      <div className="flex items-center gap-2">
-                        {item.link ? (
-                          <a
-                            href={item.link}
-                            target={item.link.startsWith("http") ? "_blank" : undefined}
-                            rel={item.link.startsWith("http") ? "noreferrer" : undefined}
-                            onClick={() => triggerHaptic()}
-                            className="text-sm font-medium text-foreground hover:text-primary"
-                            aria-label={item.label === "Email" ? emailAriaLabel : item.label}
-                          >
-                            {item.value}
-                          </a>
-                        ) : (
-                          <p className="text-sm font-medium text-foreground">{item.value}</p>
-                        )}
-                        {item.copyValue && (
-                          <button
-                            type="button"
-                            onClick={() => handleCopy(item.copyValue, item.label)}
-                            className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-border bg-background/70 text-muted-foreground transition hover:border-primary/40 hover:text-primary"
-                            aria-label={`Copy ${item.label}`}
-                          >
-                            <Copy className="h-3.5 w-3.5" />
-                          </button>
-                        )}
-                      </div>
+                      {item.link ? (
+                        <a
+                          href={item.link}
+                          target={item.link.startsWith("http") ? "_blank" : undefined}
+                          rel={item.link.startsWith("http") ? "noreferrer" : undefined}
+                          onClick={() => triggerHaptic()}
+                          className="block truncate text-sm font-medium text-foreground hover:text-primary"
+                          aria-label={item.label === "Email" ? emailAriaLabel : item.label}
+                        >
+                          {item.value}
+                        </a>
+                      ) : (
+                        <p className="truncate text-sm font-medium text-foreground">{item.value}</p>
+                      )}
                     </div>
+                    {item.copyValue && (
+                      <button
+                        type="button"
+                        onClick={() => handleCopy(item.copyValue, item.label)}
+                        className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border bg-background/70 transition ${
+                          copiedLabel === item.label
+                            ? "border-primary/40 text-primary"
+                            : "border-border text-muted-foreground hover:border-primary/40 hover:text-primary"
+                        }`}
+                        aria-label={copiedLabel === item.label ? `${item.label} copied` : `Copy ${item.label}`}
+                      >
+                        <AnimatePresence mode="wait" initial={false}>
+                          {copiedLabel === item.label ? (
+                            <motion.span
+                              key="check"
+                              initial={{ scale: 0, opacity: 0 }}
+                              animate={{ scale: 1, opacity: 1 }}
+                              exit={{ scale: 0, opacity: 0 }}
+                              transition={{ duration: 0.15 }}
+                            >
+                              <Check className="h-4 w-4" />
+                            </motion.span>
+                          ) : (
+                            <motion.span
+                              key="copy"
+                              initial={{ scale: 0, opacity: 0 }}
+                              animate={{ scale: 1, opacity: 1 }}
+                              exit={{ scale: 0, opacity: 0 }}
+                              transition={{ duration: 0.15 }}
+                            >
+                              <Copy className="h-4 w-4" />
+                            </motion.span>
+                          )}
+                        </AnimatePresence>
+                      </button>
+                    )}
                   </div>
                 </motion.div>
               ))}

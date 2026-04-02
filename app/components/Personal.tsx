@@ -22,25 +22,25 @@ const games: Game[] = [
     id: "god-of-war",
     title: "God of War",
     image: "/images/personal/god-of-war.webp",
-    description: "Kratos's journey of redemption and fatherhood. The way it weaves Norse mythology with raw emotion - chef's kiss.",
+    description: "Kratos and Atreus. The father-son dynamic, the Norse mythology, the combat. This game just hits different every time I replay it.",
   },
   {
     id: "last-of-us",
     title: "The Last of Us",
     image: "/images/personal/last-of-us.jpg",
-    description: "Joel and Ellie's story broke me. The writing, the world, the choices - it's less a game and more an experience.",
+    description: "I don't think any game has wrecked me the way this one did. Joel and Ellie's story is less a game and more something that stays with you.",
   },
   {
     id: "ghost-of-tsushima",
     title: "Ghost of Tsushima",
     image: "/images/personal/ghost-of-tsushima.jpg",
-    description: "Feudal Japan brought to life. Every frame is a painting. The haiku composing, the wind guiding you - pure poetry.",
+    description: "Every single frame of this game looks like a painting. And the haiku composing, the wind guiding you around the map. Pure poetry.",
   },
   {
     id: "spiderman-game",
     title: "Spider-Man",
     image: "/images/personal/spiderman-game.webp",
-    description: "Swinging through NYC never gets old. Insomniac nailed what it feels like to BE Spider-Man.",
+    description: "Swinging through NYC never gets old. Insomniac absolutely nailed what it feels like to be Spider-Man.",
   },
   {
     id: "fifa",
@@ -55,13 +55,13 @@ const marvelFavorites = [
     id: "spiderman",
     name: "Spider-Man",
     image: "/images/personal/spiderman.jpg",
-    reason: "There's something about the way he never gives up - no matter how beaten, how broken, he always stands back up. That resilience resonates with me deeply.",
+    reason: "No matter how beaten, how outmatched, he gets back up. Every time. That kind of resilience is something I try to carry into my own life.",
   },
   {
     id: "ironman",
     name: "Iron Man",
     image: "/images/personal/ironman.jpg",
-    reason: "Always ready with a backup plan. Backups of backups. If one thing goes south, no worries - there's another plan. That level of preparation and foresight is something I deeply admire.",
+    reason: "Always has a backup plan. And a backup for the backup. If one thing goes south, there's already another plan ready. I try to think like that when I'm building systems.",
   },
 ]
 
@@ -70,19 +70,19 @@ const lifestyle = [
     id: "swimming",
     icon: <Waves className="h-5 w-5" />,
     label: "Swimming",
-    detail: "There's a meditative quality to being in water. It's where I disconnect and reset.",
+    detail: "Something about being in water just resets my brain. It's where I go to disconnect.",
   },
   {
     id: "coffee",
     icon: <Coffee className="h-5 w-5" />,
     label: "Coffee",
-    detail: "The ritual of a good cup. Less about the caffeine, more about the pause it creates.",
+    detail: "It's less about the caffeine and more about the five minutes of calm. The ritual of it.",
   },
   {
     id: "sunsets",
     icon: <Sun className="h-5 w-5" />,
     label: "Sunsets",
-    detail: "End of Santa Monica Pier, watching the sun dip below the horizon. Those quiet moments of stillness.",
+    detail: "End of Santa Monica Pier, watching the sun go down. Honestly one of my favorite things about living in LA.",
   },
 ]
 
@@ -167,7 +167,7 @@ export default function Personal({ setActiveSection }: PersonalProps) {
         >
           <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Beyond the Code</p>
           <h2 className="font-display text-3xl text-foreground sm:text-4xl">
-            What keeps me going outside of work.
+            Stuff I care about when I'm not coding.
           </h2>
         </motion.div>
 
@@ -280,7 +280,7 @@ export default function Personal({ setActiveSection }: PersonalProps) {
                 whileTap={{ scale: 0.98 }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
                 viewport={{ once: true }}
-                className="group flex items-center gap-4 rounded-2xl border border-border bg-card/80 p-5 text-left shadow-[0_12px_40px_-20px_rgba(0,0,0,0.3)] transition hover:border-primary/30"
+                className="group flex items-center gap-4 rounded-2xl border border-border bg-card/80 p-5 text-left shadow-card transition hover:border-primary/30"
               >
                 <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition group-hover:bg-primary/15">
                   {item.icon}

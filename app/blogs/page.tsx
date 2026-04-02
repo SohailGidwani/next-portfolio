@@ -105,7 +105,7 @@ export default function BlogsPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: index * 0.05 }}
-                    className="group flex h-full cursor-pointer flex-col rounded-3xl border border-border bg-card/80 shadow-[0_18px_50px_-40px_rgba(0,0,0,0.45)] transition hover:-translate-y-1 hover:border-primary/30"
+                    className="group flex h-full cursor-pointer flex-col rounded-3xl border border-border bg-card/80 shadow-card transition hover:-translate-y-1 hover:border-primary/30"
                   >
                     <div className="relative h-48 w-full overflow-hidden rounded-t-3xl bg-background/70">
                       {blog.coverImageUrl ? (

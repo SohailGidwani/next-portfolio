@@ -374,10 +374,10 @@ export default function Skills({ setActiveSection, onSkillHover }: SkillsProps) 
         >
           <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Skills</p>
           <h2 className="font-display text-3xl text-foreground sm:text-4xl">
-            Building across the full AI and CS spectrum.
+            Tools I actually use, not just ones I've heard of.
           </h2>
           <p className="text-sm text-muted-foreground">
-            Hover a skill to spotlight related projects and experience.
+            Hover any skill to see where I've used it.
           </p>
         </motion.div>
 
@@ -396,7 +396,7 @@ export default function Skills({ setActiveSection, onSkillHover }: SkillsProps) 
                 transition={{ duration: 0.4, delay: index * 0.08 }}
                 viewport={{ once: true }}
                 aria-expanded={isActive}
-                className={`group rounded-3xl border border-border bg-card/80 p-6 text-left shadow-[0_20px_60px_-50px_rgba(0,0,0,0.4)] transition hover:-translate-y-1 ${
+                className={`group rounded-3xl border border-border bg-card/80 p-6 text-left shadow-card transition hover:-translate-y-1 ${
                   group.isFocus ? "ring-1 ring-primary/30" : ""
                 }`}
               >
@@ -429,7 +429,7 @@ export default function Skills({ setActiveSection, onSkillHover }: SkillsProps) 
                         {skill.name}
                       </span>
                     ))}
-                    <span className="text-xs text-muted-foreground">Tap to expand</span>
+                    <span className="ml-1 text-[11px] italic text-muted-foreground/60">+ more</span>
                   </div>
                 )}
 

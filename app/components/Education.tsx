@@ -123,7 +123,7 @@ export default function Education({ setActiveSection }: EducationProps) {
               <span className="absolute -left-[34px] top-2 flex h-6 w-6 items-center justify-center rounded-full border border-border bg-card text-primary">
                 <GraduationCap className="h-3.5 w-3.5" />
               </span>
-              <div className="rounded-3xl border border-border bg-card/80 p-6 shadow-[0_20px_60px_-50px_rgba(0,0,0,0.4)]">
+              <div className="rounded-3xl border border-border bg-card/80 p-6 shadow-card">
                 <div className="flex flex-wrap items-center justify-between gap-4">
                   <div className="flex items-center gap-4">
                     <div className="relative h-12 w-12 overflow-hidden rounded-2xl border border-border bg-background">
