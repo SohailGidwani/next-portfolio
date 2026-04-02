@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
-import { Briefcase, Calendar } from "lucide-react"
+import { ArrowUpRight, Briefcase, Calendar } from "lucide-react"
 import Image, { StaticImageData } from "next/image"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/app/components/ui/dialog"
 import { Badge } from "@/app/components/ui/badge"
@@ -136,6 +136,11 @@ export default function Experience({ setActiveSection, activeSkill }: Experience
     setSelected(experience)
   }
 
+  const [featured, ...restExperiences] = experiences
+  const featuredHighlighted = normalizedSkill && featured
+    ? featured.tags.some((tag) => tag.toLowerCase() === normalizedSkill)
+    : false
+
   return (
     <section id="experience" ref={sectionRef} className="py-16 sm:py-20">
       <div className="container mx-auto px-4">
@@ -152,69 +157,63 @@ export default function Experience({ setActiveSection, activeSkill }: Experience
           </h2>
         </motion.div>
 
-        <div className="relative mt-10 space-y-8 pl-10">
-          <div className="pointer-events-none absolute left-3 top-3 bottom-3 w-px -translate-x-1/2 bg-gradient-to-b from-border/0 via-border to-border/0" />
-          {experiences.map((item, index) => {
-            const isHighlighted = normalizedSkill
-              ? item.tags.some((tag) => tag.toLowerCase() === normalizedSkill)
-              : false
-
-            return (
+        <div className="mt-10 space-y-6">
+          {featured && (
             <motion.div
-              key={`${item.company}-${item.title}`}
+              key={`${featured.company}-${featured.title}`}
               role="button"
               tabIndex={0}
               aria-haspopup="dialog"
-              aria-label={`View details for ${item.title} at ${item.company}`}
-              onClick={() => openModal(item)}
+              aria-label={`View details for ${featured.title} at ${featured.company}`}
+              onClick={() => openModal(featured)}
               onKeyDown={(event) => {
                 if (event.key === "Enter" || event.key === " ") {
                   event.preventDefault()
-                  openModal(item)
+                  openModal(featured)
                 }
               }}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: index * 0.08 }}
+              transition={{ duration: 0.4 }}
               viewport={{ once: true }}
-              className="group relative w-full cursor-pointer text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+              className={`group cursor-pointer rounded-3xl border bg-card/80 p-6 shadow-card transition hover:-translate-y-1 sm:p-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background ${
+                featuredHighlighted
+                  ? "border-primary/40 ring-1 ring-primary/20"
+                  : "border-border ring-1 ring-primary/15"
+              }`}
             >
-              <span className="absolute -left-10 top-6 flex h-6 w-6 items-center justify-center rounded-full border border-border bg-card text-primary shadow-sm">
-                <Briefcase className="h-3 w-3" />
-              </span>
-              <div
-                className={`rounded-3xl border bg-card/80 p-6 shadow-card transition group-hover:-translate-y-1 ${
-                  isHighlighted ? "border-primary/40 ring-1 ring-primary/20" : "border-border"
-                }`}
-              >
-                <div className="flex flex-wrap items-center gap-4">
-                  <div className="relative h-12 w-12 overflow-hidden rounded-2xl border border-border bg-background">
-                    <Image
-                      src={item.logo}
-                      alt={`${item.company} logo`}
-                      fill
-                      className="object-cover"
-                      sizes="48px"
-                    />
-                  </div>
-                  <div>
-                    <h3 className="font-display text-lg text-foreground">{item.title}</h3>
-                    <p className="text-sm text-muted-foreground">{item.company}</p>
-                  </div>
-                  {item.isLatest && (
-                    <span className="ml-auto rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-primary">
-                      Active
-                    </span>
-                  )}
+              <div className="flex items-start gap-4 sm:gap-5">
+                <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-2xl border border-border bg-background sm:h-16 sm:w-16">
+                  <Image
+                    src={featured.logo}
+                    alt={`${featured.company} logo`}
+                    fill
+                    className="object-cover"
+                    sizes="64px"
+                  />
                 </div>
-                <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
-                  <Calendar className="h-3.5 w-3.5 text-primary" />
-                  {item.date}
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h3 className="font-display text-lg text-foreground sm:text-xl">{featured.title}</h3>
+                    {featured.isLatest && (
+                      <span className="rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-primary">
+                        Active
+                      </span>
+                    )}
+                  </div>
+                  <p className="mt-0.5 text-sm text-muted-foreground">{featured.company}</p>
+                  <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
+                    <Calendar className="h-3.5 w-3.5 text-primary" />
+                    {featured.date}
+                  </div>
                 </div>
-                <p className="mt-4 text-sm text-muted-foreground">{item.description}</p>
+              </div>
 
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {item.tags.map((tag) => {
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-[15px]">{featured.description}</p>
+
+              <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2">
+                <div className="flex flex-wrap gap-2">
+                  {featured.tags.map((tag) => {
                     const isTagHighlighted = normalizedSkill
                       ? tag.toLowerCase() === normalizedSkill
                       : false
@@ -231,13 +230,95 @@ export default function Experience({ setActiveSection, activeSkill }: Experience
                     )
                   })}
                 </div>
-
-                <span className="mt-4 inline-flex text-xs font-semibold uppercase tracking-[0.2em] text-primary/70">
-                  View details
+                <span className="ml-auto inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.2em] text-primary/70 transition group-hover:text-primary">
+                  Details
+                  <ArrowUpRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </span>
               </div>
             </motion.div>
-          )})}
+          )}
+
+          {restExperiences.length > 0 && (
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {restExperiences.map((item, index) => {
+                const isHighlighted = normalizedSkill
+                  ? item.tags.some((tag) => tag.toLowerCase() === normalizedSkill)
+                  : false
+
+                return (
+                  <motion.div
+                    key={`${item.company}-${item.title}`}
+                    role="button"
+                    tabIndex={0}
+                    aria-haspopup="dialog"
+                    aria-label={`View details for ${item.title} at ${item.company}`}
+                    onClick={() => openModal(item)}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault()
+                        openModal(item)
+                      }
+                    }}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: index * 0.08 }}
+                    viewport={{ once: true }}
+                    className={`group cursor-pointer rounded-3xl border bg-card/80 p-5 shadow-card transition hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background ${
+                      isHighlighted ? "border-primary/40 ring-1 ring-primary/20" : "border-border"
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-xl border border-border bg-background">
+                        <Image
+                          src={item.logo}
+                          alt={`${item.company} logo`}
+                          fill
+                          className="object-cover"
+                          sizes="40px"
+                        />
+                      </div>
+                      <div className="min-w-0">
+                        <h3 className="font-display text-base leading-snug text-foreground">{item.title}</h3>
+                        <p className="text-xs text-muted-foreground">{item.company}</p>
+                      </div>
+                    </div>
+
+                    <div className="mt-2.5 flex items-center gap-2 text-xs text-muted-foreground">
+                      <Calendar className="h-3 w-3 text-primary" />
+                      {item.date}
+                    </div>
+
+                    <p className="mt-2.5 line-clamp-3 text-sm text-muted-foreground">{item.description}</p>
+
+                    <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                      <div className="flex flex-wrap gap-1.5">
+                        {item.tags.map((tag) => {
+                          const isTagHighlighted = normalizedSkill
+                            ? tag.toLowerCase() === normalizedSkill
+                            : false
+                          return (
+                            <Badge
+                              key={tag}
+                              variant="outline"
+                              className={`border-border/70 bg-background/60 text-[10px] font-semibold uppercase tracking-[0.2em] ${
+                                isTagHighlighted ? "border-primary/40 bg-primary/10 text-primary" : "text-muted-foreground"
+                              }`}
+                            >
+                              {tag}
+                            </Badge>
+                          )
+                        })}
+                      </div>
+                      <span className="ml-auto inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/70 transition group-hover:text-primary">
+                        Details
+                        <ArrowUpRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      </span>
+                    </div>
+                  </motion.div>
+                )
+              })}
+            </div>
+          )}
         </div>
       </div>
 

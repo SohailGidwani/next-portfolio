@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react"
 import { motion } from "framer-motion"
-import { Calendar, GraduationCap, MapPin } from "lucide-react"
+import { Calendar, MapPin } from "lucide-react"
 import Image, { StaticImageData } from "next/image"
 import { triggerHaptic } from "./ui/haptics"
 import uscLogo from "@/public/images/USC.jpg"
@@ -110,8 +110,7 @@ export default function Education({ setActiveSection }: EducationProps) {
           </h2>
         </motion.div>
 
-        <div className="relative mt-10 space-y-8 pl-10">
-          <div className="pointer-events-none absolute left-3 top-3 bottom-3 w-px -translate-x-1/2 bg-gradient-to-b from-border/0 via-border to-border/0" />
+        <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {education.map((item, index) => (
             <motion.div
               key={item.degree}
@@ -119,74 +118,76 @@ export default function Education({ setActiveSection }: EducationProps) {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="relative"
+              className={`group rounded-3xl border bg-card/80 p-5 shadow-card transition hover:-translate-y-1 ${
+                index === 0
+                  ? "border-border ring-1 ring-primary/10 md:col-span-2 lg:col-span-1"
+                  : "border-border"
+              }`}
             >
-              <span className="absolute -left-10 top-2 flex h-6 w-6 items-center justify-center rounded-full border border-border bg-card text-primary shadow-sm">
-                <GraduationCap className="h-3 w-3" />
-              </span>
-              <div className="rounded-3xl border border-border bg-card/80 p-6 shadow-card">
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                  <div className="flex items-center gap-4">
-                    <div className="relative h-12 w-12 overflow-hidden rounded-2xl border border-border bg-background">
-                      <Image
-                        src={item.logo}
-                        alt={`${item.institution} logo`}
-                        fill
-                        className="object-cover scale-100"
-                        sizes="48px"
-                      />
-                    </div>
-                    <div>
-                      <h3 className="font-display text-xl text-foreground">{item.degree}</h3>
-                      <p className="text-sm text-muted-foreground">{item.institution}</p>
-                    </div>
-                  </div>
-                  <span className="rounded-full border border-border bg-background/70 px-3 py-1 text-xs font-semibold text-muted-foreground">
-                    {item.cgpa}
-                  </span>
+              <div className="flex items-center gap-3.5">
+                <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-2xl border border-border bg-background">
+                  <Image
+                    src={item.logo}
+                    alt={`${item.institution} logo`}
+                    fill
+                    className="object-cover"
+                    sizes="48px"
+                  />
                 </div>
-
-                <div className="mt-4 flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
-                  <span className="flex items-center gap-2">
-                    <Calendar className="h-3.5 w-3.5 text-primary" />
-                    {item.year}
-                  </span>
-                  {item.location && (
-                    <span className="flex items-center gap-2">
-                      <MapPin className="h-3.5 w-3.5 text-primary" />
-                      {item.location}
-                    </span>
-                  )}
+                <div className="min-w-0">
+                  <h3 className="font-display text-lg text-foreground">{item.degree}</h3>
+                  <p className="text-sm text-muted-foreground">{item.institution}</p>
                 </div>
+              </div>
 
-                <p className="mt-4 text-sm text-muted-foreground">{item.description}</p>
-
-                {item.achievements && item.achievements.length > 0 && (
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {item.achievements.map((achievement) => (
-                      <span
-                        key={achievement}
-                        className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary"
-                      >
-                        {achievement}
-                      </span>
-                    ))}
-                  </div>
+              <div className="mt-4 flex flex-wrap items-center gap-3">
+                <span className="rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-[11px] font-semibold text-primary">
+                  {item.cgpa}
+                </span>
+                <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <Calendar className="h-3 w-3 text-primary" />
+                  {item.year}
+                </span>
+                {item.location && (
+                  <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                    <MapPin className="h-3 w-3 text-primary" />
+                    {item.location}
+                  </span>
                 )}
+              </div>
 
-                {item.courses && (
-                  <div className="mt-4 flex flex-wrap gap-2">
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
+
+              {item.achievements && item.achievements.length > 0 && (
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {item.achievements.map((achievement) => (
+                    <span
+                      key={achievement}
+                      className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary"
+                    >
+                      {achievement}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {item.courses && item.courses.length > 0 && (
+                <div className="mt-4 space-y-2">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground/70">
+                    Coursework
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
                     {item.courses.map((course) => (
                       <span
                         key={course}
-                        className="rounded-full border border-border bg-background/60 px-3 py-1 text-xs text-muted-foreground"
+                        className="rounded-full border border-border/70 bg-background/60 px-2.5 py-0.5 text-[11px] text-muted-foreground"
                       >
                         {course}
                       </span>
                     ))}
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </motion.div>
           ))}
         </div>
