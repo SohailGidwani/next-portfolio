@@ -22,6 +22,9 @@ export default function NotFound() {
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
+      <title>Page Not Found — Sohail Gidwani</title>
+      <meta name="robots" content="noindex, nofollow" />
+
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-32 right-[-10%] h-[320px] w-[320px] rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.16),transparent_70%)] blur-2xl" />
         <div className="absolute bottom-[-20%] left-[-12%] h-[320px] w-[320px] rounded-full bg-[radial-gradient(circle,rgba(251,146,60,0.18),transparent_70%)] blur-3xl" />

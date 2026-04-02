@@ -91,6 +91,8 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="theme-color" content="#f5efe7" />
         <meta name="msapplication-TileColor" content="#f5efe7" />
+        <link rel="author" href="https://sohailgidwani.app" />
+        <link rel="alternate" type="text/plain" title="LLM information" href="/llms.txt" />
         {/* Structured Data */}
         <Script
           id="structured-data"
@@ -106,13 +108,14 @@ export default function RootLayout({
                   "givenName": "Sohail",
                   "familyName": "Gidwani",
                   "jobTitle": "AI / CS Engineer",
-                  "description": "AI/ML software developer specializing in full-stack development, RAG systems, and applied intelligence. Currently pursuing M.S. in Computer Science at USC.",
+                  "description": "AI/ML software developer specializing in full-stack development, RAG systems, and applied intelligence. Graduating with M.S. in Computer Science from USC in May 2027.",
                   "url": "https://sohailgidwani.app",
                   "image": "https://sohailgidwani.app/api/og",
                   "email": "sohailgidwani15@gmail.com",
                   "sameAs": [
                     "https://github.com/SohailGidwani",
-                    "https://www.linkedin.com/in/sohail-gidwani/"
+                    "https://www.linkedin.com/in/sohail-gidwani/",
+                    "https://x.com/sohailgidwani"
                   ],
                   "address": {
                     "@type": "PostalAddress",
@@ -183,6 +186,10 @@ export default function RootLayout({
                     "Technology",
                     "Machine Learning Research"
                   ],
+                  "nationality": {
+                    "@type": "Country",
+                    "name": "India"
+                  },
                   "knowsLanguage": [
                     {
                       "@type": "Language",
@@ -191,6 +198,10 @@ export default function RootLayout({
                     {
                       "@type": "Language",
                       "name": "Hindi"
+                    },
+                    {
+                      "@type": "Language",
+                      "name": "Sindhi"
                     }
                   ],
                   "hobbies": [
@@ -261,12 +272,7 @@ export default function RootLayout({
                   "publisher": {
                     "@id": "https://sohailgidwani.app/#person"
                   },
-                  "inLanguage": "en",
-                  "potentialAction": {
-                    "@type": "SearchAction",
-                    "target": "https://sohailgidwani.app/#projects",
-                    "query-input": "required name=search_term_string"
-                  }
+                  "inLanguage": "en"
                 },
                 {
                   "@type": "ProfilePage",

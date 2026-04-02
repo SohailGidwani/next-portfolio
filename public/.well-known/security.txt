@@ -1,0 +1,7 @@
+# Security contact for sohailgidwani.app
+# https://securitytxt.org/
+
+Contact: mailto:sohailgidwani15@gmail.com
+Preferred-Languages: en
+Canonical: https://sohailgidwani.app/.well-known/security.txt
+Expires: 2027-04-02T00:00:00.000Z

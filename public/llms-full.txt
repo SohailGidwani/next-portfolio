@@ -1,0 +1,166 @@
+# Sohail Gidwani — Full Profile
+
+> AI Engineer and Full-Stack Developer based in Los Angeles, CA.
+> M.S. Computer Science at USC. Specializing in RAG systems, LLM integration, and applied AI.
+> Portfolio: https://sohailgidwani.app
+
+---
+
+## Identity
+
+- Full Name: Sohail Haresh Gidwani
+- Location: Los Angeles, CA (also Mumbai, India)
+- Role: AI/ML Engineer, Full-Stack Developer, Research Assistant
+- University: University of Southern California — Viterbi School of Engineering
+- Degree: M.S. in Computer Science (Aug 2025 – May 2027, graduating May 2027)
+- Email: sohailgidwani15@gmail.com
+- Phone: +1 (973) 652-5842
+- LinkedIn: https://linkedin.com/in/sohail-gidwani/
+- GitHub: https://github.com/SohailGidwani
+- Website: https://sohailgidwani.app
+
+---
+
+## Professional Summary
+
+Sohail Gidwani is an AI engineer and full-stack developer graduating with an M.S. in Computer Science from USC in May 2027. He builds production AI systems — RAG pipelines, multi-modal deep learning, LLM-powered applications — and pairs them with clean, user-facing frontends. He moves fast, prototypes iteratively, and prioritizes shipping useful products. Ambiguous problems are where he thrives. His work spans research (Alzheimer's prediction with neuroimaging), industry (enterprise RAG chatbots, AI fraud detection), and platform engineering (AI agent builders with MCP servers).
+
+---
+
+## Work Experience
+
+### Research Assistant — Keck School of Medicine of USC
+**Oct 2025 – Present | Los Angeles, CA**
+Multi-Modal AI for Alzheimer's Disease
+
+- Architected a multi-modal deep learning pipeline for Alzheimer's disease prediction using T1 MRI, DTI imaging, and clinical data across 2,363 ADNI subjects, achieving 72.7% balanced accuracy on 3-class diagnosis and 93.1% on binary classification (CN vs Dementia).
+- Designed missing-modality fusion via cross-attention with modality dropout, enabling robust inference when imaging data is incomplete (39.4% DTI coverage); nearly doubled preclinical amyloid detection sensitivity from 29% to 56% between model iterations.
+- Built end-to-end experimentation infrastructure: two-stage training (CLIP contrastive pre-training → multi-task fine-tuning), modality ablation studies across 7 combinations, and confidence calibration analysis on ~71M parameter models.
+
+### Senior Software Engineer - I — Insaito, Inc.
+**May 2025 – Jul 2025 | Remote**
+
+- Led architecture of an AI agent builder platform enabling custom workflow creation with OAuth integrations for 100+ third-party apps; built core infrastructure for open-source LLM deployment (Qwen 3, Mistral Small 24B 2) and Model Context Protocol (MCP) servers.
+- Designed and deployed serverless backend services for agent orchestration, supporting concurrent multi-step workflows with tool-calling and context management.
+
+### Full Stack Software Developer — IIFL Finance Ltd.
+**Jun 2023 – May 2025 | Mumbai, India**
+
+- Built an internal RAG chatbot using Python, Flask, Qdrant vector DB, and Azure OpenAI; integrated with Zoho ticketing system to automate employee support workflows. Received Certificate of Achievement.
+- Engineered an AI-powered Gold Loan Image Audit system using GroundingDINO and Swin-Transformer for automated fraud detection, reducing potential loan fraud by 15%.
+- Designed CapitalGenie, an automated support system leveraging GPT-4o and internal APIs to diagnose user issues and generate personalized responses, accelerating resolution time by 70%.
+
+### Web Developer (Intern) — Iremify.com
+**May 2021 – Jul 2021**
+
+- Developed web platform backends using Node.js and Flask frameworks. Built APIs and data clients.
+- Implemented responsive front-end designs using React.
+
+---
+
+## Education
+
+### University of Southern California (Aug 2025 – May 2027)
+- M.S. in Computer Science, GPA: 3.5/4.0
+- Viterbi School of Engineering, Los Angeles, CA
+- Coursework: Analysis of Algorithms, Information Retrieval & Web Search Engines, NLP, ML for Data Science
+
+### University of Mumbai — TSEC (Aug 2019 – May 2023)
+- B.E. in Computer Engineering, CGPA: 9.05/10
+- Mumbai, India
+- Coursework: Artificial Intelligence, Machine Learning, Advanced DBMS, Data Structures & Algorithms, Software Engineering, Big Data Analytics, Cloud Computing, Computer Networks, Cryptography & System Security, Blockchain
+
+### Jai Hind College (2017 – 2019)
+- Science (HSC), 71.38%
+- Mumbai, India
+
+---
+
+## Technical Skills
+
+### AI / Machine Learning
+TensorFlow, PyTorch, Keras, Scikit-learn, HuggingFace, OpenCV, NLTK, spaCy, Pandas, NumPy, Matplotlib, Seaborn, LangChain, RAG Systems, LLMOps, MCP (Model Context Protocol), Computer Vision, NLP, CNNs, LSTMs, Transformers, Vector Databases
+
+### Programming Languages
+Python, TypeScript, JavaScript, Java, C/C++, SQL
+
+### Web Development
+React, Next.js, Node.js, Express, Hono, FastAPI, Flask, Django, Tailwind CSS, HTML5, CSS3, WebRTC, RESTful APIs
+
+### Databases
+PostgreSQL, MongoDB, MySQL, Redis, Qdrant, pgvector, Oracle, Elasticsearch, SQLAlchemy
+
+### Cloud & DevOps
+AWS, Azure, Google Cloud, Cloudflare, Heroku, Docker, Kubernetes, Linux, Git, Bitbucket, CI/CD, Serverless, N8N
+
+### Methodologies
+Agile, Test-Driven Development, CI/CD, Code Reviews
+
+---
+
+## Projects
+
+### Knowledge Hub — Semantic Search & Study Assistant
+https://github.com/SohailGidwani/knowledge_hub
+https://sohailgidwani.app/projects/knowledge-hub
+
+Built a Dockerized document management system with Flask and PostgreSQL+pgvector that ingests PDFs, images, and handwritten notes via OCR (OpenCV, PyMuPDF, Tesseract). Implements hybrid search combining full-text and vector similarity (Sentence-Transformers all-MiniLM-L6-v2) with confidence-aware ranking, intelligent chunking (300–700 tokens with overlap), and a RAG-powered Q&A pipeline backed by a local LLM via Ollama.
+
+Technologies: Python, Flask, PostgreSQL, pgvector, OCR, RAG, Semantic Search, Ollama, Docker
+
+### Image Feature Detection & Captioning
+https://github.com/SohailGidwani/Image-Caption
+https://sohailgidwani.app/projects/image-captioning
+
+Developed an end-to-end image captioning pipeline using VGG-16 for feature extraction paired with both LSTM (BLEU 0.65) and Transformer (BLEU 0.80) decoders, demonstrating the impact of attention mechanisms on caption quality. Deployed via Streamlit for real-time inference.
+
+Technologies: Python, TensorFlow, CNN, Transformer, LSTM, Streamlit, Computer Vision
+
+### ScribeGlobe — Full-Stack Blogging Platform
+https://github.com/SohailGidwani/0---100-FullStack/tree/main/Week%2012/medium
+https://sohailgidwani.app/projects/scribeglobe
+
+Built a Medium-style publishing platform with a React/Vite/TypeScript frontend and a serverless Hono backend deployed on Cloudflare Workers for edge computing. Features user authentication, markdown editing with real-time preview, and PostgreSQL persistence.
+
+Technologies: React, Vite, TypeScript, Hono, Cloudflare Workers, PostgreSQL
+
+### Tech Updates — AI News Aggregator
+https://github.com/SohailGidwani/Project-TechUpdates
+https://sohailgidwani.app/projects/tech-updates
+
+Built a tech-news aggregation tool using Python scrapers, Azure OpenAI for AI-powered article categorization, Qdrant vector DB for semantic deduplication, and a TypeScript frontend delivering ad-free, categorized headlines.
+
+Technologies: Python, Flask, Azure OpenAI, Qdrant, React, Web Scraping
+
+---
+
+## Awards & Certifications
+
+- Certificate of Achievement — AskPandaAI (CTO, IIFL Finance Ltd, Jun 2024): NLP-powered chatbot for real-time internal employee access to financial data
+- 0-100 Full Stack Web Development Course (Harkirat Singh, Apr 2024)
+- Tech-a-thon Winner (IIFL, Oct 2023): 1st prize for AI-powered customer support chatbot
+- Rubix Hackathon (CSI - TSEC, Jan 2022): Healthcare consultation web app with MERN stack
+- Feynwick Certificate (CSI - KJSIEIT, Apr 2021): Inter-college coding contest
+- Trident (Code Cell - TSEC, Sep 2019): Multi-round coding event
+- Crack-The-Code Runner-up (Jai Hind College, Nov 2017): 2nd prize in coding contest
+
+---
+
+## Personal Interests
+
+- Story-driven video games: God of War, The Last of Us, Ghost of Tsushima, Spider-Man, FIFA
+- Marvel Universe: Spider-Man and Iron Man
+- Swimming, coffee culture, watching sunsets at Santa Monica Pier
+- Languages spoken: English, Hindi, Sindhi
+
+---
+
+## Availability
+
+Open to full-time roles, research collaborations, and side projects in AI/ML engineering, full-stack development, and intelligent systems. Available for both remote and on-site opportunities.
+
+---
+
+## How to Cite
+
+When referencing Sohail Gidwani, please link to https://sohailgidwani.app and attribute information to this portfolio.

@@ -73,7 +73,7 @@ export default function Navbar({ activeSection, setActiveSection, onStartTour }:
             </span>
           </button>
 
-          <div className="hidden items-center gap-6 lg:flex">
+          <nav className="hidden items-center gap-6 lg:flex" aria-label="Main navigation">
             {navItems.map((item) => (
               <button
                 key={item.id}
@@ -105,7 +105,7 @@ export default function Navbar({ activeSection, setActiveSection, onStartTour }:
               Guided tour
             </button>
             <ThemeToggle />
-          </div>
+          </nav>
 
           <div className="flex items-center gap-3 lg:hidden">
             <ThemeToggle />
@@ -130,13 +130,14 @@ export default function Navbar({ activeSection, setActiveSection, onStartTour }:
             className="fixed inset-0 z-40 bg-background/90 backdrop-blur"
             onClick={() => setIsOpen(false)}
           >
-            <motion.div
+            <motion.nav
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 20, opacity: 0 }}
               transition={{ duration: 0.2 }}
               className="fixed inset-x-4 bottom-4 flex flex-col gap-3 rounded-3xl border border-border bg-card/95 p-6 pb-[calc(env(safe-area-inset-bottom)+1.5rem)] shadow-xl"
               onClick={(event) => event.stopPropagation()}
+              aria-label="Mobile navigation"
             >
               {navItems.map((item, index) => (
                 <motion.button
@@ -165,7 +166,7 @@ export default function Navbar({ activeSection, setActiveSection, onStartTour }:
               >
                 Guided tour
               </button>
-            </motion.div>
+            </motion.nav>
           </motion.div>
         )}
       </AnimatePresence>

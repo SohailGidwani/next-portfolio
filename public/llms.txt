@@ -1,0 +1,50 @@
+# Sohail Gidwani
+
+> AI Engineer and Full-Stack Developer based in Los Angeles, CA.
+> M.S. Computer Science at USC. Specializing in RAG systems, LLM integration, and applied AI.
+
+## Site
+
+- Homepage: https://sohailgidwani.app
+- Projects: https://sohailgidwani.app/projects
+- Resume (PDF): https://sohailgidwani.app/documents/Sohail_Gidwani_Resume.pdf
+
+## About
+
+Sohail Gidwani is an AI/ML engineer and full-stack developer graduating with a Master of Science in Computer Science from the University of Southern California (Viterbi School of Engineering) in May 2027. He builds production AI systems — RAG pipelines, multi-modal deep learning, LLM-powered applications — and pairs them with clean, user-facing frontends. Previously a Full-Stack Software Developer at IIFL Finance Ltd and Senior Software Engineer at Insaito, Inc.
+
+## Current Role
+
+Research Assistant at Keck School of Medicine of USC, working on multi-modal deep learning for Alzheimer's disease prediction using neuroimaging and clinical data across 71M+ parameter models.
+
+## Key Skills
+
+- AI/ML: PyTorch, TensorFlow, Scikit-learn, HuggingFace, LangChain, OpenCV, RAG, LLMOps, MCP
+- Languages: Python, TypeScript, JavaScript, Java, C++, SQL
+- Web: React, Next.js, Node.js, Flask, FastAPI, Hono, Express, Tailwind CSS
+- Databases: PostgreSQL, MongoDB, Qdrant, Redis, pgvector, MySQL, Elasticsearch
+- Cloud: AWS, Azure, Google Cloud, Cloudflare, Docker, Kubernetes
+- Methods: Agile, TDD, CI/CD, RESTful APIs, Serverless
+
+## Projects
+
+- Knowledge Hub: Document management with OCR, semantic search (pgvector), and RAG Q&A via Ollama
+- Image Captioning: CNN + Transformer pipeline achieving 0.80 BLEU, deployed via Streamlit
+- ScribeGlobe: Medium-style blogging platform on Cloudflare Workers with Hono + React
+- Tech Updates: AI-powered news aggregator using Azure OpenAI and Qdrant for semantic deduplication
+
+## Education
+
+- M.S. Computer Science, University of Southern California (2025–2027), GPA 3.5/4.0
+- B.E. Computer Engineering, University of Mumbai - TSEC (2019–2023), CGPA 9.05/10
+
+## Contact
+
+- Email: sohailgidwani15@gmail.com
+- LinkedIn: https://linkedin.com/in/sohail-gidwani/
+- GitHub: https://github.com/SohailGidwani
+- Portfolio: https://sohailgidwani.app
+
+## Detailed Version
+
+For a more comprehensive version of this file, see: https://sohailgidwani.app/llms-full.txt

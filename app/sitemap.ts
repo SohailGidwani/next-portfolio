@@ -1,28 +1,7 @@
 import { MetadataRoute } from 'next'
-import { initDb, pool } from '@/lib/db'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://sohailgidwani.app'
-
-  // Fetch blogs to include individual URLs
-  let blogEntries: MetadataRoute.Sitemap = []
-  try {
-    await initDb()
-    type BlogRow = { slug: string; updatedAt: string | Date | null; createdAt: string | Date | null }
-    const { rows } = await pool.query<BlogRow>('SELECT slug, updated_at AS "updatedAt", created_at AS "createdAt" FROM blogs ORDER BY created_at DESC')
-    blogEntries = rows.map((r: BlogRow) => {
-      const last = r.updatedAt ?? r.createdAt ?? new Date()
-      const lastModified = last instanceof Date ? last : new Date(last)
-      return {
-        url: `${baseUrl}/blogs/${r.slug}`,
-        lastModified,
-        changeFrequency: 'weekly',
-        priority: 0.7,
-      }
-    })
-  } catch {
-    // If DB not available locally, skip dynamic blogs
-  }
 
   return [
     {
@@ -61,12 +40,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
-    {
-      url: `${baseUrl}/blogs`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    ...blogEntries,
   ]
 }
