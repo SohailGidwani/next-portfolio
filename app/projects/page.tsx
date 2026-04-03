@@ -9,8 +9,6 @@ import knowledgeHub from "@/public/images/KnowledgeHub_1.png"
 import imagecaption from "@/public/images/BE-Project.jpg"
 import blogsite from "@/public/images/BlogSite.jpg"
 import techupdates from "@/public/images/Tech Updates.png"
-import ThemeToggle from "@/app/components/ThemeToggle"
-
 const projects = [
   {
     id: "knowledge-hub",
@@ -58,7 +56,6 @@ export default function ProjectsPage() {
             <Home className="h-4 w-4" />
             Back to portfolio
           </Link>
-          <ThemeToggle />
         </div>
       </div>
 

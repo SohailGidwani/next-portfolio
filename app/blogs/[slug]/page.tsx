@@ -1,5 +1,4 @@
 import { initDb, pool } from "@/lib/db"
-import ThemeToggle from "@/app/components/ThemeToggle"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import { Metadata } from "next"
@@ -77,7 +76,6 @@ export default async function BlogDetail({ params }: Props) {
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to blogs
           </Link>
-          <ThemeToggle />
         </div>
       </div>
 

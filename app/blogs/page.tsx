@@ -3,7 +3,6 @@
 import { motion } from "framer-motion"
 import Link from "next/link"
 import Image from "next/image"
-import ThemeToggle from "@/app/components/ThemeToggle"
 import { ArrowUpRight, Home } from "lucide-react"
 import { useEffect, useState } from "react"
 import Script from "next/script"
@@ -61,7 +60,6 @@ export default function BlogsPage() {
             <Home className="h-4 w-4" />
             Back to portfolio
           </Link>
-          <ThemeToggle />
         </div>
       </div>
 

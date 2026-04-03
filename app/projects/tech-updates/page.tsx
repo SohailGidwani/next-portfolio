@@ -9,7 +9,6 @@ import Link from "next/link"
 import Image from "next/image"
 import techupdates from '@/public/images/Tech Updates.png'
 import ProjectSkeleton from "@/app/components/ProjectSkeleton"
-import ThemeToggle from "@/app/components/ThemeToggle"
 import ProjectDetailStructuredData from "@/app/components/ProjectDetailStructuredData"
 
 export default function TechUpdatesPage() {
@@ -89,12 +88,7 @@ The frontend is React + Vite. Nothing groundbreaking there, but it's fast and th
           {/* Header */}
           <div className="bg-gradient-to-br from-primary/10 via-background to-accent/10 py-20">
             <div className="container mx-auto px-4">
-              {/* Theme Toggle - Top Right */}
-              <div className="flex justify-end mb-6">
-                <ThemeToggle />
-              </div>
-              
-              <motion.div
+                            <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}

@@ -84,7 +84,7 @@ No color in the UI. WebGL shaders are the only source of color on the entire sit
 
 ### Model: Hybrid
 
-Smooth natural scrolling as the baseline. Specific sections "pin" the viewport and play through an animated sequence driven by scroll position (GSAP ScrollTrigger `pin: true` + `scrub`). Between pinned sections, content scrolls normally with parallax and entrance animations.
+Native browser scrolling as the baseline (no Lenis or smooth-scroll library — GSAP ScrollTrigger works best with native scroll). Specific sections "pin" the viewport and play through an animated sequence driven by scroll position (GSAP ScrollTrigger `pin: true` + `scrub`). Between pinned sections, content scrolls normally with parallax and entrance animations.
 
 ### Section Flow
 
@@ -197,6 +197,7 @@ Smooth natural scrolling as the baseline. Specific sections "pin" the viewport a
 #### 9. Contact (Pinned)
 - Big dramatic text: "Let's build something." in Instrument Serif italic
 - Email, social links (GitHub, LinkedIn, etc.), minimal contact form materialize with stagger
+- Contact form submission: retain existing behavior (or `mailto:` fallback if no backend handler exists)
 - WebGL shader returns — same liquid glass from hero but morphing into a calmer, resolved state
 - Feels like a landing, a resolution — not just a footer
 - Pin duration: ~1.5x viewport height
@@ -354,7 +355,7 @@ Site is dark-only. `next-themes` can remain installed but the toggle component i
 | Largest Contentful Paint | <2.5s |
 | Total Blocking Time | <200ms |
 | Cumulative Layout Shift | <0.1 |
-| JS bundle (gzip) | <350KB total |
+| JS bundle (gzip) | <350KB target (validate in early spike — Three.js is heavy) |
 | WebGL shader compile | <1s (covered by preloader) |
 | 60fps during scroll | Mandatory — drop shader quality before dropping frames |
 
@@ -366,6 +367,17 @@ Site is dark-only. `next-themes` can remain installed but the toggle component i
 - Images: existing Next.js Image optimization (WebP/AVIF, responsive sizes)
 - Font subsetting via `next/font/google`
 - Frame rate monitoring: if FPS drops below 30 for sustained period, auto-simplify shaders
+
+## Implementation Order
+
+Recommended rollout sequence so milestones are independently shippable:
+
+1. **Foundation** — design tokens (CSS vars), typography, new fonts, Tailwind config, remove theme toggle
+2. **Shell** — preloader, MinimalNav, scroll engine (GSAP setup), WebGL canvas wrapper
+3. **Homepage sections** — implement each section top-to-bottom (Hero → About → ... → Contact)
+4. **WebGL shaders** — liquid glass, morph transitions, gradient mesh (can develop in parallel with sections using CSS fallback placeholders)
+5. **Sub-pages** — restyle `/projects`, `/projects/[slug]`, `/blogs`, `/blogs/[slug]`, 404
+6. **Polish** — responsive QA, performance optimization, reduced-motion testing, accessibility audit
 
 ## Accessibility
 

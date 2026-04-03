@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { ArrowDownRight, Check, ChevronDown, Github, Linkedin, Mail, MapPin, Sparkles, Terminal } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
-import ShootingStars from "./ShootingStars"
 import toast from "react-hot-toast"
 
 interface HeroProps {
@@ -385,10 +384,6 @@ export default function Hero({ setActiveSection }: HeroProps) {
       {/* Aurora extends beyond section bottom so it doesn't clip hard */}
       <div className="pointer-events-none absolute inset-x-0 -top-20 -bottom-32" style={{ maskImage: "linear-gradient(to bottom, transparent 0%, black 5%, black 75%, transparent 100%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 5%, black 75%, transparent 100%)" }}>
         <AuroraMesh />
-      </div>
-
-      <div className="pointer-events-none absolute inset-0">
-        <ShootingStars />
       </div>
 
       <div className="container relative mx-auto">

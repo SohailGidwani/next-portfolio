@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { Menu, X } from "lucide-react"
-import ThemeToggle from "./ThemeToggle"
 import { triggerHaptic } from "./ui/haptics"
 
 interface NavbarProps {
@@ -104,11 +103,9 @@ export default function Navbar({ activeSection, setActiveSection, onStartTour }:
             >
               Guided tour
             </button>
-            <ThemeToggle />
           </nav>
 
           <div className="flex items-center gap-3 lg:hidden">
-            <ThemeToggle />
             <button
               type="button"
               onClick={() => setIsOpen((prev) => !prev)}
