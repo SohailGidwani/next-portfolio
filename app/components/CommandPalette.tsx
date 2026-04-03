@@ -13,15 +13,12 @@ import {
   Home,
   Linkedin,
   Mail,
-  Moon,
   Search,
   Sparkles,
-  Sun,
   Trophy,
   User,
   X,
 } from "lucide-react"
-import { useTheme } from "next-themes"
 import { triggerHaptic } from "./ui/haptics"
 
 interface CommandItem {
@@ -43,7 +40,6 @@ export default function CommandPalette({ onNavigate }: CommandPaletteProps) {
   const [search, setSearch] = useState("")
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [isMac, setIsMac] = useState(true)
-  const { resolvedTheme, setTheme } = useTheme()
 
   useEffect(() => {
     const platform = (navigator as Navigator & { userAgentData?: { platform: string } }).userAgentData?.platform ?? navigator.userAgent
@@ -64,7 +60,6 @@ export default function CommandPalette({ onNavigate }: CommandPaletteProps) {
 
   const commands: CommandItem[] = useMemo(
     () => [
-      // Navigation
       {
         id: "home",
         label: "Home",
@@ -146,31 +141,6 @@ export default function CommandPalette({ onNavigate }: CommandPaletteProps) {
         keywords: ["email", "hire", "connect"],
         category: "navigation",
       },
-      // Actions
-      {
-        id: "toggle-theme",
-        label: resolvedTheme === "dark" ? "Light Mode" : "Dark Mode",
-        description: "Toggle theme",
-        icon: resolvedTheme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />,
-        action: () => {
-          setTheme(resolvedTheme === "dark" ? "light" : "dark")
-          setIsOpen(false)
-        },
-        keywords: ["theme", "dark", "light", "mode"],
-        category: "actions",
-      },
-      // Links
-      // {
-      //   id: "blogs",
-      //   label: "Blogs",
-      //   description: "Read articles",
-      //   icon: <FileText className="h-4 w-4" />,
-      //   action: () => {
-      //     window.location.href = "/blogs"
-      //   },
-      //   keywords: ["articles", "posts", "writing"],
-      //   category: "links",
-      // },
       {
         id: "resume",
         label: "Resume",
@@ -208,7 +178,7 @@ export default function CommandPalette({ onNavigate }: CommandPaletteProps) {
         category: "links",
       },
     ],
-    [resolvedTheme, setTheme, scrollToSection]
+    [scrollToSection]
   )
 
   const filteredCommands = useMemo(() => {
@@ -275,7 +245,6 @@ export default function CommandPalette({ onNavigate }: CommandPaletteProps) {
     setSelectedIndex(0)
   }, [search])
 
-  // Scroll selected item into view
   const listRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
     if (!isOpen || !listRef.current) return
@@ -293,13 +262,12 @@ export default function CommandPalette({ onNavigate }: CommandPaletteProps) {
 
   return (
     <>
-      {/* Trigger hint */}
       <button
         onClick={() => {
           triggerHaptic()
           setIsOpen(true)
         }}
-        className="fixed bottom-6 right-6 z-40 hidden items-center gap-1.5 rounded-full border border-border bg-card/90 px-3 py-2 text-xs text-muted-foreground shadow-lg backdrop-blur transition hover:border-primary/40 hover:text-foreground md:inline-flex"
+        className="fixed bottom-6 right-6 z-40 hidden items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-2 text-xs text-white/30 backdrop-blur transition hover:text-white/50 hover:border-white/[0.15] md:inline-flex"
       >
         {isMac ? (
           <>
@@ -318,46 +286,42 @@ export default function CommandPalette({ onNavigate }: CommandPaletteProps) {
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm"
+              className="fixed inset-0 z-50 bg-[#090909]/80 backdrop-blur-sm"
             />
 
-            {/* Palette */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: -20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: -20 }}
               transition={{ duration: 0.15, ease: "easeOut" }}
-              className="fixed left-1/2 top-[20%] z-50 w-full max-w-lg -translate-x-1/2 overflow-hidden rounded-2xl border border-border bg-card shadow-2xl"
+              className="fixed left-1/2 top-[20%] z-50 w-full max-w-lg -translate-x-1/2 overflow-hidden rounded-2xl glass-elevated"
             >
-              {/* Search input */}
-              <div className="flex items-center gap-3 border-b border-border px-4 py-3">
-                <Search className="h-5 w-5 text-muted-foreground" />
+              <div className="flex items-center gap-3 border-b border-white/[0.06] px-4 py-3">
+                <Search className="h-5 w-5 text-white/25" />
                 <input
                   autoFocus
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search commands..."
-                  className="flex-1 bg-transparent text-base text-foreground outline-none placeholder:text-muted-foreground"
+                  className="flex-1 bg-transparent font-body text-sm text-white outline-none placeholder:text-white/20"
                 />
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="rounded-lg p-1 text-muted-foreground transition hover:bg-muted hover:text-foreground"
+                  className="rounded-lg p-1 text-white/25 transition hover:text-white/50"
                 >
                   <X className="h-4 w-4" />
                 </button>
               </div>
 
-              {/* Results */}
               <div ref={listRef} className="max-h-[60vh] overflow-y-auto p-2">
                 {filteredCommands.length === 0 ? (
-                  <div className="py-8 text-center text-sm text-muted-foreground">
+                  <div className="py-8 text-center font-body text-sm text-white/20">
                     No commands found
                   </div>
                 ) : (
@@ -365,7 +329,7 @@ export default function CommandPalette({ onNavigate }: CommandPaletteProps) {
                     ([category, items]) =>
                       items.length > 0 && (
                         <div key={category} className="mb-2">
-                          <div className="px-2 py-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                          <div className="px-2 py-1.5 text-[9px] font-body font-medium uppercase tracking-[0.3em] text-white/20">
                             {categoryLabels[category]}
                           </div>
                           {items.map((cmd) => {
@@ -381,29 +345,29 @@ export default function CommandPalette({ onNavigate }: CommandPaletteProps) {
                                 onMouseEnter={() => setSelectedIndex(globalIndex)}
                                 className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition ${
                                   selectedIndex === globalIndex
-                                    ? "bg-primary/10 text-foreground"
-                                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                                    ? "bg-white/[0.06] text-white"
+                                    : "text-white/30 hover:bg-white/[0.03] hover:text-white/50"
                                 }`}
                               >
                                 <span
                                   className={`flex h-8 w-8 items-center justify-center rounded-lg ${
                                     selectedIndex === globalIndex
-                                      ? "bg-primary/20 text-primary"
-                                      : "bg-muted text-muted-foreground"
+                                      ? "bg-white/[0.08] text-white/60"
+                                      : "bg-white/[0.03] text-white/20"
                                   }`}
                                 >
                                   {cmd.icon}
                                 </span>
                                 <div className="flex-1">
-                                  <div className="text-sm font-medium">{cmd.label}</div>
+                                  <div className="font-body text-sm font-medium">{cmd.label}</div>
                                   {cmd.description && (
-                                    <div className="text-xs text-muted-foreground">
+                                    <div className="font-body text-xs text-white/20">
                                       {cmd.description}
                                     </div>
                                   )}
                                 </div>
                                 {selectedIndex === globalIndex && (
-                                  <kbd className="rounded bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">
+                                  <kbd className="rounded bg-white/[0.06] px-1.5 py-0.5 font-mono text-[10px] text-white/25">
                                     Enter
                                   </kbd>
                                 )}
@@ -416,18 +380,17 @@ export default function CommandPalette({ onNavigate }: CommandPaletteProps) {
                 )}
               </div>
 
-              {/* Footer */}
-              <div className="flex items-center justify-between border-t border-border px-4 py-2 text-xs text-muted-foreground">
+              <div className="flex items-center justify-between border-t border-white/[0.06] px-4 py-2 font-mono text-[10px] text-white/20">
                 <div className="flex items-center gap-2">
-                  <kbd className="rounded bg-muted px-1.5 py-0.5">↑↓</kbd>
+                  <kbd className="rounded bg-white/[0.06] px-1.5 py-0.5">↑↓</kbd>
                   <span>Navigate</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <kbd className="rounded bg-muted px-1.5 py-0.5">Enter</kbd>
+                  <kbd className="rounded bg-white/[0.06] px-1.5 py-0.5">Enter</kbd>
                   <span>Select</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <kbd className="rounded bg-muted px-1.5 py-0.5">Esc</kbd>
+                  <kbd className="rounded bg-white/[0.06] px-1.5 py-0.5">Esc</kbd>
                   <span>Close</span>
                 </div>
               </div>

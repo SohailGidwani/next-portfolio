@@ -2,8 +2,6 @@
 
 import { Suspense } from "react"
 import { motion } from "framer-motion"
-import { Badge } from "@/app/components/ui/badge"
-import { Button } from "@/app/components/ui/button"
 import { Github, ArrowLeft, Code, Database, Globe, Zap } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
@@ -85,10 +83,9 @@ You can sign up, write posts with markdown, preview them in real time, and publi
       />
       <Suspense fallback={<ProjectSkeleton />}>
       <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-          {/* Header */}
-          <div className="bg-gradient-to-br from-primary/10 via-background to-accent/10 py-20">
+          <div className="py-20">
             <div className="container mx-auto px-4">
-                            <motion.div
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
@@ -96,28 +93,28 @@ You can sign up, write posts with markdown, preview them in real time, and publi
               >
                 <Link 
                   href="/projects" 
-                  className="inline-flex items-center text-primary hover:text-foreground mb-6 transition-colors"
+                  className="inline-flex items-center text-xs font-body font-medium uppercase tracking-[0.2em] text-white/40 hover:text-white mb-6 transition-colors"
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Back to Projects
                 </Link>
                 
-                <h1 className="font-display text-4xl md:text-6xl font-bold mb-6 text-foreground">
+                <h1 className="font-display italic text-4xl md:text-6xl mb-6 text-white">
                   {project.title}
                 </h1>
                 
-                <p className="text-xl text-muted-foreground mb-8">
+                <p className="font-body text-base text-white/35 mb-8">
                   {project.description}
                 </p>
                 
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-2">
                   {project.tags.map((tag, index) => (
-                    <Badge
+                    <span
                       key={index}
-                      className="bg-primary/10 text-primary text-sm"
+                      className="rounded-full border border-white/[0.06] bg-white/[0.03] px-2.5 py-0.5 font-mono text-[10px] text-white/30"
                     >
                       {tag}
-                    </Badge>
+                    </span>
                   ))}
                 </div>
               </motion.div>
@@ -135,7 +132,7 @@ You can sign up, write posts with markdown, preview them in real time, and publi
                   transition={{ duration: 0.6, delay: 0.2 }}
                   className="mb-12"
                 >
-                  <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl">
+                  <div className="relative h-96 rounded-2xl overflow-hidden glass">
                     <Image
                       src={project.image}
                       alt={project.title}
@@ -154,11 +151,11 @@ You can sign up, write posts with markdown, preview them in real time, and publi
                   transition={{ duration: 0.6, delay: 0.4 }}
                   className="mb-12"
                 >
-                  <h2 className="font-display text-3xl font-bold mb-6 text-foreground">
+                  <h2 className="font-display italic text-3xl mb-6 text-white">
                     Project Overview
                   </h2>
-                  <div className="prose prose-lg dark:prose-invert max-w-none">
-                    <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
+                  <div className="max-w-none">
+                    <p className="font-body text-sm text-white/35 leading-relaxed whitespace-pre-line">
                       {project.longDescription}
                     </p>
                   </div>
@@ -171,7 +168,7 @@ You can sign up, write posts with markdown, preview them in real time, and publi
                   transition={{ duration: 0.6, delay: 0.6 }}
                   className="mb-12"
                 >
-                  <h2 className="font-display text-3xl font-bold mb-8 text-foreground">
+                  <h2 className="font-display italic text-3xl mb-8 text-white">
                     Key Features
                   </h2>
                   <div className="grid gap-6 md:grid-cols-2">
@@ -181,17 +178,17 @@ You can sign up, write posts with markdown, preview them in real time, and publi
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
-                        className="p-6 bg-card/80 rounded-xl border border-border hover:shadow-lg transition-shadow"
+                        className="p-6 glass rounded-xl transition"
                       >
                         <div className="flex items-center mb-4">
-                          <div className="p-2 bg-primary/10 rounded-lg mr-4">
+                          <div className="p-2 bg-white/[0.05] rounded-lg mr-4 text-white/40">
                             {feature.icon}
                           </div>
-                          <h3 className="text-xl font-semibold text-foreground">
+                          <h3 className="font-display italic text-xl text-white">
                             {feature.title}
                           </h3>
                         </div>
-                        <p className="text-muted-foreground">
+                        <p className="font-body text-sm text-white/30">
                           {feature.description}
                         </p>
                       </motion.div>
@@ -206,15 +203,15 @@ You can sign up, write posts with markdown, preview them in real time, and publi
                   transition={{ duration: 0.6, delay: 1.0 }}
                   className="mb-12"
                 >
-                  <h2 className="font-display text-3xl font-bold mb-6 text-foreground">
+                  <h2 className="font-display italic text-3xl mb-6 text-white">
                     Technical Implementation
                   </h2>
-                  <div className="bg-card/80 rounded-xl p-6 border border-border">
+                  <div className="glass rounded-xl p-6">
                     <ul className="space-y-3">
                       {project.technicalDetails.map((detail, index) => (
                         <li key={index} className="flex items-start">
-                          <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0" />
-                          <span className="text-muted-foreground">{detail}</span>
+                          <div className="w-1.5 h-1.5 bg-white/20 rounded-full mt-2 mr-3 flex-shrink-0" />
+                          <span className="font-body text-sm text-white/35">{detail}</span>
                         </li>
                       ))}
                     </ul>
@@ -230,27 +227,27 @@ You can sign up, write posts with markdown, preview them in real time, and publi
                 >
                   <div className="grid gap-8 md:grid-cols-2">
                     <div>
-                      <h3 className="text-2xl font-bold mb-4 text-foreground">
+                      <h3 className="font-display italic text-2xl mb-4 text-white">
                         Challenges Faced
                       </h3>
                       <ul className="space-y-3">
                         {project.challenges.map((challenge, index) => (
                           <li key={index} className="flex items-start">
-                            <div className="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                            <span className="text-muted-foreground">{challenge}</span>
+                            <div className="w-1.5 h-1.5 bg-white/15 rounded-full mt-2 mr-3 flex-shrink-0" />
+                            <span className="font-body text-sm text-white/30">{challenge}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
                     <div>
-                      <h3 className="text-2xl font-bold mb-4 text-foreground">
+                      <h3 className="font-display italic text-2xl mb-4 text-white">
                         Key Learnings
                       </h3>
                       <ul className="space-y-3">
                         {project.learnings.map((learning, index) => (
                           <li key={index} className="flex items-start">
-                            <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0" />
-                            <span className="text-muted-foreground">{learning}</span>
+                            <div className="w-1.5 h-1.5 bg-white/20 rounded-full mt-2 mr-3 flex-shrink-0" />
+                            <span className="font-body text-sm text-white/35">{learning}</span>
                           </li>
                         ))}
                       </ul>
@@ -265,27 +262,22 @@ You can sign up, write posts with markdown, preview them in real time, and publi
                   transition={{ duration: 0.6, delay: 1.4 }}
                   className="flex flex-col sm:flex-row gap-4"
                 >
-                  <Button
-                    size="lg"
-                    asChild
-                    className="rounded-full bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3"
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center rounded-full border border-white/[0.12] bg-white/[0.05] px-8 py-3 font-body text-sm font-medium text-white transition hover:bg-white/[0.1]"
                   >
-                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center">
-                      <Github className="mr-2 h-5 w-5" />
-                      View Source Code
-                    </a>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    asChild
-                    className="rounded-full border border-primary/60 text-primary hover:bg-primary/10 px-8 py-3"
+                    <Github className="mr-2 h-5 w-5" />
+                    View Source Code
+                  </a>
+                  <Link
+                    href="/projects"
+                    className="inline-flex items-center justify-center rounded-full border border-white/[0.06] px-8 py-3 font-body text-sm text-white/40 transition hover:text-white/60 hover:border-white/[0.12]"
                   >
-                    <Link href="/projects" className="flex items-center">
-                      <ArrowLeft className="mr-2 h-5 w-5" />
-                      Back to Projects
-                    </Link>
-                  </Button>
+                    <ArrowLeft className="mr-2 h-5 w-5" />
+                    Back to Projects
+                  </Link>
                 </motion.div>
               </div>
             </div>

@@ -2,8 +2,6 @@
 
 import { Suspense, useState, useEffect, useCallback } from "react"
 import { motion } from "framer-motion"
-import { Badge } from "@/app/components/ui/badge"
-import { Button } from "@/app/components/ui/button"
 import { Github, ArrowLeft, Database, Brain, Search, FileText, ChevronLeft, ChevronRight, X, ZoomIn, ZoomOut, RotateCcw } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
@@ -208,10 +206,9 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
       />
       <Suspense fallback={<ProjectSkeleton />}>
       <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-          {/* Header */}
-          <div className="bg-gradient-to-br from-primary/10 via-background to-accent/10 py-20">
+          <div className="py-20">
             <div className="container mx-auto px-4">
-                            <motion.div
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
@@ -219,28 +216,28 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
               >
                 <Link 
                   href="/projects" 
-                  className="inline-flex items-center text-primary hover:text-foreground mb-6 transition-colors"
+                  className="inline-flex items-center text-xs font-body font-medium uppercase tracking-[0.2em] text-white/40 hover:text-white mb-6 transition-colors"
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Back to Projects
                 </Link>
                 
-                <h1 className="font-display text-4xl md:text-6xl font-bold mb-6 text-foreground">
+                <h1 className="font-display italic text-4xl md:text-6xl mb-6 text-white">
                   {project.title}
                 </h1>
                 
-                <p className="text-xl text-muted-foreground mb-8">
+                <p className="font-body text-base text-white/35 mb-8">
                   {project.description}
                 </p>
                 
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-2">
                   {project.tags.map((tag, index) => (
-                    <Badge
+                    <span
                       key={index}
-                      className="bg-primary/10 text-primary text-sm"
+                      className="rounded-full border border-white/[0.06] bg-white/[0.03] px-2.5 py-0.5 font-mono text-[10px] text-white/30"
                     >
                       {tag}
-                    </Badge>
+                    </span>
                   ))}
                 </div>
               </motion.div>
@@ -258,12 +255,12 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                   transition={{ duration: 0.6, delay: 0.2 }}
                   className="mb-12"
                 >
-                  <h2 className="font-display text-3xl font-bold mb-8 text-foreground">
+                  <h2 className="font-display italic text-3xl mb-8 text-white">
                     How It Works
                   </h2>
                   
                   {/* Main Dashboard Image */}
-                  <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl mb-6">
+                  <div className="relative h-96 rounded-2xl overflow-hidden glass mb-6">
                     <Image
                       src={project.images.howItWorks.src}
                       alt={project.images.howItWorks.alt}
@@ -279,61 +276,52 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                 {/* Image Modal */}
                 {selectedImage !== null && (
                   <div 
-                    className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
+                    className="fixed inset-0 bg-[#090909]/95 z-50 flex items-center justify-center p-4"
                     onMouseMove={handleMouseMove}
                     onMouseUp={handleMouseUp}
                     onMouseLeave={handleMouseUp}
                   >
                     <div className="relative max-w-6xl max-h-full">
-                      {/* Close Button */}
-                      <Button
+                      <button
                         onClick={() => setSelectedImage(null)}
-                        className="absolute top-4 right-4 z-10 border border-border bg-background/80 text-foreground hover:bg-background"
-                        size="sm"
+                        className="absolute top-4 right-4 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.1] bg-white/[0.05] text-white/60 hover:text-white transition-colors"
                       >
                         <X className="w-4 h-4" />
-                      </Button>
+                      </button>
                       
-                      {/* Navigation Buttons */}
-                      <Button
+                      <button
                         onClick={prevImage}
-                        className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 border border-border bg-background/80 text-foreground hover:bg-background"
-                        size="sm"
+                        className="absolute left-4 top-1/2 -translate-y-1/2 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.1] bg-white/[0.05] text-white/60 hover:text-white transition-colors"
                       >
                         <ChevronLeft className="w-4 h-4" />
-                      </Button>
+                      </button>
                       
-                      <Button
+                      <button
                         onClick={nextImage}
-                        className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 border border-border bg-background/80 text-foreground hover:bg-background"
-                        size="sm"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.1] bg-white/[0.05] text-white/60 hover:text-white transition-colors"
                       >
                         <ChevronRight className="w-4 h-4" />
-                      </Button>
+                      </button>
 
-                      {/* Zoom Controls */}
                       <div className="absolute top-4 left-4 z-10 flex gap-2">
-                        <Button
+                        <button
                           onClick={handleZoomIn}
-                          className="border border-border bg-background/80 text-foreground hover:bg-background"
-                          size="sm"
+                          className="flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.1] bg-white/[0.05] text-white/60 hover:text-white transition-colors"
                         >
                           <ZoomIn className="w-4 h-4" />
-                        </Button>
-                        <Button
+                        </button>
+                        <button
                           onClick={handleZoomOut}
-                          className="border border-border bg-background/80 text-foreground hover:bg-background"
-                          size="sm"
+                          className="flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.1] bg-white/[0.05] text-white/60 hover:text-white transition-colors"
                         >
                           <ZoomOut className="w-4 h-4" />
-                        </Button>
-                        <Button
+                        </button>
+                        <button
                           onClick={resetZoom}
-                          className="border border-border bg-background/80 text-foreground hover:bg-background"
-                          size="sm"
+                          className="flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.1] bg-white/[0.05] text-white/60 hover:text-white transition-colors"
                         >
                           <RotateCcw className="w-4 h-4" />
-                        </Button>
+                        </button>
                       </div>
                       
                       {/* Image with Zoom and Drag */}
@@ -355,12 +343,9 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                       </div>
                       
                       {/* Image Counter and Keyboard Shortcuts */}
-                      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-foreground/80 text-background px-4 py-2 rounded-lg text-center">
-                        <div className="text-sm font-medium">
-                          {selectedImage + 1} of {allImages.length}
-                        </div>
-                        <div className="text-xs text-muted-foreground mt-1">
-                          Use ← → to navigate, +/- to zoom, 0 to reset, Esc to close
+                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 glass-elevated rounded-full px-4 py-2 text-center">
+                        <div className="font-mono text-xs text-white/50">
+                          {selectedImage + 1} / {allImages.length}
                         </div>
                       </div>
                     </div>
@@ -374,11 +359,11 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                   transition={{ duration: 0.6, delay: 0.4 }}
                   className="mb-12"
                 >
-                  <h2 className="font-display text-3xl font-bold mb-6 text-foreground">
+                  <h2 className="font-display italic text-3xl mb-6 text-white">
                     Project Overview
                   </h2>
-                  <div className="prose prose-lg dark:prose-invert max-w-none">
-                    <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
+                  <div className="max-w-none">
+                    <p className="font-body text-sm text-white/35 leading-relaxed whitespace-pre-line">
                       {project.longDescription}
                     </p>
                   </div>
@@ -391,7 +376,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                   transition={{ duration: 0.6, delay: 0.6 }}
                   className="mb-12"
                 >
-                  <h2 className="font-display text-3xl font-bold mb-8 text-foreground">
+                  <h2 className="font-display italic text-3xl mb-8 text-white">
                     Document Upload & Processing
                   </h2>
                   <div className="grid gap-6 md:grid-cols-2 mb-8">
@@ -401,7 +386,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.4, delay: 0.8 + index * 0.1 }}
-                        className="relative h-64 rounded-xl overflow-hidden shadow-lg cursor-pointer hover:shadow-xl transition-shadow"
+                        className="relative h-64 rounded-xl overflow-hidden glass cursor-pointer transition hover:scale-[1.02]"
                         onClick={() => openImageModal(index + 1)}
                       >
                         <Image
@@ -423,7 +408,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                   transition={{ duration: 0.6, delay: 0.8 }}
                   className="mb-12"
                 >
-                  <h2 className="font-display text-3xl font-bold mb-8 text-foreground">
+                  <h2 className="font-display italic text-3xl mb-8 text-white">
                     Key Features
                   </h2>
                   <div className="grid gap-6 md:grid-cols-2">
@@ -433,17 +418,17 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 1.0 + index * 0.1 }}
-                        className="p-6 bg-card/80 rounded-xl border border-border hover:shadow-lg transition-shadow"
+                        className="p-6 glass rounded-xl transition"
                       >
                         <div className="flex items-center mb-4">
-                          <div className="p-2 bg-primary/10 rounded-lg mr-4">
+                          <div className="p-2 bg-white/[0.05] rounded-lg mr-4 text-white/40">
                             {feature.icon}
                           </div>
-                          <h3 className="text-xl font-semibold text-foreground">
+                          <h3 className="font-display italic text-xl text-white">
                             {feature.title}
                           </h3>
                         </div>
-                        <p className="text-muted-foreground">
+                        <p className="font-body text-sm text-white/30">
                           {feature.description}
                         </p>
                       </motion.div>
@@ -458,7 +443,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                   transition={{ duration: 0.6, delay: 1.2 }}
                   className="mb-12"
                 >
-                  <h2 className="font-display text-3xl font-bold mb-8 text-foreground">
+                  <h2 className="font-display italic text-3xl mb-8 text-white">
                     AI-Powered Question Answering
                   </h2>
                   <div className="grid gap-6 md:grid-cols-2 mb-8">
@@ -468,7 +453,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.4, delay: 1.4 + index * 0.1 }}
-                        className="relative h-64 rounded-xl overflow-hidden shadow-lg cursor-pointer hover:shadow-xl transition-shadow"
+                        className="relative h-64 rounded-xl overflow-hidden glass cursor-pointer transition hover:scale-[1.02]"
                         onClick={() => openImageModal(index + 3)}
                       >
                         <Image
@@ -490,15 +475,15 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                   transition={{ duration: 0.6, delay: 1.0 }}
                   className="mb-12"
                 >
-                  <h2 className="font-display text-3xl font-bold mb-6 text-foreground">
+                  <h2 className="font-display italic text-3xl mb-6 text-white">
                     Technical Implementation
                   </h2>
-                  <div className="bg-card/80 rounded-xl p-6 border border-border">
+                  <div className="glass rounded-xl p-6">
                     <ul className="space-y-3">
                       {project.technicalDetails.map((detail, index) => (
                         <li key={index} className="flex items-start">
-                          <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0" />
-                          <span className="text-muted-foreground">{detail}</span>
+                          <div className="w-1.5 h-1.5 bg-white/20 rounded-full mt-2 mr-3 flex-shrink-0" />
+                          <span className="font-body text-sm text-white/35">{detail}</span>
                         </li>
                       ))}
                     </ul>
@@ -514,27 +499,27 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                 >
                   <div className="grid gap-8 md:grid-cols-2">
                     <div>
-                      <h3 className="text-2xl font-bold mb-4 text-foreground">
+                      <h3 className="font-display italic text-2xl mb-4 text-white">
                         Challenges Faced
                       </h3>
                       <ul className="space-y-3">
                         {project.challenges.map((challenge, index) => (
                           <li key={index} className="flex items-start">
-                            <div className="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                            <span className="text-muted-foreground">{challenge}</span>
+                            <div className="w-1.5 h-1.5 bg-white/15 rounded-full mt-2 mr-3 flex-shrink-0" />
+                            <span className="font-body text-sm text-white/30">{challenge}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
                     <div>
-                      <h3 className="text-2xl font-bold mb-4 text-foreground">
+                      <h3 className="font-display italic text-2xl mb-4 text-white">
                         Key Learnings
                       </h3>
                       <ul className="space-y-3">
                         {project.learnings.map((learning, index) => (
                           <li key={index} className="flex items-start">
-                            <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0" />
-                            <span className="text-muted-foreground">{learning}</span>
+                            <div className="w-1.5 h-1.5 bg-white/20 rounded-full mt-2 mr-3 flex-shrink-0" />
+                            <span className="font-body text-sm text-white/35">{learning}</span>
                           </li>
                         ))}
                       </ul>
@@ -558,27 +543,22 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                   transition={{ duration: 0.6, delay: 1.8 }}
                   className="flex flex-col sm:flex-row gap-4"
                 >
-                  <Button
-                    size="lg"
-                    asChild
-                    className="rounded-full bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3"
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center rounded-full border border-white/[0.12] bg-white/[0.05] px-8 py-3 font-body text-sm font-medium text-white transition hover:bg-white/[0.1]"
                   >
-                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center">
-                      <Github className="mr-2 h-5 w-5" />
-                      View Source Code
-                    </a>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    asChild
-                    className="rounded-full border border-primary/60 text-primary hover:bg-primary/10 px-8 py-3"
+                    <Github className="mr-2 h-5 w-5" />
+                    View Source Code
+                  </a>
+                  <Link
+                    href="/projects"
+                    className="inline-flex items-center justify-center rounded-full border border-white/[0.06] px-8 py-3 font-body text-sm text-white/40 transition hover:text-white/60 hover:border-white/[0.12]"
                   >
-                    <Link href="/projects" className="flex items-center">
-                      <ArrowLeft className="mr-2 h-5 w-5" />
-                      Back to Projects
-                    </Link>
-                  </Button>
+                    <ArrowLeft className="mr-2 h-5 w-5" />
+                    Back to Projects
+                  </Link>
                 </motion.div>
               </div>
             </div>

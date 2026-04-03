@@ -1,7 +1,6 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Badge } from "@/app/components/ui/badge"
 import { ArrowUpRight, Github, Home } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
@@ -47,11 +46,11 @@ const projects = [
 export default function ProjectsPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <div className="border-b border-border bg-card/60 backdrop-blur">
+      <div className="border-b border-white/[0.06] bg-white/[0.02] backdrop-blur">
         <div className="container mx-auto flex flex-wrap items-center justify-between gap-4 px-4 py-6">
           <Link
             href="/#projects"
-            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground"
+            className="inline-flex items-center gap-2 text-xs font-body font-medium uppercase tracking-[0.2em] text-white/40 hover:text-white transition-colors"
           >
             <Home className="h-4 w-4" />
             Back to portfolio
@@ -66,10 +65,10 @@ export default function ProjectsPage() {
           transition={{ duration: 0.5 }}
           className="space-y-4"
         >
-          <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Projects</p>
-          <h1 className="font-display text-4xl text-foreground sm:text-5xl">All projects</h1>
-          <p className="max-w-2xl text-base text-muted-foreground">
-            Everything I've shipped, from AI pipelines to full-stack apps. Click into any of them for the full story.
+          <p className="text-[10px] font-body font-medium tracking-[0.4em] uppercase text-white/30">Projects</p>
+          <h1 className="font-display italic text-4xl text-white sm:text-5xl">All projects</h1>
+          <p className="max-w-2xl font-body text-sm text-white/35">
+            Everything I&apos;ve shipped, from AI pipelines to full-stack apps. Click into any of them for the full story.
           </p>
         </motion.div>
 
@@ -80,9 +79,9 @@ export default function ProjectsPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
-                className="group flex h-full cursor-pointer flex-col rounded-3xl border border-border bg-card/80 p-5 shadow-card transition hover:-translate-y-1 hover:border-primary/30"
+                className="group flex h-full cursor-pointer flex-col rounded-2xl glass p-5 transition hover:-translate-y-1"
               >
-                <div className="relative h-40 w-full overflow-hidden rounded-2xl">
+                <div className="relative h-40 w-full overflow-hidden rounded-xl">
                   <Image
                     src={project.image}
                     alt={project.title}
@@ -90,24 +89,24 @@ export default function ProjectsPage() {
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                     sizes="(max-width: 1024px) 100vw, 33vw"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#090909]/60 via-transparent to-transparent" />
                 </div>
                 <div className="mt-4 flex-1 space-y-2">
-                  <h2 className="font-display text-xl text-foreground">{project.title}</h2>
-                  <p className="text-sm text-muted-foreground">{project.shortDescription}</p>
+                  <h2 className="font-display italic text-xl text-white">{project.title}</h2>
+                  <p className="font-body text-sm text-white/35">{project.shortDescription}</p>
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {project.tags.map((tag) => (
-                    <Badge
+                    <span
                       key={tag}
-                      variant="outline"
-                      className="border-border/70 bg-background/60 text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground"
+                      className="rounded-full border border-white/[0.06] bg-white/[0.03] px-2.5 py-0.5 font-mono text-[10px] text-white/30"
                     >
                       {tag}
-                    </Badge>
+                    </span>
                   ))}
                 </div>
                 <div className="mt-4 flex items-center gap-3">
-                  <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground transition group-hover:border-primary/40 group-hover:text-foreground">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 text-xs font-body font-medium uppercase tracking-[0.2em] text-white/40 transition group-hover:text-white/60">
                     Details
                     <ArrowUpRight className="h-3.5 w-3.5" />
                   </span>
@@ -126,7 +125,7 @@ export default function ProjectsPage() {
                         window.open(project.github, "_blank", "noreferrer")
                       }
                     }}
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/70 text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.03] text-white/30 transition hover:text-white/60"
                     aria-label={`Open ${project.title} on GitHub`}
                   >
                     <Github className="h-4 w-4" />

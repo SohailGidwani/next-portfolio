@@ -36,12 +36,12 @@ export default async function BlogDetail({ params }: Props) {
         <div className="container mx-auto px-4 py-20">
           <Link
             href="/blogs"
-            className="inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground"
+            className="inline-flex items-center text-xs font-body font-medium uppercase tracking-[0.2em] text-white/40 hover:text-white transition-colors"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to blogs
           </Link>
-          <h1 className="mt-6 font-display text-3xl text-foreground">Blog not found</h1>
+          <h1 className="mt-6 font-display italic text-3xl text-white">Blog not found</h1>
         </div>
       </div>
     )
@@ -67,11 +67,11 @@ export default async function BlogDetail({ params }: Props) {
         }}
       />
 
-      <div className="border-b border-border bg-card/60 backdrop-blur">
+      <div className="border-b border-white/[0.06] bg-white/[0.02] backdrop-blur">
         <div className="container mx-auto flex flex-wrap items-center justify-between gap-4 px-4 py-6">
           <Link
             href="/blogs"
-            className="inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground"
+            className="inline-flex items-center text-xs font-body font-medium uppercase tracking-[0.2em] text-white/40 hover:text-white transition-colors"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to blogs
@@ -81,20 +81,20 @@ export default async function BlogDetail({ params }: Props) {
 
       <div className="container mx-auto px-4 py-12">
         <div className="mx-auto max-w-3xl space-y-5">
-          <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Journal</p>
-          <h1 className="font-display text-4xl text-foreground sm:text-5xl">{blog.title}</h1>
-          {blog.excerpt && <p className="text-lg text-muted-foreground">{blog.excerpt}</p>}
+          <p className="text-[10px] font-body font-medium tracking-[0.4em] uppercase text-white/30">Journal</p>
+          <h1 className="font-display italic text-4xl text-white sm:text-5xl">{blog.title}</h1>
+          {blog.excerpt && <p className="font-body text-base text-white/35">{blog.excerpt}</p>}
         </div>
 
         {blog.coverImageUrl && (
           <div className="mx-auto mt-10 max-w-3xl">
-            <div className="relative h-64 w-full overflow-hidden rounded-3xl shadow-2xl md:h-96">
+            <div className="relative h-64 w-full overflow-hidden rounded-2xl md:h-96">
               <ProgressiveImage src={blog.coverImageUrl} alt={blog.title} fill className="object-cover" unoptimized />
             </div>
           </div>
         )}
 
-        <article className="prose prose-lg mx-auto mt-10 max-w-3xl dark:prose-invert">
+        <article className="prose prose-lg prose-invert mx-auto mt-10 max-w-3xl prose-headings:font-display prose-headings:italic prose-headings:text-white prose-p:text-white/50 prose-a:text-white/60 prose-a:underline hover:prose-a:text-white prose-strong:text-white/70 prose-code:text-white/60 prose-pre:bg-white/[0.03] prose-pre:border prose-pre:border-white/[0.06]">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>{blog.content || ""}</ReactMarkdown>
         </article>
       </div>
