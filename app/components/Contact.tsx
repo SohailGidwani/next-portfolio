@@ -1,189 +1,205 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import { AnimatePresence, motion } from "framer-motion"
-import { Check, Copy, Github, Linkedin, Mail, MapPin, Phone } from "lucide-react"
-import { triggerHaptic } from "./ui/haptics"
+import { useEffect, useRef, useState, useCallback } from "react"
+import { motion } from "framer-motion"
+import dynamic from "next/dynamic"
+import PinnedSection from "./scroll/PinnedSection"
+import { useScrollEngine } from "./scroll/ScrollEngine"
 
-interface ContactProps {
-  setActiveSection: (section: string) => void
-}
+const WebGLCanvas = dynamic(() => import("./webgl/WebGLCanvas"), { ssr: false })
+const LiquidGlassShader = dynamic(() => import("./webgl/LiquidGlassShader"), { ssr: false })
 
-const contactItems = [
+const contactLinks = [
   {
-    icon: <Mail className="h-4 w-4" />,
     label: "Email",
     value: "sohailgidwani15@gmail.com",
-    link: "mailto:sohailgidwani15@gmail.com",
-    copyValue: "sohailgidwani15@gmail.com",
+    href: "mailto:sohailgidwani15@gmail.com",
   },
   {
-    icon: <Phone className="h-4 w-4" />,
     label: "Phone",
     value: "+1 9736525842",
-    link: "tel:+19736525842",
-    copyValue: "+1 9736525842",
+    href: "tel:+19736525842",
   },
   {
-    icon: <Linkedin className="h-4 w-4" />,
     label: "LinkedIn",
     value: "sohail-gidwani",
-    link: "https://www.linkedin.com/in/sohail-gidwani/",
-    copyValue: "https://www.linkedin.com/in/sohail-gidwani/",
+    href: "https://www.linkedin.com/in/sohail-gidwani/",
   },
   {
-    icon: <Github className="h-4 w-4" />,
     label: "GitHub",
     value: "SohailGidwani",
-    link: "https://github.com/SohailGidwani",
-    copyValue: "https://github.com/SohailGidwani",
-  },
-  {
-    icon: <MapPin className="h-4 w-4" />,
-    label: "Location",
-    value: "Los Angeles, CA",
+    href: "https://github.com/SohailGidwani",
   },
 ]
 
-export default function Contact({ setActiveSection }: ContactProps) {
-  const sectionRef = useRef<HTMLElement>(null)
-  const emailAriaLabel = "Email Sohail Gidwani"
-  const [copiedLabel, setCopiedLabel] = useState<string | null>(null)
-
-  const handleCopy = async (value: string, label: string) => {
-    try {
-      if (!navigator?.clipboard) return
-      await navigator.clipboard.writeText(value)
-      triggerHaptic(10)
-      setCopiedLabel(label)
-      setTimeout(() => setCopiedLabel(null), 2000)
-    } catch (error) {
-      console.error(error)
-    }
-  }
+export default function Contact() {
+  const { registerSection } = useScrollEngine()
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const [progress, setProgress] = useState(0)
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" })
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries: IntersectionObserverEntry[]) => {
-        const [entry] = entries
-        if (entry.isIntersecting) {
-          triggerHaptic(10)
-          setActiveSection("contact")
-        }
-      },
-      {
-        threshold: 0.3,
-        rootMargin: "-10% 0px -10% 0px",
-      }
-    )
-
-    const currentRef = sectionRef.current
-    if (currentRef) {
-      observer.observe(currentRef)
+    if (sectionRef.current) {
+      registerSection("contact", sectionRef.current)
     }
+  }, [registerSection])
 
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef)
-      }
-    }
-  }, [setActiveSection])
+  const handleProgress = useCallback((p: number) => {
+    setProgress(p)
+  }, [])
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    const mailtoLink = `mailto:sohailgidwani15@gmail.com?subject=Portfolio Contact from ${formData.name}&body=${encodeURIComponent(formData.message)}%0A%0AFrom: ${formData.email}`
+    window.open(mailtoLink, "_blank")
+  }
 
   return (
-    <section id="contact" ref={sectionRef} className="py-16 sm:py-20">
-      <div className="container mx-auto px-4">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="space-y-3 lg:self-center"
+    <PinnedSection id="contact" scrubDuration={1.5} onProgress={handleProgress}>
+      <div ref={sectionRef} className="relative flex h-screen w-full items-center overflow-hidden">
+        {/* WebGL background at calm state */}
+        <div className="pointer-events-none absolute inset-0">
+          <WebGLCanvas
+            fallback={
+              <div className="absolute inset-0 bg-gradient-to-t from-white/[0.02] via-transparent to-transparent" />
+            }
           >
-            <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Contact</p>
-            <h2 className="font-display text-3xl text-foreground sm:text-4xl">
-              Want to work together? Let&apos;s talk.
-            </h2>
-            <p className="max-w-2xl text-base text-muted-foreground">
-              I&apos;m looking for full-time roles, research collaborations, or interesting side projects. Drop me a message and we&apos;ll figure it out from there.
-            </p>
-          </motion.div>
+            <LiquidGlassShader scrollProgress={1} velocity={0} />
+          </WebGLCanvas>
+        </div>
 
-          <div className="lg:justify-self-end">
-            <div className="grid max-w-2xl gap-3">
-              {contactItems.map((item, index) => (
-                <motion.div
-                  key={item.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.15 + index * 0.05 }}
-                  viewport={{ once: true }}
-                  className="rounded-2xl border border-border bg-card/80 p-4"
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                      {item.icon}
+        <div className="relative z-10 container mx-auto px-6">
+          <div className="grid gap-16 lg:grid-cols-[1fr_1fr] items-center">
+            {/* Left — CTA and links */}
+            <div>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="text-[10px] font-body font-medium tracking-[0.4em] uppercase text-white/30"
+              >
+                Contact
+              </motion.p>
+
+              <motion.h2
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.1 }}
+                viewport={{ once: true }}
+                className="mt-6 font-display italic text-5xl sm:text-6xl lg:text-7xl text-white leading-[1.05]"
+              >
+                Let&apos;s build
+                <br />
+                something.
+              </motion.h2>
+
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                viewport={{ once: true }}
+                className="mt-6 font-body text-sm text-white/30 max-w-md leading-relaxed"
+              >
+                I&apos;m looking for full-time roles, research collaborations, or interesting side
+                projects. Drop me a message and we&apos;ll figure it out from there.
+              </motion.p>
+
+              <div className="mt-10 space-y-3">
+                {contactLinks.map((link, i) => (
+                  <motion.a
+                    key={link.label}
+                    href={link.href}
+                    target={link.href.startsWith("http") ? "_blank" : undefined}
+                    rel={link.href.startsWith("http") ? "noreferrer" : undefined}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.4, delay: 0.3 + i * 0.08 }}
+                    viewport={{ once: true }}
+                    className="flex items-center gap-4 group"
+                  >
+                    <span className="text-[9px] font-body font-medium tracking-[0.3em] uppercase text-white/20 w-16 shrink-0">
+                      {link.label}
                     </span>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{item.label}</p>
-                      {item.link ? (
-                        <a
-                          href={item.link}
-                          target={item.link.startsWith("http") ? "_blank" : undefined}
-                          rel={item.link.startsWith("http") ? "noreferrer" : undefined}
-                          onClick={() => triggerHaptic()}
-                          className="block truncate text-sm font-medium text-foreground hover:text-primary"
-                          aria-label={item.label === "Email" ? emailAriaLabel : item.label}
-                        >
-                          {item.value}
-                        </a>
-                      ) : (
-                        <p className="truncate text-sm font-medium text-foreground">{item.value}</p>
-                      )}
-                    </div>
-                    {item.copyValue && (
-                      <button
-                        type="button"
-                        onClick={() => handleCopy(item.copyValue, item.label)}
-                        className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border bg-background/70 transition ${
-                          copiedLabel === item.label
-                            ? "border-primary/40 text-primary"
-                            : "border-border text-muted-foreground hover:border-primary/40 hover:text-primary"
-                        }`}
-                        aria-label={copiedLabel === item.label ? `${item.label} copied` : `Copy ${item.label}`}
-                      >
-                        <AnimatePresence mode="wait" initial={false}>
-                          {copiedLabel === item.label ? (
-                            <motion.span
-                              key="check"
-                              initial={{ scale: 0, opacity: 0 }}
-                              animate={{ scale: 1, opacity: 1 }}
-                              exit={{ scale: 0, opacity: 0 }}
-                              transition={{ duration: 0.15 }}
-                            >
-                              <Check className="h-4 w-4" />
-                            </motion.span>
-                          ) : (
-                            <motion.span
-                              key="copy"
-                              initial={{ scale: 0, opacity: 0 }}
-                              animate={{ scale: 1, opacity: 1 }}
-                              exit={{ scale: 0, opacity: 0 }}
-                              transition={{ duration: 0.15 }}
-                            >
-                              <Copy className="h-4 w-4" />
-                            </motion.span>
-                          )}
-                        </AnimatePresence>
-                      </button>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
+                    <span className="font-body text-sm text-white/40 group-hover:text-white transition-colors">
+                      {link.value}
+                    </span>
+                  </motion.a>
+                ))}
+              </div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+                viewport={{ once: true }}
+                className="mt-6 font-body text-xs text-white/15"
+              >
+                Los Angeles, CA · Open to remote and on-site
+              </motion.div>
             </div>
+
+            {/* Right — contact form */}
+            <motion.form
+              onSubmit={handleSubmit}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.3 }}
+              viewport={{ once: true }}
+              className="glass-elevated rounded-2xl p-8 space-y-5"
+            >
+              <div>
+                <label htmlFor="contact-name" className="text-[10px] font-body font-medium tracking-[0.3em] uppercase text-white/20 block mb-2">
+                  Name
+                </label>
+                <input
+                  id="contact-name"
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData((d) => ({ ...d, name: e.target.value }))}
+                  className="w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-3 font-body text-sm text-white placeholder:text-white/15 focus:outline-none focus:border-white/20 transition-colors"
+                  placeholder="Your name"
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="contact-email" className="text-[10px] font-body font-medium tracking-[0.3em] uppercase text-white/20 block mb-2">
+                  Email
+                </label>
+                <input
+                  id="contact-email"
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData((d) => ({ ...d, email: e.target.value }))}
+                  className="w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-3 font-body text-sm text-white placeholder:text-white/15 focus:outline-none focus:border-white/20 transition-colors"
+                  placeholder="you@email.com"
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="contact-message" className="text-[10px] font-body font-medium tracking-[0.3em] uppercase text-white/20 block mb-2">
+                  Message
+                </label>
+                <textarea
+                  id="contact-message"
+                  value={formData.message}
+                  onChange={(e) => setFormData((d) => ({ ...d, message: e.target.value }))}
+                  rows={4}
+                  className="w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-3 font-body text-sm text-white placeholder:text-white/15 focus:outline-none focus:border-white/20 transition-colors resize-none"
+                  placeholder="What do you have in mind?"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full glass rounded-xl py-3 font-body text-xs tracking-[0.2em] uppercase text-white/50 hover:text-white hover:bg-white/[0.06] transition-all"
+              >
+                Send Message
+              </button>
+            </motion.form>
           </div>
         </div>
       </div>
-    </section>
+    </PinnedSection>
   )
 }
