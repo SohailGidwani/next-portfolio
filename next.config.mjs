@@ -134,7 +134,7 @@ const nextConfig = {
   
   // Experimental features for better performance
   experimental: {
-    optimizePackageImports: ['@vercel/analytics', '@vercel/speed-insights'],
+    optimizePackageImports: ['@vercel/analytics', '@vercel/speed-insights', 'three', '@react-three/fiber', '@react-three/drei', 'gsap'],
   },
 };
 

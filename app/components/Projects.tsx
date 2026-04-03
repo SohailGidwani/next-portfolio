@@ -85,6 +85,7 @@ function MobileProjectCard({ project }: { project: Project }) {
   return (
     <div className="glass rounded-2xl p-6 space-y-4">
       <div className="relative aspect-video overflow-hidden rounded-xl">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={typeof project.image === 'string' ? project.image : project.image.src}
           alt={project.title}

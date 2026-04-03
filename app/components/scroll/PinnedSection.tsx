@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useRef, useState, ReactNode } from 'react'
-import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 interface PinnedSectionProps {
