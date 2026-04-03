@@ -18,21 +18,28 @@ function detectWebGL(): boolean {
   }
 }
 
+function prefersReducedMotion(): boolean {
+  if (typeof window === 'undefined') return false
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}
+
 export default function WebGLCanvas({ children, className, fallback }: WebGLCanvasProps) {
   const [supported, setSupported] = useState<boolean | null>(null)
+  const [reducedMotion, setReducedMotion] = useState(false)
 
   useEffect(() => {
     setSupported(detectWebGL())
+    setReducedMotion(prefersReducedMotion())
   }, [])
 
   useEffect(() => {
-    if (supported === false) {
+    if (supported === false || reducedMotion) {
       window.dispatchEvent(new Event('webgl-ready'))
     }
-  }, [supported])
+  }, [supported, reducedMotion])
 
   if (supported === null) return null
-  if (!supported) return fallback ?? null
+  if (!supported || reducedMotion) return fallback ? <>{fallback}</> : <div className="absolute inset-0 webgl-fallback" />
 
   return (
     <Canvas

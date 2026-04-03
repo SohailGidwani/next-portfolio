@@ -70,10 +70,65 @@ const projects: Project[] = [
   },
 ]
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener("resize", check)
+    return () => window.removeEventListener("resize", check)
+  }, [])
+  return isMobile
+}
+
+function MobileProjectCard({ project }: { project: Project }) {
+  return (
+    <div className="glass rounded-2xl p-6 space-y-4">
+      <div className="relative aspect-video overflow-hidden rounded-xl">
+        <img
+          src={typeof project.image === 'string' ? project.image : project.image.src}
+          alt={project.title}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#090909]/80 via-transparent to-transparent" />
+      </div>
+      <h3 className="font-display italic text-2xl text-white">{project.title}</h3>
+      <p className="font-body text-sm text-white/35 leading-relaxed">{project.description}</p>
+      <div className="flex flex-wrap gap-2">
+        {project.tags.map((tag) => (
+          <span
+            key={tag}
+            className="glass rounded-full px-3 py-1 font-mono text-[10px] text-white/30"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+      <div className="flex items-center gap-4 pt-2">
+        <a
+          href={`/projects/${project.id}`}
+          className="font-body text-xs tracking-[0.2em] uppercase text-white/50 hover:text-white transition-colors"
+        >
+          View Project →
+        </a>
+        <a
+          href={project.github}
+          target="_blank"
+          rel="noreferrer"
+          className="font-body text-xs tracking-[0.2em] uppercase text-white/30 hover:text-white/60 transition-colors"
+        >
+          GitHub
+        </a>
+      </div>
+    </div>
+  )
+}
+
 export default function Projects() {
   const { registerSection } = useScrollEngine()
   const sectionRef = useRef<HTMLDivElement>(null)
   const [progress, setProgress] = useState(0)
+  const isMobile = useIsMobile()
 
   useEffect(() => {
     if (sectionRef.current) {
@@ -92,10 +147,29 @@ export default function Projects() {
     count - 1
   )
 
+  if (isMobile) {
+    return (
+      <section id="projects" ref={sectionRef} className="relative w-full py-20 px-4">
+        <div className="mb-10">
+          <p className="text-[10px] font-body font-medium tracking-[0.4em] uppercase text-white/30">
+            Projects
+          </p>
+          <h2 className="mt-4 font-display italic text-4xl text-white leading-[1.1]">
+            Things I&apos;ve built that I&apos;m proud of.
+          </h2>
+        </div>
+        <div className="space-y-6">
+          {projects.map((project) => (
+            <MobileProjectCard key={project.id} project={project} />
+          ))}
+        </div>
+      </section>
+    )
+  }
+
   return (
     <PinnedSection id="projects" scrubDuration={scrubDuration} onProgress={handleProgress}>
       <div ref={sectionRef} className="relative h-screen w-full overflow-hidden">
-        {/* Section header fades out as we scroll */}
         <div
           className="absolute top-12 left-6 z-20 transition-opacity duration-300"
           style={{ opacity: progress < 0.05 ? 1 : 0 }}
@@ -108,7 +182,6 @@ export default function Projects() {
           </h2>
         </div>
 
-        {/* Project slides */}
         {projects.map((project, i) => {
           const slideProgress = progress * count - i
           const opacity = slideProgress < -0.5
@@ -139,7 +212,6 @@ export default function Projects() {
           )
         })}
 
-        {/* Navigation dots */}
         <div className="absolute right-6 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-3">
           {projects.map((project, i) => (
             <div
@@ -153,7 +225,6 @@ export default function Projects() {
           ))}
         </div>
 
-        {/* Current / total counter */}
         <div className="absolute bottom-8 right-6 z-20">
           <span className="font-mono text-xs text-white/25">
             {String(activeIndex + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}

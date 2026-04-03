@@ -14,12 +14,24 @@ interface HeroProps {
   onProgress?: (progress: number, velocity: number) => void
 }
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener("resize", check)
+    return () => window.removeEventListener("resize", check)
+  }, [])
+  return isMobile
+}
+
 export default function Hero({ onProgress }: HeroProps) {
   const { registerSection } = useScrollEngine()
   const sectionRef = useRef<HTMLDivElement>(null)
   const [scrollProgress, setScrollProgress] = useState(0)
   const [velocity, setVelocity] = useState(0)
   const [titleDone, setTitleDone] = useState(false)
+  const isMobile = useIsMobile()
 
   useEffect(() => {
     if (sectionRef.current) {
@@ -40,13 +52,17 @@ export default function Hero({ onProgress }: HeroProps) {
     <PinnedSection id="hero" scrubDuration={3} onProgress={handleProgress}>
       <div ref={sectionRef} className="relative flex h-screen w-full items-center justify-center overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
-          <WebGLCanvas
-            fallback={
-              <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] via-transparent to-white/[0.02]" />
-            }
-          >
-            <LiquidGlassShader scrollProgress={scrollProgress} velocity={velocity} />
-          </WebGLCanvas>
+          {isMobile ? (
+            <div className="absolute inset-0 webgl-fallback" />
+          ) : (
+            <WebGLCanvas
+              fallback={
+                <div className="absolute inset-0 webgl-fallback" />
+              }
+            >
+              <LiquidGlassShader scrollProgress={scrollProgress} velocity={velocity} />
+            </WebGLCanvas>
+          )}
         </div>
 
         <div className="relative z-10 flex flex-col items-center text-center px-6">
@@ -55,19 +71,23 @@ export default function Hero({ onProgress }: HeroProps) {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.6 }}
           >
-            <h1 className="font-display italic text-6xl sm:text-7xl md:text-8xl lg:text-9xl tracking-tight text-white">
-              <TextDecode
-                text="Sohail Gidwani"
-                delay={400}
-                speed={45}
-                onComplete={() => setTitleDone(true)}
-              />
+            <h1 className="font-display italic text-5xl sm:text-7xl md:text-8xl lg:text-9xl tracking-tight text-white">
+              {isMobile ? (
+                "Sohail Gidwani"
+              ) : (
+                <TextDecode
+                  text="Sohail Gidwani"
+                  delay={400}
+                  speed={45}
+                  onComplete={() => setTitleDone(true)}
+                />
+              )}
             </h1>
           </motion.div>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
-            animate={titleDone ? { opacity: 1, y: 0 } : {}}
+            animate={isMobile || titleDone ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="mt-6 font-body text-sm sm:text-base tracking-[0.3em] uppercase text-white/40"
           >
@@ -76,7 +96,7 @@ export default function Hero({ onProgress }: HeroProps) {
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={titleDone ? { opacity: 1, y: 0 } : {}}
+            animate={isMobile || titleDone ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
             className="mt-4 font-body text-xs sm:text-sm text-white/25 max-w-md"
           >
@@ -86,7 +106,7 @@ export default function Hero({ onProgress }: HeroProps) {
 
         <motion.div
           initial={{ opacity: 0 }}
-          animate={titleDone ? { opacity: 1 } : {}}
+          animate={isMobile || titleDone ? { opacity: 1 } : {}}
           transition={{ delay: 0.8, duration: 0.8 }}
           className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         >
