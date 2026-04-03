@@ -1,21 +1,22 @@
 import '@/app/globals.css'
-import { Fraunces, Space_Grotesk, JetBrains_Mono } from 'next/font/google'
+import { Instrument_Serif, Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import Script from 'next/script'
-import { ThemeProvider } from './components/ThemeProvider'
 
-const display = Fraunces({
+const display = Instrument_Serif({
+  weight: '400',
+  style: 'italic',
   subsets: ['latin'],
   variable: '--font-display',
 })
 
-const body = Space_Grotesk({
+const body = Geist({
   subsets: ['latin'],
   variable: '--font-body',
 })
 
-const mono = JetBrains_Mono({
+const mono = Geist_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
 })
@@ -81,7 +82,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <head>
         <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" />
         <link rel="icon" href="/favicon.ico?v=2" />
@@ -89,8 +90,8 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2" />
         <link rel="manifest" href="/site.webmanifest" />
-        <meta name="theme-color" content="#f5efe7" />
-        <meta name="msapplication-TileColor" content="#f5efe7" />
+        <meta name="theme-color" content="#090909" />
+        <meta name="msapplication-TileColor" content="#090909" />
         <link rel="author" href="https://sohailgidwani.app" />
         <link rel="alternate" type="text/plain" title="LLM information" href="/llms.txt" />
         {/* Structured Data */}
@@ -292,11 +293,9 @@ export default function RootLayout({
         />
       </head>
       <body className={`${body.variable} ${display.variable} ${mono.variable} font-body`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
-          <Analytics />
-          <SpeedInsights />
-        </ThemeProvider>
+        {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )

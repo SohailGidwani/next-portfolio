@@ -1,10 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ["class"],
   content: [
     './app/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
-	],
+  ],
   theme: {
     container: {
       center: true,
@@ -19,16 +18,23 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        display: ["var(--font-display)", "serif"],
-        body: ["var(--font-body)", "sans-serif"],
+        display: ["var(--font-display)", "Georgia", "serif"],
+        body: ["var(--font-body)", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "monospace"],
       },
       colors: {
+        void: "hsl(var(--void))",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        surface: "hsl(var(--surface))",
+        elevated: "hsl(var(--elevated))",
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -40,10 +46,6 @@ module.exports = {
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
           DEFAULT: "hsl(var(--accent))",
@@ -59,8 +61,9 @@ module.exports = {
         },
       },
       boxShadow: {
-        card: "0 20px 60px -50px rgba(0,0,0,0.4)",
-        "card-hover": "0 28px 80px -40px rgba(0,0,0,0.5)",
+        card: "0 20px 60px rgba(0, 0, 0, 0.5)",
+        "card-hover": "0 28px 80px rgba(0, 0, 0, 0.6)",
+        glow: "0 0 40px rgba(255, 255, 255, 0.05)",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -69,29 +72,17 @@ module.exports = {
       },
       keyframes: {
         "accordion-down": {
-          from: { height: 0 },
+          from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: 0 },
-        },
-        float: {
-          "0%, 100%": { transform: "translateY(0px)" },
-          "50%": { transform: "translateY(-12px)" },
-        },
-        "pulse-soft": {
-          "0%, 100%": { opacity: 0.4 },
-          "50%": { opacity: 0.8 },
+          to: { height: "0" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "float-slow": "float 12s ease-in-out infinite",
-        "float-slower": "float 18s ease-in-out infinite",
-        "pulse-soft": "pulse-soft 6s ease-in-out infinite",
-        "spin-slow": "spin 8s linear infinite",
       },
     },
   },
