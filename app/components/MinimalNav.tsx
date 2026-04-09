@@ -38,8 +38,6 @@ export default function MinimalNav({ activeSection, visible }: MinimalNavProps) 
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
 
-  const currentLabel = SECTIONS.find(s => s.id === activeSection)?.label ?? ''
-
   return (
     <>
       <AnimatePresence>
@@ -49,17 +47,14 @@ export default function MinimalNav({ activeSection, visible }: MinimalNavProps) 
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-            className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4"
+            className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 backdrop-blur-sm"
           >
             <button
               onClick={() => scrollTo('hero')}
               className="font-display italic text-sm text-white/60 hover:text-white transition-colors"
             >
-              Sohail Gidwani
+              SG
             </button>
-            <span className="text-[10px] font-body font-medium tracking-[4px] uppercase text-white/25">
-              {currentLabel}
-            </span>
             <button
               onClick={() => setMenuOpen(true)}
               className="flex flex-col gap-1.5 p-2 group"

@@ -1,7 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useScrollEngine } from "./scroll/ScrollEngine"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 import MinimalNav from "./MinimalNav"
 import CommandPalette from "./CommandPalette"
 import Hero from "./Hero"
@@ -20,12 +21,24 @@ export default function PortfolioContent() {
   const { activeSection, setActiveSection } = useScrollEngine()
   const [navVisible, setNavVisible] = useState(false)
 
-  const handleHeroProgress = (progress: number) => {
-    setNavVisible(progress > 0.3)
-  }
+  useEffect(() => {
+    const onScroll = () => {
+      setNavVisible(window.scrollY > window.innerHeight * 0.4)
+    }
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh(true)
+    }, 600)
+
+    return () => clearTimeout(timer)
+  }, [])
 
   return (
-    <>
+    <div className="relative min-h-screen bg-[#090909] text-white">
       <MinimalNav activeSection={activeSection} visible={navVisible} />
       <CommandPalette onNavigate={(id) => {
         const el = document.getElementById(id)
@@ -36,7 +49,7 @@ export default function PortfolioContent() {
       }} />
 
       <main id="main-content" className="relative">
-        <Hero onProgress={handleHeroProgress} />
+        <Hero />
         <About />
         <Education />
         <Experience />
@@ -60,6 +73,6 @@ export default function PortfolioContent() {
         }}
       />
       <BackToTop />
-    </>
+    </div>
   )
 }

@@ -27,11 +27,9 @@ export default function Portfolio() {
       <Preloader onComplete={handlePreloaderComplete} />
 
       {preloaderDone && (
-        <div className="relative min-h-screen overflow-x-hidden bg-[#090909] text-white">
-          <ScrollEngine>
-            <PortfolioContent />
-          </ScrollEngine>
-        </div>
+        <ScrollEngine>
+          <PortfolioContent />
+        </ScrollEngine>
       )}
     </>
   )

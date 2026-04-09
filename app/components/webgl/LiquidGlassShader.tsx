@@ -13,85 +13,90 @@ void main() {
 `
 
 const fragmentShader = `
-precision highp float;
+precision mediump float;
 varying vec2 vUv;
 uniform float uTime;
-uniform float uScrollProgress;
-uniform float uVelocity;
 uniform vec2 uResolution;
 
-#define PI 3.14159265359
-
 vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
-vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
-vec3 permute(vec3 x) { return mod289(((x * 34.0) + 1.0) * x); }
+vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+vec4 permute(vec4 x) { return mod289(((x * 34.0) + 1.0) * x); }
+vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
+vec2 fade(vec2 t) { return t * t * t * (t * (t * 6.0 - 15.0) + 10.0); }
 
-float snoise(vec2 v) {
-  const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);
-  vec2 i = floor(v + dot(v, C.yy));
-  vec2 x0 = v - i + dot(i, C.xx);
-  vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
-  vec4 x12 = x0.xyxy + C.xxzz;
-  x12.xy -= i1;
-  i = mod289(i);
-  vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0)) + i.x + vec3(0.0, i1.x, 1.0));
-  vec3 m = max(0.5 - vec3(dot(x0, x0), dot(x12.xy, x12.xy), dot(x12.zw, x12.zw)), 0.0);
-  m = m * m;
-  m = m * m;
-  vec3 x = 2.0 * fract(p * C.www) - 1.0;
-  vec3 h = abs(x) - 0.5;
-  vec3 ox = floor(x + 0.5);
-  vec3 a0 = x - ox;
-  m *= 1.79284291400159 - 0.85373472095314 * (a0 * a0 + h * h);
-  vec3 g;
-  g.x = a0.x * x0.x + h.x * x0.y;
-  g.yz = a0.yz * x12.xz + h.yz * x12.yw;
-  return 130.0 * dot(m, g);
+float cnoise(vec2 P) {
+  vec4 Pi = floor(P.xyxy) + vec4(0.0, 0.0, 1.0, 1.0);
+  vec4 Pf = fract(P.xyxy) - vec4(0.0, 0.0, 1.0, 1.0);
+  Pi = mod289(Pi);
+  vec4 ix = Pi.xzxz;
+  vec4 iy = Pi.yyww;
+  vec4 fx = Pf.xzxz;
+  vec4 fy = Pf.yyww;
+  vec4 i = permute(permute(ix) + iy);
+  vec4 gx = fract(i * (1.0 / 41.0)) * 2.0 - 1.0;
+  vec4 gy = abs(gx) - 0.5;
+  vec4 tx = floor(gx + 0.5);
+  gx = gx - tx;
+  vec2 g00 = vec2(gx.x, gy.x);
+  vec2 g10 = vec2(gx.y, gy.y);
+  vec2 g01 = vec2(gx.z, gy.z);
+  vec2 g11 = vec2(gx.w, gy.w);
+  vec4 norm = taylorInvSqrt(vec4(dot(g00,g00), dot(g01,g01), dot(g10,g10), dot(g11,g11)));
+  g00 *= norm.x; g01 *= norm.y; g10 *= norm.z; g11 *= norm.w;
+  float n00 = dot(g00, vec2(fx.x, fy.x));
+  float n10 = dot(g10, vec2(fx.y, fy.y));
+  float n01 = dot(g01, vec2(fx.z, fy.z));
+  float n11 = dot(g11, vec2(fx.w, fy.w));
+  vec2 fade_xy = fade(Pf.xy);
+  vec2 n_x = mix(vec2(n00, n01), vec2(n10, n11), fade_xy.x);
+  float n_xy = mix(n_x.x, n_x.y, fade_xy.y);
+  return 2.3 * n_xy;
 }
 
-vec3 iridescence(float angle) {
-  return vec3(
-    sin(angle) * 0.5 + 0.5,
-    sin(angle + PI * 2.0 / 3.0) * 0.5 + 0.5,
-    sin(angle + PI * 4.0 / 3.0) * 0.5 + 0.5
-  );
+float fbm(vec2 p) {
+  float value = 0.0;
+  float amplitude = 0.5;
+  for (int i = 0; i < 3; i++) {
+    value += amplitude * cnoise(p);
+    p *= 2.0;
+    amplitude *= 0.5;
+  }
+  return value;
 }
 
 void main() {
   vec2 uv = vUv;
-  float time = uTime * 0.3;
-  float scroll = uScrollProgress;
-  float baseStrength = mix(0.08, 0.02, scroll);
-  float velocityBoost = uVelocity * 0.1;
-  float distortionStrength = baseStrength + velocityBoost;
-  float n1 = snoise(uv * 3.0 + time * 0.5);
-  float n2 = snoise(uv * 5.0 - time * 0.3);
-  vec2 distortion = vec2(n1, n2) * distortionStrength;
-  vec2 distortedUv = uv + distortion;
-  float angle = atan(distortion.y, distortion.x) + time * 0.5;
-  vec3 iriColor = iridescence(angle * 3.0);
-  float brightness = snoise(distortedUv * 2.0 + time * 0.2) * 0.5 + 0.5;
-  brightness = pow(brightness, 2.0);
-  float alpha = brightness * mix(0.15, 0.06, scroll);
-  vec3 color = iriColor * brightness;
-  gl_FragColor = vec4(color, alpha);
+  float aspect = uResolution.x / uResolution.y;
+  vec2 p = (uv - 0.5) * vec2(aspect, 1.0);
+  float t = uTime * 0.08;
+
+  float n1 = fbm(p * 1.8 + vec2(t, t * 0.7));
+  float n2 = fbm(p * 2.5 + vec2(-t * 0.6, t * 0.4) + n1 * 0.5);
+
+  float pattern = n1 * 0.55 + n2 * 0.45;
+  pattern = pattern * 0.5 + 0.5;
+
+  float ridges = abs(sin(pattern * 10.0 + t * 2.0));
+  ridges = ridges * ridges * ridges;
+
+  float vignette = 1.0 - length(p) * 0.6;
+  vignette = smoothstep(0.0, 1.0, vignette);
+
+  float luminance = pattern * 0.06 + ridges * 0.03;
+  luminance *= vignette;
+  luminance += smoothstep(0.55, 0.7, pattern) * 0.04 * vignette;
+
+  gl_FragColor = vec4(vec3(luminance), 1.0);
 }
 `
 
-interface LiquidGlassShaderProps {
-  scrollProgress?: number
-  velocity?: number
-}
-
-export default function LiquidGlassShader({ scrollProgress = 0, velocity = 0 }: LiquidGlassShaderProps) {
+export default function LiquidGlassShader() {
   const meshRef = useRef<THREE.Mesh>(null)
   const { viewport } = useThree()
 
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
-      uScrollProgress: { value: 0 },
-      uVelocity: { value: 0 },
       uResolution: { value: new THREE.Vector2(1, 1) },
     }),
     []
@@ -101,8 +106,6 @@ export default function LiquidGlassShader({ scrollProgress = 0, velocity = 0 }: 
     if (!meshRef.current) return
     const material = meshRef.current.material as THREE.ShaderMaterial
     material.uniforms.uTime.value = state.clock.elapsedTime
-    material.uniforms.uScrollProgress.value = scrollProgress
-    material.uniforms.uVelocity.value = velocity
     material.uniforms.uResolution.value.set(viewport.width, viewport.height)
   })
 
@@ -113,7 +116,6 @@ export default function LiquidGlassShader({ scrollProgress = 0, velocity = 0 }: 
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}
         uniforms={uniforms}
-        transparent
         depthWrite={false}
       />
     </mesh>

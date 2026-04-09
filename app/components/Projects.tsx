@@ -1,10 +1,12 @@
 "use client"
 
-import { useEffect, useRef, useState, useCallback } from "react"
-import { StaticImageData } from "next/image"
+import { useEffect, useRef, useCallback } from "react"
+import Image, { StaticImageData } from "next/image"
+import Link from "next/link"
+import { gsap } from "gsap"
 import PinnedSection from "./scroll/PinnedSection"
-import ProjectSlide from "./ProjectSlide"
 import { useScrollEngine } from "./scroll/ScrollEngine"
+import { useIsMobile } from "./hooks/useDeviceDetect"
 import knowledgeHub from "@/public/images/KnowledgeHub_1.png"
 import imagecaption from "@/public/images/BE-Project.jpg"
 import blogsite from "@/public/images/BlogSite.jpg"
@@ -70,24 +72,77 @@ const projects: Project[] = [
   },
 ]
 
-function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(false)
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768)
-    check()
-    window.addEventListener("resize", check)
-    return () => window.removeEventListener("resize", check)
-  }, [])
-  return isMobile
+function ProjectCard({ project }: { project: Project }) {
+  return (
+    <div className="flex-shrink-0 w-[85vw] max-w-[1000px] h-full flex items-center">
+      <div className="group relative w-full rounded-3xl border border-white/[0.06] bg-white/[0.02] p-6 lg:p-8 transition-colors duration-300 hover:bg-white/[0.05] hover:border-white/[0.12]">
+        <Link
+          href={`/projects/${project.id}`}
+          className="absolute inset-0 z-0 rounded-3xl"
+          aria-label={`View ${project.title}`}
+        />
+        <div className="grid w-full gap-8 lg:grid-cols-[1.2fr_1fr] items-center">
+          <div className="relative aspect-video overflow-hidden rounded-2xl">
+            <Image
+              src={project.image}
+              alt={project.title}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+              sizes="(max-width: 1024px) 85vw, 50vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#090909]/80 via-transparent to-transparent" />
+          </div>
+
+          <div className="space-y-5">
+            <h3 className="font-display italic text-3xl sm:text-4xl lg:text-5xl text-white leading-tight">
+              {project.title}
+            </h3>
+            <p className="font-body text-sm text-white/35 leading-relaxed max-w-md">
+              {project.description}
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {project.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-full border border-white/[0.06] bg-white/[0.03] px-3 py-1 font-mono text-[10px] text-white/30"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <div className="flex items-center gap-4 pt-2">
+              <span className="font-body text-xs tracking-[0.2em] uppercase text-white/50 group-hover:text-white transition-colors">
+                View Project →
+              </span>
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="relative z-10 font-body text-xs tracking-[0.2em] uppercase text-white/30 hover:text-white/60 transition-colors"
+              >
+                GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 function MobileProjectCard({ project }: { project: Project }) {
   return (
-    <div className="glass rounded-2xl p-6 space-y-4">
+    <div className="group relative rounded-2xl p-5 space-y-4 bg-white/[0.02] border border-white/[0.06] active:bg-white/[0.05]">
+      <Link
+        href={`/projects/${project.id}`}
+        className="absolute inset-0 z-0 rounded-2xl"
+        aria-label={`View ${project.title}`}
+      />
       <div className="relative aspect-video overflow-hidden rounded-xl">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={typeof project.image === 'string' ? project.image : project.image.src}
+          src={typeof project.image === "string" ? project.image : project.image.src}
           alt={project.title}
           className="w-full h-full object-cover"
         />
@@ -99,24 +154,22 @@ function MobileProjectCard({ project }: { project: Project }) {
         {project.tags.map((tag) => (
           <span
             key={tag}
-            className="glass rounded-full px-3 py-1 font-mono text-[10px] text-white/30"
+            className="rounded-full border border-white/[0.06] bg-white/[0.03] px-3 py-1 font-mono text-[10px] text-white/30"
           >
             {tag}
           </span>
         ))}
       </div>
       <div className="flex items-center gap-4 pt-2">
-        <a
-          href={`/projects/${project.id}`}
-          className="font-body text-xs tracking-[0.2em] uppercase text-white/50 hover:text-white transition-colors"
-        >
+        <span className="font-body text-xs tracking-[0.2em] uppercase text-white/50">
           View Project →
-        </a>
+        </span>
         <a
           href={project.github}
           target="_blank"
           rel="noreferrer"
-          className="font-body text-xs tracking-[0.2em] uppercase text-white/30 hover:text-white/60 transition-colors"
+          onClick={(e) => e.stopPropagation()}
+          className="relative z-10 font-body text-xs tracking-[0.2em] uppercase text-white/30 hover:text-white/60 transition-colors"
         >
           GitHub
         </a>
@@ -125,10 +178,15 @@ function MobileProjectCard({ project }: { project: Project }) {
   )
 }
 
+const COUNT = projects.length
+
 export default function Projects() {
   const { registerSection } = useScrollEngine()
   const sectionRef = useRef<HTMLDivElement>(null)
-  const [progress, setProgress] = useState(0)
+  const trackRef = useRef<HTMLDivElement>(null)
+  const barRef = useRef<HTMLDivElement>(null)
+  const counterRef = useRef<HTMLSpanElement>(null)
+  const maxXRef = useRef(0)
   const isMobile = useIsMobile()
 
   useEffect(() => {
@@ -137,18 +195,44 @@ export default function Projects() {
     }
   }, [registerSection])
 
+  useEffect(() => {
+    if (!trackRef.current) return
+    const track = trackRef.current
+    const measure = () => {
+      const trackW = track.scrollWidth
+      const viewportW = window.innerWidth
+      maxXRef.current = Math.max(0, trackW - viewportW)
+    }
+
+    measure()
+    const timer = setTimeout(measure, 300)
+
+    const ro = new ResizeObserver(measure)
+    ro.observe(track)
+    window.addEventListener("resize", measure)
+    return () => {
+      ro.disconnect()
+      window.removeEventListener("resize", measure)
+      clearTimeout(timer)
+    }
+  }, [isMobile])
+
   const handleProgress = useCallback((p: number) => {
-    setProgress(p)
+    if (trackRef.current && maxXRef.current > 0) {
+      gsap.set(trackRef.current, { x: -(p * maxXRef.current) })
+    }
+
+    if (barRef.current) {
+      barRef.current.style.width = `${p * 100}%`
+    }
+
+    if (counterRef.current) {
+      const idx = Math.min(Math.floor(p * COUNT), COUNT - 1)
+      counterRef.current.textContent = `${String(idx + 1).padStart(2, "0")} / ${String(COUNT).padStart(2, "0")}`
+    }
   }, [])
 
-  const count = projects.length
-  const scrubDuration = count * 1.2
-  const activeIndex = Math.min(
-    Math.floor(progress * count),
-    count - 1
-  )
-
-  if (isMobile) {
+  if (isMobile !== false) {
     return (
       <section id="projects" ref={sectionRef} className="relative w-full py-20 px-4">
         <div className="mb-10">
@@ -169,67 +253,44 @@ export default function Projects() {
   }
 
   return (
-    <PinnedSection id="projects" scrubDuration={scrubDuration} onProgress={handleProgress}>
+    <PinnedSection id="projects" scrubDuration={COUNT * 1.5} onProgress={handleProgress}>
       <div ref={sectionRef} className="relative h-screen w-full overflow-hidden">
-        <div
-          className="absolute top-12 left-6 z-20 transition-opacity duration-300"
-          style={{ opacity: progress < 0.05 ? 1 : 0 }}
-        >
-          <p className="text-[10px] font-body font-medium tracking-[0.4em] uppercase text-white/30">
-            Projects
-          </p>
-          <h2 className="mt-4 font-display italic text-4xl sm:text-5xl text-white leading-[1.1]">
-            Things I&apos;ve built that I&apos;m proud of.
-          </h2>
+        <div className="relative z-20 px-6 pt-16 pb-4">
+          <div className="container mx-auto">
+            <p className="text-[10px] font-body font-medium tracking-[0.4em] uppercase text-white/30">
+              Projects
+            </p>
+            <h2 className="mt-4 font-display italic text-4xl sm:text-5xl text-white leading-[1.1]">
+              Things I&apos;ve built that I&apos;m proud of.
+            </h2>
+          </div>
         </div>
 
-        {projects.map((project, i) => {
-          const slideProgress = progress * count - i
-          const opacity = slideProgress < -0.5
-            ? 0
-            : slideProgress > 1.5
-              ? 0
-              : slideProgress >= 0 && slideProgress <= 1
-                ? 1
-                : slideProgress < 0
-                  ? 1 + slideProgress * 2
-                  : 1 - (slideProgress - 1) * 2
-
-          const clampedOpacity = Math.max(0, Math.min(1, opacity))
-          const translateY = slideProgress < 0 ? 60 : slideProgress > 1 ? -60 : 0
-
-          return (
-            <ProjectSlide
-              key={project.id}
-              id={project.id}
-              title={project.title}
-              description={project.description}
-              tags={project.tags}
-              image={project.image}
-              github={project.github}
-              opacity={clampedOpacity}
-              translateY={translateY}
-            />
-          )
-        })}
-
-        <div className="absolute right-6 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-3">
-          {projects.map((project, i) => (
-            <div
-              key={project.id}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                activeIndex === i
-                  ? "bg-white/60 scale-125"
-                  : "bg-white/15 hover:bg-white/30"
-              }`}
-            />
+        <div
+          ref={trackRef}
+          className="absolute left-0 h-[calc(100vh-180px)] bottom-16 flex items-center gap-16 pl-6 pr-[15vw] will-change-transform"
+        >
+          {projects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
           ))}
         </div>
 
-        <div className="absolute bottom-8 right-6 z-20">
-          <span className="font-mono text-xs text-white/25">
-            {String(activeIndex + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
-          </span>
+        <div className="absolute bottom-8 left-6 right-6 z-20">
+          <div className="flex items-center gap-4">
+            <span ref={counterRef} className="font-mono text-xs text-white/25">
+              01 / {String(COUNT).padStart(2, "0")}
+            </span>
+            <div className="flex-1 h-px bg-white/[0.06] relative">
+              <div
+                ref={barRef}
+                className="absolute top-0 left-0 h-full bg-white/20"
+                style={{ width: "0%" }}
+              />
+            </div>
+            <span className="font-body text-[10px] tracking-[0.3em] uppercase text-white/20">
+              Scroll to browse
+            </span>
+          </div>
         </div>
       </div>
     </PinnedSection>

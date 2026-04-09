@@ -45,11 +45,11 @@ export default function WebGLCanvas({ children, className, fallback }: WebGLCanv
     <Canvas
       className={className}
       gl={{
-        antialias: true,
+        antialias: false,
         alpha: true,
         powerPreference: 'high-performance',
       }}
-      dpr={[1, 1.5]}
+      dpr={[1, 1.25]}
       style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}
       onCreated={() => {
         window.dispatchEvent(new Event('webgl-ready'))

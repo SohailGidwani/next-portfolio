@@ -1,13 +1,8 @@
 "use client"
 
-import { useEffect, useRef, useState, useCallback } from "react"
-import { motion } from "framer-motion"
-import dynamic from "next/dynamic"
-import PinnedSection from "./scroll/PinnedSection"
+import { useEffect, useRef } from "react"
+import { motion, useInView } from "framer-motion"
 import { useScrollEngine } from "./scroll/ScrollEngine"
-
-const WebGLCanvas = dynamic(() => import("./webgl/WebGLCanvas"), { ssr: false })
-const LiquidGlassShader = dynamic(() => import("./webgl/LiquidGlassShader"), { ssr: false })
 
 const contactLinks = [
   {
@@ -22,21 +17,21 @@ const contactLinks = [
   },
   {
     label: "LinkedIn",
-    value: "sohail-gidwani",
+    value: "linkedin.com/in/sohail-gidwani",
     href: "https://www.linkedin.com/in/sohail-gidwani/",
   },
   {
     label: "GitHub",
-    value: "SohailGidwani",
+    value: "github.com/SohailGidwani",
     href: "https://github.com/SohailGidwani",
   },
 ]
 
 export default function Contact() {
   const { registerSection } = useScrollEngine()
-  const sectionRef = useRef<HTMLDivElement>(null)
-  const [progress, setProgress] = useState(0)
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" })
+  const sectionRef = useRef<HTMLElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(contentRef, { once: true, margin: "-100px" })
 
   useEffect(() => {
     if (sectionRef.current) {
@@ -44,162 +39,95 @@ export default function Contact() {
     }
   }, [registerSection])
 
-  const handleProgress = useCallback((p: number) => {
-    setProgress(p)
-  }, [])
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    const mailtoLink = `mailto:sohailgidwani15@gmail.com?subject=Portfolio Contact from ${formData.name}&body=${encodeURIComponent(formData.message)}%0A%0AFrom: ${formData.email}`
-    window.open(mailtoLink, "_blank")
-  }
-
   return (
-    <PinnedSection id="contact" scrubDuration={1.5} onProgress={handleProgress}>
-      <div ref={sectionRef} className="relative flex h-screen w-full items-center overflow-hidden">
-        {/* WebGL background at calm state */}
-        <div className="pointer-events-none absolute inset-0">
-          <WebGLCanvas
-            fallback={
-              <div className="absolute inset-0 bg-gradient-to-t from-white/[0.02] via-transparent to-transparent" />
-            }
+    <section
+      id="contact"
+      ref={sectionRef}
+      className="relative flex min-h-screen items-center py-32 overflow-hidden"
+    >
+      {/* Subtle gradient background */}
+      <div className="pointer-events-none absolute inset-0">
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(255,255,255,0.02) 0%, transparent 70%)",
+          }}
+        />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
+      </div>
+
+      <div className="relative z-10 container mx-auto px-6" ref={contentRef}>
+        <div className="max-w-2xl mx-auto text-center">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+            className="text-[10px] font-body font-medium tracking-[0.4em] uppercase text-white/30"
           >
-            <LiquidGlassShader scrollProgress={1} velocity={0} />
-          </WebGLCanvas>
-        </div>
+            Contact
+          </motion.p>
 
-        <div className="relative z-10 container mx-auto px-6">
-          <div className="grid gap-16 lg:grid-cols-[1fr_1fr] items-center">
-            {/* Left — CTA and links */}
-            <div>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
-                className="text-[10px] font-body font-medium tracking-[0.4em] uppercase text-white/30"
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="mt-6 font-display italic text-5xl sm:text-6xl lg:text-7xl text-white leading-[1.05]"
+          >
+            Let&apos;s build
+            <br />
+            something.
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mt-6 font-body text-sm text-white/30 max-w-md mx-auto leading-relaxed"
+          >
+            Looking for full-time roles, research collaborations, or interesting
+            side projects. Reach out and let&apos;s figure it out from there.
+          </motion.p>
+
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={isInView ? { scaleX: 1 } : {}}
+            transition={{ delay: 0.4, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="mt-10 mb-10 h-px w-20 mx-auto bg-white/10 origin-center"
+          />
+
+          <div className="space-y-4">
+            {contactLinks.map((link, i) => (
+              <motion.a
+                key={link.label}
+                href={link.href}
+                target={link.href.startsWith("http") ? "_blank" : undefined}
+                rel={link.href.startsWith("http") ? "noreferrer" : undefined}
+                initial={{ opacity: 0, y: 16 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.4, delay: 0.5 + i * 0.08 }}
+                className="flex items-center justify-center gap-5 group py-1"
               >
-                Contact
-              </motion.p>
-
-              <motion.h2
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.1 }}
-                viewport={{ once: true }}
-                className="mt-6 font-display italic text-5xl sm:text-6xl lg:text-7xl text-white leading-[1.05]"
-              >
-                Let&apos;s build
-                <br />
-                something.
-              </motion.h2>
-
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                viewport={{ once: true }}
-                className="mt-6 font-body text-sm text-white/30 max-w-md leading-relaxed"
-              >
-                I&apos;m looking for full-time roles, research collaborations, or interesting side
-                projects. Drop me a message and we&apos;ll figure it out from there.
-              </motion.p>
-
-              <div className="mt-10 space-y-3">
-                {contactLinks.map((link, i) => (
-                  <motion.a
-                    key={link.label}
-                    href={link.href}
-                    target={link.href.startsWith("http") ? "_blank" : undefined}
-                    rel={link.href.startsWith("http") ? "noreferrer" : undefined}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, delay: 0.3 + i * 0.08 }}
-                    viewport={{ once: true }}
-                    className="flex items-center gap-4 group"
-                  >
-                    <span className="text-[9px] font-body font-medium tracking-[0.3em] uppercase text-white/20 w-16 shrink-0">
-                      {link.label}
-                    </span>
-                    <span className="font-body text-sm text-white/40 group-hover:text-white transition-colors">
-                      {link.value}
-                    </span>
-                  </motion.a>
-                ))}
-              </div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-                viewport={{ once: true }}
-                className="mt-6 font-body text-xs text-white/15"
-              >
-                Los Angeles, CA · Open to remote and on-site
-              </motion.div>
-            </div>
-
-            {/* Right — contact form */}
-            <motion.form
-              onSubmit={handleSubmit}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-              viewport={{ once: true }}
-              className="glass-elevated rounded-2xl p-8 space-y-5"
-            >
-              <div>
-                <label htmlFor="contact-name" className="text-[10px] font-body font-medium tracking-[0.3em] uppercase text-white/20 block mb-2">
-                  Name
-                </label>
-                <input
-                  id="contact-name"
-                  type="text"
-                  value={formData.name}
-                  onChange={(e) => setFormData((d) => ({ ...d, name: e.target.value }))}
-                  className="w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-3 font-body text-sm text-white placeholder:text-white/15 focus:outline-none focus:border-white/20 transition-colors"
-                  placeholder="Your name"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="contact-email" className="text-[10px] font-body font-medium tracking-[0.3em] uppercase text-white/20 block mb-2">
-                  Email
-                </label>
-                <input
-                  id="contact-email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData((d) => ({ ...d, email: e.target.value }))}
-                  className="w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-3 font-body text-sm text-white placeholder:text-white/15 focus:outline-none focus:border-white/20 transition-colors"
-                  placeholder="you@email.com"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="contact-message" className="text-[10px] font-body font-medium tracking-[0.3em] uppercase text-white/20 block mb-2">
-                  Message
-                </label>
-                <textarea
-                  id="contact-message"
-                  value={formData.message}
-                  onChange={(e) => setFormData((d) => ({ ...d, message: e.target.value }))}
-                  rows={4}
-                  className="w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-3 font-body text-sm text-white placeholder:text-white/15 focus:outline-none focus:border-white/20 transition-colors resize-none"
-                  placeholder="What do you have in mind?"
-                  required
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full glass rounded-xl py-3 font-body text-xs tracking-[0.2em] uppercase text-white/50 hover:text-white hover:bg-white/[0.06] transition-all"
-              >
-                Send Message
-              </button>
-            </motion.form>
+                <span className="text-[9px] font-body font-medium tracking-[0.3em] uppercase text-white/20 w-16 text-right shrink-0">
+                  {link.label}
+                </span>
+                <span className="font-body text-sm text-white/40 group-hover:text-white transition-colors duration-300">
+                  {link.value}
+                </span>
+              </motion.a>
+            ))}
           </div>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.9 }}
+            className="mt-10 font-body text-xs text-white/10"
+          >
+            Los Angeles, CA · Open to remote and on-site
+          </motion.p>
         </div>
       </div>
-    </PinnedSection>
+    </section>
   )
 }
