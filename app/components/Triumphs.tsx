@@ -125,6 +125,7 @@ export default function Triumphs() {
                   src={certificate.image}
                   alt={certificate.title}
                   fill
+                  placeholder="blur"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                   sizes="(max-width: 1024px) 100vw, 33vw"
                 />
@@ -162,6 +163,7 @@ export default function Triumphs() {
                 src={selected.image}
                 alt={selected.title}
                 fill
+                placeholder="blur"
                 className="object-contain"
                 sizes="(max-width: 1024px) 100vw, 700px"
               />

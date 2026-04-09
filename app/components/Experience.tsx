@@ -7,7 +7,7 @@ import Image, { StaticImageData } from "next/image"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/app/components/ui/dialog"
 import { Badge } from "@/app/components/ui/badge"
 import { triggerHaptic } from "./ui/haptics"
-import { usePortfolio } from "./PortfolioProvider"
+import { useSkillHighlight } from "./SkillHighlightProvider"
 import AskPandaAI from "@/public/images/Insaito.png"
 import fullstack from "@/public/images/iifl.png"
 import feynwick from "@/public/images/iremify.png"
@@ -96,7 +96,7 @@ const experiences: ExperienceItem[] = [
 ]
 
 export default function Experience() {
-  const { activeSkill } = usePortfolio()
+  const { activeSkill } = useSkillHighlight()
   const [selected, setSelected] = useState<ExperienceItem | null>(null)
   const normalizedSkill = activeSkill?.toLowerCase()
 
@@ -157,6 +157,7 @@ export default function Experience() {
                     src={featured.logo}
                     alt={`${featured.company} logo`}
                     fill
+                    placeholder="blur"
                     className="object-cover"
                     sizes="64px"
                   />
@@ -242,6 +243,7 @@ export default function Experience() {
                           src={item.logo}
                           alt={`${item.company} logo`}
                           fill
+                          placeholder="blur"
                           className="object-cover"
                           sizes="40px"
                         />
@@ -301,6 +303,7 @@ export default function Experience() {
                     src={selected.logo}
                     alt={`${selected.company} logo`}
                     fill
+                    placeholder="blur"
                     className="object-cover"
                     sizes="48px"
                   />

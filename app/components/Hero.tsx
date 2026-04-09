@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { ArrowDownRight, Check, ChevronDown, Github, Linkedin, Mail, MapPin, Sparkles } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
@@ -21,12 +21,14 @@ const ROLES = [
 
 
 function RoleBadge() {
+  const shouldReduce = useReducedMotion()
   const [index, setIndex] = useState(0)
 
   useEffect(() => {
+    if (shouldReduce) return
     const id = setInterval(() => setIndex((i) => (i + 1) % ROLES.length), 2800)
     return () => clearInterval(id)
-  }, [])
+  }, [shouldReduce])
 
   return (
     <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground backdrop-blur-sm">
@@ -81,7 +83,12 @@ function AnimatedName({ delayScale }: { delayScale: number }) {
 
 function CopyEmailButton() {
   const [copied, setCopied] = useState(false)
+  const timerRef = useRef<ReturnType<typeof setTimeout>>(null)
   const email = "sohailgidwani15@gmail.com"
+
+  useEffect(() => {
+    return () => { if (timerRef.current) clearTimeout(timerRef.current) }
+  }, [])
 
   const handleCopy = async () => {
     try {
@@ -89,7 +96,8 @@ function CopyEmailButton() {
       triggerHaptic()
       setCopied(true)
       toast.success("Email copied!")
-      setTimeout(() => setCopied(false), 2000)
+      if (timerRef.current) clearTimeout(timerRef.current)
+      timerRef.current = setTimeout(() => setCopied(false), 2000)
     } catch {
       toast.error("Failed to copy")
     }
@@ -98,8 +106,9 @@ function CopyEmailButton() {
   return (
     <motion.button
       onClick={handleCopy}
+      title="Copy email address"
       className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/80 text-foreground transition-colors hover:border-primary/40 hover:text-primary"
-                  aria-label="Copy email address"
+      aria-label="Copy email address"
       whileHover={{ y: -3, scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       transition={{ type: "spring", stiffness: 400, damping: 17 }}
@@ -194,6 +203,7 @@ export default function Hero() {
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => triggerHaptic()}
+                aria-label="Download resume (PDF)"
                 className="inline-flex items-center gap-2 rounded-full border border-border bg-card/80 px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-primary/40"
                 whileHover={{ y: -2, scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -257,24 +267,26 @@ export default function Hero() {
       </div>
 
       {/* Scroll chevron → about */}
-      {!shouldReduce && (
-        <motion.button
-          onClick={scrollToAbout}
-          aria-label="Scroll to about section"
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground/30 transition-colors hover:text-muted-foreground/60"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2.0 * ds, duration: 0.6 }}
-          whileHover={{ scale: 1.15 }}
-        >
+      <motion.button
+        onClick={scrollToAbout}
+        aria-label="Scroll to about section"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground/30 transition-colors hover:text-muted-foreground/60"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2.0 * ds, duration: 0.6 }}
+        whileHover={{ scale: 1.15 }}
+      >
+        {shouldReduce ? (
+          <ChevronDown className="h-5 w-5" />
+        ) : (
           <motion.div
             animate={{ y: [0, 6, 0] }}
             transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
           >
             <ChevronDown className="h-5 w-5" />
           </motion.div>
-        </motion.button>
-      )}
+        )}
+      </motion.button>
     </section>
   )
 }

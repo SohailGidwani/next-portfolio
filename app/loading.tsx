@@ -59,7 +59,7 @@ export default function Loading() {
       </div>
 
       {/* Loading indicator */}
-      <div className="fixed bottom-8 left-1/2 -translate-x-1/2">
+      <div className="fixed bottom-8 left-1/2 -translate-x-1/2" role="status" aria-live="polite">
         <div className="flex items-center gap-2 rounded-full border border-border bg-card/80 px-4 py-2 shadow-lg backdrop-blur-sm">
           <div className="h-2 w-2 animate-bounce rounded-full bg-primary [animation-delay:-0.3s]" />
           <div className="h-2 w-2 animate-bounce rounded-full bg-primary [animation-delay:-0.15s]" />

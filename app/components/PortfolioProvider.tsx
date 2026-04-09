@@ -23,8 +23,6 @@ export const TOUR_STEPS = [
 interface PortfolioContextType {
   activeSection: string
   setActiveSection: (section: string) => void
-  activeSkill: string | null
-  setActiveSkill: (skill: string | null) => void
   tourStep: number | null
   startTour: () => void
   stopTour: () => void
@@ -42,7 +40,6 @@ export function usePortfolio() {
 
 export function PortfolioProvider({ children }: { children: ReactNode }) {
   const [activeSection, setActiveSection] = useState("hero")
-  const [activeSkill, setActiveSkill] = useState<string | null>(null)
   const [tourStep, setTourStep] = useState<number | null>(null)
 
   const sectionIds = useMemo(() => [...SECTION_IDS], [])
@@ -74,9 +71,8 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo<PortfolioContextType>(() => ({
     activeSection, setActiveSection,
-    activeSkill, setActiveSkill,
     tourStep, startTour, stopTour, nextTourStep, previousTourStep,
-  }), [activeSection, activeSkill, tourStep, startTour, stopTour, nextTourStep, previousTourStep])
+  }), [activeSection, tourStep, startTour, stopTour, nextTourStep, previousTourStep])
 
   return (
     <PortfolioContext.Provider value={value}>

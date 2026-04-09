@@ -84,6 +84,7 @@ export default function Education() {
                     src={item.logo}
                     alt={`${item.institution} logo`}
                     fill
+                    placeholder="blur"
                     className="object-cover"
                     sizes="48px"
                   />

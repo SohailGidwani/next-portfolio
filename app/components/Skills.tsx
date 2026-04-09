@@ -22,7 +22,7 @@ import {
 import { useTheme } from "next-themes"
 import Image from "next/image"
 import { triggerHaptic } from "./ui/haptics"
-import { usePortfolio } from "./PortfolioProvider"
+import { useSkillHighlight } from "./SkillHighlightProvider"
 
 interface Skill {
   name: string
@@ -300,7 +300,7 @@ const skillCategories: SkillCategory[] = [
 ]
 
 export default function Skills() {
-  const { setActiveSkill } = usePortfolio()
+  const { setActiveSkill } = useSkillHighlight()
   const { resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [activeIndex, setActiveIndex] = useState<number | null>(0)
@@ -344,9 +344,6 @@ export default function Skills() {
           <h2 className="font-display text-3xl text-foreground sm:text-4xl">
             Tools I actually use, not just ones I've heard of.
           </h2>
-          {/* <p className="text-sm text-muted-foreground">
-            Hover any skill to see where I've used it.
-          </p> */}
         </motion.div>
 
         <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -390,9 +387,13 @@ export default function Skills() {
                     {previewSkills.map((skill) => (
                       <span
                         key={skill.name}
+                        role="button"
+                        tabIndex={0}
                         onMouseEnter={() => handleSkillHover(skill.name)}
                         onMouseLeave={() => handleSkillHover(null)}
-                        className="cursor-pointer rounded-full border border-border/70 bg-background/70 px-3 py-1 text-xs font-medium text-muted-foreground transition hover:border-primary/30 hover:text-foreground"
+                        onFocus={() => handleSkillHover(skill.name)}
+                        onBlur={() => handleSkillHover(null)}
+                        className="cursor-pointer rounded-full border border-border/70 bg-background/70 px-3 py-1 text-xs font-medium text-muted-foreground transition hover:border-primary/30 hover:text-foreground focus-visible:border-primary/30 focus-visible:text-foreground"
                       >
                         {skill.name}
                       </span>

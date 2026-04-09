@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import Script from 'next/script'
 import { ThemeProvider } from './components/ThemeProvider'
+import type { Viewport } from 'next'
 
 const display = Fraunces({
   subsets: ['latin'],
@@ -19,6 +20,16 @@ const mono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
 })
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#f5efe7' },
+    { media: '(prefers-color-scheme: dark)', color: '#131a20' },
+  ],
+}
 
 export const metadata = {
   title: 'Sohail Gidwani - AI Developer | AI Agent Engineer | RAG Developer | Full Stack Developer',
@@ -89,7 +100,6 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2" />
         <link rel="manifest" href="/site.webmanifest" />
-        <meta name="theme-color" content="#f5efe7" />
         <meta name="msapplication-TileColor" content="#f5efe7" />
         <link rel="author" href="https://sohailgidwani.app" />
         <link rel="alternate" type="text/plain" title="LLM information" href="/llms.txt" />

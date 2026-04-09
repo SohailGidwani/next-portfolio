@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { Check, Copy, Github, Linkedin, Mail, MapPin, Phone } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
@@ -44,6 +44,11 @@ const contactItems = [
 export default function Contact() {
   const emailAriaLabel = "Email Sohail Gidwani"
   const [copiedLabel, setCopiedLabel] = useState<string | null>(null)
+  const timerRef = useRef<ReturnType<typeof setTimeout>>(null)
+
+  useEffect(() => {
+    return () => { if (timerRef.current) clearTimeout(timerRef.current) }
+  }, [])
 
   const handleCopy = async (value: string, label: string) => {
     try {
@@ -51,9 +56,10 @@ export default function Contact() {
       await navigator.clipboard.writeText(value)
       triggerHaptic(10)
       setCopiedLabel(label)
-      setTimeout(() => setCopiedLabel(null), 2000)
-    } catch (error) {
-      console.error(error)
+      if (timerRef.current) clearTimeout(timerRef.current)
+      timerRef.current = setTimeout(() => setCopiedLabel(null), 2000)
+    } catch {
+      /* clipboard unavailable */
     }
   }
 

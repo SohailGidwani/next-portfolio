@@ -5,46 +5,8 @@ import { Badge } from "@/app/components/ui/badge"
 import { ArrowUpRight, Github } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import knowledgeHub from "@/public/images/KnowledgeHub_1.png"
-import imagecaption from "@/public/images/BE-Project.jpg"
-import blogsite from "@/public/images/BlogSite.jpg"
-import techupdates from "@/public/images/Tech Updates.png"
 import ProjectNav from "@/app/components/ProjectNav"
-
-const projects = [
-  {
-    id: "knowledge-hub",
-    title: "Knowledge Hub",
-    shortDescription: "Upload notes, search them semantically, ask questions with RAG.",
-    image: knowledgeHub,
-    tags: ["Flask", "pgvector", "RAG", "OCR"],
-    github: "https://github.com/SohailGidwani/knowledge_hub",
-  },
-  {
-    id: "tech-updates",
-    title: "Tech Updates",
-    shortDescription: "Scrapes tech news from multiple sources, AI sorts it for me.",
-    image: techupdates,
-    tags: ["Flask", "Azure OpenAI", "Qdrant"],
-    github: "https://github.com/SohailGidwani/Project-TechUpdates",
-  },
-  {
-    id: "image-captioning",
-    title: "Image Captioning",
-    shortDescription: "Give it an image, get a caption. Transformer model hit 0.80 BLEU.",
-    image: imagecaption,
-    tags: ["TensorFlow", "CNN", "Transformer"],
-    github: "https://github.com/SohailGidwani/Image-Caption",
-  },
-  {
-    id: "scribeglobe",
-    title: "ScribeGlobe",
-    shortDescription: "A Medium clone built on Cloudflare Workers. Serverless all the way.",
-    image: blogsite,
-    tags: ["React", "Hono", "PostgreSQL"],
-    github: "https://github.com/SohailGidwani/0---100-FullStack/tree/main/Week%2012/medium",
-  },
-]
+import { projects } from "@/app/data/projects"
 
 export default function ProjectsPage() {
   return (
@@ -79,6 +41,7 @@ export default function ProjectsPage() {
                     src={project.image}
                     alt={project.title}
                     fill
+                    placeholder="blur"
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                     sizes="(max-width: 1024px) 100vw, 33vw"
                   />

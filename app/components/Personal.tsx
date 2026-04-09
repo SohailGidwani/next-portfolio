@@ -1,10 +1,16 @@
 "use client"
 
 import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Coffee, Gamepad2, Film, Sun, Waves, X, Heart } from "lucide-react"
+import { motion } from "framer-motion"
+import { Coffee, Gamepad2, Film, Sun, Waves, Heart } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
 import Image from "next/image"
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+} from "@/app/components/ui/dialog"
 
 interface Game {
   id: string
@@ -103,7 +109,7 @@ export default function Personal() {
     })
   }
 
-  const openMarvelModal = (hero: typeof marvelFavorites[0]) => {
+  const openMarvelModal = (hero: (typeof marvelFavorites)[0]) => {
     triggerHaptic()
     setSelected({
       type: "marvel",
@@ -113,7 +119,7 @@ export default function Personal() {
     })
   }
 
-  const openLifestyleModal = (item: typeof lifestyle[0]) => {
+  const openLifestyleModal = (item: (typeof lifestyle)[0]) => {
     triggerHaptic()
     setSelected({
       type: "lifestyle",
@@ -135,7 +141,7 @@ export default function Personal() {
         >
           <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Beyond the Code</p>
           <h2 className="font-display text-3xl text-foreground sm:text-4xl">
-            Stuff I care about when I'm not coding.
+            Stuff I care about when I&apos;m not coding.
           </h2>
         </motion.div>
 
@@ -273,80 +279,41 @@ export default function Personal() {
         </motion.p>
       </div>
 
-      {/* Detail Modal - Fixed for mobile */}
-      <AnimatePresence>
-        {selected && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setSelected(null)}
-              className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm"
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              className="fixed inset-x-4 bottom-4 top-auto z-50 max-h-[80vh] overflow-hidden rounded-3xl border border-border bg-card/95 shadow-2xl backdrop-blur sm:inset-auto sm:left-1/2 sm:top-1/2 sm:w-full sm:max-w-md sm:-translate-x-1/2 sm:-translate-y-1/2 sm:bottom-auto"
-            >
-              {/* Image header for games/marvel */}
-              {selected.image && (
-                <div className="relative h-48 w-full">
-                  <Image
-                    src={selected.image}
-                    alt={selected.title}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 100vw, 448px"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
-                  <button
-                    type="button"
-                    onClick={() => setSelected(null)}
-                    className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border border-border/50 bg-background/70 text-muted-foreground backdrop-blur transition hover:text-foreground"
-                    aria-label="Close"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
-                </div>
-              )}
+      {/* Radix Dialog — focus trap, Escape, aria-modal, overlay all handled */}
+      <Dialog open={!!selected} onOpenChange={(open) => !open && setSelected(null)}>
+        <DialogContent className="gap-0 overflow-hidden rounded-3xl border-border bg-card/95 p-0 shadow-2xl backdrop-blur sm:max-w-md [&>button:last-child]:z-20 [&>button:last-child]:h-7 [&>button:last-child]:w-7 [&>button:last-child]:rounded-full [&>button:last-child]:border [&>button:last-child]:border-border/50 [&>button:last-child]:bg-background/70 [&>button:last-child]:opacity-100 [&>button:last-child]:backdrop-blur">
+          {selected?.image && (
+            <div className="relative h-48 w-full">
+              <Image
+                src={selected.image}
+                alt={selected.title}
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 100vw, 448px"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
+            </div>
+          )}
 
-              <div className="p-6">
-                {/* Header for lifestyle items without image */}
-                {!selected.image && (
-                  <div className="flex items-start justify-between gap-4 mb-5">
-                    <div className="flex items-center gap-4">
-                      <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                        {selected.icon}
-                      </span>
-                      <h3 className="font-display text-xl text-foreground">{selected.title}</h3>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setSelected(null)}
-                      className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/70 text-muted-foreground transition hover:text-foreground"
-                      aria-label="Close"
-                    >
-                      <X className="h-4 w-4" />
-                    </button>
-                  </div>
-                )}
-
-                {/* Title for image items */}
-                {selected.image && (
-                  <h3 className="font-display text-xl text-foreground -mt-6 relative z-10">{selected.title}</h3>
-                )}
-
-                <p className={`text-sm leading-relaxed text-muted-foreground ${selected.image ? 'mt-3' : ''}`}>
-                  {selected.description}
-                </p>
+          <div className="p-6">
+            {!selected?.image && selected?.icon && (
+              <div className="flex items-center gap-4 mb-4">
+                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                  {selected.icon}
+                </span>
               </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+            )}
+
+            <DialogTitle className={`font-display text-xl text-foreground ${selected?.image ? "-mt-6 relative z-10" : ""}`}>
+              {selected?.title}
+            </DialogTitle>
+
+            <DialogDescription className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              {selected?.description}
+            </DialogDescription>
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   )
 }
