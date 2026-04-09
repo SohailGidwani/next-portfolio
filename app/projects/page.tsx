@@ -2,14 +2,14 @@
 
 import { motion } from "framer-motion"
 import { Badge } from "@/app/components/ui/badge"
-import { ArrowUpRight, Github, Home } from "lucide-react"
+import { ArrowUpRight, Github } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import knowledgeHub from "@/public/images/KnowledgeHub_1.png"
 import imagecaption from "@/public/images/BE-Project.jpg"
 import blogsite from "@/public/images/BlogSite.jpg"
 import techupdates from "@/public/images/Tech Updates.png"
-import ThemeToggle from "@/app/components/ThemeToggle"
+import ProjectNav from "@/app/components/ProjectNav"
 
 const projects = [
   {
@@ -49,18 +49,7 @@ const projects = [
 export default function ProjectsPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <div className="border-b border-border bg-card/60 backdrop-blur">
-        <div className="container mx-auto flex flex-wrap items-center justify-between gap-4 px-4 py-6">
-          <Link
-            href="/#projects"
-            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground"
-          >
-            <Home className="h-4 w-4" />
-            Back to portfolio
-          </Link>
-          <ThemeToggle />
-        </div>
-      </div>
+      <ProjectNav />
 
       <div className="container mx-auto px-4 py-12">
         <motion.div

@@ -1,21 +1,17 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 import { motion } from "framer-motion"
 import { ArrowUpRight, Briefcase, Calendar } from "lucide-react"
 import Image, { StaticImageData } from "next/image"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/app/components/ui/dialog"
 import { Badge } from "@/app/components/ui/badge"
 import { triggerHaptic } from "./ui/haptics"
+import { usePortfolio } from "./PortfolioProvider"
 import AskPandaAI from "@/public/images/Insaito.png"
 import fullstack from "@/public/images/iifl.png"
 import feynwick from "@/public/images/iremify.png"
 import keckUSC from "@/public/images/keck_USC.png"
-
-interface ExperienceProps {
-  setActiveSection: (section: string) => void
-  activeSkill?: string | null
-}
 
 interface ExperienceItem {
   id: string
@@ -99,37 +95,10 @@ const experiences: ExperienceItem[] = [
   },
 ]
 
-export default function Experience({ setActiveSection, activeSkill }: ExperienceProps) {
-  const sectionRef = useRef<HTMLElement>(null)
+export default function Experience() {
+  const { activeSkill } = usePortfolio()
   const [selected, setSelected] = useState<ExperienceItem | null>(null)
   const normalizedSkill = activeSkill?.toLowerCase()
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries: IntersectionObserverEntry[]) => {
-        const [entry] = entries
-        if (entry.isIntersecting) {
-          triggerHaptic(10)
-          setActiveSection("experience")
-        }
-      },
-      {
-        threshold: 0.3,
-        rootMargin: "-10% 0px -10% 0px",
-      }
-    )
-
-    const currentRef = sectionRef.current
-    if (currentRef) {
-      observer.observe(currentRef)
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef)
-      }
-    }
-  }, [setActiveSection])
 
   const openModal = (experience: ExperienceItem) => {
     triggerHaptic()
@@ -142,7 +111,7 @@ export default function Experience({ setActiveSection, activeSkill }: Experience
     : false
 
   return (
-    <section id="experience" ref={sectionRef} className="py-16 sm:py-20">
+    <section id="experience" className="py-16 sm:py-20">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

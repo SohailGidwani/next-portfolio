@@ -1,17 +1,8 @@
-"use client"
-
-import { useEffect, useRef } from "react"
-import { motion } from "framer-motion"
 import { Calendar, MapPin } from "lucide-react"
 import Image, { StaticImageData } from "next/image"
-import { triggerHaptic } from "./ui/haptics"
 import uscLogo from "@/public/images/USC.jpg"
 import tsecLogo from "@/public/images/TSEC.jpeg"
 import jaiHindLogo from "@/public/images/JaiHind.jpg"
-
-interface EducationProps {
-  setActiveSection: (section: string) => void
-}
 
 interface EducationItem {
   degree: string
@@ -64,61 +55,24 @@ const education: EducationItem[] = [
   },
 ]
 
-export default function Education({ setActiveSection }: EducationProps) {
-  const sectionRef = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries: IntersectionObserverEntry[]) => {
-        const [entry] = entries
-        if (entry.isIntersecting) {
-          triggerHaptic(10)
-          setActiveSection("education")
-        }
-      },
-      {
-        threshold: 0.3,
-        rootMargin: "-10% 0px -10% 0px",
-      }
-    )
-
-    const currentRef = sectionRef.current
-    if (currentRef) {
-      observer.observe(currentRef)
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef)
-      }
-    }
-  }, [setActiveSection])
-
+export default function Education() {
   return (
-    <section id="education" ref={sectionRef} className="py-16 sm:py-20">
+    <section id="education" className="py-16 sm:py-20">
       <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="space-y-3"
-        >
+        <div className="animate-in-view space-y-3">
           <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Education</p>
           <h2 className="font-display text-3xl text-foreground sm:text-4xl">
             Structured learning, layered over curiosity.
           </h2>
-        </motion.div>
+        </div>
 
         <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {education.map((item, index) => (
-            <motion.div
+            <div
               key={item.degree}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className={`group rounded-3xl border bg-card/80 p-5 shadow-card transition hover:-translate-y-1 ${
+              className={`animate-in-view group rounded-3xl border bg-card/80 p-5 shadow-card transition hover:-translate-y-1${
+                index > 0 ? ` animate-in-view-stagger-${index}` : ""
+              } ${
                 index === 0
                   ? "border-border ring-1 ring-primary/10 md:col-span-2 lg:col-span-1"
                   : "border-border"
@@ -188,7 +142,7 @@ export default function Education({ setActiveSection }: EducationProps) {
                   </div>
                 </div>
               )}
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

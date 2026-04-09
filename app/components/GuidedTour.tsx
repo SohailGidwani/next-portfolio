@@ -4,6 +4,8 @@ import { useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ArrowLeft, ArrowRight, Sparkles, X } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
+import { usePortfolio, TOUR_STEPS } from "./PortfolioProvider"
+import { smoothScrollTo } from "@/app/utils/smoothScroll"
 
 type TourStep = {
   id: string
@@ -12,14 +14,11 @@ type TourStep = {
 }
 
 interface GuidedTourProps {
-  steps: TourStep[]
-  stepIndex: number | null
-  onNext: () => void
-  onPrevious: () => void
-  onClose: () => void
+  steps?: TourStep[]
 }
 
-export default function GuidedTour({ steps, stepIndex, onNext, onPrevious, onClose }: GuidedTourProps) {
+export default function GuidedTour({ steps = TOUR_STEPS }: GuidedTourProps) {
+  const { tourStep: stepIndex, nextTourStep: onNext, previousTourStep: onPrevious, stopTour: onClose } = usePortfolio()
   const activeStep = stepIndex !== null ? steps[stepIndex] : null
   const currentIndex = stepIndex ?? 0
   const previousElementRef = useRef<HTMLElement | null>(null)
@@ -37,7 +36,7 @@ export default function GuidedTour({ steps, stepIndex, onNext, onPrevious, onClo
     const element = document.getElementById(activeStep.id)
     if (element) {
       element.classList.add("tour-highlight")
-      element.scrollIntoView({ behavior: "smooth", block: "start" })
+      smoothScrollTo(element, { offset: 20 })
       previousElementRef.current = element
     }
 

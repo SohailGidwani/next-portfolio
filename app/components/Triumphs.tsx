@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 import Image, { StaticImageData } from "next/image"
 import { motion } from "framer-motion"
 import { Award, Medal } from "lucide-react"
@@ -13,10 +13,6 @@ import feynwick from "@/public/images/FeynwickCertificate.jpg"
 import rubix from "@/public/images/Rubix-hackathon.png"
 import techathon from "@/public/images/Tech-a-thon-IIFL.jpg"
 import trident from "@/public/images/Trident_Tsec.jpg"
-
-interface TriumphsProps {
-  setActiveSection: (section: string) => void
-}
 
 interface Certificate {
   title: string
@@ -88,36 +84,8 @@ const certificates: Certificate[] = [
   },
 ]
 
-export default function Triumphs({ setActiveSection }: TriumphsProps) {
-  const sectionRef = useRef<HTMLElement>(null)
+export default function Triumphs() {
   const [selected, setSelected] = useState<Certificate | null>(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries: IntersectionObserverEntry[]) => {
-        const [entry] = entries
-        if (entry.isIntersecting) {
-          triggerHaptic(10)
-          setActiveSection("triumphs")
-        }
-      },
-      {
-        threshold: 0.3,
-        rootMargin: "-10% 0px -10% 0px",
-      }
-    )
-
-    const currentRef = sectionRef.current
-    if (currentRef) {
-      observer.observe(currentRef)
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef)
-      }
-    }
-  }, [setActiveSection])
 
   const openModal = (certificate: Certificate) => {
     triggerHaptic()
@@ -125,7 +93,7 @@ export default function Triumphs({ setActiveSection }: TriumphsProps) {
   }
 
   return (
-    <section id="triumphs" ref={sectionRef} className="py-16 sm:py-20">
+    <section id="triumphs" className="py-16 sm:py-20">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

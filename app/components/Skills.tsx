@@ -1,7 +1,7 @@
 "use client"
 
 import type { ReactNode } from "react"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import {
   Cloud,
@@ -22,11 +22,7 @@ import {
 import { useTheme } from "next-themes"
 import Image from "next/image"
 import { triggerHaptic } from "./ui/haptics"
-
-interface SkillsProps {
-  setActiveSection: (section: string) => void
-  onSkillHover?: (skill: string | null) => void
-}
+import { usePortfolio } from "./PortfolioProvider"
 
 interface Skill {
   name: string
@@ -303,8 +299,8 @@ const skillCategories: SkillCategory[] = [
   },
 ]
 
-export default function Skills({ setActiveSection, onSkillHover }: SkillsProps) {
-  const sectionRef = useRef<HTMLElement>(null)
+export default function Skills() {
+  const { setActiveSkill } = usePortfolio()
   const { resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [activeIndex, setActiveIndex] = useState<number | null>(0)
@@ -312,33 +308,6 @@ export default function Skills({ setActiveSection, onSkillHover }: SkillsProps) 
   useEffect(() => {
     setMounted(true)
   }, [])
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries: IntersectionObserverEntry[]) => {
-        const [entry] = entries
-        if (entry.isIntersecting) {
-          triggerHaptic(10)
-          setActiveSection("skills")
-        }
-      },
-      {
-        threshold: 0.3,
-        rootMargin: "-10% 0px -10% 0px",
-      }
-    )
-
-    const currentRef = sectionRef.current
-    if (currentRef) {
-      observer.observe(currentRef)
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef)
-      }
-    }
-  }, [setActiveSection])
 
   const isDark = mounted && resolvedTheme === "dark"
 
@@ -354,13 +323,12 @@ export default function Skills({ setActiveSection, onSkillHover }: SkillsProps) 
   }
 
   const handleSkillHover = (skill: string | null) => {
-    onSkillHover?.(skill)
+    setActiveSkill(skill)
   }
 
   return (
     <section
       id="skills"
-      ref={sectionRef}
       className="py-16 sm:py-20"
       onMouseLeave={() => handleSkillHover(null)}
     >

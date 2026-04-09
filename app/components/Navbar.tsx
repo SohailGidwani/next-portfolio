@@ -5,12 +5,8 @@ import { AnimatePresence, motion } from "framer-motion"
 import { Menu, X } from "lucide-react"
 import ThemeToggle from "./ThemeToggle"
 import { triggerHaptic } from "./ui/haptics"
-
-interface NavbarProps {
-  activeSection: string
-  setActiveSection: (section: string) => void
-  onStartTour: () => void
-}
+import { usePortfolio } from "./PortfolioProvider"
+import { smoothScrollToId, smoothScrollToTop } from "@/app/utils/smoothScroll"
 
 const navItems = [
   { label: "About", id: "about" },
@@ -23,7 +19,8 @@ const navItems = [
   { label: "Contact", id: "contact" },
 ]
 
-export default function Navbar({ activeSection, setActiveSection, onStartTour }: NavbarProps) {
+export default function Navbar() {
+  const { activeSection, setActiveSection, startTour } = usePortfolio()
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
@@ -39,11 +36,12 @@ export default function Navbar({ activeSection, setActiveSection, onStartTour }:
 
   const scrollToSection = (sectionId: string) => {
     triggerHaptic()
-    const section = document.getElementById(sectionId)
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" })
-      setActiveSection(sectionId)
+    if (sectionId === "hero") {
+      smoothScrollToTop()
+    } else {
+      smoothScrollToId(sectionId)
     }
+    setActiveSection(sectionId)
     setIsOpen(false)
   }
 
@@ -98,7 +96,7 @@ export default function Navbar({ activeSection, setActiveSection, onStartTour }:
               type="button"
               onClick={() => {
                 triggerHaptic()
-                onStartTour()
+                startTour()
               }}
               className="inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
             >
@@ -159,7 +157,7 @@ export default function Navbar({ activeSection, setActiveSection, onStartTour }:
                 type="button"
                 onClick={() => {
                   triggerHaptic()
-                  onStartTour()
+                  startTour()
                   setIsOpen(false)
                 }}
                 className="rounded-2xl border border-border bg-background/70 px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground transition hover:border-primary/40 hover:text-foreground"

@@ -23,6 +23,8 @@ import {
 } from "lucide-react"
 import { useTheme } from "next-themes"
 import { triggerHaptic } from "./ui/haptics"
+import { usePortfolio } from "./PortfolioProvider"
+import { smoothScrollToId, smoothScrollToTop } from "@/app/utils/smoothScroll"
 
 interface CommandItem {
   id: string
@@ -34,11 +36,8 @@ interface CommandItem {
   category: "navigation" | "actions" | "links"
 }
 
-interface CommandPaletteProps {
-  onNavigate?: (sectionId: string) => void
-}
-
-export default function CommandPalette({ onNavigate }: CommandPaletteProps) {
+export default function CommandPalette() {
+  const { setActiveSection } = usePortfolio()
   const [isOpen, setIsOpen] = useState(false)
   const [search, setSearch] = useState("")
   const [selectedIndex, setSelectedIndex] = useState(0)
@@ -52,14 +51,15 @@ export default function CommandPalette({ onNavigate }: CommandPaletteProps) {
 
   const scrollToSection = useCallback(
     (sectionId: string) => {
-      const section = document.getElementById(sectionId)
-      if (section) {
-        section.scrollIntoView({ behavior: "smooth" })
-        onNavigate?.(sectionId)
+      if (sectionId === "hero") {
+        smoothScrollToTop()
+      } else {
+        smoothScrollToId(sectionId)
       }
+      setActiveSection(sectionId)
       setIsOpen(false)
     },
-    [onNavigate]
+    [setActiveSection]
   )
 
   const commands: CommandItem[] = useMemo(

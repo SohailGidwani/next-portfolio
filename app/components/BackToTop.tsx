@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ArrowUp } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
+import { smoothScrollToTop } from "@/app/utils/smoothScroll"
 
 export default function BackToTop() {
   const [show, setShow] = useState(false)
@@ -19,7 +20,7 @@ export default function BackToTop() {
 
   const scrollToTop = () => {
     triggerHaptic()
-    window.scrollTo({ top: 0, behavior: "smooth" })
+    smoothScrollToTop()
   }
 
   return (

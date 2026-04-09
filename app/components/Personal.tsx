@@ -1,14 +1,10 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Coffee, Gamepad2, Film, Sun, Waves, X, Heart } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
 import Image from "next/image"
-
-interface PersonalProps {
-  setActiveSection: (section: string) => void
-}
 
 interface Game {
   id: string
@@ -94,36 +90,8 @@ type ModalContent = {
   description: string
 } | null
 
-export default function Personal({ setActiveSection }: PersonalProps) {
-  const sectionRef = useRef<HTMLElement>(null)
+export default function Personal() {
   const [selected, setSelected] = useState<ModalContent>(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries: IntersectionObserverEntry[]) => {
-        const [entry] = entries
-        if (entry.isIntersecting) {
-          triggerHaptic(10)
-          setActiveSection("personal")
-        }
-      },
-      {
-        threshold: 0.3,
-        rootMargin: "-10% 0px -10% 0px",
-      }
-    )
-
-    const currentRef = sectionRef.current
-    if (currentRef) {
-      observer.observe(currentRef)
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef)
-      }
-    }
-  }, [setActiveSection])
 
   const openGameModal = (game: Game) => {
     triggerHaptic()
@@ -156,7 +124,7 @@ export default function Personal({ setActiveSection }: PersonalProps) {
   }
 
   return (
-    <section id="personal" ref={sectionRef} className="py-16 sm:py-20">
+    <section id="personal" className="py-16 sm:py-20">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

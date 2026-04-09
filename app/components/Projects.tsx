@@ -1,21 +1,16 @@
 "use client"
 
-import { useEffect, useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { Badge } from "@/app/components/ui/badge"
 import { ArrowUpRight, Github } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
+import { usePortfolio } from "./PortfolioProvider"
 import knowledgeHub from "@/public/images/KnowledgeHub_1.png"
 import imagecaption from "@/public/images/BE-Project.jpg"
 import blogsite from "@/public/images/BlogSite.jpg"
 import techupdates from "@/public/images/Tech Updates.png"
-
-interface ProjectsProps {
-  setActiveSection: (section: string) => void
-  activeSkill?: string | null
-}
 
 const projects = [
   {
@@ -64,37 +59,9 @@ const projects = [
   },
 ]
 
-export default function Projects({ setActiveSection, activeSkill }: ProjectsProps) {
-  const sectionRef = useRef<HTMLElement>(null)
-
+export default function Projects() {
+  const { activeSkill } = usePortfolio()
   const normalizedSkill = activeSkill?.toLowerCase()
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries: IntersectionObserverEntry[]) => {
-        const [entry] = entries
-        if (entry.isIntersecting) {
-          triggerHaptic(10)
-          setActiveSection("projects")
-        }
-      },
-      {
-        threshold: 0.3,
-        rootMargin: "-10% 0px -10% 0px",
-      }
-    )
-
-    const currentRef = sectionRef.current
-    if (currentRef) {
-      observer.observe(currentRef)
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef)
-      }
-    }
-  }, [setActiveSection])
 
   const [primary, ...rest] = projects
   const primaryHighlighted = primary && normalizedSkill
@@ -102,7 +69,7 @@ export default function Projects({ setActiveSection, activeSkill }: ProjectsProp
     : false
 
   return (
-    <section id="projects" ref={sectionRef} className="py-16 sm:py-20">
+    <section id="projects" className="py-16 sm:py-20">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

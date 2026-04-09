@@ -1,13 +1,9 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { Check, Copy, Github, Linkedin, Mail, MapPin, Phone } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
-
-interface ContactProps {
-  setActiveSection: (section: string) => void
-}
 
 const contactItems = [
   {
@@ -45,8 +41,7 @@ const contactItems = [
   },
 ]
 
-export default function Contact({ setActiveSection }: ContactProps) {
-  const sectionRef = useRef<HTMLElement>(null)
+export default function Contact() {
   const emailAriaLabel = "Email Sohail Gidwani"
   const [copiedLabel, setCopiedLabel] = useState<string | null>(null)
 
@@ -62,35 +57,8 @@ export default function Contact({ setActiveSection }: ContactProps) {
     }
   }
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries: IntersectionObserverEntry[]) => {
-        const [entry] = entries
-        if (entry.isIntersecting) {
-          triggerHaptic(10)
-          setActiveSection("contact")
-        }
-      },
-      {
-        threshold: 0.3,
-        rootMargin: "-10% 0px -10% 0px",
-      }
-    )
-
-    const currentRef = sectionRef.current
-    if (currentRef) {
-      observer.observe(currentRef)
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef)
-      }
-    }
-  }, [setActiveSection])
-
   return (
-    <section id="contact" ref={sectionRef} className="py-16 sm:py-20">
+    <section id="contact" className="py-16 sm:py-20">
       <div className="container mx-auto px-4">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
           <motion.div

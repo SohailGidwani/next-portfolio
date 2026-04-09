@@ -4,12 +4,12 @@ import { Suspense } from "react"
 import { motion } from "framer-motion"
 import { Badge } from "@/app/components/ui/badge"
 import { Button } from "@/app/components/ui/button"
-import { Github, ArrowLeft, ExternalLink, Code, Brain, Zap } from "lucide-react"
+import { Github, FolderKanban, ExternalLink, Code, Brain, Zap } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import imagecaption from '@/public/images/BE-Project.jpg'
 import ProjectSkeleton from "@/app/components/ProjectSkeleton"
-import ThemeToggle from "@/app/components/ThemeToggle"
+import ProjectNav from "@/app/components/ProjectNav"
 import ProjectDetailStructuredData from "@/app/components/ProjectDetailStructuredData"
 
 export default function ImageCaptioningPage() {
@@ -85,27 +85,17 @@ The hardest part was honestly the training pipeline. VGG-16 is memory-hungry, th
       />
       <Suspense fallback={<ProjectSkeleton />}>
       <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+          <ProjectNav />
+
           {/* Header */}
           <div className="bg-gradient-to-br from-primary/10 via-background to-accent/10 py-20">
             <div className="container mx-auto px-4">
-              {/* Theme Toggle - Top Right */}
-              <div className="flex justify-end mb-6">
-                <ThemeToggle />
-              </div>
-              
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
                 className="max-w-4xl mx-auto"
               >
-                <Link 
-                  href="/projects" 
-                  className="inline-flex items-center text-primary hover:text-foreground mb-6 transition-colors"
-                >
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Projects
-                </Link>
                 
                 <h1 className="font-display text-4xl md:text-6xl font-bold mb-6 text-foreground">
                   {project.title}
@@ -287,8 +277,8 @@ The hardest part was honestly the training pipeline. VGG-16 is memory-hungry, th
                     className="rounded-full border border-primary/60 text-primary hover:bg-primary/10 px-8 py-3"
                   >
                     <Link href="/projects" className="flex items-center">
-                      <ArrowLeft className="mr-2 h-5 w-5" />
-                      Back to Projects
+                      <FolderKanban className="mr-2 h-5 w-5" />
+                      Explore Other Projects
                     </Link>
                   </Button>
                 </motion.div>
