@@ -37,3 +37,12 @@ next-env.d.ts
 
 .cursor/
 .superpowers/
+
+.mcp.json
+.opencode.json
+.windsurfrules
+Agents.md
+CLAUDE.md
+GEMINI.md
+.cursorrules
+.claude/
