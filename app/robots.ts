@@ -48,6 +48,26 @@ export default function robots(): MetadataRoute.Robots {
         allow: ['/', '/llms.txt', '/llms-full.txt', '/api/og'],
         disallow: ['/private/', '/admin/', '/api/blogs', '/api/uploads', '/api/images'],
       },
+      {
+        userAgent: 'Meta-ExternalAgent',
+        allow: ['/', '/llms.txt', '/llms-full.txt', '/api/og'],
+        disallow: ['/private/', '/admin/', '/api/blogs', '/api/uploads', '/api/images'],
+      },
+      {
+        userAgent: 'OAI-SearchBot',
+        allow: ['/', '/llms.txt', '/llms-full.txt', '/api/og'],
+        disallow: ['/private/', '/admin/', '/api/blogs', '/api/uploads', '/api/images'],
+      },
+      {
+        userAgent: 'Applebot-Extended',
+        allow: ['/', '/llms.txt', '/llms-full.txt', '/api/og'],
+        disallow: ['/private/', '/admin/', '/api/blogs', '/api/uploads', '/api/images'],
+      },
+      {
+        userAgent: 'CCBot',
+        allow: ['/', '/llms.txt', '/llms-full.txt', '/api/og'],
+        disallow: ['/private/', '/admin/', '/api/blogs', '/api/uploads', '/api/images'],
+      },
     ],
     sitemap: 'https://sohailgidwani.app/sitemap.xml',
     host: 'https://sohailgidwani.app',
