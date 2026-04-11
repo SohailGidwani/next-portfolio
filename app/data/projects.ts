@@ -12,6 +12,7 @@ export interface ProjectData {
   image: StaticImageData
   tags: string[]
   github: string
+  demo?: string
   featured: boolean
 }
 

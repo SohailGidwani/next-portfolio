@@ -451,4 +451,48 @@
     background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.15), hsl(var(--primary) / 0.25), transparent);
     animation: shimmer 1.6s infinite;
   }
+
+  /* About portrait — subtle continuous frame + ambient (not scroll-driven) */
+  @keyframes about-portrait-border-flow {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 200% 50%;
+    }
+  }
+
+  @keyframes about-portrait-glow-breathe {
+    0%,
+    100% {
+      opacity: 0.22;
+      transform: scale(0.94);
+    }
+    50% {
+      opacity: 0.38;
+      transform: scale(1);
+    }
+  }
+
+  .about-portrait-frame {
+    background: linear-gradient(
+      110deg,
+      hsl(var(--border)),
+      hsl(var(--primary) / 0.42),
+      hsl(var(--accent) / 0.32),
+      hsl(var(--primary) / 0.38),
+      hsl(var(--border))
+    );
+    background-size: 220% 100%;
+    animation: about-portrait-border-flow 16s ease-in-out infinite;
+  }
+
+  .about-portrait-ambient {
+    background: radial-gradient(
+      ellipse 80% 70% at 50% 45%,
+      hsl(var(--primary) / 0.28),
+      transparent 72%
+    );
+    animation: about-portrait-glow-breathe 6s ease-in-out infinite;
+  }
 }

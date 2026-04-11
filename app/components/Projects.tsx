@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { Badge } from "@/app/components/ui/badge"
-import { ArrowUpRight, Github } from "lucide-react"
+import { ArrowUpRight, ExternalLink, Github } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
 import { useSkillHighlight } from "./SkillHighlightProvider"
 import { projects } from "@/app/data/projects"
@@ -76,7 +76,20 @@ export default function Projects() {
                       <h3 className="font-display text-2xl text-foreground">{primary.title}</h3>
                       <p className="mt-2 text-sm text-muted-foreground">{primary.shortDescription}</p>
                     </div>
-                    <div className="flex flex-col gap-2">
+                    <div className="flex items-center gap-2">
+                      {primary.demo && (
+                        <a
+                          href={primary.demo}
+                          target="_blank"
+                          rel="noreferrer"
+                          onClick={() => triggerHaptic()}
+                          className="relative z-10 inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary transition hover:bg-primary/20"
+                          aria-label={`Live demo of ${primary.title}`}
+                        >
+                          <ExternalLink className="h-3.5 w-3.5" />
+                          Live
+                        </a>
+                      )}
                       <a
                         href={primary.github}
                         target="_blank"
@@ -136,7 +149,20 @@ export default function Projects() {
                           <h4 className="font-display text-xl text-foreground">{project.title}</h4>
                           <p className="mt-2 text-sm text-muted-foreground">{project.shortDescription}</p>
                         </div>
-                        <div className="flex flex-col gap-2">
+                        <div className="flex items-center gap-2">
+                          {project.demo && (
+                            <a
+                              href={project.demo}
+                              target="_blank"
+                              rel="noreferrer"
+                              onClick={() => triggerHaptic()}
+                              className="relative z-10 inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-1 text-[11px] font-semibold text-primary transition hover:bg-primary/20"
+                              aria-label={`Live demo of ${project.title}`}
+                            >
+                              <ExternalLink className="h-3 w-3" />
+                              Live
+                            </a>
+                          )}
                           <a
                             href={project.github}
                             target="_blank"

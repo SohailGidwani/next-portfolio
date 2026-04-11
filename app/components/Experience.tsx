@@ -8,9 +8,8 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Badge } from "@/app/components/ui/badge"
 import { triggerHaptic } from "./ui/haptics"
 import { useSkillHighlight } from "./SkillHighlightProvider"
-import AskPandaAI from "@/public/images/Insaito.png"
-import fullstack from "@/public/images/iifl.png"
-import feynwick from "@/public/images/iremify.png"
+import insaitoLogo from "@/public/images/Insaito.png"
+import iiflLogo from "@/public/images/iifl.png"
 import keckUSC from "@/public/images/keck_USC.png"
 
 interface ExperienceItem {
@@ -48,7 +47,7 @@ const experiences: ExperienceItem[] = [
     company: "Insaito, Inc.",
     date: "May, 2025 - July, 2025",
     description:
-      "Building cutting-edge AI agent platforms from scratch, focusing on open-source LLM deployment and integration architecture. Leading the development of comprehensive AI agent builder with extensive third-party app integrations.",
+      "Built an AI agent builder platform from scratch — open-source LLM deployment (Qwen 3, Mistral 24B), OAuth for 100+ apps, and MCP server development. End-to-end ownership from backend infra to frontend UI.",
     projects: [
       "AI Agent Builder Platform: Architecting and developing a comprehensive AI agent builder platform from the ground up, enabling users to create sophisticated AI agents with custom workflows and integrations.",
       "Open Source LLM Deployment: Deploying and optimizing open-source large language models including Qwen 3 and Mistral Small 24B 2, ensuring efficient performance and scalability for production environments.",
@@ -58,7 +57,7 @@ const experiences: ExperienceItem[] = [
     ],
     tags: ["TypeScript", "Next.js", "Node.js", "MongoDB"],
     isLatest: false,
-    logo: AskPandaAI,
+    logo: insaitoLogo,
   },
   {
     id: "iifl",
@@ -71,27 +70,11 @@ const experiences: ExperienceItem[] = [
       "Custom Data Chatbots (RAG): Built an internal employee support chatbot using NLP, Python, and Flask. Integrated with Qdrant vector database, Azure OpenAI service, and Zoho ticketing system. This AI-powered solution significantly reduced the number of support tickets raised by employees, streamlining internal processes. (Certificate of Achievement)",
       "Gold Loan Image Audit App: Engineered AI-powered application using models like GroundingDino, Swin-Transformer, enhancing fraud detection and reducing potential loan fraud by 15%.",
       "CapitalGenie: Designed and implemented an automated user support system leveraging internal APIs and GPT-4o to fetch user data, diagnose issues, and generate personalized responses, accelerating resolution by 70%.",
-      "Cross-functional Collaboration: Worked closely with data science and security teams to implement best practices for data handling and model deployment, ensuring robust and secure AI solutions.",
+      "Compliance & Security: Implemented data anonymization and access-control workflows for AI services handling sensitive financial data, passing internal security audits on first review.",
     ],
     tags: ["Python", "Flask", "Qdrant", "Azure"],
     isLatest: false,
-    logo: fullstack,
-  },
-  {
-    id: "iremify",
-    title: "Web Developer (Intern)",
-    company: "Iremify.com",
-    date: "May, 2021 - July, 2021",
-    description:
-      "Designed and implemented machine learning algorithms for predictive analytics. Collaborated with cross-functional teams to integrate ML solutions into existing products.",
-    projects: [
-      "Troubleshot and debugged code ensuring compatibility with devices, browsers, and operating systems.",
-      "Developed web platform back ends using NodeJS and Flask frameworks. Built APIs and data clients to consume APIs.",
-      "Implemented responsive front-end designs using React, showcasing adaptability in learning and applying new technologies.",
-    ],
-    tags: ["React", "Node.js", "Flask"],
-    isLatest: false,
-    logo: feynwick,
+    logo: iiflLogo,
   },
 ]
 
@@ -209,7 +192,7 @@ export default function Experience() {
           )}
 
           {restExperiences.length > 0 && (
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-2">
               {restExperiences.map((item, index) => {
                 const isHighlighted = normalizedSkill
                   ? item.tags.some((tag) => tag.toLowerCase() === normalizedSkill)
@@ -325,16 +308,30 @@ export default function Experience() {
                   <Briefcase className="h-4 w-4" />
                   Key Contributions
                 </div>
-                <div className="grid gap-3 md:grid-cols-2">
-                  {selected.projects.map((project) => (
-                    <div
-                      key={project}
-                      className="rounded-2xl border border-border/70 bg-background/70 p-3 text-xs text-muted-foreground"
-                    >
-                      {project}
-                    </div>
-                  ))}
-                </div>
+                <ul className="space-y-2.5">
+                  {selected.projects.map((project) => {
+                    const colonIdx = project.indexOf(": ")
+                    const hasLead = colonIdx > 0 && colonIdx < 50
+                    return (
+                      <li
+                        key={project}
+                        className="flex gap-2.5 rounded-2xl border border-border/70 bg-background/70 p-3.5 text-sm leading-relaxed text-muted-foreground"
+                      >
+                        <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/60" />
+                        <span>
+                          {hasLead ? (
+                            <>
+                              <strong className="font-semibold text-foreground">{project.slice(0, colonIdx)}</strong>
+                              {project.slice(colonIdx)}
+                            </>
+                          ) : (
+                            project
+                          )}
+                        </span>
+                      </li>
+                    )
+                  })}
+                </ul>
               </div>
             </div>
           </DialogContent>

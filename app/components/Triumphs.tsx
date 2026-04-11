@@ -8,11 +8,8 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { triggerHaptic } from "./ui/haptics"
 import AskPandaAI from "@/public/images/AskPandaAI-Certificate.jpg"
 import fullstack from "@/public/images/0-100 Full stack dev course.png"
-import ctc from "@/public/images/crack_the_code_JaiHind.jpg"
-import feynwick from "@/public/images/FeynwickCertificate.jpg"
 import rubix from "@/public/images/Rubix-hackathon.png"
 import techathon from "@/public/images/Tech-a-thon-IIFL.jpg"
-import trident from "@/public/images/Trident_Tsec.jpg"
 
 interface Certificate {
   title: string
@@ -34,6 +31,14 @@ const certificates: Certificate[] = [
     isAward: true,
   },
   {
+    title: "Tech-a-thon (Hackathon)",
+    issuer: "IIFL",
+    date: "Oct 6th & 7th, 2023",
+    description: "Won 1st prize for an AI-powered customer support chatbot.",
+    image: techathon,
+    isAward: true,
+  },
+  {
     title: "0-100 Full Stack Web Development Course",
     issuer: "Harkirat Singh",
     date: "Apr 2024",
@@ -43,43 +48,11 @@ const certificates: Certificate[] = [
     isAward: false,
   },
   {
-    title: "Tech-a-thon (Hackathon)",
-    issuer: "IIFL",
-    date: "Oct 6th & 7th, 2023",
-    description: "Won 1st prize for an AI-powered customer support chatbot.",
-    image: techathon,
-    isAward: true,
-  },
-  {
-    title: "Feynwick Certificate",
-    issuer: "CSI - KJSIEIT",
-    date: "April 24th, 2021",
-    description: "Participated in an inter-college coding contest, refining DSA skills.",
-    image: feynwick,
-    isAward: false,
-  },
-  {
     title: "Rubix-Hackathon",
     issuer: "CSI - TSEC",
     date: "Jan 18th - 20th, 2022",
-    description: "Built a healthcare consultation web app with the MERN stack.",
+    description: "Built a healthcare consultation web app with the MERN stack. Reached the finals out of 50+ competing teams.",
     image: rubix,
-    isAward: true,
-  },
-  {
-    title: "Trident",
-    issuer: "Code Cell - TSEC",
-    date: "Sept 28, 2019",
-    description: "Completed a multi-round coding event focused on speed and complexity.",
-    image: trident,
-    isAward: true,
-  },
-  {
-    title: "Crack-The-Code",
-    issuer: "Dot Com Club, Jai Hind College",
-    date: "Nov, 2017",
-    description: "Won 2nd prize in a coding contest during 11th grade.",
-    image: ctc,
     isAward: true,
   },
 ]
@@ -108,7 +81,7 @@ export default function Triumphs() {
           </h2>
         </motion.div>
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-4 sm:grid-cols-2">
           {certificates.map((certificate, index) => (
             <motion.button
               key={certificate.title}
