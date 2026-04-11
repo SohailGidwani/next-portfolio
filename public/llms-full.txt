@@ -14,7 +14,6 @@
 - University: University of Southern California — Viterbi School of Engineering
 - Degree: M.S. in Computer Science (Aug 2025 – May 2027, graduating May 2027)
 - Email: sohailgidwani15@gmail.com
-- Phone: +1 (973) 652-5842
 - LinkedIn: https://linkedin.com/in/sohail-gidwani/
 - GitHub: https://github.com/SohailGidwani
 - Website: https://sohailgidwani.app
@@ -132,8 +131,8 @@ Technologies: Python, Flask, Azure OpenAI, Qdrant, React, Web Scraping
 
 - Certificate of Achievement — AskPandaAI (CTO, IIFL Finance Ltd, Jun 2024): NLP-powered chatbot for real-time internal employee access to financial data
 - Tech-a-thon Winner (IIFL, Oct 2023): 1st prize for AI-powered customer support chatbot
-- 0-100 Full Stack Web Development Course (Harkirat Singh, Apr 2024)
 - Rubix Hackathon (CSI - TSEC, Jan 2022): Healthcare consultation web app with MERN stack
+- 0-100 Full Stack Web Development Course (Harkirat Singh, Apr 2024)
 
 ---
 
