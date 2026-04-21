@@ -6,7 +6,12 @@ import { useEffect, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { triggerHaptic } from "./ui/haptics"
 
-export default function ThemeToggle() {
+type ThemeToggleProps = {
+  /** Compact icon (mobile / tight layouts) */
+  variant?: "icon" | "pill"
+}
+
+export default function ThemeToggle({ variant = "icon" }: ThemeToggleProps) {
   const { resolvedTheme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
@@ -22,8 +27,37 @@ export default function ThemeToggle() {
   }
 
   if (!mounted) {
+    if (variant === "pill") {
+      return (
+        <div className="h-9 min-w-[5.5rem] animate-pulse rounded-full border border-border bg-card/40 px-4" />
+      )
+    }
     return (
-      <div className="h-10 w-10 rounded-full border border-border bg-card/60 animate-pulse" />
+      <div className="h-10 w-10 animate-pulse rounded-full border border-border bg-card/60" />
+    )
+  }
+
+  if (variant === "pill") {
+    return (
+      <motion.button
+        type="button"
+        onClick={toggleTheme}
+        whileTap={{ scale: 0.98 }}
+        className="inline-flex items-center gap-2 rounded-full border border-border bg-transparent px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-foreground transition hover:border-foreground/40"
+        aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      >
+        {isDark ? (
+          <>
+            <Sun className="h-3.5 w-3.5" />
+            Light
+          </>
+        ) : (
+          <>
+            <Moon className="h-3.5 w-3.5" />
+            Dark
+          </>
+        )}
+      </motion.button>
     )
   }
 
@@ -46,9 +80,9 @@ export default function ThemeToggle() {
           className="relative"
         >
           {isDark ? (
-            <Sun className="h-4 w-4 text-white" />
+            <Sun className="h-4 w-4" />
           ) : (
-            <Moon className="h-4 w-4 text-primary" />
+            <Moon className="h-4 w-4" />
           )}
         </motion.span>
       </AnimatePresence>

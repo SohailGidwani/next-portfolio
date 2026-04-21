@@ -27,7 +27,7 @@ export default function SkillsTicker() {
 
   return (
     <div
-      className="border-y border-border bg-secondary/60"
+      className="border-y border-border bg-secondary/60 dark:border-white/10 dark:bg-white/[0.03]"
       role="presentation"
       aria-hidden="true"
     >

@@ -1,17 +1,23 @@
 import '@/app/globals.css'
-import { Fraunces, DM_Sans, JetBrains_Mono } from 'next/font/google'
+import { Fraunces, Inter, JetBrains_Mono, Syncopate } from 'next/font/google'
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import Script from 'next/script'
 import { ThemeProvider } from './components/ThemeProvider'
 import type { Viewport } from 'next'
 
+const hero = Syncopate({
+  subsets: ['latin'],
+  variable: '--font-hero',
+  weight: ['700'],
+})
+
 const display = Fraunces({
   subsets: ['latin'],
   variable: '--font-display',
 })
 
-const body = DM_Sans({
+const body = Inter({
   subsets: ['latin'],
   variable: '--font-body',
 })
@@ -27,7 +33,7 @@ export const viewport: Viewport = {
   maximumScale: 5,
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: '#f7f6f3' },
-    { media: '(prefers-color-scheme: dark)', color: '#060605' },
+    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
   ],
 }
 
@@ -301,7 +307,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${body.variable} ${display.variable} ${mono.variable} font-body`}>
+      <body className={`${body.variable} ${display.variable} ${hero.variable} ${mono.variable} font-body`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
           <Analytics />

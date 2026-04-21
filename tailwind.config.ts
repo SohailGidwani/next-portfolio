@@ -19,8 +19,9 @@ module.exports = {
     },
     extend: {
       fontFamily: {
+        hero: ["var(--font-hero)", "system-ui", "sans-serif"],
         display: ["var(--font-display)", "serif"],
-        body: ["var(--font-body)", "sans-serif"],
+        body: ["var(--font-body)", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "monospace"],
       },
       colors: {
