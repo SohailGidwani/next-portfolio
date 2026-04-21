@@ -12,7 +12,7 @@ import SkillsTicker from "./SkillsTicker"
 
 const ShootingStars = dynamic(() => import("./ShootingStars"), { ssr: false })
 const AuroraMesh = dynamic(() => import("./AuroraMesh"), { ssr: false })
-const CodePanel = dynamic(() => import("./CodePanel"), { ssr: false })
+const HeroSpotlight = dynamic(() => import("./HeroSpotlight"), { ssr: false })
 
 const ROLES = [
   "AI / CS Engineer",
@@ -60,17 +60,19 @@ function RoleBadge() {
 function HeroStats() {
   const projectCount = projects.length
   const items = [
-    { value: `${projectCount}+`, label: "Projects documented" },
-    { value: "RAG · Agents", label: "Core stack focus" },
-    { value: "USC", label: "MS Computer Science" },
+    { value: `${projectCount}+`, label: "Projects documented", nowrap: false },
+    { value: "RAG · Agents", label: "Core stack focus", nowrap: true },
+    { value: "USC", label: "MS Computer Science", nowrap: false },
   ]
 
   return (
-    <div className="mt-12 border-t border-border pt-8">
+    <div className="mt-10 border-t border-border pt-8 sm:mt-12">
       <div className="grid gap-8 sm:grid-cols-3">
         {items.map((item) => (
-          <div key={item.label} className="space-y-1">
-            <p className="font-display text-3xl tracking-tight text-foreground sm:text-4xl">
+          <div key={item.label} className="min-w-0 space-y-1">
+            <p
+              className={`font-display text-2xl tracking-tight text-foreground sm:text-3xl md:text-4xl ${item.nowrap ? "whitespace-nowrap" : ""}`}
+            >
               {item.value}
             </p>
             <p className="text-xs font-medium uppercase tracking-[0.28em] text-muted-foreground">
@@ -85,32 +87,64 @@ function HeroStats() {
 
 function AnimatedName({ delayScale }: { delayScale: number }) {
   const shouldReduce = useReducedMotion()
-  const name = "Sohail Gidwani"
+  const first = "Sohail"
+  const last = "Gidwani"
+  const name = `${first} ${last}`
+
+  const headingClass =
+    "font-display leading-[1.08] tracking-tight text-foreground hyphens-none [overflow-wrap:normal] text-[clamp(2.25rem,6.5vw+0.5rem,5.75rem)] sm:text-[clamp(2.75rem,5.5vw+0.75rem,5.75rem)] min-[1140px]:text-[clamp(3.25rem,4.2vw+1rem,5.85rem)]"
 
   if (shouldReduce) {
     return (
-      <h1 className="font-display text-5xl leading-[1.08] tracking-tight text-foreground sm:text-6xl lg:text-7xl xl:text-8xl">
-        {name}
+      <h1 className={headingClass}>
+        <span className="inline-block">{first}</span>{" "}
+        <span className="inline-block whitespace-nowrap">{last}</span>
       </h1>
     )
   }
 
+  let idx = 0
+  const step = 0.04
+  const nextDelay = () => (0.3 + idx++ * step) * delayScale
+
   return (
-    <h1
-      className="font-display text-5xl leading-[1.08] tracking-tight text-foreground sm:text-6xl lg:text-7xl xl:text-8xl"
-      aria-label={name}
-    >
-      {name.split("").map((char, i) => (
+    <h1 className={headingClass} aria-label={name}>
+      <span className="inline-block">
+        {first.split("").map((char, i) => (
+          <motion.span
+            key={`f-${i}`}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, delay: nextDelay(), ease: "easeOut" }}
+            className="inline-block"
+          >
+            {char}
+          </motion.span>
+        ))}
+      </span>
+      <span className="inline-block" aria-hidden="true">
         <motion.span
-          key={i}
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35, delay: (0.3 + i * 0.04) * delayScale, ease: "easeOut" }}
+          transition={{ duration: 0.35, delay: nextDelay(), ease: "easeOut" }}
           className="inline-block"
         >
-          {char === " " ? "\u00A0" : char}
+          {"\u00A0"}
         </motion.span>
-      ))}
+      </span>
+      <span className="inline-block whitespace-nowrap">
+        {last.split("").map((char, i) => (
+          <motion.span
+            key={`l-${i}`}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, delay: nextDelay(), ease: "easeOut" }}
+            className="inline-block"
+          >
+            {char}
+          </motion.span>
+        ))}
+      </span>
     </h1>
   )
 }
@@ -192,10 +226,10 @@ export default function Hero() {
       </div>
 
       <div className="container relative mx-auto flex flex-1 flex-col justify-center pb-16 pt-8 sm:pb-20">
-        <div className="grid items-center gap-12 lg:grid-cols-[1fr_1fr] lg:gap-16">
+        <div className="grid items-start gap-10 min-[1140px]:grid-cols-[1fr_1fr] min-[1140px]:items-center min-[1140px]:gap-14 xl:gap-16">
 
           {/* Left — text content */}
-          <div className="space-y-7">
+          <div className="min-w-0 space-y-6 sm:space-y-7">
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -207,7 +241,7 @@ export default function Hero() {
             <AnimatedName delayScale={ds} />
 
             <motion.p
-              className="max-w-lg text-lg leading-relaxed text-muted-foreground sm:text-xl"
+              className="max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg md:text-xl"
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, delay: 0.95 * ds }}
@@ -288,14 +322,14 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Right — code editor panel */}
+          {/* Right — project spotlight (wide screens only) */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.35 * ds }}
-            className="hidden lg:block"
+            className="hidden min-w-0 min-[1140px]:block"
           >
-            <CodePanel />
+            <HeroSpotlight />
           </motion.div>
         </div>
 
