@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
-import { Menu, X } from "lucide-react"
+import { Menu, Sparkles, X } from "lucide-react"
 import ThemeToggle from "./ThemeToggle"
 import { triggerHaptic } from "./ui/haptics"
 import { usePortfolio } from "./PortfolioProvider"
@@ -19,7 +19,7 @@ const navItems = [
 ]
 
 export default function Navbar() {
-  const { activeSection, setActiveSection } = usePortfolio()
+  const { activeSection, setActiveSection, startTour } = usePortfolio()
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
@@ -65,16 +65,12 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => scrollToSection("hero")}
-          className="flex justify-start text-left font-body text-base font-bold tracking-tight text-foreground"
+          className="flex justify-start text-left font-display text-base font-extrabold tracking-tight text-foreground"
           aria-label="Scroll to top"
         >
-          <span>
+          <span className="inline-flex items-center gap-0.5">
             Sohail
-            <span className="font-normal">.</span>
-            <span
-              className="ml-0.5 inline-block h-1.5 w-1.5 translate-y-[-2px] rounded-full bg-accent align-middle"
-              aria-hidden
-            />
+            <span className="inline-block h-1.5 w-1.5 shrink-0 rounded-[2px] bg-accent" aria-hidden />
           </span>
         </button>
 
@@ -103,15 +99,18 @@ export default function Navbar() {
           <div className="hidden sm:block">
             <ThemeToggle variant="pill" />
           </div>
-          <a
-            href="/documents/Sohail_Gidwani_Resume.pdf"
-            target="_blank"
-            rel="noreferrer"
-            onClick={() => triggerHaptic()}
-            className="hidden rounded-pill bg-foreground px-4 py-2 text-center font-body text-[11px] font-semibold uppercase tracking-[0.08em] text-background transition hover:opacity-90 min-[901px]:inline-flex min-[901px]:items-center min-[901px]:justify-center md:px-5"
+          <button
+            type="button"
+            onClick={() => {
+              triggerHaptic()
+              startTour()
+            }}
+            className="hidden items-center gap-1.5 rounded-pill border border-border bg-transparent px-4 py-2 text-center font-body text-[11px] font-semibold uppercase tracking-[0.08em] text-foreground transition hover:border-foreground/40 min-[901px]:inline-flex min-[901px]:justify-center md:px-5"
+            aria-label="Start portfolio tour"
           >
-            Resume
-          </a>
+            <Sparkles className="h-3.5 w-3.5 text-accent" aria-hidden />
+            Tour
+          </button>
           <div className="sm:hidden">
             <ThemeToggle variant="icon" />
           </div>
@@ -161,15 +160,18 @@ export default function Navbar() {
                   {item.label}
                 </motion.button>
               ))}
-              <a
-                href="/documents/Sohail_Gidwani_Resume.pdf"
-                target="_blank"
-                rel="noreferrer"
-                className="mt-2 rounded-pill border border-border px-4 py-3 text-center font-body text-[11px] font-semibold uppercase tracking-[0.08em] text-foreground"
-                onClick={() => triggerHaptic()}
+              <button
+                type="button"
+                className="mt-2 inline-flex items-center justify-center gap-2 rounded-pill border border-border px-4 py-3 text-center font-body text-[11px] font-semibold uppercase tracking-[0.08em] text-foreground"
+                onClick={() => {
+                  triggerHaptic()
+                  startTour()
+                  setIsOpen(false)
+                }}
               >
-                Resume
-              </a>
+                <Sparkles className="h-3.5 w-3.5 text-accent" aria-hidden />
+                Tour
+              </button>
             </motion.nav>
           </motion.div>
         )}

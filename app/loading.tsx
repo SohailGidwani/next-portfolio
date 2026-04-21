@@ -1,70 +1,87 @@
 export default function Loading() {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-background">
-      {/* Ambient background orbs */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-32 right-[-10%] h-[320px] w-[320px] animate-pulse rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.16),transparent_70%)] blur-2xl" />
-        <div className="absolute bottom-[-20%] left-[-12%] h-[320px] w-[320px] animate-pulse rounded-full bg-[radial-gradient(circle,rgba(251,146,60,0.18),transparent_70%)] blur-3xl" />
-        <div className="absolute inset-0 grain" />
-      </div>
+    <div className="relative min-h-screen bg-background text-foreground">
+      <div
+        className="pointer-events-none absolute inset-0 hidden dark:block"
+        aria-hidden
+        style={{
+          backgroundColor: "var(--bg)",
+          backgroundImage: "radial-gradient(rgba(255,255,255,0.045) 1px, transparent 1px)",
+          backgroundSize: "24px 24px",
+        }}
+      />
+      <div className="pointer-events-none absolute inset-0 grain dark:hidden" aria-hidden />
 
-      {/* Navbar skeleton */}
-      <div className="fixed left-0 right-0 top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-          <div className="h-8 w-24 rounded-md bg-muted shimmer" />
-          <div className="hidden gap-6 md:flex">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="h-4 w-16 rounded-md bg-muted shimmer" />
+      {/* Navbar skeleton — matches editorial nav height + container */}
+      <div className="fixed inset-x-0 top-0 z-50 h-[var(--nav-h)] border-b border-border bg-background/90 backdrop-blur-md">
+        <div className="container flex h-full items-center justify-between px-[18px] sm:px-6 md:px-9">
+          <div className="h-7 w-24 rounded-sm bg-muted/80 shimmer" />
+          <div className="hidden min-[901px]:flex min-[901px]:items-center min-[901px]:gap-5">
+            {[...Array(7)].map((_, i) => (
+              <div key={i} className="h-3 w-14 rounded-sm bg-muted/80 shimmer" />
             ))}
           </div>
-          <div className="h-9 w-9 rounded-full bg-muted shimmer" />
-        </div>
-      </div>
-
-      {/* Hero section skeleton */}
-      <div className="relative flex min-h-screen items-center justify-center px-6 pt-16">
-        <div className="w-full max-w-3xl space-y-8 text-center">
-          {/* Signal stack skeleton */}
-          <div className="mx-auto flex max-w-md flex-wrap justify-center gap-2">
-            {[...Array(3)].map((_, i) => (
-              <div key={i} className="h-7 w-24 rounded-full bg-muted shimmer" />
-            ))}
-          </div>
-
-          {/* Headline skeleton */}
-          <div className="space-y-4">
-            <div className="mx-auto h-12 w-3/4 rounded-lg bg-muted shimmer sm:h-16" />
-            <div className="mx-auto h-12 w-1/2 rounded-lg bg-muted shimmer sm:h-16" />
-          </div>
-
-          {/* Subheadline skeleton */}
-          <div className="mx-auto max-w-xl space-y-2">
-            <div className="mx-auto h-5 w-full rounded-md bg-muted shimmer" />
-            <div className="mx-auto h-5 w-4/5 rounded-md bg-muted shimmer" />
-          </div>
-
-          {/* CTA buttons skeleton */}
-          <div className="flex flex-wrap justify-center gap-4 pt-4">
-            <div className="h-12 w-36 rounded-full bg-muted shimmer" />
-            <div className="h-12 w-32 rounded-full bg-muted shimmer" />
-          </div>
-
-          {/* Social links skeleton */}
-          <div className="flex justify-center gap-4 pt-6">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className="h-10 w-10 rounded-full bg-muted shimmer" />
-            ))}
+          <div className="flex items-center gap-2">
+            <div className="hidden h-8 w-[4.5rem] rounded-pill border border-border/80 bg-muted/40 shimmer sm:block" />
+            <div className="hidden h-8 w-[4.5rem] rounded-pill border border-border/80 bg-muted/40 shimmer min-[901px]:block" />
+            <div className="h-9 w-9 rounded border border-border bg-muted/40 shimmer min-[901px]:hidden" />
           </div>
         </div>
       </div>
 
-      {/* Loading indicator */}
-      <div className="fixed bottom-8 left-1/2 -translate-x-1/2" role="status" aria-live="polite">
-        <div className="flex items-center gap-2 rounded-full border border-border bg-card/80 px-4 py-2 shadow-lg backdrop-blur-sm">
-          <div className="h-2 w-2 animate-bounce rounded-full bg-primary [animation-delay:-0.3s]" />
-          <div className="h-2 w-2 animate-bounce rounded-full bg-primary [animation-delay:-0.15s]" />
-          <div className="h-2 w-2 animate-bounce rounded-full bg-primary" />
-          <span className="ml-2 text-xs text-muted-foreground">Loading</span>
+      {/* Hero skeleton — left-aligned on small screens like live hero */}
+      <div className="relative flex min-h-screen flex-col px-[18px] pb-16 pt-[calc(var(--nav-h)+1.25rem)] sm:px-6 md:px-9">
+        <div className="flex w-full max-w-none flex-1 flex-col justify-center">
+          <div className="h-8 w-40 max-w-[85%] rounded-pill border border-border/60 bg-muted/50 shimmer sm:mx-auto md:mx-auto" />
+
+          <div className="mt-6 w-full space-y-3 sm:mt-10 md:mx-auto md:max-w-3xl md:text-center">
+            <div className="h-[clamp(2.5rem,12vw,4rem)] w-[92%] max-w-[20rem] rounded-sm bg-muted/80 shimmer sm:mx-auto md:max-w-none" />
+            <div className="h-[clamp(2.5rem,12vw,4rem)] w-[88%] max-w-[18rem] rounded-sm bg-muted/80 shimmer sm:mx-auto md:max-w-none" />
+          </div>
+
+          <div className="mt-6 max-w-xl space-y-2 sm:mt-8 md:mx-auto md:text-center">
+            <div className="h-4 w-full rounded-sm bg-muted/60 shimmer" />
+            <div className="h-4 w-[94%] rounded-sm bg-muted/60 shimmer md:mx-auto" />
+            <div className="h-4 w-[72%] rounded-sm bg-muted/60 shimmer md:mx-auto" />
+          </div>
+
+          <div className="mt-6 flex w-full max-w-3xl flex-wrap gap-2 sm:mt-10 sm:justify-center sm:gap-3 md:mx-auto">
+            <div className="h-9 max-sm:basis-[calc((100%-1rem)/3)] flex-1 rounded border border-border/70 bg-muted/50 shimmer sm:h-11 sm:max-w-[11rem] sm:flex-none" />
+            <div className="h-9 max-sm:basis-[calc((100%-1rem)/3)] flex-1 rounded border border-border/70 bg-muted/50 shimmer sm:h-11 sm:max-w-[7rem] sm:flex-none" />
+            <div className="h-9 max-sm:basis-[calc((100%-1rem)/3)] flex-1 rounded border border-border/70 bg-muted/50 shimmer sm:h-11 sm:max-w-[7.5rem] sm:flex-none" />
+            <div className="flex max-sm:basis-full max-sm:justify-center sm:contents">
+              <div className="h-9 max-sm:w-[calc((100%-1rem)/3)] rounded border border-border/70 bg-muted/50 shimmer sm:h-11 sm:w-28" />
+            </div>
+          </div>
+
+          <div className="mt-10 w-full border-t border-border pt-8 sm:mt-14 sm:pt-10 md:mx-auto md:max-w-5xl">
+            <div className="grid grid-cols-2 gap-6 sm:gap-8 md:grid-cols-4">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="space-y-2">
+                  <div className="h-8 w-12 rounded-sm bg-muted/80 shimmer" />
+                  <div className="h-3 w-full max-w-[10rem] rounded-sm bg-muted/50 shimmer" />
+                  {i === 3 ? <div className="h-3 w-24 rounded-sm bg-muted/40 shimmer" /> : null}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-auto w-full border-y border-border/80 py-2.5">
+          <div className="mx-auto flex max-w-full gap-8 overflow-hidden">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="h-4 w-24 shrink-0 rounded-sm bg-muted/40 shimmer" />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="fixed bottom-8 left-1/2 z-50 -translate-x-1/2" role="status" aria-live="polite">
+        <div className="flex items-center gap-2 rounded-pill border border-border bg-card px-4 py-2 shadow-lg">
+          <div className="h-2 w-2 animate-bounce rounded-full bg-accent [animation-delay:-0.3s]" />
+          <div className="h-2 w-2 animate-bounce rounded-full bg-accent [animation-delay:-0.15s]" />
+          <div className="h-2 w-2 animate-bounce rounded-full bg-accent" />
+          <span className="ml-1 font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Loading</span>
         </div>
       </div>
     </div>

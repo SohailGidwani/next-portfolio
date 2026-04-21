@@ -281,7 +281,7 @@ export default function Personal() {
 
       {/* Radix Dialog — focus trap, Escape, aria-modal, overlay all handled */}
       <Dialog open={!!selected} onOpenChange={(open) => !open && setSelected(null)}>
-        <DialogContent className="gap-0 overflow-hidden rounded-3xl border-border bg-card/95 p-0 shadow-2xl backdrop-blur sm:max-w-md [&>button:last-child]:z-20 [&>button:last-child]:h-7 [&>button:last-child]:w-7 [&>button:last-child]:rounded-full [&>button:last-child]:border [&>button:last-child]:border-border/50 [&>button:last-child]:bg-background/70 [&>button:last-child]:opacity-100 [&>button:last-child]:backdrop-blur">
+        <DialogContent className="gap-0 overflow-hidden rounded-3xl border-border bg-card p-0 shadow-2xl sm:max-w-md [&>button:last-child]:z-20 [&>button:last-child]:h-7 [&>button:last-child]:w-7 [&>button:last-child]:rounded-full [&>button:last-child]:border [&>button:last-child]:border-border [&>button:last-child]:bg-card [&>button:last-child]:opacity-100">
           {selected?.image && (
             <div className="relative h-48 w-full">
               <Image

@@ -17,13 +17,13 @@ export default function About() {
               </p>
               <p>
                 I joined IIFL as a new grad and within months was building and deploying{" "}
-                <strong className="font-semibold text-foreground">AI-powered apps</strong> used by real employees across the company — RAG chatbots, fraud detection, automated support — all in{" "}
+                <strong className="font-semibold text-foreground">AI-powered apps</strong> used by real employees across the company: RAG chatbots, fraud detection, and automated support, all in{" "}
                 <strong className="font-semibold text-foreground">production</strong>. Ambiguous problems don&apos;t scare me. If anything, those are the ones I find most interesting.
               </p>
               <p>
-                <strong className="font-semibold text-foreground">End-to-end ownership</strong> is how I work best — I built a{" "}
+                <strong className="font-semibold text-foreground">End-to-end ownership</strong> is how I work best. I built a{" "}
                 <strong className="font-semibold text-foreground">multi-modal Alzheimer&apos;s prediction pipeline</strong> from data preprocessing through model training to calibration analysis, all as a single contributor.{" "}
-                <strong className="font-semibold text-foreground">Shipping under pressure</strong> is where I&apos;ve been tested — winning a hackathon at IIFL with an AI chatbot built in{" "}
+                <strong className="font-semibold text-foreground">Shipping under pressure</strong> is where I&apos;ve been tested, winning a hackathon at IIFL with an AI chatbot built in{" "}
                 <strong className="font-semibold text-foreground">under 36 hours</strong>. <strong className="font-semibold text-foreground">Cross-stack fluency</strong> lets me move between{" "}
                 <strong className="font-semibold text-foreground">PyTorch</strong> research code and production <strong className="font-semibold text-foreground">Next.js</strong> apps in the same sprint.
               </p>

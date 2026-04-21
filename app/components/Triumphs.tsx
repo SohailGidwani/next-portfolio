@@ -124,7 +124,7 @@ export default function Triumphs() {
 
       <Dialog open={!!selected} onOpenChange={(open) => !open && setSelected(null)}>
         {selected && (
-          <DialogContent className="max-h-[85vh] max-w-3xl overflow-y-auto rounded-3xl border-border bg-card/95 top-auto bottom-4 translate-y-0 sm:bottom-auto sm:top-[50%] sm:translate-y-[-50%] sm:rounded-3xl">
+          <DialogContent className="max-h-[85vh] max-w-3xl overflow-y-auto rounded-3xl border-border bg-card top-auto bottom-4 translate-y-0 sm:bottom-auto sm:top-[50%] sm:translate-y-[-50%] sm:rounded-3xl">
             <DialogHeader>
               <DialogTitle className="font-display text-2xl text-foreground">{selected.title}</DialogTitle>
               <DialogDescription className="text-sm text-muted-foreground">

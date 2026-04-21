@@ -278,7 +278,7 @@ export default function Experience() {
 
       <Dialog open={!!selected} onOpenChange={(open) => !open && setSelected(null)}>
         {selected && (
-          <DialogContent className="max-h-[85vh] max-w-3xl overflow-y-auto rounded-3xl border-border bg-card/95 top-auto bottom-4 translate-y-0 sm:bottom-auto sm:top-[50%] sm:translate-y-[-50%] sm:rounded-3xl">
+          <DialogContent className="max-h-[85vh] max-w-3xl overflow-y-auto rounded-3xl border-border bg-card top-auto bottom-4 translate-y-0 sm:bottom-auto sm:top-[50%] sm:translate-y-[-50%] sm:rounded-3xl">
             <DialogHeader>
               <div className="flex flex-wrap items-center gap-4">
                 <div className="relative h-12 w-12 overflow-hidden rounded-2xl border border-border bg-background">
