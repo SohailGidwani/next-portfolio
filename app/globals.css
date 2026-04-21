@@ -1,78 +1,99 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .section-y {
+    padding-top: var(--sp);
+    padding-bottom: var(--sp);
+  }
+}
  
 @layer base {
   :root {
-    /* Editorial “paper + ink” (see reference mock) */
-    --background: 48 20% 96%;
-    --foreground: 48 8% 8%;
+    /* Design tokens — light */
+    --bg: #f7f6f3;
+    --fg: #111110;
+    --muted: #73726d;
+    --border: #dddbd4;
+    --card: #edecea;
+    --card2: #e6e4e0;
+    --accent: oklch(52% 0.18 50);
 
-    --card: 48 22% 98%;
-    --card-foreground: 48 8% 8%;
+    --w: 1080px;
+    --sp: 56px;
+    --nav-h: 56px;
+    --radius-sm: 3px;
+    --radius-md: 6px;
+    --radius-btn: 4px;
+    --radius-pill: 100px;
 
-    --popover: 48 22% 98%;
-    --popover-foreground: 48 8% 8%;
-
-    --primary: 48 7% 12%;
-    --primary-foreground: 48 20% 98%;
-
-    --secondary: 48 14% 92%;
-    --secondary-foreground: 48 8% 12%;
-
-    --muted: 48 12% 90%;
-    --muted-foreground: 48 6% 38%;
-
-    --accent: 32 92% 44%;
-    --accent-foreground: 48 10% 8%;
-
-    --destructive: 2 74% 48%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 48 12% 86%;
-    --input: 48 12% 86%;
-    --ring: 32 92% 44%;
-
-    --radius: 0.5rem;
+    /* Tailwind / shadcn bridge */
+    --background: var(--bg);
+    --foreground: var(--fg);
+    --card-foreground: var(--fg);
+    --popover: var(--card);
+    --popover-foreground: var(--fg);
+    --primary: var(--fg);
+    --primary-foreground: var(--bg);
+    --secondary: var(--card2);
+    --secondary-foreground: var(--fg);
+    --accent-foreground: var(--fg);
+    --destructive: oklch(55% 0.22 25);
+    --destructive-foreground: #fafafa;
+    --input: var(--border);
+    --ring: var(--accent);
   }
- 
+
+  @media (min-width: 601px) {
+    :root {
+      --sp: 72px;
+    }
+  }
+
+  @media (min-width: 901px) {
+    :root {
+      --sp: 96px;
+      --nav-h: 62px;
+    }
+  }
+
   .dark {
-    /* Reference: #0a0a0a field + warm orange-red accent */
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 96%;
+    --bg: #0f0f0e;
+    --fg: #f0efe9;
+    --muted: #8a8980;
+    --border: #252420;
+    --card: #1a1918;
+    --card2: #1f1e1c;
+    --accent: oklch(52% 0.18 50);
 
-    --card: 0 0% 5.5%;
-    --card-foreground: 0 0% 96%;
-
-    --popover: 0 0% 5.5%;
-    --popover-foreground: 0 0% 96%;
-
-    --primary: 0 0% 96%;
-    --primary-foreground: 0 0% 4%;
-
-    --secondary: 0 0% 8%;
-    --secondary-foreground: 0 0% 94%;
-
-    --muted: 0 0% 10%;
-    --muted-foreground: 0 0% 55%;
-
-    --accent: 12 90% 54%;
-    --accent-foreground: 0 0% 4%;
-
-    --destructive: 2 72% 44%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 0 0% 14%;
-    --input: 0 0% 14%;
-    --ring: 12 90% 54%;
+    --background: var(--bg);
+    --foreground: var(--fg);
+    --card-foreground: var(--fg);
+    --popover: var(--card);
+    --popover-foreground: var(--fg);
+    --primary: var(--fg);
+    --primary-foreground: var(--bg);
+    --secondary: var(--card2);
+    --secondary-foreground: var(--fg);
+    --accent-foreground: var(--fg);
+    --destructive: oklch(58% 0.2 25);
+    --destructive-foreground: #fafafa;
+    --input: var(--border);
+    --ring: var(--accent);
   }
- 
+
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-body);
+    font-family: var(--fb);
+    font-size: 15px;
+    line-height: 1.55;
+    font-optical-sizing: auto;
+    font-variation-settings: "opsz" 14;
     text-rendering: optimizeLegibility;
     transition: background-color 0.3s ease, color 0.3s ease;
     overflow-y: auto;
@@ -97,15 +118,16 @@
   }
 
   .font-display {
-    font-family: var(--font-display);
+    font-family: var(--fd);
+    font-weight: 800;
   }
 
   .font-body {
-    font-family: var(--font-body);
+    font-family: var(--fb);
   }
 
   .font-mono {
-    font-family: var(--font-mono);
+    font-family: var(--fm);
   }
   
   /* Only apply transitions to elements that need it */
@@ -129,8 +151,8 @@
   }
 
   ::selection {
-    background: hsl(var(--accent) / 0.2);
-    color: hsl(var(--foreground));
+    background: color-mix(in oklch, var(--accent) 22%, transparent);
+    color: var(--foreground);
   }
 
   .grain {
@@ -142,36 +164,36 @@
 
   .tour-highlight {
     position: relative;
-    border-radius: 32px;
-    box-shadow: 0 0 0 2px hsl(var(--primary) / 0.5),
-      0 0 0 6px hsl(var(--primary) / 0.15),
-      0 0 40px 8px hsl(var(--primary) / 0.1);
+    border-radius: var(--radius-md);
+    box-shadow: 0 0 0 2px color-mix(in oklch, var(--fg) 50%, transparent),
+      0 0 0 6px color-mix(in oklch, var(--fg) 15%, transparent),
+      0 0 40px 8px color-mix(in oklch, var(--fg) 10%, transparent);
     animation: tour-pulse 2s ease-in-out infinite;
   }
 
   @keyframes tour-pulse {
     0%, 100% {
-      box-shadow: 0 0 0 2px hsl(var(--primary) / 0.5),
-        0 0 0 6px hsl(var(--primary) / 0.15),
-        0 0 40px 8px hsl(var(--primary) / 0.1);
+      box-shadow: 0 0 0 2px color-mix(in oklch, var(--fg) 50%, transparent),
+        0 0 0 6px color-mix(in oklch, var(--fg) 15%, transparent),
+        0 0 40px 8px color-mix(in oklch, var(--fg) 10%, transparent);
     }
     50% {
-      box-shadow: 0 0 0 3px hsl(var(--primary) / 0.6),
-        0 0 0 10px hsl(var(--primary) / 0.2),
-        0 0 60px 12px hsl(var(--primary) / 0.15);
+      box-shadow: 0 0 0 3px color-mix(in oklch, var(--fg) 60%, transparent),
+        0 0 0 10px color-mix(in oklch, var(--fg) 20%, transparent),
+        0 0 60px 12px color-mix(in oklch, var(--fg) 15%, transparent);
     }
   }
 
   @keyframes tour-dialog-glow {
     0%, 100% {
-      box-shadow: 0 0 30px -5px hsl(var(--primary) / 0.35),
+      box-shadow: 0 0 30px -5px color-mix(in oklch, var(--accent) 35%, transparent),
         0 30px 80px -60px rgba(0, 0, 0, 0.5);
-      border-color: hsl(var(--primary) / 0.5);
+      border-color: color-mix(in oklch, var(--accent) 50%, transparent);
     }
     50% {
-      box-shadow: 0 0 50px 0px hsl(var(--primary) / 0.5),
+      box-shadow: 0 0 50px 0px color-mix(in oklch, var(--accent) 50%, transparent),
         0 30px 80px -60px rgba(0, 0, 0, 0.5);
-      border-color: hsl(var(--primary) / 0.7);
+      border-color: color-mix(in oklch, var(--accent) 70%, transparent);
     }
   }
 
@@ -188,10 +210,11 @@
   @media print {
     /* Reset colors for print */
     :root {
-      --background: 0 0% 100%;
-      --foreground: 0 0% 10%;
-      --muted-foreground: 0 0% 35%;
-      --primary: 173 58% 39%;
+      --bg: #fff;
+      --fg: #111;
+      --muted: #555;
+      --background: #fff;
+      --foreground: #111;
     }
 
     /* Hide non-essential elements */
@@ -358,9 +381,9 @@
 
   /* Enhanced focus-visible styles for accessibility */
   *:focus-visible {
-    outline: 2px solid hsl(var(--primary));
+    outline: 2px solid var(--accent);
     outline-offset: 2px;
-    border-radius: 4px;
+    border-radius: var(--radius-btn);
   }
 
   /* Remove focus outline on mouse click, keep for keyboard */
@@ -372,18 +395,18 @@
   a:focus-visible,
   button:focus-visible,
   [role="button"]:focus-visible {
-    outline: 2px solid hsl(var(--primary));
+    outline: 2px solid var(--accent);
     outline-offset: 2px;
-    box-shadow: 0 0 0 4px hsl(var(--primary) / 0.2);
+    box-shadow: 0 0 0 4px color-mix(in oklch, var(--accent) 20%, transparent);
   }
 
   /* Focus styles for input elements */
   input:focus-visible,
   textarea:focus-visible,
   select:focus-visible {
-    outline: 2px solid hsl(var(--primary));
+    outline: 2px solid var(--accent);
     outline-offset: 0;
-    border-color: hsl(var(--primary));
+    border-color: var(--accent);
   }
 
   /* Skip link styles */
@@ -393,9 +416,9 @@
     left: 1rem;
     z-index: 100;
     padding: 0.5rem 1rem;
-    background: hsl(var(--primary));
-    color: hsl(var(--primary-foreground));
-    border-radius: 0.5rem;
+    background: var(--fg);
+    color: var(--bg);
+    border-radius: var(--radius-btn);
     font-weight: 600;
     transition: top 0.2s;
   }
@@ -455,7 +478,7 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.15), hsl(var(--primary) / 0.25), transparent);
+    background: linear-gradient(90deg, transparent, color-mix(in oklch, var(--fg) 15%, transparent), color-mix(in oklch, var(--fg) 25%, transparent), transparent);
     animation: shimmer 1.6s infinite;
   }
 
@@ -484,11 +507,11 @@
   .about-portrait-frame {
     background: linear-gradient(
       110deg,
-      hsl(var(--border)),
-      hsl(var(--primary) / 0.42),
-      hsl(var(--accent) / 0.32),
-      hsl(var(--primary) / 0.38),
-      hsl(var(--border))
+      var(--border),
+      color-mix(in oklch, var(--fg) 42%, transparent),
+      color-mix(in oklch, var(--accent) 32%, transparent),
+      color-mix(in oklch, var(--fg) 38%, transparent),
+      var(--border)
     );
     background-size: 220% 100%;
     animation: about-portrait-border-flow 16s ease-in-out infinite;
@@ -497,7 +520,7 @@
   .about-portrait-ambient {
     background: radial-gradient(
       ellipse 80% 70% at 50% 45%,
-      hsl(var(--primary) / 0.28),
+      color-mix(in oklch, var(--accent) 28%, transparent),
       transparent 72%
     );
     animation: about-portrait-glow-breathe 6s ease-in-out infinite;

@@ -1,30 +1,27 @@
 import '@/app/globals.css'
-import { Fraunces, Inter, JetBrains_Mono, Syncopate } from 'next/font/google'
+import { Syne, DM_Sans, JetBrains_Mono } from 'next/font/google'
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import Script from 'next/script'
 import { ThemeProvider } from './components/ThemeProvider'
 import type { Viewport } from 'next'
 
-const hero = Syncopate({
+const fd = Syne({
   subsets: ['latin'],
-  variable: '--font-hero',
-  weight: ['700'],
+  variable: '--fd',
+  weight: ['400', '600', '700', '800'],
 })
 
-const display = Fraunces({
+const fb = DM_Sans({
   subsets: ['latin'],
-  variable: '--font-display',
+  variable: '--fb',
+  weight: ['400', '500', '600'],
 })
 
-const body = Inter({
+const fm = JetBrains_Mono({
   subsets: ['latin'],
-  variable: '--font-body',
-})
-
-const mono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono',
+  variable: '--fm',
+  weight: ['400', '500'],
 })
 
 export const viewport: Viewport = {
@@ -33,7 +30,7 @@ export const viewport: Viewport = {
   maximumScale: 5,
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: '#f7f6f3' },
-    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
+    { media: '(prefers-color-scheme: dark)', color: '#0f0f0e' },
   ],
 }
 
@@ -88,7 +85,7 @@ export const metadata = {
     },
   },
   verification: {
-    google: 'google68b24d157a03257b', // Google Search Console verification code
+    google: 'google68b24d157a03257b',
   },
 }
 
@@ -109,7 +106,6 @@ export default function RootLayout({
         <meta name="msapplication-TileColor" content="#f7f6f3" />
         <link rel="author" href="https://sohailgidwani.app" />
         <link rel="alternate" type="text/plain" title="LLM information" href="/llms.txt" />
-        {/* Structured Data */}
         <Script
           id="structured-data"
           type="application/ld+json"
@@ -207,18 +203,9 @@ export default function RootLayout({
                     "name": "India"
                   },
                   "knowsLanguage": [
-                    {
-                      "@type": "Language",
-                      "name": "English"
-                    },
-                    {
-                      "@type": "Language",
-                      "name": "Hindi"
-                    },
-                    {
-                      "@type": "Language",
-                      "name": "Sindhi"
-                    }
+                    { "@type": "Language", "name": "English" },
+                    { "@type": "Language", "name": "Hindi" },
+                    { "@type": "Language", "name": "Sindhi" }
                   ],
                   "hobbies": [
                     "Video Games (God of War, The Last of Us, Ghost of Tsushima, Spider-Man, FIFA)",
@@ -228,56 +215,16 @@ export default function RootLayout({
                     "Watching Sunsets at Santa Monica Pier"
                   ],
                   "hasSkill": [
-                    {
-                      "@type": "DefinedTerm",
-                      "name": "TensorFlow",
-                      "inDefinedTermSet": "Machine Learning / AI"
-                    },
-                    {
-                      "@type": "DefinedTerm",
-                      "name": "PyTorch",
-                      "inDefinedTermSet": "Machine Learning / AI"
-                    },
-                    {
-                      "@type": "DefinedTerm",
-                      "name": "Flask",
-                      "inDefinedTermSet": "Backend Development"
-                    },
-                    {
-                      "@type": "DefinedTerm",
-                      "name": "React",
-                      "inDefinedTermSet": "Frontend Development"
-                    },
-                    {
-                      "@type": "DefinedTerm",
-                      "name": "Next.js",
-                      "inDefinedTermSet": "Frontend Development"
-                    },
-                    {
-                      "@type": "DefinedTerm",
-                      "name": "PostgreSQL",
-                      "inDefinedTermSet": "Databases"
-                    },
-                    {
-                      "@type": "DefinedTerm",
-                      "name": "RAG Systems",
-                      "inDefinedTermSet": "Machine Learning / AI"
-                    },
-                    {
-                      "@type": "DefinedTerm",
-                      "name": "Vector Databases (Qdrant, pgvector)",
-                      "inDefinedTermSet": "Databases"
-                    },
-                    {
-                      "@type": "DefinedTerm",
-                      "name": "Azure OpenAI",
-                      "inDefinedTermSet": "Cloud & AI Services"
-                    },
-                    {
-                      "@type": "DefinedTerm",
-                      "name": "Docker",
-                      "inDefinedTermSet": "DevOps & Cloud"
-                    }
+                    { "@type": "DefinedTerm", "name": "TensorFlow", "inDefinedTermSet": "Machine Learning / AI" },
+                    { "@type": "DefinedTerm", "name": "PyTorch", "inDefinedTermSet": "Machine Learning / AI" },
+                    { "@type": "DefinedTerm", "name": "Flask", "inDefinedTermSet": "Backend Development" },
+                    { "@type": "DefinedTerm", "name": "React", "inDefinedTermSet": "Frontend Development" },
+                    { "@type": "DefinedTerm", "name": "Next.js", "inDefinedTermSet": "Frontend Development" },
+                    { "@type": "DefinedTerm", "name": "PostgreSQL", "inDefinedTermSet": "Databases" },
+                    { "@type": "DefinedTerm", "name": "RAG Systems", "inDefinedTermSet": "Machine Learning / AI" },
+                    { "@type": "DefinedTerm", "name": "Vector Databases (Qdrant, pgvector)", "inDefinedTermSet": "Databases" },
+                    { "@type": "DefinedTerm", "name": "Azure OpenAI", "inDefinedTermSet": "Cloud & AI Services" },
+                    { "@type": "DefinedTerm", "name": "Docker", "inDefinedTermSet": "DevOps & Cloud" }
                   ]
                 },
                 {
@@ -285,9 +232,7 @@ export default function RootLayout({
                   "@id": "https://sohailgidwani.app/#website",
                   "name": "Sohail Gidwani Portfolio",
                   "url": "https://sohailgidwani.app",
-                  "publisher": {
-                    "@id": "https://sohailgidwani.app/#person"
-                  },
+                  "publisher": { "@id": "https://sohailgidwani.app/#person" },
                   "inLanguage": "en"
                 },
                 {
@@ -295,9 +240,7 @@ export default function RootLayout({
                   "@id": "https://sohailgidwani.app/#profilepage",
                   "url": "https://sohailgidwani.app",
                   "name": "Sohail Gidwani - AI Developer Portfolio",
-                  "mainEntity": {
-                    "@id": "https://sohailgidwani.app/#person"
-                  },
+                  "mainEntity": { "@id": "https://sohailgidwani.app/#person" },
                   "dateCreated": "2024-01-01",
                   "dateModified": new Date().toISOString().split('T')[0],
                   "inLanguage": "en"
@@ -307,7 +250,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${body.variable} ${display.variable} ${hero.variable} ${mono.variable} font-body`}>
+      <body className={`${fd.variable} ${fb.variable} ${fm.variable} font-body`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
           <Analytics />

@@ -94,7 +94,7 @@ export default function Experience() {
     : false
 
   return (
-    <section id="experience" className="py-16 sm:py-20">
+    <section id="experience" className="section-y">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -147,7 +147,7 @@ export default function Experience() {
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <h3 className="font-display text-lg text-foreground sm:text-xl">{featured.title}</h3>
+                    <h3 className="font-display text-[23px] leading-snug text-foreground">{featured.title}</h3>
                     {featured.isLatest && (
                       <span className="rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-primary">
                         Active

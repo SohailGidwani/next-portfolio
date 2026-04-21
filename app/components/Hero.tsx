@@ -1,15 +1,18 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import dynamic from "next/dynamic"
 import { motion, useReducedMotion } from "framer-motion"
 import { ArrowDown, ArrowUpRight, ChevronDown, Github, Linkedin } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
 import { smoothScrollToId } from "@/app/utils/smoothScroll"
 import SkillsTicker from "./SkillsTicker"
 
+const ShootingStars = dynamic(() => import("./ShootingStars"), { ssr: false })
+
 function RoleBadge() {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-border bg-transparent px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-muted-foreground">
+    <span className="inline-flex items-center gap-2 rounded-pill border border-border bg-transparent px-4 py-2 font-mono text-[10px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
       <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden />
       ML Systems Builder
     </span>
@@ -25,14 +28,14 @@ function HeroStats() {
   ]
 
   return (
-    <div className="mt-14 w-full max-w-6xl border-t border-border pt-10 sm:mt-16 sm:pt-12">
+    <div className="mt-14 w-full border-t border-border pt-10 sm:mt-16 sm:pt-12">
       <div className="grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-6 lg:gap-10">
         {items.map((item) => (
           <div key={item.label} className="min-w-0 text-center md:text-left">
-            <p className="font-hero text-2xl tracking-[-0.02em] text-foreground sm:text-3xl md:text-4xl lg:text-[2.65rem]">
+            <p className="font-display text-[clamp(1.25rem,3.5vw,2.65rem)] leading-none tracking-[-0.02em] text-foreground">
               {item.value}
             </p>
-            <p className="mt-2 text-[10px] font-medium uppercase leading-snug tracking-[0.2em] text-muted-foreground sm:text-[11px] sm:tracking-[0.24em]">
+            <p className="mt-2 font-mono text-[9px] font-medium uppercase leading-snug tracking-[0.18em] text-muted-foreground sm:text-[10px] sm:tracking-[0.22em]">
               {item.label}
             </p>
           </div>
@@ -45,23 +48,23 @@ function HeroStats() {
 function HeroTitle() {
   const shouldReduce = useReducedMotion()
 
+  const lineClass =
+    "block font-display font-extrabold uppercase leading-[0.95] tracking-[-0.03em] text-foreground text-[clamp(52px,11vw,150px)]"
+
   if (shouldReduce) {
     return (
-      <h1 className="font-hero uppercase leading-[0.95] tracking-[-0.03em] text-foreground">
-        <span className="block text-[clamp(2.75rem,12vw,6.5rem)]">Sohail</span>
-        <span className="block text-[clamp(2.75rem,12vw,6.5rem)]">Gidwani</span>
+      <h1 className={lineClass} aria-label="Sohail Gidwani">
+        <span className="block">Sohail</span>
+        <span className="block">Gidwani</span>
       </h1>
     )
   }
 
   return (
-    <h1
-      className="font-hero uppercase leading-[0.95] tracking-[-0.03em] text-foreground"
-      aria-label="Sohail Gidwani"
-    >
+    <h1 className={lineClass} aria-label="Sohail Gidwani">
       <span className="block overflow-hidden">
         <motion.span
-          className="block text-[clamp(2.75rem,12vw,6.5rem)]"
+          className="block"
           initial={{ y: "100%" }}
           animate={{ y: 0 }}
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
@@ -71,7 +74,7 @@ function HeroTitle() {
       </span>
       <span className="block overflow-hidden">
         <motion.span
-          className="block text-[clamp(2.75rem,12vw,6.5rem)]"
+          className="block"
           initial={{ y: "100%" }}
           animate={{ y: 0 }}
           transition={{ duration: 0.55, delay: 0.06, ease: [0.22, 1, 0.36, 1] }}
@@ -111,8 +114,12 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-[100svh] flex-col px-4 pb-0 pt-24 sm:pt-28"
+      className="relative flex min-h-[100svh] flex-col pb-0 pt-[calc(var(--nav-h)+1.25rem)]"
     >
+      <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
+        <ShootingStars />
+      </div>
+
       <div className="container relative z-[1] mx-auto flex flex-1 flex-col items-center justify-center pb-14 pt-6 text-center sm:pb-16">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -128,7 +135,7 @@ export default function Hero() {
         </div>
 
         <motion.p
-          className="mx-auto mt-8 max-w-xl px-1 text-base font-normal leading-relaxed text-muted-foreground sm:mt-10 sm:text-lg md:text-xl"
+          className="mx-auto mt-8 max-w-xl px-1 text-[15px] font-normal leading-relaxed text-muted-foreground sm:mt-10"
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, delay: 0.35 * ds }}
@@ -146,7 +153,7 @@ export default function Hero() {
           <motion.button
             type="button"
             onClick={scrollToProjects}
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-8 py-3.5 text-sm font-semibold text-background transition hover:opacity-90"
+            className="inline-flex items-center justify-center gap-2 rounded bg-foreground px-8 py-3.5 text-sm font-semibold text-background transition hover:opacity-90"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -159,7 +166,7 @@ export default function Hero() {
             rel="noreferrer"
             onClick={() => triggerHaptic()}
             aria-label="Download resume (PDF)"
-            className="inline-flex items-center justify-center rounded-full border border-border bg-transparent px-8 py-3.5 text-sm font-semibold text-foreground transition hover:border-foreground/40"
+            className="inline-flex items-center justify-center rounded border border-border bg-transparent px-8 py-3.5 text-sm font-semibold text-foreground transition hover:border-foreground/40"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -169,7 +176,7 @@ export default function Hero() {
             href="https://github.com/SohailGidwani"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-transparent px-8 py-3.5 text-sm font-semibold text-foreground transition hover:border-foreground/40"
+            className="inline-flex items-center justify-center gap-2 rounded border border-border bg-transparent px-8 py-3.5 text-sm font-semibold text-foreground transition hover:border-foreground/40"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -180,7 +187,7 @@ export default function Hero() {
             href="https://linkedin.com/in/sohail-gidwani"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-transparent px-8 py-3.5 text-sm font-semibold text-foreground transition hover:border-foreground/40"
+            className="inline-flex items-center justify-center gap-2 rounded border border-border bg-transparent px-8 py-3.5 text-sm font-semibold text-foreground transition hover:border-foreground/40"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >

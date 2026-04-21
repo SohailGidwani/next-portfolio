@@ -143,7 +143,7 @@ export default function GuidedTour({ steps = TOUR_STEPS }: GuidedTourProps) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="pointer-events-auto fixed bottom-5 right-5 z-[60] hidden w-[92vw] max-w-sm rounded-3xl border-2 border-primary/50 bg-card/95 p-5 shadow-[0_0_40px_-10px_hsl(var(--primary)/0.4),0_30px_80px_-60px_rgba(0,0,0,0.5)] backdrop-blur sm:block"
+            className="pointer-events-auto fixed bottom-5 right-5 z-[60] hidden w-[92vw] max-w-sm rounded-md border-2 border-accent/50 bg-card/95 p-5 shadow-[0_0_40px_-10px_rgba(0,0,0,0.35),0_30px_80px_-60px_rgba(0,0,0,0.5)] backdrop-blur sm:block"
             style={{
               animation: "tour-dialog-glow 2s ease-in-out infinite",
             }}

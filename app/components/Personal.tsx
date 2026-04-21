@@ -130,7 +130,7 @@ export default function Personal() {
   }
 
   return (
-    <section id="personal" className="py-16 sm:py-20">
+    <section id="personal" className="section-y">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

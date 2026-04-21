@@ -2,7 +2,7 @@ import AboutPortrait from "./AboutPortrait"
 
 export default function About() {
   return (
-    <section id="about" className="py-16 sm:py-20">
+    <section id="about" className="section-y">
       <div className="container mx-auto px-4">
         <div className="grid min-w-0 gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(260px,340px)] lg:items-start lg:gap-14 xl:grid-cols-[minmax(0,1fr)_minmax(280px,380px)]">
           <div className="animate-in-view max-w-3xl space-y-6">

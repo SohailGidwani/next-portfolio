@@ -329,7 +329,7 @@ export default function Skills() {
   return (
     <section
       id="skills"
-      className="py-16 sm:py-20"
+      className="section-y"
       onMouseLeave={() => handleSkillHover(null)}
     >
       <div className="container mx-auto px-4">

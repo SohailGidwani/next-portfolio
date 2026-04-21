@@ -55,13 +55,13 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,backdrop-filter] duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 h-[var(--nav-h)] border-b transition-[background-color,backdrop-filter] duration-300 ${
         scrolled
-          ? "border-border/80 bg-background/95 backdrop-blur-md"
-          : "border-transparent bg-background/80 backdrop-blur-sm"
+          ? "border-border bg-background/95 backdrop-blur-md"
+          : "border-transparent bg-background/85 backdrop-blur-sm"
       }`}
     >
-      <div className="mx-auto grid max-w-7xl grid-cols-2 items-center gap-3 px-4 py-3 md:px-6 md:py-4 lg:grid-cols-[1fr_auto_1fr]">
+      <div className="container grid h-full grid-cols-2 items-center gap-3 px-[18px] sm:px-6 md:px-9 min-[901px]:grid-cols-[1fr_auto_1fr]">
         <button
           type="button"
           onClick={() => scrollToSection("hero")}
@@ -71,12 +71,15 @@ export default function Navbar() {
           <span>
             Sohail
             <span className="font-normal">.</span>
-            <span className="ml-0.5 inline-block h-1.5 w-1.5 translate-y-[-2px] rounded-full bg-accent align-middle" aria-hidden />
+            <span
+              className="ml-0.5 inline-block h-1.5 w-1.5 translate-y-[-2px] rounded-full bg-accent align-middle"
+              aria-hidden
+            />
           </span>
         </button>
 
         <nav
-          className="hidden items-center justify-center gap-4 lg:flex xl:gap-7"
+          className="hidden min-h-0 items-center justify-center gap-5 min-[901px]:flex xl:gap-7"
           aria-label="Main navigation"
         >
           {navItems.map((item) => (
@@ -84,10 +87,8 @@ export default function Navbar() {
               key={item.id}
               type="button"
               onClick={() => scrollToSection(item.id)}
-              className={`relative text-[10px] font-medium uppercase tracking-[0.2em] transition-colors xl:text-[11px] xl:tracking-[0.22em] ${
-                activeSection === item.id
-                  ? "text-foreground"
-                  : "text-muted-foreground hover:text-foreground"
+              className={`relative font-body text-[11px] font-medium uppercase tracking-[0.08em] transition-colors ${
+                activeSection === item.id ? "text-foreground" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               {item.label}
@@ -107,7 +108,7 @@ export default function Navbar() {
             target="_blank"
             rel="noreferrer"
             onClick={() => triggerHaptic()}
-            className="hidden rounded-full bg-foreground px-4 py-2 text-center text-[10px] font-bold uppercase tracking-[0.18em] text-background transition hover:opacity-90 sm:inline-flex sm:items-center sm:justify-center md:px-5"
+            className="hidden rounded-pill bg-foreground px-4 py-2 text-center font-body text-[11px] font-semibold uppercase tracking-[0.08em] text-background transition hover:opacity-90 min-[901px]:inline-flex min-[901px]:items-center min-[901px]:justify-center md:px-5"
           >
             Resume
           </a>
@@ -117,7 +118,7 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => setIsOpen((prev) => !prev)}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground lg:hidden"
+            className="flex h-9 w-9 items-center justify-center rounded border border-border text-foreground min-[901px]:hidden"
             aria-label={isOpen ? "Close menu" : "Open menu"}
           >
             {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
@@ -131,7 +132,7 @@ export default function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-background/95 backdrop-blur lg:hidden"
+            className="fixed inset-0 z-40 bg-background/95 backdrop-blur min-[901px]:hidden"
             onClick={() => setIsOpen(false)}
           >
             <motion.nav
@@ -139,7 +140,7 @@ export default function Navbar() {
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 16, opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="absolute inset-x-3 top-[4.25rem] flex max-h-[min(80vh,520px)] flex-col gap-1 overflow-y-auto rounded-2xl border border-border bg-card p-4 shadow-xl"
+              className="absolute inset-x-3 top-[calc(var(--nav-h)+0.5rem)] flex max-h-[min(80vh,520px)] flex-col gap-1 overflow-y-auto rounded-md border border-border bg-card p-4 shadow-xl"
               onClick={(event) => event.stopPropagation()}
               aria-label="Mobile navigation"
             >
@@ -151,10 +152,10 @@ export default function Navbar() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.04 }}
-                  className={`rounded-xl px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.2em] ${
+                  className={`rounded px-4 py-3 text-left font-body text-[11px] font-semibold uppercase tracking-[0.08em] ${
                     activeSection === item.id
                       ? "bg-foreground text-background"
-                      : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
+                      : "text-muted-foreground hover:bg-card2 hover:text-foreground"
                   }`}
                 >
                   {item.label}
@@ -164,7 +165,7 @@ export default function Navbar() {
                 href="/documents/Sohail_Gidwani_Resume.pdf"
                 target="_blank"
                 rel="noreferrer"
-                className="mt-2 rounded-xl border border-border px-4 py-3 text-center text-xs font-bold uppercase tracking-[0.2em] text-foreground"
+                className="mt-2 rounded-pill border border-border px-4 py-3 text-center font-body text-[11px] font-semibold uppercase tracking-[0.08em] text-foreground"
                 onClick={() => triggerHaptic()}
               >
                 Resume

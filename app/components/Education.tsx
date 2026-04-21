@@ -57,7 +57,7 @@ const education: EducationItem[] = [
 
 export default function Education() {
   return (
-    <section id="education" className="py-16 sm:py-20">
+    <section id="education" className="section-y">
       <div className="container mx-auto px-4">
         <div className="animate-in-view space-y-3">
           <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Education</p>

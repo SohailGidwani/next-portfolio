@@ -64,7 +64,7 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="py-16 sm:py-20">
+    <section id="contact" className="section-y">
       <div className="container mx-auto px-4">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
           <motion.div

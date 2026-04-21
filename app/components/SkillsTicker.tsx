@@ -42,7 +42,7 @@ export default function SkillsTicker() {
           {loop.map((label, i) => (
             <span
               key={`${label}-${i}`}
-              className="whitespace-nowrap text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground"
+              className="whitespace-nowrap font-mono text-[9px] font-medium uppercase tracking-[0.22em] text-muted-foreground sm:text-[10px] sm:tracking-[0.25em]"
             >
               {label}
             </span>

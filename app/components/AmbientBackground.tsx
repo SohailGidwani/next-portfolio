@@ -11,17 +11,15 @@ export default function AmbientBackground() {
 
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-      {/* Dark: matte + dot grid (reference layout) */}
       <div
         className="absolute inset-0 hidden dark:block"
         style={{
-          backgroundColor: "#0a0a0a",
-          backgroundImage: "radial-gradient(rgba(255,255,255,0.055) 1px, transparent 1px)",
+          backgroundColor: "var(--bg)",
+          backgroundImage: "radial-gradient(rgba(255,255,255,0.045) 1px, transparent 1px)",
           backgroundSize: "24px 24px",
         }}
       />
 
-      {/* Light: soft editorial blobs */}
       <div className="absolute inset-0 dark:hidden">
         <motion.div
           style={{ y: shouldReduceMotion ? 0 : driftSlow, willChange: "transform" }}
