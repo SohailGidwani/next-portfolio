@@ -8,6 +8,7 @@ import dynamic from "next/dynamic"
 import toast from "react-hot-toast"
 import { smoothScrollToId } from "@/app/utils/smoothScroll"
 import SkillsTicker from "./SkillsTicker"
+import HeroAside from "./HeroAside"
 
 const ShootingStars = dynamic(() => import("./ShootingStars"), { ssr: false })
 const AuroraMesh = dynamic(() => import("./AuroraMesh"), { ssr: false })
@@ -31,7 +32,7 @@ function RoleBadge() {
   }, [shouldReduce])
 
   return (
-    <span className="inline-flex items-center gap-2.5 rounded-md border border-border bg-card/90 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground backdrop-blur-sm">
+    <span className="inline-flex items-center gap-2.5 rounded-md border border-border bg-card/90 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground backdrop-blur-sm md:px-3.5 md:py-2 md:text-xs">
       <span className="relative flex h-2 w-2 shrink-0">
         {!shouldReduce ? (
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-40" />
@@ -55,29 +56,21 @@ function RoleBadge() {
   )
 }
 
-function HeroStats() {
-  const items = [
-    { value: "Production", label: "Shipped, not slide-deck AI", nowrap: false },
-    { value: "RAG · Agents", label: "Where I spend most depth", nowrap: true },
-    { value: "USC", label: "MS Computer Science", nowrap: false },
-  ]
-
+function HeroMeta() {
   return (
-    <div className="mt-8 max-w-2xl border-t border-border pt-6 sm:mt-10 sm:pt-7">
-      <div className="grid gap-6 sm:grid-cols-3 sm:gap-8">
-        {items.map((item) => (
-          <div key={item.label} className="min-w-0 space-y-1">
-            <p
-              className={`font-display text-2xl tracking-tight text-foreground sm:text-3xl md:text-4xl ${item.nowrap ? "whitespace-nowrap" : ""}`}
-            >
-              {item.value}
-            </p>
-            <p className="text-xs font-medium uppercase tracking-[0.28em] text-muted-foreground">
-              {item.label}
-            </p>
-          </div>
-        ))}
-      </div>
+    <div className="mt-8 border-t border-border pt-6 sm:mt-10 sm:pt-7">
+      <p className="max-w-4xl text-sm leading-relaxed text-muted-foreground md:text-base lg:text-[1.05rem] lg:leading-relaxed">
+        Previously shipped internal AI tools at{" "}
+        <span className="font-medium text-foreground">IIFL Finance</span>
+        <span className="mx-1.5 inline text-border sm:mx-2">·</span>
+        BE,{" "}
+        <span className="font-medium text-foreground">Thadomal Shahani Engineering College</span>
+        , Mumbai
+        <span className="mx-1.5 inline text-border sm:mx-2">·</span>
+        MS CS,{" "}
+        <span className="font-medium text-foreground">USC Viterbi</span>
+        <span className="whitespace-nowrap"> (’27)</span>
+      </p>
     </div>
   )
 }
@@ -89,7 +82,7 @@ function AnimatedName({ delayScale }: { delayScale: number }) {
   const name = `${first} ${last}`
 
   const headingClass =
-    "font-display leading-[1.08] tracking-tight text-foreground hyphens-none [overflow-wrap:normal] text-[clamp(2.25rem,5vw+0.75rem,4.25rem)] sm:text-[clamp(2.6rem,4vw+1rem,4.75rem)]"
+    "font-display leading-[1.06] tracking-tight text-foreground hyphens-none [overflow-wrap:normal] text-[clamp(2.45rem,5.5vw+0.6rem,4.6rem)] sm:text-[clamp(2.85rem,4.8vw+0.85rem,5.35rem)] md:text-[clamp(3.1rem,4vw+1.1rem,5.85rem)] lg:text-[clamp(3.35rem,3.2vw+1.2rem,6.35rem)] xl:text-[clamp(3.65rem,2.6vw+1.4rem,7rem)]"
 
   if (shouldReduce) {
     return (
@@ -223,108 +216,112 @@ export default function Hero() {
       </div>
 
       <div className="container relative mx-auto flex flex-1 flex-col justify-center pb-12 pt-4 sm:pb-16 sm:pt-6">
-        <div className="max-w-2xl">
-          <div className="min-w-0 space-y-5 sm:space-y-6">
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, delay: 0.05 * ds }}
-            >
-              <RoleBadge />
-            </motion.div>
-
-            <AnimatedName delayScale={ds} />
-
-            <motion.p
-              className="max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg"
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, delay: 0.95 * ds }}
-            >
-              I build AI systems that actually work in production, not just in notebooks. Full-stack engineering meets applied ML.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, delay: 1.05 * ds }}
-              className="flex flex-wrap items-center gap-3"
-            >
-              <motion.button
-                type="button"
-                onClick={scrollToProjects}
-                className="group inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-md shadow-foreground/10"
-                whileHover={{ y: -2, scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(260px,340px)] lg:items-center lg:gap-x-12 xl:gap-x-16">
+          <div className="min-w-0 max-w-2xl lg:max-w-none xl:max-w-3xl">
+            <div className="min-w-0 space-y-5 sm:space-y-6 md:space-y-7">
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, delay: 0.05 * ds }}
               >
-                View Projects
-                <ArrowDownRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
-              </motion.button>
-              <motion.a
-                href="/documents/Sohail_Gidwani_Resume.pdf"
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => triggerHaptic()}
-                aria-label="Download resume (PDF)"
-                className="inline-flex items-center gap-2 rounded-md border border-border bg-card/90 px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-accent/50"
-                whileHover={{ y: -2, scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                <RoleBadge />
+              </motion.div>
+
+              <AnimatedName delayScale={ds} />
+
+              <motion.p
+                className="max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg md:max-w-2xl md:text-xl xl:text-2xl xl:leading-snug"
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, delay: 0.95 * ds }}
               >
-                Resume
-              </motion.a>
+                I build AI systems that actually work in production, not just in notebooks. Full-stack engineering meets applied ML.
+              </motion.p>
 
-              <span className="hidden h-6 w-px bg-border sm:block" />
-
-              <div className="flex items-center gap-2">
-                <CopyEmailButton />
-                <motion.a
-                  href="https://github.com/SohailGidwani"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-border bg-card/90 text-foreground transition-colors hover:border-accent/50 hover:text-accent"
-                  aria-label="GitHub"
-                  whileHover={{ y: -3, scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, delay: 1.05 * ds }}
+                className="flex flex-wrap items-center gap-3"
+              >
+                <motion.button
+                  type="button"
+                  onClick={scrollToProjects}
+                  className="group inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-md shadow-foreground/10 md:px-6 md:py-3 md:text-base"
+                  whileHover={{ y: -2, scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
-                  <Github className="h-4 w-4" />
-                </motion.a>
+                  View Projects
+                  <ArrowDownRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
+                </motion.button>
                 <motion.a
-                  href="https://linkedin.com/in/sohail-gidwani"
+                  href="/documents/Sohail_Gidwani_Resume.pdf"
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-border bg-card/90 text-foreground transition-colors hover:border-accent/50 hover:text-accent"
-                  aria-label="LinkedIn"
-                  whileHover={{ y: -3, scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  onClick={() => triggerHaptic()}
+                  aria-label="Download resume (PDF)"
+                  className="inline-flex items-center gap-2 rounded-md border border-border bg-card/90 px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-accent/50 md:px-6 md:py-3 md:text-base"
+                  whileHover={{ y: -2, scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
-                  <Linkedin className="h-4 w-4" />
+                  Resume
                 </motion.a>
-              </div>
-            </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 1.15 * ds }}
-              className="flex items-center gap-2 text-sm text-muted-foreground"
-            >
-              <MapPin className="h-3.5 w-3.5 text-accent" />
-              Los Angeles · Open to remote and on-site
-            </motion.div>
+                <span className="hidden h-6 w-px bg-border sm:block" />
+
+                <div className="flex items-center gap-2">
+                  <CopyEmailButton />
+                  <motion.a
+                    href="https://github.com/SohailGidwani"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-border bg-card/90 text-foreground transition-colors hover:border-accent/50 hover:text-accent"
+                    aria-label="GitHub"
+                    whileHover={{ y: -3, scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                  >
+                    <Github className="h-4 w-4" />
+                  </motion.a>
+                  <motion.a
+                    href="https://linkedin.com/in/sohail-gidwani"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-border bg-card/90 text-foreground transition-colors hover:border-accent/50 hover:text-accent"
+                    aria-label="LinkedIn"
+                    whileHover={{ y: -3, scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                  >
+                    <Linkedin className="h-4 w-4" />
+                  </motion.a>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 1.15 * ds }}
+                className="flex items-center gap-2 text-sm text-muted-foreground md:text-base lg:hidden"
+              >
+                <MapPin className="h-3.5 w-3.5 shrink-0 text-accent" />
+                Los Angeles · Open to remote and on-site
+              </motion.div>
+            </div>
           </div>
+
+          <HeroAside />
         </div>
 
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 1.25 * ds }}
-          className="max-w-2xl"
+          className="max-w-4xl xl:max-w-5xl"
         >
-          <HeroStats />
+          <HeroMeta />
         </motion.div>
       </div>
 
