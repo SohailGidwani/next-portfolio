@@ -13,7 +13,7 @@ const AmbientBackground = dynamic(() => import("./AmbientBackground"))
 
 export default function PortfolioShell({ children }: { children: ReactNode }) {
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
+    <div className="relative min-h-screen bg-background text-foreground">
       <AmbientBackground />
       <Navbar />
       {children}

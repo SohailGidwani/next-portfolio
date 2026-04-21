@@ -2,7 +2,7 @@ import AboutPortrait from "./AboutPortrait"
 
 export default function About() {
   return (
-    <section id="about" className="py-16 sm:py-20">
+    <section id="about" className="section-y">
       <div className="container mx-auto px-4">
         <div className="grid min-w-0 gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(260px,340px)] lg:items-start lg:gap-14 xl:grid-cols-[minmax(0,1fr)_minmax(280px,380px)]">
           <div className="animate-in-view max-w-3xl space-y-6">
@@ -17,13 +17,13 @@ export default function About() {
               </p>
               <p>
                 I joined IIFL as a new grad and within months was building and deploying{" "}
-                <strong className="font-semibold text-foreground">AI-powered apps</strong> used by real employees across the company — RAG chatbots, fraud detection, automated support — all in{" "}
+                <strong className="font-semibold text-foreground">AI-powered apps</strong> used by real employees across the company: RAG chatbots, fraud detection, and automated support, all in{" "}
                 <strong className="font-semibold text-foreground">production</strong>. Ambiguous problems don&apos;t scare me. If anything, those are the ones I find most interesting.
               </p>
               <p>
-                <strong className="font-semibold text-foreground">End-to-end ownership</strong> is how I work best — I built a{" "}
+                <strong className="font-semibold text-foreground">End-to-end ownership</strong> is how I work best. I built a{" "}
                 <strong className="font-semibold text-foreground">multi-modal Alzheimer&apos;s prediction pipeline</strong> from data preprocessing through model training to calibration analysis, all as a single contributor.{" "}
-                <strong className="font-semibold text-foreground">Shipping under pressure</strong> is where I&apos;ve been tested — winning a hackathon at IIFL with an AI chatbot built in{" "}
+                <strong className="font-semibold text-foreground">Shipping under pressure</strong> is where I&apos;ve been tested, winning a hackathon at IIFL with an AI chatbot built in{" "}
                 <strong className="font-semibold text-foreground">under 36 hours</strong>. <strong className="font-semibold text-foreground">Cross-stack fluency</strong> lets me move between{" "}
                 <strong className="font-semibold text-foreground">PyTorch</strong> research code and production <strong className="font-semibold text-foreground">Next.js</strong> apps in the same sprint.
               </p>

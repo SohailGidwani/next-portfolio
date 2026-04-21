@@ -1,129 +1,108 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
-import { ArrowDownRight, Check, ChevronDown, Github, Linkedin, Mail, MapPin, Sparkles } from "lucide-react"
-import { triggerHaptic } from "./ui/haptics"
+import { useEffect, useState } from "react"
 import dynamic from "next/dynamic"
-import toast from "react-hot-toast"
+import { motion, useReducedMotion } from "framer-motion"
+import { ArrowDown, ArrowUpRight, Github, Linkedin } from "lucide-react"
+import { triggerHaptic } from "./ui/haptics"
 import { smoothScrollToId } from "@/app/utils/smoothScroll"
+import SkillsTicker from "./SkillsTicker"
 
 const ShootingStars = dynamic(() => import("./ShootingStars"), { ssr: false })
-const AuroraMesh = dynamic(() => import("./AuroraMesh"), { ssr: false })
-const CodePanel = dynamic(() => import("./CodePanel"), { ssr: false })
-
-const ROLES = [
-  "AI / CS Engineer",
-  "Full-Stack Developer",
-  "MS CS @ USC",
-  "ML Systems Builder",
-]
-
 
 function RoleBadge() {
-  const shouldReduce = useReducedMotion()
-  const [index, setIndex] = useState(0)
-
-  useEffect(() => {
-    if (shouldReduce) return
-    const id = setInterval(() => setIndex((i) => (i + 1) % ROLES.length), 2800)
-    return () => clearInterval(id)
-  }, [shouldReduce])
-
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground backdrop-blur-sm">
-      <Sparkles className="h-3.5 w-3.5 shrink-0 text-primary" />
-      <AnimatePresence mode="wait">
-        <motion.span
-          key={ROLES[index]}
-          initial={{ opacity: 0, y: 5 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -5 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="whitespace-nowrap"
-        >
-          {ROLES[index]}
-        </motion.span>
-      </AnimatePresence>
+    <span className="inline-flex items-center gap-2 rounded-pill border border-border bg-transparent px-3 py-1.5 font-mono text-[9px] font-medium uppercase tracking-[0.2em] text-foreground sm:px-4 sm:py-2 sm:text-[10px] sm:tracking-[0.18em]">
+      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden />
+      Full-stack developer
     </span>
   )
 }
 
-function AnimatedName({ delayScale }: { delayScale: number }) {
+function HeroStats() {
+  const items: {
+    value: string
+    label: string
+    sub?: string
+  }[] = [
+    { value: "2+", label: "Years production experience" },
+    { value: "3", label: "AI systems deployed at IIFL" },
+    { value: "71M", label: "Parameter models researched" },
+    {
+      value: "LA",
+      label: "Los Angeles, CA",
+      sub: "Open to remote",
+    },
+  ]
+
+  return (
+    <div className="mt-10 w-full border-t border-border pt-8 sm:mt-14 sm:pt-10 md:mt-16 md:pt-12">
+      <div className="grid grid-cols-2 gap-6 sm:gap-8 md:grid-cols-4 md:gap-6 lg:gap-10">
+        {items.map((item) => (
+          <div key={item.value + item.label} className="min-w-0 text-left">
+            <p className="font-display text-[clamp(1.15rem,3.2vw,2.65rem)] leading-none tracking-[-0.02em] text-foreground">
+              {item.value}
+            </p>
+            <p className="mt-1.5 font-mono text-[8px] font-medium uppercase leading-snug tracking-[0.18em] text-muted-foreground sm:mt-2 sm:text-[10px] sm:tracking-[0.22em]">
+              {item.label}
+            </p>
+            {item.sub ? (
+              <p className="mt-1 font-body text-[11px] font-normal leading-snug text-muted-foreground sm:text-xs">
+                {item.sub}
+              </p>
+            ) : null}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function HeroTitle() {
   const shouldReduce = useReducedMotion()
-  const name = "Sohail Gidwani"
+
+  const lineClass =
+    "block w-full min-w-0 font-display font-extrabold uppercase leading-[0.95] tracking-[-0.03em] text-foreground text-[clamp(2.25rem,10.25cqi,9.375rem)]"
 
   if (shouldReduce) {
     return (
-      <h1 className="font-display text-5xl leading-[1.08] tracking-tight text-foreground sm:text-6xl lg:text-7xl xl:text-8xl">
-        {name}
+      <h1 className={lineClass} aria-label="Sohail Gidwani">
+        <span className="block">Sohail</span>
+        <span className="block">Gidwani</span>
       </h1>
     )
   }
 
   return (
-    <h1
-      className="font-display text-5xl leading-[1.08] tracking-tight text-foreground sm:text-6xl lg:text-7xl xl:text-8xl"
-      aria-label={name}
-    >
-      {name.split("").map((char, i) => (
+    <h1 className={lineClass} aria-label="Sohail Gidwani">
+      <span className="block overflow-visible">
         <motion.span
-          key={i}
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35, delay: (0.3 + i * 0.04) * delayScale, ease: "easeOut" }}
-          className="inline-block"
+          className="block"
+          initial={{ y: "100%" }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         >
-          {char === " " ? "\u00A0" : char}
+          Sohail
         </motion.span>
-      ))}
+      </span>
+      <span className="block overflow-visible">
+        <motion.span
+          className="block"
+          initial={{ y: "100%" }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.55, delay: 0.06, ease: [0.22, 1, 0.36, 1] }}
+        >
+          Gidwani
+        </motion.span>
+      </span>
     </h1>
   )
 }
 
-function CopyEmailButton() {
-  const [copied, setCopied] = useState(false)
-  const timerRef = useRef<ReturnType<typeof setTimeout>>(null)
-  const email = "sohailgidwani15@gmail.com"
-
-  useEffect(() => {
-    return () => { if (timerRef.current) clearTimeout(timerRef.current) }
-  }, [])
-
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(email)
-      triggerHaptic()
-      setCopied(true)
-      toast.success("Email copied!")
-      if (timerRef.current) clearTimeout(timerRef.current)
-      timerRef.current = setTimeout(() => setCopied(false), 2000)
-    } catch {
-      toast.error("Failed to copy")
-    }
-  }
-
-  return (
-    <motion.button
-      onClick={handleCopy}
-      title="Copy email address"
-      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/80 text-foreground transition-colors hover:border-primary/40 hover:text-primary"
-      aria-label="Copy email address"
-      whileHover={{ y: -3, scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      transition={{ type: "spring", stiffness: 400, damping: 17 }}
-    >
-      {copied ? <Check className="h-4 w-4 text-green-500" /> : <Mail className="h-4 w-4" />}
-    </motion.button>
-  )
-}
-
 export default function Hero() {
-  const shouldReduce = useReducedMotion()
-
   const [ds] = useState(() => {
     if (typeof window === "undefined") return 1
-    return sessionStorage.getItem("hero-seen") ? 0.3 : 1
+    return sessionStorage.getItem("hero-seen") ? 0.35 : 1
   })
 
   useEffect(() => {
@@ -133,11 +112,6 @@ export default function Hero() {
     return () => clearTimeout(timeout)
   }, [])
 
-  const scrollToAbout = () => {
-    triggerHaptic()
-    smoothScrollToId("about")
-  }
-
   const scrollToProjects = () => {
     triggerHaptic()
     smoothScrollToId("projects")
@@ -146,147 +120,108 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-[100svh] flex-col justify-center px-4 pt-28 pb-24 sm:pt-32"
+      className="relative flex min-h-[100svh] flex-col pb-0 pt-[calc(var(--nav-h)+1.25rem)]"
     >
-      {/* Aurora extends beyond section bottom so it doesn't clip hard */}
-      <div className="pointer-events-none absolute inset-x-0 -top-20 -bottom-32" style={{ maskImage: "linear-gradient(to bottom, transparent 0%, black 5%, black 75%, transparent 100%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 5%, black 75%, transparent 100%)" }}>
-        <AuroraMesh />
-      </div>
-
-      <div className="pointer-events-none absolute inset-0">
+      <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
         <ShootingStars />
       </div>
 
-      <div className="container relative mx-auto">
-        <div className="grid items-center gap-12 lg:grid-cols-[1fr_1fr] lg:gap-16">
+      <div className="container relative z-[1] mx-auto flex flex-1 flex-col items-start justify-center pb-14 pt-6 text-left sm:pb-16 md:items-center md:text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, delay: 0.05 * ds }}
+          className="flex flex-col items-start md:items-center"
+        >
+          <RoleBadge />
+        </motion.div>
 
-          {/* Left — text content */}
-          <div className="space-y-7">
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, delay: 0.05 * ds }}
-            >
-              <RoleBadge />
-            </motion.div>
-
-            <AnimatedName delayScale={ds} />
-
-            <motion.p
-              className="max-w-lg text-lg leading-relaxed text-muted-foreground sm:text-xl"
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, delay: 0.95 * ds }}
-            >
-              I build AI systems that actually work in production, not just in notebooks. Full-stack engineering meets applied ML.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, delay: 1.05 * ds }}
-              className="flex flex-wrap items-center gap-3"
-            >
-              <motion.button
-                type="button"
-                onClick={scrollToProjects}
-                className="group inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20"
-                whileHover={{ y: -2, scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-              >
-                View Projects
-                <ArrowDownRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
-              </motion.button>
-              <motion.a
-                href="/documents/Sohail_Gidwani_Resume.pdf"
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => triggerHaptic()}
-                aria-label="Download resume (PDF)"
-                className="inline-flex items-center gap-2 rounded-full border border-border bg-card/80 px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-primary/40"
-                whileHover={{ y: -2, scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-              >
-                Resume
-              </motion.a>
-
-              <span className="hidden h-6 w-px bg-border sm:block" />
-
-              <div className="flex items-center gap-2">
-                <CopyEmailButton />
-                <motion.a
-                  href="https://github.com/SohailGidwani"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/80 text-foreground transition-colors hover:border-primary/40 hover:text-primary"
-                  aria-label="GitHub"
-                  whileHover={{ y: -3, scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                >
-                  <Github className="h-4 w-4" />
-                </motion.a>
-                <motion.a
-                  href="https://linkedin.com/in/sohail-gidwani"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/80 text-foreground transition-colors hover:border-primary/40 hover:text-primary"
-                  aria-label="LinkedIn"
-                  whileHover={{ y: -3, scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                >
-                  <Linkedin className="h-4 w-4" />
-                </motion.a>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 1.15 * ds }}
-              className="flex items-center gap-2 text-sm text-muted-foreground"
-            >
-              <MapPin className="h-3.5 w-3.5 text-primary" />
-              Los Angeles · Open to remote and on-site
-            </motion.div>
-          </div>
-
-          {/* Right — code editor panel */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.35 * ds }}
-            className="hidden lg:block"
-          >
-            <CodePanel />
-          </motion.div>
+        <div className="mt-6 w-full min-w-0 [container-type:inline-size] sm:mt-10 md:mt-10">
+          <HeroTitle />
         </div>
+
+        <motion.p
+          className="mt-5 max-w-xl text-[14px] font-normal leading-relaxed text-muted-foreground sm:mt-8 sm:text-[15px] md:mx-auto md:mt-10 md:px-1"
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, delay: 0.35 * ds }}
+        >
+          I build AI systems that actually work in production, not just in notebooks. Full-stack engineering meets applied
+          machine learning.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, delay: 0.45 * ds }}
+          className="mt-6 grid w-full max-w-3xl grid-cols-2 gap-2 sm:mt-10 sm:flex sm:flex-wrap sm:justify-center sm:gap-3"
+        >
+          <motion.button
+            type="button"
+            onClick={scrollToProjects}
+            className="inline-flex min-w-0 max-sm:min-h-9 items-center justify-center gap-1 rounded bg-foreground px-3 py-2 text-xs font-semibold text-background transition hover:opacity-90 sm:min-h-0 sm:gap-2 sm:px-8 sm:py-3.5 sm:text-sm"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            Projects
+            <ArrowDown className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" aria-hidden />
+          </motion.button>
+          <motion.a
+            href="/documents/Sohail_Gidwani_Resume.pdf"
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => triggerHaptic()}
+            aria-label="Download resume (PDF)"
+            className="inline-flex min-w-0 max-sm:min-h-9 items-center justify-center gap-1 rounded border border-border bg-transparent px-3 py-2 text-xs font-semibold text-foreground transition hover:border-foreground/40 sm:min-h-0 sm:gap-2 sm:px-8 sm:py-3.5 sm:text-sm"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            Resume
+            <ArrowUpRight className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" aria-hidden />
+          </motion.a>
+          <div className="col-span-1 flex w-full min-w-0 justify-start gap-2 max-sm:row-start-2 sm:contents">
+            <motion.a
+              href="https://github.com/SohailGidwani"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="GitHub profile"
+              className="inline-flex min-h-9 min-w-0 flex-1 items-center justify-center gap-1 rounded border border-border bg-transparent px-2 py-2 text-xs font-semibold text-foreground transition hover:border-foreground/40 sm:min-h-0 sm:flex-initial sm:gap-1.5 sm:px-8 sm:py-3.5 sm:text-sm"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <Github className="h-4 w-4 shrink-0" aria-hidden />
+              <span className="hidden sm:inline">GitHub</span>
+              <ArrowUpRight className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" aria-hidden />
+            </motion.a>
+            <motion.a
+              href="https://linkedin.com/in/sohail-gidwani"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="LinkedIn profile"
+              className="inline-flex min-h-9 min-w-0 flex-1 items-center justify-center gap-1 rounded border border-border bg-transparent px-2 py-2 text-xs font-semibold text-foreground transition hover:border-foreground/40 sm:min-h-0 sm:flex-initial sm:gap-1.5 sm:px-8 sm:py-3.5 sm:text-sm"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <Linkedin className="h-4 w-4 shrink-0" aria-hidden />
+              <span className="hidden sm:inline">LinkedIn</span>
+              <ArrowUpRight className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" aria-hidden />
+            </motion.a>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.55 * ds }}
+          className="flex w-full min-w-0 flex-col items-stretch md:items-center"
+        >
+          <HeroStats />
+        </motion.div>
       </div>
 
-      {/* Scroll chevron → about */}
-      <motion.button
-        onClick={scrollToAbout}
-        aria-label="Scroll to about section"
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground/30 transition-colors hover:text-muted-foreground/60"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2.0 * ds, duration: 0.6 }}
-        whileHover={{ scale: 1.15 }}
-      >
-        {shouldReduce ? (
-          <ChevronDown className="h-5 w-5" />
-        ) : (
-          <motion.div
-            animate={{ y: [0, 6, 0] }}
-            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-          >
-            <ChevronDown className="h-5 w-5" />
-          </motion.div>
-        )}
-      </motion.button>
+      <div className="relative z-[1] mt-auto w-full min-w-0 shrink-0">
+        <SkillsTicker />
+      </div>
     </section>
   )
 }

@@ -9,63 +9,75 @@ module.exports = {
     container: {
       center: true,
       padding: {
-        DEFAULT: "1rem",
-        sm: "1.5rem",
-        lg: "2rem",
+        DEFAULT: "18px",
+        sm: "24px",
+        lg: "36px",
       },
       screens: {
-        "2xl": "1400px",
+        lg: "1080px",
       },
     },
     extend: {
+      screens: {
+        xs: "600px",
+      },
+      maxWidth: {
+        content: "var(--w)",
+      },
       fontFamily: {
-        display: ["var(--font-display)", "serif"],
-        body: ["var(--font-body)", "sans-serif"],
-        mono: ["var(--font-mono)", "monospace"],
+        fd: ["var(--fd)", "system-ui", "sans-serif"],
+        fb: ["var(--fb)", "system-ui", "sans-serif"],
+        fm: ["var(--fm)", "ui-monospace", "monospace"],
+        display: ["var(--fd)", "system-ui", "sans-serif"],
+        body: ["var(--fb)", "system-ui", "sans-serif"],
+        mono: ["var(--fm)", "ui-monospace", "monospace"],
       },
       colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        border: "var(--border)",
+        input: "var(--input)",
+        ring: "var(--ring)",
+        background: "var(--background)",
+        foreground: "var(--foreground)",
         primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: "var(--primary)",
+          foreground: "var(--primary-foreground)",
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+          DEFAULT: "var(--secondary)",
+          foreground: "var(--secondary-foreground)",
         },
         destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+          DEFAULT: "var(--destructive)",
+          foreground: "var(--destructive-foreground)",
         },
         muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          DEFAULT: "var(--card2)",
+          foreground: "var(--muted)",
         },
         accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
+          DEFAULT: "var(--accent)",
+          foreground: "var(--accent-foreground)",
         },
         popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
+          DEFAULT: "var(--popover)",
+          foreground: "var(--popover-foreground)",
         },
         card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+          DEFAULT: "var(--card)",
+          foreground: "var(--card-foreground)",
         },
+        card2: "var(--card2)",
       },
       boxShadow: {
         card: "0 20px 60px -50px rgba(0,0,0,0.4)",
         "card-hover": "0 28px 80px -40px rgba(0,0,0,0.5)",
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        DEFAULT: "var(--radius-btn)",
+        sm: "var(--radius-sm)",
+        md: "var(--radius-md)",
+        lg: "var(--radius-md)",
+        pill: "var(--radius-pill)",
       },
       keyframes: {
         "accordion-down": {
@@ -84,6 +96,10 @@ module.exports = {
           "0%, 100%": { opacity: 0.4 },
           "50%": { opacity: 0.8 },
         },
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -92,6 +108,7 @@ module.exports = {
         "float-slower": "float 18s ease-in-out infinite",
         "pulse-soft": "pulse-soft 6s ease-in-out infinite",
         "spin-slow": "spin 8s linear infinite",
+        marquee: "marquee 48s linear infinite",
       },
     },
   },
