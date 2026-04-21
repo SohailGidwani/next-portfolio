@@ -27,7 +27,7 @@ interface ExperienceItem {
 const experiences: ExperienceItem[] = [
   {
     id: "keck-usc",
-    title: "Research Assistant - Multi-Modal AI for Alzheimer's Disease",
+    title: "Research Assistant",
     company: "Keck School of Medicine of USC",
     date: "Oct, 2025 - Present",
     description:
