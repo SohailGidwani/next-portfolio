@@ -7,12 +7,10 @@ import { triggerHaptic } from "./ui/haptics"
 import dynamic from "next/dynamic"
 import toast from "react-hot-toast"
 import { smoothScrollToId } from "@/app/utils/smoothScroll"
-import { projects } from "@/app/data/projects"
 import SkillsTicker from "./SkillsTicker"
 
 const ShootingStars = dynamic(() => import("./ShootingStars"), { ssr: false })
 const AuroraMesh = dynamic(() => import("./AuroraMesh"), { ssr: false })
-const HeroSpotlight = dynamic(() => import("./HeroSpotlight"), { ssr: false })
 
 const ROLES = [
   "AI / CS Engineer",
@@ -58,16 +56,15 @@ function RoleBadge() {
 }
 
 function HeroStats() {
-  const projectCount = projects.length
   const items = [
-    { value: `${projectCount}+`, label: "Projects documented", nowrap: false },
-    { value: "RAG · Agents", label: "Core stack focus", nowrap: true },
+    { value: "Production", label: "Shipped, not slide-deck AI", nowrap: false },
+    { value: "RAG · Agents", label: "Where I spend most depth", nowrap: true },
     { value: "USC", label: "MS Computer Science", nowrap: false },
   ]
 
   return (
-    <div className="mt-10 border-t border-border pt-8 sm:mt-12">
-      <div className="grid gap-8 sm:grid-cols-3">
+    <div className="mt-8 max-w-2xl border-t border-border pt-6 sm:mt-10 sm:pt-7">
+      <div className="grid gap-6 sm:grid-cols-3 sm:gap-8">
         {items.map((item) => (
           <div key={item.label} className="min-w-0 space-y-1">
             <p
@@ -92,7 +89,7 @@ function AnimatedName({ delayScale }: { delayScale: number }) {
   const name = `${first} ${last}`
 
   const headingClass =
-    "font-display leading-[1.08] tracking-tight text-foreground hyphens-none [overflow-wrap:normal] text-[clamp(2.25rem,6.5vw+0.5rem,5.75rem)] sm:text-[clamp(2.75rem,5.5vw+0.75rem,5.75rem)] min-[1140px]:text-[clamp(3.25rem,4.2vw+1rem,5.85rem)]"
+    "font-display leading-[1.08] tracking-tight text-foreground hyphens-none [overflow-wrap:normal] text-[clamp(2.25rem,5vw+0.75rem,4.25rem)] sm:text-[clamp(2.6rem,4vw+1rem,4.75rem)]"
 
   if (shouldReduce) {
     return (
@@ -214,7 +211,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-[100svh] flex-col px-4 pt-24 pb-0 sm:pt-28"
+      className="relative flex min-h-[100svh] flex-col px-4 pt-20 pb-0 sm:pt-24"
     >
       {/* Aurora extends beyond section bottom so it doesn't clip hard */}
       <div className="pointer-events-none absolute inset-x-0 -top-20 -bottom-32" style={{ maskImage: "linear-gradient(to bottom, transparent 0%, black 5%, black 75%, transparent 100%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 5%, black 75%, transparent 100%)" }}>
@@ -225,11 +222,9 @@ export default function Hero() {
         <ShootingStars />
       </div>
 
-      <div className="container relative mx-auto flex flex-1 flex-col justify-center pb-16 pt-8 sm:pb-20">
-        <div className="grid items-start gap-10 min-[1140px]:grid-cols-[1fr_1fr] min-[1140px]:items-center min-[1140px]:gap-14 xl:gap-16">
-
-          {/* Left — text content */}
-          <div className="min-w-0 space-y-6 sm:space-y-7">
+      <div className="container relative mx-auto flex flex-1 flex-col justify-center pb-12 pt-4 sm:pb-16 sm:pt-6">
+        <div className="max-w-2xl">
+          <div className="min-w-0 space-y-5 sm:space-y-6">
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -241,7 +236,7 @@ export default function Hero() {
             <AnimatedName delayScale={ds} />
 
             <motion.p
-              className="max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg md:text-xl"
+              className="max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg"
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, delay: 0.95 * ds }}
@@ -321,22 +316,13 @@ export default function Hero() {
               Los Angeles · Open to remote and on-site
             </motion.div>
           </div>
-
-          {/* Right — project spotlight (wide screens only) */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.35 * ds }}
-            className="hidden min-w-0 min-[1140px]:block"
-          >
-            <HeroSpotlight />
-          </motion.div>
         </div>
 
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 1.25 * ds }}
+          className="max-w-2xl"
         >
           <HeroStats />
         </motion.div>
