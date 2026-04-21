@@ -53,7 +53,7 @@ export default function AuroraMesh() {
           phaseX: 0, phaseY: 0.5,
           speedX: 0.15, speedY: 0.12,
           driftX: w * 0.12, driftY: h * 0.1,
-          color: [45, 212, 191],
+          color: [245, 240, 232],
         },
         {
           x: w * 0.7, y: h * 0.25,
@@ -61,7 +61,7 @@ export default function AuroraMesh() {
           phaseX: 2, phaseY: 1,
           speedX: 0.1, speedY: 0.14,
           driftX: w * 0.1, driftY: h * 0.08,
-          color: [251, 146, 60],
+          color: [235, 190, 130],
         },
         {
           x: w * 0.5, y: h * 0.7,
@@ -69,7 +69,7 @@ export default function AuroraMesh() {
           phaseX: 4, phaseY: 3,
           speedX: 0.12, speedY: 0.09,
           driftX: w * 0.08, driftY: h * 0.12,
-          color: [14, 116, 144],
+          color: [175, 185, 175],
         },
         {
           x: w * 0.15, y: h * 0.75,
@@ -77,7 +77,7 @@ export default function AuroraMesh() {
           phaseX: 1.5, phaseY: 4.2,
           speedX: 0.08, speedY: 0.11,
           driftX: w * 0.06, driftY: h * 0.09,
-          color: [168, 85, 247],
+          color: [220, 200, 185],
         },
       ]
     }
@@ -86,7 +86,7 @@ export default function AuroraMesh() {
       const { w, h } = sizeRef.current
       const isDark = document.documentElement.classList.contains("dark")
       ctx.clearRect(0, 0, w, h)
-      const baseAlpha = isDark ? 0.18 : 0.1
+      const baseAlpha = isDark ? 0.16 : 0.075
 
       for (const orb of orbsRef.current) {
         const cx = orb.x + Math.sin(time * orb.speedX + orb.phaseX) * orb.driftX

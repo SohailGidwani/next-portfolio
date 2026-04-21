@@ -1,5 +1,5 @@
 import '@/app/globals.css'
-import { Fraunces, Space_Grotesk, JetBrains_Mono } from 'next/font/google'
+import { Fraunces, DM_Sans, JetBrains_Mono } from 'next/font/google'
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import Script from 'next/script'
@@ -11,7 +11,7 @@ const display = Fraunces({
   variable: '--font-display',
 })
 
-const body = Space_Grotesk({
+const body = DM_Sans({
   subsets: ['latin'],
   variable: '--font-body',
 })
@@ -26,8 +26,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#f5efe7' },
-    { media: '(prefers-color-scheme: dark)', color: '#131a20' },
+    { media: '(prefers-color-scheme: light)', color: '#f7f6f3' },
+    { media: '(prefers-color-scheme: dark)', color: '#12110f' },
   ],
 }
 
@@ -100,7 +100,7 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2" />
         <link rel="manifest" href="/site.webmanifest" />
-        <meta name="msapplication-TileColor" content="#f5efe7" />
+        <meta name="msapplication-TileColor" content="#f7f6f3" />
         <link rel="author" href="https://sohailgidwani.app" />
         <link rel="alternate" type="text/plain" title="LLM information" href="/llms.txt" />
         {/* Structured Data */}

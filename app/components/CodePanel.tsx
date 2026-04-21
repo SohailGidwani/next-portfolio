@@ -57,7 +57,7 @@ const CODE_LINES: { tokens: { text: string; color: string }[] }[] = [
   { tokens: [
     { text: "  open to work", color: "text-primary" },
     { text: ": ", color: "text-muted-foreground" },
-    { text: "true", color: "text-emerald-500 dark:text-emerald-400" },
+    { text: "true", color: "text-accent" },
   ]},
   { tokens: [
     { text: "}", color: "text-muted-foreground" },
@@ -71,7 +71,7 @@ export default function CodePanel() {
         <div className="flex items-center gap-1.5">
           <span className="h-3 w-3 rounded-full bg-red-400/80 dark:bg-red-400/60" />
           <span className="h-3 w-3 rounded-full bg-amber-400/80 dark:bg-amber-400/60" />
-          <span className="h-3 w-3 rounded-full bg-emerald-400/80 dark:bg-emerald-400/60" />
+          <span className="h-3 w-3 rounded-full bg-accent/85 dark:bg-accent/70" />
         </div>
         <div className="ml-2 flex items-center gap-1.5 text-xs text-muted-foreground">
           <Terminal className="h-3 w-3" />

@@ -84,6 +84,10 @@ module.exports = {
           "0%, 100%": { opacity: 0.4 },
           "50%": { opacity: 0.8 },
         },
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -92,6 +96,7 @@ module.exports = {
         "float-slower": "float 18s ease-in-out infinite",
         "pulse-soft": "pulse-soft 6s ease-in-out infinite",
         "spin-slow": "spin 8s linear infinite",
+        marquee: "marquee 48s linear infinite",
       },
     },
   },

@@ -7,6 +7,8 @@ import { triggerHaptic } from "./ui/haptics"
 import dynamic from "next/dynamic"
 import toast from "react-hot-toast"
 import { smoothScrollToId } from "@/app/utils/smoothScroll"
+import { projects } from "@/app/data/projects"
+import SkillsTicker from "./SkillsTicker"
 
 const ShootingStars = dynamic(() => import("./ShootingStars"), { ssr: false })
 const AuroraMesh = dynamic(() => import("./AuroraMesh"), { ssr: false })
@@ -31,8 +33,14 @@ function RoleBadge() {
   }, [shouldReduce])
 
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground backdrop-blur-sm">
-      <Sparkles className="h-3.5 w-3.5 shrink-0 text-primary" />
+    <span className="inline-flex items-center gap-2.5 rounded-md border border-border bg-card/90 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground backdrop-blur-sm">
+      <span className="relative flex h-2 w-2 shrink-0">
+        {!shouldReduce ? (
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-40" />
+        ) : null}
+        <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+      </span>
+      <Sparkles className="h-3.5 w-3.5 shrink-0 text-accent" />
       <AnimatePresence mode="wait">
         <motion.span
           key={ROLES[index]}
@@ -46,6 +54,32 @@ function RoleBadge() {
         </motion.span>
       </AnimatePresence>
     </span>
+  )
+}
+
+function HeroStats() {
+  const projectCount = projects.length
+  const items = [
+    { value: `${projectCount}+`, label: "Projects documented" },
+    { value: "RAG · Agents", label: "Core stack focus" },
+    { value: "USC", label: "MS Computer Science" },
+  ]
+
+  return (
+    <div className="mt-12 border-t border-border pt-8">
+      <div className="grid gap-8 sm:grid-cols-3">
+        {items.map((item) => (
+          <div key={item.label} className="space-y-1">
+            <p className="font-display text-3xl tracking-tight text-foreground sm:text-4xl">
+              {item.value}
+            </p>
+            <p className="text-xs font-medium uppercase tracking-[0.28em] text-muted-foreground">
+              {item.label}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
 
@@ -107,7 +141,7 @@ function CopyEmailButton() {
     <motion.button
       onClick={handleCopy}
       title="Copy email address"
-      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/80 text-foreground transition-colors hover:border-primary/40 hover:text-primary"
+      className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-border bg-card/90 text-foreground transition-colors hover:border-accent/50 hover:text-accent"
       aria-label="Copy email address"
       whileHover={{ y: -3, scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
@@ -146,7 +180,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-[100svh] flex-col justify-center px-4 pt-28 pb-24 sm:pt-32"
+      className="relative flex min-h-[100svh] flex-col px-4 pt-24 pb-0 sm:pt-28"
     >
       {/* Aurora extends beyond section bottom so it doesn't clip hard */}
       <div className="pointer-events-none absolute inset-x-0 -top-20 -bottom-32" style={{ maskImage: "linear-gradient(to bottom, transparent 0%, black 5%, black 75%, transparent 100%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 5%, black 75%, transparent 100%)" }}>
@@ -157,7 +191,7 @@ export default function Hero() {
         <ShootingStars />
       </div>
 
-      <div className="container relative mx-auto">
+      <div className="container relative mx-auto flex flex-1 flex-col justify-center pb-16 pt-8 sm:pb-20">
         <div className="grid items-center gap-12 lg:grid-cols-[1fr_1fr] lg:gap-16">
 
           {/* Left — text content */}
@@ -190,7 +224,7 @@ export default function Hero() {
               <motion.button
                 type="button"
                 onClick={scrollToProjects}
-                className="group inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20"
+                className="group inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-md shadow-foreground/10"
                 whileHover={{ y: -2, scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
@@ -204,7 +238,7 @@ export default function Hero() {
                 rel="noreferrer"
                 onClick={() => triggerHaptic()}
                 aria-label="Download resume (PDF)"
-                className="inline-flex items-center gap-2 rounded-full border border-border bg-card/80 px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-primary/40"
+                className="inline-flex items-center gap-2 rounded-md border border-border bg-card/90 px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-accent/50"
                 whileHover={{ y: -2, scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
@@ -220,7 +254,7 @@ export default function Hero() {
                   href="https://github.com/SohailGidwani"
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/80 text-foreground transition-colors hover:border-primary/40 hover:text-primary"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-border bg-card/90 text-foreground transition-colors hover:border-accent/50 hover:text-accent"
                   aria-label="GitHub"
                   whileHover={{ y: -3, scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -232,7 +266,7 @@ export default function Hero() {
                   href="https://linkedin.com/in/sohail-gidwani"
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/80 text-foreground transition-colors hover:border-primary/40 hover:text-primary"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-border bg-card/90 text-foreground transition-colors hover:border-accent/50 hover:text-accent"
                   aria-label="LinkedIn"
                   whileHover={{ y: -3, scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -249,7 +283,7 @@ export default function Hero() {
               transition={{ duration: 0.4, delay: 1.15 * ds }}
               className="flex items-center gap-2 text-sm text-muted-foreground"
             >
-              <MapPin className="h-3.5 w-3.5 text-primary" />
+              <MapPin className="h-3.5 w-3.5 text-accent" />
               Los Angeles · Open to remote and on-site
             </motion.div>
           </div>
@@ -264,13 +298,25 @@ export default function Hero() {
             <CodePanel />
           </motion.div>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 1.25 * ds }}
+        >
+          <HeroStats />
+        </motion.div>
+      </div>
+
+      <div className="relative z-[1] mt-auto w-screen max-w-[100vw] shrink-0 -translate-x-1/2 left-1/2">
+        <SkillsTicker />
       </div>
 
       {/* Scroll chevron → about */}
       <motion.button
         onClick={scrollToAbout}
         aria-label="Scroll to about section"
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground/30 transition-colors hover:text-muted-foreground/60"
+        className="absolute bottom-[calc(3.25rem+env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 text-muted-foreground/30 transition-colors hover:text-muted-foreground/60 sm:bottom-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2.0 * ds, duration: 0.6 }}
