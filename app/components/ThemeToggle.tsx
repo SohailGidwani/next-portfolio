@@ -28,7 +28,7 @@ export default function ThemeToggle({ variant = "icon" }: ThemeToggleProps) {
   if (!mounted) {
     if (variant === "pill") {
       return (
-        <div className="h-9 min-w-[5.5rem] animate-pulse rounded-pill border border-border bg-card/40 px-4" />
+        <div className="h-9 min-w-[5.5rem] animate-pulse rounded border border-border bg-card/40 px-4" />
       )
     }
     return (
@@ -42,7 +42,7 @@ export default function ThemeToggle({ variant = "icon" }: ThemeToggleProps) {
         type="button"
         onClick={toggleTheme}
         whileTap={{ scale: 0.98 }}
-        className="inline-flex items-center gap-2 rounded-pill border border-border bg-transparent px-4 py-2 font-body text-[10px] font-semibold uppercase tracking-[0.08em] text-foreground transition hover:border-foreground/40"
+        className="inline-flex items-center gap-2 rounded border border-border bg-transparent px-4 py-2 font-body text-[10px] font-semibold uppercase tracking-[0.08em] text-foreground transition hover:border-foreground/40"
         aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       >
         {isDark ? (

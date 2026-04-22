@@ -1,5 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="SG">
-  <rect width="256" height="256" rx="56" fill="#0f766e"/>
-  <text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle"
-        font-family="Fraunces, 'New York', serif" font-size="120" fill="#f8fafc">SG</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="SG.">
+  <rect width="256" height="256" rx="48" fill="#0f0f0e"/>
+  <text
+    x="50%" y="50%"
+    text-anchor="middle"
+    dominant-baseline="central"
+    font-family="Syne, system-ui, ui-sans-serif, sans-serif"
+    font-size="104"
+    font-weight="800"
+    letter-spacing="-2"
+    fill="#f0efe9"
+  >SG<tspan fill="#b85c0e" style="fill: oklch(52% 0.18 50)">.</tspan></text>
 </svg>

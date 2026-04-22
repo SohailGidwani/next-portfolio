@@ -3,7 +3,6 @@
 import { Suspense } from "react"
 import { motion } from "framer-motion"
 import { Badge } from "@/app/components/ui/badge"
-import { Button } from "@/app/components/ui/button"
 import { Github, FolderKanban, ExternalLink, Code, Brain, Zap } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
@@ -11,6 +10,20 @@ import imagecaption from '@/public/images/BE-Project.jpg'
 import ProjectSkeleton from "@/app/components/ProjectSkeleton"
 import ProjectNav from "@/app/components/ProjectNav"
 import ProjectDetailStructuredData from "@/app/components/ProjectDetailStructuredData"
+
+function SectionLabel({ n, label }: { n: string; label: string }) {
+  return (
+    <div className="mb-6">
+      <div className="mb-2 flex items-center gap-2">
+        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">{n}</span>
+        <div className="h-px w-5 bg-border" />
+      </div>
+      <h2 className="font-display text-xl font-bold uppercase tracking-tight text-foreground sm:text-2xl">
+        {label}
+      </h2>
+    </div>
+  )
+}
 
 export default function ImageCaptioningPage() {
   const project = {
@@ -28,22 +41,22 @@ The hardest part was honestly the training pipeline. VGG-16 is memory-hungry, th
     github: "https://github.com/SohailGidwani/Image-Caption",
     features: [
       {
-        icon: <Brain className="w-6 h-6" />,
+        icon: <Brain className="w-5 h-5" />,
         title: "Advanced AI Models",
         description: "VGG-16 for image feature extraction, then LSTM and Transformer decoders for generating captions"
       },
       {
-        icon: <Zap className="w-6 h-6" />,
+        icon: <Zap className="w-5 h-5" />,
         title: "High Performance",
         description: "LSTM hit 0.65 BLEU, Transformer got 0.80. The attention mechanism made a real difference"
       },
       {
-        icon: <Code className="w-6 h-6" />,
+        icon: <Code className="w-5 h-5" />,
         title: "User-Friendly Interface",
         description: "Streamlit app where you upload an image and get a caption back in seconds"
       },
       {
-        icon: <ExternalLink className="w-6 h-6" />,
+        icon: <ExternalLink className="w-5 h-5" />,
         title: "Real-time Processing",
         description: "Tuned the pipeline so inference runs fast enough to feel instant"
       }
@@ -84,33 +97,50 @@ The hardest part was honestly the training pipeline. VGG-16 is memory-hungry, th
         github={project.github}
       />
       <Suspense fallback={<ProjectSkeleton />}>
-      <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+        <div className="min-h-screen overflow-x-hidden bg-background text-foreground">
           <ProjectNav />
 
           {/* Header */}
-          <div className="bg-gradient-to-br from-primary/10 via-background to-accent/10 py-20">
-            <div className="container mx-auto px-4">
+          <div className="border-b border-border bg-card/40 py-16 sm:py-20">
+            <div className="container mx-auto">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="max-w-4xl mx-auto"
+                transition={{ duration: 0.5 }}
+                className="max-w-3xl"
               >
-                
-                <h1 className="font-display text-4xl md:text-6xl font-bold mb-6 text-foreground">
+                <div className="mb-5 flex items-center gap-3">
+                  <div className="h-px w-8 bg-accent" />
+                  <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">
+                    ML / Computer Vision
+                  </span>
+                </div>
+                <h1 className="font-display mb-5 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl">
                   {project.title}
                 </h1>
-                
-                <p className="text-xl text-muted-foreground mb-8">
+
+                {/* Stat callout — BLEU score */}
+                <div className="mb-6 flex items-center gap-6">
+                  <div className="border-l-2 border-accent pl-4">
+                    <p className="font-mono text-2xl font-bold text-foreground">0.80</p>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">BLEU Score</p>
+                  </div>
+                  <div className="border-l-2 border-border pl-4">
+                    <p className="font-mono text-2xl font-bold text-foreground">0.65</p>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">LSTM Baseline</p>
+                  </div>
+                  <div className="border-l-2 border-border pl-4">
+                    <p className="font-mono text-2xl font-bold text-foreground">+23%</p>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">Improvement</p>
+                  </div>
+                </div>
+
+                <p className="mb-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
                   {project.description}
                 </p>
-                
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-2">
                   {project.tags.map((tag, index) => (
-                    <Badge
-                      key={index}
-                      className="bg-primary/10 text-primary text-sm"
-                    >
+                    <Badge key={index} variant="outline" className="font-mono text-[10px] uppercase tracking-[0.1em]">
                       {tag}
                     </Badge>
                   ))}
@@ -119,18 +149,19 @@ The hardest part was honestly the training pipeline. VGG-16 is memory-hungry, th
             </div>
           </div>
 
-          {/* Project Content */}
-          <div className="py-20">
+          {/* Content */}
+          <div className="py-16 sm:py-20">
             <div className="container mx-auto">
-              <div className="max-w-4xl mx-auto">
-                {/* Hero Image */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
+              <div className="max-w-3xl space-y-16">
+
+                {/* 01 — Preview */}
+                <motion.section
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  className="mb-12"
+                  transition={{ duration: 0.5, delay: 0.15 }}
                 >
-                  <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl">
+                  <SectionLabel n="01" label="Preview" />
+                  <div className="relative aspect-video overflow-hidden rounded border border-border">
                     <Image
                       src={project.image}
                       alt={project.title}
@@ -140,152 +171,138 @@ The hardest part was honestly the training pipeline. VGG-16 is memory-hungry, th
                       priority
                     />
                   </div>
-                </motion.div>
+                </motion.section>
 
-                {/* Detailed Description */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
+                {/* 02 — Overview */}
+                <motion.section
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                  className="mb-12"
+                  transition={{ duration: 0.5, delay: 0.25 }}
                 >
-                  <h2 className="font-display text-3xl font-bold mb-6 text-foreground">
-                    Project Overview
-                  </h2>
-                  <div className="prose prose-lg dark:prose-invert max-w-none">
-                    <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
-                      {project.longDescription}
-                    </p>
-                  </div>
-                </motion.div>
+                  <SectionLabel n="02" label="Overview" />
+                  <p className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
+                    {project.longDescription}
+                  </p>
+                </motion.section>
 
-                {/* Key Features */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
+                {/* 03 — Key Features */}
+                <motion.section
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.6 }}
-                  className="mb-12"
+                  transition={{ duration: 0.5, delay: 0.35 }}
                 >
-                  <h2 className="font-display text-3xl font-bold mb-8 text-foreground">
-                    Key Features
-                  </h2>
-                  <div className="grid gap-6 md:grid-cols-2">
+                  <SectionLabel n="03" label="Key Features" />
+                  <div className="grid gap-4 sm:grid-cols-2">
                     {project.features.map((feature, index) => (
-                      <motion.div
+                      <div
                         key={index}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
-                        className="p-6 bg-card/80 rounded-xl border border-border hover:shadow-lg transition-shadow"
+                        className="rounded border border-border bg-card p-5 transition-colors hover:border-accent/40"
                       >
-                        <div className="flex items-center mb-4">
-                          <div className="p-2 bg-primary/10 rounded-lg mr-4">
-                            {feature.icon}
-                          </div>
-                          <h3 className="text-xl font-semibold text-foreground">
+                        <div className="mb-3 flex items-center gap-3">
+                          <div className="text-accent">{feature.icon}</div>
+                          <h3 className="font-display text-sm font-bold uppercase tracking-wide text-foreground">
                             {feature.title}
                           </h3>
                         </div>
-                        <p className="text-muted-foreground">
-                          {feature.description}
-                        </p>
-                      </motion.div>
+                        <p className="text-sm leading-relaxed text-muted-foreground">{feature.description}</p>
+                      </div>
                     ))}
                   </div>
-                </motion.div>
+                </motion.section>
 
-                {/* Technical Details */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
+                {/* 04 — Technical Stack */}
+                <motion.section
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 1.0 }}
-                  className="mb-12"
+                  transition={{ duration: 0.5, delay: 0.45 }}
                 >
-                  <h2 className="font-display text-3xl font-bold mb-6 text-foreground">
-                    Technical Implementation
-                  </h2>
-                  <div className="bg-card/80 rounded-xl p-6 border border-border">
-                    <ul className="space-y-3">
+                  <SectionLabel n="04" label="Technical Stack" />
+                  <div className="overflow-hidden rounded border border-border bg-card">
+                    <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
+                      <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
+                      <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                        implementation.notes
+                      </span>
+                    </div>
+                    <div className="divide-y divide-border/50">
                       {project.technicalDetails.map((detail, index) => (
-                        <li key={index} className="flex items-start">
-                          <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0" />
-                          <span className="text-muted-foreground">{detail}</span>
-                        </li>
+                        <div key={index} className="flex items-start gap-4 px-4 py-3">
+                          <span className="w-5 shrink-0 text-right font-mono text-[10px] text-accent/60">
+                            {String(index + 1).padStart(2, '0')}
+                          </span>
+                          <span className="text-sm text-muted-foreground">{detail}</span>
+                        </div>
                       ))}
-                    </ul>
+                    </div>
                   </div>
-                </motion.div>
+                </motion.section>
 
-                {/* Challenges & Learnings */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
+                {/* 05 — Friction & Takeaways */}
+                <motion.section
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 1.2 }}
-                  className="mb-12"
+                  transition={{ duration: 0.5, delay: 0.55 }}
                 >
-                  <div className="grid gap-8 md:grid-cols-2">
-                    <div>
-                      <h3 className="text-2xl font-bold mb-4 text-foreground">
-                        Challenges Faced
-                      </h3>
+                  <SectionLabel n="05" label="Friction & Takeaways" />
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <div className="rounded border border-border bg-card p-5">
+                      <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                        Friction
+                      </p>
                       <ul className="space-y-3">
                         {project.challenges.map((challenge, index) => (
-                          <li key={index} className="flex items-start">
-                            <div className="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                            <span className="text-muted-foreground">{challenge}</span>
+                          <li key={index} className="flex items-start gap-3 text-sm text-muted-foreground">
+                            <span className="mt-2 h-1 w-1 shrink-0 bg-muted-foreground/50" />
+                            {challenge}
                           </li>
                         ))}
                       </ul>
                     </div>
-                    <div>
-                      <h3 className="text-2xl font-bold mb-4 text-foreground">
-                        Key Learnings
-                      </h3>
+                    <div className="rounded border border-accent/20 bg-card p-5">
+                      <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.2em] text-accent">
+                        Takeaways
+                      </p>
                       <ul className="space-y-3">
                         {project.learnings.map((learning, index) => (
-                          <li key={index} className="flex items-start">
-                            <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0" />
-                            <span className="text-muted-foreground">{learning}</span>
+                          <li key={index} className="flex items-start gap-3 text-sm text-muted-foreground">
+                            <span className="mt-2 h-1 w-1 shrink-0 bg-accent/60" />
+                            {learning}
                           </li>
                         ))}
                       </ul>
                     </div>
                   </div>
+                </motion.section>
+
+                {/* CTA */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.65 }}
+                  className="flex flex-wrap gap-3 border-t border-border pt-8"
+                >
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded bg-accent px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-white transition hover:bg-accent/90"
+                  >
+                    <Github className="h-4 w-4" />
+                    Source Code
+                  </a>
+                  <Link
+                    href="/projects"
+                    className="inline-flex items-center gap-2 rounded border border-border px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-foreground transition hover:border-foreground/40"
+                  >
+                    <FolderKanban className="h-4 w-4" />
+                    All Projects
+                  </Link>
                 </motion.div>
 
-                {/* Action Buttons */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 1.4 }}
-                  className="flex flex-col sm:flex-row gap-4"
-                >
-                  <Button
-                    size="lg"
-                    asChild
-                    className="rounded-full bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3"
-                  >
-                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center">
-                      <Github className="mr-2 h-5 w-5" />
-                      View Source Code
-                    </a>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    asChild
-                    className="rounded-full border border-primary/60 text-primary hover:bg-primary/10 px-8 py-3"
-                  >
-                    <Link href="/projects" className="flex items-center">
-                      <FolderKanban className="mr-2 h-5 w-5" />
-                      Explore Other Projects
-                    </Link>
-                  </Button>
-                </motion.div>
               </div>
             </div>
           </div>
-      </div>
+        </div>
       </Suspense>
     </>
   )

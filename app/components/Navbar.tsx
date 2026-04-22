@@ -69,7 +69,7 @@ export default function Navbar() {
           aria-label="Scroll to top"
         >
           <span className="inline-flex items-center gap-0.5">
-            Sohail
+            SohailG
             <span className="inline-block h-1.5 w-1.5 shrink-0 rounded-[2px] bg-accent" aria-hidden />
           </span>
         </button>
@@ -105,7 +105,7 @@ export default function Navbar() {
               triggerHaptic()
               startTour()
             }}
-            className="hidden items-center gap-1.5 rounded-pill border border-border bg-transparent px-4 py-2 text-center font-body text-[11px] font-semibold uppercase tracking-[0.08em] text-foreground transition hover:border-foreground/40 min-[901px]:inline-flex min-[901px]:justify-center md:px-5"
+            className="hidden items-center gap-1.5 rounded border border-border bg-transparent px-4 py-2 text-center font-body text-[11px] font-semibold uppercase tracking-[0.08em] text-foreground transition hover:border-foreground/40 min-[901px]:inline-flex min-[901px]:justify-center md:px-5"
             aria-label="Start portfolio tour"
           >
             <Sparkles className="h-3.5 w-3.5 text-accent" aria-hidden />
@@ -162,7 +162,7 @@ export default function Navbar() {
               ))}
               <button
                 type="button"
-                className="mt-2 inline-flex items-center justify-center gap-2 rounded-pill border border-border px-4 py-3 text-center font-body text-[11px] font-semibold uppercase tracking-[0.08em] text-foreground"
+                className="mt-2 inline-flex items-center justify-center gap-2 rounded border border-border px-4 py-3 text-center font-body text-[11px] font-semibold uppercase tracking-[0.08em] text-foreground"
                 onClick={() => {
                   triggerHaptic()
                   startTour()

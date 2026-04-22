@@ -17,15 +17,29 @@ import ProjectDocument from "@/app/components/ProjectDocument"
 import ProjectNav from "@/app/components/ProjectNav"
 import ProjectDetailStructuredData from "@/app/components/ProjectDetailStructuredData"
 
+function SectionLabel({ n, label }: { n: string; label: string }) {
+  return (
+    <div className="mb-6">
+      <div className="mb-2 flex items-center gap-2">
+        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">{n}</span>
+        <div className="h-px w-5 bg-border" />
+      </div>
+      <h2 className="font-display text-xl font-bold uppercase tracking-tight text-foreground sm:text-2xl">
+        {label}
+      </h2>
+    </div>
+  )
+}
+
 export default function KnowledgeHubPage() {
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
   const [zoomLevel, setZoomLevel] = useState(1)
   const [isDragging, setIsDragging] = useState(false)
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
   const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 })
-  
+
   const project = {
-    title: "Knowledge Hub - AI-Powered Document Management System",
+    title: "Knowledge Hub — AI-Powered Document Management",
     description: "A document manager I built for my USC coursework. It does OCR on handwritten notes and PDFs, runs semantic search with pgvector, and answers questions about your docs using a local LLM.",
     longDescription: `I built Knowledge Hub because I was tired of digging through hundreds of course PDFs and lecture notes during my MS in CS at USC. I wanted one place where I could dump all my documents and actually find what I needed quickly.
 
@@ -55,22 +69,22 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
     github: "https://github.com/SohailGidwani/knowledge_hub",
     features: [
       {
-        icon: <Database className="w-6 h-6" />,
+        icon: <Database className="w-5 h-5" />,
         title: "Document Management",
         description: "Upload docs, and the system pulls out metadata and organizes everything automatically"
       },
       {
-        icon: <Brain className="w-6 h-6" />,
+        icon: <Brain className="w-5 h-5" />,
         title: "AI-Powered OCR",
         description: "Extracts text from PDFs and images using OpenCV, PyMuPDF, and Tesseract"
       },
       {
-        icon: <Search className="w-6 h-6" />,
+        icon: <Search className="w-5 h-5" />,
         title: "Semantic Search",
         description: "Find related content with vector similarity search, powered by pgvector and Sentence-Transformers"
       },
       {
-        icon: <FileText className="w-6 h-6" />,
+        icon: <FileText className="w-5 h-5" />,
         title: "Question Answering",
         description: "Ask questions about your docs and get answers with citations, powered by a local LLM through RAG"
       }
@@ -162,37 +176,18 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
     resetZoom()
   }, [resetZoom])
 
-  // Keyboard navigation for image modal
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (selectedImage === null) return
-
       switch (e.key) {
-        case 'Escape':
-          setSelectedImage(null)
-          break
-        case 'ArrowLeft':
-          prevImage()
-          break
-        case 'ArrowRight':
-          nextImage()
-          break
-        case '+':
-        case '=':
-          e.preventDefault()
-          handleZoomIn()
-          break
-        case '-':
-          e.preventDefault()
-          handleZoomOut()
-          break
-        case '0':
-          e.preventDefault()
-          resetZoom()
-          break
+        case 'Escape': setSelectedImage(null); break
+        case 'ArrowLeft': prevImage(); break
+        case 'ArrowRight': nextImage(); break
+        case '+': case '=': e.preventDefault(); handleZoomIn(); break
+        case '-': e.preventDefault(); handleZoomOut(); break
+        case '0': e.preventDefault(); resetZoom(); break
       }
     }
-
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [selectedImage, nextImage, prevImage, handleZoomIn, handleZoomOut, resetZoom])
@@ -208,33 +203,50 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
         github={project.github}
       />
       <Suspense fallback={<ProjectSkeleton />}>
-      <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+        <div className="min-h-screen overflow-x-hidden bg-background text-foreground">
           <ProjectNav />
 
           {/* Header */}
-          <div className="bg-gradient-to-br from-primary/10 via-background to-accent/10 py-20">
-            <div className="container mx-auto px-4">
+          <div className="border-b border-border bg-card/40 py-16 sm:py-20">
+            <div className="container mx-auto">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="max-w-4xl mx-auto"
+                transition={{ duration: 0.5 }}
+                className="max-w-3xl"
               >
-                
-                <h1 className="font-display text-4xl md:text-6xl font-bold mb-6 text-foreground">
+                <div className="mb-5 flex items-center gap-3">
+                  <div className="h-px w-8 bg-accent" />
+                  <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">
+                    AI / RAG System
+                  </span>
+                </div>
+                <h1 className="font-display mb-5 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl">
                   {project.title}
                 </h1>
-                
-                <p className="text-xl text-muted-foreground mb-8">
+
+                {/* Stat callout row */}
+                <div className="mb-6 flex flex-wrap items-center gap-6">
+                  <div className="border-l-2 border-accent pl-4">
+                    <p className="font-mono text-2xl font-bold text-foreground">100%</p>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">Local / No Cloud</p>
+                  </div>
+                  <div className="border-l-2 border-border pl-4">
+                    <p className="font-mono text-2xl font-bold text-foreground">Hybrid</p>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">Search Mode</p>
+                  </div>
+                  <div className="border-l-2 border-border pl-4">
+                    <p className="font-mono text-2xl font-bold text-foreground">RAG</p>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">With Citations</p>
+                  </div>
+                </div>
+
+                <p className="mb-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
                   {project.description}
                 </p>
-                
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-2">
                   {project.tags.map((tag, index) => (
-                    <Badge
-                      key={index}
-                      className="bg-primary/10 text-primary text-sm"
-                    >
+                    <Badge key={index} variant="outline" className="font-mono text-[10px] uppercase tracking-[0.1em]">
                       {tag}
                     </Badge>
                   ))}
@@ -243,300 +255,190 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
             </div>
           </div>
 
-          {/* Project Content */}
-          <div className="py-20">
+          {/* Content */}
+          <div className="py-16 sm:py-20">
             <div className="container mx-auto">
-              <div className="max-w-4xl mx-auto">
-                {/* How It Works Section */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
+              <div className="max-w-3xl space-y-16">
+
+                {/* 01 — System Overview */}
+                <motion.section
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  className="mb-12"
+                  transition={{ duration: 0.5, delay: 0.15 }}
                 >
-                  <h2 className="font-display text-3xl font-bold mb-8 text-foreground">
-                    How It Works
-                  </h2>
-                  
-                  {/* Main Dashboard Image */}
-                  <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl mb-6">
+                  <SectionLabel n="01" label="System Overview" />
+                  <div
+                    className="relative aspect-[21/9] cursor-pointer overflow-hidden rounded border border-border transition-colors hover:border-accent/40"
+                    onClick={() => openImageModal(0)}
+                  >
                     <Image
                       src={project.images.howItWorks.src}
                       alt={project.images.howItWorks.alt}
                       fill
-                      className="object-cover cursor-pointer"
+                      className="object-cover"
                       sizes="(max-width: 768px) 100vw, 800px"
                       priority
-                      onClick={() => openImageModal(0)}
                     />
-                  </div>
-                </motion.div>
-
-                {/* Image Modal */}
-                {selectedImage !== null && (
-                  <div 
-                    className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
-                    onMouseMove={handleMouseMove}
-                    onMouseUp={handleMouseUp}
-                    onMouseLeave={handleMouseUp}
-                  >
-                    <div className="relative max-w-6xl max-h-full">
-                      {/* Close Button */}
-                      <Button
-                        onClick={() => setSelectedImage(null)}
-                        className="absolute top-4 right-4 z-10 border border-border bg-background/80 text-foreground hover:bg-background"
-                        size="sm"
-                      >
-                        <X className="w-4 h-4" />
-                      </Button>
-                      
-                      {/* Navigation Buttons */}
-                      <Button
-                        onClick={prevImage}
-                        className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 border border-border bg-background/80 text-foreground hover:bg-background"
-                        size="sm"
-                      >
-                        <ChevronLeft className="w-4 h-4" />
-                      </Button>
-                      
-                      <Button
-                        onClick={nextImage}
-                        className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 border border-border bg-background/80 text-foreground hover:bg-background"
-                        size="sm"
-                      >
-                        <ChevronRight className="w-4 h-4" />
-                      </Button>
-
-                      {/* Zoom Controls */}
-                      <div className="absolute top-4 left-4 z-10 flex gap-2">
-                        <Button
-                          onClick={handleZoomIn}
-                          className="border border-border bg-background/80 text-foreground hover:bg-background"
-                          size="sm"
-                        >
-                          <ZoomIn className="w-4 h-4" />
-                        </Button>
-                        <Button
-                          onClick={handleZoomOut}
-                          className="border border-border bg-background/80 text-foreground hover:bg-background"
-                          size="sm"
-                        >
-                          <ZoomOut className="w-4 h-4" />
-                        </Button>
-                        <Button
-                          onClick={resetZoom}
-                          className="border border-border bg-background/80 text-foreground hover:bg-background"
-                          size="sm"
-                        >
-                          <RotateCcw className="w-4 h-4" />
-                        </Button>
-                      </div>
-                      
-                      {/* Image with Zoom and Drag */}
-                      <div 
-                        className="overflow-hidden rounded-lg"
-                        style={{ 
-                          transform: `scale(${zoomLevel}) translate(${imagePosition.x / zoomLevel}px, ${imagePosition.y / zoomLevel}px)`,
-                          cursor: zoomLevel > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default'
-                        }}
-                        onMouseDown={handleMouseDown}
-                      >
-                        <Image
-                          src={allImages[selectedImage].src}
-                          alt={allImages[selectedImage].alt}
-                          width={1200}
-                          height={800}
-                          className="max-w-full max-h-full object-contain"
-                        />
-                      </div>
-                      
-                      {/* Image Counter and Keyboard Shortcuts */}
-                      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-foreground/80 text-background px-4 py-2 rounded-lg text-center">
-                        <div className="text-sm font-medium">
-                          {selectedImage + 1} of {allImages.length}
-                        </div>
-                        <div className="text-xs text-muted-foreground mt-1">
-                          Use ← → to navigate, +/- to zoom, 0 to reset, Esc to close
-                        </div>
-                      </div>
+                    <div className="absolute bottom-3 right-3 rounded border border-border bg-background/80 px-2 py-1">
+                      <span className="font-mono text-[9px] uppercase tracking-[0.15em] text-muted-foreground">
+                        Click to expand
+                      </span>
                     </div>
                   </div>
-                )}
+                </motion.section>
 
-                {/* Detailed Description */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
+                {/* 02 — Project Story */}
+                <motion.section
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                  className="mb-12"
+                  transition={{ duration: 0.5, delay: 0.25 }}
                 >
-                  <h2 className="font-display text-3xl font-bold mb-6 text-foreground">
-                    Project Overview
-                  </h2>
-                  <div className="prose prose-lg dark:prose-invert max-w-none">
-                    <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
-                      {project.longDescription}
-                    </p>
-                  </div>
-                </motion.div>
+                  <SectionLabel n="02" label="Project Story" />
+                  <p className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
+                    {project.longDescription}
+                  </p>
+                </motion.section>
 
-                {/* Document Upload Section */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
+                {/* 03 — Upload & Processing */}
+                <motion.section
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.6 }}
-                  className="mb-12"
+                  transition={{ duration: 0.5, delay: 0.30 }}
                 >
-                  <h2 className="font-display text-3xl font-bold mb-8 text-foreground">
-                    Document Upload & Processing
-                  </h2>
-                  <div className="grid gap-6 md:grid-cols-2 mb-8">
+                  <SectionLabel n="03" label="Upload & Processing" />
+                  <div className="grid gap-4 sm:grid-cols-2">
                     {project.images.upload.map((image, index) => (
-                      <motion.div
+                      <div
                         key={index}
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.4, delay: 0.8 + index * 0.1 }}
-                        className="relative h-64 rounded-xl overflow-hidden shadow-lg cursor-pointer hover:shadow-xl transition-shadow"
+                        className="relative aspect-video cursor-pointer overflow-hidden rounded border border-border transition-colors hover:border-accent/40"
                         onClick={() => openImageModal(index + 1)}
                       >
                         <Image
                           src={image.src}
                           alt={image.alt}
                           fill
-                          className="object-cover hover:scale-105 transition-transform duration-300"
+                          className="object-cover"
                           sizes="(max-width: 768px) 100vw, 50vw"
                         />
-                      </motion.div>
+                      </div>
                     ))}
                   </div>
-                </motion.div>
+                </motion.section>
 
-                {/* Key Features */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
+                {/* 04 — AI Question Answering */}
+                <motion.section
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.8 }}
-                  className="mb-12"
+                  transition={{ duration: 0.5, delay: 0.35 }}
                 >
-                  <h2 className="font-display text-3xl font-bold mb-8 text-foreground">
-                    Key Features
-                  </h2>
-                  <div className="grid gap-6 md:grid-cols-2">
-                    {project.features.map((feature, index) => (
-                      <motion.div
-                        key={index}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 1.0 + index * 0.1 }}
-                        className="p-6 bg-card/80 rounded-xl border border-border hover:shadow-lg transition-shadow"
-                      >
-                        <div className="flex items-center mb-4">
-                          <div className="p-2 bg-primary/10 rounded-lg mr-4">
-                            {feature.icon}
-                          </div>
-                          <h3 className="text-xl font-semibold text-foreground">
-                            {feature.title}
-                          </h3>
-                        </div>
-                        <p className="text-muted-foreground">
-                          {feature.description}
-                        </p>
-                      </motion.div>
-                    ))}
-                  </div>
-                </motion.div>
-
-                {/* LLM Responses Section */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 1.2 }}
-                  className="mb-12"
-                >
-                  <h2 className="font-display text-3xl font-bold mb-8 text-foreground">
-                    AI-Powered Question Answering
-                  </h2>
-                  <div className="grid gap-6 md:grid-cols-2 mb-8">
+                  <SectionLabel n="04" label="AI Question Answering" />
+                  <div className="grid gap-4 sm:grid-cols-2">
                     {project.images.llmResponses.map((image, index) => (
-                      <motion.div
+                      <div
                         key={index}
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.4, delay: 1.4 + index * 0.1 }}
-                        className="relative h-64 rounded-xl overflow-hidden shadow-lg cursor-pointer hover:shadow-xl transition-shadow"
+                        className="relative aspect-video cursor-pointer overflow-hidden rounded border border-border transition-colors hover:border-accent/40"
                         onClick={() => openImageModal(index + 3)}
                       >
                         <Image
                           src={image.src}
                           alt={image.alt}
                           fill
-                          className="object-cover hover:scale-105 transition-transform duration-300"
+                          className="object-cover"
                           sizes="(max-width: 768px) 100vw, 50vw"
                         />
-                      </motion.div>
+                      </div>
                     ))}
                   </div>
-                </motion.div>
+                </motion.section>
 
-                {/* Technical Details */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
+                {/* 05 — Key Features */}
+                <motion.section
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 1.0 }}
-                  className="mb-12"
+                  transition={{ duration: 0.5, delay: 0.40 }}
                 >
-                  <h2 className="font-display text-3xl font-bold mb-6 text-foreground">
-                    Technical Implementation
-                  </h2>
-                  <div className="bg-card/80 rounded-xl p-6 border border-border">
-                    <ul className="space-y-3">
-                      {project.technicalDetails.map((detail, index) => (
-                        <li key={index} className="flex items-start">
-                          <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0" />
-                          <span className="text-muted-foreground">{detail}</span>
-                        </li>
-                      ))}
-                    </ul>
+                  <SectionLabel n="05" label="Key Features" />
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    {project.features.map((feature, index) => (
+                      <div
+                        key={index}
+                        className="rounded border border-border bg-card p-5 transition-colors hover:border-accent/40"
+                      >
+                        <div className="mb-3 flex items-center gap-3">
+                          <div className="text-accent">{feature.icon}</div>
+                          <h3 className="font-display text-sm font-bold uppercase tracking-wide text-foreground">
+                            {feature.title}
+                          </h3>
+                        </div>
+                        <p className="text-sm leading-relaxed text-muted-foreground">{feature.description}</p>
+                      </div>
+                    ))}
                   </div>
-                </motion.div>
+                </motion.section>
 
-                {/* Challenges & Learnings */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
+                {/* 06 — Technical Stack */}
+                <motion.section
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 1.2 }}
-                  className="mb-12"
+                  transition={{ duration: 0.5, delay: 0.45 }}
                 >
-                  <div className="grid gap-8 md:grid-cols-2">
-                    <div>
-                      <h3 className="text-2xl font-bold mb-4 text-foreground">
-                        Challenges Faced
-                      </h3>
+                  <SectionLabel n="06" label="Technical Stack" />
+                  <div className="overflow-hidden rounded border border-border bg-card">
+                    <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
+                      <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
+                      <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                        implementation.notes
+                      </span>
+                    </div>
+                    <div className="divide-y divide-border/50">
+                      {project.technicalDetails.map((detail, index) => (
+                        <div key={index} className="flex items-start gap-4 px-4 py-3">
+                          <span className="w-5 shrink-0 text-right font-mono text-[10px] text-accent/60">
+                            {String(index + 1).padStart(2, '0')}
+                          </span>
+                          <span className="text-sm text-muted-foreground">{detail}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </motion.section>
+
+                {/* 07 — Friction & Takeaways */}
+                <motion.section
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.55 }}
+                >
+                  <SectionLabel n="07" label="Friction & Takeaways" />
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <div className="rounded border border-border bg-card p-5">
+                      <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                        Friction
+                      </p>
                       <ul className="space-y-3">
                         {project.challenges.map((challenge, index) => (
-                          <li key={index} className="flex items-start">
-                            <div className="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                            <span className="text-muted-foreground">{challenge}</span>
+                          <li key={index} className="flex items-start gap-3 text-sm text-muted-foreground">
+                            <span className="mt-2 h-1 w-1 shrink-0 bg-muted-foreground/50" />
+                            {challenge}
                           </li>
                         ))}
                       </ul>
                     </div>
-                    <div>
-                      <h3 className="text-2xl font-bold mb-4 text-foreground">
-                        Key Learnings
-                      </h3>
+                    <div className="rounded border border-accent/20 bg-card p-5">
+                      <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.2em] text-accent">
+                        Takeaways
+                      </p>
                       <ul className="space-y-3">
                         {project.learnings.map((learning, index) => (
-                          <li key={index} className="flex items-start">
-                            <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0" />
-                            <span className="text-muted-foreground">{learning}</span>
+                          <li key={index} className="flex items-start gap-3 text-sm text-muted-foreground">
+                            <span className="mt-2 h-1 w-1 shrink-0 bg-accent/60" />
+                            {learning}
                           </li>
                         ))}
                       </ul>
                     </div>
                   </div>
-                </motion.div>
+                </motion.section>
 
                 {/* Technical Documentation */}
                 <ProjectDocument
@@ -544,42 +446,107 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                   description={project.technicalDocument.description}
                   url={project.technicalDocument.url}
                   size={project.technicalDocument.size}
-                  delay={1.6}
+                  delay={0.6}
                 />
 
-                {/* Action Buttons */}
+                {/* CTA */}
                 <motion.div
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 1.8 }}
-                  className="flex flex-col sm:flex-row gap-4"
+                  transition={{ duration: 0.5, delay: 0.65 }}
+                  className="flex flex-wrap gap-3 border-t border-border pt-8"
                 >
-                  <Button
-                    size="lg"
-                    asChild
-                    className="rounded-full bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3"
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded bg-accent px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-white transition hover:bg-accent/90"
                   >
-                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center">
-                      <Github className="mr-2 h-5 w-5" />
-                      View Source Code
-                    </a>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    asChild
-                    className="rounded-full border border-primary/60 text-primary hover:bg-primary/10 px-8 py-3"
+                    <Github className="h-4 w-4" />
+                    Source Code
+                  </a>
+                  <Link
+                    href="/projects"
+                    className="inline-flex items-center gap-2 rounded border border-border px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-foreground transition hover:border-foreground/40"
                   >
-                    <Link href="/projects" className="flex items-center">
-                      <FolderKanban className="mr-2 h-5 w-5" />
-                      Explore Other Projects
-                    </Link>
-                  </Button>
+                    <FolderKanban className="h-4 w-4" />
+                    All Projects
+                  </Link>
                 </motion.div>
+
               </div>
             </div>
           </div>
-      </div>
+
+          {/* Image Modal */}
+          {selectedImage !== null && (
+            <div
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseUp}
+            >
+              <div className="relative max-h-full max-w-6xl">
+                <Button
+                  onClick={() => setSelectedImage(null)}
+                  className="absolute right-3 top-3 z-10 border border-border bg-background/80 text-foreground hover:bg-background"
+                  size="sm"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+                <Button
+                  onClick={prevImage}
+                  className="absolute left-3 top-1/2 z-10 -translate-y-1/2 border border-border bg-background/80 text-foreground hover:bg-background"
+                  size="sm"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                <Button
+                  onClick={nextImage}
+                  className="absolute right-3 top-1/2 z-10 -translate-y-1/2 border border-border bg-background/80 text-foreground hover:bg-background"
+                  size="sm"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+                <div className="absolute left-3 top-3 z-10 flex gap-2">
+                  <Button onClick={handleZoomIn} className="border border-border bg-background/80 text-foreground hover:bg-background" size="sm">
+                    <ZoomIn className="h-4 w-4" />
+                  </Button>
+                  <Button onClick={handleZoomOut} className="border border-border bg-background/80 text-foreground hover:bg-background" size="sm">
+                    <ZoomOut className="h-4 w-4" />
+                  </Button>
+                  <Button onClick={resetZoom} className="border border-border bg-background/80 text-foreground hover:bg-background" size="sm">
+                    <RotateCcw className="h-4 w-4" />
+                  </Button>
+                </div>
+                <div
+                  className="overflow-hidden rounded"
+                  style={{
+                    transform: `scale(${zoomLevel}) translate(${imagePosition.x / zoomLevel}px, ${imagePosition.y / zoomLevel}px)`,
+                    cursor: zoomLevel > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default'
+                  }}
+                  onMouseDown={handleMouseDown}
+                >
+                  <Image
+                    src={allImages[selectedImage].src}
+                    alt={allImages[selectedImage].alt}
+                    width={1200}
+                    height={800}
+                    className="max-h-full max-w-full object-contain"
+                  />
+                </div>
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded border border-border bg-background/80 px-4 py-2 text-center">
+                  <p className="font-mono text-xs font-medium text-foreground">
+                    {selectedImage + 1} / {allImages.length}
+                  </p>
+                  <p className="font-mono text-[10px] text-muted-foreground">
+                    ← → navigate · +/- zoom · 0 reset · Esc close
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </Suspense>
     </>
   )

@@ -23,7 +23,7 @@ export default function ProjectSkeleton() {
               <div className="h-10 w-full max-w-2xl rounded-sm bg-muted/80 shimmer" />
               <div className="flex flex-wrap gap-2">
                 {[1, 2, 3, 4, 5].map((i) => (
-                  <div key={i} className="h-7 w-[4.5rem] rounded-pill border border-border/80 bg-muted/50 shimmer" />
+                  <div key={i} className="h-7 w-[4.5rem] rounded border border-border/80 bg-muted/50 shimmer" />
                 ))}
               </div>
             </div>

@@ -11,14 +11,14 @@ export default function ProjectNav() {
         <div className="flex items-center gap-2">
           <Link
             href="/#projects"
-            className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background/70 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
+            className="inline-flex items-center gap-1.5 rounded border border-border bg-background/70 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
           >
             <Home className="h-3.5 w-3.5" />
             <span className="hidden sm:inline">Portfolio</span>
           </Link>
           <Link
             href="/projects"
-            className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background/70 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
+            className="inline-flex items-center gap-1.5 rounded border border-border bg-background/70 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
           >
             <FolderKanban className="h-3.5 w-3.5" />
             <span className="hidden sm:inline">All Projects</span>
