@@ -8,7 +8,7 @@ export default function About() {
           <div className="animate-in-view max-w-3xl space-y-6">
             <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">About</p>
             <h2 className="font-display text-3xl text-foreground sm:text-4xl">
-              Applied AI, retrieval systems, and building products that don&apos;t break when real people use them.
+              Building AI systems that work in production, not just in demos.
             </h2>
             <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
               <p>

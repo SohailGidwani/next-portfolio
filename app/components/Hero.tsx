@@ -122,7 +122,7 @@ export default function Hero() {
       id="hero"
       className="relative flex min-h-[100svh] flex-col pb-0 pt-[calc(var(--nav-h)+1.25rem)]"
     >
-      <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
+      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden>
         <ShootingStars />
       </div>
 

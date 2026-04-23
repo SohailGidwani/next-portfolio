@@ -39,7 +39,7 @@ export default function KnowledgeHubPage() {
   const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 })
 
   const project = {
-    title: "Knowledge Hub — AI-Powered Document Management",
+    title: "Knowledge Hub - AI-Powered Document Management",
     description: "A document manager I built for my USC coursework. It does OCR on handwritten notes and PDFs, runs semantic search with pgvector, and answers questions about your docs using a local LLM.",
     longDescription: `I built Knowledge Hub because I was tired of digging through hundreds of course PDFs and lecture notes during my MS in CS at USC. I wanted one place where I could dump all my documents and actually find what I needed quickly.
 
