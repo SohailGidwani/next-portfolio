@@ -2,7 +2,8 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { ArrowUpRight, Briefcase, Calendar } from "lucide-react"
+import Link from "next/link"
+import { ArrowUpRight, Briefcase, Calendar, FileText } from "lucide-react"
 import Image, { StaticImageData } from "next/image"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/app/components/ui/dialog"
 import { Badge } from "@/app/components/ui/badge"
@@ -22,6 +23,8 @@ interface ExperienceItem {
   tags: string[]
   isLatest?: boolean
   logo: StaticImageData
+  researchUrl?: string
+  researchLabel?: string
 }
 
 const experiences: ExperienceItem[] = [
@@ -31,15 +34,18 @@ const experiences: ExperienceItem[] = [
     company: "Keck School of Medicine of USC",
     date: "Oct, 2025 - Present",
     description:
-      "Architecting multi-modal deep learning pipelines for Alzheimer's disease prediction using neuroimaging and clinical data, with end-to-end experimentation infrastructure across ~71M parameter models.",
+      "Architecting multi-modal deep learning pipelines for Alzheimer's disease prediction using neuroimaging and clinical data, with end-to-end experimentation infrastructure across ~70M parameter models.",
     projects: [
-      "Multi-Modal Deep Learning Pipeline: Architected a multi-modal deep learning pipeline for Alzheimer's disease prediction using T1 MRI, DTI imaging, and clinical data across 2,363 ADNI subjects, achieving 72.7% balanced accuracy on 3-class diagnosis and 93.1% on binary classification (CN vs Dementia).",
-      "Missing-Modality Fusion: Designed missing-modality fusion via cross-attention with modality dropout, enabling robust inference when imaging data is incomplete (39.4% DTI coverage); nearly doubled preclinical amyloid detection sensitivity from 29% to 56% between model iterations.",
-      "Experimentation Infrastructure: Built end-to-end experimentation infrastructure: two-stage training (CLIP contrastive pre-training → multi-task fine-tuning), modality ablation studies across 7 combinations, and confidence calibration analysis on ~71M parameter models.",
+      "Multi-Modal Deep Learning Pipeline: Architected a multi-modal deep learning pipeline for Alzheimer's disease prediction using T1 MRI, DTI imaging, and clinical data across 2,363 ADNI subjects, achieving 70.7% balanced accuracy on 3-class diagnosis and 93.3% on binary classification (CN vs Dementia).",
+      "Missing-Modality Fusion: Designed missing-modality fusion via cross-attention with modality dropout, enabling robust inference when imaging data is incomplete (39.4% DTI coverage); CN amyloid detection sensitivity at 0.529 with 0.846 specificity — suitable as a rule-out triage tool before expensive PET.",
+      "Retrieval-Augmented VQA: Extended the frozen VLM with a FAISS-based retrieval + cross-encoder rerank + LLM pipeline; benchmarked Mistral 7B, Gemma 4 26B MoE, and MedGemma 1.5 4B — Mistral 7B wins at 94.7% diagnosis VQA accuracy.",
+      "Experimentation Infrastructure: Built end-to-end experimentation infrastructure: two-stage training (CLIP contrastive pre-training → multi-task fine-tuning), modality ablation studies across 7 combinations, and confidence calibration analysis on ~70M parameter models.",
     ],
-    tags: ["Python", "PyTorch", "Deep Learning", "CLIP"],
+    tags: ["Python", "PyTorch", "Deep Learning", "CLIP", "RAG"],
     isLatest: true,
     logo: keckUSC,
+    researchUrl: "/research/multimodal-alzheimers-vqa",
+    researchLabel: "Read the research",
   },
   {
     id: "insaito",
@@ -302,6 +308,17 @@ export default function Experience() {
             </DialogHeader>
             <div className="space-y-4">
               <p className="text-sm text-muted-foreground">{selected.description}</p>
+              {selected.researchUrl ? (
+                <Link
+                  href={selected.researchUrl}
+                  onClick={() => triggerHaptic()}
+                  className="group/cta inline-flex items-center gap-2 rounded border border-accent/40 bg-accent/5 px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-accent transition hover:border-accent hover:bg-accent/10"
+                >
+                  <FileText className="h-3.5 w-3.5" />
+                  {selected.researchLabel ?? "Read the research"}
+                  <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" />
+                </Link>
+              ) : null}
               <div className="space-y-3">
                 <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-accent">
                   <Briefcase className="h-3.5 w-3.5" />
