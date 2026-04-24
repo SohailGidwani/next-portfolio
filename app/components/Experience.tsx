@@ -169,6 +169,29 @@ export default function Experience() {
 
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-[15px]">{featured.description}</p>
 
+              {featured.researchUrl ? (
+                <Link
+                  href={featured.researchUrl}
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    triggerHaptic()
+                  }}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.stopPropagation()
+                    }
+                  }}
+                  aria-label={`${featured.researchLabel ?? "Read the research"} — opens research page`}
+                  className="group/research mt-4 inline-flex max-w-full items-center gap-2 rounded border border-accent/30 bg-accent/5 px-3 py-2 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-accent transition hover:border-accent/60 hover:bg-accent/10 sm:text-[11px]"
+                >
+                  <FileText className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                  <span className="min-w-0 truncate">
+                    {featured.researchLabel ?? "Read the research"}
+                  </span>
+                  <ArrowUpRight className="h-3 w-3 shrink-0 transition-transform group-hover/research:translate-x-0.5 group-hover/research:-translate-y-0.5" aria-hidden />
+                </Link>
+              ) : null}
+
               <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2">
                 <div className="flex flex-wrap gap-2">
                   {featured.tags.map((tag) => {
