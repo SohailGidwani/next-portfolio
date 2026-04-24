@@ -91,28 +91,26 @@ export default function Triumphs() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: index * 0.05 }}
               viewport={{ once: true }}
-              className="group flex flex-col rounded-3xl border border-border bg-card/80 p-4 text-left shadow-card transition hover:-translate-y-1"
+              className="group flex flex-col rounded border border-border bg-card/80 p-4 text-left transition hover:border-accent/40"
             >
-              <div className="relative h-40 w-full overflow-hidden rounded-2xl">
+              <div className="relative h-40 w-full overflow-hidden rounded border border-border">
                 <Image
                   src={certificate.image}
                   alt={certificate.title}
                   fill
                   placeholder="blur"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 33vw"
                 />
               </div>
               <div className="mt-4 space-y-2">
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-accent">
                   {certificate.isAward ? (
-                    <Medal className="h-3.5 w-3.5 text-accent" />
+                    <Medal className="h-3.5 w-3.5" />
                   ) : (
-                    <Award className="h-3.5 w-3.5 text-primary" />
+                    <Award className="h-3.5 w-3.5" />
                   )}
-                  <span className="uppercase tracking-[0.2em]">
-                    {certificate.isAward ? "Award" : "Certificate"}
-                  </span>
+                  <span>{certificate.isAward ? "Award" : "Certificate"}</span>
                 </div>
                 <h3 className="font-display text-lg text-foreground">{certificate.title}</h3>
                 <p className="text-xs text-muted-foreground">{certificate.issuer}</p>
@@ -124,14 +122,14 @@ export default function Triumphs() {
 
       <Dialog open={!!selected} onOpenChange={(open) => !open && setSelected(null)}>
         {selected && (
-          <DialogContent className="max-h-[85vh] max-w-3xl overflow-y-auto rounded-3xl border-border bg-card top-auto bottom-4 translate-y-0 sm:bottom-auto sm:top-[50%] sm:translate-y-[-50%] sm:rounded-3xl">
+          <DialogContent className="max-h-[85vh] max-w-3xl overflow-y-auto rounded border-border bg-card top-auto bottom-4 translate-y-0 sm:bottom-auto sm:top-[50%] sm:translate-y-[-50%] sm:rounded">
             <DialogHeader>
               <DialogTitle className="font-display text-2xl text-foreground">{selected.title}</DialogTitle>
               <DialogDescription className="text-sm text-muted-foreground">
                 {selected.issuer} · {selected.date}
               </DialogDescription>
             </DialogHeader>
-            <div className="relative mt-4 aspect-video w-full overflow-hidden rounded-2xl bg-background/50">
+            <div className="relative mt-4 aspect-video w-full overflow-hidden rounded border border-border bg-background/50">
               <Image
                 src={selected.image}
                 alt={selected.title}

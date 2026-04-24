@@ -89,7 +89,7 @@ const lifestyle = [
 ]
 
 type ModalContent = {
-  type: "game" | "marvel" | "lifestyle"
+  type: "game" | "lifestyle"
   title: string
   image?: string
   icon?: React.ReactNode
@@ -106,16 +106,6 @@ export default function Personal() {
       title: game.title,
       image: game.image,
       description: game.description,
-    })
-  }
-
-  const openMarvelModal = (hero: (typeof marvelFavorites)[0]) => {
-    triggerHaptic()
-    setSelected({
-      type: "marvel",
-      title: hero.name,
-      image: hero.image,
-      description: hero.reason,
     })
   }
 
@@ -153,37 +143,40 @@ export default function Personal() {
           viewport={{ once: true }}
           className="mt-10"
         >
-          <div className="flex items-center gap-2 mb-4">
-            <Film className="h-4 w-4 text-primary" />
-            <h3 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">Marvel Universe</h3>
+          <div className="mb-4 flex items-center gap-2">
+            <Film className="h-3.5 w-3.5 text-accent" />
+            <h3 className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Marvel Universe</h3>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            {marvelFavorites.map((hero) => (
-              <motion.button
+            {marvelFavorites.map((hero, index) => (
+              <motion.figure
                 key={hero.id}
-                type="button"
-                onClick={() => openMarvelModal(hero)}
-                whileHover={{ y: -4, scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="group relative overflow-hidden rounded-2xl border border-border bg-card text-left shadow-lg transition-all hover:border-primary/40 hover:shadow-xl aspect-[16/9]"
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.08 }}
+                viewport={{ once: true }}
+                className="grid grid-cols-[120px_1fr] gap-4 rounded border border-border bg-card/60 p-4 sm:grid-cols-[160px_1fr] sm:p-5"
               >
-                <Image
-                  src={hero.image}
-                  alt={hero.name}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  sizes="(max-width: 640px) 100vw, 50vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/50 to-transparent" />
-                <div className="absolute inset-0 p-5 flex flex-col justify-end">
-                  <div className="flex items-center gap-2">
-                    <Heart className="h-3.5 w-3.5 text-primary" />
-                    <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Favorite</span>
-                  </div>
-                  <h4 className="mt-1 font-display text-xl text-foreground">{hero.name}</h4>
-                  <p className="mt-1 text-sm text-muted-foreground line-clamp-1">{hero.reason}</p>
+                <div className="relative aspect-square self-center overflow-hidden rounded border border-border bg-background">
+                  <Image
+                    src={hero.image}
+                    alt={hero.name}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 120px, 160px"
+                  />
                 </div>
-              </motion.button>
+                <figcaption className="flex min-w-0 flex-col justify-center">
+                  <div className="flex items-center gap-2">
+                    <Heart className="h-3 w-3 text-accent" />
+                    <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Favorite</span>
+                  </div>
+                  <h4 className="mt-1.5 font-display text-xl text-foreground">{hero.name}</h4>
+                  <blockquote className="mt-2 border-l-2 border-accent/60 pl-3 text-[14px] italic leading-relaxed text-muted-foreground sm:text-[15px]">
+                    {hero.reason}
+                  </blockquote>
+                </figcaption>
+              </motion.figure>
             ))}
           </div>
         </motion.div>
@@ -196,11 +189,11 @@ export default function Personal() {
           viewport={{ once: true }}
           className="mt-10"
         >
-          <div className="flex items-center gap-2 mb-4">
-            <Gamepad2 className="h-4 w-4 text-primary" />
-            <h3 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">Story-Driven Games</h3>
+          <div className="mb-4 flex items-center gap-2">
+            <Gamepad2 className="h-3.5 w-3.5 text-accent" />
+            <h3 className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Story-Driven Games</h3>
           </div>
-          <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
             {games.map((game, index) => (
               <motion.button
                 key={game.id}
@@ -208,11 +201,11 @@ export default function Personal() {
                 onClick={() => openGameModal(game)}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                whileHover={{ y: -4, scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.98 }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
                 viewport={{ once: true }}
-                className="group relative overflow-hidden rounded-xl border border-border bg-card text-left shadow-md transition-all hover:border-primary/40 hover:shadow-lg aspect-[3/4]"
+                className="group relative aspect-[3/4] overflow-hidden rounded border border-border bg-card text-left transition-all hover:border-accent/40"
               >
                 <Image
                   src={game.image}
@@ -222,8 +215,8 @@ export default function Personal() {
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/30 to-transparent" />
-                <div className="absolute inset-0 p-3 flex flex-col justify-end">
-                  <h4 className="font-display text-sm text-foreground leading-tight">{game.title}</h4>
+                <div className="absolute inset-0 flex flex-col justify-end p-3">
+                  <h4 className="font-display text-sm leading-tight text-foreground">{game.title}</h4>
                 </div>
               </motion.button>
             ))}
@@ -238,9 +231,9 @@ export default function Personal() {
           viewport={{ once: true }}
           className="mt-10"
         >
-          <div className="flex items-center gap-2 mb-4">
-            <Sun className="h-4 w-4 text-primary" />
-            <h3 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">Simple Pleasures</h3>
+          <div className="mb-4 flex items-center gap-2">
+            <Sun className="h-3.5 w-3.5 text-accent" />
+            <h3 className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Simple Pleasures</h3>
           </div>
           <div className="grid gap-3 sm:grid-cols-3">
             {lifestyle.map((item, index) => (
@@ -250,18 +243,18 @@ export default function Personal() {
                 onClick={() => openLifestyleModal(item)}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                whileHover={{ y: -4, scale: 1.02 }}
+                whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
                 viewport={{ once: true }}
-                className="group flex items-center gap-4 rounded-2xl border border-border bg-card/80 p-5 text-left shadow-card transition hover:border-primary/30"
+                className="group flex items-center gap-4 rounded border border-border bg-card/80 p-5 text-left transition hover:border-accent/40"
               >
-                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition group-hover:bg-primary/15">
+                <span className="flex h-12 w-12 items-center justify-center rounded bg-accent/10 text-accent transition group-hover:bg-accent/15">
                   {item.icon}
                 </span>
                 <div>
                   <span className="font-medium text-foreground">{item.label}</span>
-                  <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{item.detail}</p>
+                  <p className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">{item.detail}</p>
                 </div>
               </motion.button>
             ))}
@@ -273,7 +266,7 @@ export default function Personal() {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
           viewport={{ once: true }}
-          className="mt-8 text-sm text-muted-foreground"
+          className="mt-8 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground"
         >
           Tap any to learn more
         </motion.p>
@@ -281,7 +274,7 @@ export default function Personal() {
 
       {/* Radix Dialog — focus trap, Escape, aria-modal, overlay all handled */}
       <Dialog open={!!selected} onOpenChange={(open) => !open && setSelected(null)}>
-        <DialogContent className="gap-0 overflow-hidden rounded-3xl border-border bg-card p-0 shadow-2xl sm:max-w-md [&>button:last-child]:z-20 [&>button:last-child]:h-7 [&>button:last-child]:w-7 [&>button:last-child]:rounded-full [&>button:last-child]:border [&>button:last-child]:border-border [&>button:last-child]:bg-card [&>button:last-child]:opacity-100">
+        <DialogContent className="gap-0 overflow-hidden rounded border-border bg-card p-0 sm:max-w-md [&>button:last-child]:z-20 [&>button:last-child]:h-7 [&>button:last-child]:w-7 [&>button:last-child]:rounded [&>button:last-child]:border [&>button:last-child]:border-border [&>button:last-child]:bg-card [&>button:last-child]:opacity-100">
           {selected?.image && (
             <div className="relative h-48 w-full">
               <Image
@@ -297,14 +290,14 @@ export default function Personal() {
 
           <div className="p-6">
             {!selected?.image && selected?.icon && (
-              <div className="flex items-center gap-4 mb-4">
-                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+              <div className="mb-4 flex items-center gap-4">
+                <span className="flex h-12 w-12 items-center justify-center rounded bg-accent/10 text-accent">
                   {selected.icon}
                 </span>
               </div>
             )}
 
-            <DialogTitle className={`font-display text-xl text-foreground ${selected?.image ? "-mt-6 relative z-10" : ""}`}>
+            <DialogTitle className={`font-display text-xl text-foreground ${selected?.image ? "relative z-10 -mt-6" : ""}`}>
               {selected?.title}
             </DialogTitle>
 

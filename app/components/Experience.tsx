@@ -128,14 +128,12 @@ export default function Experience() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
               viewport={{ once: true }}
-              className={`group cursor-pointer rounded-3xl border bg-card/80 p-6 shadow-card transition hover:-translate-y-1 sm:p-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background ${
-                featuredHighlighted
-                  ? "border-primary/40 ring-1 ring-primary/20"
-                  : "border-border ring-1 ring-primary/15"
+              className={`group cursor-pointer rounded border border-border border-l-2 border-l-accent bg-card/80 p-6 transition hover:border-t-accent/50 hover:border-r-accent/50 hover:border-b-accent/50 sm:p-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background ${
+                featuredHighlighted ? "bg-accent/5" : ""
               }`}
             >
               <div className="flex items-start gap-4 sm:gap-5">
-                <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-2xl border border-border bg-background sm:h-16 sm:w-16">
+                <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded border border-border bg-background sm:h-16 sm:w-16">
                   <Image
                     src={featured.logo}
                     alt={`${featured.company} logo`}
@@ -149,14 +147,15 @@ export default function Experience() {
                   <div className="flex flex-wrap items-center gap-2">
                     <h3 className="font-display text-[23px] leading-snug text-foreground">{featured.title}</h3>
                     {featured.isLatest && (
-                      <span className="rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-primary">
+                      <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-accent">
+                        <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
                         Active
                       </span>
                     )}
                   </div>
                   <p className="mt-0.5 text-sm text-muted-foreground">{featured.company}</p>
                   <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
-                    <Calendar className="h-3.5 w-3.5 text-primary" />
+                    <Calendar className="h-3.5 w-3.5 text-accent" />
                     {featured.date}
                   </div>
                 </div>
@@ -175,7 +174,7 @@ export default function Experience() {
                         key={tag}
                         variant="outline"
                         className={`border-border/70 bg-background/60 text-[10px] font-semibold uppercase tracking-[0.2em] ${
-                          isTagHighlighted ? "border-primary/40 bg-primary/10 text-primary" : "text-muted-foreground"
+                          isTagHighlighted ? "border-accent/40 bg-accent/10 text-accent" : "text-muted-foreground"
                         }`}
                       >
                         {tag}
@@ -183,7 +182,7 @@ export default function Experience() {
                     )
                   })}
                 </div>
-                <span className="ml-auto inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.2em] text-primary/70 transition group-hover:text-primary">
+                <span className="ml-auto inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.22em] text-accent/70 transition group-hover:text-accent">
                   Details
                   <ArrowUpRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </span>
@@ -216,12 +215,12 @@ export default function Experience() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: index * 0.08 }}
                     viewport={{ once: true }}
-                    className={`group cursor-pointer rounded-3xl border bg-card/80 p-5 shadow-card transition hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background ${
-                      isHighlighted ? "border-primary/40 ring-1 ring-primary/20" : "border-border"
+                    className={`group cursor-pointer rounded border bg-card/80 p-5 transition hover:border-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background ${
+                      isHighlighted ? "border-accent/40 bg-accent/5" : "border-border"
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-xl border border-border bg-background">
+                      <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded border border-border bg-background">
                         <Image
                           src={item.logo}
                           alt={`${item.company} logo`}
@@ -238,7 +237,7 @@ export default function Experience() {
                     </div>
 
                     <div className="mt-2.5 flex items-center gap-2 text-xs text-muted-foreground">
-                      <Calendar className="h-3 w-3 text-primary" />
+                      <Calendar className="h-3 w-3 text-accent" />
                       {item.date}
                     </div>
 
@@ -255,7 +254,7 @@ export default function Experience() {
                               key={tag}
                               variant="outline"
                               className={`border-border/70 bg-background/60 text-[10px] font-semibold uppercase tracking-[0.2em] ${
-                                isTagHighlighted ? "border-primary/40 bg-primary/10 text-primary" : "text-muted-foreground"
+                                isTagHighlighted ? "border-accent/40 bg-accent/10 text-accent" : "text-muted-foreground"
                               }`}
                             >
                               {tag}
@@ -263,7 +262,7 @@ export default function Experience() {
                           )
                         })}
                       </div>
-                      <span className="ml-auto inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/70 transition group-hover:text-primary">
+                      <span className="ml-auto inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.22em] text-accent/70 transition group-hover:text-accent">
                         Details
                         <ArrowUpRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                       </span>
@@ -278,10 +277,10 @@ export default function Experience() {
 
       <Dialog open={!!selected} onOpenChange={(open) => !open && setSelected(null)}>
         {selected && (
-          <DialogContent className="max-h-[85vh] max-w-3xl overflow-y-auto rounded-3xl border-border bg-card top-auto bottom-4 translate-y-0 sm:bottom-auto sm:top-[50%] sm:translate-y-[-50%] sm:rounded-3xl">
+          <DialogContent className="max-h-[85vh] max-w-3xl overflow-y-auto rounded border-border bg-card top-auto bottom-4 translate-y-0 sm:bottom-auto sm:top-[50%] sm:translate-y-[-50%] sm:rounded">
             <DialogHeader>
               <div className="flex flex-wrap items-center gap-4">
-                <div className="relative h-12 w-12 overflow-hidden rounded-2xl border border-border bg-background">
+                <div className="relative h-12 w-12 overflow-hidden rounded border border-border bg-background">
                   <Image
                     src={selected.logo}
                     alt={`${selected.company} logo`}
@@ -304,8 +303,8 @@ export default function Experience() {
             <div className="space-y-4">
               <p className="text-sm text-muted-foreground">{selected.description}</p>
               <div className="space-y-3">
-                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-                  <Briefcase className="h-4 w-4" />
+                <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-accent">
+                  <Briefcase className="h-3.5 w-3.5" />
                   Key Contributions
                 </div>
                 <ul className="space-y-2.5">
@@ -315,9 +314,9 @@ export default function Experience() {
                     return (
                       <li
                         key={project}
-                        className="flex gap-2.5 rounded-2xl border border-border/70 bg-background/70 p-3.5 text-sm leading-relaxed text-muted-foreground"
+                        className="flex gap-2.5 rounded border border-border/70 bg-background/70 p-3.5 text-sm leading-relaxed text-muted-foreground"
                       >
-                        <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/60" />
+                        <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-accent/60" />
                         <span>
                           {hasLead ? (
                             <>
