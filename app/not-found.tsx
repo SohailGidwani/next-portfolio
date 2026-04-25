@@ -6,61 +6,55 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
-const FUN_FACTS = [
-  "AI research moves fast, but good ideas age well.",
-  "The first neural network model was proposed in 1943.",
-  "Computer science is as much about people as it is about code.",
-  "The term 'bug' dates back to a moth found in a relay in 1947.",
-  "Great products often start as small experiments.",
-]
-
 export default function NotFound() {
-  const funFact = FUN_FACTS[Math.floor(Math.random() * FUN_FACTS.length)]
-
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-32 right-[-10%] h-[320px] w-[320px] rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.16),transparent_70%)] blur-2xl" />
-        <div className="absolute bottom-[-20%] left-[-12%] h-[320px] w-[320px] rounded-full bg-[radial-gradient(circle,rgba(251,146,60,0.18),transparent_70%)] blur-3xl" />
-        <div className="absolute inset-0 grain" />
+    <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4 text-foreground">
+      <p className="font-mono text-[clamp(6rem,20vw,10rem)] font-bold leading-none text-border select-none">
+        404
+      </p>
+
+      <div className="mt-8 flex items-center gap-3">
+        {/* <div className="h-px w-8 bg-accent" /> */}
+        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">
+          Page not found
+        </span>
       </div>
 
-      <main className="relative flex min-h-screen items-center justify-center px-4 py-16">
-        <div className="w-full max-w-xl rounded-3xl border border-border bg-card/80 p-8 text-center shadow-card">
-          <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground">404</p>
-          <h1 className="mt-4 font-display text-4xl text-foreground sm:text-5xl">
-            This page drifted off course.
-          </h1>
-          <p className="mt-4 text-base text-muted-foreground">
-            The page you&apos;re looking for isn&apos;t available. Let&apos;s get you back to something useful.
-          </p>
+      <h1 className="mt-4 max-w-sm text-center font-display text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+        This page doesn&apos;t exist.
+      </h1>
+      <p className="mt-3 max-w-sm text-center text-sm leading-relaxed text-muted-foreground">
+        The URL you followed is either broken or the page has been removed.
+      </p>
 
-          <div className="mt-6 rounded-2xl border border-border bg-background/70 px-4 py-3 text-sm text-muted-foreground">
-            <span className="text-primary">Insight:</span> {funFact}
-          </div>
+      <div className="mt-8 flex flex-wrap justify-center gap-3">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 rounded bg-accent px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-white transition hover:bg-accent/90"
+        >
+          Back to home
+        </Link>
+        <Link
+          href="/projects"
+          className="inline-flex items-center gap-2 rounded border border-border px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-foreground transition hover:border-foreground/40"
+        >
+          View projects
+        </Link>
+      </div>
 
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Link
-              href="/"
-              className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition hover:-translate-y-0.5"
-            >
-              Back to home
-            </Link>
-            <Link
-              href="/projects"
-              className="rounded-full border border-border bg-background/70 px-5 py-2.5 text-sm font-semibold text-foreground transition hover:-translate-y-0.5 hover:border-primary/40"
-            >
-              View projects
-            </Link>
-          </div>
-
-          <div className="mt-6 text-xs uppercase tracking-[0.3em] text-muted-foreground">
-            Quick links: <Link href="/#about" className="hover:text-foreground">About</Link> ·{" "}
-            <Link href="/#skills" className="hover:text-foreground">Skills</Link> ·{" "}
-            <Link href="/#contact" className="hover:text-foreground">Contact</Link>
-          </div>
-        </div>
-      </main>
+      <div className="mt-10 flex flex-wrap justify-center gap-x-5 gap-y-2 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+        {[
+          { href: "/#about", label: "About" },
+          { href: "/#experience", label: "Experience" },
+          { href: "/#skills", label: "Skills" },
+          { href: "/#contact", label: "Contact" },
+          { href: "/research/multimodal-alzheimers-vqa", label: "Research" },
+        ].map(({ href, label }) => (
+          <Link key={href} href={href} className="transition hover:text-foreground">
+            {label}
+          </Link>
+        ))}
+      </div>
     </div>
   )
 }

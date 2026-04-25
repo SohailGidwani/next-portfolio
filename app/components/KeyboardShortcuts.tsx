@@ -67,12 +67,12 @@ export default function KeyboardShortcuts() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -20 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className="fixed left-1/2 top-[20%] z-50 w-full max-w-md -translate-x-1/2 overflow-hidden rounded-2xl border border-border bg-card shadow-2xl"
+            className="fixed left-1/2 top-[20%] z-50 w-full max-w-md -translate-x-1/2 overflow-hidden rounded border border-border bg-card shadow-2xl"
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-border px-5 py-4">
               <div className="flex items-center gap-3">
-                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <span className="flex h-9 w-9 items-center justify-center rounded bg-accent/10 text-accent">
                   <Command className="h-4 w-4" />
                 </span>
                 <h2 className="font-display text-lg text-foreground">Keyboard Shortcuts</h2>
@@ -91,13 +91,13 @@ export default function KeyboardShortcuts() {
                 {shortcuts.map((shortcut) => (
                   <div
                     key={shortcut.description}
-                    className="flex items-center justify-between rounded-xl bg-background/50 px-4 py-3"
+                    className="flex items-center justify-between rounded bg-background/50 px-4 py-3"
                   >
                     <span className="text-sm text-muted-foreground">{shortcut.description}</span>
                     <div className="flex items-center gap-1">
                       {shortcut.keys.map((key, i) => (
                         <span key={i}>
-                          <kbd className="inline-flex min-w-[24px] items-center justify-center rounded-md bg-muted px-2 py-1 text-xs font-medium text-foreground">
+                          <kbd className="inline-flex min-w-[24px] items-center justify-center rounded bg-muted px-2 py-1 text-xs font-medium text-foreground">
                             {key}
                           </kbd>
                           {i < shortcut.keys.length - 1 && (

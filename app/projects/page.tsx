@@ -34,9 +34,9 @@ export default function ProjectsPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
-                className="group flex h-full cursor-pointer flex-col rounded-3xl border border-border bg-card/80 p-5 shadow-card transition hover:-translate-y-1 hover:border-primary/30"
+                className="group flex h-full cursor-pointer flex-col rounded border border-border bg-card/80 p-5 shadow-card transition hover:border-accent/30"
               >
-                <div className="relative h-40 w-full overflow-hidden rounded-2xl">
+                <div className="relative h-40 w-full overflow-hidden rounded">
                   <Image
                     src={project.image}
                     alt={project.title}
@@ -62,7 +62,7 @@ export default function ProjectsPage() {
                   ))}
                 </div>
                 <div className="mt-4 flex items-center gap-3">
-                  <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground transition group-hover:border-primary/40 group-hover:text-foreground">
+                  <span className="inline-flex items-center gap-2 rounded border border-border bg-background/70 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground transition group-hover:border-accent/40 group-hover:text-foreground">
                     Details
                     <ArrowUpRight className="h-3.5 w-3.5" />
                   </span>
@@ -81,7 +81,7 @@ export default function ProjectsPage() {
                         window.open(project.github, "_blank", "noreferrer")
                       }
                     }}
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/70 text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
+                    className="inline-flex h-9 w-9 items-center justify-center rounded border border-border bg-background/70 text-muted-foreground transition hover:border-accent/40 hover:text-foreground"
                     aria-label={`Open ${project.title} on GitHub`}
                   >
                     <Github className="h-4 w-4" />

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import dynamic from "next/dynamic"
-import { motion, useReducedMotion } from "framer-motion"
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { ArrowDown, ArrowUpRight, Github, Linkedin } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
 import { smoothScrollToId } from "@/app/utils/smoothScroll"
@@ -10,11 +10,38 @@ import SkillsTicker from "./SkillsTicker"
 
 const ShootingStars = dynamic(() => import("./ShootingStars"), { ssr: false })
 
+const ROLES = [
+  "Full-Stack Developer",
+  "AI/ML Engineer",
+  "ML Researcher",
+  "Agentic AI Engineer",
+]
+
 function RoleBadge() {
+  const reduced = useReducedMotion()
+  const [index, setIndex] = useState(0)
+
+  useEffect(() => {
+    if (reduced) return
+    const id = setInterval(() => setIndex((i) => (i + 1) % ROLES.length), 2800)
+    return () => clearInterval(id)
+  }, [reduced])
+
   return (
-    <span className="inline-flex items-center gap-2 rounded-pill border border-border bg-transparent px-3 py-1.5 font-mono text-[9px] font-medium uppercase tracking-[0.2em] text-foreground sm:px-4 sm:py-2 sm:text-[10px] sm:tracking-[0.18em]">
+    <span className="inline-flex items-center gap-2 rounded border border-border bg-transparent px-3 py-1.5 font-mono text-[9px] font-medium uppercase tracking-[0.2em] text-foreground sm:px-4 sm:py-2 sm:text-[10px] sm:tracking-[0.18em]">
       <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden />
-      Full-stack developer
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.span
+          key={ROLES[index]}
+          className="whitespace-nowrap"
+          initial={reduced ? false : { opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={reduced ? {} : { opacity: 0, y: -5 }}
+          transition={{ duration: 0.2, ease: "easeInOut" }}
+        >
+          {ROLES[index]}
+        </motion.span>
+      </AnimatePresence>
     </span>
   )
 }

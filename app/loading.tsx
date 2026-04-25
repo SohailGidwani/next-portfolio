@@ -22,8 +22,8 @@ export default function Loading() {
             ))}
           </div>
           <div className="flex items-center gap-2">
-            <div className="hidden h-8 w-[4.5rem] rounded-pill border border-border/80 bg-muted/40 shimmer sm:block" />
-            <div className="hidden h-8 w-[4.5rem] rounded-pill border border-border/80 bg-muted/40 shimmer min-[901px]:block" />
+            <div className="hidden h-8 w-[4.5rem] rounded border border-border/80 bg-muted/40 shimmer sm:block" />
+            <div className="hidden h-8 w-[4.5rem] rounded border border-border/80 bg-muted/40 shimmer min-[901px]:block" />
             <div className="h-9 w-9 rounded border border-border bg-muted/40 shimmer min-[901px]:hidden" />
           </div>
         </div>
@@ -32,7 +32,7 @@ export default function Loading() {
       {/* Hero skeleton — left-aligned on small screens like live hero */}
       <div className="relative flex min-h-screen flex-col px-[18px] pb-16 pt-[calc(var(--nav-h)+1.25rem)] sm:px-6 md:px-9">
         <div className="flex w-full max-w-none flex-1 flex-col justify-center">
-          <div className="h-8 w-40 max-w-[85%] rounded-pill border border-border/60 bg-muted/50 shimmer sm:mx-auto md:mx-auto" />
+          <div className="h-8 w-40 max-w-[85%] rounded border border-border/60 bg-muted/50 shimmer sm:mx-auto md:mx-auto" />
 
           <div className="mt-6 w-full space-y-3 sm:mt-10 md:mx-auto md:max-w-3xl md:text-center">
             <div className="h-[clamp(2.5rem,12vw,4rem)] w-[92%] max-w-[20rem] rounded-sm bg-muted/80 shimmer sm:mx-auto md:max-w-none" />
@@ -77,7 +77,7 @@ export default function Loading() {
       </div>
 
       <div className="fixed bottom-8 left-1/2 z-50 -translate-x-1/2" role="status" aria-live="polite">
-        <div className="flex items-center gap-2 rounded-pill border border-border bg-card px-4 py-2 shadow-lg">
+        <div className="flex items-center gap-2 rounded border border-border bg-card px-4 py-2 shadow-lg">
           <div className="h-2 w-2 animate-bounce rounded-full bg-accent [animation-delay:-0.3s]" />
           <div className="h-2 w-2 animate-bounce rounded-full bg-accent [animation-delay:-0.15s]" />
           <div className="h-2 w-2 animate-bounce rounded-full bg-accent" />

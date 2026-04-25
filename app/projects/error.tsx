@@ -37,7 +37,7 @@ export default function ProjectError({
           transition={{ duration: 0.5 }}
           className="mx-auto max-w-md space-y-6 text-center"
         >
-          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full border-2 border-border bg-card">
+          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded border-2 border-border bg-card">
             <FileQuestion className="h-10 w-10 text-muted-foreground" />
           </div>
 
@@ -51,14 +51,14 @@ export default function ProjectError({
           <div className="flex flex-col gap-3 pt-4 sm:flex-row sm:justify-center">
             <button
               onClick={reset}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-card/80 px-6 py-3 text-sm font-semibold text-foreground transition hover:border-primary/40"
+              className="inline-flex items-center justify-center gap-2 rounded border border-border bg-card/80 px-6 py-3 text-sm font-semibold text-foreground transition hover:border-accent/40"
             >
               <RefreshCw className="h-4 w-4" />
               Try Again
             </button>
             <Link
               href="/projects"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition hover:bg-primary/90"
+              className="inline-flex items-center justify-center gap-2 rounded bg-accent px-6 py-3 text-sm font-semibold text-white transition hover:bg-accent/90"
             >
               View All Projects
             </Link>

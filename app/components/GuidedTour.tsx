@@ -94,7 +94,7 @@ export default function GuidedTour({ steps = TOUR_STEPS }: GuidedTourProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.2 }}
-            className="pointer-events-auto fixed inset-x-3 bottom-3 z-[60] flex items-center gap-3 rounded-2xl border border-border bg-card/95 px-3 py-2.5 shadow-[0_20px_60px_-40px_rgba(0,0,0,0.5)] backdrop-blur sm:hidden"
+            className="pointer-events-auto fixed inset-x-3 bottom-3 z-[60] flex items-center gap-3 rounded border border-border bg-card/95 px-3 py-2.5 shadow-[0_20px_60px_-40px_rgba(0,0,0,0.5)] backdrop-blur sm:hidden"
             role="dialog"
             aria-live="polite"
           >
@@ -102,14 +102,14 @@ export default function GuidedTour({ steps = TOUR_STEPS }: GuidedTourProps) {
               type="button"
               onClick={handlePrevious}
               disabled={currentIndex === 0}
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border bg-background/70 text-muted-foreground transition hover:text-foreground disabled:opacity-40"
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded border border-border bg-background/70 text-muted-foreground transition hover:text-foreground disabled:opacity-40"
               aria-label="Previous step"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
             </button>
 
             <div className="flex min-w-0 flex-1 items-center gap-2">
-              <Sparkles className="h-4 w-4 shrink-0 text-primary" />
+              <Sparkles className="h-4 w-4 shrink-0 text-accent" />
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium text-foreground">{activeStep.title}</p>
                 <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
@@ -121,7 +121,7 @@ export default function GuidedTour({ steps = TOUR_STEPS }: GuidedTourProps) {
             <button
               type="button"
               onClick={handleNext}
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-primary/40 bg-primary/10 text-primary transition hover:bg-primary/15"
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded border border-accent/40 bg-accent/10 text-accent transition hover:bg-accent/15"
               aria-label="Next step"
             >
               <ArrowRight className="h-3.5 w-3.5" />
@@ -130,7 +130,7 @@ export default function GuidedTour({ steps = TOUR_STEPS }: GuidedTourProps) {
             <button
               type="button"
               onClick={handleClose}
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border bg-background/70 text-muted-foreground transition hover:text-foreground"
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded border border-border bg-background/70 text-muted-foreground transition hover:text-foreground"
               aria-label="Close guided tour"
             >
               <X className="h-3.5 w-3.5" />
@@ -152,7 +152,7 @@ export default function GuidedTour({ steps = TOUR_STEPS }: GuidedTourProps) {
           >
             <div className="flex items-start justify-between gap-4">
               <div className="flex items-center gap-3">
-                <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                <span className="flex h-10 w-10 items-center justify-center rounded bg-accent/10 text-accent">
                   <Sparkles className="h-5 w-5 animate-pulse" />
                 </span>
                 <div>
@@ -165,7 +165,7 @@ export default function GuidedTour({ steps = TOUR_STEPS }: GuidedTourProps) {
               <button
                 type="button"
                 onClick={handleClose}
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/70 text-muted-foreground transition hover:text-foreground"
+                className="flex h-9 w-9 items-center justify-center rounded border border-border bg-background/70 text-muted-foreground transition hover:text-foreground"
                 aria-label="Close guided tour"
               >
                 <X className="h-4 w-4" />
@@ -182,7 +182,7 @@ export default function GuidedTour({ steps = TOUR_STEPS }: GuidedTourProps) {
                 <button
                   type="button"
                   onClick={handlePrevious}
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-background/70 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground transition hover:border-primary/40 hover:text-foreground disabled:opacity-40"
+                  className="inline-flex items-center justify-center gap-2 rounded border border-border bg-background/70 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground transition hover:border-accent/40 hover:text-foreground disabled:opacity-40"
                   disabled={currentIndex === 0}
                   aria-label="Previous step"
                 >
@@ -192,7 +192,7 @@ export default function GuidedTour({ steps = TOUR_STEPS }: GuidedTourProps) {
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary transition hover:bg-primary/15"
+                  className="inline-flex items-center justify-center gap-2 rounded border border-accent/40 bg-accent/10 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-accent transition hover:bg-accent/15"
                   aria-label="Next step"
                 >
                   Next

@@ -29,7 +29,7 @@ export default function ProjectDocument({
       <h2 className="font-display text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-foreground">
         Technical Documentation
       </h2>
-      <div className="bg-card/80 rounded-xl p-4 sm:p-6 lg:p-8 border border-border">
+      <div className="bg-card/80 rounded p-4 sm:p-6 lg:p-8 border border-border">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div className="flex-1 min-w-0">
             <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2 break-words">

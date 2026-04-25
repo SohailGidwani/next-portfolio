@@ -32,7 +32,7 @@ export default function BackToTop() {
           exit={{ opacity: 0, scale: 0.8, y: 20 }}
           transition={{ duration: 0.2 }}
           onClick={scrollToTop}
-          className="fixed bottom-6 left-6 z-40 flex h-11 w-11 items-center justify-center rounded-full border border-border bg-card/90 text-muted-foreground shadow-lg backdrop-blur transition-colors hover:border-primary/40 hover:text-primary"
+          className="fixed bottom-6 left-6 z-40 flex h-11 w-11 items-center justify-center rounded border border-border bg-card/90 text-muted-foreground shadow-lg backdrop-blur transition-colors hover:border-accent/40 hover:text-accent"
           aria-label="Back to top"
         >
           <ArrowUp className="h-5 w-5" />

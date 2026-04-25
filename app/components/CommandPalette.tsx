@@ -579,7 +579,7 @@ export default function CommandPalette() {
           triggerHaptic()
           setIsOpen(true)
         }}
-        className="fixed bottom-6 right-6 z-40 hidden items-center gap-1.5 rounded-full border border-border bg-card/90 px-3 py-2 text-xs text-muted-foreground shadow-lg backdrop-blur transition hover:border-primary/40 hover:text-foreground md:inline-flex"
+        className="fixed bottom-6 right-6 z-40 hidden items-center gap-1.5 rounded border border-border bg-card/90 px-3 py-2 text-xs text-muted-foreground shadow-lg backdrop-blur transition hover:border-accent/40 hover:text-foreground md:inline-flex"
       >
         {isMac ? (
           <>
@@ -613,7 +613,7 @@ export default function CommandPalette() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: -20 }}
               transition={{ duration: 0.15, ease: "easeOut" }}
-              className="fixed left-1/2 top-[20%] z-50 w-full max-w-lg -translate-x-1/2 overflow-hidden rounded-2xl border border-border bg-card shadow-2xl"
+              className="fixed left-1/2 top-[20%] z-50 w-full max-w-lg -translate-x-1/2 overflow-hidden rounded border border-border bg-card shadow-2xl"
             >
               {/* Search input */}
               <div className="flex items-center gap-3 border-b border-border px-4 py-3">
@@ -628,7 +628,7 @@ export default function CommandPalette() {
                 />
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="rounded-lg p-1 text-muted-foreground transition hover:bg-muted hover:text-foreground"
+                  className="rounded p-1 text-muted-foreground transition hover:bg-muted hover:text-foreground"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -659,16 +659,16 @@ export default function CommandPalette() {
                                   cmd.action()
                                 }}
                                 onMouseEnter={() => setSelectedIndex(globalIndex)}
-                                className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition ${
+                                className={`flex w-full items-center gap-3 rounded px-3 py-2.5 text-left transition ${
                                   selectedIndex === globalIndex
-                                    ? "bg-primary/10 text-foreground"
+                                    ? "bg-accent/10 text-foreground"
                                     : "text-muted-foreground hover:bg-muted hover:text-foreground"
                                 }`}
                               >
                                 <span
-                                  className={`flex h-8 w-8 items-center justify-center rounded-lg ${
+                                  className={`flex h-8 w-8 items-center justify-center rounded ${
                                     selectedIndex === globalIndex
-                                      ? "bg-primary/20 text-primary"
+                                      ? "bg-accent/20 text-accent"
                                       : "bg-muted text-muted-foreground"
                                   }`}
                                 >

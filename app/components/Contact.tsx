@@ -111,7 +111,7 @@ export default function Contact() {
                     <button
                       type="button"
                       onClick={() => handleCopy(item.copyValue!, item.label)}
-                      className={`inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition ${
+                      className={`inline-flex h-8 w-8 shrink-0 items-center justify-center rounded border transition ${
                         copiedLabel === item.label
                           ? "border-accent/50 text-accent"
                           : "border-border text-muted-foreground hover:border-accent/40 hover:text-foreground"

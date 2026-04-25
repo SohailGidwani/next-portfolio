@@ -32,7 +32,7 @@ export default function ThemeToggle({ variant = "icon" }: ThemeToggleProps) {
       )
     }
     return (
-      <div className="h-9 w-9 animate-pulse rounded-full border border-border bg-card/60" />
+      <div className="h-9 w-9 animate-pulse rounded border border-border bg-card/60" />
     )
   }
 
