@@ -5,15 +5,20 @@ import { AnimatePresence, motion } from "framer-motion"
 import {
   Briefcase,
   Command,
+  Database,
+  Eye,
   FileText,
+  FlaskConical,
   FolderKanban,
   Github,
+  Globe,
   GraduationCap,
   Heart,
   Home,
   Linkedin,
   Mail,
   Moon,
+  Newspaper,
   Search,
   Sparkles,
   Sun,
@@ -30,10 +35,35 @@ interface CommandItem {
   id: string
   label: string
   description?: string
+  route?: string
   icon: React.ReactNode
   action: () => void
   keywords?: string[]
-  category: "navigation" | "actions" | "links"
+  category: "navigation" | "projects" | "research" | "experience" | "actions" | "links"
+}
+
+function scoreCommand(cmd: CommandItem, q: string): number {
+  if (!q) return 1
+  const query = q.toLowerCase().trim()
+  if (!query) return 1
+  const label = cmd.label.toLowerCase()
+  const desc = (cmd.description ?? "").toLowerCase()
+  const keys = (cmd.keywords ?? []).map((k) => k.toLowerCase())
+
+  if (label.startsWith(query)) return 100
+  if (label.includes(` ${query}`)) return 90
+  if (label.includes(query)) return 80
+  if (keys.some((k) => k.startsWith(query))) return 60
+  if (keys.some((k) => k.includes(query))) return 40
+  if (desc.includes(query)) return 20
+
+  // subsequence: "img cap" matches "image captioning"
+  let i = 0
+  for (const ch of label) {
+    if (ch === query[i]) i++
+    if (i === query.length) return 10
+  }
+  return 0
 }
 
 export default function CommandPalette() {
@@ -146,6 +176,240 @@ export default function CommandPalette() {
         keywords: ["email", "hire", "connect"],
         category: "navigation",
       },
+      // Projects
+      {
+        id: "project-knowledge-hub",
+        label: "Knowledge Hub",
+        description: "AI-powered document manager",
+        route: "/projects/knowledge-hub",
+        icon: <Database className="h-4 w-4" />,
+        action: () => {
+          window.location.href = "/projects/knowledge-hub"
+        },
+        keywords: [
+          "rag",
+          "ocr",
+          "pgvector",
+          "postgres",
+          "search",
+          "semantic",
+          "ollama",
+          "llm",
+          "documents",
+          "pdf",
+          "flask",
+          "docker",
+        ],
+        category: "projects",
+      },
+      {
+        id: "project-image-captioning",
+        label: "Image Feature Detection & Captioning",
+        description: "CNN + Transformer captioner, 0.80 BLEU",
+        route: "/projects/image-captioning",
+        icon: <Eye className="h-4 w-4" />,
+        action: () => {
+          window.location.href = "/projects/image-captioning"
+        },
+        keywords: [
+          "image",
+          "caption",
+          "vision",
+          "cnn",
+          "transformer",
+          "lstm",
+          "vgg",
+          "bleu",
+          "tensorflow",
+          "computer vision",
+          "nlp",
+          "streamlit",
+          "be project",
+        ],
+        category: "projects",
+      },
+      {
+        id: "project-tech-updates",
+        label: "Tech Updates",
+        description: "AI-categorized tech news aggregator",
+        route: "/projects/tech-updates",
+        icon: <Newspaper className="h-4 w-4" />,
+        action: () => {
+          window.location.href = "/projects/tech-updates"
+        },
+        keywords: [
+          "news",
+          "scraper",
+          "qdrant",
+          "vector",
+          "azure openai",
+          "gpt",
+          "medium",
+          "hacker news",
+          "crunchbase",
+          "flask",
+          "react",
+        ],
+        category: "projects",
+      },
+      {
+        id: "project-scribeglobe",
+        label: "ScribeGlobe",
+        description: "Medium-style blogging platform",
+        route: "/projects/scribeglobe",
+        icon: <Globe className="h-4 w-4" />,
+        action: () => {
+          window.location.href = "/projects/scribeglobe"
+        },
+        keywords: [
+          "blog",
+          "blogging",
+          "medium",
+          "hono",
+          "cloudflare",
+          "workers",
+          "serverless",
+          "edge",
+          "vite",
+          "react",
+          "postgres",
+          "fullstack",
+        ],
+        category: "projects",
+      },
+      // Experience
+      {
+        id: "experience-keck-usc",
+        label: "Keck School of Medicine of USC",
+        description: "Research Assistant · Oct 2025–Present",
+        icon: <Briefcase className="h-4 w-4" />,
+        action: () => {
+          scrollToSection("experience")
+          requestAnimationFrame(() => {
+            window.dispatchEvent(
+              new CustomEvent("portfolio:open-experience", { detail: { id: "keck-usc" } })
+            )
+          })
+        },
+        keywords: [
+          "keck",
+          "usc",
+          "research",
+          "research assistant",
+          "alzheimer",
+          "alzheimers",
+          "vlm",
+          "vqa",
+          "rag",
+          "neuroimaging",
+          "mri",
+          "pytorch",
+          "clip",
+          "deep learning",
+          "medical",
+        ],
+        category: "experience",
+      },
+      {
+        id: "experience-insaito",
+        label: "Insaito, Inc.",
+        description: "Senior Software Engineer I · May–Jul 2025",
+        icon: <Briefcase className="h-4 w-4" />,
+        action: () => {
+          scrollToSection("experience")
+          requestAnimationFrame(() => {
+            window.dispatchEvent(
+              new CustomEvent("portfolio:open-experience", { detail: { id: "insaito" } })
+            )
+          })
+        },
+        keywords: [
+          "insaito",
+          "ai agent",
+          "agent builder",
+          "llm",
+          "qwen",
+          "mistral",
+          "oauth",
+          "mcp",
+          "model context protocol",
+          "typescript",
+          "next.js",
+          "node",
+          "mongodb",
+          "startup",
+        ],
+        category: "experience",
+      },
+      {
+        id: "experience-iifl",
+        label: "IIFL Finance Ltd",
+        description: "Full Stack Software Developer · Jun 2023–May 2025",
+        icon: <Briefcase className="h-4 w-4" />,
+        action: () => {
+          scrollToSection("experience")
+          requestAnimationFrame(() => {
+            window.dispatchEvent(
+              new CustomEvent("portfolio:open-experience", { detail: { id: "iifl" } })
+            )
+          })
+        },
+        keywords: [
+          "iifl",
+          "finance",
+          "fintech",
+          "chatbot",
+          "rag",
+          "fraud",
+          "groundingdino",
+          "swin",
+          "transformer",
+          "azure",
+          "openai",
+          "gpt",
+          "qdrant",
+          "flask",
+          "python",
+          "compliance",
+          "capitalgenie",
+        ],
+        category: "experience",
+      },
+      // Research
+      {
+        id: "research-alzheimers-vqa",
+        label: "Multimodal Alzheimer's VQA",
+        description: "VLM + RAG for clinical visual question answering",
+        route: "/research/multimodal-alzheimers-vqa",
+        icon: <FlaskConical className="h-4 w-4" />,
+        action: () => {
+          window.location.href = "/research/multimodal-alzheimers-vqa"
+        },
+        keywords: [
+          "research",
+          "paper",
+          "alzheimer",
+          "alzheimers",
+          "dementia",
+          "vqa",
+          "vlm",
+          "vision language model",
+          "rag",
+          "mri",
+          "dti",
+          "image",
+          "imaging",
+          "clinical",
+          "medical",
+          "keck",
+          "usc",
+          "mistral",
+          "gemma",
+          "medgemma",
+          "faiss",
+        ],
+        category: "research",
+      },
       // Actions
       {
         id: "toggle-theme",
@@ -212,19 +476,32 @@ export default function CommandPalette() {
   )
 
   const filteredCommands = useMemo(() => {
-    if (!search) return commands
-    const lower = search.toLowerCase()
-    return commands.filter(
-      (cmd) =>
-        cmd.label.toLowerCase().includes(lower) ||
-        cmd.description?.toLowerCase().includes(lower) ||
-        cmd.keywords?.some((k) => k.includes(lower))
+    const scored = commands.flatMap((cmd) => {
+      const score = scoreCommand(cmd, search)
+      return score > 0 ? [{ cmd, score }] : []
+    })
+    const order: CommandItem["category"][] = [
+      "navigation",
+      "experience",
+      "projects",
+      "research",
+      "actions",
+      "links",
+    ]
+    return order.flatMap((cat) =>
+      scored
+        .filter((x) => x.cmd.category === cat)
+        .sort((a, b) => b.score - a.score)
+        .map((x) => x.cmd)
     )
   }, [search, commands])
 
   const groupedCommands = useMemo(() => {
     const groups: { [key: string]: CommandItem[] } = {
       navigation: [],
+      experience: [],
+      projects: [],
+      research: [],
       actions: [],
       links: [],
     }
@@ -281,12 +558,15 @@ export default function CommandPalette() {
     if (!isOpen || !listRef.current) return
     const selected = listRef.current.querySelector('[data-selected="true"]')
     if (selected) {
-      selected.scrollIntoView({ block: "nearest", behavior: "smooth" })
+      selected.scrollIntoView({ block: "nearest", behavior: "auto" })
     }
   }, [selectedIndex, isOpen])
 
   const categoryLabels: { [key: string]: string } = {
     navigation: "Navigate",
+    experience: "Experience",
+    projects: "Projects",
+    research: "Research",
     actions: "Actions",
     links: "Links",
   }
@@ -394,11 +674,16 @@ export default function CommandPalette() {
                                 >
                                   {cmd.icon}
                                 </span>
-                                <div className="flex-1">
-                                  <div className="text-sm font-medium">{cmd.label}</div>
+                                <div className="min-w-0 flex-1">
+                                  <div className="truncate text-sm font-medium">{cmd.label}</div>
                                   {cmd.description && (
-                                    <div className="text-xs text-muted-foreground">
+                                    <div className="truncate text-xs text-muted-foreground">
                                       {cmd.description}
+                                    </div>
+                                  )}
+                                  {cmd.route && (
+                                    <div className="mt-0.5 truncate font-mono text-[10px] text-muted-foreground/70">
+                                      {cmd.route}
                                     </div>
                                   )}
                                 </div>

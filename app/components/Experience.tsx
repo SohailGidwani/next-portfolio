@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { ArrowUpRight, Briefcase, Calendar, FileText } from "lucide-react"
@@ -88,6 +88,17 @@ export default function Experience() {
   const { activeSkill } = useSkillHighlight()
   const [selected, setSelected] = useState<ExperienceItem | null>(null)
   const normalizedSkill = activeSkill?.toLowerCase()
+
+  useEffect(() => {
+    const handler = (event: Event) => {
+      const id = (event as CustomEvent<{ id?: string }>).detail?.id
+      if (!id) return
+      const match = experiences.find((item) => item.id === id)
+      if (match) setSelected(match)
+    }
+    window.addEventListener("portfolio:open-experience", handler)
+    return () => window.removeEventListener("portfolio:open-experience", handler)
+  }, [])
 
   const openModal = (experience: ExperienceItem) => {
     triggerHaptic()
