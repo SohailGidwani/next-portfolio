@@ -54,11 +54,11 @@ function HeroStats() {
   }[] = [
     { value: "2+", label: "Years production experience" },
     { value: "3", label: "AI systems deployed at IIFL" },
-    { value: "71M", label: "Parameter models researched" },
+    { value: "71M", label: "Parameter Custom Model" },
     {
       value: "LA",
       label: "Los Angeles, CA",
-      sub: "Open to remote",
+      sub: "Open to remote · hybrid · remote",
     },
   ]
 
@@ -66,7 +66,7 @@ function HeroStats() {
     <div className="mt-10 w-full border-t border-border pt-8 sm:mt-14 sm:pt-10 md:mt-16 md:pt-12">
       <div className="grid grid-cols-2 gap-6 sm:gap-8 md:grid-cols-4 md:gap-6 lg:gap-10">
         {items.map((item) => (
-          <div key={item.value + item.label} className="min-w-0 text-left">
+          <div key={item.value + item.label} className="min-w-0 text-left md:text-center">
             <p className="font-display text-[clamp(1.15rem,3.2vw,2.65rem)] leading-none tracking-[-0.02em] text-foreground">
               {item.value}
             </p>
