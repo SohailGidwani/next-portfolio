@@ -1,0 +1,55 @@
+[
+  {
+    "company": "Keck School of Medicine of USC",
+    "position": "Student Worker - Research Assistant",
+    "url": "https://keck.usc.edu",
+    "startDate": "2025-10-01",
+    "endDate": null,
+    "current": true,
+    "tags": ["Python", "PyTorch", "Deep Learning", "CLIP", "RAG", "FAISS"],
+    "summary": "Multi-modal AI for Alzheimer's disease prediction — neuroimaging + clinical data, end-to-end experimentation infrastructure.",
+    "highlights": [
+      "Multi-modal pipeline: T1 MRI + DTI imaging + clinical data across 2,363 ADNI subjects; 72.7% balanced accuracy on 3-class diagnosis, 93.1% on binary (CN vs Dementia)",
+      "Missing-modality cross-attention fusion with modality dropout — 39.4% DTI coverage; amyloid detection sensitivity 29% → 56%",
+      "RAG-based VQA: FAISS retrieval + cross-encoder rerank + LLM answer generation; Mistral 7B wins at 94.7% diagnosis VQA accuracy vs Gemma 4 26B MoE and MedGemma 1.5 4B",
+      "Two-stage training: CLIP contrastive pre-training → multi-task fine-tuning; modality ablation across 7 combinations on ~70M parameter models"
+    ],
+    "researchUrl": "https://sohailgidwani.app/research/multimodal-alzheimers-vqa",
+    "relatedProjects": []
+  },
+  {
+    "company": "Insaito, Inc.",
+    "position": "Senior Software Engineer - I",
+    "startDate": "2025-05-01",
+    "endDate": "2025-07-31",
+    "current": false,
+    "tags": ["TypeScript", "Next.js", "Node.js", "MongoDB", "LLM", "MCP"],
+    "summary": "AI agent builder platform from scratch — open-source LLM deployment, OAuth for 100+ apps, MCP server development.",
+    "highlights": [
+      "Led architecture of AI agent builder platform with OAuth integrations for 100+ third-party apps",
+      "Deployed open-source LLMs (Qwen 3, Mistral Small 24B 2) for production agent workflows",
+      "Built MCP servers exposing app functions to AI models",
+      "Serverless agent orchestration with concurrent multi-step tool-calling and context management"
+    ],
+    "researchUrl": null,
+    "relatedProjects": []
+  },
+  {
+    "company": "IIFL Finance Ltd.",
+    "position": "Full Stack Software Developer",
+    "url": "https://iifl.com",
+    "startDate": "2023-06-01",
+    "endDate": "2025-05-31",
+    "current": false,
+    "tags": ["Python", "Flask", "Qdrant", "Azure OpenAI", "React", "Node.js"],
+    "summary": "Built internal AI tools for India's leading NBFC — RAG chatbot, AI fraud detection, automated support.",
+    "highlights": [
+      "AskPandaAI (RAG chatbot): Python + Flask + Qdrant + Azure OpenAI + Zoho ticketing; Certificate of Achievement from CTO",
+      "Gold Loan Image Audit: GroundingDINO + Swin-Transformer for automated fraud detection; 15% loan fraud reduction",
+      "CapitalGenie: GPT-4o + internal APIs for automated user diagnosis and response; 70% faster issue resolution",
+      "Compliance: data anonymization + access-control for AI services on sensitive financial data; passed security audits first review"
+    ],
+    "researchUrl": null,
+    "relatedProjects": ["tech-updates"]
+  }
+]

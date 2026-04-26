@@ -1,0 +1,89 @@
+{
+  "proficiencyScale": "1 = familiar, 3 = proficient, 5 = expert",
+  "categories": [
+    {
+      "category": "Machine Learning / AI",
+      "focus": true,
+      "skills": [
+        { "name": "TensorFlow", "proficiency": 5 },
+        { "name": "PyTorch", "proficiency": 4 },
+        { "name": "Scikit-learn", "proficiency": 5 },
+        { "name": "Keras", "proficiency": 4 },
+        { "name": "OpenCV", "proficiency": 4 },
+        { "name": "NLTK", "proficiency": 4 },
+        { "name": "HuggingFace", "proficiency": 5 },
+        { "name": "spaCy", "proficiency": 3 },
+        { "name": "Pandas", "proficiency": 5 },
+        { "name": "NumPy", "proficiency": 5 },
+        { "name": "Matplotlib", "proficiency": 4 },
+        { "name": "Seaborn", "proficiency": 4 },
+        { "name": "MCP (Model Context Protocol)", "proficiency": 4 },
+        { "name": "LLMOps", "proficiency": 4 },
+        { "name": "LangChain", "proficiency": 4 },
+        { "name": "RAG Systems", "proficiency": 5 },
+        { "name": "FAISS", "proficiency": 4 }
+      ]
+    },
+    {
+      "category": "Programming Languages",
+      "skills": [
+        { "name": "Python", "proficiency": 5 },
+        { "name": "TypeScript", "proficiency": 3 },
+        { "name": "JavaScript", "proficiency": 3 },
+        { "name": "Java", "proficiency": 4 },
+        { "name": "C++", "proficiency": 3 },
+        { "name": "SQL", "proficiency": 4 }
+      ]
+    },
+    {
+      "category": "Web Development",
+      "skills": [
+        { "name": "React", "proficiency": 3 },
+        { "name": "Next.js", "proficiency": 3 },
+        { "name": "Node.js", "proficiency": 4 },
+        { "name": "Express", "proficiency": 4 },
+        { "name": "Flask", "proficiency": 5 },
+        { "name": "FastAPI", "proficiency": 4 },
+        { "name": "Django", "proficiency": 4 },
+        { "name": "Hono", "proficiency": 3 },
+        { "name": "Tailwind CSS", "proficiency": 4 }
+      ]
+    },
+    {
+      "category": "Databases",
+      "skills": [
+        { "name": "PostgreSQL", "proficiency": 4 },
+        { "name": "MongoDB", "proficiency": 5 },
+        { "name": "Qdrant", "proficiency": 4 },
+        { "name": "Redis", "proficiency": 3 },
+        { "name": "MySQL", "proficiency": 4 },
+        { "name": "Elasticsearch", "proficiency": 3 },
+        { "name": "pgvector", "proficiency": 4 },
+        { "name": "SQLAlchemy", "proficiency": 4 }
+      ]
+    },
+    {
+      "category": "Cloud Platforms",
+      "skills": [
+        { "name": "AWS", "proficiency": 4 },
+        { "name": "Google Cloud", "proficiency": 4 },
+        { "name": "Azure", "proficiency": 3 },
+        { "name": "Cloudflare", "proficiency": 4 },
+        { "name": "Heroku", "proficiency": 5 }
+      ]
+    },
+    {
+      "category": "Tools & DevOps",
+      "skills": [
+        { "name": "Git", "proficiency": 5 },
+        { "name": "Docker", "proficiency": 4 },
+        { "name": "Kubernetes", "proficiency": 3 },
+        { "name": "N8N", "proficiency": 4 },
+        { "name": "Linux", "proficiency": 4 },
+        { "name": "CI/CD", "proficiency": 4 },
+        { "name": "RESTful APIs", "proficiency": 5 },
+        { "name": "Agile", "proficiency": 5 }
+      ]
+    }
+  ]
+}

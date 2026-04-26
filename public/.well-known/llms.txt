@@ -54,10 +54,21 @@ Research Assistant at Keck School of Medicine of USC, working on multi-modal dee
 
 ## Machine-Readable Data
 
-- JSON Resume: https://sohailgidwani.app/resume.json (jsonresume.org v1 schema)
-- MCP Server: https://sohailgidwani.app/api/mcp (MCP protocol 2024-11-05, POST JSON-RPC 2.0)
-- LLMs.txt (full): https://sohailgidwani.app/llms-full.txt
-- LLMs.txt (well-known): https://sohailgidwani.app/.well-known/llms.txt
+REST endpoints (plain GET, no protocol needed):
+- Resume: https://sohailgidwani.app/resume.json (JSON Resume v1)
+- Projects: https://sohailgidwani.app/projects.json
+- Skills: https://sohailgidwani.app/skills.json
+- Experience: https://sohailgidwani.app/experience.json
+- Research: https://sohailgidwani.app/research.json
+
+MCP Server (JSON-RPC 2.0, POST):
+- Endpoint: https://sohailgidwani.app/api/mcp
+- Resources: portfolio://profile, portfolio://projects, portfolio://skills, portfolio://experience, portfolio://education, portfolio://research, portfolio://triumphs, portfolio://links
+- GET https://sohailgidwani.app/api/mcp for full schema and usage guide
+
+LLMs.txt:
+- Full profile: https://sohailgidwani.app/llms-full.txt
+- Well-known: https://sohailgidwani.app/.well-known/llms.txt
 
 ## Detailed Version
 
