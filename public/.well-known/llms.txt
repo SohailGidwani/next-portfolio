@@ -26,7 +26,7 @@ Research Assistant at Keck School of Medicine of USC, working on multi-modal dee
 - Web: React, Next.js, Node.js, Flask, FastAPI, Hono, Express, Tailwind CSS
 - Databases: PostgreSQL, MongoDB, Qdrant, Redis, pgvector, MySQL, Elasticsearch
 - Cloud: AWS, Azure, Google Cloud, Cloudflare, Docker, Kubernetes
-- Methods: Agile, TDD, CI/CI, RESTful APIs, Serverless
+- Methods: Agile, TDD, CI/CD, RESTful APIs, Serverless
 
 ## Research
 
