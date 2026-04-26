@@ -96,6 +96,7 @@ The frontend is React + Vite. Nothing groundbreaking there, but it's fast and th
         image="/images/Tech%20Updates.png"
         keywords={project.tags}
         github={project.github}
+        projectType="app"
       />
       <Suspense fallback={<ProjectSkeleton />}>
         <div className="min-h-screen overflow-x-hidden bg-background text-foreground">

@@ -108,6 +108,7 @@ export default function CoTFaithfulnessPage() {
         keywords={tags}
         github={github}
         dateCreated="2025-05-01"
+        projectType="research"
       />
       <Suspense fallback={<ProjectSkeleton />}>
         <div className="min-h-screen overflow-x-hidden bg-background text-foreground">

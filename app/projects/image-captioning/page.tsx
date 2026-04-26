@@ -95,6 +95,7 @@ The hardest part was honestly the training pipeline. VGG-16 is memory-hungry, th
         image="/images/BE-Project.jpg"
         keywords={project.tags}
         github={project.github}
+        projectType="app"
       />
       <Suspense fallback={<ProjectSkeleton />}>
         <div className="min-h-screen overflow-x-hidden bg-background text-foreground">

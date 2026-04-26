@@ -201,6 +201,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
         image="/images/KnowledgeHub_1.png"
         keywords={project.tags}
         github={project.github}
+        projectType="app"
       />
       <Suspense fallback={<ProjectSkeleton />}>
         <div className="min-h-screen overflow-x-hidden bg-background text-foreground">

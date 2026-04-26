@@ -96,6 +96,7 @@ You can sign up, write posts with markdown, preview them in real time, and publi
         image="/images/BlogSite.jpg"
         keywords={project.tags}
         github={project.github}
+        projectType="app"
       />
       <Suspense fallback={<ProjectSkeleton />}>
         <div className="min-h-screen overflow-x-hidden bg-background text-foreground">
