@@ -8,6 +8,8 @@
 - Homepage: https://sohailgidwani.app
 - Projects: https://sohailgidwani.app/projects
 - Resume (PDF): https://sohailgidwani.app/documents/Sohail_Gidwani_Resume.pdf
+- Resume (JSON): https://sohailgidwani.app/resume.json
+- MCP Server: https://sohailgidwani.app/api/mcp (POST JSON-RPC 2.0 — resources: portfolio://profile, portfolio://projects, portfolio://experience, portfolio://education)
 
 ## About
 
@@ -49,6 +51,13 @@ Research Assistant at Keck School of Medicine of USC, working on multi-modal dee
 - LinkedIn: https://linkedin.com/in/sohail-gidwani/
 - GitHub: https://github.com/SohailGidwani
 - Portfolio: https://sohailgidwani.app
+
+## Machine-Readable Data
+
+- JSON Resume: https://sohailgidwani.app/resume.json (jsonresume.org v1 schema)
+- MCP Server: https://sohailgidwani.app/api/mcp (MCP protocol 2024-11-05, POST JSON-RPC 2.0)
+- LLMs.txt (full): https://sohailgidwani.app/llms-full.txt
+- LLMs.txt (well-known): https://sohailgidwani.app/.well-known/llms.txt
 
 ## Detailed Version
 

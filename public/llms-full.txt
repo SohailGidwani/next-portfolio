@@ -20,6 +20,16 @@
 
 ---
 
+## Machine-Readable Data
+
+- JSON Resume (jsonresume.org v1): https://sohailgidwani.app/resume.json
+- MCP Server (MCP 2024-11-05, JSON-RPC 2.0): https://sohailgidwani.app/api/mcp
+  - Resources: portfolio://profile, portfolio://projects, portfolio://experience, portfolio://education
+  - GET /api/mcp for usage instructions
+- LLMs.txt (well-known): https://sohailgidwani.app/.well-known/llms.txt
+
+---
+
 ## Professional Summary
 
 Sohail Gidwani is an AI engineer and full-stack developer graduating with an M.S. in Computer Science from USC in May 2027. He builds production AI systems — RAG pipelines, multi-modal deep learning, LLM-powered applications — and pairs them with clean, user-facing frontends. He moves fast, prototypes iteratively, and prioritizes shipping useful products. Ambiguous problems are where he thrives. His work spans research (Alzheimer's prediction with neuroimaging), industry (enterprise RAG chatbots, AI fraud detection), and platform engineering (AI agent builders with MCP servers).
