@@ -277,6 +277,37 @@ export default function CommandPalette() {
         ],
         category: "projects",
       },
+      {
+        id: "project-cot-faithfulness",
+        label: "CoT Faithfulness Analysis",
+        description: "CSCI-544 @ USC — probing whether LLM chain-of-thought is causal or decorative",
+        route: "/projects/cot-faithfulness",
+        icon: <FlaskConical className="h-4 w-4" />,
+        action: () => {
+          window.location.href = "/projects/cot-faithfulness"
+        },
+        keywords: [
+          "cot",
+          "chain of thought",
+          "faithfulness",
+          "llm",
+          "reasoning",
+          "nlp",
+          "interpretability",
+          "llama",
+          "qwen",
+          "ollama",
+          "gsm8k",
+          "arc",
+          "benchmark",
+          "usc",
+          "csci-544",
+          "course project",
+          "research",
+          "python",
+        ],
+        category: "projects",
+      },
       // Experience
       {
         id: "experience-keck-usc",

@@ -44,28 +44,28 @@ export default function Projects() {
           </Link>
         </motion.div>
 
-        <div className="mt-10 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+        <div className="mt-10 grid gap-6 sm:grid-cols-2">
               {primary && (
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4 }}
                     viewport={{ once: true }}
-                    className={`group relative cursor-pointer rounded border bg-card/80 p-6 transition ${
+                    className={`group relative cursor-pointer rounded border bg-card/80 p-6 transition sm:col-span-2 ${
                       primaryHighlighted ? "border-accent/40 bg-accent/5" : "border-border hover:border-accent/40"
                     }`}
                   >
                   <Link href={`/projects/${primary.id}`} className="absolute inset-0 z-0 rounded" aria-label={primary.title}>
                     <span className="sr-only">View {primary.title}</span>
                   </Link>
-                  <div className="relative mb-6 h-56 w-full overflow-hidden rounded border border-border">
+                  <div className="relative mb-6 h-56 w-full overflow-hidden rounded border border-border sm:h-64">
                     <Image
                       src={primary.image}
                       alt={primary.title}
                       fill
                       placeholder="blur"
                       className="object-cover"
-                      sizes="(max-width: 1024px) 100vw, 60vw"
+                      sizes="100vw"
                       priority
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
@@ -123,7 +123,6 @@ export default function Projects() {
                   </motion.div>
               )}
 
-          <div className="grid gap-4">
             {rest.map((project, index) => {
                   const isHighlighted = normalizedSkill
                     ? project.tags.some((tag) => tag.toLowerCase() === normalizedSkill)
@@ -194,7 +193,6 @@ export default function Projects() {
                     </motion.div>
                   )
                 })}
-          </div>
         </div>
       </div>
     </section>

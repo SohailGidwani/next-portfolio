@@ -22,6 +22,7 @@ export const metadata: Metadata = {
   },
   authors: [{ name: "Sohail Gidwani", url: "https://sohailgidwani.app" }],
   creator: "Sohail Gidwani",
+  publisher: "Sohail Gidwani",
   openGraph: {
     title: "Knowledge Hub — Local RAG Document Manager",
     description:
@@ -38,6 +39,9 @@ export const metadata: Metadata = {
     ],
     locale: "en_US",
     type: "article",
+    publishedTime: "2026-04-01",
+    authors: ["https://sohailgidwani.app"],
+    tags: ["RAG", "LLM", "OCR", "pgvector", "Ollama", "Flask"],
   },
   twitter: {
     card: "summary_large_image",

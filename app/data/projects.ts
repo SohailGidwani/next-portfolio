@@ -2,6 +2,7 @@ import knowledgeHub from "@/public/images/KnowledgeHub_1.png"
 import imagecaption from "@/public/images/BE-Project.jpg"
 import blogsite from "@/public/images/BlogSite.jpg"
 import techupdates from "@/public/images/Tech Updates.png"
+import cotfaithfulness from "@/public/images/cot_faithfulness.jpeg"
 import type { StaticImageData } from "next/image"
 
 export interface ProjectData {
@@ -26,6 +27,17 @@ export const projects: ProjectData[] = [
     image: knowledgeHub,
     tags: ["Flask", "pgvector", "RAG", "OCR"],
     github: "https://github.com/SohailGidwani/knowledge_hub",
+    featured: true,
+  },
+  {
+    id: "cot-faithfulness",
+    title: "CoT Faithfulness Analysis",
+    shortDescription: "Do LLMs actually use their chain-of-thought, or is it just decoration?",
+    description:
+      "CSCI-544 course project at USC. Four experiments probing whether CoT reasoning in Llama 3.2 and Qwen 2.5 causally drives answers or is post-hoc rationalization — across math and science benchmarks.",
+    image: cotfaithfulness,
+    tags: ["Python", "LLM", "Ollama", "NLP", "Research"],
+    github: "https://github.com/SohailGidwani/cot_faithfulness",
     featured: true,
   },
   {

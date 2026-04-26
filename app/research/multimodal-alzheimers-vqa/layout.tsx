@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     siteName: "Sohail Gidwani Portfolio",
     images: [
       {
-        url: "/api/og",
+        url: "/api/og?title=Multi-Modal%20VLM%20%2B%20RAG%20VQA%20for%20Alzheimer%27s&description=Multi-modal%20deep%20learning%20on%202%2C363%20ADNI%20subjects%20with%20missing-modality%20fusion%20and%20LLM%20comparison&type=project&tags=VLM,RAG,ADNI,MRI,LLM",
         width: 1200,
         height: 630,
         alt: "Multi-Modal VLM for Alzheimer's Detection — Sohail Gidwani Research",
@@ -67,7 +67,9 @@ export const metadata: Metadata = {
     title: "Multi-Modal VLM + RAG VQA for Alzheimer's Detection",
     description:
       "Multi-modal deep learning pipeline for Alzheimer's prediction on 2,363 ADNI subjects, plus a retrieval-augmented VQA extension.",
-    images: ["/api/og"],
+    images: [
+      "/api/og?title=Multi-Modal%20VLM%20%2B%20RAG%20VQA%20for%20Alzheimer%27s&description=Multi-modal%20deep%20learning%20on%202%2C363%20ADNI%20subjects%20with%20missing-modality%20fusion%20and%20LLM%20comparison&type=project&tags=VLM,RAG,ADNI,MRI,LLM",
+    ],
     creator: "@sohailgidwani",
   },
 }
