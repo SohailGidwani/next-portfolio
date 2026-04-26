@@ -1,57 +1,28 @@
-import { Metadata } from "next"
+import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: "Tech Updates — AI News Aggregator · Sohail Gidwani",
-  description:
-    "Personal tech news aggregator pulling from Medium, YC, and Crunchbase on a schedule. Azure OpenAI auto-categorizes articles; Qdrant stores embeddings so similar stories surface together via cosine similarity.",
-  keywords: [
-    "Tech Updates",
-    "news aggregator",
-    "web scraping",
-    "Azure OpenAI",
-    "Qdrant",
-    "vector database",
-    "Flask",
-    "React",
-    "PostgreSQL",
-    "AI categorization",
-    "Sohail Gidwani",
-  ],
+  title: 'Tech Updates — AI News Aggregator with Semantic Deduplication | Sohail Gidwani',
+  description: 'AI-powered news aggregator using Azure OpenAI for summarization and Qdrant vector DB for semantic duplicate detection across multiple RSS feeds.',
+  keywords: ['Tech Updates', 'Azure OpenAI', 'Qdrant', 'Vector Search', 'News Aggregator', 'Semantic Search', 'FastAPI', 'Sohail Gidwani'],
+  authors: [{ name: 'Sohail Gidwani', url: 'https://sohailgidwani.app' }],
   alternates: {
-    canonical: "/projects/tech-updates",
+    canonical: '/projects/tech-updates',
   },
-  authors: [{ name: "Sohail Gidwani", url: "https://sohailgidwani.app" }],
-  creator: "Sohail Gidwani",
-  publisher: "Sohail Gidwani",
   openGraph: {
-    title: "Tech Updates — AI-Categorized News Aggregator",
-    description:
-      "Scrapes Medium, YC, and Crunchbase. Azure OpenAI tags articles by topic; Qdrant surfaces similar stories via embedding search.",
-    url: "https://sohailgidwani.app/projects/tech-updates",
-    siteName: "Sohail Gidwani",
-    images: [
-      {
-        url: "/api/og?title=Tech%20Updates&description=AI-categorized%20news%20from%20Medium%2C%20YC%2C%20and%20Crunchbase%20with%20vector%20similarity%20search&type=project&tags=Flask,Azure%20OpenAI,Qdrant,React",
-        width: 1200,
-        height: 630,
-        alt: "Tech Updates — AI News Aggregator",
-      },
-    ],
-    locale: "en_US",
-    type: "article",
-    publishedTime: "2026-04-01",
-    authors: ["https://sohailgidwani.app"],
-    tags: ["Azure OpenAI", "LLM", "Qdrant", "Vector Search", "Flask", "React"],
+    title: 'Tech Updates — AI News Aggregator with Semantic Deduplication | Sohail Gidwani',
+    description: 'Azure OpenAI + Qdrant vector DB for AI-powered news aggregation and semantic deduplication.',
+    url: 'https://sohailgidwani.app/projects/tech-updates',
+    siteName: 'Sohail Gidwani Portfolio',
+    images: [{ url: '/api/og', width: 1200, height: 630, alt: 'Tech Updates Project' }],
+    locale: 'en_US',
+    type: 'article',
   },
   twitter: {
-    card: "summary_large_image",
-    title: "Tech Updates — AI-Categorized News Aggregator",
-    description:
-      "Scrapes Medium, YC, and Crunchbase. Azure OpenAI tags articles by topic; Qdrant surfaces similar stories via embedding search.",
-    images: [
-      "/api/og?title=Tech%20Updates&description=AI-categorized%20news%20from%20Medium%2C%20YC%2C%20and%20Crunchbase%20with%20vector%20similarity%20search&type=project&tags=Flask,Azure%20OpenAI,Qdrant,React",
-    ],
-    creator: "@sohailgidwani",
+    card: 'summary_large_image',
+    title: 'Tech Updates — AI News Aggregator | Sohail Gidwani',
+    description: 'Azure OpenAI + Qdrant semantic deduplication for AI-curated news.',
+    images: ['/api/og'],
+    creator: '@sohailgidwani',
   },
 }
 
