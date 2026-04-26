@@ -188,6 +188,10 @@ export async function POST(request: NextRequest) {
   }
 }
 
+export async function OPTIONS() {
+  return new NextResponse(null, { status: 204 })
+}
+
 export async function GET() {
   return NextResponse.json({
     name: 'Sohail Gidwani Portfolio MCP Server',

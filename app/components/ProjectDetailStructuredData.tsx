@@ -4,6 +4,16 @@ import Script from "next/script"
 
 const SITE_URL = "https://sohailgidwani.app"
 
+const KNOWN_LANGUAGES = new Set([
+  'Python', 'TypeScript', 'JavaScript', 'Java', 'C++', 'C', 'SQL',
+  'Rust', 'Go', 'Ruby', 'Swift', 'Kotlin', 'Scala', 'R', 'Shell',
+  'Bash', 'HTML', 'CSS', 'SCSS', 'PHP', 'Dart', 'Elixir', 'Haskell',
+])
+
+function filterToLanguages(keywords: string[]): string[] {
+  return keywords.filter(k => KNOWN_LANGUAGES.has(k))
+}
+
 type ProjectType = "app" | "research"
 
 type ProjectDetailStructuredDataProps = {
@@ -78,7 +88,7 @@ export default function ProjectDetailStructuredData({
               "author": { "@id": `${SITE_URL}/#person` },
               "creator": { "@id": `${SITE_URL}/#person` },
               "publisher": { "@id": `${SITE_URL}/#person` },
-              "programmingLanguage": keywords,
+              "programmingLanguage": filterToLanguages(keywords),
               "inLanguage": "en",
               "isPartOf": { "@id": `${SITE_URL}/#website` },
               "mainEntityOfPage": { "@id": url },
