@@ -45,7 +45,7 @@ const experiences: ExperienceItem[] = [
     isLatest: true,
     logo: keckUSC,
     researchUrl: "/research/multimodal-alzheimers-vqa",
-    researchLabel: "Read the research",
+    researchLabel: "Read the Alzheimer's VLM research",
   },
   {
     id: "insaito",
@@ -223,7 +223,7 @@ export default function Experience() {
                   })}
                 </div>
                 <span className="ml-auto inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.22em] text-accent/70 transition group-hover:text-accent">
-                  Details
+                  View {featured.company}
                   <ArrowUpRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </span>
               </div>
@@ -303,7 +303,7 @@ export default function Experience() {
                         })}
                       </div>
                       <span className="ml-auto inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.22em] text-accent/70 transition group-hover:text-accent">
-                        Details
+                        View {item.company}
                         <ArrowUpRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                       </span>
                     </div>

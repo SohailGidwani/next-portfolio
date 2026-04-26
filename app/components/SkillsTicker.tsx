@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { useReducedMotion } from "framer-motion"
 
 const STACK = [
@@ -23,7 +24,11 @@ const STACK = [
 
 export default function SkillsTicker() {
   const reduce = useReducedMotion()
-  const loop = [...STACK, ...STACK]
+  const [loop, setLoop] = useState(STACK)
+
+  useEffect(() => {
+    setLoop([...STACK, ...STACK])
+  }, [])
 
   return (
     <div
