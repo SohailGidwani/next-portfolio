@@ -23,7 +23,7 @@ export default function ProjectStructuredData() {
       "genre": "Machine Learning Project"
     },
     {
-      "@type": "WebApplication",
+      "@type": "CreativeWork",
       "name": "ScribeGlobe (Medium-like Blogging site)",
       "description": "Full-stack blogging platform built with React.js, Vite, TypeScript, and serverless backend using Hono on Cloudflare Workers",
       "author": { "@id": "https://sohailgidwani.app/#person" },
@@ -33,7 +33,7 @@ export default function ProjectStructuredData() {
       "genre": "Web Application"
     },
     {
-      "@type": "WebApplication",
+      "@type": "CreativeWork",
       "name": "Tech-updates (Personal Tech News Aggregator)",
       "description": "AI-powered news aggregator that scrapes and categorizes tech articles using Azure OpenAI and Qdrant vector database",
       "author": { "@id": "https://sohailgidwani.app/#person" },
