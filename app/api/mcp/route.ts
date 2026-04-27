@@ -29,13 +29,15 @@ const projects = [
     name: 'Knowledge Hub',
     slug: 'knowledge-hub',
     url: `${SITE}/projects/knowledge-hub`,
+    deepDive: `${SITE}/projects/knowledge-hub/deep-dive`,
     github: 'https://github.com/SohailGidwani/knowledge_hub',
     type: 'application',
     description: 'Flask + pgvector document manager with OCR, semantic search, and local RAG Q&A via Ollama. Built to manage USC course PDFs and handwritten notes.',
     highlights: [
-      'OCR pipeline for handwritten notes and PDFs using Tesseract',
-      'pgvector semantic search alongside full-text search in PostgreSQL',
-      'RAG Q&A with local LLM (Ollama gemma3:1b) that cites source passages',
+      'OCR pipeline for handwritten notes and PDFs using Tesseract (multi-pass PSM) with TrOCR fallback',
+      'pgvector semantic search (IVFFlat ANN) alongside full-text search (GIN + ts_rank_cd) in PostgreSQL',
+      'Z-score hybrid ranking: score = 0.6·z_semantic + 0.4·z_fts with OCR confidence penalty',
+      'RAG Q&A with local LLM (Ollama gemma3:1b) that cites source passages via [CIT-#] tags',
       'Containerized with Docker — setup is docker-compose up',
     ],
     tags: ['Flask', 'pgvector', 'RAG', 'OCR', 'Ollama', 'Python', 'PostgreSQL', 'Docker'],
@@ -493,54 +495,15 @@ export async function GET() {
     name: 'Sohail Gidwani Portfolio MCP Server',
     protocol: 'MCP 2024-11-05',
     version: '2.0.0',
-    description: 'Query portfolio data for Sohail Gidwani — AI/ML Engineer & Full-Stack Developer (M.S. CS USC 2027). POST JSON-RPC 2.0 to this endpoint, or use the REST alternatives below.',
-    owner: {
-      name: 'Sohail Gidwani',
-      role: 'AI/ML Engineer & Full-Stack Developer',
-      openToWork: true,
-      location: 'Los Angeles, CA',
-      email: 'sohailgidwani15@gmail.com',
-      github: 'https://github.com/SohailGidwani',
-      linkedin: 'https://linkedin.com/in/sohail-gidwani/',
-    },
-    resources: Object.entries(RESOURCE_DESCRIPTIONS).map(([uri, description]) => ({
-      uri,
-      name: uri.replace('portfolio://', ''),
-      description,
-      mimeType: 'application/json',
-    })),
-    restAlternatives: {
-      description: 'All resources are also available as plain GET endpoints — no protocol required.',
-      endpoints: [
-        { url: 'https://sohailgidwani.app/resume.json', description: 'Full resume (JSON Resume v1 schema)' },
-        { url: 'https://sohailgidwani.app/projects.json', description: 'All portfolio projects with highlights and tags' },
-        { url: 'https://sohailgidwani.app/skills.json', description: 'Skill categories with proficiency ratings (1-5)' },
-        { url: 'https://sohailgidwani.app/experience.json', description: 'Work experience with detailed highlights' },
-        { url: 'https://sohailgidwani.app/research.json', description: 'Research projects with key results and methods' },
-        { url: 'https://sohailgidwani.app/llms.txt', description: 'Human-readable LLM summary (llms.txt standard)' },
-        { url: 'https://sohailgidwani.app/llms-full.txt', description: 'Comprehensive LLM profile' },
-      ],
-    },
-    mcpUsage: {
-      description: 'POST JSON-RPC 2.0 requests to https://sohailgidwani.app/api/mcp',
-      steps: [
-        {
-          step: 1,
-          name: 'initialize',
-          request: { jsonrpc: '2.0', id: 1, method: 'initialize', params: { protocolVersion: '2024-11-05', capabilities: {}, clientInfo: { name: 'your-client', version: '1.0' } } },
-        },
-        {
-          step: 2,
-          name: 'resources/list',
-          request: { jsonrpc: '2.0', id: 2, method: 'resources/list' },
-        },
-        {
-          step: 3,
-          name: 'resources/read',
-          request: { jsonrpc: '2.0', id: 3, method: 'resources/read', params: { uri: 'portfolio://profile' } },
-          availableUris: Object.keys(RESOURCES),
-        },
-      ],
+    description: 'Query portfolio data for Sohail Gidwani — AI/ML Engineer & Full-Stack Developer. POST JSON-RPC 2.0 requests to this endpoint.',
+    resources: Object.entries(RESOURCE_DESCRIPTIONS).map(([uri, description]) => ({ uri, description })),
+    usage: {
+      step1_initialize: {
+        method: 'initialize',
+        params: { protocolVersion: '2024-11-05', capabilities: {}, clientInfo: { name: 'your-client', version: '1.0' } },
+      },
+      step2_list: { method: 'resources/list' },
+      step3_read: { method: 'resources/read', params: { uri: 'portfolio://profile' } },
     },
   })
 }

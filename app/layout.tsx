@@ -2,7 +2,6 @@ import '@/app/globals.css'
 import { Syne, DM_Sans, JetBrains_Mono } from 'next/font/google'
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import Script from 'next/script'
 import { ThemeProvider } from './components/ThemeProvider'
 import type { Viewport } from 'next'
 
@@ -106,8 +105,7 @@ export default function RootLayout({
         <meta name="msapplication-TileColor" content="#0f0f0e" />
         <link rel="author" href="https://sohailgidwani.app" />
         <link rel="alternate" type="text/plain" title="LLM information" href="/llms.txt" />
-        <Script
-          id="structured-data"
+        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({

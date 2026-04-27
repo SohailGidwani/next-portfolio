@@ -13,7 +13,6 @@ import knowledgeHub3 from '@/public/images/KnowledgeHub_3.png'
 import knowledgeHub4 from '@/public/images/KnowledgeHub_4.png'
 import knowledgeHub5 from '@/public/images/KnowledgeHub_5.png'
 import ProjectSkeleton from "@/app/components/ProjectSkeleton"
-import ProjectDocument from "@/app/components/ProjectDocument"
 import ProjectNav from "@/app/components/ProjectNav"
 import ProjectDetailStructuredData from "@/app/components/ProjectDetailStructuredData"
 
@@ -441,20 +440,43 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                   </div>
                 </motion.section>
 
-                {/* Technical Documentation */}
-                <ProjectDocument
-                  title={project.technicalDocument.title}
-                  description={project.technicalDocument.description}
-                  url={project.technicalDocument.url}
-                  size={project.technicalDocument.size}
-                  delay={0.6}
-                />
+                {/* Technical Deep Dive CTA */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                  className="rounded border border-accent/30 bg-accent/5 p-6"
+                >
+                  <div className="mb-1 font-mono text-[10px] uppercase tracking-[0.22em] text-accent">Technical Deep Dive</div>
+                  <h3 className="mb-2 font-display text-lg font-bold text-foreground">Architecture, OCR Pipeline & Hybrid Ranking</h3>
+                  <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
+                    Every moving part explained: system architecture diagram, ingestion pipeline, full-text search in Postgres, pgvector semantic search with IVFFlat, z-score hybrid ranking, and the RAG prompt structure — with interactive SVG diagrams.
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    <Link
+                      href="/projects/knowledge-hub/deep-dive"
+                      className="inline-flex items-center gap-2 rounded bg-accent px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-white transition hover:bg-accent/90"
+                    >
+                      <FolderKanban className="h-4 w-4" />
+                      Read Deep Dive
+                    </Link>
+                    <a
+                      href={project.technicalDocument.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 rounded border border-border px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-muted-foreground transition hover:border-foreground/40 hover:text-foreground"
+                    >
+                      <FileText className="h-4 w-4" />
+                      PDF Version
+                    </a>
+                  </div>
+                </motion.div>
 
                 {/* CTA */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.65 }}
+                  transition={{ duration: 0.5, delay: 0.7 }}
                   className="flex flex-wrap gap-3 border-t border-border pt-8"
                 >
                   <a

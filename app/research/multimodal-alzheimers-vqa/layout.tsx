@@ -2,7 +2,7 @@ import { Metadata } from "next"
 
 export const metadata: Metadata = {
   title:
-    "Multi-Modal VLM + RAG VQA for Alzheimer's Detection — Sohail Gidwani Research",
+    "Multi-Modal VLM + RAG VQA for Alzheimer's Detection | Sohail Gidwani Research",
   description:
     "Technical deep dive on a multi-modal vision-language model (T1 MRI, DTI FA, clinical) for Alzheimer's disease prediction, extended with a retrieval-augmented VQA pipeline. 2,363 ADNI subjects, missing-modality cross-attention fusion, 0.707 DX3 balanced accuracy, three-way LLM comparison (Mistral 7B vs Gemma 4 26B vs MedGemma 1.5 4B).",
   keywords: [
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
         url: "/api/og?title=Multi-Modal%20VLM%20%2B%20RAG%20VQA%20for%20Alzheimer%27s&description=Multi-modal%20deep%20learning%20on%202%2C363%20ADNI%20subjects%20with%20missing-modality%20fusion%20and%20LLM%20comparison&type=project&tags=VLM,RAG,ADNI,MRI,LLM",
         width: 1200,
         height: 630,
-        alt: "Multi-Modal VLM for Alzheimer's Detection — Sohail Gidwani Research",
+        alt: "Multi-Modal VLM for Alzheimer's Detection | Sohail Gidwani Research",
       },
     ],
     locale: "en_US",

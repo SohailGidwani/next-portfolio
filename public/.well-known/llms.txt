@@ -35,7 +35,7 @@ Research Assistant at Keck School of Medicine of USC, working on multi-modal dee
 
 ## Projects
 
-- Knowledge Hub: Document management with OCR, semantic search (pgvector), and RAG Q&A via Ollama (https://sohailgidwani.app/projects/knowledge-hub)
+- Knowledge Hub: Document management with OCR, semantic search (pgvector), and RAG Q&A via Ollama (https://sohailgidwani.app/projects/knowledge-hub) — Technical Deep Dive: https://sohailgidwani.app/projects/knowledge-hub/deep-dive
 - Image Captioning: CNN + Transformer pipeline achieving 0.80 BLEU, deployed via Streamlit (https://sohailgidwani.app/projects/image-captioning)
 - ScribeGlobe: Medium-style blogging platform on Cloudflare Workers with Hono + React (https://sohailgidwani.app/projects/scribeglobe)
 - Tech Updates: AI-powered news aggregator using Azure OpenAI and Qdrant for semantic deduplication (https://sohailgidwani.app/projects/tech-updates)
@@ -54,21 +54,10 @@ Research Assistant at Keck School of Medicine of USC, working on multi-modal dee
 
 ## Machine-Readable Data
 
-REST endpoints (plain GET, no protocol needed):
-- Resume: https://sohailgidwani.app/resume.json (JSON Resume v1)
-- Projects: https://sohailgidwani.app/projects.json
-- Skills: https://sohailgidwani.app/skills.json
-- Experience: https://sohailgidwani.app/experience.json
-- Research: https://sohailgidwani.app/research.json
-
-MCP Server (JSON-RPC 2.0, POST):
-- Endpoint: https://sohailgidwani.app/api/mcp
-- Resources: portfolio://profile, portfolio://projects, portfolio://skills, portfolio://experience, portfolio://education, portfolio://research, portfolio://triumphs, portfolio://links
-- GET https://sohailgidwani.app/api/mcp for full schema and usage guide
-
-LLMs.txt:
-- Full profile: https://sohailgidwani.app/llms-full.txt
-- Well-known: https://sohailgidwani.app/.well-known/llms.txt
+- JSON Resume: https://sohailgidwani.app/resume.json (jsonresume.org v1 schema)
+- MCP Server: https://sohailgidwani.app/api/mcp (MCP protocol 2024-11-05, POST JSON-RPC 2.0)
+- LLMs.txt (full): https://sohailgidwani.app/llms-full.txt
+- LLMs.txt (well-known): https://sohailgidwani.app/.well-known/llms.txt
 
 ## Detailed Version
 

@@ -131,8 +131,11 @@ Technologies: Python, Ollama, Llama 3.2 3B, Qwen 2.5 7B, NLP, GSM8K, ARC-Challen
 ### Knowledge Hub — Semantic Search & Study Assistant
 https://github.com/SohailGidwani/knowledge_hub
 https://sohailgidwani.app/projects/knowledge-hub
+Technical Deep Dive: https://sohailgidwani.app/projects/knowledge-hub/deep-dive
 
 Built a Dockerized document management system with Flask and PostgreSQL+pgvector that ingests PDFs, images, and handwritten notes via OCR (OpenCV, PyMuPDF, Tesseract). Implements hybrid search combining full-text and vector similarity (Sentence-Transformers all-MiniLM-L6-v2) with confidence-aware ranking, intelligent chunking (300–700 tokens with overlap), and a RAG-powered Q&A pipeline backed by a local LLM via Ollama.
+
+Technical deep dive covers: system architecture, ingestion pipeline (Tesseract multi-pass + TrOCR fallback), full-text search in Postgres (tsvector/tsquery/ts_rank_cd), pgvector semantic search with IVFFlat ANN index, z-score hybrid ranking (α=0.6 semantic + β=0.4 FTS), and RAG prompt structure with citation enforcement.
 
 Technologies: Python, Flask, PostgreSQL, pgvector, OCR, RAG, Semantic Search, Ollama, Docker
 

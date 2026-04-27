@@ -114,7 +114,7 @@ const nextConfig = {
         ],
       },
       {
-        source: '/:file(resume|projects|skills|experience|research).json',
+        source: '/resume.json',
         headers: [
           { key: 'Content-Type', value: 'application/json; charset=utf-8' },
           { key: 'Cache-Control', value: 'public, max-age=86400, s-maxage=86400' },

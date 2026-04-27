@@ -317,8 +317,8 @@ export default function MultiModalAlzheimersVQAPage() {
                     </thead>
                     <tbody className="divide-y divide-border/50">
                       {[
-                        ["CN — Cognitively Normal", 669, 168, 837],
-                        ["MCI — Mild Cognitive Impairment", 650, 163, 813],
+                        ["CN - Cognitively Normal", 669, 168, 837],
+                        ["MCI - Mild Cognitive Impairment", 650, 163, 813],
                         ["Dementia", 570, 143, 713],
                       ].map(([name, tr, te, tot]) => (
                         <tr key={name as string}>
@@ -517,7 +517,7 @@ export default function MultiModalAlzheimersVQAPage() {
                         ["DX Binary (CN vs Dem)", "0.933", "0.932", "0.981", false],
                         ["Sex", "0.575", "0.563", "0.597", false],
                         ["Amyloid (A𝛽+ / A𝛽−)", "0.733", "0.733", "0.806", false],
-                        ["CN Amyloid — preclinical", "0.688", "0.695", "0.685", true],
+                        ["CN Amyloid - preclinical", "0.688", "0.695", "0.685", true],
                         ["MCI Amyloid", "0.604", "0.595", "0.723", false],
                         ["Dementia Amyloid", "0.484", "0.456", "0.906", false],
                       ].map((row) => {

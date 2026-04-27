@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Knowledge Hub — AI Document Management | Sohail Gidwani',
+  title: 'Knowledge Hub: AI Document Management | Sohail Gidwani',
   description: 'Flask + PostgreSQL app with pgvector that does OCR on handwritten notes and PDFs, enables semantic search, and answers questions via local RAG with Ollama.',
   keywords: ['Knowledge Hub', 'RAG', 'pgvector', 'OCR', 'Flask', 'Ollama', 'Sohail Gidwani', 'AI project'],
   authors: [{ name: 'Sohail Gidwani', url: 'https://sohailgidwani.app' }],
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     canonical: '/projects/knowledge-hub',
   },
   openGraph: {
-    title: 'Knowledge Hub — AI Document Management | Sohail Gidwani',
+    title: 'Knowledge Hub: AI Document Management | Sohail Gidwani',
     description: 'Flask + PostgreSQL app with pgvector that does OCR on handwritten notes and PDFs, enables semantic search, and answers questions via local RAG with Ollama.',
     url: 'https://sohailgidwani.app/projects/knowledge-hub',
     siteName: 'Sohail Gidwani Portfolio',
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Knowledge Hub — AI Document Management | Sohail Gidwani',
+    title: 'Knowledge Hub: AI Document Management | Sohail Gidwani',
     description: 'RAG document manager with OCR, pgvector semantic search, and local LLM Q&A.',
     images: ['/api/og'],
     creator: '@sohailgidwani',
