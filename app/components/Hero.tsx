@@ -58,7 +58,7 @@ function HeroStats() {
     {
       value: "LA",
       label: "Los Angeles, CA",
-      sub: "Open to remote · hybrid · remote",
+      sub: "Open to remote · hybrid · relocation",
     },
   ]
 
