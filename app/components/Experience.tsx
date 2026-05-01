@@ -25,6 +25,7 @@ interface ExperienceItem {
   logo: StaticImageData
   researchUrl?: string
   researchLabel?: string
+  note?: string
 }
 
 const experiences: ExperienceItem[] = [
@@ -53,7 +54,7 @@ const experiences: ExperienceItem[] = [
     company: "Insaito, Inc.",
     date: "May, 2025 - July, 2025",
     description:
-      "Built an AI agent builder platform from scratch — open-source LLM deployment (Qwen 3, Mistral 24B), OAuth for 100+ apps, and MCP server development. End-to-end ownership from backend infra to frontend UI.",
+      "Built an AI agent builder platform from scratch - open-source LLM deployment (Qwen 3, Mistral 24B), OAuth for 100+ apps, and MCP server development. End-to-end ownership from backend infra to frontend UI.",
     projects: [
       "AI Agent Builder Platform: Architecting and developing a comprehensive AI agent builder platform from the ground up, enabling users to create sophisticated AI agents with custom workflows and integrations.",
       "Open Source LLM Deployment: Deploying and optimizing open-source large language models including Qwen 3 and Mistral Small 24B 2, ensuring efficient performance and scalability for production environments.",
@@ -61,9 +62,10 @@ const experiences: ExperienceItem[] = [
       "MCP Server Development: Creating Model Context Protocol (MCP) servers for integrated applications, making all functions and capabilities available to the AI models for enhanced functionality and user experience.",
       "Full-Stack Development: Handling end-to-end development from backend infrastructure to frontend user interfaces, ensuring cohesive and performant AI agent experiences.",
     ],
-    tags: ["TypeScript", "Next.js", "Node.js", "MongoDB"],
+    tags: ["Python", "Flask", "Node.js", "GCP","MCP"],
     isLatest: false,
     logo: insaitoLogo,
+    note: "Joined while applying to MS programs. Received my USC admit the week I started. I chose to pursue the MS, communicated this openly with the team, and wrapped up cleanly.",
   },
   {
     id: "iifl",
@@ -175,6 +177,11 @@ export default function Experience() {
                     <Calendar className="h-3.5 w-3.5 text-accent" />
                     {featured.date}
                   </div>
+                  {featured.note ? (
+                    <p className="mt-1.5 text-xs italic text-muted-foreground/80">
+                      {featured.note}
+                    </p>
+                  ) : null}
                 </div>
               </div>
 
@@ -281,6 +288,12 @@ export default function Experience() {
                       {item.date}
                     </div>
 
+                    {item.note ? (
+                      <p className="mt-1.5 text-xs italic text-muted-foreground/80">
+                        {item.note}
+                      </p>
+                    ) : null}
+
                     <p className="mt-2.5 line-clamp-3 text-sm text-muted-foreground">{item.description}</p>
 
                     <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5">
@@ -337,6 +350,11 @@ export default function Experience() {
                   <DialogDescription className="text-sm text-muted-foreground">
                     {selected.company} · {selected.date}
                   </DialogDescription>
+                  {selected.note ? (
+                    <p className="mt-1.5 text-xs italic text-muted-foreground/80">
+                      {selected.note}
+                    </p>
+                  ) : null}
                 </div>
               </div>
             </DialogHeader>

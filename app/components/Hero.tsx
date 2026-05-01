@@ -54,7 +54,7 @@ function HeroStats() {
   }[] = [
     { value: "2+", label: "Years production experience" },
     { value: "3", label: "AI systems deployed at IIFL" },
-    { value: "71M", label: "Parameter Custom Model" },
+    { value: "70M", label: "Parameter Custom Model" },
     {
       value: "LA",
       label: "Los Angeles, CA",

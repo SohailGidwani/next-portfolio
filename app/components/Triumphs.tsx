@@ -75,7 +75,7 @@ export default function Triumphs() {
           viewport={{ once: true }}
           className="space-y-3"
         >
-          <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Triumphs</p>
+          <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Wins</p>
           <h2 className="font-display text-3xl text-foreground sm:text-4xl">
             Certifications and wins that shaped my journey.
           </h2>

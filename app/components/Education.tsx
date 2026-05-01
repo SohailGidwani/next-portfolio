@@ -1,7 +1,6 @@
 import Image, { StaticImageData } from "next/image"
 import uscLogo from "@/public/images/USC.jpg"
 import tsecLogo from "@/public/images/TSEC.jpeg"
-import jaiHindLogo from "@/public/images/JaiHind.jpg"
 
 interface EducationItem {
   degree: string
@@ -38,17 +37,6 @@ const education: EducationItem[] = [
     achievements: [],
     courses: ["Artificial Intelligence", "Machine Learning", "Advanced DBMS", "Cloud Computing", "Data Structures & Algorithms", "Operating Systems", "Software Engineering", "Object-Oriented Programming", "Big Data Analytics", "Computer Networks", "Cryptography & System Security", "Blockchain"],
     logo: tsecLogo,
-  },
-  {
-    degree: "Science - HSC",
-    institution: "Jai Hind College, Mumbai",
-    year: "2017 - 2019",
-    cgpa: "Percentage - 71.38%",
-    location: "Mumbai, India",
-    description: "Foundation in science and mathematics with early exposure to computer science.",
-    achievements: [],
-    courses: ["Physics", "Chemistry", "Mathematics", "Computer Science"],
-    logo: jaiHindLogo,
   },
 ]
 
