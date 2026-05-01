@@ -482,47 +482,4 @@
     animation: shimmer 1.6s infinite;
   }
 
-  /* About portrait — subtle continuous frame + ambient (not scroll-driven) */
-  @keyframes about-portrait-border-flow {
-    0% {
-      background-position: 0% 50%;
-    }
-    100% {
-      background-position: 200% 50%;
-    }
-  }
-
-  @keyframes about-portrait-glow-breathe {
-    0%,
-    100% {
-      opacity: 0.22;
-      transform: scale(0.94);
-    }
-    50% {
-      opacity: 0.38;
-      transform: scale(1);
-    }
-  }
-
-  .about-portrait-frame {
-    background: linear-gradient(
-      110deg,
-      var(--border),
-      color-mix(in oklch, var(--fg) 42%, transparent),
-      color-mix(in oklch, var(--accent) 32%, transparent),
-      color-mix(in oklch, var(--fg) 38%, transparent),
-      var(--border)
-    );
-    background-size: 220% 100%;
-    animation: about-portrait-border-flow 16s ease-in-out infinite;
-  }
-
-  .about-portrait-ambient {
-    background: radial-gradient(
-      ellipse 80% 70% at 50% 45%,
-      color-mix(in oklch, var(--accent) 28%, transparent),
-      transparent 72%
-    );
-    animation: about-portrait-glow-breathe 6s ease-in-out infinite;
-  }
 }

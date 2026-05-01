@@ -50,16 +50,11 @@ function HeroStats() {
   const items: {
     value: string
     label: string
-    sub?: string
   }[] = [
     { value: "2+", label: "Years production experience" },
     { value: "3", label: "AI systems deployed at IIFL" },
     { value: "70M", label: "Parameter Custom Model" },
-    {
-      value: "LA",
-      label: "Los Angeles, CA",
-      sub: "Open to remote · hybrid · relocation",
-    },
+    { value: "LA", label: "Currently based" },
   ]
 
   return (
@@ -73,11 +68,6 @@ function HeroStats() {
             <p className="mt-1.5 font-mono text-[8px] font-medium uppercase leading-snug tracking-[0.18em] text-muted-foreground sm:mt-2 sm:text-[10px] sm:tracking-[0.22em]">
               {item.label}
             </p>
-            {item.sub ? (
-              <p className="mt-1 font-body text-[11px] font-normal leading-snug text-muted-foreground sm:text-xs">
-                {item.sub}
-              </p>
-            ) : null}
           </div>
         ))}
       </div>
@@ -176,6 +166,21 @@ export default function Hero() {
           I build AI systems that actually work in production, not just in notebooks. Full-stack engineering meets applied
           machine learning.
         </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, delay: 0.4 * ds }}
+          className="mt-4 flex items-center justify-start gap-2 sm:mt-5 md:justify-center"
+        >
+          <span aria-hidden className="relative flex h-1.5 w-1.5 shrink-0">
+            <span className="absolute inset-0 animate-ping rounded-full bg-accent/70" />
+            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
+          </span>
+          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground sm:text-[11px] sm:tracking-[0.2em]">
+            Open to work · Remote · Hybrid · Relocation
+          </p>
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 14 }}
