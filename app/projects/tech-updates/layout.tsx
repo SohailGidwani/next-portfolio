@@ -1,24 +1,24 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Tech Updates: AI News Aggregator with Semantic Deduplication | Sohail Gidwani',
-  description: 'AI-powered news aggregator using Azure OpenAI for summarization and Qdrant vector DB for semantic duplicate detection across multiple RSS feeds.',
-  keywords: ['Tech Updates', 'Azure OpenAI', 'Qdrant', 'Vector Search', 'News Aggregator', 'Semantic Search', 'FastAPI', 'Sohail Gidwani'],
+  title: 'Tech Updates: Personal AI News Aggregator | Sohail Gidwani',
+  description: 'Full-stack app that scrapes tech articles from multiple sources, categorizes them with Azure OpenAI, embeds them into Qdrant, and serves a React + Vite frontend with semantic search.',
+  keywords: ['Tech Updates', 'Azure OpenAI', 'Qdrant', 'Vector Search', 'News Aggregator', 'Semantic Search', 'Flask', 'SentenceTransformers', 'React', 'Vite', 'Sohail Gidwani'],
   authors: [{ name: 'Sohail Gidwani', url: 'https://sohailgidwani.app' }],
   alternates: {
     canonical: '/projects/tech-updates',
   },
   openGraph: {
-    title: 'Tech Updates: AI News Aggregator with Semantic Deduplication | Sohail Gidwani',
-    description: 'Azure OpenAI + Qdrant vector DB for AI-powered news aggregation and semantic deduplication.',
+    title: 'Tech Updates: Personal AI News Aggregator | Sohail Gidwani',
+    description: 'Flask + Azure OpenAI + Qdrant + React. Personal tech news aggregator with LLM categorization and semantic search.',
     url: 'https://sohailgidwani.app/projects/tech-updates',
     siteName: 'Sohail Gidwani Portfolio',
     images: [
       {
-        url: '/api/og?title=Tech%20Updates&description=AI-powered%20tech%20news%20aggregator%20with%20Azure%20OpenAI%20summarization%20and%20Qdrant%20semantic%20deduplication&type=project&tags=Flask,Azure%20OpenAI,Qdrant,Vector%20Search,React',
+        url: '/api/og?title=Tech%20Updates&description=Personal%20AI%20news%20aggregator%20with%20Azure%20OpenAI%20categorization%20and%20Qdrant%20semantic%20search&type=project&tags=Flask,Azure%20OpenAI,Qdrant,SentenceTransformers,React',
         width: 1200,
         height: 630,
-        alt: 'Tech Updates: AI News Aggregator with Semantic Deduplication | Sohail Gidwani',
+        alt: 'Tech Updates: Personal AI News Aggregator | Sohail Gidwani',
       },
     ],
     locale: 'en_US',
@@ -26,10 +26,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Tech Updates: AI News Aggregator | Sohail Gidwani',
-    description: 'Azure OpenAI + Qdrant semantic deduplication for AI-curated news.',
+    title: 'Tech Updates: Personal AI News Aggregator | Sohail Gidwani',
+    description: 'Flask + Azure OpenAI + Qdrant + React. Scrapes tech news, categorizes with an LLM, and lets you search by meaning.',
     images: [
-      '/api/og?title=Tech%20Updates&description=AI-powered%20tech%20news%20aggregator%20with%20Azure%20OpenAI%20summarization%20and%20Qdrant%20semantic%20deduplication&type=project&tags=Flask,Azure%20OpenAI,Qdrant,Vector%20Search,React',
+      '/api/og?title=Tech%20Updates&description=Personal%20AI%20news%20aggregator%20with%20Azure%20OpenAI%20categorization%20and%20Qdrant%20semantic%20search&type=project&tags=Flask,Azure%20OpenAI,Qdrant,SentenceTransformers,React',
     ],
     creator: '@sohailgidwani',
   },

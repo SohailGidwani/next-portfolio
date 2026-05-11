@@ -65,11 +65,11 @@ export const projects: ProjectData[] = [
   {
     id: "tech-updates",
     title: "Tech Updates",
-    shortDescription: "Scrapes tech news from multiple sources, AI sorts it for me.",
+    shortDescription: "Scrapes tech news, an LLM sorts it, Qdrant makes it searchable.",
     description:
-      "Python scrapes articles from Medium, YC, and Crunchbase. Azure OpenAI categorizes them, Qdrant stores the vectors, and a Flask + React frontend serves it all up.",
+      "Personal tech news aggregator I built so I would stop opening five tabs every morning. A Flask backend scrapes Medium, YC-related feeds, and Crunchbase, Azure OpenAI categorizes the articles, and embeddings in Qdrant power semantic search. React + Vite serves the feed.",
     image: techupdates,
-    tags: ["Flask", "Azure OpenAI", "Qdrant"],
+    tags: ["Flask", "Azure OpenAI", "Qdrant", "React"],
     github: "https://github.com/SohailGidwani/Project-TechUpdates",
     featured: false,
   },
