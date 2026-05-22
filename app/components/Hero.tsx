@@ -6,7 +6,6 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { ArrowDown, ArrowUpRight, Github, Linkedin } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
 import { smoothScrollToId } from "@/app/utils/smoothScroll"
-import SkillsTicker from "./SkillsTicker"
 
 const ShootingStars = dynamic(() => import("./ShootingStars"), { ssr: false })
 
@@ -137,13 +136,13 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-[100svh] flex-col pb-0 pt-[calc(var(--nav-h)+1.25rem)]"
+      className="relative min-h-[100svh] border-b border-border pt-[calc(var(--nav-h)+1.25rem)]"
     >
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden>
         <ShootingStars />
       </div>
 
-      <div className="container relative z-[1] mx-auto flex flex-1 flex-col items-start justify-center pb-14 pt-6 text-left sm:pb-16 md:items-center md:text-center">
+      <div className="container relative z-[1] mx-auto flex min-h-[calc(100svh-var(--nav-h)-1.25rem)] flex-col items-start justify-center pb-16 pt-6 text-left sm:pb-20 md:items-center md:text-center">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -249,10 +248,6 @@ export default function Hero() {
         >
           <HeroStats />
         </motion.div>
-      </div>
-
-      <div className="relative z-[1] mt-auto w-full min-w-0 shrink-0">
-        <SkillsTicker />
       </div>
     </section>
   )
