@@ -35,7 +35,7 @@
       "highlights": [
         "Architected multi-modal pipeline across 2,363 ADNI subjects; 72.7% balanced accuracy on 3-class diagnosis, 93.1% on binary (CN vs Dementia)",
         "Designed missing-modality fusion via cross-attention with modality dropout; nearly doubled preclinical amyloid detection sensitivity from 29% to 56%",
-        "Built end-to-end experimentation infrastructure: two-stage training (CLIP contrastive pre-training → multi-task fine-tuning), modality ablation across 7 combinations, ~71M parameter models"
+        "Built end-to-end experimentation infrastructure: two-stage training (CLIP contrastive pre-training → multi-task fine-tuning), modality ablation across 7 combinations, ~70M parameter models"
       ]
     },
     {

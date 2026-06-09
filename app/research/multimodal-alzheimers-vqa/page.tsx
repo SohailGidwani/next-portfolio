@@ -2,6 +2,7 @@ import Link from "next/link"
 import Script from "next/script"
 import { Home, FileText, Github, Brain, Microscope, MessageSquare } from "lucide-react"
 import ThemeToggle from "@/app/components/ThemeToggle"
+import BreadcrumbStructuredData from "@/app/components/BreadcrumbStructuredData"
 import VLMArchitecture from "./components/VLMArchitecture"
 import VQAPipeline from "./components/VQAPipeline"
 import ConfusionMatrix from "./components/ConfusionMatrix"
@@ -172,6 +173,12 @@ export default function MultiModalAlzheimersVQAPage() {
         id="research-structured-data"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      <BreadcrumbStructuredData
+        id="research-breadcrumb"
+        items={[
+          { name: "Multimodal Alzheimer's VQA Research", item: "/research/multimodal-alzheimers-vqa" },
+        ]}
       />
 
       <div className="min-h-screen overflow-x-hidden bg-background text-foreground">

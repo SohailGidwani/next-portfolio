@@ -17,7 +17,7 @@ Sohail Gidwani is an AI/ML engineer and full-stack developer graduating with a M
 
 ## Current Role
 
-Research Assistant at Keck School of Medicine of USC, working on multi-modal deep learning for Alzheimer's disease prediction using neuroimaging and clinical data across 71M+ parameter models.
+Research Assistant at Keck School of Medicine of USC, working on multi-modal deep learning for Alzheimer's disease prediction using neuroimaging and clinical data across ~70M parameter models.
 
 ## Key Skills
 

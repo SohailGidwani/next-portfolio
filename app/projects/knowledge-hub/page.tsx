@@ -40,9 +40,8 @@ export default function KnowledgeHubPage() {
   const project = {
     title: "Knowledge Hub - AI-Powered Document Management",
     description: "A document manager I built for my USC coursework. It does OCR on handwritten notes and PDFs, runs semantic search with pgvector, and answers questions about your docs using a local LLM.",
-    longDescription: `I built Knowledge Hub because I was tired of digging through hundreds of course PDFs and lecture notes during my MS in CS at USC. I wanted one place where I could dump all my documents and actually find what I needed quickly.
-
-The system takes in PDFs and images, runs OCR to extract text (even from handwritten notes), chunks everything up, and stores vector embeddings in PostgreSQL with pgvector. That gives me two ways to search: regular full-text search and semantic search, where I can ask a question in plain English and get back the most relevant passages.
+    why: `I built Knowledge Hub because I was tired of digging through hundreds of course PDFs and lecture notes during my MS in CS at USC. I wanted one place where I could dump all my documents and actually find what I needed quickly.`,
+    how: `The system takes in PDFs and images, runs OCR to extract text (even from handwritten notes), chunks everything up, and stores vector embeddings in PostgreSQL with pgvector. That gives me two ways to search: regular full-text search and semantic search, where I can ask a question in plain English and get back the most relevant passages.
 
 The part I'm most proud of is the Q&A feature. It uses RAG with a local LLM running on Ollama (gemma3:1b) to answer questions about my documents and cite exactly where the answer came from. No API keys, no cloud dependency, everything runs locally.
 
@@ -287,25 +286,37 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                   </div>
                 </motion.section>
 
-                {/* 02 — Project Story */}
+                {/* 02 — Why I Built It */}
                 <motion.section
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.25 }}
                 >
-                  <SectionLabel n="02" label="Project Story" />
+                  <SectionLabel n="02" label="Why I Built It" />
                   <p className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
-                    {project.longDescription}
+                    {project.why}
                   </p>
                 </motion.section>
 
-                {/* 03 — Upload & Processing */}
+                {/* 03 — How It Works */}
+                <motion.section
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.28 }}
+                >
+                  <SectionLabel n="03" label="How It Works" />
+                  <p className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
+                    {project.how}
+                  </p>
+                </motion.section>
+
+                {/* 04 — Upload & Processing */}
                 <motion.section
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.30 }}
                 >
-                  <SectionLabel n="03" label="Upload & Processing" />
+                  <SectionLabel n="04" label="Upload & Processing" />
                   <div className="grid gap-4 sm:grid-cols-2">
                     {project.images.upload.map((image, index) => (
                       <div
@@ -325,13 +336,13 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                   </div>
                 </motion.section>
 
-                {/* 04 — AI Question Answering */}
+                {/* 05 — AI Question Answering */}
                 <motion.section
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.35 }}
                 >
-                  <SectionLabel n="04" label="AI Question Answering" />
+                  <SectionLabel n="05" label="AI Question Answering" />
                   <div className="grid gap-4 sm:grid-cols-2">
                     {project.images.llmResponses.map((image, index) => (
                       <div
@@ -351,13 +362,13 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                   </div>
                 </motion.section>
 
-                {/* 05 — Key Features */}
+                {/* 06 — Key Features */}
                 <motion.section
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.40 }}
                 >
-                  <SectionLabel n="05" label="Key Features" />
+                  <SectionLabel n="06" label="Key Features" />
                   <div className="grid gap-4 sm:grid-cols-2">
                     {project.features.map((feature, index) => (
                       <div
@@ -376,13 +387,13 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                   </div>
                 </motion.section>
 
-                {/* 06 — Technical Stack */}
+                {/* 07 — Technical Stack */}
                 <motion.section
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.45 }}
                 >
-                  <SectionLabel n="06" label="Technical Stack" />
+                  <SectionLabel n="07" label="Technical Stack" />
                   <div className="overflow-hidden rounded border border-border bg-card">
                     <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
                       <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
@@ -403,13 +414,13 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                   </div>
                 </motion.section>
 
-                {/* 07 — Friction & Takeaways */}
+                {/* 08 — Friction & Takeaways */}
                 <motion.section
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.55 }}
                 >
-                  <SectionLabel n="07" label="Friction & Takeaways" />
+                  <SectionLabel n="08" label="Friction & Takeaways" />
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div className="rounded border border-border bg-card p-5">
                       <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">

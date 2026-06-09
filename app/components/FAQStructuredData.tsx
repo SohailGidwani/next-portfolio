@@ -26,7 +26,7 @@ export default function FAQStructuredData() {
         "name": "What kind of projects has Sohail Gidwani worked on?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Sohail has worked on various AI/ML projects including: Knowledge Hub (AI-powered document management with OCR and RAG), Image Captioning systems using CNN and Transformer models, ScribeGlobe (full-stack blogging platform), Tech Updates (AI-powered news aggregator), and custom data chatbots for enterprise support."
+          "text": "Sohail has worked on various AI/ML projects including: Knowledge Hub (AI-powered document management with OCR and RAG), CoT Faithfulness Analysis (a USC NLP study probing whether chain-of-thought reasoning in LLMs actually drives their answers), multi-modal deep learning research for Alzheimer's disease prediction at Keck School of Medicine of USC, Image Captioning systems using CNN and Transformer models, ScribeGlobe (full-stack blogging platform), Tech Updates (AI-powered news aggregator), and custom data chatbots for enterprise support."
         }
       },
       {

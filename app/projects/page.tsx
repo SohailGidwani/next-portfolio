@@ -6,11 +6,16 @@ import { ArrowUpRight, Github } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import ProjectNav from "@/app/components/ProjectNav"
+import BreadcrumbStructuredData from "@/app/components/BreadcrumbStructuredData"
 import { projects } from "@/app/data/projects"
 
 export default function ProjectsPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <BreadcrumbStructuredData
+        id="projects-breadcrumb"
+        items={[{ name: "Projects", item: "/projects" }]}
+      />
       <ProjectNav />
 
       <div className="container mx-auto px-4 py-12">

@@ -34,7 +34,7 @@ export const viewport: Viewport = {
 }
 
 export const metadata = {
-  title: 'Sohail Gidwani - AI Developer | AI Agent Engineer | RAG Developer | Full Stack Developer',
+  title: 'Sohail Gidwani - AI Developer | AI Agent Engineer',
   description: 'Sohail Gidwani is a passionate AI Agent Engineer specializing in RAG, Full Stack Development, and automation. USC Computer Science graduate student interested in AI, gaming, and travel. View portfolio, projects, and experience.',
   keywords: 'Sohail Gidwani, Software Developer, AI Agent Engineer, AI Developer, RAG Developer, Full Stack Developer, Mumbai, India, Python, React, Node.js, Machine Learning, Artificial Intelligence, Portfolio, Gaming, Travel, Personal Interests',
   authors: [{ name: 'Sohail Gidwani' }],
@@ -50,7 +50,7 @@ export const metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'Sohail Gidwani - AI Developer | AI Agent Engineer | RAG Developer | Full Stack Developer',
+    title: 'Sohail Gidwani - AI Developer | AI Agent Engineer',
     description: 'Sohail Gidwani is a passionate AI Developer specializing in RAG, Full Stack Development, and automation. USC Computer Science graduate student interested in AI, gaming, and travel.',
     url: 'https://sohailgidwani.app',
     siteName: 'Sohail Gidwani Portfolio',
@@ -67,7 +67,7 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Sohail Gidwani - AI Developer | AI Agent Engineer | RAG Developer | Full Stack Developer',
+    title: 'Sohail Gidwani - AI Developer | AI Agent Engineer',
     description: 'Sohail Gidwani is a passionate AI Developer specializing in RAG, Full Stack Development, and automation. USC CS student interested in AI, gaming, and travel.',
     images: ['/api/og'],
     creator: '@sohailgidwani',
@@ -240,7 +240,7 @@ export default function RootLayout({
                   "name": "Sohail Gidwani - AI Developer Portfolio",
                   "mainEntity": { "@id": "https://sohailgidwani.app/#person" },
                   "dateCreated": "2024-01-01",
-                  "dateModified": new Date().toISOString().split('T')[0],
+                  "dateModified": "2026-06-09",
                   "inLanguage": "en"
                 }
               ]

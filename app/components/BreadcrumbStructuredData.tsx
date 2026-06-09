@@ -1,7 +1,36 @@
 import Script from 'next/script'
 
-export default function BreadcrumbStructuredData() {
-  const breadcrumbData = {
+const SITE_URL = 'https://sohailgidwani.app'
+
+type Crumb = {
+  name: string
+  /** Path relative to the site root, e.g. "/projects". Absolute URLs pass through unchanged. */
+  item: string
+}
+
+type BreadcrumbStructuredDataProps = {
+  /** Trail for the current page, excluding Home (added automatically). */
+  items?: Crumb[]
+  /** Unique script id when multiple breadcrumb scripts could coexist. */
+  id?: string
+}
+
+export default function BreadcrumbStructuredData({ items, id }: BreadcrumbStructuredDataProps) {
+  const breadcrumbData = items
+    ? {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL },
+          ...items.map((crumb, index) => ({
+            "@type": "ListItem",
+            "position": index + 2,
+            "name": crumb.name,
+            "item": crumb.item.startsWith('http') ? crumb.item : `${SITE_URL}${crumb.item}`,
+          })),
+        ],
+      }
+    : {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
@@ -64,7 +93,7 @@ export default function BreadcrumbStructuredData() {
 
   return (
     <Script
-      id="breadcrumb-structured-data"
+      id={id ?? "breadcrumb-structured-data"}
       type="application/ld+json"
       dangerouslySetInnerHTML={{
         __html: JSON.stringify(breadcrumbData)

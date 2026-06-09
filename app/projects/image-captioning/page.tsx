@@ -29,13 +29,17 @@ export default function ImageCaptioningPage() {
   const project = {
     title: "Image Feature Detection & Captioning",
     description: "Trained a CNN + Transformer pipeline that generates captions for images. The Transformer model scored 0.80 BLEU. Built a Streamlit UI so you can try it yourself.",
-    longDescription: `I wanted to build something that could look at an image and describe what's in it. The idea was straightforward, but getting it to actually work well took some effort.
-
-I used VGG-16 as the image encoder to extract feature vectors, then fed those into two different decoders: an LSTM and a Transformer. The LSTM got a BLEU score of 0.65, which was decent, but the Transformer with attention hit 0.80 and generated noticeably better captions. The attention mechanism really helped the model focus on the right parts of the image.
+    why: `I wanted to build something that could look at an image and describe what's in it. The idea was straightforward, but getting it to actually work well took some effort.`,
+    how: `I used VGG-16 as the image encoder to extract feature vectors, then fed those into two different decoders: an LSTM and a Transformer with attention.
 
 I wrapped the whole thing in a Streamlit app so you can upload any image and get a caption back in a few seconds. It's a simple UI, but it makes the model feel real instead of just numbers in a notebook.
 
 The hardest part was honestly the training pipeline. VGG-16 is memory-hungry, the Transformer needed careful hyperparameter tuning, and I spent more time on data preprocessing than I'd like to admit.`,
+    results: `The LSTM got a BLEU score of 0.65, which was decent, but the Transformer hit 0.80 and generated noticeably better captions. The attention mechanism really helped the model focus on the right parts of the image.`,
+    resultRows: [
+      { model: "LSTM decoder", bleu: "0.65" },
+      { model: "Transformer decoder (attention)", bleu: "0.80" },
+    ],
     image: imagecaption,
     tags: ["Python", "TensorFlow", "CNN", "Transformer", "LSTM", "StreamLit", "Computer Vision", "NLP"],
     github: "https://github.com/SohailGidwani/Image-Caption",
@@ -174,25 +178,63 @@ The hardest part was honestly the training pipeline. VGG-16 is memory-hungry, th
                   </div>
                 </motion.section>
 
-                {/* 02 — Overview */}
+                {/* 02 — Why I Built It */}
                 <motion.section
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.25 }}
                 >
-                  <SectionLabel n="02" label="Overview" />
+                  <SectionLabel n="02" label="Why I Built It" />
                   <p className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
-                    {project.longDescription}
+                    {project.why}
                   </p>
                 </motion.section>
 
-                {/* 03 — Key Features */}
+                {/* 03 — How It Works */}
+                <motion.section
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
+                  <SectionLabel n="03" label="How It Works" />
+                  <p className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
+                    {project.how}
+                  </p>
+                </motion.section>
+
+                {/* 04 — Results */}
+                <motion.section
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.32 }}
+                >
+                  <SectionLabel n="04" label="Results" />
+                  <p className="mb-5 text-base leading-relaxed text-muted-foreground">
+                    {project.results}
+                  </p>
+                  <div className="overflow-hidden rounded border border-border bg-card">
+                    <div className="grid grid-cols-2 border-b border-border bg-card/60">
+                      <div className="px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Decoder</div>
+                      <div className="border-l border-border px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">BLEU Score</div>
+                    </div>
+                    <div className="divide-y divide-border/50">
+                      {project.resultRows.map((row) => (
+                        <div key={row.model} className="grid grid-cols-2">
+                          <div className="px-4 py-3 text-sm text-foreground">{row.model}</div>
+                          <div className="border-l border-border px-4 py-3 font-mono text-sm text-muted-foreground">{row.bleu}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </motion.section>
+
+                {/* 05 — Key Features */}
                 <motion.section
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.35 }}
                 >
-                  <SectionLabel n="03" label="Key Features" />
+                  <SectionLabel n="05" label="Key Features" />
                   <div className="grid gap-4 sm:grid-cols-2">
                     {project.features.map((feature, index) => (
                       <div
@@ -211,13 +253,13 @@ The hardest part was honestly the training pipeline. VGG-16 is memory-hungry, th
                   </div>
                 </motion.section>
 
-                {/* 04 — Technical Stack */}
+                {/* 06 — Technical Stack */}
                 <motion.section
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.45 }}
                 >
-                  <SectionLabel n="04" label="Technical Stack" />
+                  <SectionLabel n="06" label="Technical Stack" />
                   <div className="overflow-hidden rounded border border-border bg-card">
                     <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
                       <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
@@ -238,13 +280,13 @@ The hardest part was honestly the training pipeline. VGG-16 is memory-hungry, th
                   </div>
                 </motion.section>
 
-                {/* 05 — Friction & Takeaways */}
+                {/* 07 — Friction & Takeaways */}
                 <motion.section
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.55 }}
                 >
-                  <SectionLabel n="05" label="Friction & Takeaways" />
+                  <SectionLabel n="07" label="Friction & Takeaways" />
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div className="rounded border border-border bg-card p-5">
                       <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">

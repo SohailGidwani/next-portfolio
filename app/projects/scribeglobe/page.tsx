@@ -29,9 +29,8 @@ export default function ScribeGlobePage() {
   const project = {
     title: "ScribeGlobe (Medium-like Blogging site)",
     description: "A Medium-style blogging platform I built to learn serverless. React + Vite frontend, Hono running on Cloudflare Workers, Postgres for the data.",
-    longDescription: `I wanted to build something real to learn serverless and edge computing, so I made a Medium-style blogging platform from scratch. The idea was simple: if I could get a full CRUD app running on Cloudflare Workers with a real database, I'd actually understand how serverless works beyond the marketing pitch.
-
-The frontend is React + Vite with TypeScript and Tailwind. Nothing fancy, but it's fast and the DX is great. The interesting part is the backend: I used Hono as the framework running on Cloudflare Workers, which means the API runs at the edge, close to wherever the user is. Postgres handles all the data (users, articles, auth tokens).
+    why: `I wanted to build something real to learn serverless and edge computing, so I made a Medium-style blogging platform from scratch. The idea was simple: if I could get a full CRUD app running on Cloudflare Workers with a real database, I'd actually understand how serverless works beyond the marketing pitch.`,
+    how: `The frontend is React + Vite with TypeScript and Tailwind. Nothing fancy, but it's fast and the DX is great. The interesting part is the backend: I used Hono as the framework running on Cloudflare Workers, which means the API runs at the edge, close to wherever the user is. Postgres handles all the data (users, articles, auth tokens).
 
 You can sign up, write posts with markdown, preview them in real time, and publish. The whole thing is typed end-to-end with TypeScript, which caught a ton of bugs before they happened. I also spent a lot of time on the responsive layout since blog content needs to read well on any screen size.`,
     image: blogsite,
@@ -158,25 +157,37 @@ You can sign up, write posts with markdown, preview them in real time, and publi
                   </div>
                 </motion.section>
 
-                {/* 02 — Overview */}
+                {/* 02 — Why I Built It */}
                 <motion.section
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.25 }}
                 >
-                  <SectionLabel n="02" label="Overview" />
+                  <SectionLabel n="02" label="Why I Built It" />
                   <p className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
-                    {project.longDescription}
+                    {project.why}
                   </p>
                 </motion.section>
 
-                {/* 03 — Key Features */}
+                {/* 03 — How It Works */}
+                <motion.section
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
+                  <SectionLabel n="03" label="How It Works" />
+                  <p className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
+                    {project.how}
+                  </p>
+                </motion.section>
+
+                {/* 04 — Key Features */}
                 <motion.section
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.35 }}
                 >
-                  <SectionLabel n="03" label="Key Features" />
+                  <SectionLabel n="04" label="Key Features" />
                   <div className="grid gap-4 sm:grid-cols-2">
                     {project.features.map((feature, index) => (
                       <div
@@ -195,13 +206,13 @@ You can sign up, write posts with markdown, preview them in real time, and publi
                   </div>
                 </motion.section>
 
-                {/* 04 — Technical Stack */}
+                {/* 05 — Technical Stack */}
                 <motion.section
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.45 }}
                 >
-                  <SectionLabel n="04" label="Technical Stack" />
+                  <SectionLabel n="05" label="Technical Stack" />
                   <div className="overflow-hidden rounded border border-border bg-card">
                     <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
                       <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
@@ -222,13 +233,13 @@ You can sign up, write posts with markdown, preview them in real time, and publi
                   </div>
                 </motion.section>
 
-                {/* 05 — Friction & Takeaways */}
+                {/* 06 — Friction & Takeaways */}
                 <motion.section
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.55 }}
                 >
-                  <SectionLabel n="05" label="Friction & Takeaways" />
+                  <SectionLabel n="06" label="Friction & Takeaways" />
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div className="rounded border border-border bg-card p-5">
                       <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">

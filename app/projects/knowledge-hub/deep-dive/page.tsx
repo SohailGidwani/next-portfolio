@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Home, ArrowLeft, Github, Database, Brain, Search, FileText, Zap, Shield, Telescope } from "lucide-react"
 import ThemeToggle from "@/app/components/ThemeToggle"
+import BreadcrumbStructuredData from "@/app/components/BreadcrumbStructuredData"
 import SystemArchitecture from "./components/SystemArchitecture"
 import IngestionPipeline from "./components/IngestionPipeline"
 import HybridRanking from "./components/HybridRanking"
@@ -71,6 +72,14 @@ export default function KnowledgeHubDeepDivePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      <BreadcrumbStructuredData
+        id="deep-dive-breadcrumb"
+        items={[
+          { name: "Projects", item: "/projects" },
+          { name: "Knowledge Hub", item: "/projects/knowledge-hub" },
+          { name: "Technical Deep Dive", item: "/projects/knowledge-hub/deep-dive" },
+        ]}
       />
 
       <div className="min-h-screen overflow-x-hidden bg-background text-foreground">

@@ -300,7 +300,7 @@ const research = [
       '93.1% accuracy on binary classification (CN vs Dementia)',
       'Missing-modality fusion: amyloid detection sensitivity doubled from 29% to 56%',
       'RAG VQA: Mistral 7B achieves 94.7% diagnosis accuracy; outperforms Gemma 4 26B MoE and MedGemma 1.5 4B',
-      '~71M parameter models; 7-combination modality ablation study',
+      '~70M parameter models; 7-combination modality ablation study',
     ],
     methods: [
       'CLIP contrastive pre-training on neuroimaging + clinical pairs',

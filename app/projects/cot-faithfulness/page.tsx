@@ -102,7 +102,7 @@ export default function CoTFaithfulnessPage() {
     <>
       <ProjectDetailStructuredData
         title="CoT Faithfulness Analysis"
-        description="USC CSCI-544 NLP research. Four experiments — step truncation (SCR), reasoning corruption (CFR), and biased hint injection (SBH) — testing whether chain-of-thought in Llama 3.2 3B and Qwen 2.5 7B causally drives answers or is post-hoc rationalization across GSM8K and ARC-Challenge."
+        description="USC CSCI-544 NLP research. Four experiments (step truncation, reasoning corruption, and biased hint injection) testing whether chain-of-thought in Llama 3.2 3B and Qwen 2.5 7B causally drives answers or is post-hoc rationalization across GSM8K and ARC-Challenge."
         slug="cot-faithfulness"
         image="/images/cot_faithfulness.jpeg"
         keywords={tags}
@@ -196,10 +196,13 @@ export default function CoTFaithfulnessPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.2 }}
                 >
-                  <SectionLabel n="02" label="Overview" />
+                  <SectionLabel n="02" label="The Question" />
                   <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                     <p>
-                      The question that drove this project is deceptively simple: when an LLM writes out its reasoning, does that reasoning actually change what answer it gives? Four experiments probe this across two locally-run models (Llama 3.2 3B and Qwen 2.5 7B) and two benchmarks (GSM8K math and ARC-Challenge science), collecting roughly 15,000 queries over a 6.2-hour run.
+                      The question that drove this project is deceptively simple: when an LLM writes out its reasoning, does that reasoning actually change what answer it gives? The short answer: it depends on the task. For math, the reasoning is partially faithful and the model genuinely needs the chain. For science multiple choice, the chain is largely unfaithful, mostly written to explain an answer the model already decided on.
+                    </p>
+                    <p>
+                      Four experiments probe this across two locally-run models (Llama 3.2 3B and Qwen 2.5 7B) and two benchmarks (GSM8K math and ARC-Challenge science), collecting roughly 15,000 queries over a 6.2-hour run.
                     </p>
                     <p>
                       The baseline first checks whether CoT even helps. For math, it does in a big way: Llama jumps from 5.2% to 48.8%, and Qwen from 16% to 65.6%. For science multiple-choice, both models score <em>worse</em> with CoT. That contrast is the through-line of every other experiment.
