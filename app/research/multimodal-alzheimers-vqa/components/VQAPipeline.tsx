@@ -225,15 +225,16 @@ export default function VQAPipeline() {
 
           {/* Flow labels */}
           <text x={670} y={midY - 42} textAnchor="middle" className="font-mono italic" style={{ fontSize: 12, fill: "var(--muted)" }}>top-50</text>
-          <text x={870} y={midY - 42} textAnchor="middle" className="font-mono italic" style={{ fontSize: 12, fill: "var(--muted)" }}>top-5 context</text>
+          <text x={870} y={midY - 54} textAnchor="middle" className="font-mono italic" style={{ fontSize: 12, fill: "var(--muted)" }}>retrieved captions</text>
+          <text x={870} y={midY - 40} textAnchor="middle" className="font-mono italic" style={{ fontSize: 12, fill: "var(--muted)" }}>only (top-5)</text>
         </svg>
       </div>
       <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
-        Frozen multi-modal encoders produce the fused embedding{" "}
+        The frozen five-head encoder produces the fused embedding{" "}
         <span className="font-mono text-foreground">z_f ∈ ℝ⁵¹²</span>. FAISS retrieves top-50
-        similar training subjects; a cross-encoder reranks down to top-5. The LLM generates answers
-        from the retrieved context. Three LLM backbones are compared: Mistral 7B, Gemma 4 26B MoE,
-        and MedGemma 1.5 4B.
+        similar training subjects; a cross-encoder reranks down to top-5. Only the retrieved
+        textual captions reach the LLM, which never sees raw brain images. Three LLM backbones are
+        compared: Mistral 7B, Gemma 4 26B MoE, and MedGemma 1.5 4B.
       </p>
     </figure>
   )

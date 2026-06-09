@@ -89,7 +89,7 @@ function VLMArchitectureVertical({ reduced }: { reduced: boolean }) {
   const inputs = [
     { x: c1, label: "T1 MRI", sub: "91×109×91" },
     { x: c2, label: "DTI FA", sub: "91×109×91" },
-    { x: c3, label: "Clinical", sub: "6 feats + APOE" },
+    { x: c3, label: "Clinical", sub: "5 scores + APOE" },
   ]
   const encoders = [
     { x: c1, label: "3D ResNet-18" },
@@ -106,14 +106,13 @@ function VLMArchitectureVertical({ reduced }: { reduced: boolean }) {
     { x: c2, drop: "30%" },
     { x: c3, drop: "5%" },
   ]
-  // 6 heads in 2 columns x 3 rows, branching off a central trunk.
+  // 5 heads in 2 columns, branching off a central trunk.
   const heads = [
-    { x: 130, y: headRows[0], label: "DX 3-class", dim: "→ 3" },
+    { x: 130, y: headRows[0], label: "DX 3-class", dim: "→ 3", accent: true },
     { x: 130, y: headRows[1], label: "DX Binary", dim: "→ 2" },
     { x: 130, y: headRows[2], label: "Sex", dim: "→ 2" },
     { x: 330, y: headRows[0], label: "Age", dim: "→ 1" },
     { x: 330, y: headRows[1], label: "CDR-SB", dim: "→ 1" },
-    { x: 330, y: headRows[2], label: "Amyloid", dim: "→ 2", accent: true },
   ]
 
   return (
@@ -125,7 +124,7 @@ function VLMArchitectureVertical({ reduced }: { reduced: boolean }) {
           height="100%"
           preserveAspectRatio="xMidYMid meet"
           role="img"
-          aria-label="Multi-modal VLM architecture: three encoders produce embeddings that pass through modality-masking gates into a cross-attention fusion block, then six task heads"
+          aria-label="Multimodal VLM architecture: three encoders produce embeddings that pass through modality-masking gates into a cross-attention fusion block, then five task heads"
         >
           <defs>
             <marker id="vlm-arrow-v" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -278,12 +277,11 @@ export default function VLMArchitecture() {
   } as const
 
   const heads = [
-    { y: rowD - 165, label: "DX 3-class", dim: "→ 3" },
-    { y: rowD - 100, label: "DX Binary", dim: "→ 2" },
-    { y: rowD - 35, label: "Sex", dim: "→ 2" },
-    { y: rowD + 30, label: "Age", dim: "→ 1" },
-    { y: rowD + 95, label: "CDR-SB", dim: "→ 1" },
-    { y: rowD + 160, label: "Amyloid", dim: "→ 2", accent: true },
+    { y: rowD - 130, label: "DX 3-class", dim: "→ 3", accent: true },
+    { y: rowD - 65, label: "DX Binary", dim: "→ 2" },
+    { y: rowD, label: "Sex", dim: "→ 2" },
+    { y: rowD + 65, label: "Age", dim: "→ 1" },
+    { y: rowD + 130, label: "CDR-SB", dim: "→ 1" },
   ]
 
   // Continuous pulse on "hot" nodes
@@ -302,7 +300,7 @@ export default function VLMArchitecture() {
           className="h-auto w-full"
           preserveAspectRatio="xMidYMid meet"
           role="img"
-          aria-label="Multi-modal VLM architecture: three encoders produce embeddings that pass through modality-masking gates into a cross-attention fusion block, then six task heads"
+          aria-label="Multimodal VLM architecture: three encoders produce embeddings that pass through modality-masking gates into a cross-attention fusion block, then five task heads"
         >
           <defs>
             <marker
@@ -341,7 +339,7 @@ export default function VLMArchitecture() {
 
             <rect x={colIn - 40} y={rowC - 30} width="100" height="60" rx="3" {...boxStyle} />
             <text x={colIn + 10} y={rowC - 5} textAnchor="middle" className="font-mono" style={{ fontSize: 14, fill: "var(--fg)", fontWeight: 600 }}>Clinical</text>
-            <text x={colIn + 10} y={rowC + 15} textAnchor="middle" className="font-mono" style={{ fontSize: 12, fill: "var(--muted)" }}>6 feats + APOE</text>
+            <text x={colIn + 10} y={rowC + 15} textAnchor="middle" className="font-mono" style={{ fontSize: 12, fill: "var(--muted)" }}>5 scores + APOE</text>
           </g>
 
           {/* ═══ ENCODERS ═══ */}
@@ -464,7 +462,7 @@ export default function VLMArchitecture() {
         through a masking gate that randomly drops modalities during training (T1: 10%, DTI: 30%,
         Clinical: 5%). Masked embeddings are fused via 8-head cross-attention with a learnable pool
         query, producing <span className="font-mono text-foreground">z_f ∈ ℝ⁵¹²</span> that feeds
-        six MLP task heads. Amyloid head upweighted as the primary clinical target.
+        five MLP task heads: DX 3-class, DX Binary, Sex, Age, and CDR-SB.
       </p>
     </figure>
   )

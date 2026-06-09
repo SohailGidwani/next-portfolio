@@ -66,16 +66,6 @@ export default function MultiModalAlzheimersVQAPage() {
       0.672, 0.674, 0.609, 0.675, 0.661, 0.688, 0.714, 0.662, 0.704, 0.711,
       0.72, 0.718, 0.71, 0.698, 0.707, 0.715, 0.701, 0.725, 0.715, 0.727,
     ],
-    amyloid: [
-      0.72, 0.747, 0.753, 0.718, 0.73, 0.747, 0.738, 0.757, 0.706, 0.731,
-      0.742, 0.746, 0.682, 0.739, 0.722, 0.71, 0.728, 0.675, 0.707, 0.711,
-      0.71, 0.706, 0.706, 0.676, 0.698, 0.71, 0.704, 0.722, 0.715, 0.722,
-    ],
-    cnAmyloid: [
-      0.594, 0.595, 0.617, 0.578, 0.601, 0.594, 0.679, 0.623, 0.598, 0.707,
-      0.602, 0.652, 0.624, 0.665, 0.664, 0.656, 0.658, 0.637, 0.621, 0.649,
-      0.64, 0.656, 0.617, 0.624, 0.632, 0.632, 0.634, 0.633, 0.633, 0.656,
-    ],
     sex: [
       0.542, 0.568, 0.559, 0.538, 0.586, 0.576, 0.597, 0.565, 0.605, 0.599,
       0.603, 0.591, 0.599, 0.591, 0.589, 0.599, 0.589, 0.597, 0.601, 0.614,
@@ -111,39 +101,13 @@ export default function MultiModalAlzheimersVQAPage() {
       title: "DX Binary (Bal. Acc.)",
       subtitle: "CN vs Dementia",
       bars: [
-        { label: ablationCombos[0], value: 0.933 },
+        { label: ablationCombos[0], value: 0.933, highlight: true },
         { label: ablationCombos[1], value: 0.932 },
-        { label: ablationCombos[2], value: 0.938, highlight: true },
+        { label: ablationCombos[2], value: 0.938 },
         { label: ablationCombos[3], value: 0.938 },
         { label: ablationCombos[4], value: 0.848 },
         { label: ablationCombos[5], value: 0.833 },
         { label: ablationCombos[6], value: 0.528 },
-      ],
-    },
-    {
-      title: "Amyloid (Bal. Acc.)",
-      subtitle: "Overall positivity",
-      bars: [
-        { label: ablationCombos[0], value: 0.733 },
-        { label: ablationCombos[1], value: 0.699 },
-        { label: ablationCombos[2], value: 0.746, highlight: true },
-        { label: ablationCombos[3], value: 0.713 },
-        { label: ablationCombos[4], value: 0.621 },
-        { label: ablationCombos[5], value: 0.587 },
-        { label: ablationCombos[6], value: 0.575 },
-      ],
-    },
-    {
-      title: "CN Amyloid (Bal. Acc.)",
-      subtitle: "Preclinical screen",
-      bars: [
-        { label: ablationCombos[0], value: 0.688, highlight: true },
-        { label: ablationCombos[1], value: 0.642 },
-        { label: ablationCombos[2], value: 0.623 },
-        { label: ablationCombos[3], value: 0.557 },
-        { label: ablationCombos[4], value: 0.549 },
-        { label: ablationCombos[5], value: 0.494 },
-        { label: ablationCombos[6], value: 0.552 },
       ],
     },
   ]
@@ -153,7 +117,7 @@ export default function MultiModalAlzheimersVQAPage() {
     "@context": "https://schema.org",
     "@type": "ScholarlyArticle",
     headline:
-      "Multi-Modal Missing-Modality Model + Retrieval-Augmented VQA for Alzheimer's Disease Prediction",
+      "MEMOIR-VLM: A Multimodal Vision-Language Model for Alzheimer's Disease Classification and Question Answering",
     author: {
       "@type": "Person",
       name: "Sohail Gidwani",
@@ -164,16 +128,17 @@ export default function MultiModalAlzheimersVQAPage() {
       },
     },
     datePublished: "2026-04-23",
-    dateModified: "2026-04-24",
+    dateModified: "2026-06-10",
     keywords: [
       "Alzheimer's disease",
-      "multi-modal deep learning",
+      "multimodal deep learning",
+      "missing modality",
       "ADNI",
-      "RAG VQA",
+      "retrieval-augmented VQA",
       "Mistral 7B",
     ],
     description:
-      "A multi-modal vision-language model (T1 MRI + DTI FA + clinical) trained on 2,363 ADNI subjects, with missing-modality cross-attention fusion. Extended with a retrieval-augmented VQA pipeline benchmarked across Mistral 7B, Gemma 4 26B MoE, and MedGemma 1.5 4B.",
+      "MEMOIR-VLM is a two-stage multimodal vision-language framework for Alzheimer's disease classification using T1 MRI, DTI FA maps, and structured clinical features. A missing-modality-aware encoder predicts diagnosis, clinical severity, age, and sex, and a retrieval-augmented VQA pipeline (FAISS + cross-encoder rerank + LLM) enables case-based reasoning, benchmarked across Mistral 7B, Gemma 4 26B MoE, and MedGemma 1.5 4B.",
     isAccessibleForFree: true,
     inLanguage: "en",
     publisher: {
@@ -192,7 +157,7 @@ export default function MultiModalAlzheimersVQAPage() {
       <BreadcrumbStructuredData
         id="research-breadcrumb"
         items={[
-          { name: "Multimodal Alzheimer's VQA Research", item: "/research/multimodal-alzheimers-vqa" },
+          { name: "MEMOIR-VLM Alzheimer's Research", item: "/research/multimodal-alzheimers-vqa" },
         ]}
       />
 
@@ -225,7 +190,7 @@ export default function MultiModalAlzheimersVQAPage() {
                 </span>
               </div>
               <h1 className="font-display mb-5 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-                Multi-Modal Missing-Modality VLM + Retrieval-Augmented VQA for Alzheimer&apos;s Detection
+                MEMOIR-VLM: Multimodal Vision-Language Model for Alzheimer&apos;s Disease Classification and VQA
               </h1>
 
               {/* Stats row */}
@@ -237,11 +202,12 @@ export default function MultiModalAlzheimersVQAPage() {
               </div>
 
               <p className="mb-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-                A custom vision-language model that ingests T1 MRI, DTI FA maps, and clinical
-                scores to predict six tasks, including preclinical amyloid detection.
-                Extended with a FAISS-based retrieval pipeline and a three-way LLM comparison
-                (Mistral 7B, Gemma 4 26B MoE, MedGemma 1.5 4B) for visual question answering over
-                brain scans.
+                MEMOIR-VLM is a two-stage multimodal vision-language framework for Alzheimer&apos;s
+                disease characterization using T1-weighted MRI, DTI fractional anisotropy maps, and
+                structured clinical features. A missing-modality-aware encoder learns a shared
+                representation for diagnosis, clinical severity, age, and sex prediction, while a
+                retrieval-augmented VQA pipeline enables case-based reasoning and natural-language
+                answers grounded in similar ADNI subjects.
               </p>
 
               <div className="flex flex-wrap gap-2 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
@@ -278,23 +244,21 @@ export default function MultiModalAlzheimersVQAPage() {
                 <SectionLabel n="01" label="The Clinical Ask" id="section-01" />
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
-                    Under the NIA-AA A/T/N framework, cognitively normal (CN) individuals who test
-                    positive for amyloid are already on the Alzheimer&apos;s disease biological
-                    continuum. This is{" "}
-                    <strong className="font-semibold text-foreground">preclinical AD</strong>:
-                    no symptoms yet, but a 3 to 5x increased risk of progressing to MCI or dementia
-                    within 3 to 5 years. Anti-amyloid therapies (Lecanemab, Donanemab) work best
-                    at this stage.
+                    Alzheimer&apos;s disease assessment is inherently multimodal. Structural MRI
+                    captures neurodegeneration, DTI reflects white-matter microstructural integrity,
+                    and cognitive and biomarker variables summarize clinical status. In practice,
+                    however, these modalities are not always available together. DTI is often
+                    missing, cognitive batteries may be incomplete, and many deep learning systems
+                    require complete inputs or only produce a categorical label.
                   </p>
                   <p>
-                    The problem is finding these people. Amyloid PET scans cost $3{","}000 to $6{","}000
-                    each. CSF draws are invasive. Neither works at screening scale. This project
-                    asks whether{" "}
+                    This project asks whether a single{" "}
                     <strong className="font-semibold text-foreground">
-                      structural MRI + DTI + routine clinical scores
+                      missing-modality-aware model
                     </strong>{" "}
-                    can do that job. No PET infrastructure needed. Just the imaging and labs most
-                    patients already have.
+                    can integrate whatever data is available, classify disease stage, estimate
+                    clinical severity, retrieve similar historical cases, and support
+                    natural-language VQA over brain-scan-derived representations.
                   </p>
                 </div>
 
@@ -303,9 +267,10 @@ export default function MultiModalAlzheimersVQAPage() {
                     Primary target
                   </p>
                   <p className="mt-2 text-sm leading-relaxed text-foreground">
-                    Detect amyloid positivity in CN subjects well enough to work as a{" "}
-                    <strong>rule-out triage tool</strong>. High specificity matters here: if the
-                    model predicts CN amyloid-negative, those subjects can skip the expensive PET scan.
+                    Build a robust multimodal AI system for Alzheimer&apos;s disease diagnosis and
+                    clinical reasoning. The model predicts CN / MCI / Dementia, CN vs Dementia,
+                    CDR-SB severity, age, and sex, then extends the frozen encoder into a
+                    retrieval-augmented VQA pipeline for interpretable case-based answers.
                   </p>
                 </div>
               </section>
@@ -319,11 +284,11 @@ export default function MultiModalAlzheimersVQAPage() {
                     <strong className="font-semibold text-foreground">
                       Alzheimer&apos;s Disease Neuroimaging Initiative (ADNI)
                     </strong>
-                    . After filtering to subjects with valid DX labels and 9DOF T1 paths,
-                    deduplicating to one scan per subject, and recovering DTI paths from an
-                    earlier dataset cut, the combined v3 cohort is{" "}
-                    <strong className="font-semibold text-foreground">2,363 subjects</strong> with
-                    DTI coverage of 39.4% (nearly doubled from the earlier 19.8%).
+                    . After filtering to subjects with valid DX labels and 9DOF T1 paths and
+                    deduplicating to one scan per subject, the cohort is{" "}
+                    <strong className="font-semibold text-foreground">2,363 subjects</strong>. All
+                    subjects had valid diagnostic labels and T1-weighted MRI. DTI-FA was available
+                    for a subset of 930 participants, corresponding to 39.4% of the full cohort.
                   </p>
                 </div>
 
@@ -390,12 +355,12 @@ export default function MultiModalAlzheimersVQAPage() {
                 <SectionLabel n="03" label="Model Architecture" id="section-03" />
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
-                    The model is a multi-modal vision-language model with missing-modality
+                    The model is a multimodal vision-language model with missing-modality
                     support. Three modality-specific encoders produce ℓ2-normalized 512-d
                     embeddings, each gated by a per-modality masking probability during training.
                     The masked embeddings are fused via 8-head cross-attention with a learnable
                     pool query, producing a fused representation{" "}
-                    <span className="font-mono text-foreground">z_f ∈ ℝ⁵¹²</span> that feeds six
+                    <span className="font-mono text-foreground">z_f ∈ ℝ⁵¹²</span> that feeds five
                     MLP task heads.
                   </p>
                 </div>
@@ -426,8 +391,8 @@ export default function MultiModalAlzheimersVQAPage() {
                       </p>
                     </div>
                     <p className="text-sm leading-relaxed text-muted-foreground">
-                      MLP over 6 continuous features (CDR-SB, ADAS-11/13, MMSE, MoCA, AV45 SUVR)
-                      plus an APOE genotype embedding. Output: 512-d, ℓ2-normalized.
+                      MLP over 5 continuous clinical features (CDR-SB, ADAS-11, ADAS-13, MMSE,
+                      MoCA) plus an APOE genotype embedding. Output: 512-d, ℓ2-normalized.
                     </p>
                   </div>
                 </div>
@@ -437,16 +402,11 @@ export default function MultiModalAlzheimersVQAPage() {
                     Design decision: no label leakage
                   </p>
                   <p className="mt-2 text-sm leading-relaxed text-foreground">
-                    An earlier iteration fed{" "}
-                    <span className="font-mono text-xs">DX_code</span>,{" "}
-                    <span className="font-mono text-xs">SEX_code</span>, and{" "}
-                    <span className="font-mono text-xs">Amyloid_code</span> into the clinical
-                    encoder. Those are the same variables the task heads are trying to predict, so
-                    the accuracy numbers (DX3 at 97.6%, sex at 98.3%) were meaningless. The v2/v3
-                    model{" "}
-                    <strong>removes these inputs entirely</strong>. DX, sex, age, and amyloid are
-                    prediction targets only; the clinical encoder receives 7 features. Every number
-                    on this page is leakage-free.
+                    Target variables are excluded from the clinical input space. Diagnosis, sex,
+                    and age are prediction targets rather than inputs. The clinical encoder only
+                    receives cognitive / clinical scores and APOE genotype, forcing the model to
+                    learn relationships among imaging features and clinical indicators rather than
+                    copying labels.
                   </p>
                 </div>
               </section>
@@ -459,7 +419,7 @@ export default function MultiModalAlzheimersVQAPage() {
                     Training runs in two stages. Stage 1 is contrastive pre-training: a
                     pairwise CLIP/InfoNCE loss between all three modality pairs (T1–DTI,
                     T1–Clinical, DTI–Clinical), computed only on pairs where both modalities are
-                    present. Stage 2B is multi-task fine-tuning across six heads with differential
+                    present. Stage 2B is multi-task fine-tuning across five heads with differential
                     learning rates (backbone 10⁻⁵, heads 5×10⁻⁴).
                   </p>
                   <p>
@@ -488,7 +448,7 @@ export default function MultiModalAlzheimersVQAPage() {
                       Stage 2B · Multi-task
                     </p>
                     <p className="mt-2 font-display text-lg text-foreground">
-                      30 epochs · 6 joint heads
+                      30 epochs · 5 joint heads
                     </p>
                     <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
                       focal (γ=2) + smooth L1 · AMP FP16
@@ -499,12 +459,6 @@ export default function MultiModalAlzheimersVQAPage() {
                 <TrainingChart
                   series={[
                     { name: "DX3 Bal. Acc.", data: training.dx3, color: "var(--accent)" },
-                    { name: "Amyloid Bal. Acc.", data: training.amyloid, color: "#ef4444" },
-                    {
-                      name: "CN Amyloid Bal. Acc.",
-                      data: training.cnAmyloid,
-                      color: "#a855f7",
-                    },
                     {
                       name: "Sex Acc.",
                       data: training.sex,
@@ -514,7 +468,7 @@ export default function MultiModalAlzheimersVQAPage() {
                   ]}
                   xMax={30}
                   bestEpoch={5}
-                  caption="Stage 2B training history. Best composite score at epoch 5; later epochs show overfitting, particularly on amyloid. The model used downstream is the epoch-5 checkpoint."
+                  caption="Stage 2B training history. Best composite checkpoint selected at epoch 5; later epochs showed overfitting. The epoch-5 checkpoint was used for downstream evaluation."
                 />
               </section>
 
@@ -543,10 +497,6 @@ export default function MultiModalAlzheimersVQAPage() {
                         ["DX 3-class (CN / MCI / Dem)", "0.707", "0.703", "0.865", true],
                         ["DX Binary (CN vs Dem)", "0.933", "0.932", "0.981", false],
                         ["Sex", "0.575", "0.563", "0.597", false],
-                        ["Amyloid (A𝛽+ / A𝛽−)", "0.733", "0.733", "0.806", false],
-                        ["CN Amyloid - preclinical", "0.688", "0.695", "0.685", true],
-                        ["MCI Amyloid", "0.604", "0.595", "0.723", false],
-                        ["Dementia Amyloid", "0.484", "0.456", "0.906", false],
                       ].map((row) => {
                         const highlight = row[4] as boolean
                         return (
@@ -620,29 +570,28 @@ export default function MultiModalAlzheimersVQAPage() {
                 </div>
 
                 <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                  <div className="rounded border border-border bg-card p-5">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                      CN amyloid (preclinical screen)
-                    </p>
-                    <p className="mt-2 font-display text-2xl font-bold text-foreground">
-                      0.846 spec · 0.529 sens
-                    </p>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      High specificity, moderate sensitivity. That tradeoff is intentional for a
-                      triage screen. When the model predicts CN amyloid-negative, it is right 85%
-                      of the time.
-                    </p>
-                  </div>
                   <div className="rounded border border-accent/30 bg-accent/5 p-5">
                     <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent">
-                      Dementia amyloid
+                      CN vs Dementia
                     </p>
                     <p className="mt-2 font-display text-2xl font-bold text-foreground">
-                      0.906 AUC
+                      0.933 Bal. Acc. · 0.981 AUC
                     </p>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      By the time disease is established, the signal is clear. Amyloid-positivity
-                      in dementia is correctly identified almost 97% of the time (sens = 0.969).
+                      Strong separation between the extremes of the disease spectrum. The model
+                      cleanly distinguishes cognitively normal subjects from those with dementia.
+                    </p>
+                  </div>
+                  <div className="rounded border border-border bg-card p-5">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                      Severity &amp; demographics
+                    </p>
+                    <p className="mt-2 font-display text-2xl font-bold text-foreground">
+                      0.97 CDR-SB MAE · 6.31 yr age MAE
+                    </p>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                      Alongside diagnosis, the shared representation supports clinical severity
+                      (CDR-SB) and age regression, learned jointly from the same fused embedding.
                     </p>
                   </div>
                 </div>
@@ -662,7 +611,7 @@ export default function MultiModalAlzheimersVQAPage() {
 
                 <AblationChart
                   panels={ablationPanels}
-                  caption="DTI+Clin wins three of the four tasks (DX Binary, overall Amyloid, tied on DX 3-class). For preclinical CN amyloid though, you need all three: T1 + DTI + Clinical reaches 0.688 Bal. Acc. vs. Clinical-only at 0.557, a 13.1 point gap on the hardest task. DTI alone is the weakest combination overall, but it still carries real signal for severe dementia cases."
+                  caption="Clinical scores carry the strongest diagnostic signal, with clinical-only performance approaching the full-modality model for 3-class diagnosis. Imaging remains useful, especially for non-diagnostic tasks and for deployment settings where clinical information is incomplete. The modality-dropout strategy prevents catastrophic degradation when DTI or clinical variables are missing."
                 />
               </section>
 
@@ -671,13 +620,19 @@ export default function MultiModalAlzheimersVQAPage() {
                 <SectionLabel n="07" label="Retrieval-Augmented VQA Extension" id="section-07" />
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
-                    The VLM gives you a prediction and a confidence score. What it doesn&apos;t
+                    The encoder gives you a prediction and a confidence score. What it doesn&apos;t
                     give you is an explanation, or any way to ask follow-up questions in natural
-                    language. That&apos;s what the VQA extension adds. The frozen VLM encodes a
-                    query scan into a 512-d embedding. FAISS finds the 50 most similar training
+                    language. That&apos;s what the VQA extension adds. The frozen encoder turns a
+                    query case into a 512-d embedding. FAISS finds the 50 most similar training
                     subjects by inner product. A cross-encoder reranks those 50 down to the top 5
                     most relevant matches. Those 5 captions become the context fed to a language
-                    model, which answers clinical questions about the scan.
+                    model, which answers clinical questions about the case.
+                  </p>
+                  <p>
+                    The LLM never receives raw brain images. T1, DTI, and clinical inputs are
+                    encoded into a 512-dimensional fused representation. FAISS retrieves similar
+                    training subjects in embedding space, and only retrieved textual captions are
+                    passed to the LLM as context.
                   </p>
                 </div>
 
@@ -732,18 +687,10 @@ export default function MultiModalAlzheimersVQAPage() {
                   rows={[
                     {
                       metric: "VQA Diagnosis",
-                      sublabel: "Standard · full modality",
+                      sublabel: "full modality (T1 + DTI + Clinical)",
                       mistral: 0.947,
                       gemma: 0.927,
                       medgemma: 0.507,
-                      higher: "mistral",
-                    },
-                    {
-                      metric: "VQA Diagnosis",
-                      sublabel: "DTI-only query",
-                      mistral: 0.753,
-                      gemma: 0.533,
-                      medgemma: 0.627,
                       higher: "mistral",
                     },
                     {
@@ -763,7 +710,7 @@ export default function MultiModalAlzheimersVQAPage() {
                       higher: "mistral",
                     },
                   ]}
-                  caption="Same retrieved context across all three models; only the generation model changes. Mistral 7B wins every metric: diagnosis VQA accuracy and text quality (BERTScore, SBERT). MedGemma's medical fine-tune loses to a general-purpose 7B model. At this size, instruction-following matters more than domain knowledge."
+                  caption="Same retrieved context across all three models; only the generation model changes. Mistral 7B wins every metric: diagnosis VQA accuracy and text quality (BERTScore, SBERT). MedGemma's medical fine-tune loses to a general-purpose 7B model. At this size, instruction-following matters more than raw model size or medical fine-tuning."
                 />
 
                 <div className="mt-6 rounded border border-accent/30 bg-accent/5 p-5">
@@ -771,11 +718,11 @@ export default function MultiModalAlzheimersVQAPage() {
                     Headline finding
                   </p>
                   <p className="mt-2 text-sm leading-relaxed text-foreground">
-                    <strong>Scale beats domain.</strong> Mistral 7B, a general-purpose dense
-                    model, outperforms both a 26B MoE and a medically fine-tuned 4B on every
-                    metric. The retrieved context already supplies the medical knowledge. What
-                    matters is whether the model can follow instructions and format its output
-                    correctly.
+                    <strong>Instruction-following beats size and domain.</strong> Mistral 7B, a
+                    general-purpose dense model, outperforms both a 26B MoE and a medically
+                    fine-tuned 4B on every metric. The retrieved context already supplies the
+                    medical knowledge. What matters is whether the model can follow instructions
+                    and format its output correctly.
                   </p>
                 </div>
               </section>
@@ -786,29 +733,34 @@ export default function MultiModalAlzheimersVQAPage() {
                 <div className="space-y-4">
                   {[
                     {
-                      headline: "Imaging adds real signal to preclinical AD screening",
+                      headline: "Clinical scores dominate diagnosis, but imaging adds robustness",
                       body:
-                        "CN amyloid Bal. Acc. goes from 0.557 (Clinical-only) to 0.688 (T1 + DTI + Clinical), a 13.1 point gain on the hardest and most clinically useful task. Specificity sits at 0.846, which is what you want for a triage tool.",
+                        "Clinical-only performance approaches the full model for 3-class diagnosis, confirming that cognitive scores carry much of the diagnostic signal. Imaging still contributes useful structure, especially when clinical data is incomplete and for tasks such as age and severity estimation.",
                     },
                     {
-                      headline: "The model works even without DTI",
+                      headline: "The model handles missing modalities",
                       body:
-                        "Modality dropout during training (T1 10%, DTI 30%, Clinical 5%) means the model handles any combination at inference. In practice it works for the 60% of subjects who only have T1 + Clinical, not just the 39.4% with full DTI coverage.",
+                        "Stochastic modality dropout during training allows the encoder to operate with any subset of T1, DTI, and clinical inputs. This is important because only 39.4% of subjects had usable DTI.",
                     },
                     {
-                      headline: "DTI + Clinical is strong, except for CN amyloid",
+                      headline: "Binary CN vs Dementia separation is strong",
                       body:
-                        "DTI + Clinical wins DX Binary (0.938) and overall Amyloid (0.746). For CN amyloid specifically though, T1 matters: DTI + Clinical drops to 0.623 while the full stack reaches 0.688.",
+                        "The model reaches 93.3% balanced accuracy and AUC 0.981 for CN vs Dementia, showing strong separation between the extremes of the Alzheimer's disease spectrum.",
                     },
                     {
-                      headline: "Mistral 7B is the best VQA model here",
+                      headline: "MCI remains the hardest class",
                       body:
-                        "A general-purpose 7B dense model beats a 26B MoE and a medically fine-tuned 4B on both diagnosis accuracy (94.7% vs 92.7% vs 50.7%) and text quality. The retrieved context does the medical heavy lifting. The model just needs to read it and respond clearly.",
+                        "MCI recall is 55%, with errors split toward both CN and Dementia. This reflects the transitional and heterogeneous nature of MCI rather than a simple modeling failure.",
                     },
                     {
-                      headline: "VQA holds up even when retrieval is poor",
+                      headline: "Retrieval-augmented VQA improves interpretability",
                       body:
-                        "Under a DTI-only query, FAISS retrieval at @5 drops to 40.9%. Mistral 7B still reaches 75.3% VQA accuracy on those same queries. The LLM can extract useful signal even from partially mismatched context.",
+                        "The VQA pipeline retrieves similar training cases and uses their captions as grounded context for the LLM, producing natural-language answers instead of only class probabilities.",
+                    },
+                    {
+                      headline: "Mistral 7B is the best VQA backbone",
+                      body:
+                        "Mistral 7B achieves 94.7% VQA diagnosis accuracy and outperforms Gemma 4 26B MoE and MedGemma 1.5 4B IT under the same retrieval context.",
                     },
                   ].map((f) => (
                     <div key={f.headline} className="border-l-2 border-accent pl-4">
@@ -829,11 +781,18 @@ export default function MultiModalAlzheimersVQAPage() {
                   Status
                 </p>
                 <h3 className="mt-2 font-display text-xl text-foreground sm:text-2xl">
-                  Paper in preparation · code to be released on publication
+                  Manuscript submitted / in review
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                  This work was completed at the Keck School of Medicine of USC. Once the paper is
-                  submitted I&apos;ll link the manuscript and GitHub repo here.
+                  This work has been submitted as{" "}
+                  <em>
+                    MEMOIR-VLM: A Multimodal Vision-Language Model for Alzheimer&apos;s Disease
+                    Classification and Question Answering
+                  </em>
+                  . It was completed at the Keck School of Medicine of USC. Code and manuscript
+                  links will be added when publicly available. Future work will extend MEMOIR-VLM
+                  to amyloid prediction using amyloid-specific supervision while avoiding
+                  biomarker leakage.
                 </p>
                 <div className="mt-6 flex flex-wrap gap-3">
                   <Link

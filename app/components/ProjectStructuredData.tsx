@@ -27,9 +27,9 @@ export default function ProjectStructuredData() {
     },
     {
       "@type": "ScholarlyArticle",
-      "name": "Multi-Modal Alzheimer's VQA Research",
-      "headline": "Multi-Modal Missing-Modality Model + Retrieval-Augmented VQA for Alzheimer's Disease Prediction",
-      "description": "Research system combining T1 MRI, DTI, and clinical data with missing-modality fusion and retrieval-augmented VQA for Alzheimer's disease prediction.",
+      "name": "MEMOIR-VLM Alzheimer's Research",
+      "headline": "MEMOIR-VLM: A Multimodal Vision-Language Model for Alzheimer's Disease Classification and Question Answering",
+      "description": "Two-stage multimodal vision-language framework combining T1 MRI, DTI, and clinical data with missing-modality fusion and retrieval-augmented VQA for Alzheimer's disease classification.",
       "author": { "@id": "https://sohailgidwani.app/#person" },
       "url": "https://sohailgidwani.app/research/multimodal-alzheimers-vqa",
       "keywords": ["Alzheimer's disease", "multi-modal deep learning", "ADNI", "RAG VQA", "PyTorch", "Mistral 7B"],

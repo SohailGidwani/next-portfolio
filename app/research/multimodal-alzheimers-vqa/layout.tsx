@@ -2,12 +2,12 @@ import { Metadata } from "next"
 
 export const metadata: Metadata = {
   title:
-    "Multi-Modal VLM + RAG VQA for Alzheimer's Detection | Sohail Gidwani Research",
+    "MEMOIR-VLM: Multimodal VLM for Alzheimer's Classification and VQA | Sohail Gidwani Research",
   description:
-    "Technical deep dive on a multi-modal vision-language model (T1 MRI, DTI FA, clinical) for Alzheimer's disease prediction, extended with a retrieval-augmented VQA pipeline. 2,363 ADNI subjects, missing-modality cross-attention fusion, 0.707 DX3 balanced accuracy, three-way LLM comparison (Mistral 7B vs Gemma 4 26B vs MedGemma 1.5 4B).",
+    "Technical deep dive on MEMOIR-VLM, a two-stage multimodal vision-language framework (T1 MRI, DTI FA, clinical) for Alzheimer's disease classification and VQA. 2,363 ADNI subjects, missing-modality cross-attention fusion, 0.707 DX3 balanced accuracy, retrieval-augmented VQA with a three-way LLM comparison (Mistral 7B vs Gemma 4 26B vs MedGemma 1.5 4B).",
   keywords: [
     "Alzheimer's disease",
-    "multi-modal deep learning",
+    "multimodal deep learning",
     "ADNI",
     "medical imaging",
     "T1 MRI",
@@ -20,8 +20,8 @@ export const metadata: Metadata = {
     "FAISS",
     "cross-attention fusion",
     "missing modality",
-    "preclinical AD",
-    "amyloid detection",
+    "Alzheimer's classification",
+    "MEMOIR-VLM",
     "Mistral 7B",
     "Gemma",
     "MedGemma",
@@ -36,17 +36,17 @@ export const metadata: Metadata = {
   publisher: "Sohail Gidwani",
   openGraph: {
     title:
-      "Multi-Modal VLM + RAG VQA for Alzheimer's Detection",
+      "MEMOIR-VLM: Multimodal VLM for Alzheimer's Classification and VQA",
     description:
-      "Multi-modal deep learning pipeline for Alzheimer's prediction on 2,363 ADNI subjects, plus a retrieval-augmented VQA extension with a three-way LLM comparison.",
+      "Missing-modality-aware multimodal deep learning for Alzheimer's disease classification on 2,363 ADNI subjects, plus a retrieval-augmented VQA extension with a three-way LLM comparison.",
     url: "https://sohailgidwani.app/research/multimodal-alzheimers-vqa",
     siteName: "Sohail Gidwani Portfolio",
     images: [
       {
-        url: "/api/og?title=Multi-Modal%20VLM%20%2B%20RAG%20VQA%20for%20Alzheimer%27s&description=Multi-modal%20deep%20learning%20on%202%2C363%20ADNI%20subjects%20with%20missing-modality%20fusion%20and%20LLM%20comparison&type=project&tags=VLM,RAG,ADNI,MRI,LLM",
+        url: "/api/og?title=MEMOIR-VLM%3A%20Multimodal%20VLM%20for%20Alzheimer%27s%20Classification%20%2B%20VQA&description=Missing-modality-aware%20deep%20learning%20on%202%2C363%20ADNI%20subjects%20with%20retrieval-augmented%20VQA&type=project&tags=VLM,RAG,ADNI,MRI,LLM",
         width: 1200,
         height: 630,
-        alt: "Multi-Modal VLM for Alzheimer's Detection | Sohail Gidwani Research",
+        alt: "MEMOIR-VLM: Multimodal VLM for Alzheimer's Classification and VQA | Sohail Gidwani Research",
       },
     ],
     locale: "en_US",
@@ -64,11 +64,11 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Multi-Modal VLM + RAG VQA for Alzheimer's Detection",
+    title: "MEMOIR-VLM: Multimodal VLM for Alzheimer's Classification and VQA",
     description:
-      "Multi-modal deep learning pipeline for Alzheimer's prediction on 2,363 ADNI subjects, plus a retrieval-augmented VQA extension.",
+      "Missing-modality-aware multimodal deep learning for Alzheimer's classification on 2,363 ADNI subjects, plus a retrieval-augmented VQA extension.",
     images: [
-      "/api/og?title=Multi-Modal%20VLM%20%2B%20RAG%20VQA%20for%20Alzheimer%27s&description=Multi-modal%20deep%20learning%20on%202%2C363%20ADNI%20subjects%20with%20missing-modality%20fusion%20and%20LLM%20comparison&type=project&tags=VLM,RAG,ADNI,MRI,LLM",
+      "/api/og?title=MEMOIR-VLM%3A%20Multimodal%20VLM%20for%20Alzheimer%27s%20Classification%20%2B%20VQA&description=Missing-modality-aware%20deep%20learning%20on%202%2C363%20ADNI%20subjects%20with%20retrieval-augmented%20VQA&type=project&tags=VLM,RAG,ADNI,MRI,LLM",
     ],
     creator: "@sohailgidwani",
   },

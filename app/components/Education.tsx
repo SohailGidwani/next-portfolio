@@ -23,7 +23,7 @@ const education: EducationItem[] = [
     location: "Los Angeles, CA, USA",
     description: "Advanced studies in AI systems, retrieval, and large-scale software engineering.",
     achievements: [],
-    courses: ["Analysis of Algorithms", "Information Retrieval and Web Search Engines", "ML for Data Science", "Applied NLP"],
+    courses: ["Analysis of Algorithms", "Information Retrieval and Web Search Engines", "ML for Data Science", "Applied NLP", "Deep Learning", "Database Systems"],
     logo: uscLogo,
   },
   {

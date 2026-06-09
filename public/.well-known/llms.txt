@@ -17,7 +17,7 @@ Sohail Gidwani is an AI/ML engineer and full-stack developer graduating with a M
 
 ## Current Role
 
-Research Assistant at Keck School of Medicine of USC, working on multi-modal deep learning for Alzheimer's disease prediction using neuroimaging and clinical data across 71M+ parameter models.
+Research Assistant at Keck School of Medicine of USC, working on multimodal deep learning for Alzheimer's disease classification and VQA using neuroimaging and clinical data across ~70M parameter models.
 
 ## Key Skills
 
@@ -30,7 +30,7 @@ Research Assistant at Keck School of Medicine of USC, working on multi-modal dee
 
 ## Research
 
-- Multi-Modal VLM + RAG VQA for Alzheimer's Detection: Keck USC — 2,363 ADNI subjects, 0.707 balanced accuracy, missing-modality cross-attention fusion, RAG VQA benchmarking Mistral 7B vs Gemma 4 26B vs MedGemma 1.5 4B (https://sohailgidwani.app/research/multimodal-alzheimers-vqa)
+- MEMOIR-VLM (Multimodal VLM for Alzheimer's Disease Classification and VQA, manuscript submitted): Keck USC — 2,363 ADNI subjects, 0.707 balanced accuracy on 3-class diagnosis, missing-modality cross-attention fusion, retrieval-augmented VQA benchmarking Mistral 7B vs Gemma 4 26B vs MedGemma 1.5 4B (https://sohailgidwani.app/research/multimodal-alzheimers-vqa)
 - CoT Faithfulness Analysis: USC CSCI-544 NLP study — 4 experiments (SCR, CFR, SBH) probing chain-of-thought faithfulness in Llama 3.2 3B and Qwen 2.5 7B across GSM8K and ARC-Challenge; ~15K queries via Ollama (https://sohailgidwani.app/projects/cot-faithfulness)
 
 ## Projects

@@ -10,9 +10,9 @@ interface Row {
 }
 
 const MODELS: { id: "mistral" | "gemma" | "medgemma"; label: string; tag: string }[] = [
-  { id: "mistral", label: "Mistral 7B", tag: "7B dense" },
+  { id: "mistral", label: "Mistral 7B", tag: "Instruct v0.3" },
   { id: "gemma", label: "Gemma 4 26B", tag: "MoE" },
-  { id: "medgemma", label: "MedGemma 4B", tag: "medical FT" },
+  { id: "medgemma", label: "MedGemma 1.5 4B", tag: "IT · medical FT" },
 ]
 
 interface Props {
