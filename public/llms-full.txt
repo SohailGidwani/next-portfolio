@@ -104,7 +104,7 @@ Agile, Test-Driven Development, CI/CD, Code Reviews
 ## Research
 
 ### MEMOIR-VLM: Multimodal VLM for Alzheimer's Disease Classification and VQA
-https://sohailgidwani.app/research/multimodal-alzheimers-vqa
+https://sohailgidwani.app/research/memoir-vlm-alzheimers-vqa
 
 Keck School of Medicine of USC research (Oct 2025 – present, manuscript submitted / in review). MEMOIR-VLM is a two-stage multimodal vision-language framework for Alzheimer's disease classification using T1 MRI, DTI FA maps, and clinical tabular data across 2,363 ADNI subjects. A missing-modality-aware encoder (cross-attention fusion with stochastic modality dropout, 39.4% DTI coverage) predicts five targets: 3-class diagnosis (0.707 balanced accuracy, CN / MCI / Dementia), binary CN vs Dementia (0.933 balanced accuracy, AUC 0.981), CDR-SB severity (MAE 0.97), age (MAE 6.31 years), and sex. The frozen encoder is extended with a FAISS retrieval + cross-encoder rerank + LLM pipeline for visual question answering; only retrieved textual captions reach the LLM. Benchmarked Mistral 7B (94.7% VQA diagnosis accuracy), Gemma 4 26B MoE, and MedGemma 1.5 4B — Mistral 7B wins. Built end-to-end experimentation infrastructure: two-stage training (CLIP contrastive pre-training → multi-task fine-tuning), modality ablation across 7 combinations, and confidence calibration analysis on ~70M parameter models.
 

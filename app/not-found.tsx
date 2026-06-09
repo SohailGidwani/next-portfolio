@@ -48,7 +48,7 @@ export default function NotFound() {
           { href: "/#experience", label: "Experience" },
           { href: "/#skills", label: "Skills" },
           { href: "/#contact", label: "Contact" },
-          { href: "/research/multimodal-alzheimers-vqa", label: "Research" },
+          { href: "/research/memoir-vlm-alzheimers-vqa", label: "Research" },
         ].map(({ href, label }) => (
           <Link key={href} href={href} className="transition hover:text-foreground">
             {label}

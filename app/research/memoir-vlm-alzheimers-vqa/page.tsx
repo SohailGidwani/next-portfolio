@@ -157,7 +157,7 @@ export default function MultiModalAlzheimersVQAPage() {
       <BreadcrumbStructuredData
         id="research-breadcrumb"
         items={[
-          { name: "MEMOIR-VLM Alzheimer's Research", item: "/research/multimodal-alzheimers-vqa" },
+          { name: "MEMOIR-VLM Alzheimer's Research", item: "/research/memoir-vlm-alzheimers-vqa" },
         ]}
       />
 

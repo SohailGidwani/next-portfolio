@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     "Sohail Gidwani research",
   ].join(", "),
   alternates: {
-    canonical: "/research/multimodal-alzheimers-vqa",
+    canonical: "/research/memoir-vlm-alzheimers-vqa",
   },
   authors: [{ name: "Sohail Gidwani", url: "https://sohailgidwani.app" }],
   creator: "Sohail Gidwani",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
       "MEMOIR-VLM: Multimodal VLM for Alzheimer's Classification and VQA",
     description:
       "Missing-modality-aware multimodal deep learning for Alzheimer's disease classification on 2,363 ADNI subjects, plus a retrieval-augmented VQA extension with a three-way LLM comparison.",
-    url: "https://sohailgidwani.app/research/multimodal-alzheimers-vqa",
+    url: "https://sohailgidwani.app/research/memoir-vlm-alzheimers-vqa",
     siteName: "Sohail Gidwani Portfolio",
     images: [
       {

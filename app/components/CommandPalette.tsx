@@ -411,10 +411,10 @@ export default function CommandPalette() {
         id: "research-alzheimers-vqa",
         label: "Multimodal Alzheimer's VQA",
         description: "VLM + RAG for clinical visual question answering",
-        route: "/research/multimodal-alzheimers-vqa",
+        route: "/research/memoir-vlm-alzheimers-vqa",
         icon: <FlaskConical className="h-4 w-4" />,
         action: () => {
-          window.location.href = "/research/multimodal-alzheimers-vqa"
+          window.location.href = "/research/memoir-vlm-alzheimers-vqa"
         },
         keywords: [
           "research",

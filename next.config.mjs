@@ -145,6 +145,11 @@ const nextConfig = {
         destination: '/',
         permanent: true,
       },
+      {
+        source: '/research/multimodal-alzheimers-vqa',
+        destination: '/research/memoir-vlm-alzheimers-vqa',
+        permanent: true,
+      },
     ]
   },
   

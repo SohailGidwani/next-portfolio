@@ -123,7 +123,7 @@ const experience = [
       'RAG-based VQA: FAISS retrieval + cross-encoder rerank + LLM answer generation over retrieved captions; Mistral 7B wins at 94.7% diagnosis VQA accuracy vs Gemma 4 26B MoE and MedGemma 1.5 4B',
       'Two-stage training: CLIP contrastive pre-training → multi-task fine-tuning across five heads; modality ablation across 7 combinations on ~70M parameter models',
     ],
-    researchUrl: `${SITE}/research/multimodal-alzheimers-vqa`,
+    researchUrl: `${SITE}/research/memoir-vlm-alzheimers-vqa`,
   },
   {
     company: 'Insaito, Inc.',
@@ -289,8 +289,8 @@ const skills = [
 const research = [
   {
     title: 'MEMOIR-VLM: Multimodal Vision-Language Model for Alzheimer\'s Disease Classification and VQA',
-    slug: 'multimodal-alzheimers-vqa',
-    url: `${SITE}/research/multimodal-alzheimers-vqa`,
+    slug: 'memoir-vlm-alzheimers-vqa',
+    url: `${SITE}/research/memoir-vlm-alzheimers-vqa`,
     institution: 'Keck School of Medicine of USC',
     status: 'manuscript submitted / in review',
     year: 2025,
@@ -393,7 +393,7 @@ const links = {
     'tech-updates': `${SITE}/projects/tech-updates`,
   },
   research: {
-    'multimodal-alzheimers-vqa': `${SITE}/research/multimodal-alzheimers-vqa`,
+    'memoir-vlm-alzheimers-vqa': `${SITE}/research/memoir-vlm-alzheimers-vqa`,
     'cot-faithfulness': `${SITE}/projects/cot-faithfulness`,
   },
   github: {

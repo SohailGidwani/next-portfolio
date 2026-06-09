@@ -35,7 +35,7 @@ const experiences: ExperienceItem[] = [
     company: "Keck School of Medicine of USC",
     date: "Oct, 2025 - Present",
     description:
-      "Architecting multimodal deep learning pipelines for Alzheimer's disease classification and VQA using neuroimaging and clinical data, with end-to-end experimentation infrastructure across ~70M parameter models.",
+      "Building MEMOIR-VLM, a multimodal deep learning pipeline for Alzheimer's disease classification and VQA using neuroimaging and clinical data, with end-to-end experimentation infrastructure across ~70M parameter models.",
     projects: [
       "Multimodal Deep Learning Pipeline: Architected a multimodal deep learning pipeline (MEMOIR-VLM) for Alzheimer's disease classification using T1 MRI, DTI imaging, and clinical data across 2,363 ADNI subjects, achieving 70.7% balanced accuracy on 3-class diagnosis and 93.3% on binary classification (CN vs Dementia).",
       "Missing-Modality Fusion: Designed missing-modality fusion via cross-attention with stochastic modality dropout, enabling robust inference with any subset of T1, DTI, and clinical inputs when imaging data is incomplete (39.4% DTI coverage).",
@@ -45,8 +45,8 @@ const experiences: ExperienceItem[] = [
     tags: ["Python", "PyTorch", "Deep Learning", "CLIP", "RAG"],
     isLatest: true,
     logo: keckUSC,
-    researchUrl: "/research/multimodal-alzheimers-vqa",
-    researchLabel: "Read the Alzheimer's VLM research",
+    researchUrl: "/research/memoir-vlm-alzheimers-vqa",
+    researchLabel: "Read the MEMOIR-VLM research",
   },
   {
     id: "insaito",
