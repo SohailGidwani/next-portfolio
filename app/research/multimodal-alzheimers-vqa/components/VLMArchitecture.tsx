@@ -1,6 +1,7 @@
 "use client"
 
 import { motion, useReducedMotion } from "framer-motion"
+import { useDiagramVertical } from "@/app/components/DiagramOrientation"
 
 interface EdgeProps {
   id: string
@@ -11,6 +12,7 @@ interface EdgeProps {
   delay?: number
   packet?: { dur: number; begin: number } | null
   reduced: boolean
+  mk?: string
 }
 
 function Edge({
@@ -22,10 +24,11 @@ function Edge({
   delay = 0,
   packet,
   reduced,
+  mk = "",
 }: EdgeProps) {
   const stroke = accent ? "var(--accent)" : "var(--muted)"
   const sw = strokeWidth ?? (accent ? 2 : 1.5)
-  const marker = accent ? "url(#vlm-arrow-accent)" : "url(#vlm-arrow)"
+  const marker = accent ? `url(#vlm-arrow-accent${mk})` : `url(#vlm-arrow${mk})`
 
   return (
     <>
@@ -58,8 +61,198 @@ function Edge({
   )
 }
 
+function VLMArchitectureVertical({ reduced }: { reduced: boolean }) {
+  const W = 460
+  const H = 830
+
+  // Three modality columns flowing downward, converging into fusion.
+  const c1 = 90
+  const c2 = 230
+  const c3 = 370
+  const cols = [c1, c2, c3]
+
+  const yIn = 55
+  const yEnc = 150
+  const yEmb = 240
+  const yMask = 330
+  const yFuse = 455
+  const yZf = 590
+  const headRows = [680, 732, 784]
+
+  const boxStyle = { fill: "var(--card)", stroke: "var(--border)", strokeWidth: 1.2 } as const
+
+  const pulse = reduced ? {} : {
+    animate: { opacity: [0.85, 1, 0.85] },
+    transition: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
+  }
+
+  const inputs = [
+    { x: c1, label: "T1 MRI", sub: "91×109×91" },
+    { x: c2, label: "DTI FA", sub: "91×109×91" },
+    { x: c3, label: "Clinical", sub: "6 feats + APOE" },
+  ]
+  const encoders = [
+    { x: c1, label: "3D ResNet-18" },
+    { x: c2, label: "3D ResNet-18" },
+    { x: c3, label: "Clinical MLP" },
+  ]
+  const embeddings = [
+    { x: c1, label: "z_T1" },
+    { x: c2, label: "z_DTI" },
+    { x: c3, label: "z_Clin" },
+  ]
+  const masks = [
+    { x: c1, drop: "10%" },
+    { x: c2, drop: "30%" },
+    { x: c3, drop: "5%" },
+  ]
+  // 6 heads in 2 columns x 3 rows, branching off a central trunk.
+  const heads = [
+    { x: 130, y: headRows[0], label: "DX 3-class", dim: "→ 3" },
+    { x: 130, y: headRows[1], label: "DX Binary", dim: "→ 2" },
+    { x: 130, y: headRows[2], label: "Sex", dim: "→ 2" },
+    { x: 330, y: headRows[0], label: "Age", dim: "→ 1" },
+    { x: 330, y: headRows[1], label: "CDR-SB", dim: "→ 1" },
+    { x: 330, y: headRows[2], label: "Amyloid", dim: "→ 2", accent: true },
+  ]
+
+  return (
+    <figure className="m-0 flex h-full flex-col">
+      <div className="min-h-0 flex-1 rounded border border-border bg-card/40 p-3">
+        <svg
+          viewBox={`0 0 ${W} ${H}`}
+          width="100%"
+          height="100%"
+          preserveAspectRatio="xMidYMid meet"
+          role="img"
+          aria-label="Multi-modal VLM architecture: three encoders produce embeddings that pass through modality-masking gates into a cross-attention fusion block, then six task heads"
+        >
+          <defs>
+            <marker id="vlm-arrow-v" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--muted)" />
+            </marker>
+            <marker id="vlm-arrow-accent-v" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent)" />
+            </marker>
+          </defs>
+
+          {/* ═══ INPUTS ═══ */}
+          {inputs.map((it) => (
+            <g key={it.label}>
+              <rect x={it.x - 55} y={yIn - 30} width={110} height={60} rx="3" {...boxStyle} />
+              <text x={it.x} y={yIn - 5} textAnchor="middle" className="font-mono" style={{ fontSize: 13, fill: "var(--fg)", fontWeight: 600 }}>{it.label}</text>
+              <text x={it.x} y={yIn + 15} textAnchor="middle" className="font-mono" style={{ fontSize: 10, fill: "var(--muted)" }}>{it.sub}</text>
+            </g>
+          ))}
+
+          {/* ═══ ENCODERS ═══ */}
+          {encoders.map((e, i) => (
+            <g key={`enc-${i}`}>
+              <rect x={e.x - 65} y={yEnc - 24} width={130} height={48} rx="3" {...boxStyle} />
+              <text x={e.x} y={yEnc - 4} textAnchor="middle" className="font-mono" style={{ fontSize: 12, fill: "var(--fg)", fontWeight: 600 }}>{e.label}</text>
+              <text x={e.x} y={yEnc + 14} textAnchor="middle" className="font-mono" style={{ fontSize: 10, fill: "var(--muted)" }}>→ 512-d</text>
+            </g>
+          ))}
+
+          {/* ═══ EMBEDDINGS ═══ */}
+          {embeddings.map((e) => (
+            <g key={e.label}>
+              <circle cx={e.x} cy={yEmb} r="24" fill="var(--card2)" stroke="var(--accent)" strokeWidth="1.2" />
+              <text x={e.x} y={yEmb} textAnchor="middle" dominantBaseline="middle" className="font-mono" style={{ fontSize: 13, fill: "var(--fg)", fontWeight: 700 }}>{e.label}</text>
+            </g>
+          ))}
+
+          {/* ═══ MASKING GATES ═══ */}
+          {masks.map((m, i) => (
+            <g key={`mask-${i}`}>
+              <g transform={`rotate(45 ${m.x} ${yMask})`}>
+                <rect x={m.x - 16} y={yMask - 16} width="32" height="32" fill="var(--card)" stroke="var(--accent)" strokeWidth="1.2" />
+              </g>
+              <text x={m.x} y={yMask + 1} textAnchor="middle" dominantBaseline="middle" style={{ fontSize: 17, fill: "var(--accent)", fontWeight: 700 }}>×</text>
+              <text x={m.x + 26} y={yMask + 3} className="font-mono" style={{ fontSize: 9, fill: "var(--muted)" }}>drop {m.drop}</text>
+            </g>
+          ))}
+
+          {/* ═══ FUSION ═══ */}
+          <motion.g {...pulse}>
+            <rect x={c2 - 75} y={yFuse - 60} width={150} height={120} rx="3" {...boxStyle} />
+            <text x={c2} y={yFuse - 30} textAnchor="middle" className="font-mono" style={{ fontSize: 13, fill: "var(--fg)", fontWeight: 600 }}>Cross-Attention</text>
+            <text x={c2} y={yFuse - 10} textAnchor="middle" className="font-mono" style={{ fontSize: 11, fill: "var(--muted)" }}>8 heads</text>
+            <text x={c2} y={yFuse + 8} textAnchor="middle" className="font-mono" style={{ fontSize: 11, fill: "var(--muted)" }}>pool query</text>
+            <text x={c2} y={yFuse + 26} textAnchor="middle" className="font-mono" style={{ fontSize: 11, fill: "var(--muted)" }}>+ modality emb.</text>
+            <text x={c2} y={yFuse + 46} textAnchor="middle" className="font-mono uppercase" style={{ fontSize: 11, fill: "var(--accent)", letterSpacing: "0.15em", fontWeight: 700 }}>Fusion</text>
+          </motion.g>
+
+          {/* ═══ FUSED EMBEDDING ═══ */}
+          <motion.g {...pulse}>
+            <circle cx={c2} cy={yZf} r="28" fill="var(--card2)" stroke="var(--accent)" strokeWidth="1.8" />
+            <text x={c2} y={yZf} textAnchor="middle" dominantBaseline="middle" className="font-mono" style={{ fontSize: 14, fill: "var(--fg)", fontWeight: 700 }}>z_f</text>
+            <text x={c2 + 38} y={yZf + 4} className="font-mono italic" style={{ fontSize: 11, fill: "var(--muted)" }}>ℝ⁵¹²</text>
+          </motion.g>
+
+          {/* ═══ TASK HEADS ═══ */}
+          {heads.map((h) => (
+            <g key={h.label}>
+              <rect x={h.x - 75} y={h.y - 18} width={150} height={36} rx="3" fill="var(--card)" stroke={h.accent ? "var(--accent)" : "var(--border)"} strokeWidth={h.accent ? 1.5 : 1.2} />
+              <text x={h.x - 63} y={h.y + 1} dominantBaseline="middle" className="font-mono" style={{ fontSize: 12, fill: "var(--fg)", fontWeight: 600 }}>{h.label}</text>
+              <text x={h.x + 63} y={h.y + 1} textAnchor="end" dominantBaseline="middle" className="font-mono italic" style={{ fontSize: 11, fill: "var(--muted)" }}>{h.dim}</text>
+            </g>
+          ))}
+
+          {/* ═══ EDGES ═══ */}
+          {/* Inputs → Encoders */}
+          {cols.map((x, i) => (
+            <Edge key={`inenc-${i}`} reduced={reduced} mk="-v" id={`vlmv-in-enc-${i}`}
+              d={`M ${x} ${yIn + 32} L ${x} ${yEnc - 27}`} packet={{ dur: 3, begin: i * 0.4 }} />
+          ))}
+          {/* Encoders → Embeddings */}
+          {cols.map((x, i) => (
+            <Edge key={`encemb-${i}`} reduced={reduced} mk="-v" id={`vlmv-enc-emb-${i}`}
+              d={`M ${x} ${yEnc + 26} L ${x} ${yEmb - 27}`} delay={0.2} packet={{ dur: 2, begin: 0.6 + i * 0.4 }} />
+          ))}
+          {/* Embeddings → Masks */}
+          {cols.map((x, i) => (
+            <Edge key={`embmask-${i}`} reduced={reduced} mk="-v" id={`vlmv-emb-mask-${i}`}
+              d={`M ${x} ${yEmb + 26} L ${x} ${yMask - 25}`} delay={0.3} packet={{ dur: 1.8, begin: 1.2 + i * 0.4 }} />
+          ))}
+          {/* Masks → Fusion (converging) */}
+          <Edge reduced={reduced} mk="-v" id="vlmv-mask-fuse-0"
+            d={`M ${c1} ${yMask + 24} Q ${c1} ${yMask + 60}, ${c2 - 78} ${yFuse - 50}`} delay={0.4} packet={{ dur: 2.2, begin: 1.2 }} />
+          <Edge reduced={reduced} mk="-v" id="vlmv-mask-fuse-1"
+            d={`M ${c2} ${yMask + 24} L ${c2} ${yFuse - 63}`} delay={0.4} packet={{ dur: 2.2, begin: 1.6 }} />
+          <Edge reduced={reduced} mk="-v" id="vlmv-mask-fuse-2"
+            d={`M ${c3} ${yMask + 24} Q ${c3} ${yMask + 60}, ${c2 + 78} ${yFuse - 50}`} delay={0.4} packet={{ dur: 2.2, begin: 2.0 }} />
+          {/* Fusion → z_f */}
+          <Edge reduced={reduced} mk="-v" id="vlmv-fuse-zf"
+            d={`M ${c2} ${yFuse + 62} L ${c2} ${yZf - 31}`} accent delay={0.5} packet={{ dur: 1.8, begin: 2.4 }} />
+
+          {/* z_f → heads: central trunk + horizontal branches */}
+          <path d={`M ${c2} ${yZf + 30} L ${c2} ${headRows[2]}`} fill="none" stroke="var(--muted)" strokeWidth="1.2" opacity="0.6" />
+          {heads.map((h) => (
+            <Edge
+              key={`vlmv-edge-${h.label}`}
+              reduced={reduced}
+              mk="-v"
+              id={`vlmv-zf-head-${h.label.replace(/\s/g, "-")}`}
+              d={`M ${c2} ${h.y} L ${h.x < c2 ? h.x + 78 : h.x - 78} ${h.y}`}
+              accent={h.accent}
+              opacity={h.accent ? 1 : 0.7}
+              strokeWidth={h.accent ? 1.5 : 1.2}
+              delay={0.6}
+              packet={h.accent ? { dur: 1.6, begin: 2.8 } : null}
+            />
+          ))}
+        </svg>
+      </div>
+    </figure>
+  )
+}
+
 export default function VLMArchitecture() {
   const reduced = useReducedMotion() ?? false
+  const vertical = useDiagramVertical()
+
+  if (vertical) return <VLMArchitectureVertical reduced={reduced} />
 
   const W = 1100
   const H = 520

@@ -3,6 +3,7 @@
 import { useState, type ReactNode } from "react"
 import { Maximize2 } from "lucide-react"
 import { Dialog, DialogContent, DialogTitle } from "@/app/components/ui/dialog"
+import { DiagramVerticalContext } from "./DiagramOrientation"
 import { triggerHaptic } from "./ui/haptics"
 
 type DiagramLightboxProps = {
@@ -40,8 +41,21 @@ export default function DiagramLightbox({ title, children }: DiagramLightboxProp
           <DialogTitle className="pr-10 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
             {title}
           </DialogTitle>
-          <div className="min-h-0 overflow-auto">
-            <div className="mx-auto min-w-[720px] max-w-6xl py-2">{children}</div>
+
+          {/* sm+: horizontal layout scaled up to fill the dialog,
+              letterboxed by the svg's preserveAspectRatio. */}
+          <div className="hidden min-h-0 sm:block">
+            <div className="h-full w-full [&_figure>div]:h-full [&_figure>p]:hidden [&_figure]:m-0 [&_figure]:h-full [&_figure_svg]:h-full [&_figure_svg]:w-full">
+              {children}
+            </div>
+          </div>
+
+          {/* Phones: diagrams re-render in their vertical layout with
+              horizontal text, letterboxed to fit without scrolling. */}
+          <div className="h-full min-h-0 sm:hidden">
+            <DiagramVerticalContext.Provider value={true}>
+              {children}
+            </DiagramVerticalContext.Provider>
           </div>
         </DialogContent>
       </Dialog>

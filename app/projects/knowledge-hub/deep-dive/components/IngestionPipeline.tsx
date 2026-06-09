@@ -1,6 +1,7 @@
 "use client"
 
 import { motion, useReducedMotion } from "framer-motion"
+import { useDiagramVertical } from "@/app/components/DiagramOrientation"
 
 interface Step {
   cx: number; cy: number; w: number; h: number
@@ -15,12 +16,13 @@ interface EdgeProps {
   delay?: number
   packet?: { dur: number; begin: number } | null
   reduced: boolean
+  mk?: string
 }
 
-function Edge({ id, d, accent, dashed, delay = 0, packet, reduced }: EdgeProps) {
+function Edge({ id, d, accent, dashed, delay = 0, packet, reduced, mk = "" }: EdgeProps) {
   const stroke = accent ? "var(--accent)" : "var(--muted)"
   const sw = accent ? 2 : 1.5
-  const marker = accent ? "url(#ing-arrow-accent)" : "url(#ing-arrow)"
+  const marker = accent ? `url(#ing-arrow-accent${mk})` : `url(#ing-arrow${mk})`
 
   return (
     <>
@@ -53,8 +55,129 @@ function Edge({ id, d, accent, dashed, delay = 0, packet, reduced }: EdgeProps) 
   )
 }
 
+function IngestionPipelineVertical({ reduced }: { reduced: boolean }) {
+  const W = 440
+  const H = 750
+  const cx = 150
+  const bw = 210
+  const bh = 66
+
+  const steps = [
+    { cy: 70, label: "PDF / Image", sub: "input", accent: false },
+    { cy: 175, label: "Render", sub: "PyMuPDF · scale 3", accent: false },
+    { cy: 280, label: "Preprocess", sub: "deskew · denoise · binarize", accent: false },
+    { cy: 385, label: "Tesseract", sub: "PSM 6/11/4 · conf", accent: false },
+    { cy: 490, label: "Chunker", sub: "300–700 tok · ovlp", accent: false },
+    { cy: 595, label: "Embedder", sub: "MiniLM · 384-d", accent: false },
+    { cy: 700, label: "Postgres", sub: "pgvector + GIN", accent: true },
+  ]
+
+  const flowLabels = ["rasterise", "clean image", "text + conf", "300–700 tok", "384-d vectors"]
+
+  const trOCR = { cx: 345, cy: 437, w: 160, h: 64 }
+
+  const boxStyle = { fill: "var(--card)", stroke: "var(--border)", strokeWidth: 1.2 } as const
+
+  const pulse = reduced ? {} : {
+    animate: { opacity: [0.85, 1, 0.85] },
+    transition: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
+  }
+
+  return (
+    <figure className="m-0 flex h-full flex-col">
+      <div className="min-h-0 flex-1 rounded border border-border bg-card/40 p-3">
+        <svg
+          viewBox={`0 0 ${W} ${H}`}
+          width="100%"
+          height="100%"
+          preserveAspectRatio="xMidYMid meet"
+          role="img"
+          aria-label="Ingestion pipeline: PDF or image input is rendered by PyMuPDF, preprocessed (deskew, denoise, binarize), passed to Tesseract OCR with multi-pass PSM configs. If confidence is low, TrOCR fallback runs. Text chunks go to Sentence-Transformers for embeddings, then stored in Postgres with pgvector and GIN index."
+        >
+          <defs>
+            <marker id="ing-arrow-v" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--muted)" />
+            </marker>
+            <marker id="ing-arrow-accent-v" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent)" />
+            </marker>
+          </defs>
+
+          {/* ═══ MAIN PIPELINE BOXES ═══ */}
+          {steps.map((s) => (
+            <g key={s.label}>
+              {s.accent ? (
+                <motion.g {...pulse}>
+                  <rect x={cx - bw / 2} y={s.cy - bh / 2} width={bw} height={bh} rx="3" fill="var(--card)" stroke="var(--accent)" strokeWidth="1.5" />
+                  <text x={cx} y={s.cy - 6} textAnchor="middle" className="font-mono" style={{ fontSize: 13, fill: "var(--fg)", fontWeight: 700 }}>{s.label}</text>
+                  <text x={cx} y={s.cy + 12} textAnchor="middle" className="font-mono" style={{ fontSize: 10, fill: "var(--accent)" }}>{s.sub}</text>
+                </motion.g>
+              ) : (
+                <g>
+                  <rect x={cx - bw / 2} y={s.cy - bh / 2} width={bw} height={bh} rx="3" {...boxStyle} />
+                  <text x={cx} y={s.cy - 6} textAnchor="middle" className="font-mono" style={{ fontSize: 13, fill: "var(--fg)", fontWeight: 700 }}>{s.label}</text>
+                  <text x={cx} y={s.cy + 12} textAnchor="middle" className="font-mono" style={{ fontSize: 10, fill: "var(--muted)" }}>{s.sub}</text>
+                </g>
+              )}
+            </g>
+          ))}
+
+          {/* ═══ TrOCR FALLBACK ═══ */}
+          <g>
+            <rect x={trOCR.cx - trOCR.w / 2} y={trOCR.cy - trOCR.h / 2} width={trOCR.w} height={trOCR.h} rx="3" fill="var(--card)" stroke="var(--border)" strokeWidth="1.2" strokeDasharray="5 3" />
+            <text x={trOCR.cx} y={trOCR.cy - 6} textAnchor="middle" className="font-mono" style={{ fontSize: 13, fill: "var(--fg)", fontWeight: 700 }}>TrOCR</text>
+            <text x={trOCR.cx} y={trOCR.cy + 12} textAnchor="middle" className="font-mono" style={{ fontSize: 10, fill: "var(--muted)" }}>VisionEncoderDecoder</text>
+          </g>
+
+          {/* ═══ FLOW LABELS BESIDE ARROWS ═══ */}
+          {flowLabels.map((label, i) => (
+            <text
+              key={label}
+              x={cx + 14}
+              y={(steps[i + 1].cy + steps[i + 2].cy) / 2 + 3}
+              className="font-mono"
+              style={{ fontSize: 9, fill: "var(--muted)", fontStyle: "italic" }}
+            >
+              {label}
+            </text>
+          ))}
+
+          {/* ═══ MAIN FLOW EDGES ═══ */}
+          {steps.slice(0, -1).map((s, i) => (
+            <Edge
+              key={`ingv-${i}`}
+              reduced={reduced}
+              mk="-v"
+              id={`ingv-${i}-${i + 1}`}
+              accent={i === steps.length - 2}
+              d={`M ${cx} ${s.cy + bh / 2 + 2} L ${cx} ${steps[i + 1].cy - bh / 2 - 2}`}
+              delay={i * 0.1}
+              packet={{ dur: 2.0, begin: i * 0.3 }}
+            />
+          ))}
+
+          {/* ═══ TrOCR BRANCH ═══ */}
+          <Edge reduced={reduced} mk="-v" id="ingv-ocr-trocr"
+            d={`M ${cx + bw / 2 + 2} ${steps[3].cy + 8} Q 310 ${steps[3].cy + 12}, ${trOCR.cx - 8} ${trOCR.cy - trOCR.h / 2 - 2}`}
+            dashed delay={0.3} packet={null} />
+          <Edge reduced={reduced} mk="-v" id="ingv-trocr-chunk"
+            d={`M ${trOCR.cx - 45} ${trOCR.cy + trOCR.h / 2 + 2} Q 280 ${steps[4].cy - 10}, ${cx + bw / 2 + 4} ${steps[4].cy - 8}`}
+            dashed delay={0.4} packet={null} />
+
+          {/* TrOCR labels */}
+          <text x={300} y={steps[3].cy - 14} textAnchor="middle" className="font-mono" style={{ fontSize: 10, fill: "var(--muted)", fontStyle: "italic" }}>low conf</text>
+          <text x={330} y={steps[4].cy + 14} textAnchor="middle" className="font-mono" style={{ fontSize: 10, fill: "var(--muted)", fontStyle: "italic" }}>fallback text</text>
+        </svg>
+      </div>
+    </figure>
+  )
+}
+
 export default function IngestionPipeline() {
   const reduced = useReducedMotion() ?? false
+  const vertical = useDiagramVertical()
+
+  if (vertical) return <IngestionPipelineVertical reduced={reduced} />
 
   // ── geometry ──────────────────────────────────────
   const W = 1260
