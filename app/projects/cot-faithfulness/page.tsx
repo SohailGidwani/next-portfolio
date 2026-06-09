@@ -10,6 +10,7 @@ import coverImage from "@/public/images/cot_faithfulness.jpeg"
 import ProjectSkeleton from "@/app/components/ProjectSkeleton"
 import ProjectNav from "@/app/components/ProjectNav"
 import ProjectDetailStructuredData from "@/app/components/ProjectDetailStructuredData"
+import InteractiveCard from "@/app/components/ui/InteractiveCard"
 import BaselineChart from "./components/BaselineChart"
 import TruncationChart from "./components/TruncationChart"
 import CorruptionChart from "./components/CorruptionChart"
@@ -111,7 +112,7 @@ export default function CoTFaithfulnessPage() {
         projectType="research"
       />
       <Suspense fallback={<ProjectSkeleton />}>
-        <div className="min-h-screen overflow-x-hidden bg-background text-foreground">
+        <div className="min-h-screen overflow-x-clip bg-background text-foreground">
           <ProjectNav />
 
           {/* Header */}
@@ -308,7 +309,7 @@ export default function CoTFaithfulnessPage() {
                   <SectionLabel n="08" label="Experiment Design" />
                   <div className="grid gap-4 sm:grid-cols-2">
                     {features.map((feature, index) => (
-                      <div
+                      <InteractiveCard
                         key={index}
                         className="rounded border border-border bg-card p-5 transition-colors hover:border-accent/40"
                       >
@@ -319,7 +320,7 @@ export default function CoTFaithfulnessPage() {
                           </h3>
                         </div>
                         <p className="text-sm leading-relaxed text-muted-foreground">{feature.description}</p>
-                      </div>
+                      </InteractiveCard>
                     ))}
                   </div>
                 </motion.section>

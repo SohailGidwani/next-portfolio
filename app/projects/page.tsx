@@ -7,6 +7,7 @@ import Link from "next/link"
 import Image from "next/image"
 import ProjectNav from "@/app/components/ProjectNav"
 import BreadcrumbStructuredData from "@/app/components/BreadcrumbStructuredData"
+import InteractiveCard from "@/app/components/ui/InteractiveCard"
 import { projects } from "@/app/data/projects"
 
 export default function ProjectsPage() {
@@ -34,11 +35,15 @@ export default function ProjectsPage() {
 
         <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {projects.map((project, index) => (
-            <Link key={project.id} href={`/projects/${project.id}`} className="block">
+            <Link key={project.id} href={`/projects/${project.id}`} className="block h-full">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
+                className="h-full"
+              >
+              <InteractiveCard
+                tilt
                 className="group flex h-full cursor-pointer flex-col rounded border border-border bg-card/80 p-5 shadow-card transition hover:border-accent/30"
               >
                 <div className="relative h-40 w-full overflow-hidden rounded">
@@ -92,6 +97,7 @@ export default function ProjectsPage() {
                     <Github className="h-4 w-4" />
                   </span>
                 </div>
+              </InteractiveCard>
               </motion.div>
             </Link>
           ))}

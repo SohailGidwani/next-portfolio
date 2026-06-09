@@ -21,6 +21,7 @@ import techupdates from '@/public/images/Tech Updates.png'
 import ProjectSkeleton from "@/app/components/ProjectSkeleton"
 import ProjectNav from "@/app/components/ProjectNav"
 import ProjectDetailStructuredData from "@/app/components/ProjectDetailStructuredData"
+import InteractiveCard from "@/app/components/ui/InteractiveCard"
 
 function SectionLabel({ n, label }: { n: string; label: string }) {
   return (
@@ -205,7 +206,7 @@ export default function TechUpdatesPage() {
         projectType="app"
       />
       <Suspense fallback={<ProjectSkeleton />}>
-        <div className="min-h-screen overflow-x-hidden bg-background text-foreground">
+        <div className="min-h-screen overflow-x-clip bg-background text-foreground">
           <ProjectNav />
 
           {/* Header */}
@@ -490,7 +491,7 @@ export default function TechUpdatesPage() {
                   <SectionLabel n="09" label="Key Features" />
                   <div className="grid gap-4 sm:grid-cols-2">
                     {project.features.map((feature, index) => (
-                      <div
+                      <InteractiveCard
                         key={index}
                         className="rounded border border-border bg-card p-5 transition-colors hover:border-accent/40"
                       >
@@ -501,7 +502,7 @@ export default function TechUpdatesPage() {
                           </h3>
                         </div>
                         <p className="text-sm leading-relaxed text-muted-foreground">{feature.description}</p>
-                      </div>
+                      </InteractiveCard>
                     ))}
                   </div>
                 </motion.section>

@@ -3,6 +3,8 @@ import Script from "next/script"
 import { Home, FileText, Github, Brain, Microscope, MessageSquare } from "lucide-react"
 import ThemeToggle from "@/app/components/ThemeToggle"
 import BreadcrumbStructuredData from "@/app/components/BreadcrumbStructuredData"
+import ReadingProgress from "@/app/components/ReadingProgress"
+import SectionTOC from "@/app/components/SectionTOC"
 import VLMArchitecture from "./components/VLMArchitecture"
 import VQAPipeline from "./components/VQAPipeline"
 import ConfusionMatrix from "./components/ConfusionMatrix"
@@ -10,9 +12,9 @@ import AblationChart from "./components/AblationChart"
 import TrainingChart from "./components/TrainingChart"
 import LLMComparison from "./components/LLMComparison"
 
-function SectionLabel({ n, label }: { n: string; label: string }) {
+function SectionLabel({ n, label, id }: { n: string; label: string; id?: string }) {
   return (
-    <div className="mb-6">
+    <div id={id} className="mb-6 scroll-mt-24">
       <div className="mb-2 flex items-center gap-2">
         <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">{n}</span>
         <div className="h-px w-5 bg-border" />
@@ -23,6 +25,18 @@ function SectionLabel({ n, label }: { n: string; label: string }) {
     </div>
   )
 }
+
+const tocItems = [
+  { id: "section-01", n: "01", label: "The Clinical Ask" },
+  { id: "section-02", n: "02", label: "Dataset" },
+  { id: "section-03", n: "03", label: "Model Architecture" },
+  { id: "section-04", n: "04", label: "Training Procedure" },
+  { id: "section-05", n: "05", label: "Results" },
+  { id: "section-06", n: "06", label: "Modality Ablation" },
+  { id: "section-07", n: "07", label: "RAG VQA Extension" },
+  { id: "section-08", n: "08", label: "LLM Comparison" },
+  { id: "section-09", n: "09", label: "Key Findings" },
+]
 
 function Stat({
   value,
@@ -181,9 +195,10 @@ export default function MultiModalAlzheimersVQAPage() {
         ]}
       />
 
-      <div className="min-h-screen overflow-x-hidden bg-background text-foreground">
+      <div className="min-h-screen overflow-x-clip bg-background text-foreground">
         {/* ─── Top nav ─── */}
         <div className="sticky top-0 z-40 border-b border-border bg-card/80 backdrop-blur-md">
+          <ReadingProgress />
           <div className="container mx-auto flex items-center justify-between gap-4 px-4 py-3">
             <Link
               href="/#experience"
@@ -195,6 +210,8 @@ export default function MultiModalAlzheimersVQAPage() {
             <ThemeToggle />
           </div>
         </div>
+
+        <SectionTOC items={tocItems} />
 
         {/* ─── Header ─── */}
         <div className="border-b border-border bg-card/40 py-16 sm:py-20">
@@ -257,7 +274,7 @@ export default function MultiModalAlzheimersVQAPage() {
             <div className="mx-auto max-w-3xl space-y-20">
               {/* 01 — Clinical Motivation */}
               <section>
-                <SectionLabel n="01" label="The Clinical Ask" />
+                <SectionLabel n="01" label="The Clinical Ask" id="section-01" />
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
                     Under the NIA-AA A/T/N framework, cognitively normal (CN) individuals who test
@@ -294,7 +311,7 @@ export default function MultiModalAlzheimersVQAPage() {
 
               {/* 02 — Dataset */}
               <section>
-                <SectionLabel n="02" label="Dataset" />
+                <SectionLabel n="02" label="Dataset" id="section-02" />
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
                     All data comes from the{" "}
@@ -369,7 +386,7 @@ export default function MultiModalAlzheimersVQAPage() {
 
               {/* 03 — VLM Architecture */}
               <section>
-                <SectionLabel n="03" label="Model Architecture" />
+                <SectionLabel n="03" label="Model Architecture" id="section-03" />
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
                     The model is a multi-modal vision-language model with missing-modality
@@ -433,7 +450,7 @@ export default function MultiModalAlzheimersVQAPage() {
 
               {/* 04 — Training */}
               <section>
-                <SectionLabel n="04" label="Training Procedure" />
+                <SectionLabel n="04" label="Training Procedure" id="section-04" />
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
                     Training runs in two stages. Stage 1 is contrastive pre-training: a
@@ -500,7 +517,7 @@ export default function MultiModalAlzheimersVQAPage() {
 
               {/* 05 — Results */}
               <section>
-                <SectionLabel n="05" label="Results" />
+                <SectionLabel n="05" label="Results" id="section-05" />
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
                     Evaluated on the held-out 474-subject test set using all available modalities.
@@ -630,7 +647,7 @@ export default function MultiModalAlzheimersVQAPage() {
 
               {/* 06 — Modality Ablation */}
               <section>
-                <SectionLabel n="06" label="Modality Ablation" />
+                <SectionLabel n="06" label="Modality Ablation" id="section-06" />
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
                     Every one of the seven possible modality subsets was evaluated using the same
@@ -648,7 +665,7 @@ export default function MultiModalAlzheimersVQAPage() {
 
               {/* 07 — VQA Pipeline */}
               <section>
-                <SectionLabel n="07" label="Retrieval-Augmented VQA Extension" />
+                <SectionLabel n="07" label="Retrieval-Augmented VQA Extension" id="section-07" />
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
                     The VLM gives you a prediction and a confidence score. What it doesn&apos;t
@@ -697,7 +714,7 @@ export default function MultiModalAlzheimersVQAPage() {
 
               {/* 08 — LLM Comparison */}
               <section>
-                <SectionLabel n="08" label="LLM Backbone Comparison" />
+                <SectionLabel n="08" label="LLM Backbone Comparison" id="section-08" />
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
                     Three models were given the same retrieved context: Mistral 7B Instruct v0.3
@@ -762,7 +779,7 @@ export default function MultiModalAlzheimersVQAPage() {
 
               {/* 09 — Key Findings */}
               <section>
-                <SectionLabel n="09" label="Key Findings" />
+                <SectionLabel n="09" label="Key Findings" id="section-09" />
                 <div className="space-y-4">
                   {[
                     {

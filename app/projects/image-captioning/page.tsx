@@ -10,6 +10,7 @@ import imagecaption from '@/public/images/BE-Project.jpg'
 import ProjectSkeleton from "@/app/components/ProjectSkeleton"
 import ProjectNav from "@/app/components/ProjectNav"
 import ProjectDetailStructuredData from "@/app/components/ProjectDetailStructuredData"
+import InteractiveCard from "@/app/components/ui/InteractiveCard"
 
 function SectionLabel({ n, label }: { n: string; label: string }) {
   return (
@@ -102,7 +103,7 @@ The hardest part was honestly the training pipeline. VGG-16 is memory-hungry, th
         projectType="app"
       />
       <Suspense fallback={<ProjectSkeleton />}>
-        <div className="min-h-screen overflow-x-hidden bg-background text-foreground">
+        <div className="min-h-screen overflow-x-clip bg-background text-foreground">
           <ProjectNav />
 
           {/* Header */}
@@ -237,7 +238,7 @@ The hardest part was honestly the training pipeline. VGG-16 is memory-hungry, th
                   <SectionLabel n="05" label="Key Features" />
                   <div className="grid gap-4 sm:grid-cols-2">
                     {project.features.map((feature, index) => (
-                      <div
+                      <InteractiveCard
                         key={index}
                         className="rounded border border-border bg-card p-5 transition-colors hover:border-accent/40"
                       >
@@ -248,7 +249,7 @@ The hardest part was honestly the training pipeline. VGG-16 is memory-hungry, th
                           </h3>
                         </div>
                         <p className="text-sm leading-relaxed text-muted-foreground">{feature.description}</p>
-                      </div>
+                      </InteractiveCard>
                     ))}
                   </div>
                 </motion.section>

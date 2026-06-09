@@ -6,6 +6,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { ArrowDown, ArrowUpRight, Github, Linkedin } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
 import { smoothScrollToId } from "@/app/utils/smoothScroll"
+import AnimatedCounter from "./AnimatedCounter"
 
 const ShootingStars = dynamic(() => import("./ShootingStars"), { ssr: false })
 
@@ -47,22 +48,28 @@ function RoleBadge() {
 
 function HeroStats() {
   const items: {
-    value: string
+    value?: number
+    suffix?: string
+    text?: string
     label: string
   }[] = [
-    { value: "2+", label: "Years production experience" },
-    { value: "3", label: "AI systems deployed at IIFL" },
-    { value: "70M", label: "Parameter Custom Model" },
-    { value: "LA", label: "Currently based" },
+    { value: 2, suffix: "+", label: "Years production experience" },
+    { value: 3, label: "AI systems deployed at IIFL" },
+    { value: 70, suffix: "M", label: "Parameter Custom Model" },
+    { text: "LA", label: "Currently based" },
   ]
 
   return (
     <div className="mt-10 w-full border-t border-border pt-8 sm:mt-14 sm:pt-10 md:mt-16 md:pt-12">
       <div className="grid grid-cols-2 gap-6 sm:gap-8 md:grid-cols-4 md:gap-6 lg:gap-10">
         {items.map((item) => (
-          <div key={item.value + item.label} className="min-w-0 text-left md:text-center">
+          <div key={item.label} className="min-w-0 text-left md:text-center">
             <p className="font-display text-[clamp(1.15rem,3.2vw,2.65rem)] leading-none tracking-[-0.02em] text-foreground">
-              {item.value}
+              {item.value !== undefined ? (
+                <AnimatedCounter value={item.value} suffix={item.suffix ?? ""} duration={1100} />
+              ) : (
+                item.text
+              )}
             </p>
             <p className="mt-1.5 font-mono text-[8px] font-medium uppercase leading-snug tracking-[0.18em] text-muted-foreground sm:mt-2 sm:text-[10px] sm:tracking-[0.22em]">
               {item.label}

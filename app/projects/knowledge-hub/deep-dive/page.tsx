@@ -2,13 +2,15 @@ import Link from "next/link"
 import { Home, ArrowLeft, Github, Database, Brain, Search, FileText, Zap, Shield, Telescope } from "lucide-react"
 import ThemeToggle from "@/app/components/ThemeToggle"
 import BreadcrumbStructuredData from "@/app/components/BreadcrumbStructuredData"
+import ReadingProgress from "@/app/components/ReadingProgress"
+import SectionTOC from "@/app/components/SectionTOC"
 import SystemArchitecture from "./components/SystemArchitecture"
 import IngestionPipeline from "./components/IngestionPipeline"
 import HybridRanking from "./components/HybridRanking"
 
-function SectionLabel({ n, label }: { n: string; label: string }) {
+function SectionLabel({ n, label, id }: { n: string; label: string; id?: string }) {
   return (
-    <div className="mb-6">
+    <div id={id} className="mb-6 scroll-mt-24">
       <div className="mb-2 flex items-center gap-2">
         <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">{n}</span>
         <div className="h-px w-5 bg-border" />
@@ -19,6 +21,20 @@ function SectionLabel({ n, label }: { n: string; label: string }) {
     </div>
   )
 }
+
+const tocItems = [
+  { id: "section-01", n: "01", label: "Architecture Overview" },
+  { id: "section-02", n: "02", label: "Data Model & Storage" },
+  { id: "section-03", n: "03", label: "Ingestion Pipeline" },
+  { id: "section-04", n: "04", label: "Full-Text Search" },
+  { id: "section-05", n: "05", label: "Semantic Search" },
+  { id: "section-06", n: "06", label: "Hybrid Ranking" },
+  { id: "section-07", n: "07", label: "RAG with Ollama" },
+  { id: "section-08", n: "08", label: "Performance & Ops" },
+  { id: "section-09", n: "09", label: "Security & Privacy" },
+  { id: "section-10", n: "10", label: "Future Upgrades" },
+  { id: "section-qr", n: "QR", label: "Quick Reference" },
+]
 
 function Stat({ value, label, primary }: { value: string; label: string; primary?: boolean }) {
   return (
@@ -82,10 +98,11 @@ export default function KnowledgeHubDeepDivePage() {
         ]}
       />
 
-      <div className="min-h-screen overflow-x-hidden bg-background text-foreground">
+      <div className="min-h-screen overflow-x-clip bg-background text-foreground">
 
         {/* ─── Top nav ─── */}
         <div className="sticky top-0 z-40 border-b border-border bg-card/80 backdrop-blur-md">
+          <ReadingProgress />
           <div className="container mx-auto flex items-center justify-between gap-4 px-4 py-3">
             <div className="flex items-center gap-2">
               <Link
@@ -106,6 +123,8 @@ export default function KnowledgeHubDeepDivePage() {
             <ThemeToggle />
           </div>
         </div>
+
+        <SectionTOC items={tocItems} />
 
         {/* ─── Header ─── */}
         <div className="border-b border-border bg-card/40 py-16 sm:py-20">
@@ -148,7 +167,7 @@ export default function KnowledgeHubDeepDivePage() {
 
               {/* 01 — Architecture Overview */}
               <section>
-                <SectionLabel n="01" label="Architecture Overview" />
+                <SectionLabel n="01" label="Architecture Overview" id="section-01" />
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                   The system is a single-origin Flask API behind Gunicorn. All storage is local, Postgres 16 handles both keyword search and semantic vectors via pgvector, so there is one operational store and no separate vector database to run. File originals live in Storage (local filesystem or S3). Ollama runs the answer LLM entirely on-device.
                 </p>
@@ -171,7 +190,7 @@ export default function KnowledgeHubDeepDivePage() {
 
               {/* 02 — Data Model */}
               <section>
-                <SectionLabel n="02" label="Data Model & Storage" />
+                <SectionLabel n="02" label="Data Model & Storage" id="section-02" />
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                   The schema centres on four tables. <span className="font-mono text-foreground">documents</span> is the catalogue; <span className="font-mono text-foreground">chunks</span> is the retrieval unit; <span className="font-mono text-foreground">embeddings</span> holds the pgvector column; users and tags round out multi-user and organisational features.
                 </p>
@@ -226,7 +245,7 @@ export default function KnowledgeHubDeepDivePage() {
 
               {/* 03 — Ingestion Pipeline */}
               <section>
-                <SectionLabel n="03" label="Ingestion Pipeline" />
+                <SectionLabel n="03" label="Ingestion Pipeline" id="section-03" />
                 <p className="mb-4 text-base leading-relaxed text-muted-foreground">
                   Upload returns 202 immediately. A background thread does the heavy work: rendering, preprocessing, OCR, chunking, and embedding. Each stage records per-page errors and continues rather than aborting on a bad page.
                 </p>
@@ -279,7 +298,7 @@ export default function KnowledgeHubDeepDivePage() {
 
               {/* 04 — Full-Text Search */}
               <section>
-                <SectionLabel n="04" label="Full-Text Search in Postgres" />
+                <SectionLabel n="04" label="Full-Text Search in Postgres" id="section-04" />
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                   Postgres's native FTS is fast enough for sub-second search over tens of thousands of chunks with a GIN index, and it ships with the database — no Elasticsearch to operate.
                 </p>
@@ -329,7 +348,7 @@ export default function KnowledgeHubDeepDivePage() {
 
               {/* 05 — Semantic Search */}
               <section>
-                <SectionLabel n="05" label="Semantic Search with Embeddings (pgvector)" />
+                <SectionLabel n="05" label="Semantic Search with Embeddings (pgvector)" id="section-05" />
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                   Semantic search finds conceptually similar chunks even when the user's query shares no exact keywords with the document. Both the chunks and the query are encoded into the same vector space; nearest-neighbor search does the rest.
                 </p>
@@ -381,7 +400,7 @@ export default function KnowledgeHubDeepDivePage() {
 
               {/* 06 — Hybrid Ranking */}
               <section>
-                <SectionLabel n="06" label="Hybrid Ranking (FTS ⊕ Semantic)" />
+                <SectionLabel n="06" label="Hybrid Ranking (FTS ⊕ Semantic)" id="section-06" />
                 <p className="mb-4 text-base leading-relaxed text-muted-foreground">
                   FTS gives precision (exact keyword hits); semantic search gives recall (conceptual matches). Combining both yields stable rankings across document types and query styles. The key challenge is that the two score scales are incomparable, so z-score normalisation brings them to the same range before blending.
                 </p>
@@ -409,7 +428,7 @@ export default function KnowledgeHubDeepDivePage() {
 
               {/* 07 — RAG */}
               <section>
-                <SectionLabel n="07" label="RAG with Ollama LLM" />
+                <SectionLabel n="07" label="RAG with Ollama LLM" id="section-07" />
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                   The goal is to compose an answer <em>only</em> from retrieved chunks, with citations, so the model cannot hallucinate facts that aren't in the user's own documents. Ollama runs <span className="font-mono text-foreground">gemma3:1b</span> entirely on-device.
                 </p>
@@ -458,7 +477,7 @@ export default function KnowledgeHubDeepDivePage() {
 
               {/* 08 — Performance & Ops */}
               <section>
-                <SectionLabel n="08" label="Performance, Scalability & Ops" />
+                <SectionLabel n="08" label="Performance, Scalability & Ops" id="section-08" />
                 <div className="grid gap-4 sm:grid-cols-2">
                   {[
                     {
@@ -495,7 +514,7 @@ export default function KnowledgeHubDeepDivePage() {
 
               {/* 09 — Security */}
               <section>
-                <SectionLabel n="09" label="Security & Privacy" />
+                <SectionLabel n="09" label="Security & Privacy" id="section-09" />
                 <div className="space-y-3">
                   {[
                     { bullet: "Local-first by default — originals never leave the machine unless Storage is configured to S3." },
@@ -516,7 +535,7 @@ export default function KnowledgeHubDeepDivePage() {
 
               {/* 10 — Future Work */}
               <section>
-                <SectionLabel n="10" label="Future Upgrades & Research Notes" />
+                <SectionLabel n="10" label="Future Upgrades & Research Notes" id="section-10" />
                 <div className="grid gap-4 sm:grid-cols-2">
                   {[
                     { title: "Text-first extraction", body: "Prefer embedded text over OCR. Run OCR only when the PDF has no selectable text layer." },
@@ -536,7 +555,7 @@ export default function KnowledgeHubDeepDivePage() {
 
               {/* Quick Reference */}
               <section>
-                <SectionLabel n="QR" label="Quick Reference" />
+                <SectionLabel n="QR" label="Quick Reference" id="section-qr" />
                 <CodeBlock
                   title="cheat_sheet.md"
                   rows={[

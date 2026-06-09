@@ -10,6 +10,7 @@ import blogsite from '@/public/images/BlogSite.jpg'
 import ProjectSkeleton from "@/app/components/ProjectSkeleton"
 import ProjectNav from "@/app/components/ProjectNav"
 import ProjectDetailStructuredData from "@/app/components/ProjectDetailStructuredData"
+import InteractiveCard from "@/app/components/ui/InteractiveCard"
 
 function SectionLabel({ n, label }: { n: string; label: string }) {
   return (
@@ -98,7 +99,7 @@ You can sign up, write posts with markdown, preview them in real time, and publi
         projectType="app"
       />
       <Suspense fallback={<ProjectSkeleton />}>
-        <div className="min-h-screen overflow-x-hidden bg-background text-foreground">
+        <div className="min-h-screen overflow-x-clip bg-background text-foreground">
           <ProjectNav />
 
           {/* Header */}
@@ -190,7 +191,7 @@ You can sign up, write posts with markdown, preview them in real time, and publi
                   <SectionLabel n="04" label="Key Features" />
                   <div className="grid gap-4 sm:grid-cols-2">
                     {project.features.map((feature, index) => (
-                      <div
+                      <InteractiveCard
                         key={index}
                         className="rounded border border-border bg-card p-5 transition-colors hover:border-accent/40"
                       >
@@ -201,7 +202,7 @@ You can sign up, write posts with markdown, preview them in real time, and publi
                           </h3>
                         </div>
                         <p className="text-sm leading-relaxed text-muted-foreground">{feature.description}</p>
-                      </div>
+                      </InteractiveCard>
                     ))}
                   </div>
                 </motion.section>

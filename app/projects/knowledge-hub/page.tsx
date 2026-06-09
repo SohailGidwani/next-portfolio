@@ -15,6 +15,7 @@ import knowledgeHub5 from '@/public/images/KnowledgeHub_5.png'
 import ProjectSkeleton from "@/app/components/ProjectSkeleton"
 import ProjectNav from "@/app/components/ProjectNav"
 import ProjectDetailStructuredData from "@/app/components/ProjectDetailStructuredData"
+import InteractiveCard from "@/app/components/ui/InteractiveCard"
 
 function SectionLabel({ n, label }: { n: string; label: string }) {
   return (
@@ -202,7 +203,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
         projectType="app"
       />
       <Suspense fallback={<ProjectSkeleton />}>
-        <div className="min-h-screen overflow-x-hidden bg-background text-foreground">
+        <div className="min-h-screen overflow-x-clip bg-background text-foreground">
           <ProjectNav />
 
           {/* Header */}
@@ -371,7 +372,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                   <SectionLabel n="06" label="Key Features" />
                   <div className="grid gap-4 sm:grid-cols-2">
                     {project.features.map((feature, index) => (
-                      <div
+                      <InteractiveCard
                         key={index}
                         className="rounded border border-border bg-card p-5 transition-colors hover:border-accent/40"
                       >
@@ -382,7 +383,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                           </h3>
                         </div>
                         <p className="text-sm leading-relaxed text-muted-foreground">{feature.description}</p>
-                      </div>
+                      </InteractiveCard>
                     ))}
                   </div>
                 </motion.section>

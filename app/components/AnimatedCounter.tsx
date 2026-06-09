@@ -25,6 +25,11 @@ export default function AnimatedCounter({
     if (!isInView || hasAnimated.current) return
     hasAnimated.current = true
 
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setCount(value)
+      return
+    }
+
     const startTime = Date.now()
     const endValue = value
 

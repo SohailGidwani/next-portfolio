@@ -29,7 +29,6 @@ export default function Portfolio() {
         <PortfolioShell>
           <main id="main-content" className="relative" role="main">
             <Hero />
-            <SectionDivider />
             <About />
             <SectionDivider />
             <Education />

@@ -7,6 +7,7 @@ import { Badge } from "@/app/components/ui/badge"
 import { ArrowUpRight, ExternalLink, Github } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
 import { useSkillHighlight } from "./SkillHighlightProvider"
+import InteractiveCard from "./ui/InteractiveCard"
 import { projects } from "@/app/data/projects"
 
 export default function Projects() {
@@ -51,7 +52,12 @@ export default function Projects() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4 }}
                     viewport={{ once: true }}
-                    className={`group relative cursor-pointer rounded border bg-card/80 p-6 transition sm:col-span-2 ${
+                    className="sm:col-span-2"
+                  >
+                  <InteractiveCard
+                    tilt
+                    maxTilt={1.5}
+                    className={`group h-full cursor-pointer rounded border bg-card/80 p-6 transition ${
                       primaryHighlighted ? "border-accent/40 bg-accent/5" : "border-border hover:border-accent/40"
                     }`}
                   >
@@ -120,6 +126,7 @@ export default function Projects() {
                       )
                     })}
                   </div>
+                  </InteractiveCard>
                   </motion.div>
               )}
 
@@ -134,7 +141,10 @@ export default function Projects() {
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, delay: index * 0.08 }}
                       viewport={{ once: true }}
-                      className={`group relative cursor-pointer rounded border bg-card/80 p-5 transition ${
+                    >
+                    <InteractiveCard
+                      tilt
+                      className={`group h-full cursor-pointer rounded border bg-card/80 p-5 transition ${
                         isHighlighted ? "border-accent/40 bg-accent/5" : "border-border hover:border-accent/40"
                       }`}
                     >
@@ -190,6 +200,7 @@ export default function Projects() {
                           )
                         })}
                       </div>
+                    </InteractiveCard>
                     </motion.div>
                   )
                 })}
