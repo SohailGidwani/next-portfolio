@@ -5,6 +5,7 @@ import ThemeToggle from "@/app/components/ThemeToggle"
 import BreadcrumbStructuredData from "@/app/components/BreadcrumbStructuredData"
 import ReadingProgress from "@/app/components/ReadingProgress"
 import SectionTOC from "@/app/components/SectionTOC"
+import DiagramLightbox from "@/app/components/DiagramLightbox"
 import VLMArchitecture from "./components/VLMArchitecture"
 import VQAPipeline from "./components/VQAPipeline"
 import ConfusionMatrix from "./components/ConfusionMatrix"
@@ -399,7 +400,9 @@ export default function MultiModalAlzheimersVQAPage() {
                   </p>
                 </div>
 
-                <VLMArchitecture />
+                <DiagramLightbox title="VLM Architecture">
+                  <VLMArchitecture />
+                </DiagramLightbox>
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="rounded border border-border bg-card p-5">

@@ -21,6 +21,23 @@
     animation: page-enter 0.3s ease-out;
   }
 }
+
+/* Theme toggle circular reveal: disable the default cross-fade so the
+   clip-path animation driven from ThemeToggle is the only effect. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Cover-up direction (to light): the outgoing dark snapshot sits on top
+   while it shrinks, revealing the new theme beneath it. */
+:root[data-theme-vt="cover"]::view-transition-old(root) {
+  z-index: 2;
+}
+:root[data-theme-vt="cover"]::view-transition-new(root) {
+  z-index: 1;
+}
  
 @layer base {
   :root {

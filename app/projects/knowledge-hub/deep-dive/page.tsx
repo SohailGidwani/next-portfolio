@@ -4,6 +4,7 @@ import ThemeToggle from "@/app/components/ThemeToggle"
 import BreadcrumbStructuredData from "@/app/components/BreadcrumbStructuredData"
 import ReadingProgress from "@/app/components/ReadingProgress"
 import SectionTOC from "@/app/components/SectionTOC"
+import DiagramLightbox from "@/app/components/DiagramLightbox"
 import SystemArchitecture from "./components/SystemArchitecture"
 import IngestionPipeline from "./components/IngestionPipeline"
 import HybridRanking from "./components/HybridRanking"
@@ -171,7 +172,9 @@ export default function KnowledgeHubDeepDivePage() {
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                   The system is a single-origin Flask API behind Gunicorn. All storage is local, Postgres 16 handles both keyword search and semantic vectors via pgvector, so there is one operational store and no separate vector database to run. File originals live in Storage (local filesystem or S3). Ollama runs the answer LLM entirely on-device.
                 </p>
-                <SystemArchitecture />
+                <DiagramLightbox title="System Architecture">
+                  <SystemArchitecture />
+                </DiagramLightbox>
                 <div className="mt-6 grid gap-3 sm:grid-cols-3">
                   {[
                     { icon: <Database className="h-4 w-4" />, label: "Postgres 16 + pgvector", sub: "GIN for FTS · IVFFlat for ANN" },
@@ -249,7 +252,9 @@ export default function KnowledgeHubDeepDivePage() {
                 <p className="mb-4 text-base leading-relaxed text-muted-foreground">
                   Upload returns 202 immediately. A background thread does the heavy work: rendering, preprocessing, OCR, chunking, and embedding. Each stage records per-page errors and continues rather than aborting on a bad page.
                 </p>
-                <IngestionPipeline />
+                <DiagramLightbox title="Ingestion Pipeline">
+                  <IngestionPipeline />
+                </DiagramLightbox>
 
                 <div className="mt-6 space-y-6">
                   <div>
@@ -404,7 +409,9 @@ export default function KnowledgeHubDeepDivePage() {
                 <p className="mb-4 text-base leading-relaxed text-muted-foreground">
                   FTS gives precision (exact keyword hits); semantic search gives recall (conceptual matches). Combining both yields stable rankings across document types and query styles. The key challenge is that the two score scales are incomparable, so z-score normalisation brings them to the same range before blending.
                 </p>
-                <HybridRanking />
+                <DiagramLightbox title="Hybrid Ranking">
+                  <HybridRanking />
+                </DiagramLightbox>
 
                 <CodeBlock
                   title="hybrid_ranking.steps"

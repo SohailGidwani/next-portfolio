@@ -33,19 +33,30 @@ export default function InteractiveCard({
 
   const shouldTilt = tilt && !reduced
 
-  const onPointerMove = (e: PointerEvent<HTMLDivElement>) => {
-    if (e.pointerType !== "mouse") return
+  const setSpot = (e: PointerEvent<HTMLDivElement>) => {
     const el = ref.current
-    if (!el) return
+    if (!el) return { x: 0, y: 0, rect: null }
     const rect = el.getBoundingClientRect()
     const x = e.clientX - rect.left
     const y = e.clientY - rect.top
     el.style.setProperty("--spot-x", `${x}px`)
     el.style.setProperty("--spot-y", `${y}px`)
-    if (shouldTilt) {
+    return { x, y, rect }
+  }
+
+  const onPointerMove = (e: PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType !== "mouse") return
+    const { x, y, rect } = setSpot(e)
+    if (shouldTilt && rect) {
       ry.set((x / rect.width - 0.5) * maxTilt * 2)
       rx.set(-(y / rect.height - 0.5) * maxTilt * 2)
     }
+  }
+
+  // Touch: anchor the spotlight at the tap point (no tilt).
+  const onPointerDown = (e: PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType === "mouse") return
+    setSpot(e)
   }
 
   const onPointerLeave = () => {
@@ -57,13 +68,14 @@ export default function InteractiveCard({
     <motion.div
       ref={ref}
       onPointerMove={onPointerMove}
+      onPointerDown={onPointerDown}
       onPointerLeave={onPointerLeave}
       style={shouldTilt ? { rotateX, rotateY, transformPerspective: 900 } : undefined}
       className={`group/spot relative ${className}`}
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover/spot:opacity-100"
+        className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover/spot:opacity-100 group-active/spot:opacity-100"
         style={{
           background:
             "radial-gradient(240px circle at var(--spot-x, 50%) var(--spot-y, 50%), color-mix(in oklab, var(--accent) 9%, transparent), transparent 70%)",

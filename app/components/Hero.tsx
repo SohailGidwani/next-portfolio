@@ -7,6 +7,7 @@ import { ArrowDown, ArrowUpRight, Github, Linkedin } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
 import { smoothScrollToId } from "@/app/utils/smoothScroll"
 import AnimatedCounter from "./AnimatedCounter"
+import { useMagnetic } from "./ui/useMagnetic"
 
 const ShootingStars = dynamic(() => import("./ShootingStars"), { ssr: false })
 
@@ -98,22 +99,22 @@ function HeroTitle() {
 
   return (
     <h1 className={lineClass} aria-label="Sohail Gidwani">
-      <span className="block overflow-visible">
+      <span className="block overflow-hidden pb-[0.06em] -mb-[0.06em]">
         <motion.span
           className="block"
-          initial={{ y: "100%" }}
+          initial={{ y: "110%" }}
           animate={{ y: 0 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
           Sohail
         </motion.span>
       </span>
-      <span className="block overflow-visible">
+      <span className="block overflow-hidden pb-[0.06em] -mb-[0.06em]">
         <motion.span
           className="block"
-          initial={{ y: "100%" }}
+          initial={{ y: "110%" }}
           animate={{ y: 0 }}
-          transition={{ duration: 0.55, delay: 0.06, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.7, delay: 0.09, ease: [0.22, 1, 0.36, 1] }}
         >
           Gidwani
         </motion.span>
@@ -123,6 +124,11 @@ function HeroTitle() {
 }
 
 export default function Hero() {
+  const magProjects = useMagnetic<HTMLButtonElement>()
+  const magResume = useMagnetic<HTMLAnchorElement>()
+  const magGithub = useMagnetic<HTMLAnchorElement>()
+  const magLinkedin = useMagnetic<HTMLAnchorElement>()
+
   const [ds] = useState(() => {
     if (typeof window === "undefined") return 1
     return sessionStorage.getItem("hero-seen") ? 0.35 : 1
@@ -197,6 +203,10 @@ export default function Hero() {
           <motion.button
             type="button"
             onClick={scrollToProjects}
+            ref={magProjects.ref}
+            style={{ x: magProjects.x, y: magProjects.y }}
+            onPointerMove={magProjects.onPointerMove}
+            onPointerLeave={magProjects.onPointerLeave}
             className="inline-flex min-w-0 max-sm:min-h-9 items-center justify-center gap-1 rounded bg-foreground px-3 py-2 text-xs font-semibold text-background transition hover:opacity-90 sm:min-h-0 sm:gap-2 sm:px-8 sm:py-3.5 sm:text-sm"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -210,6 +220,10 @@ export default function Hero() {
             rel="noreferrer"
             onClick={() => triggerHaptic()}
             aria-label="Download resume (PDF)"
+            ref={magResume.ref}
+            style={{ x: magResume.x, y: magResume.y }}
+            onPointerMove={magResume.onPointerMove}
+            onPointerLeave={magResume.onPointerLeave}
             className="inline-flex min-w-0 max-sm:min-h-9 items-center justify-center gap-1 rounded border border-border bg-transparent px-3 py-2 text-xs font-semibold text-foreground transition hover:border-foreground/40 sm:min-h-0 sm:gap-2 sm:px-8 sm:py-3.5 sm:text-sm"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -223,6 +237,10 @@ export default function Hero() {
               target="_blank"
               rel="noreferrer"
               aria-label="GitHub profile"
+              ref={magGithub.ref}
+              style={{ x: magGithub.x, y: magGithub.y }}
+              onPointerMove={magGithub.onPointerMove}
+              onPointerLeave={magGithub.onPointerLeave}
               className="inline-flex min-h-9 min-w-0 flex-1 items-center justify-center gap-1 rounded border border-border bg-transparent px-2 py-2 text-xs font-semibold text-foreground transition hover:border-foreground/40 sm:min-h-0 sm:flex-initial sm:gap-1.5 sm:px-8 sm:py-3.5 sm:text-sm"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -236,6 +254,10 @@ export default function Hero() {
               target="_blank"
               rel="noreferrer"
               aria-label="LinkedIn profile"
+              ref={magLinkedin.ref}
+              style={{ x: magLinkedin.x, y: magLinkedin.y }}
+              onPointerMove={magLinkedin.onPointerMove}
+              onPointerLeave={magLinkedin.onPointerLeave}
               className="inline-flex min-h-9 min-w-0 flex-1 items-center justify-center gap-1 rounded border border-border bg-transparent px-2 py-2 text-xs font-semibold text-foreground transition hover:border-foreground/40 sm:min-h-0 sm:flex-initial sm:gap-1.5 sm:px-8 sm:py-3.5 sm:text-sm"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}

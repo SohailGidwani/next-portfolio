@@ -20,9 +20,9 @@ export default function AmbientBackground() {
 
   useEffect(() => {
     if (shouldReduceMotion) return
-    if (window.matchMedia("(hover: none)").matches) return
 
     let raf = 0
+    let fadeTimer: ReturnType<typeof setTimeout> | undefined
     let x = -500
     let y = -500
 
@@ -36,6 +36,7 @@ export default function AmbientBackground() {
     }
 
     const onMove = (e: PointerEvent) => {
+      if (fadeTimer) clearTimeout(fadeTimer)
       x = e.clientX
       y = e.clientY
       if (!raf) raf = requestAnimationFrame(apply)
@@ -45,12 +46,24 @@ export default function AmbientBackground() {
       rootRef.current?.style.setProperty("--glow-o", "0")
     }
 
+    // Touch: the glow lights up where the finger is and fades after release.
+    const onUp = (e: PointerEvent) => {
+      if (e.pointerType === "mouse") return
+      if (fadeTimer) clearTimeout(fadeTimer)
+      fadeTimer = setTimeout(onLeave, 700)
+    }
+
     window.addEventListener("pointermove", onMove, { passive: true })
+    window.addEventListener("pointerdown", onMove, { passive: true })
+    window.addEventListener("pointerup", onUp, { passive: true })
     document.documentElement.addEventListener("pointerleave", onLeave)
     return () => {
       window.removeEventListener("pointermove", onMove)
+      window.removeEventListener("pointerdown", onMove)
+      window.removeEventListener("pointerup", onUp)
       document.documentElement.removeEventListener("pointerleave", onLeave)
       if (raf) cancelAnimationFrame(raf)
+      if (fadeTimer) clearTimeout(fadeTimer)
     }
   }, [shouldReduceMotion])
 
