@@ -636,7 +636,9 @@ export default function MultiModalAlzheimersVQAPage() {
                   </p>
                 </div>
 
-                <VQAPipeline />
+                <DiagramLightbox title="RAG VQA Pipeline">
+                  <VQAPipeline />
+                </DiagramLightbox>
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="rounded border border-border bg-card p-5">

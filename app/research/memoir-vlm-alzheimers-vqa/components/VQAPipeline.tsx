@@ -1,6 +1,7 @@
 "use client"
 
 import { motion, useReducedMotion } from "framer-motion"
+import { useDiagramVertical } from "@/app/components/DiagramOrientation"
 
 interface EdgeProps {
   id: string
@@ -9,12 +10,13 @@ interface EdgeProps {
   delay?: number
   packet?: { dur: number; begin: number } | null
   reduced: boolean
+  mk?: string
 }
 
-function Edge({ id, d, accent, delay = 0, packet, reduced }: EdgeProps) {
+function Edge({ id, d, accent, delay = 0, packet, reduced, mk = "" }: EdgeProps) {
   const stroke = accent ? "var(--accent)" : "var(--muted)"
   const sw = accent ? 2 : 1.5
-  const marker = accent ? "url(#vqa-arrow-accent)" : "url(#vqa-arrow)"
+  const marker = accent ? `url(#vqa-arrow-accent${mk})` : `url(#vqa-arrow${mk})`
 
   return (
     <>
@@ -48,6 +50,9 @@ function Edge({ id, d, accent, delay = 0, packet, reduced }: EdgeProps) {
 
 export default function VQAPipeline() {
   const reduced = useReducedMotion() ?? false
+  const vertical = useDiagramVertical()
+
+  if (vertical) return <VQAPipelineVertical reduced={reduced} />
 
   const W = 1200
   const H = 380
@@ -236,6 +241,197 @@ export default function VQAPipeline() {
         textual captions reach the LLM, which never sees raw brain images. Three LLM backbones are
         compared: Mistral 7B, Gemma 4 26B MoE, and MedGemma 1.5 4B.
       </p>
+    </figure>
+  )
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Portrait layout for phone lightbox. Top-to-bottom flow, all
+   text kept horizontal so the device never needs rotating.
+   ───────────────────────────────────────────────────────────── */
+function VQAPipelineVertical({ reduced }: { reduced: boolean }) {
+  const W = 460
+  const H = 900
+  const cx = 230
+  const cols = [90, 230, 370]
+
+  const boxStyle = {
+    fill: "var(--card)",
+    stroke: "var(--border)",
+    strokeWidth: 1.2,
+  } as const
+
+  const pulse = reduced
+    ? {}
+    : {
+        animate: { opacity: [0.85, 1, 0.85] },
+        transition: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
+      }
+
+  return (
+    <figure className="m-0 flex h-full flex-col">
+      <div className="min-h-0 flex-1 rounded border border-border bg-card/40 p-3">
+        <svg
+          viewBox={`0 0 ${W} ${H}`}
+          width="100%"
+          height="100%"
+          preserveAspectRatio="xMidYMid meet"
+          role="img"
+          aria-label="VQA pipeline: frozen encoders produce fused embeddings; FAISS retrieves top-50 similar subjects; cross-encoder reranks to top-5; LLM generates answers"
+        >
+          <defs>
+            <marker
+              id="vqa-arrow-v"
+              viewBox="0 0 10 10"
+              refX="9"
+              refY="5"
+              markerWidth="6"
+              markerHeight="6"
+              orient="auto-start-reverse"
+            >
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--muted)" />
+            </marker>
+            <marker
+              id="vqa-arrow-accent-v"
+              viewBox="0 0 10 10"
+              refX="9"
+              refY="5"
+              markerWidth="6"
+              markerHeight="6"
+              orient="auto-start-reverse"
+            >
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent)" />
+            </marker>
+          </defs>
+
+          {/* ═══ FROZEN ENCODER GROUP ═══ */}
+          <g>
+            <rect
+              x={25}
+              y={52}
+              width="410"
+              height="104"
+              rx="3"
+              fill="var(--card2)"
+              stroke="var(--border)"
+              strokeWidth="1"
+              strokeDasharray="4 4"
+              opacity={0.4}
+            />
+            <text
+              x={cx}
+              y={72}
+              textAnchor="middle"
+              className="font-mono uppercase"
+              style={{ fontSize: 12, fill: "var(--muted)", letterSpacing: "0.2em" }}
+            >
+              Frozen
+            </text>
+
+            {[
+              { x: cols[0], label: "T1 Enc", sub: "3D ResNet-18" },
+              { x: cols[1], label: "DTI Enc", sub: "3D ResNet-18" },
+              { x: cols[2], label: "Clin Enc", sub: "MLP" },
+            ].map((e) => (
+              <g key={e.label}>
+                <rect x={e.x - 56} y={98} width="112" height="44" rx="3" {...boxStyle} />
+                <text x={e.x} y={116} textAnchor="middle" className="font-mono" style={{ fontSize: 13, fill: "var(--fg)", fontWeight: 600 }}>{e.label}</text>
+                <text x={e.x} y={132} textAnchor="middle" className="font-mono" style={{ fontSize: 11, fill: "var(--muted)" }}>{e.sub}</text>
+              </g>
+            ))}
+          </g>
+
+          {/* ═══ FUSION ═══ */}
+          <g>
+            <rect x={cx - 78} y={214} width="156" height="72" rx="3" {...boxStyle} />
+            <text x={cx} y={246} textAnchor="middle" className="font-mono" style={{ fontSize: 14, fill: "var(--fg)", fontWeight: 600 }}>Attention Fusion</text>
+            <text x={cx} y={266} textAnchor="middle" className="font-mono" style={{ fontSize: 11, fill: "var(--muted)" }}>8-head · pool-q</text>
+          </g>
+
+          {/* ═══ z_f ═══ */}
+          <motion.g {...pulse}>
+            <circle cx={cx} cy={360} r="26" fill="var(--card2)" stroke="var(--accent)" strokeWidth="1.8" />
+            <text x={cx} y={360} textAnchor="middle" dominantBaseline="middle" className="font-mono" style={{ fontSize: 15, fill: "var(--fg)", fontWeight: 700 }}>z_f</text>
+            <text x={cx + 42} y={364} textAnchor="start" className="font-mono italic" style={{ fontSize: 12, fill: "var(--muted)" }}>ℝ⁵¹²</text>
+          </motion.g>
+
+          {/* ═══ FAISS ═══ */}
+          <g>
+            <rect x={cx - 85} y={428} width="170" height="64" rx="3" {...boxStyle} />
+            <text x={cx} y={452} textAnchor="middle" className="font-mono" style={{ fontSize: 13, fill: "var(--fg)", fontWeight: 600 }}>FAISS Index</text>
+            <text x={cx} y={468} textAnchor="middle" className="font-mono" style={{ fontSize: 11, fill: "var(--muted)" }}>IndexFlatIP</text>
+            <text x={cx} y={483} textAnchor="middle" className="font-mono" style={{ fontSize: 11, fill: "var(--accent)" }}>1,889 vectors</text>
+          </g>
+
+          {/* ═══ CROSS ENCODER ═══ */}
+          <g>
+            <rect x={cx - 85} y={548} width="170" height="64" rx="3" {...boxStyle} />
+            <text x={cx} y={572} textAnchor="middle" className="font-mono" style={{ fontSize: 13, fill: "var(--fg)", fontWeight: 600 }}>Cross-Encoder</text>
+            <text x={cx} y={588} textAnchor="middle" className="font-mono" style={{ fontSize: 11, fill: "var(--muted)" }}>Rerank</text>
+            <text x={cx} y={603} textAnchor="middle" className="font-mono" style={{ fontSize: 11, fill: "var(--muted)" }}>top-50 → top-5</text>
+          </g>
+
+          {/* ═══ LLM ═══ */}
+          <motion.g {...pulse}>
+            <rect x={cx - 95} y={662} width="190" height="96" rx="3" fill="var(--card)" stroke="var(--accent)" strokeWidth="1.8" />
+            <text x={cx} y={686} textAnchor="middle" className="font-mono" style={{ fontSize: 15, fill: "var(--fg)", fontWeight: 700 }}>LLM</text>
+            <text x={cx} y={706} textAnchor="middle" className="font-mono" style={{ fontSize: 11, fill: "var(--muted)" }}>Mistral 7B</text>
+            <text x={cx} y={722} textAnchor="middle" className="font-mono" style={{ fontSize: 11, fill: "var(--muted)" }}>Gemma 4 26B</text>
+            <text x={cx} y={738} textAnchor="middle" className="font-mono" style={{ fontSize: 11, fill: "var(--muted)" }}>MedGemma 4B</text>
+          </motion.g>
+
+          {/* ═══ OUTPUTS ═══ */}
+          {[
+            { x: cols[0], label: "VQA Answer", accent: true },
+            { x: cols[1], label: "Caption" },
+            { x: cols[2], label: "Similar Cases" },
+          ].map((o) => (
+            <g key={o.label}>
+              <rect x={o.x - 62} y={834} width="124" height="36" rx="3" fill="var(--card)" stroke={o.accent ? "var(--accent)" : "var(--border)"} strokeWidth={o.accent ? 1.5 : 1.2} />
+              <text x={o.x} y={852} textAnchor="middle" dominantBaseline="middle" className="font-mono" style={{ fontSize: 11, fill: "var(--fg)", fontWeight: 600 }}>{o.label}</text>
+            </g>
+          ))}
+
+          {/* ═══ ANIMATED EDGES ═══ */}
+          {/* Encoders → Fusion (converging) */}
+          <Edge reduced={reduced} mk="-v" id="vqa-v-t1-fuse" d={`M ${cols[0]} 142 L ${cx - 50} 213`} delay={0} packet={{ dur: 2.6, begin: 0 }} />
+          <Edge reduced={reduced} mk="-v" id="vqa-v-dti-fuse" d={`M ${cols[1]} 142 L ${cx} 213`} delay={0.1} packet={{ dur: 2.6, begin: 0.4 }} />
+          <Edge reduced={reduced} mk="-v" id="vqa-v-clin-fuse" d={`M ${cols[2]} 142 L ${cx + 50} 213`} delay={0.2} packet={{ dur: 2.6, begin: 0.8 }} />
+
+          {/* Fusion → z_f */}
+          <Edge reduced={reduced} mk="-v" id="vqa-v-fuse-zf" d={`M ${cx} 286 L ${cx} 332`} delay={0.3} packet={{ dur: 1.2, begin: 1.0 }} />
+
+          {/* z_f → FAISS */}
+          <Edge reduced={reduced} mk="-v" id="vqa-v-zf-faiss" d={`M ${cx} 386 L ${cx} 426`} delay={0.4} packet={{ dur: 1.4, begin: 1.4 }} />
+
+          {/* FAISS → Cross-encoder */}
+          <Edge reduced={reduced} mk="-v" id="vqa-v-faiss-cross" d={`M ${cx} 492 L ${cx} 546`} delay={0.5} packet={{ dur: 1.8, begin: 1.8 }} />
+
+          {/* Cross-encoder → LLM */}
+          <Edge reduced={reduced} mk="-v" id="vqa-v-cross-llm" d={`M ${cx} 612 L ${cx} 660`} delay={0.6} packet={{ dur: 1.8, begin: 2.2 }} />
+
+          {/* LLM → VQA Answer (accent — hero output) */}
+          <Edge reduced={reduced} mk="-v" id="vqa-v-llm-answer" d={`M ${cx - 20} 758 Q ${cols[0]} 800 ${cols[0]} 832`} accent delay={0.7} packet={{ dur: 2.0, begin: 2.6 }} />
+
+          {/* LLM → Caption */}
+          <Edge reduced={reduced} mk="-v" id="vqa-v-llm-caption" d={`M ${cx} 758 L ${cx} 832`} delay={0.7} packet={null} />
+
+          {/* Cross-encoder → Similar cases — routed down the right margin */}
+          <Edge
+            reduced={reduced}
+            mk="-v"
+            id="vqa-v-cross-similar"
+            d={`M ${cx + 85} 580 L 420 580 L 420 810 L ${cols[2]} 810 L ${cols[2]} 832`}
+            delay={0.8}
+            packet={null}
+          />
+
+          {/* Flow labels */}
+          <text x={cx + 22} y={524} textAnchor="start" className="font-mono italic" style={{ fontSize: 11, fill: "var(--muted)" }}>top-50</text>
+          <text x={cx + 22} y={632} textAnchor="start" className="font-mono italic" style={{ fontSize: 11, fill: "var(--muted)" }}>retrieved captions</text>
+          <text x={cx + 22} y={646} textAnchor="start" className="font-mono italic" style={{ fontSize: 11, fill: "var(--muted)" }}>only (top-5)</text>
+        </svg>
+      </div>
     </figure>
   )
 }

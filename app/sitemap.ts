@@ -1,7 +1,18 @@
 import { MetadataRoute } from 'next'
+import { research } from '@/app/data/research'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://sohailgidwani.app'
+
+  // Research detail pages, generated from the registry (placeholders excluded).
+  const researchEntries: MetadataRoute.Sitemap = research
+    .filter((r) => !r.placeholder && r.href)
+    .map((r) => ({
+      url: `${baseUrl}${r.href}`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: r.kind === 'paper' ? 0.9 : 0.7,
+    }))
 
   return [
     {
@@ -9,6 +20,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 1,
+    },
+    {
+      url: `${baseUrl}/research`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/projects`,
@@ -52,11 +69,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
-    {
-      url: `${baseUrl}/research/memoir-vlm-alzheimers-vqa`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
+    ...researchEntries,
   ]
 }

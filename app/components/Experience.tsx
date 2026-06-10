@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
-import { ArrowUpRight, Briefcase, Calendar, FileText } from "lucide-react"
+import { ArrowUpRight, Briefcase, Calendar, FileText, FlaskConical } from "lucide-react"
 import Image, { StaticImageData } from "next/image"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/app/components/ui/dialog"
 import { Badge } from "@/app/components/ui/badge"
@@ -25,6 +25,8 @@ interface ExperienceItem {
   logo: StaticImageData
   researchUrl?: string
   researchLabel?: string
+  researchHubUrl?: string
+  researchHubLabel?: string
   note?: string
 }
 
@@ -47,6 +49,8 @@ const experiences: ExperienceItem[] = [
     logo: keckUSC,
     researchUrl: "/research/memoir-vlm-alzheimers-vqa",
     researchLabel: "Read the MEMOIR-VLM research",
+    researchHubUrl: "/research",
+    researchHubLabel: "All research",
   },
   {
     id: "insaito",
@@ -188,6 +192,7 @@ export default function Experience() {
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-[15px]">{featured.description}</p>
 
               {featured.researchUrl ? (
+                <div className="mt-4 flex flex-wrap items-center gap-2">
                 <Link
                   href={featured.researchUrl}
                   onClick={(event) => {
@@ -200,7 +205,7 @@ export default function Experience() {
                     }
                   }}
                   aria-label={`${featured.researchLabel ?? "Read the research"} — opens research page`}
-                  className="group/research mt-4 inline-flex max-w-full items-center gap-2 rounded border border-accent/30 bg-accent/5 px-3 py-2 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-accent transition hover:border-accent/60 hover:bg-accent/10 sm:text-[11px]"
+                  className="group/research inline-flex max-w-full items-center gap-2 rounded border border-accent/30 bg-accent/5 px-3 py-2 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-accent transition hover:border-accent/60 hover:bg-accent/10 sm:text-[11px]"
                 >
                   <FileText className="h-3.5 w-3.5 shrink-0" aria-hidden />
                   <span className="min-w-0 truncate">
@@ -208,6 +213,29 @@ export default function Experience() {
                   </span>
                   <ArrowUpRight className="h-3 w-3 shrink-0 transition-transform group-hover/research:translate-x-0.5 group-hover/research:-translate-y-0.5" aria-hidden />
                 </Link>
+                {featured.researchHubUrl ? (
+                  <Link
+                    href={featured.researchHubUrl}
+                    onClick={(event) => {
+                      event.stopPropagation()
+                      triggerHaptic()
+                    }}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" || event.key === " ") {
+                        event.stopPropagation()
+                      }
+                    }}
+                    aria-label={`${featured.researchHubLabel ?? "All research"} — opens research hub`}
+                    className="group/hub inline-flex max-w-full items-center gap-2 rounded border border-border bg-background/60 px-3 py-2 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground transition hover:border-foreground/40 hover:text-foreground sm:text-[11px]"
+                  >
+                    <FlaskConical className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                    <span className="min-w-0 truncate">
+                      {featured.researchHubLabel ?? "All research"}
+                    </span>
+                    <ArrowUpRight className="h-3 w-3 shrink-0 transition-transform group-hover/hub:translate-x-0.5 group-hover/hub:-translate-y-0.5" aria-hidden />
+                  </Link>
+                ) : null}
+                </div>
               ) : null}
 
               <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2">
@@ -361,15 +389,28 @@ export default function Experience() {
             <div className="space-y-4">
               <p className="text-sm text-muted-foreground">{selected.description}</p>
               {selected.researchUrl ? (
-                <Link
-                  href={selected.researchUrl}
-                  onClick={() => triggerHaptic()}
-                  className="group/cta inline-flex items-center gap-2 rounded border border-accent/40 bg-accent/5 px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-accent transition hover:border-accent hover:bg-accent/10"
-                >
-                  <FileText className="h-3.5 w-3.5" />
-                  {selected.researchLabel ?? "Read the research"}
-                  <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" />
-                </Link>
+                <div className="flex flex-wrap items-center gap-2">
+                  <Link
+                    href={selected.researchUrl}
+                    onClick={() => triggerHaptic()}
+                    className="group/cta inline-flex items-center gap-2 rounded border border-accent/40 bg-accent/5 px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-accent transition hover:border-accent hover:bg-accent/10"
+                  >
+                    <FileText className="h-3.5 w-3.5" />
+                    {selected.researchLabel ?? "Read the research"}
+                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" />
+                  </Link>
+                  {selected.researchHubUrl ? (
+                    <Link
+                      href={selected.researchHubUrl}
+                      onClick={() => triggerHaptic()}
+                      className="group/hubcta inline-flex items-center gap-2 rounded border border-border bg-background/60 px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground transition hover:border-foreground/40 hover:text-foreground"
+                    >
+                      <FlaskConical className="h-3.5 w-3.5" />
+                      {selected.researchHubLabel ?? "All research"}
+                      <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover/hubcta:translate-x-0.5 group-hover/hubcta:-translate-y-0.5" />
+                    </Link>
+                  ) : null}
+                </div>
               ) : null}
               <div className="space-y-3">
                 <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-accent">

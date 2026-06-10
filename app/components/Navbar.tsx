@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import Link from "next/link"
 import { AnimatePresence, motion } from "framer-motion"
 import { Menu, Sparkles, X } from "lucide-react"
 import ThemeToggle from "./ThemeToggle"
@@ -8,12 +9,15 @@ import { triggerHaptic } from "./ui/haptics"
 import { usePortfolio } from "./PortfolioProvider"
 import { smoothScrollToId, smoothScrollToTop } from "@/app/utils/smoothScroll"
 
-const navItems = [
+type NavItem = { label: string; id: string; href?: string }
+
+const navItems: NavItem[] = [
   { label: "About", id: "about" },
   { label: "Education", id: "education" },
   { label: "Experience", id: "experience" },
   { label: "Skills", id: "skills" },
   { label: "Projects", id: "projects" },
+  { label: "Research", id: "research", href: "/research" },
   { label: "Wins", id: "triumphs" },
   { label: "Personal", id: "personal" },
   { label: "Contact", id: "contact" },
@@ -62,7 +66,7 @@ export default function Navbar() {
           : "border-transparent bg-background/85 backdrop-blur-sm"
       }`}
     >
-      <div className="container grid h-full grid-cols-2 items-center gap-3 px-[18px] sm:px-6 md:px-9 min-[901px]:grid-cols-[1fr_auto_1fr]">
+      <div className="container grid h-full grid-cols-2 items-center gap-3 px-[18px] sm:px-6 md:px-9 min-[901px]:grid-cols-[1fr_auto_1fr] min-[901px]:gap-6 min-[901px]:px-4 xl:px-6">
         <button
           type="button"
           onClick={() => scrollToSection("hero")}
@@ -76,24 +80,35 @@ export default function Navbar() {
         </button>
 
         <nav
-          className="hidden min-h-0 items-center justify-center gap-5 min-[901px]:flex xl:gap-7"
+          className="hidden min-h-0 items-center justify-center gap-4 min-[901px]:flex xl:gap-6"
           aria-label="Main navigation"
         >
-          {navItems.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => scrollToSection(item.id)}
-              className={`relative font-body text-[11px] font-medium uppercase tracking-[0.08em] transition-colors ${
-                activeSection === item.id ? "text-foreground" : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {item.label}
-              {activeSection === item.id ? (
-                <span className="absolute -bottom-1 left-0 right-0 mx-auto h-px max-w-[1.25rem] bg-accent" />
-              ) : null}
-            </button>
-          ))}
+          {navItems.map((item) =>
+            item.href ? (
+              <Link
+                key={item.id}
+                href={item.href}
+                onClick={() => triggerHaptic()}
+                className="relative font-body text-[11px] font-medium uppercase tracking-[0.08em] text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {item.label}
+              </Link>
+            ) : (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => scrollToSection(item.id)}
+                className={`relative font-body text-[11px] font-medium uppercase tracking-[0.08em] transition-colors ${
+                  activeSection === item.id ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {item.label}
+                {activeSection === item.id ? (
+                  <span className="absolute -bottom-1 left-0 right-0 mx-auto h-px max-w-[1.25rem] bg-accent" />
+                ) : null}
+              </button>
+            ),
+          )}
         </nav>
 
         <div className="flex items-center justify-end gap-2 sm:gap-3">
@@ -144,23 +159,43 @@ export default function Navbar() {
               onClick={(event) => event.stopPropagation()}
               aria-label="Mobile navigation"
             >
-              {navItems.map((item, index) => (
-                <motion.button
-                  key={item.id}
-                  type="button"
-                  onClick={() => scrollToSection(item.id)}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.04 }}
-                  className={`rounded px-4 py-3 text-left font-body text-[11px] font-semibold uppercase tracking-[0.08em] ${
-                    activeSection === item.id
-                      ? "bg-foreground text-background"
-                      : "text-muted-foreground hover:bg-card2 hover:text-foreground"
-                  }`}
-                >
-                  {item.label}
-                </motion.button>
-              ))}
+              {navItems.map((item, index) =>
+                item.href ? (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.04 }}
+                  >
+                    <Link
+                      href={item.href}
+                      onClick={() => {
+                        triggerHaptic()
+                        setIsOpen(false)
+                      }}
+                      className="block rounded px-4 py-3 text-left font-body text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground hover:bg-card2 hover:text-foreground"
+                    >
+                      {item.label}
+                    </Link>
+                  </motion.div>
+                ) : (
+                  <motion.button
+                    key={item.id}
+                    type="button"
+                    onClick={() => scrollToSection(item.id)}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.04 }}
+                    className={`rounded px-4 py-3 text-left font-body text-[11px] font-semibold uppercase tracking-[0.08em] ${
+                      activeSection === item.id
+                        ? "bg-foreground text-background"
+                        : "text-muted-foreground hover:bg-card2 hover:text-foreground"
+                    }`}
+                  >
+                    {item.label}
+                  </motion.button>
+                ),
+              )}
               <button
                 type="button"
                 className="mt-2 inline-flex items-center justify-center gap-2 rounded border border-border px-4 py-3 text-center font-body text-[11px] font-semibold uppercase tracking-[0.08em] text-foreground"
