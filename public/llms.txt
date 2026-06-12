@@ -21,10 +21,11 @@ Research Assistant at Keck School of Medicine of USC, working on multimodal deep
 
 ## Key Skills
 
-- AI/ML: PyTorch, TensorFlow, Scikit-learn, HuggingFace, LangChain, OpenCV, RAG, LLMOps, MCP
+- AI/ML: PyTorch, TensorFlow, Scikit-learn, HuggingFace, Ollama, LangChain, OpenCV, RAG, LLMOps, MCP
+- Agentic AI: Claude Code, MCP (Model Context Protocol), Ollama, N8N
 - Languages: Python, TypeScript, JavaScript, Java, C++, SQL
 - Web: React, Next.js, Node.js, Flask, FastAPI, Hono, Express, Tailwind CSS
-- Databases: PostgreSQL, MongoDB, Qdrant, Redis, pgvector, MySQL, Elasticsearch
+- Databases: PostgreSQL, MongoDB, Qdrant, Redis, pgvector, MySQL, Elasticsearch, Prisma, SQLAlchemy
 - Cloud: AWS, Azure, Google Cloud, Cloudflare, Docker, Kubernetes
 - Methods: Agile, TDD, CI/CD, RESTful APIs, Serverless
 

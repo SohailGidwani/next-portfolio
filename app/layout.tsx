@@ -162,6 +162,7 @@ export default function RootLayout({
                     "Machine Learning",
                     "Large Language Models",
                     "RAG Systems",
+                    "Agentic AI",
                     "Full Stack Development",
                     "Python",
                     "TypeScript",
@@ -170,7 +171,11 @@ export default function RootLayout({
                     "Node.js",
                     "TensorFlow",
                     "PyTorch",
+                    "Ollama",
+                    "Claude Code",
+                    "Model Context Protocol (MCP)",
                     "PostgreSQL",
+                    "Prisma",
                     "Vector Databases"
                   ],
                   "hasOccupation": [
@@ -222,7 +227,13 @@ export default function RootLayout({
                     { "@type": "DefinedTerm", "name": "RAG Systems", "inDefinedTermSet": "Machine Learning / AI" },
                     { "@type": "DefinedTerm", "name": "Vector Databases (Qdrant, pgvector)", "inDefinedTermSet": "Databases" },
                     { "@type": "DefinedTerm", "name": "Azure OpenAI", "inDefinedTermSet": "Cloud & AI Services" },
-                    { "@type": "DefinedTerm", "name": "Docker", "inDefinedTermSet": "DevOps & Cloud" }
+                    { "@type": "DefinedTerm", "name": "Docker", "inDefinedTermSet": "DevOps & Cloud" },
+                    { "@type": "DefinedTerm", "name": "Ollama", "inDefinedTermSet": "Machine Learning / AI" },
+                    { "@type": "DefinedTerm", "name": "Claude Code", "inDefinedTermSet": "Agentic AI & Developer Tools" },
+                    { "@type": "DefinedTerm", "name": "Model Context Protocol (MCP)", "inDefinedTermSet": "Agentic AI & Developer Tools" },
+                    { "@type": "DefinedTerm", "name": "FastAPI", "inDefinedTermSet": "Backend Development" },
+                    { "@type": "DefinedTerm", "name": "Prisma", "inDefinedTermSet": "Databases" },
+                    { "@type": "DefinedTerm", "name": "SQLAlchemy", "inDefinedTermSet": "Databases" }
                   ]
                 },
                 {
@@ -240,7 +251,7 @@ export default function RootLayout({
                   "name": "Sohail Gidwani - AI Developer Portfolio",
                   "mainEntity": { "@id": "https://sohailgidwani.app/#person" },
                   "dateCreated": "2024-01-01",
-                  "dateModified": "2026-06-09",
+                  "dateModified": "2026-06-12",
                   "inLanguage": "en"
                 }
               ]
