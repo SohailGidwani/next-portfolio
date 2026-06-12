@@ -162,25 +162,22 @@ export default function Skills() {
           })}
         </motion.div>
 
-        {/* Active playbook */}
-        <div className="mt-8">
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={active.id}
-              id={`playbook-panel-${active.id}`}
-              role="tabpanel"
-              initial={reduceMotion ? false : { opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
-            >
-              <ol className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-3 lg:grid-cols-4">
+        {/* Active playbook — cards keyed by tool so shared tools morph between playbooks */}
+        <div id={`playbook-panel-${active.id}`} role="tabpanel" className="mt-8">
+          <ol className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-3 lg:grid-cols-4">
+            <AnimatePresence initial={false} mode="popLayout">
                 {active.steps.map((step, i) => (
                   <motion.li
-                    key={`${active.id}-${step.tool}`}
-                    initial={reduceMotion ? false : { opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: reduceMotion ? 0 : 0.05 + i * 0.05 }}
+                    key={step.tool}
+                    layout={!reduceMotion}
+                    initial={reduceMotion ? false : { opacity: 0, scale: 0.92 }}
+                    animate={{
+                      opacity: 1,
+                      scale: 1,
+                      transition: { duration: 0.3, delay: reduceMotion ? 0 : i * 0.04 },
+                    }}
+                    exit={reduceMotion ? undefined : { opacity: 0, scale: 0.92, transition: { duration: 0.18 } }}
+                    transition={{ layout: { duration: 0.45, ease: [0.32, 0.72, 0, 1] } }}
                     onMouseEnter={() => setActiveSkill(step.tool)}
                     onMouseLeave={() => setActiveSkill(null)}
                     className="group flex items-center gap-3 rounded border border-border bg-card/80 p-3 transition hover:border-accent/40 sm:p-4"
@@ -213,9 +210,8 @@ export default function Skills() {
                     </span>
                   </motion.li>
                 ))}
-              </ol>
-            </motion.div>
-          </AnimatePresence>
+            </AnimatePresence>
+          </ol>
         </div>
 
         {/* Full index */}

@@ -42,7 +42,7 @@ export default function FAQStructuredData() {
         "name": "What technologies does Sohail Gidwani work with?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Sohail works with a wide range of technologies including: Machine Learning (TensorFlow, PyTorch, Scikit-learn, HuggingFace), Backend (Python, Flask, Node.js, FastAPI), Frontend (React, Next.js, TypeScript), Databases (PostgreSQL, MongoDB, Qdrant, pgvector), Cloud (Azure, AWS, Cloudflare Workers), and AI/LLM tools (Azure OpenAI, RAG systems, vector databases)."
+          "text": "Sohail works with a wide range of technologies including: Machine Learning (TensorFlow, PyTorch, Scikit-learn, HuggingFace, Ollama), Backend (Python, Flask, Node.js, FastAPI), Frontend (React, Next.js, TypeScript), Databases (PostgreSQL, MongoDB, Qdrant, pgvector, Prisma, SQLAlchemy), Cloud (Azure, AWS, Cloudflare Workers), AI/LLM tools (Azure OpenAI, RAG systems, vector databases), and agentic AI tooling (Claude Code, MCP servers, N8N)."
         }
       },
       {
