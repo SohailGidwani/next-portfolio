@@ -1,4 +1,5 @@
 import Image, { StaticImageData } from "next/image"
+import SectionHeading from "./SectionHeading"
 import uscLogo from "@/public/images/USC.jpg"
 import tsecLogo from "@/public/images/TSEC.jpeg"
 
@@ -44,12 +45,9 @@ export default function Education() {
   return (
     <section id="education" className="section-y">
       <div className="container mx-auto px-4">
-        <div className="animate-in-view space-y-3">
-          <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Education</p>
-          <h2 className="font-display text-3xl text-foreground sm:text-4xl">
-            Structured learning, layered over curiosity.
-          </h2>
-        </div>
+        <SectionHeading eyebrow="Education">
+          Structured learning, layered over curiosity.
+        </SectionHeading>
 
         <div className="mt-12">
           {education.map((item, index) => {

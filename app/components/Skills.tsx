@@ -4,6 +4,7 @@ import { useState } from "react"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import Image from "next/image"
 import { triggerHaptic } from "./ui/haptics"
+import SectionHeading from "./SectionHeading"
 import { useSkillHighlight } from "./SkillHighlightProvider"
 
 interface PlaybookStep {
@@ -118,23 +119,14 @@ export default function Skills() {
   return (
     <section id="skills" className="section-y" onMouseLeave={() => setActiveSkill(null)}>
       <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="space-y-3"
-        >
-          <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Skills</p>
-          <h2 className="font-display text-3xl text-foreground sm:text-4xl">
-            Organized by what you&apos;d hire me to do.
-          </h2>
-        </motion.div>
+        <SectionHeading eyebrow="Skills">
+          Organized by what you&apos;d hire me to do.
+        </SectionHeading>
 
         {/* Playbook tabs */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 0.1 }}
           viewport={{ once: true }}
           role="tablist"

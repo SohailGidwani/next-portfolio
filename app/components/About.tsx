@@ -1,15 +1,15 @@
 import AboutPortrait from "./AboutPortrait"
+import SectionHeading from "./SectionHeading"
 
 export default function About() {
   return (
     <section id="about" className="section-y">
       <div className="container mx-auto px-4">
         <div className="grid min-w-0 gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(260px,340px)] lg:items-start lg:gap-14 xl:grid-cols-[minmax(0,1fr)_minmax(280px,380px)]">
-          <div className="animate-in-view max-w-3xl space-y-6">
-            <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">About</p>
-            <h2 className="font-display text-3xl text-foreground sm:text-4xl">
+          <div className="max-w-3xl space-y-6">
+            <SectionHeading eyebrow="About">
               Building AI systems that work in production, not just in demos.
-            </h2>
+            </SectionHeading>
             <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
               <p>
                 I&apos;m an <strong className="font-semibold text-foreground">AI engineer</strong> and full-stack developer. I&apos;ve worked on everything from RAG pipelines and LLM integrations to React frontends and Flask APIs. What I care about most is taking something complex and making it feel simple for the person using it.

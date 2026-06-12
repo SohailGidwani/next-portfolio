@@ -8,6 +8,7 @@ import Image, { StaticImageData } from "next/image"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/app/components/ui/dialog"
 import { Badge } from "@/app/components/ui/badge"
 import { triggerHaptic } from "./ui/haptics"
+import SectionHeading from "./SectionHeading"
 import { useSkillHighlight } from "./SkillHighlightProvider"
 import insaitoLogo from "@/public/images/Insaito.png"
 import iiflLogo from "@/public/images/iifl.png"
@@ -158,18 +159,9 @@ export default function Experience() {
   return (
     <section id="experience" className="section-y">
       <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="space-y-3"
-        >
-          <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Experience</p>
-          <h2 className="font-display text-3xl text-foreground sm:text-4xl">
-            Industry, research, and product execution.
-          </h2>
-        </motion.div>
+        <SectionHeading eyebrow="Experience">
+          Industry, research, and product execution.
+        </SectionHeading>
 
         <div className="mt-10 space-y-6">
           {featured && (
@@ -186,8 +178,8 @@ export default function Experience() {
                   openModal(featured)
                 }
               }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               transition={{ duration: 0.4 }}
               viewport={{ once: true }}
               className={`group cursor-pointer rounded border border-border border-l-2 border-l-accent bg-card/80 p-6 transition hover:border-t-accent/50 hover:border-r-accent/50 hover:border-b-accent/50 sm:p-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background ${
@@ -325,8 +317,8 @@ export default function Experience() {
                         openModal(item)
                       }
                     }}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
                     transition={{ duration: 0.4, delay: index * 0.08 }}
                     viewport={{ once: true }}
                     className={`group cursor-pointer rounded border bg-card/80 p-5 transition hover:border-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background ${

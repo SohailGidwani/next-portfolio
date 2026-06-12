@@ -6,6 +6,7 @@ import { motion } from "framer-motion"
 import { ArrowUpRight } from "lucide-react"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/app/components/ui/dialog"
 import { triggerHaptic } from "./ui/haptics"
+import SectionHeading from "./SectionHeading"
 import AskPandaAI from "@/public/images/AskPandaAI-Certificate.jpg"
 import fullstack from "@/public/images/0-100 Full stack dev course.png"
 import rubix from "@/public/images/Rubix-hackathon.png"
@@ -75,25 +76,16 @@ export default function Triumphs() {
   return (
     <section id="triumphs" className="section-y">
       <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="space-y-3"
-        >
-          <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Wins</p>
-          <h2 className="font-display text-3xl text-foreground sm:text-4xl">
-            Certifications and wins that shaped my journey.
-          </h2>
-        </motion.div>
+        <SectionHeading eyebrow="Wins">
+          Certifications and wins that shaped my journey.
+        </SectionHeading>
 
         {/* Featured win */}
         <motion.button
           type="button"
           onClick={() => openModal(featuredWin)}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           transition={{ duration: 0.4 }}
           viewport={{ once: true }}
           className="group mt-10 w-full rounded border border-border border-l-2 border-l-accent bg-card/80 p-6 text-left transition hover:border-b-accent/50 hover:border-r-accent/50 hover:border-t-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background sm:p-8"
@@ -121,8 +113,8 @@ export default function Triumphs() {
               key={win.title}
               type="button"
               onClick={() => openModal(win)}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               transition={{ duration: 0.35, delay: index * 0.06 }}
               viewport={{ once: true }}
               className="group grid w-full grid-cols-1 gap-1.5 border-b border-border px-1 py-4 text-left transition hover:bg-card/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:grid-cols-[56px_1fr_auto] sm:items-center sm:gap-6 sm:py-5"

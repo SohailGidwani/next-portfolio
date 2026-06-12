@@ -4,6 +4,7 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import { Coffee, Gamepad2, Film, Sun, Waves, Heart } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
+import SectionHeading from "./SectionHeading"
 import Image from "next/image"
 import {
   Dialog,
@@ -122,23 +123,14 @@ export default function Personal() {
   return (
     <section id="personal" className="section-y">
       <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="space-y-3"
-        >
-          <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Beyond the Code</p>
-          <h2 className="font-display text-3xl text-foreground sm:text-4xl">
-            Stuff I care about when I&apos;m not coding.
-          </h2>
-        </motion.div>
+        <SectionHeading eyebrow="Beyond the Code">
+          Stuff I care about when I&apos;m not coding.
+        </SectionHeading>
 
         {/* Marvel Section */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.1 }}
           viewport={{ once: true }}
           className="mt-10"
@@ -151,8 +143,8 @@ export default function Personal() {
             {marvelFavorites.map((hero, index) => (
               <motion.figure
                 key={hero.id}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
                 transition={{ duration: 0.4, delay: index * 0.08 }}
                 viewport={{ once: true }}
                 className="grid grid-cols-[120px_1fr] gap-4 rounded border border-border bg-card/60 p-4 sm:grid-cols-[160px_1fr] sm:p-5"
@@ -183,8 +175,8 @@ export default function Personal() {
 
         {/* Gaming Section */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           viewport={{ once: true }}
           className="mt-10"
@@ -199,8 +191,8 @@ export default function Personal() {
                 key={game.id}
                 type="button"
                 onClick={() => openGameModal(game)}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
@@ -225,8 +217,8 @@ export default function Personal() {
 
         {/* Lifestyle Section */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.3 }}
           viewport={{ once: true }}
           className="mt-10"
@@ -241,8 +233,8 @@ export default function Personal() {
                 key={item.id}
                 type="button"
                 onClick={() => openLifestyleModal(item)}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
