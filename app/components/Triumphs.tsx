@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Image, { StaticImageData } from "next/image"
 import { motion } from "framer-motion"
-import { Award, Medal } from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/app/components/ui/dialog"
 import { triggerHaptic } from "./ui/haptics"
 import AskPandaAI from "@/public/images/AskPandaAI-Certificate.jpg"
@@ -11,58 +11,65 @@ import fullstack from "@/public/images/0-100 Full stack dev course.png"
 import rubix from "@/public/images/Rubix-hackathon.png"
 import techathon from "@/public/images/Tech-a-thon-IIFL.jpg"
 
-interface Certificate {
+interface Win {
   title: string
   issuer: string
   date: string
+  year: string
+  tag: string
   description: string
   image: StaticImageData
-  isAward: boolean
 }
 
-const certificates: Certificate[] = [
+const featuredWin: Win = {
+  title: "Certificate of Achievement · AskPandaAI",
+  issuer: "CTO · IIFL Finance Ltd",
+  date: "Jun 2024",
+  year: "2024",
+  tag: "Award",
+  description:
+    "Designed and built AskPandaAI, an NLP-powered chatbot that gave IIFL employees real-time access to internal financial data. Recognized with a Certificate of Achievement from the CTO after it cut internal support tickets across the org.",
+  image: AskPandaAI,
+}
+
+const ledgerWins: Win[] = [
   {
-    title: "Certificate Of Achievement - AskPandaAI",
-    issuer: "CTO - IIFL Finance Ltd",
-    date: "Jun 13th, 2024",
-    description:
-      "Designed and implemented NLP-powered chatbot for real-time internal employee access to financial data.",
-    image: AskPandaAI,
-    isAward: true,
-  },
-  {
-    title: "Tech-a-thon (Hackathon)",
-    issuer: "IIFL",
-    date: "Oct 6th & 7th, 2023",
-    description: "Won 1st prize for an AI-powered customer support chatbot.",
-    image: techathon,
-    isAward: true,
-  },
-  {
-    title: "0-100 Full Stack Web Development Course",
+    title: "0-100 Full Stack Web Development",
     issuer: "Harkirat Singh",
     date: "Apr 2024",
+    year: "2024",
+    tag: "Certification",
     description:
       "Mastered full-stack development, backend architecture, DevOps practices, and cloud deployment.",
     image: fullstack,
-    isAward: false,
   },
   {
-    title: "Rubix-Hackathon",
-    issuer: "CSI - TSEC",
-    date: "Jan 18th - 20th, 2022",
-    description: "Built a healthcare consultation web app with the MERN stack. Reached the finals out of 50+ competing teams.",
+    title: "Tech-a-thon · 1st Prize",
+    issuer: "IIFL",
+    date: "Oct 2023",
+    year: "2023",
+    tag: "Hackathon",
+    description: "Won 1st prize for an AI-powered customer support chatbot.",
+    image: techathon,
+  },
+  {
+    title: "Rubix Hackathon · Finalist",
+    issuer: "CSI · TSEC",
+    date: "Jan 2022",
+    year: "2022",
+    tag: "Hackathon",
+    description:
+      "Built a healthcare consultation web app with the MERN stack. Reached the finals out of 50+ competing teams.",
     image: rubix,
-    isAward: true,
   },
 ]
 
 export default function Triumphs() {
-  const [selected, setSelected] = useState<Certificate | null>(null)
+  const [selected, setSelected] = useState<Win | null>(null)
 
-  const openModal = (certificate: Certificate) => {
+  const openModal = (win: Win) => {
     triggerHaptic()
-    setSelected(certificate)
+    setSelected(win)
   }
 
   return (
@@ -81,40 +88,62 @@ export default function Triumphs() {
           </h2>
         </motion.div>
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-2">
-          {certificates.map((certificate, index) => (
+        {/* Featured win */}
+        <motion.button
+          type="button"
+          onClick={() => openModal(featuredWin)}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          viewport={{ once: true }}
+          className="group mt-10 w-full rounded border border-border border-l-2 border-l-accent bg-card/80 p-6 text-left transition hover:border-b-accent/50 hover:border-r-accent/50 hover:border-t-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background sm:p-8"
+        >
+          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">
+            Featured · {featuredWin.tag}
+          </p>
+          <h3 className="mt-3 font-display text-2xl text-foreground sm:text-3xl">
+            {featuredWin.title}
+          </h3>
+          <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+            {featuredWin.issuer} · {featuredWin.date}
+          </p>
+          <p className="mt-4 max-w-2xl text-sm text-muted-foreground">{featuredWin.description}</p>
+          <span className="mt-5 inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.22em] text-accent/70 transition group-hover:text-accent">
+            View certificate
+            <ArrowUpRight className="h-3 w-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </span>
+        </motion.button>
+
+        {/* Ledger */}
+        <div className="mt-8 border-t border-border">
+          {ledgerWins.map((win, index) => (
             <motion.button
-              key={certificate.title}
+              key={win.title}
               type="button"
-              onClick={() => openModal(certificate)}
-              initial={{ opacity: 0, y: 20 }}
+              onClick={() => openModal(win)}
+              initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: index * 0.05 }}
+              transition={{ duration: 0.35, delay: index * 0.06 }}
               viewport={{ once: true }}
-              className="group flex flex-col rounded border border-border bg-card/80 p-4 text-left transition hover:border-accent/40"
+              className="group grid w-full grid-cols-1 gap-1.5 border-b border-border px-1 py-4 text-left transition hover:bg-card/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:grid-cols-[56px_1fr_auto] sm:items-center sm:gap-6 sm:py-5"
             >
-              <div className="relative h-40 w-full overflow-hidden rounded border border-border">
-                <Image
-                  src={certificate.image}
-                  alt={certificate.title}
-                  fill
-                  placeholder="blur"
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 33vw"
-                />
-              </div>
-              <div className="mt-4 space-y-2">
-                <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-accent">
-                  {certificate.isAward ? (
-                    <Medal className="h-3.5 w-3.5" />
-                  ) : (
-                    <Award className="h-3.5 w-3.5" />
-                  )}
-                  <span>{certificate.isAward ? "Award" : "Certificate"}</span>
-                </div>
-                <h3 className="font-display text-lg text-foreground">{certificate.title}</h3>
-                <p className="text-xs text-muted-foreground">{certificate.issuer}</p>
-              </div>
+              <span className="font-mono text-[11px] tracking-[0.2em] text-accent">{win.year}</span>
+              <span className="min-w-0">
+                <span className="block font-display text-base text-foreground sm:text-lg">
+                  {win.title}
+                </span>
+                <span className="mt-0.5 block text-xs text-muted-foreground">
+                  {win.issuer}
+                  <span className="font-mono uppercase tracking-[0.15em] text-muted-foreground/60">
+                    {" "}
+                    · {win.tag}
+                  </span>
+                </span>
+              </span>
+              <span className="inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground transition group-hover:text-accent">
+                Cert
+                <ArrowUpRight className="h-3 w-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </span>
             </motion.button>
           ))}
         </div>
