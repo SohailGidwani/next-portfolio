@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
+import { useEffect, useRef, useState } from "react"
+import { animate, motion, useDragControls, useMotionValue } from "framer-motion"
 import Link from "next/link"
-import { ArrowUpRight, Briefcase, Calendar, FileText, FlaskConical } from "lucide-react"
+import { ArrowUpRight, Briefcase, Calendar, FileText, FlaskConical, X } from "lucide-react"
 import Image, { StaticImageData } from "next/image"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/app/components/ui/dialog"
 import { Badge } from "@/app/components/ui/badge"
@@ -106,10 +106,49 @@ export default function Experience() {
     return () => window.removeEventListener("portfolio:open-experience", handler)
   }, [])
 
+  const sheetRef = useRef<HTMLDivElement>(null)
+  const modalBodyRef = useRef<HTMLDivElement>(null)
+  const dragFrom = useRef<{ y: number } | null>(null)
+  const dragControls = useDragControls()
+  const sheetY = useMotionValue(0)
+
   const openModal = (experience: ExperienceItem) => {
     triggerHaptic()
+    sheetY.set(0)
     setSelected(experience)
   }
+
+  const closeModal = () => {
+    setSelected(null)
+    sheetY.set(0)
+  }
+
+  // Slide the sheet off-screen, then unmount the dialog.
+  const dismissSheet = () => {
+    triggerHaptic()
+    const distance = (sheetRef.current?.offsetHeight ?? 600) + 32
+    animate(sheetY, distance, { duration: 0.22, ease: [0.4, 0, 1, 1] }).then(() => {
+      setSelected(null)
+      sheetY.set(0)
+    })
+  }
+
+  const isMobileSheet = () =>
+    typeof window !== "undefined" && window.matchMedia("(max-width: 639px)").matches
+
+  const requestClose = () => {
+    if (isMobileSheet()) dismissSheet()
+    else closeModal()
+  }
+
+  // Slide the sheet up from the bottom when it opens (mobile only).
+  useEffect(() => {
+    if (!selected || !isMobileSheet()) return
+    const distance = (sheetRef.current?.offsetHeight ?? 600) + 32
+    sheetY.set(distance)
+    const controls = animate(sheetY, 0, { duration: 0.3, ease: [0.2, 0.8, 0.2, 1] })
+    return () => controls.stop()
+  }, [selected, sheetY])
 
   const [featured, ...restExperiences] = experiences
   const featuredHighlighted = normalizedSkill && featured
@@ -356,12 +395,49 @@ export default function Experience() {
         </div>
       </div>
 
-      <Dialog open={!!selected} onOpenChange={(open) => !open && setSelected(null)}>
+      <Dialog open={!!selected} onOpenChange={(open) => !open && requestClose()}>
         {selected && (
-          <DialogContent className="max-h-[85vh] max-w-3xl overflow-y-auto rounded border-border bg-card top-auto bottom-4 translate-y-0 sm:bottom-auto sm:top-[50%] sm:translate-y-[-50%] sm:rounded">
-            <DialogHeader>
-              <div className="flex flex-wrap items-center gap-4">
-                <div className="relative h-12 w-12 overflow-hidden rounded border border-border bg-background">
+          <DialogContent className="top-auto bottom-0 w-full max-w-none translate-y-0 gap-0 border-0 bg-transparent p-0 shadow-none max-sm:data-[state=open]:animate-none max-sm:data-[state=closed]:animate-none sm:bottom-auto sm:top-[50%] sm:w-full sm:max-w-3xl sm:translate-y-[-50%] [&>button]:hidden">
+            <motion.div
+              ref={sheetRef}
+              drag="y"
+              dragListener={false}
+              dragControls={dragControls}
+              dragConstraints={{ top: 0, bottom: 0 }}
+              dragElastic={{ top: 0, bottom: 1 }}
+              style={{ y: sheetY }}
+              onPointerDown={(e) => {
+                if (e.pointerType !== "touch") return
+                dragFrom.current = { y: e.clientY }
+              }}
+              onPointerMove={(e) => {
+                if (e.pointerType !== "touch" || !dragFrom.current) return
+                const dy = e.clientY - dragFrom.current.y
+                if (dy > 8 && (modalBodyRef.current?.scrollTop ?? 0) <= 0) {
+                  dragControls.start(e)
+                  dragFrom.current = null
+                }
+              }}
+              onPointerUp={() => {
+                dragFrom.current = null
+              }}
+              onDragEnd={(_, info) => {
+                if (info.offset.y > 110 || info.velocity.y > 500) dismissSheet()
+              }}
+              className="relative flex max-h-[85vh] flex-col overflow-hidden rounded-t border border-x-0 border-b-0 border-border bg-card sm:max-h-[85vh] sm:rounded sm:border-x sm:border-b"
+            >
+              <div aria-hidden className="mx-auto mt-2 h-1 w-10 shrink-0 rounded bg-border sm:hidden" />
+              <button
+                type="button"
+                onClick={requestClose}
+                aria-label="Close"
+                className="absolute right-3 top-3 z-20 inline-flex h-8 w-8 items-center justify-center rounded border border-border bg-background/70 text-muted-foreground transition hover:border-accent/40 hover:text-foreground"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            <DialogHeader className="shrink-0 border-b border-border/60 bg-card px-5 py-3.5 pr-14 text-left sm:px-6 sm:py-4">
+              <div className="flex items-center gap-3 sm:gap-4">
+                <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded border border-border bg-background sm:h-12 sm:w-12">
                   <Image
                     src={selected.logo}
                     alt={`${selected.company} logo`}
@@ -371,22 +447,23 @@ export default function Experience() {
                     sizes="48px"
                   />
                 </div>
-                <div>
-                  <DialogTitle className="font-display text-2xl text-foreground">
+                <div className="min-w-0">
+                  <DialogTitle className="truncate font-display text-lg leading-snug text-foreground sm:text-2xl">
                     {selected.title}
                   </DialogTitle>
-                  <DialogDescription className="text-sm text-muted-foreground">
+                  <DialogDescription className="text-xs text-muted-foreground sm:text-sm">
                     {selected.company} · {selected.date}
                   </DialogDescription>
-                  {selected.note ? (
-                    <p className="mt-1.5 text-xs italic text-muted-foreground/80">
-                      {selected.note}
-                    </p>
-                  ) : null}
                 </div>
               </div>
             </DialogHeader>
-            <div className="space-y-4">
+            <div
+              ref={modalBodyRef}
+              className="space-y-4 overflow-y-auto overscroll-contain px-5 py-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] sm:px-6 sm:py-5"
+            >
+              {selected.note ? (
+                <p className="text-xs italic text-muted-foreground/80">{selected.note}</p>
+              ) : null}
               <p className="text-sm text-muted-foreground">{selected.description}</p>
               {selected.researchUrl ? (
                 <div className="flex flex-wrap items-center gap-2">
@@ -443,6 +520,7 @@ export default function Experience() {
                 </ul>
               </div>
             </div>
+            </motion.div>
           </DialogContent>
         )}
       </Dialog>
