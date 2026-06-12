@@ -150,13 +150,24 @@ export default function Skills() {
                 aria-selected={isActive}
                 aria-controls={`playbook-panel-${pb.id}`}
                 onClick={() => selectPlaybook(pb.id)}
-                className={`rounded border px-3 py-2.5 font-mono text-[10px] uppercase tracking-[0.18em] transition sm:px-4 ${
+                className={`relative rounded border px-3 py-2.5 font-mono text-[10px] uppercase tracking-[0.18em] transition sm:px-4 ${
                   isActive
-                    ? "border-accent bg-accent/10 text-accent"
+                    ? "border-transparent text-accent"
                     : "border-border bg-card/60 text-muted-foreground hover:border-accent/40 hover:text-foreground"
                 }`}
               >
-                {pb.label}
+                {isActive &&
+                  (reduceMotion ? (
+                    <span aria-hidden className="absolute inset-0 rounded border border-accent bg-accent/10" />
+                  ) : (
+                    <motion.span
+                      aria-hidden
+                      layoutId="playbook-tab-indicator"
+                      transition={{ type: "spring", bounce: 0.18, duration: 0.5 }}
+                      className="absolute inset-0 rounded border border-accent bg-accent/10"
+                    />
+                  ))}
+                <span className="relative z-10">{pb.label}</span>
               </button>
             )
           })}
