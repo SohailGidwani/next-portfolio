@@ -70,7 +70,7 @@ export default function Projects() {
                       alt={primary.title}
                       fill
                       placeholder="blur"
-                      className="object-cover"
+                      className="object-cover object-top"
                       sizes="100vw"
                       priority
                     />

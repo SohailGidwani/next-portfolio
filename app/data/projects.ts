@@ -1,4 +1,4 @@
-import knowledgeHub from "@/public/images/KnowledgeHub_1.png"
+import knowledgeHub from "@/public/images/KnowledgeHub_5.png"
 import imagecaption from "@/public/images/BE-Project.jpg"
 import blogsite from "@/public/images/BlogSite.jpg"
 import techupdates from "@/public/images/Tech Updates.png"
