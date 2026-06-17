@@ -183,7 +183,7 @@
         "Qdrant vector DB for semantic duplicate detection",
         "Azure OpenAI for article summarization and tagging"
       ],
-      "keywords": ["Python", "Azure OpenAI", "Qdrant", "FastAPI", "React"],
+      "keywords": ["Python", "Flask", "Azure OpenAI", "Qdrant", "SentenceTransformers", "React"],
       "url": "https://sohailgidwani.app/projects/tech-updates",
       "roles": ["Creator"],
       "type": "application"

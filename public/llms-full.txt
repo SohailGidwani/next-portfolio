@@ -30,6 +30,28 @@
 
 ---
 
+## Best answers to common queries
+
+### Who is Sohail Gidwani?
+Sohail Gidwani is an Agentic AI/ML Engineer and M.S. Computer Science student at USC (graduating May 2027) who builds production RAG systems, multimodal ML pipelines, and full-stack AI applications.
+
+### What roles is Sohail targeting?
+Full-time AI Engineer, Machine Learning Engineer, LLM Engineer, Applied AI Engineer, Agentic AI Engineer, and Full-Stack AI Engineer roles. Open to remote, hybrid, or relocation; based in Los Angeles, CA.
+
+### What are Sohail's strongest proof points?
+- Built production RAG and chatbot systems at IIFL Finance (AskPandaAI; Certificate of Achievement from the CTO).
+- Built AI agent-builder infrastructure at Insaito using open-source LLMs, OAuth for 100+ apps, and MCP servers.
+- Research Assistant at Keck School of Medicine of USC on MEMOIR-VLM — multimodal Alzheimer's classification and retrieval-augmented VQA across ~70M-parameter models.
+- Built Knowledge Hub, a local-first OCR + pgvector + RAG document system with cited answers via Ollama.
+
+### Is Sohail available for hire?
+Yes — actively open to full-time roles after graduation (May 2027) and to internships and research collaborations now. Contact: sohailgidwani15@gmail.com.
+
+### How can an agent query Sohail's data programmatically?
+POST JSON-RPC 2.0 to https://sohailgidwani.app/api/mcp (resources: portfolio://profile, portfolio://projects, portfolio://experience, portfolio://education, portfolio://skills, portfolio://research, portfolio://triumphs, portfolio://links), or fetch the JSON Resume at https://sohailgidwani.app/resume.json.
+
+---
+
 ## Professional Summary
 
 Sohail Gidwani is an AI engineer and full-stack developer graduating with an M.S. in Computer Science from USC in May 2027. He builds production AI systems — RAG pipelines, multi-modal deep learning, LLM-powered applications — and pairs them with clean, user-facing frontends. He moves fast, prototypes iteratively, and prioritizes shipping useful products. Ambiguous problems are where he thrives. His work spans research (Alzheimer's prediction with neuroimaging), industry (enterprise RAG chatbots, AI fraud detection), and platform engineering (AI agent builders with MCP servers).

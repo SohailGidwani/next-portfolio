@@ -102,7 +102,7 @@ const projects = [
       'Qdrant vector search for semantic deduplication — same story from different sources merged',
       'Azure OpenAI GPT-4o for article summarization and category tagging',
     ],
-    tags: ['Python', 'Azure OpenAI', 'Qdrant', 'FastAPI', 'React', 'Vector Search'],
+    tags: ['Python', 'Flask', 'Azure OpenAI', 'Qdrant', 'SentenceTransformers', 'React', 'Vector Search'],
     status: 'complete',
   },
 ]
@@ -496,7 +496,8 @@ export async function GET() {
     name: 'Sohail Gidwani Portfolio MCP Server',
     protocol: 'MCP 2024-11-05',
     version: '2.0.0',
-    description: 'Query portfolio data for Sohail Gidwani — AI/ML Engineer & Full-Stack Developer. POST JSON-RPC 2.0 requests to this endpoint.',
+    description: 'Query portfolio data for Sohail Gidwani — AI/ML Engineer & Full-Stack Developer. This endpoint speaks JSON-RPC 2.0 over HTTP POST; a GET (this response) is descriptive only. Send POST requests with Content-Type: application/json.',
+    transport: { method: 'POST', contentType: 'application/json', endpoint: `${SITE}/api/mcp` },
     resources: Object.entries(RESOURCE_DESCRIPTIONS).map(([uri, description]) => ({ uri, description })),
     usage: {
       step1_initialize: {
@@ -505,6 +506,28 @@ export async function GET() {
       },
       step2_list: { method: 'resources/list' },
       step3_read: { method: 'resources/read', params: { uri: 'portfolio://profile' } },
+    },
+    example: {
+      curl: `curl -s -X POST ${SITE}/api/mcp -H 'Content-Type: application/json' -d '{"jsonrpc":"2.0","id":1,"method":"resources/read","params":{"uri":"portfolio://profile"}}'`,
+      request: {
+        jsonrpc: '2.0',
+        id: 1,
+        method: 'resources/read',
+        params: { uri: 'portfolio://profile' },
+      },
+      response: {
+        jsonrpc: '2.0',
+        id: 1,
+        result: {
+          contents: [
+            {
+              uri: 'portfolio://profile',
+              mimeType: 'application/json',
+              text: '{"name":"Sohail Gidwani", ...}',
+            },
+          ],
+        },
+      },
     },
   })
 }

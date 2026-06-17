@@ -152,7 +152,21 @@ const nextConfig = {
       },
     ]
   },
-  
+
+  // Serve /.well-known/llms.txt from the canonical /llms.txt so the two can never
+  // drift. beforeFiles runs ahead of the public/ filesystem, making this authoritative
+  // even if a static .well-known/llms.txt is ever re-added.
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: '/.well-known/llms.txt',
+          destination: '/llms.txt',
+        },
+      ],
+    }
+  },
+
   // Experimental features for better performance
   experimental: {
     optimizePackageImports: ['@vercel/analytics', '@vercel/speed-insights', 'framer-motion', 'lucide-react'],
