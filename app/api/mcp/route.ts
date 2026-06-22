@@ -408,6 +408,16 @@ const links = {
   },
 }
 
+const contact = {
+  email: profile.email,
+  linkedin: links.social.linkedin,
+  github: links.social.github,
+  portfolio: SITE,
+  resume: links.resume.pdf,
+  preferred_contact: 'email',
+  note: 'Open to discussing AI/ML and full-stack engineering opportunities.',
+}
+
 const RESOURCE_DESCRIPTIONS: Record<string, string> = {
   'portfolio://profile': 'Personal profile, contact info, social links, and open-to-work status',
   'portfolio://projects': 'All portfolio projects with full descriptions, highlights, tags, and links',
@@ -417,6 +427,7 @@ const RESOURCE_DESCRIPTIONS: Record<string, string> = {
   'portfolio://research': 'Published and in-progress research with key results, methods, and datasets',
   'portfolio://triumphs': 'Awards, hackathon wins, and certifications',
   'portfolio://links': 'Structured index of all important URLs — projects, research, GitHub repos, resume, and machine-readable endpoints',
+  'portfolio://contact': 'Contact information and preferred ways to reach Sohail Gidwani.',
 }
 
 const RESOURCES = {
@@ -428,9 +439,93 @@ const RESOURCES = {
   'portfolio://research': research,
   'portfolio://triumphs': triumphs,
   'portfolio://links': links,
+  'portfolio://contact': contact,
 } as const
 
 type ResourceUri = keyof typeof RESOURCES
+
+const PROMPTS = {
+  recruiter_summary: {
+    description: 'A concise professional summary of Sohail\'s background suited for a recruiter or hiring manager.',
+    build: () => [
+      {
+        role: 'user',
+        content: {
+          type: 'text',
+          text: `Using only the profile and experience data below, write a concise professional summary of Sohail Gidwani (3-5 sentences) suited for a recruiter or hiring manager. Lead with his current focus and his strongest, most quantifiable achievements. Keep it factual and free of hype.
+
+PROFILE:
+${JSON.stringify(profile)}
+
+EXPERIENCE:
+${JSON.stringify(experience)}`,
+        },
+      },
+    ],
+  },
+  ml_fit: {
+    description: 'An assessment of why Sohail is a strong candidate for ML/AI engineering roles, grounded in his projects and research.',
+    build: () => [
+      {
+        role: 'user',
+        content: {
+          type: 'text',
+          text: `Using the data below, write an assessment of why Sohail Gidwani is a strong candidate for ML/AI engineering roles. Ground every claim in his specific experience, projects, and research — cite concrete results (metrics, models, datasets). Organize the assessment around production ML systems, research depth, and breadth of the ML/AI stack.
+
+EXPERIENCE:
+${JSON.stringify(experience)}
+
+PROJECTS:
+${JSON.stringify(projects)}
+
+RESEARCH:
+${JSON.stringify(research)}
+
+SKILLS:
+${JSON.stringify(skills)}`,
+        },
+      },
+    ],
+  },
+  full_profile_brief: {
+    description: 'A complete brief covering experience, skills, research, and projects — useful for AI clients that want a single-shot context load.',
+    build: () => [
+      {
+        role: 'user',
+        content: {
+          type: 'text',
+          text: `Below is the complete portfolio context for Sohail Gidwani, suitable for a single-shot context load. Produce a structured brief covering who he is, his experience, education, skills, research, projects, notable wins, and key links. Preserve specific metrics and URLs.
+
+PROFILE:
+${JSON.stringify(profile)}
+
+EXPERIENCE:
+${JSON.stringify(experience)}
+
+EDUCATION:
+${JSON.stringify(education)}
+
+SKILLS:
+${JSON.stringify(skills)}
+
+RESEARCH:
+${JSON.stringify(research)}
+
+PROJECTS:
+${JSON.stringify(projects)}
+
+TRIUMPHS:
+${JSON.stringify(triumphs)}
+
+LINKS:
+${JSON.stringify(links)}`,
+        },
+      },
+    ],
+  },
+} as const
+
+type PromptName = keyof typeof PROMPTS
 
 function jsonrpc(id: unknown, result: unknown) {
   return NextResponse.json({ jsonrpc: '2.0', id, result })
@@ -454,8 +549,8 @@ export async function POST(request: NextRequest) {
     case 'initialize':
       return jsonrpc(id, {
         protocolVersion: '2024-11-05',
-        capabilities: { resources: { subscribe: false, listChanged: false } },
-        serverInfo: { name: 'sohail-gidwani-portfolio', version: '2.0.0' },
+        serverInfo: { name: 'sohail-portfolio-mcp', version: '2.0.0' },
+        capabilities: { resources: {}, tools: {}, prompts: {} },
       })
 
     case 'resources/list':
@@ -471,7 +566,7 @@ export async function POST(request: NextRequest) {
     case 'resources/read': {
       const uri = params?.uri as string | undefined
       if (!uri || !(uri in RESOURCES)) {
-        return jsonrpcError(id, -32602, `Unknown resource: ${uri ?? '(none)'}. Available: ${Object.keys(RESOURCES).join(', ')}`)
+        return jsonrpcError(id, -32602, 'Unknown resource URI')
       }
       return jsonrpc(id, {
         contents: [{
@@ -482,8 +577,64 @@ export async function POST(request: NextRequest) {
       })
     }
 
+    case 'tools/list':
+      return jsonrpc(id, {
+        tools: [
+          {
+            name: 'search_projects',
+            description: 'Search portfolio projects by keyword. Matches against project name, description, highlights, and tags.',
+            inputSchema: {
+              type: 'object',
+              properties: {
+                keyword: {
+                  type: 'string',
+                  description: 'Case-insensitive keyword to search for',
+                },
+              },
+              required: ['keyword'],
+            },
+          },
+        ],
+      })
+
+    case 'tools/call': {
+      const toolName = params?.name as string | undefined
+      if (toolName !== 'search_projects') {
+        return jsonrpcError(id, -32602, 'Unknown tool')
+      }
+      const args = params?.arguments as { keyword?: unknown } | undefined
+      const keyword = (typeof args?.keyword === 'string' ? args.keyword : '').toLowerCase()
+      const matched = projects.filter(project =>
+        [project.name, project.description, ...project.highlights, ...project.tags]
+          .some(field => field.toLowerCase().includes(keyword))
+      )
+      return jsonrpc(id, {
+        content: [{ type: 'text', text: JSON.stringify(matched) }],
+      })
+    }
+
+    case 'prompts/list':
+      return jsonrpc(id, {
+        prompts: (Object.keys(PROMPTS) as PromptName[]).map(name => ({
+          name,
+          description: PROMPTS[name].description,
+        })),
+      })
+
+    case 'prompts/get': {
+      const promptName = params?.name as string | undefined
+      if (!promptName || !(promptName in PROMPTS)) {
+        return jsonrpcError(id, -32602, 'Unknown prompt')
+      }
+      const prompt = PROMPTS[promptName as PromptName]
+      return jsonrpc(id, {
+        description: prompt.description,
+        messages: prompt.build(),
+      })
+    }
+
     default:
-      return jsonrpcError(id, -32601, `Method not found: ${method ?? '(none)'}`)
+      return jsonrpcError(id, -32601, 'Method not found')
   }
 }
 
