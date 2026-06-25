@@ -5,6 +5,7 @@ import Link from "next/link"
 import { AnimatePresence, motion } from "framer-motion"
 import { Menu, Sparkles, X } from "lucide-react"
 import ThemeToggle from "./ThemeToggle"
+import ReadingProgress from "./ReadingProgress"
 import { triggerHaptic } from "./ui/haptics"
 import { usePortfolio } from "./PortfolioProvider"
 import { smoothScrollToId, smoothScrollToTop } from "@/app/utils/smoothScroll"
@@ -66,6 +67,7 @@ export default function Navbar() {
           : "border-transparent bg-background/85 backdrop-blur-sm"
       }`}
     >
+      <ReadingProgress />
       <div className="container grid h-full grid-cols-2 items-center gap-3 px-[18px] sm:px-6 md:px-9 min-[901px]:grid-cols-[1fr_auto_1fr] min-[901px]:gap-6 min-[901px]:px-4 xl:px-6">
         <button
           type="button"
