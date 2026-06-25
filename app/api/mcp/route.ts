@@ -167,7 +167,7 @@ const education = [
     studyType: 'Master of Science',
     startDate: '2025-08-01',
     endDate: '2027-05-31',
-    gpa: '3.5/4.0',
+    gpa: '3.75/4.0',
     location: 'Los Angeles, CA',
     courses: [
       'Analysis of Algorithms',

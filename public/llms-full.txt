@@ -86,7 +86,7 @@ Multi-Modal AI for Alzheimer's Disease
 ## Education
 
 ### University of Southern California (Aug 2025 – May 2027)
-- M.S. in Computer Science, GPA: 3.5/4.0
+- M.S. in Computer Science, GPA: 3.75/4.0
 - Viterbi School of Engineering, Los Angeles, CA
 - Coursework: Analysis of Algorithms, Information Retrieval & Web Search Engines, NLP, ML for Data Science
 
