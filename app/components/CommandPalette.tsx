@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import {
+  Bot,
   Briefcase,
   Command,
   Database,
@@ -177,6 +178,31 @@ export default function CommandPalette() {
         category: "navigation",
       },
       // Projects
+      {
+        id: "project-portage",
+        label: "Portage",
+        description: "Autonomous code-migration agent",
+        route: "/projects/portage",
+        icon: <Bot className="h-4 w-4" />,
+        action: () => {
+          window.location.href = "/projects/portage"
+        },
+        keywords: [
+          "agent",
+          "autonomous",
+          "migration",
+          "langgraph",
+          "fastapi",
+          "flask",
+          "mcp",
+          "sandbox",
+          "docker",
+          "eval",
+          "checkpoint",
+          "blast radius",
+        ],
+        category: "projects",
+      },
       {
         id: "project-knowledge-hub",
         label: "Knowledge Hub",

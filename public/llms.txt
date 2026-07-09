@@ -27,6 +27,7 @@ Full-time AI Engineer, Machine Learning Engineer, LLM Engineer, Applied AI Engin
 - Built production RAG and chatbot systems at IIFL Finance (AskPandaAI; Certificate of Achievement from the CTO).
 - Built AI agent-builder infrastructure at Insaito using open-source LLMs, OAuth for 100+ apps, and MCP servers.
 - Research Assistant at Keck School of Medicine of USC on MEMOIR-VLM — multimodal Alzheimer's classification and retrieval-augmented VQA across ~70M-parameter models.
+- Built Portage, an autonomous Flask → FastAPI migration agent with checkpoint-resume durability, network-off sandbox verification, and an honest K=3 eval grid.
 - Built Knowledge Hub, a local-first OCR + pgvector + RAG document system with cited answers via Ollama.
 
 ### Is Sohail available for hire?
@@ -56,6 +57,7 @@ Research Assistant at Keck School of Medicine of USC, working on multimodal deep
 
 ## Projects
 
+- Portage: Autonomous code-migration agent (Flask → FastAPI) — LangGraph + Postgres checkpointing, network-off Docker sandbox verification, bounded recovery, CLI + MCP interfaces, K=3 eval grid over 6 pinned repos (https://sohailgidwani.app/projects/portage) — Technical Deep Dive: https://sohailgidwani.app/projects/portage/deep-dive
 - Knowledge Hub: Document management with OCR, semantic search (pgvector), and RAG Q&A via Ollama (https://sohailgidwani.app/projects/knowledge-hub) — Technical Deep Dive: https://sohailgidwani.app/projects/knowledge-hub/deep-dive
 - Image Captioning: CNN + Transformer pipeline achieving 0.80 BLEU, deployed via Streamlit (https://sohailgidwani.app/projects/image-captioning)
 - ScribeGlobe: Medium-style blogging platform on Cloudflare Workers with Hono + React (https://sohailgidwani.app/projects/scribeglobe)

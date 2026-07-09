@@ -35,16 +35,19 @@ export default function ProjectsPage() {
 
         <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {projects.map((project, index) => (
-            <Link key={project.id} href={`/projects/${project.id}`} className="block h-full">
+            <Link key={project.id} href={`/projects/${project.id}`} className="group block h-full">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
                 className="h-full"
               >
+              {/* Lift lives on this wrapper: InteractiveCard's tilt owns the card's own
+                  transform, so a hover translate there would be overridden. */}
+              <div className="h-full transition-transform duration-300 ease-out group-hover:-translate-y-1.5 motion-reduce:transition-none motion-reduce:group-hover:translate-y-0">
               <InteractiveCard
                 tilt
-                className="group flex h-full cursor-pointer flex-col rounded border border-border bg-card/80 p-5 shadow-card transition hover:border-accent/30"
+                className="group flex h-full cursor-pointer flex-col rounded border border-foreground/10 bg-card2 p-5 shadow-card transition-all duration-300 group-hover:border-accent/40 group-hover:shadow-card-hover"
               >
                 <div className="relative h-40 w-full overflow-hidden rounded">
                   <Image
@@ -98,6 +101,7 @@ export default function ProjectsPage() {
                   </span>
                 </div>
               </InteractiveCard>
+              </div>
               </motion.div>
             </Link>
           ))}

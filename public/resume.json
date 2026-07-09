@@ -122,6 +122,20 @@
   ],
   "projects": [
     {
+      "name": "Portage",
+      "description": "Autonomous code-migration agent (Flask → FastAPI): plans a per-file task DAG, rewrites files with an LLM, verifies in a network-off Docker sandbox, recovers under bounded budgets, and reports honestly. CLI + MCP interfaces over one engine.",
+      "highlights": [
+        "LangGraph agent checkpointed to Postgres after every node — kill the worker mid-run and it resumes",
+        "Job queue via FOR UPDATE SKIP LOCKED with heartbeat lease; content-hash idempotent execution",
+        "Eval harness: K=3 grid over 6 pinned repos through the real queue/worker path; honest green bar",
+        "MCP tools (verify_patch_in_sandbox, repo_graph, blast_radius) for co-pilot agents like Claude Code and Cursor"
+      ],
+      "keywords": ["Python", "FastAPI", "LangGraph", "Postgres", "Docker", "LiteLLM", "MCP", "Agents"],
+      "url": "https://sohailgidwani.app/projects/portage",
+      "roles": ["Creator"],
+      "type": "application"
+    },
+    {
       "name": "Knowledge Hub",
       "description": "Document management with OCR, semantic search (pgvector), and RAG Q&A via local LLM (Ollama). Built for personal USC coursework management.",
       "highlights": [

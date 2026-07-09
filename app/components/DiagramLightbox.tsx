@@ -3,7 +3,7 @@
 import { useState, type ReactNode } from "react"
 import { Maximize2 } from "lucide-react"
 import { Dialog, DialogContent, DialogTitle } from "@/app/components/ui/dialog"
-import { DiagramVerticalContext } from "./DiagramOrientation"
+import { DiagramInstanceContext, DiagramVerticalContext } from "./DiagramOrientation"
 import { triggerHaptic } from "./ui/haptics"
 
 type DiagramLightboxProps = {
@@ -46,7 +46,9 @@ export default function DiagramLightbox({ title, children }: DiagramLightboxProp
               letterboxed by the svg's preserveAspectRatio. */}
           <div className="hidden min-h-0 sm:block">
             <div className="h-full w-full [&_figure>div]:h-full [&_figure>p]:hidden [&_figure]:m-0 [&_figure]:h-full [&_figure_svg]:h-full [&_figure_svg]:w-full">
-              {children}
+              <DiagramInstanceContext.Provider value="dialog-h">
+                {children}
+              </DiagramInstanceContext.Provider>
             </div>
           </div>
 
@@ -54,7 +56,9 @@ export default function DiagramLightbox({ title, children }: DiagramLightboxProp
               horizontal text, letterboxed to fit without scrolling. */}
           <div className="h-full min-h-0 sm:hidden">
             <DiagramVerticalContext.Provider value={true}>
-              {children}
+              <DiagramInstanceContext.Provider value="dialog-v">
+                {children}
+              </DiagramInstanceContext.Provider>
             </DiagramVerticalContext.Provider>
           </div>
         </DialogContent>

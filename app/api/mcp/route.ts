@@ -26,6 +26,26 @@ const profile = {
 
 const projects = [
   {
+    name: 'Portage',
+    slug: 'portage',
+    url: `${SITE}/projects/portage`,
+    deepDive: `${SITE}/projects/portage/deep-dive`,
+    github: 'https://github.com/SohailGidwani/Portage',
+    type: 'application',
+    description:
+      'Autonomous code-migration agent (Flask → FastAPI): plans a per-file task DAG, rewrites files with an LLM on a git worktree, verifies in a network-off Docker sandbox, recovers under bounded budgets, and reports honestly. One engine, two interfaces: CLI + MCP.',
+    highlights: [
+      'LangGraph agent checkpointed to Postgres after every node — kill the worker mid-run and it resumes (thread_id = job_id)',
+      'Postgres job queue claimed via FOR UPDATE SKIP LOCKED with heartbeat lease; content-hash idempotent Execute',
+      'Ephemeral --network none Docker sandbox verification with anti-gaming predicates (passed > 0, recomputed diffs, task truth reloaded from Postgres)',
+      'Seven recovery strategies (targeted rollback, widen-on-repeat, replan, model escalation, skip-and-continue) bounded by budgets and fully logged in attempts_log with per-attempt cost',
+      'Eval harness: K=3 grid over 6 pinned repos / 4 difficulty tiers through the real queue/worker path; 100% fault recovery on the stable tier fixture',
+      'MCP server exposes verify_patch_in_sandbox, repo_graph, and blast_radius so co-pilot agents (Claude Code, Cursor) can verify patches before writing',
+    ],
+    tags: ['Python', 'FastAPI', 'LangGraph', 'Postgres', 'pgvector', 'LiteLLM', 'Docker', 'MCP', 'Next.js', 'Agents'],
+    status: 'complete',
+  },
+  {
     name: 'Knowledge Hub',
     slug: 'knowledge-hub',
     url: `${SITE}/projects/knowledge-hub`,
@@ -386,6 +406,7 @@ const links = {
     resumeJson: `${SITE}/resume.json`,
   },
   projects: {
+    'portage': `${SITE}/projects/portage`,
     'knowledge-hub': `${SITE}/projects/knowledge-hub`,
     'cot-faithfulness': `${SITE}/projects/cot-faithfulness`,
     'image-captioning': `${SITE}/projects/image-captioning`,
@@ -399,6 +420,7 @@ const links = {
   github: {
     profile: 'https://github.com/SohailGidwani',
     repos: {
+      'portage': 'https://github.com/SohailGidwani/Portage',
       'knowledge-hub': 'https://github.com/SohailGidwani/knowledge_hub',
       'cot-faithfulness': 'https://github.com/SohailGidwani/cot_faithfulness',
       'image-captioning': 'https://github.com/SohailGidwani/Image-Caption',

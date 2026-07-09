@@ -39,6 +39,8 @@ const nextConfig = {
               "img-src 'self' data: blob:",
               "font-src 'self'",
               "connect-src 'self' https://va.vercel-scripts.com https://vitals.vercel-insights.com",
+              // To enable the embedded Portage live demo (app/projects/portage/components/LiveDemo.tsx),
+              // replace the line below with:  "frame-src https://YOUR_PORTAGE_DEMO_ORIGIN",
               "frame-src 'none'",
               "object-src 'none'",
               "base-uri 'self'",

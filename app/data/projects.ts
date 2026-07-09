@@ -1,3 +1,4 @@
+import portage from "@/public/images/portage/portal-01-dashboard.png"
 import knowledgeHub from "@/public/images/KnowledgeHub_5.png"
 import imagecaption from "@/public/images/BE-Project.jpg"
 import blogsite from "@/public/images/BlogSite.jpg"
@@ -14,10 +15,25 @@ export interface ProjectData {
   tags: string[]
   github: string
   demo?: string
+  /** Shown in the home-page Projects section (all projects appear on /projects). */
   featured: boolean
 }
 
 export const projects: ProjectData[] = [
+  {
+    id: "portage",
+    title: "Portage",
+    shortDescription: "An autonomous agent that migrates Flask apps to FastAPI and proves it with the repo's own tests.",
+    description:
+      "LangGraph agent that plans a per-file task DAG, rewrites each file with an LLM, verifies in a network-off Docker sandbox, and recovers from failures under bounded budgets. Checkpointed to Postgres, so you can kill the worker mid-run and it resumes. Eval-proven on 6 pinned repos at K=3.",
+    image: portage,
+    tags: ["LangGraph", "FastAPI", "Postgres", "Docker", "MCP", "Agents"],
+    github: "https://github.com/SohailGidwani/Portage",
+    // Uncomment once the compose stack is hosted (Phase 8). This renders the
+    // "Live" chip on the home page and /projects cards.
+    // demo: "https://YOUR_PORTAGE_DEMO_URL",
+    featured: true,
+  },
   {
     id: "knowledge-hub",
     title: "Knowledge Hub",
@@ -60,7 +76,7 @@ export const projects: ProjectData[] = [
     image: blogsite,
     tags: ["React", "Hono", "PostgreSQL"],
     github: "https://github.com/SohailGidwani/0---100-FullStack/tree/main/Week%2012/medium",
-    featured: true,
+    featured: false,
   },
   {
     id: "tech-updates",
@@ -71,6 +87,6 @@ export const projects: ProjectData[] = [
     image: techupdates,
     tags: ["Flask", "Azure OpenAI", "Qdrant", "React"],
     github: "https://github.com/SohailGidwani/Project-TechUpdates",
-    featured: false,
+    featured: true,
   },
 ]

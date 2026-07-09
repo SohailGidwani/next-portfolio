@@ -1,6 +1,15 @@
 import type { Config } from "tailwindcss"
 import tailwindcssAnimate from "tailwindcss-animate"
 
+/**
+ * Theme colors live in CSS variables (globals.css), which Tailwind can't
+ * inject an opacity into directly — without this, alpha modifiers like
+ * `bg-card/80` or `border-accent/40` are silently dropped from the build.
+ * color-mix() with the `<alpha-value>` placeholder makes them work.
+ */
+const withAlpha = (variable: string) =>
+  `color-mix(in oklab, var(${variable}) calc(<alpha-value> * 100%), transparent)`
+
 const config = {
   darkMode: ["class"],
   content: [
@@ -8,6 +17,14 @@ const config = {
     './components/**/*.{ts,tsx}',
 	],
   theme: {
+    // Replaces (not extends) the shadow-color palette: otherwise the `card`
+    // theme color generates a `.shadow-card` shadow-COLOR utility that clashes
+    // with the `shadow-card` boxShadow size token below, overriding it with a
+    // card-colored (invisible) shadow. Add colors here if you need new ones.
+    boxShadowColor: {
+      black: "#000",
+      primary: withAlpha("--primary"),
+    },
     container: {
       center: true,
       padding: {
@@ -35,44 +52,44 @@ const config = {
         mono: ["var(--fm)", "ui-monospace", "monospace"],
       },
       colors: {
-        border: "var(--border)",
-        input: "var(--input)",
-        ring: "var(--ring)",
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        border: withAlpha("--border"),
+        input: withAlpha("--input"),
+        ring: withAlpha("--ring"),
+        background: withAlpha("--background"),
+        foreground: withAlpha("--foreground"),
         primary: {
-          DEFAULT: "var(--primary)",
-          foreground: "var(--primary-foreground)",
+          DEFAULT: withAlpha("--primary"),
+          foreground: withAlpha("--primary-foreground"),
         },
         secondary: {
-          DEFAULT: "var(--secondary)",
-          foreground: "var(--secondary-foreground)",
+          DEFAULT: withAlpha("--secondary"),
+          foreground: withAlpha("--secondary-foreground"),
         },
         destructive: {
-          DEFAULT: "var(--destructive)",
-          foreground: "var(--destructive-foreground)",
+          DEFAULT: withAlpha("--destructive"),
+          foreground: withAlpha("--destructive-foreground"),
         },
         muted: {
-          DEFAULT: "var(--card2)",
-          foreground: "var(--muted)",
+          DEFAULT: withAlpha("--card2"),
+          foreground: withAlpha("--muted"),
         },
         accent: {
-          DEFAULT: "var(--accent)",
-          foreground: "var(--accent-foreground)",
+          DEFAULT: withAlpha("--accent"),
+          foreground: withAlpha("--accent-foreground"),
         },
         popover: {
-          DEFAULT: "var(--popover)",
-          foreground: "var(--popover-foreground)",
+          DEFAULT: withAlpha("--popover"),
+          foreground: withAlpha("--popover-foreground"),
         },
         card: {
-          DEFAULT: "var(--card)",
-          foreground: "var(--card-foreground)",
+          DEFAULT: withAlpha("--card"),
+          foreground: withAlpha("--card-foreground"),
         },
-        card2: "var(--card2)",
+        card2: withAlpha("--card2"),
       },
       boxShadow: {
-        card: "0 20px 60px -50px rgba(0,0,0,0.4)",
-        "card-hover": "0 28px 80px -40px rgba(0,0,0,0.5)",
+        card: "0 1px 2px rgba(0,0,0,0.05), 0 16px 40px -24px rgba(0,0,0,0.25)",
+        "card-hover": "0 2px 4px rgba(0,0,0,0.06), 0 26px 56px -24px rgba(0,0,0,0.34)",
       },
       borderRadius: {
         DEFAULT: "var(--radius-btn)",

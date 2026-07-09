@@ -4,6 +4,17 @@ export default function ProjectStructuredData() {
   const projectsData = [
     {
       "@type": "CreativeWork",
+      "name": "Portage - Autonomous Code-Migration Agent",
+      "description": "Autonomous agent that migrates Flask apps to FastAPI: per-file task DAG, LLM rewrites, network-off Docker sandbox verification, bounded recovery, Postgres-checkpointed durability, and an honest K=3 eval grid. CLI + MCP interfaces.",
+      "author": { "@id": "https://sohailgidwani.app/#person" },
+      "url": "https://sohailgidwani.app/projects/portage",
+      "codeRepository": "https://github.com/SohailGidwani/Portage",
+      "keywords": ["Python", "FastAPI", "LangGraph", "Postgres", "Docker", "MCP", "LLM Agents", "Evals"],
+      "dateCreated": "2026",
+      "genre": "Agentic AI Project"
+    },
+    {
+      "@type": "CreativeWork",
       "name": "Knowledge Hub - AI-Powered Document Management",
       "description": "Document management system with OCR, semantic search, and RAG-powered question answering.",
       "author": { "@id": "https://sohailgidwani.app/#person" },

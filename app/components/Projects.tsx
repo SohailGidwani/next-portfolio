@@ -15,7 +15,8 @@ export default function Projects() {
   const { activeSkill } = useSkillHighlight()
   const normalizedSkill = activeSkill?.toLowerCase()
 
-  const [primary, ...rest] = projects
+  // Home shows the featured subset (1 primary + 2×2 grid); /projects has everything.
+  const [primary, ...rest] = projects.filter((p) => p.featured)
   const primaryHighlighted = primary && normalizedSkill
     ? primary.tags.some((tag) => tag.toLowerCase() === normalizedSkill)
     : false
@@ -49,8 +50,10 @@ export default function Projects() {
                   <InteractiveCard
                     tilt
                     maxTilt={1.5}
-                    className={`group h-full cursor-pointer rounded border bg-card/80 p-6 transition ${
-                      primaryHighlighted ? "border-accent/40 bg-accent/5" : "border-border hover:border-accent/40"
+                    className={`group h-full cursor-pointer rounded border p-6 shadow-card transition-all duration-300 hover:shadow-card-hover ${
+                      primaryHighlighted
+                        ? "border-accent/40 bg-accent/5"
+                        : "border-foreground/10 bg-card2 hover:border-accent/40"
                     }`}
                   >
                   <Link href={`/projects/${primary.id}`} className="absolute inset-0 z-0 rounded" aria-label={primary.title}>
@@ -136,8 +139,10 @@ export default function Projects() {
                     >
                     <InteractiveCard
                       tilt
-                      className={`group h-full cursor-pointer rounded border bg-card/80 p-5 transition ${
-                        isHighlighted ? "border-accent/40 bg-accent/5" : "border-border hover:border-accent/40"
+                      className={`group h-full cursor-pointer rounded border p-5 shadow-card transition-all duration-300 hover:shadow-card-hover ${
+                        isHighlighted
+                          ? "border-accent/40 bg-accent/5"
+                          : "border-foreground/10 bg-card2 hover:border-accent/40"
                       }`}
                     >
                       <Link href={`/projects/${project.id}`} className="absolute inset-0 z-0 rounded" aria-label={project.title}>

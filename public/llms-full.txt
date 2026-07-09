@@ -42,6 +42,7 @@ Full-time AI Engineer, Machine Learning Engineer, LLM Engineer, Applied AI Engin
 - Built production RAG and chatbot systems at IIFL Finance (AskPandaAI; Certificate of Achievement from the CTO).
 - Built AI agent-builder infrastructure at Insaito using open-source LLMs, OAuth for 100+ apps, and MCP servers.
 - Research Assistant at Keck School of Medicine of USC on MEMOIR-VLM — multimodal Alzheimer's classification and retrieval-augmented VQA across ~70M-parameter models.
+- Built Portage, an autonomous Flask → FastAPI migration agent with checkpoint-resume durability, network-off sandbox verification, bounded recovery, and an honest K=3 eval grid — plus MCP tools other agents can use.
 - Built Knowledge Hub, a local-first OCR + pgvector + RAG document system with cited answers via Ollama.
 
 ### Is Sohail available for hire?
@@ -152,6 +153,15 @@ Technologies: Python, Ollama, Llama 3.2 3B, Qwen 2.5 7B, NLP, GSM8K, ARC-Challen
 ---
 
 ## Projects
+
+### Portage — Autonomous Code-Migration Agent
+https://github.com/SohailGidwani/Portage
+https://sohailgidwani.app/projects/portage
+Technical Deep Dive: https://sohailgidwani.app/projects/portage/deep-dive
+
+Built an autonomous agent that migrates Flask apps to FastAPI end-to-end: it plans a per-file task DAG, rewrites each file with an LLM on a git worktree, verifies against the repo's own test suite in a network-off Docker sandbox, recovers from failures under bounded budgets (targeted rollback, widen-on-repeat, replan, model escalation), and reports honestly — green requires the full suite passing, every task done, and zero skips. LangGraph state is checkpointed to Postgres after every node (thread_id = job_id), so a killed worker resumes instead of restarting; the job queue is claimed via FOR UPDATE SKIP LOCKED with a heartbeat lease. One engine, two interfaces: a CLI (portage migrate --watch, exit 0 = honest green) and an MCP stdio server exposing verify_patch_in_sandbox, repo_graph, and blast_radius to co-pilot agents like Claude Code and Cursor. Eval harness runs a K=3 grid over 6 pinned repos across 4 difficulty tiers through the real queue/worker path, with per-attempt token/USD cost in attempts_log; fault injection recovers 100% green on the stable-tier fixture.
+
+Technologies: Python 3.12, FastAPI, LangGraph, Postgres 16, pgvector, SQLAlchemy async, Alembic, LiteLLM, Docker, gVisor, FastMCP, Next.js, pytest
 
 ### Knowledge Hub — Semantic Search & Study Assistant
 https://github.com/SohailGidwani/knowledge_hub
