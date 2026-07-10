@@ -120,7 +120,6 @@ export default function AmbientBackground() {
           style={{ y: shouldReduceMotion ? 0 : driftFast, willChange: "transform" }}
           className="absolute bottom-[-20%] right-[12%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(180,165,140,0.14),transparent_65%)] blur-3xl animate-float-slow"
         />
-        <div className="absolute left-1/2 top-10 h-px w-[60%] -translate-x-1/2 bg-gradient-to-r from-transparent via-accent/35 to-transparent opacity-40 animate-pulse-soft" />
         <div className="absolute inset-0 grain" />
       </div>
     </div>

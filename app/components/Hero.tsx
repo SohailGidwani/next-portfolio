@@ -133,14 +133,23 @@ export default function Hero() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, delay: 0.4 * ds }}
-          className="mt-4 flex items-center justify-start gap-2 sm:mt-5 md:justify-center"
+          className="mt-4 flex items-start justify-start gap-2 sm:mt-5 sm:items-center md:justify-center"
         >
-          <span aria-hidden className="relative flex h-1.5 w-1.5 shrink-0">
+          {/* Mobile: a status stack — dot + "Open to full-time roles" as the
+              status line, details beneath it, no separators. sm+: one line
+              joined by separators. Never let it wrap mid-phrase. */}
+          <span aria-hidden className="relative mt-[5px] flex h-1.5 w-1.5 shrink-0 sm:mt-0">
             <span className="absolute inset-0 animate-ping rounded-full bg-accent/70" />
             <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
           </span>
           <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground sm:text-xs sm:tracking-[0.2em]">
-            Open to full-time roles · Graduating May 2027 · Relocate / Hybrid / Remote
+            <span className="block whitespace-nowrap text-foreground/80 sm:inline sm:text-muted-foreground">
+              Open to full-time roles
+            </span>
+            <span className="hidden sm:inline"> · </span>
+            <span className="mt-1 block whitespace-nowrap sm:mt-0 sm:inline">Graduating May 2027</span>
+            <span className="hidden sm:inline"> · </span>
+            <span className="mt-1 block whitespace-nowrap sm:mt-0 sm:inline">Relocate / Hybrid / Remote</span>
           </p>
         </motion.div>
 
