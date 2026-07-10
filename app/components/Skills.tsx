@@ -142,7 +142,7 @@ export default function Skills() {
                 aria-selected={isActive}
                 aria-controls={`playbook-panel-${pb.id}`}
                 onClick={() => selectPlaybook(pb.id)}
-                className={`relative rounded border px-3 py-2.5 font-mono text-[10px] uppercase tracking-[0.18em] transition sm:px-4 ${
+                className={`relative rounded border px-3 py-2.5 font-mono text-xs uppercase tracking-[0.18em] transition sm:px-4 ${
                   isActive
                     ? "border-transparent text-accent"
                     : "border-border bg-card/60 text-muted-foreground hover:border-accent/40 hover:text-foreground"
@@ -185,7 +185,7 @@ export default function Skills() {
                     onMouseLeave={() => setActiveSkill(null)}
                     className="group flex items-center gap-3 rounded border border-border bg-card/80 p-3 transition hover:border-accent/40 sm:p-4"
                   >
-                    <span className="font-mono text-[10px] tracking-[0.2em] text-accent">
+                    <span className="font-mono text-xs tracking-[0.2em] text-accent">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span className="flex h-6 w-6 shrink-0 items-center justify-center">
@@ -207,7 +207,7 @@ export default function Skills() {
                       <span className="block truncate font-display text-sm font-bold uppercase tracking-tight text-foreground">
                         {step.tool}
                       </span>
-                      <span className="block font-mono text-[9px] uppercase tracking-[0.18em] text-muted-foreground">
+                      <span className="block font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
                         {step.role}
                       </span>
                     </span>
@@ -225,12 +225,12 @@ export default function Skills() {
           viewport={{ once: true }}
           className="mt-12 border-t border-border pt-6"
         >
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground/60">
+          <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground/60">
             Full index
           </p>
           <div className="mt-4 space-y-2.5">
             {fullIndex.map((row) => (
-              <p key={row.label} className="font-mono text-[10px] leading-relaxed sm:text-[11px]">
+              <p key={row.label} className="font-mono text-[11px] leading-relaxed sm:text-xs">
                 <span className="uppercase tracking-[0.2em] text-accent">{row.label}</span>
                 <span className="text-muted-foreground/40"> / </span>
                 <span className="uppercase tracking-[0.08em] text-muted-foreground">{row.items}</span>

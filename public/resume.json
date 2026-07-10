@@ -43,11 +43,10 @@
       "position": "Senior Software Engineer - I",
       "startDate": "2025-05-01",
       "endDate": "2025-07-31",
-      "summary": "Led architecture of an AI agent builder platform enabling custom workflow creation with OAuth integrations.",
+      "summary": "Built core infrastructure and product surfaces for an AI agent builder spanning open-source models, OAuth, MCP tools, backend services, and frontend workflows.",
       "highlights": [
-        "Led architecture of AI agent builder platform with OAuth integrations for 100+ third-party apps",
-        "Built core infrastructure for open-source LLM deployment (Qwen 3, Mistral Small 24B) and Model Context Protocol (MCP) servers",
-        "Designed serverless backend for agent orchestration supporting concurrent multi-step workflows with tool-calling"
+        "Built backend and frontend workflows for configuring agents, connecting tools, and running Qwen 3 and Mistral Small 24B",
+        "Implemented reusable OAuth and MCP foundations designed to support a catalog of 100+ third-party applications; 100+ describes platform capacity, not completed integrations"
       ]
     },
     {
@@ -59,8 +58,8 @@
       "summary": "Built AI-powered internal tools and financial applications for a leading NBFC.",
       "highlights": [
         "Built internal RAG chatbot using Python, Flask, Qdrant, and Azure OpenAI; integrated with Zoho ticketing to automate employee support",
-        "Engineered AI-powered Gold Loan Image Audit system using GroundingDINO and Swin-Transformer; reduced potential loan fraud by 15%",
-        "Designed CapitalGenie, an automated support system with GPT-4o that accelerated issue resolution time by 70%"
+        "Engineered a Gold Loan Image Audit system using GroundingDINO and Swin Transformer; an internal post-launch study measured a 15% reduction in potential loan-fraud cases versus the prior review workflow",
+        "Designed CapitalGenie with GPT-4o and internal APIs; an internal post-launch study measured 70% faster issue resolution than the previous support workflow"
       ]
     }
   ],
@@ -165,13 +164,13 @@
     },
     {
       "name": "Image Captioning",
-      "description": "CNN + Transformer pipeline for automatic image caption generation, achieving 0.80 BLEU score.",
+      "description": "CNN feature extraction with LSTM and Transformer decoders for automatic image caption generation.",
       "highlights": [
         "VGG-16 feature extraction + LSTM and Transformer caption generators",
-        "Transformer model: 0.80 BLEU vs 0.65 LSTM baseline (+23%)",
+        "Compared recurrent and attention-based decoder architectures in the same end-to-end pipeline",
         "Deployed as Streamlit web app for live demo"
       ],
-      "keywords": ["TensorFlow", "CNN", "Transformer", "VGG-16", "BLEU", "Streamlit", "Python"],
+      "keywords": ["TensorFlow", "CNN", "Transformer", "VGG-16", "Streamlit", "Python"],
       "url": "https://sohailgidwani.app/projects/image-captioning",
       "roles": ["Creator"],
       "type": "application"

@@ -262,7 +262,7 @@ export default function TrainingChart({
                     : {}),
                 }}
               />
-              <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+              <span className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
                 {s.name}
               </span>
             </div>

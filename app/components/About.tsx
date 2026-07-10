@@ -1,3 +1,5 @@
+import Link from "next/link"
+import { ArrowUpRight } from "lucide-react"
 import AboutPortrait from "./AboutPortrait"
 import SectionHeading from "./SectionHeading"
 
@@ -12,15 +14,19 @@ export default function About() {
             </SectionHeading>
             <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
               <p>
-                I&apos;m an <strong className="font-semibold text-foreground">AI engineer</strong> and full-stack developer. I&apos;ve worked on everything from RAG pipelines and LLM integrations to React frontends and Flask APIs. What I care about most is taking something complex and making it feel simple for the person using it.
+                I&apos;m an <strong className="font-semibold text-foreground">AI/ML engineer</strong> who likes owning the whole path from an uncertain idea to a system people can inspect and use. My work spans agentic tooling, multimodal research, retrieval systems, and the product surfaces around them.
               </p>
               <p>
-                I joined IIFL as a new grad and within months was building and deploying AI-powered apps used by real employees across the company: RAG chatbots, fraud detection, and automated support, all in <strong className="font-semibold text-foreground">production</strong>. Ambiguous problems don&apos;t scare me. If anything, those are the ones I find most interesting.
-              </p>
-              <p>
-                <strong className="font-semibold text-foreground">End-to-end ownership</strong> is how I work best. I built a multi-modal Alzheimer&apos;s prediction pipeline from data preprocessing through model training to calibration analysis, all as a single contributor. <strong className="font-semibold text-foreground">Shipping under pressure</strong> is where I&apos;ve been tested, winning a hackathon at IIFL with an AI chatbot built in under 36 hours. <strong className="font-semibold text-foreground">Cross-stack fluency</strong> lets me move between PyTorch research code and production Next.js apps in the same sprint.
+                I&apos;m currently pursuing an M.S. in Computer Science at USC while working on medical-AI research at Keck. Before that, I shipped internal AI products at IIFL and helped build an agent platform at Insaito.
               </p>
             </div>
+            <Link
+              href="/about"
+              className="inline-flex items-center gap-2 rounded border border-border bg-card/80 px-4 py-2.5 font-mono text-xs font-semibold uppercase tracking-[0.16em] text-foreground transition hover:border-accent/50"
+            >
+              Want to know more about me?
+              <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
+            </Link>
           </div>
           <AboutPortrait />
         </div>

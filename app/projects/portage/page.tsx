@@ -1,9 +1,4 @@
-"use client"
-
-import { Suspense, useState, useEffect, useCallback } from "react"
-import { motion } from "framer-motion"
 import { Badge } from "@/app/components/ui/badge"
-import { Button } from "@/app/components/ui/button"
 import {
   Github,
   FolderKanban,
@@ -13,23 +8,21 @@ import {
   ShieldCheck,
   Puzzle,
   DollarSign,
-  ChevronLeft,
-  ChevronRight,
-  X,
-  ZoomIn,
-  ZoomOut,
-  RotateCcw,
   Terminal,
   Bot,
   Gauge,
 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import ProjectSkeleton from "@/app/components/ProjectSkeleton"
 import ProjectNav from "@/app/components/ProjectNav"
 import ProjectDetailStructuredData from "@/app/components/ProjectDetailStructuredData"
+import ProjectImageLightbox, {
+  ProjectImageTrigger,
+} from "@/app/components/ProjectImageLightbox"
 import InteractiveCard from "@/app/components/ui/InteractiveCard"
 import DiagramLightbox from "@/app/components/DiagramLightbox"
+import ProjectActions from "@/app/projects/components/ProjectActions"
+import ProjectSectionLabel from "@/app/projects/components/ProjectSectionLabel"
 import MigrationFlow from "./components/MigrationFlow"
 import BlastRadius from "./components/BlastRadius"
 
@@ -49,20 +42,6 @@ import portal03 from "@/public/images/portage/portal-03-eval-leaderboard.png"
 // (demo URL + CSP frame-src change in next.config.mjs).
 // import LiveDemo from "./components/LiveDemo"
 
-function SectionLabel({ n, label }: { n: string; label: string }) {
-  return (
-    <div className="mb-6">
-      <div className="mb-2 flex items-center gap-2">
-        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">{n}</span>
-        <div className="h-px w-5 bg-border" />
-      </div>
-      <h2 className="font-display text-xl font-bold uppercase tracking-tight text-foreground sm:text-2xl">
-        {label}
-      </h2>
-    </div>
-  )
-}
-
 const evalRows = [
   { repo: "flask-items-fixture", tier: "baseline", green: "3/3", pass: "1.00", recover: "0.0", cost: "$0.022", wall: "10s", strong: true },
   { repo: "minimal-flask-api", tier: "baseline", green: "2/3", pass: "0.67", recover: "0.3", cost: "$0.013", wall: "10s", strong: true },
@@ -72,13 +51,46 @@ const evalRows = [
   { repo: "microblog", tier: "heavy", green: "0/3", pass: "0.00", recover: "4.3", cost: "$1.503", wall: "165s", strong: false },
 ]
 
-export default function PortagePage() {
-  const [selectedImage, setSelectedImage] = useState<number | null>(null)
-  const [zoomLevel, setZoomLevel] = useState(1)
-  const [isDragging, setIsDragging] = useState(false)
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
-  const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 })
+const allImages = [
+  { src: cli01, alt: "Portage CLI — live task transitions during portage migrate --watch" },
+  { src: cli02, alt: "Portage CLI — recent jobs list with id, status, recipe, and test counts" },
+  { src: cli03, alt: "Portage CLI — task tree, attempts, and verdict for one job" },
+  { src: cli04, alt: "Portage CLI — full migration diff via portage report --diff" },
+  { src: mcp01, alt: "Portage MCP — a breaking diff applied in the sandbox and honestly failed with named tests" },
+  { src: mcp02, alt: "Portage MCP — structural repo graph and blast-radius impact for a proposed change" },
+  { src: portal01, alt: "Portage dashboard — jobs list and launch surface" },
+  { src: portal02, alt: "Portage dashboard — job detail with task tree, diffs, and recovery timeline" },
+  { src: portal03, alt: "Portage dashboard — aggregate eval leaderboard with fault-run proof" },
+]
 
+function Screenshot({
+  index,
+  aspect = "aspect-video",
+}: {
+  index: number
+  aspect?: string
+}) {
+  const image = allImages[index]
+
+  return (
+    <ProjectImageTrigger
+      index={index}
+      label={`Open image viewer: ${image.alt}`}
+      className={`relative block w-full ${aspect} cursor-zoom-in overflow-hidden rounded border border-border text-left transition-colors hover:border-accent/40`}
+    >
+      <Image
+        src={image.src}
+        alt={image.alt}
+        fill
+        className="object-cover object-top"
+        sizes="(max-width: 768px) 100vw, 50vw"
+        placeholder="blur"
+      />
+    </ProjectImageTrigger>
+  )
+}
+
+export default function PortagePage() {
   const project = {
     title: "Portage - Autonomous Code-Migration Agent",
     description:
@@ -153,96 +165,6 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
     ],
   }
 
-  const allImages = [
-    { src: cli01, alt: "Portage CLI — live task transitions during portage migrate --watch" },
-    { src: cli02, alt: "Portage CLI — recent jobs list with id, status, recipe, and test counts" },
-    { src: cli03, alt: "Portage CLI — task tree, attempts, and verdict for one job" },
-    { src: cli04, alt: "Portage CLI — full migration diff via portage report --diff" },
-    { src: mcp01, alt: "Portage MCP — a breaking diff applied in the sandbox and honestly failed with named tests" },
-    { src: mcp02, alt: "Portage MCP — structural repo graph and blast-radius impact for a proposed change" },
-    { src: portal01, alt: "Portage dashboard — jobs list and launch surface" },
-    { src: portal02, alt: "Portage dashboard — job detail with task tree, diffs, and recovery timeline" },
-    { src: portal03, alt: "Portage dashboard — aggregate eval leaderboard with fault-run proof" },
-  ]
-
-  const resetZoom = useCallback(() => {
-    setZoomLevel(1)
-    setImagePosition({ x: 0, y: 0 })
-  }, [])
-
-  const nextImage = useCallback(() => {
-    if (selectedImage !== null) {
-      setSelectedImage((selectedImage + 1) % allImages.length)
-      resetZoom()
-    }
-  }, [selectedImage, allImages.length, resetZoom])
-
-  const prevImage = useCallback(() => {
-    if (selectedImage !== null) {
-      setSelectedImage(selectedImage === 0 ? allImages.length - 1 : selectedImage - 1)
-      resetZoom()
-    }
-  }, [selectedImage, allImages.length, resetZoom])
-
-  const handleZoomIn = useCallback(() => {
-    setZoomLevel((prev) => Math.min(prev + 0.5, 3))
-  }, [])
-
-  const handleZoomOut = useCallback(() => {
-    setZoomLevel((prev) => Math.max(prev - 0.5, 0.5))
-  }, [])
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (zoomLevel > 1) {
-      setIsDragging(true)
-      setDragStart({ x: e.clientX - imagePosition.x, y: e.clientY - imagePosition.y })
-    }
-  }
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (isDragging && zoomLevel > 1) {
-      setImagePosition({ x: e.clientX - dragStart.x, y: e.clientY - dragStart.y })
-    }
-  }
-
-  const handleMouseUp = () => setIsDragging(false)
-
-  const openImageModal = useCallback(
-    (index: number) => {
-      setSelectedImage(index)
-      resetZoom()
-    },
-    [resetZoom]
-  )
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (selectedImage === null) return
-      switch (e.key) {
-        case "Escape": setSelectedImage(null); break
-        case "ArrowLeft": prevImage(); break
-        case "ArrowRight": nextImage(); break
-        case "+": case "=": e.preventDefault(); handleZoomIn(); break
-        case "-": e.preventDefault(); handleZoomOut(); break
-        case "0": e.preventDefault(); resetZoom(); break
-      }
-    }
-    document.addEventListener("keydown", handleKeyDown)
-    return () => document.removeEventListener("keydown", handleKeyDown)
-  }, [selectedImage, nextImage, prevImage, handleZoomIn, handleZoomOut, resetZoom])
-
-  function Screenshot({ index, aspect = "aspect-video" }: { index: number; aspect?: string }) {
-    const image = allImages[index]
-    return (
-      <div
-        className={`relative ${aspect} cursor-pointer overflow-hidden rounded border border-border transition-colors hover:border-accent/40`}
-        onClick={() => openImageModal(index)}
-      >
-        <Image src={image.src} alt={image.alt} fill className="object-cover object-top" sizes="(max-width: 768px) 100vw, 50vw" placeholder="blur" />
-      </div>
-    )
-  }
-
   return (
     <>
       <ProjectDetailStructuredData
@@ -254,22 +176,17 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
         github={project.github}
         projectType="app"
       />
-      <Suspense fallback={<ProjectSkeleton />}>
+      <ProjectImageLightbox images={allImages}>
         <div className="min-h-screen overflow-x-clip bg-background text-foreground">
           <ProjectNav />
 
           {/* Header */}
           <div className="border-b border-border bg-card/40 py-16 sm:py-20">
             <div className="container mx-auto px-4">
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="max-w-3xl"
-              >
+              <div className="max-w-3xl">
                 <div className="mb-5 flex items-center gap-3">
                   <div className="h-px w-8 bg-accent" />
-                  <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">
+                  <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
                     Agentic AI / Autonomous Migration
                   </span>
                 </div>
@@ -281,33 +198,40 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                 <div className="mb-6 flex flex-wrap items-center gap-6">
                   <div className="border-l-2 border-accent pl-4">
                     <p className="font-mono text-2xl font-bold text-foreground">0</p>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">Humans in the Loop</p>
+                    <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Humans in the Loop</p>
                   </div>
                   <div className="border-l-2 border-border pl-4">
                     <p className="font-mono text-2xl font-bold text-foreground">K=3 × 6</p>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">Eval Grid · Pinned Repos</p>
+                    <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Eval Grid · Pinned Repos</p>
                   </div>
                   <div className="border-l-2 border-border pl-4">
                     <p className="font-mono text-2xl font-bold text-foreground">100%</p>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">Fault Recovery (Fixture)</p>
+                    <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Fault Recovery (Fixture)</p>
                   </div>
                   <div className="border-l-2 border-border pl-4">
                     <p className="font-mono text-2xl font-bold text-foreground">2</p>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">Interfaces · CLI + MCP</p>
+                    <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Interfaces · CLI + MCP</p>
                   </div>
                 </div>
 
                 <p className="mb-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
                   {project.description}
                 </p>
+                <ProjectActions
+                  github={project.github}
+                  deepDive="/projects/portage/deep-dive"
+                  proofHref="#recovery-proof"
+                  proofLabel="Watch recovery proof"
+                  className="mb-8"
+                />
                 <div className="flex flex-wrap gap-2">
                   {project.tags.map((tag, index) => (
-                    <Badge key={index} variant="outline" className="font-mono text-[10px] uppercase tracking-[0.1em]">
+                    <Badge key={index} variant="outline" className="font-mono text-xs uppercase tracking-[0.1em]">
                       {tag}
                     </Badge>
                   ))}
                 </div>
-              </motion.div>
+              </div>
             </div>
           </div>
 
@@ -317,12 +241,8 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
               <div className="mx-auto max-w-3xl space-y-16">
 
                 {/* 01 — System Overview */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.15 }}
-                >
-                  <SectionLabel n="01" label="System Overview" />
+                <section id="recovery-proof" className="scroll-mt-24">
+                  <ProjectSectionLabel n="01" label="System Overview" />
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                     One core engine, two interfaces: the CLI drives fully autonomous migrations, and an MCP
                     server hands the same verified primitives to co-pilot agents like Claude Code and Cursor.
@@ -334,7 +254,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                   <div className="overflow-hidden rounded border border-border bg-card">
                     <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
                       <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
-                      <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                      <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
                         durability proof — kill the worker, it resumes
                       </span>
                     </div>
@@ -345,47 +265,35 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                       unoptimized
                     />
                     <div className="border-t border-border px-4 py-2">
-                      <p className="font-mono text-[10px] text-muted-foreground">
+                      <p className="font-mono text-xs text-muted-foreground">
                         reproduce: bash scripts/demo_kill_resume.sh · stricter: scripts/dod_check.sh
                       </p>
                     </div>
                   </div>
-                </motion.section>
+                </section>
 
                 {/* 02 — Why I Built It */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.25 }}
-                >
-                  <SectionLabel n="02" label="Why I Built It" />
+                <section>
+                  <ProjectSectionLabel n="02" label="Why I Built It" />
                   <p className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
                     {project.why}
                   </p>
-                </motion.section>
+                </section>
 
                 {/* 03 — How It Works */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.28 }}
-                >
-                  <SectionLabel n="03" label="How It Works" />
+                <section>
+                  <ProjectSectionLabel n="03" label="How It Works" />
                   <p className="mb-6 whitespace-pre-line text-base leading-relaxed text-muted-foreground">
                     {project.how}
                   </p>
                   <DiagramLightbox title="Job Lifecycle — LangGraph Nodes">
                     <MigrationFlow />
                   </DiagramLightbox>
-                </motion.section>
+                </section>
 
                 {/* 04 — CLI */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                >
-                  <SectionLabel n="04" label="CLI — Autonomous Mode" />
+                <section>
+                  <ProjectSectionLabel n="04" label="CLI — Autonomous Mode" />
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                     The <span className="font-mono text-foreground">portage</span> console script is a thin
                     httpx client over the REST API — it never touches the DB or queue directly, the same
@@ -402,15 +310,11 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                     <Screenshot index={2} />
                     <Screenshot index={3} />
                   </div>
-                </motion.section>
+                </section>
 
                 {/* 05 — MCP */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.32 }}
-                >
-                  <SectionLabel n="05" label="MCP — Co-pilot Mode" />
+                <section>
+                  <ProjectSectionLabel n="05" label="MCP — Co-pilot Mode" />
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                     The MCP server exposes the verified core so another AI agent can test its own work before
                     writing to the caller&apos;s tree:{" "}
@@ -428,15 +332,11 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                     <Screenshot index={4} />
                     <Screenshot index={5} />
                   </div>
-                </motion.section>
+                </section>
 
                 {/* 06 — Dashboard as Proof */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.35 }}
-                >
-                  <SectionLabel n="06" label="Dashboard as Proof" />
+                <section>
+                  <ProjectSectionLabel n="06" label="Dashboard as Proof" />
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                     Next.js App Router, REST only — the frontend never owns schema. Jobs list with launch
                     form, job detail with live pipeline route, per-file diffs, and attempt tier/model
@@ -452,7 +352,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                   <div className="mt-4">
                     <Screenshot index={8} aspect="aspect-[21/9]" />
                   </div>
-                </motion.section>
+                </section>
 
                 {/*
                   ── 06.5 — Live Demo (enable after Phase 8 hosting) ──────────
@@ -461,28 +361,20 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                   2. Allow the origin in next.config.mjs CSP (frame-src)
                   3. Uncomment the import at the top of this file + this block.
 
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.36 }}
-                >
-                  <SectionLabel n="06.5" label="Try It Live" />
+                <section>
+                  <ProjectSectionLabel n="06.5" label="Try It Live" />
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                     The hosted Portage dashboard, embedded. Sign in with GitHub, submit a migration against a
                     corpus repo, and watch the task tree, diffs, and recovery timeline update live — or browse
                     the public eval leaderboard without signing in.
                   </p>
                   <LiveDemo />
-                </motion.section>
+                </section>
                 */}
 
                 {/* 07 — Key Features */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.4 }}
-                >
-                  <SectionLabel n="07" label="Key Features" />
+                <section>
+                  <ProjectSectionLabel n="07" label="Key Features" />
                   <div className="grid gap-4 sm:grid-cols-2">
                     {project.features.map((feature, index) => (
                       <InteractiveCard
@@ -499,15 +391,11 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                       </InteractiveCard>
                     ))}
                   </div>
-                </motion.section>
+                </section>
 
                 {/* 08 — Eval Headline */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.45 }}
-                >
-                  <SectionLabel n="08" label="Eval Headline" />
+                <section>
+                  <ProjectSectionLabel n="08" label="Eval Headline" />
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                     Suite <span className="font-mono text-foreground">k3-baseline</span>: every repo×scenario
                     cell runs K=3 times through the real queue/worker path, and green requires the full suite
@@ -518,7 +406,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                   <div className="overflow-x-auto rounded border border-border bg-card/40">
                     <table className="w-full text-sm">
                       <thead>
-                        <tr className="border-b border-border/70 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+                        <tr className="border-b border-border/70 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
                           <th className="px-4 py-3 text-left font-normal">Repo</th>
                           <th className="px-4 py-3 text-left font-normal">Tier</th>
                           <th className="px-4 py-3 text-left font-normal">Green</th>
@@ -544,7 +432,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                     </table>
                   </div>
                   <div className="mt-4 rounded border border-accent/20 bg-card p-4">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">Finding</p>
+                    <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">Finding</p>
                     <p className="mt-2 text-sm leading-relaxed text-foreground">
                       The reliability boundary is idiom, not size. JSON APIs migrate green at ~$0.01–0.02 with
                       zero recovery; server-rendered apps complete their task DAGs but fail behaviorally — the
@@ -552,26 +440,22 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                       (bad_patch, bad_patch_until_escalation) recovers 100% green on the fixture, 3/3 each.
                     </p>
                   </div>
-                </motion.section>
+                </section>
 
                 {/* 09 — Technical Stack */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.5 }}
-                >
-                  <SectionLabel n="09" label="Technical Stack" />
+                <section>
+                  <ProjectSectionLabel n="09" label="Technical Stack" />
                   <div className="overflow-hidden rounded border border-border bg-card">
                     <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
                       <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
-                      <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                      <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
                         implementation.notes
                       </span>
                     </div>
                     <div className="divide-y divide-border/50">
                       {project.technicalDetails.map((detail, index) => (
                         <div key={index} className="flex items-start gap-4 px-4 py-3">
-                          <span className="w-5 shrink-0 text-right font-mono text-[10px] text-accent/60">
+                          <span className="w-5 shrink-0 text-right font-mono text-xs text-accent/60">
                             {String(index + 1).padStart(2, "0")}
                           </span>
                           <span className="text-sm text-muted-foreground">{detail}</span>
@@ -579,18 +463,14 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                       ))}
                     </div>
                   </div>
-                </motion.section>
+                </section>
 
                 {/* 10 — Friction & Takeaways */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.55 }}
-                >
-                  <SectionLabel n="10" label="Friction & Takeaways" />
+                <section>
+                  <ProjectSectionLabel n="10" label="Friction & Takeaways" />
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div className="rounded border border-border bg-card p-5">
-                      <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                      <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
                         Friction
                       </p>
                       <ul className="space-y-3">
@@ -603,7 +483,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                       </ul>
                     </div>
                     <div className="rounded border border-accent/20 bg-card p-5">
-                      <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.2em] text-accent">
+                      <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-accent">
                         Takeaways
                       </p>
                       <ul className="space-y-3">
@@ -616,15 +496,10 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                       </ul>
                     </div>
                   </div>
-                </motion.section>
+                </section>
 
                 {/* Interfaces recap strip */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.58 }}
-                  className="grid gap-3 sm:grid-cols-3"
-                >
+                <div className="grid gap-3 sm:grid-cols-3">
                   {[
                     { icon: <Terminal className="h-4 w-4" />, label: "CLI", sub: "portage migrate --watch · exit 0 = honest green" },
                     { icon: <Bot className="h-4 w-4" />, label: "MCP", sub: "verify_patch_in_sandbox · repo_graph · blast_radius" },
@@ -633,21 +508,16 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                     <div key={c.label} className="rounded border border-border bg-card p-4">
                       <div className="mb-2 flex items-center gap-2 text-accent">
                         {c.icon}
-                        <span className="font-mono text-[10px] uppercase tracking-[0.18em]">{c.label}</span>
+                        <span className="font-mono text-xs uppercase tracking-[0.18em]">{c.label}</span>
                       </div>
                       <p className="text-sm text-muted-foreground">{c.sub}</p>
                     </div>
                   ))}
-                </motion.div>
+                </div>
 
                 {/* Technical Deep Dive CTA */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.6 }}
-                  className="rounded border border-accent/30 bg-accent/5 p-6"
-                >
-                  <div className="mb-1 font-mono text-[10px] uppercase tracking-[0.22em] text-accent">Technical Deep Dive</div>
+                <div className="rounded border border-accent/30 bg-accent/5 p-6">
+                  <div className="mb-1 font-mono text-xs uppercase tracking-[0.22em] text-accent">Technical Deep Dive</div>
                   <h3 className="mb-2 font-display text-lg font-bold text-foreground">
                     Durability, Recovery, Eval Methodology & the Failure Taxonomy
                   </h3>
@@ -665,15 +535,10 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                       Read Deep Dive
                     </Link>
                   </div>
-                </motion.div>
+                </div>
 
                 {/* CTA */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.7 }}
-                  className="flex flex-wrap gap-3 border-t border-border pt-8"
-                >
+                <div className="flex flex-wrap gap-3 border-t border-border pt-8">
                   <a
                     href={project.github}
                     target="_blank"
@@ -690,82 +555,14 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                     <FolderKanban className="h-4 w-4" />
                     All Projects
                   </Link>
-                </motion.div>
+                </div>
 
               </div>
             </div>
           </div>
 
-          {/* Image Modal */}
-          {selectedImage !== null && (
-            <div
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
-              onMouseMove={handleMouseMove}
-              onMouseUp={handleMouseUp}
-              onMouseLeave={handleMouseUp}
-            >
-              <div className="relative max-h-full max-w-6xl">
-                <Button
-                  onClick={() => setSelectedImage(null)}
-                  className="absolute right-3 top-3 z-10 border border-border bg-background/80 text-foreground hover:bg-background"
-                  size="sm"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-                <Button
-                  onClick={prevImage}
-                  className="absolute left-3 top-1/2 z-10 -translate-y-1/2 border border-border bg-background/80 text-foreground hover:bg-background"
-                  size="sm"
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                </Button>
-                <Button
-                  onClick={nextImage}
-                  className="absolute right-3 top-1/2 z-10 -translate-y-1/2 border border-border bg-background/80 text-foreground hover:bg-background"
-                  size="sm"
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-                <div className="absolute left-3 top-3 z-10 flex gap-2">
-                  <Button onClick={handleZoomIn} className="border border-border bg-background/80 text-foreground hover:bg-background" size="sm">
-                    <ZoomIn className="h-4 w-4" />
-                  </Button>
-                  <Button onClick={handleZoomOut} className="border border-border bg-background/80 text-foreground hover:bg-background" size="sm">
-                    <ZoomOut className="h-4 w-4" />
-                  </Button>
-                  <Button onClick={resetZoom} className="border border-border bg-background/80 text-foreground hover:bg-background" size="sm">
-                    <RotateCcw className="h-4 w-4" />
-                  </Button>
-                </div>
-                <div
-                  className="overflow-hidden rounded"
-                  style={{
-                    transform: `scale(${zoomLevel}) translate(${imagePosition.x / zoomLevel}px, ${imagePosition.y / zoomLevel}px)`,
-                    cursor: zoomLevel > 1 ? (isDragging ? "grabbing" : "grab") : "default",
-                  }}
-                  onMouseDown={handleMouseDown}
-                >
-                  <Image
-                    src={allImages[selectedImage].src}
-                    alt={allImages[selectedImage].alt}
-                    width={1200}
-                    height={800}
-                    className="max-h-full max-w-full object-contain"
-                  />
-                </div>
-                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded border border-border bg-background/80 px-4 py-2 text-center">
-                  <p className="font-mono text-xs font-medium text-foreground">
-                    {selectedImage + 1} / {allImages.length}
-                  </p>
-                  <p className="font-mono text-[10px] text-muted-foreground">
-                    ← → navigate · +/- zoom · 0 reset · Esc close
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
-      </Suspense>
+      </ProjectImageLightbox>
     </>
   )
 }

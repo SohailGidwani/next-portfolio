@@ -17,7 +17,7 @@ function SectionLabel({ n, label, id }: { n: string; label: string; id?: string 
   return (
     <div id={id} className="mb-6 scroll-mt-24">
       <div className="mb-2 flex items-center gap-2">
-        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">{n}</span>
+        <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">{n}</span>
         <div className="h-px w-5 bg-border" />
       </div>
       <h2 className="font-display text-xl font-bold uppercase tracking-tight text-foreground sm:text-2xl">
@@ -51,7 +51,7 @@ function Stat({
   return (
     <div className={`border-l-2 ${primary ? "border-accent" : "border-border"} pl-4`}>
       <p className="font-mono text-2xl font-bold text-foreground">{value}</p>
-      <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+      <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
         {label}
       </p>
     </div>
@@ -185,7 +185,7 @@ export default function MultiModalAlzheimersVQAPage() {
             <div className="max-w-3xl">
               <div className="mb-5 flex items-center gap-3">
                 <div className="h-px w-8 bg-accent" />
-                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">
+                <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
                   Research / Keck USC
                 </span>
               </div>
@@ -210,7 +210,7 @@ export default function MultiModalAlzheimersVQAPage() {
                 answers grounded in similar ADNI subjects.
               </p>
 
-              <div className="flex flex-wrap gap-2 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+              <div className="flex flex-wrap gap-2 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
                 {[
                   "PyTorch",
                   "3D ResNet-18",
@@ -263,7 +263,7 @@ export default function MultiModalAlzheimersVQAPage() {
                 </div>
 
                 <div className="mt-6 rounded border border-accent/30 bg-accent/5 p-5">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent">
+                  <p className="font-mono text-xs uppercase tracking-[0.22em] text-accent">
                     Primary target
                   </p>
                   <p className="mt-2 text-sm leading-relaxed text-foreground">
@@ -293,12 +293,12 @@ export default function MultiModalAlzheimersVQAPage() {
                 </div>
 
                 <div className="mt-6 overflow-x-auto rounded border border-border bg-card/40 p-5">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                  <p className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
                     80 / 20 stratified split by diagnosis
                   </p>
                   <table className="mt-3 w-full text-sm">
                     <thead>
-                      <tr className="border-b border-border/70 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+                      <tr className="border-b border-border/70 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
                         <th className="py-2 text-left font-normal">Class</th>
                         <th className="py-2 text-right font-normal">Train</th>
                         <th className="py-2 text-right font-normal">Test</th>
@@ -342,7 +342,7 @@ export default function MultiModalAlzheimersVQAPage() {
                   ].map((m) => (
                     <div key={m.label} className="rounded border border-border bg-card/40 p-4">
                       <p className="font-display text-xl font-bold text-foreground">{m.value}</p>
-                      <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+                      <p className="mt-1 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
                         {m.label}
                       </p>
                     </div>
@@ -373,7 +373,7 @@ export default function MultiModalAlzheimersVQAPage() {
                   <div className="rounded border border-border bg-card p-5">
                     <div className="mb-3 flex items-center gap-2 text-accent">
                       <Brain className="h-4 w-4" />
-                      <p className="font-mono text-[10px] uppercase tracking-[0.22em]">
+                      <p className="font-mono text-xs uppercase tracking-[0.22em]">
                         Imaging encoders
                       </p>
                     </div>
@@ -386,7 +386,7 @@ export default function MultiModalAlzheimersVQAPage() {
                   <div className="rounded border border-border bg-card p-5">
                     <div className="mb-3 flex items-center gap-2 text-accent">
                       <FileText className="h-4 w-4" />
-                      <p className="font-mono text-[10px] uppercase tracking-[0.22em]">
+                      <p className="font-mono text-xs uppercase tracking-[0.22em]">
                         Clinical encoder
                       </p>
                     </div>
@@ -398,7 +398,7 @@ export default function MultiModalAlzheimersVQAPage() {
                 </div>
 
                 <div className="mt-6 rounded border border-accent/30 bg-accent/5 p-5">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent">
+                  <p className="font-mono text-xs uppercase tracking-[0.22em] text-accent">
                     Design decision: no label leakage
                   </p>
                   <p className="mt-2 text-sm leading-relaxed text-foreground">
@@ -433,24 +433,24 @@ export default function MultiModalAlzheimersVQAPage() {
 
                 <div className="mt-6 grid gap-4 sm:grid-cols-2">
                   <div className="rounded border border-border bg-card/40 p-5">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent">
+                    <p className="font-mono text-xs uppercase tracking-[0.22em] text-accent">
                       Stage 1 · Contrastive
                     </p>
                     <p className="mt-2 font-display text-lg text-foreground">
                       30 epochs · pairwise InfoNCE
                     </p>
-                    <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+                    <p className="mt-1 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
                       lr 1×10⁻⁴ · AdamW · cosine anneal
                     </p>
                   </div>
                   <div className="rounded border border-border bg-card/40 p-5">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent">
+                    <p className="font-mono text-xs uppercase tracking-[0.22em] text-accent">
                       Stage 2B · Multi-task
                     </p>
                     <p className="mt-2 font-display text-lg text-foreground">
                       30 epochs · 5 joint heads
                     </p>
-                    <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+                    <p className="mt-1 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
                       focal (γ=2) + smooth L1 · AMP FP16
                     </p>
                   </div>
@@ -485,7 +485,7 @@ export default function MultiModalAlzheimersVQAPage() {
                 <div className="mt-6 overflow-x-auto rounded border border-border bg-card/40 p-5">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="border-b border-border/70 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+                      <tr className="border-b border-border/70 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
                         <th className="py-2 text-left font-normal">Task</th>
                         <th className="py-2 text-right font-normal">Bal. Acc.</th>
                         <th className="py-2 text-right font-normal">Macro F1</th>
@@ -508,7 +508,7 @@ export default function MultiModalAlzheimersVQAPage() {
                             >
                               {row[0]}
                               {highlight ? (
-                                <span className="ml-2 font-mono text-[9px] uppercase tracking-[0.15em] text-accent">
+                                <span className="ml-2 font-mono text-[11px] uppercase tracking-[0.15em] text-accent">
                                   primary
                                 </span>
                               ) : null}
@@ -542,7 +542,7 @@ export default function MultiModalAlzheimersVQAPage() {
                 </div>
 
                 <div className="mt-8">
-                  <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                  <p className="mb-4 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
                     DX 3-class confusion matrix · full test set (n=474)
                   </p>
                   <ConfusionMatrix
@@ -571,7 +571,7 @@ export default function MultiModalAlzheimersVQAPage() {
 
                 <div className="mt-6 grid gap-4 sm:grid-cols-2">
                   <div className="rounded border border-accent/30 bg-accent/5 p-5">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent">
+                    <p className="font-mono text-xs uppercase tracking-[0.22em] text-accent">
                       CN vs Dementia
                     </p>
                     <p className="mt-2 font-display text-2xl font-bold text-foreground">
@@ -583,7 +583,7 @@ export default function MultiModalAlzheimersVQAPage() {
                     </p>
                   </div>
                   <div className="rounded border border-border bg-card p-5">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                    <p className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
                       Severity &amp; demographics
                     </p>
                     <p className="mt-2 font-display text-2xl font-bold text-foreground">
@@ -644,7 +644,7 @@ export default function MultiModalAlzheimersVQAPage() {
                   <div className="rounded border border-border bg-card p-5">
                     <div className="mb-3 flex items-center gap-2 text-accent">
                       <Microscope className="h-4 w-4" />
-                      <p className="font-mono text-[10px] uppercase tracking-[0.22em]">
+                      <p className="font-mono text-xs uppercase tracking-[0.22em]">
                         Text encoder
                       </p>
                     </div>
@@ -658,7 +658,7 @@ export default function MultiModalAlzheimersVQAPage() {
                   <div className="rounded border border-border bg-card p-5">
                     <div className="mb-3 flex items-center gap-2 text-accent">
                       <MessageSquare className="h-4 w-4" />
-                      <p className="font-mono text-[10px] uppercase tracking-[0.22em]">
+                      <p className="font-mono text-xs uppercase tracking-[0.22em]">
                         Retrieval + rerank
                       </p>
                     </div>
@@ -716,7 +716,7 @@ export default function MultiModalAlzheimersVQAPage() {
                 />
 
                 <div className="mt-6 rounded border border-accent/30 bg-accent/5 p-5">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent">
+                  <p className="font-mono text-xs uppercase tracking-[0.22em] text-accent">
                     Headline finding
                   </p>
                   <p className="mt-2 text-sm leading-relaxed text-foreground">
@@ -779,7 +779,7 @@ export default function MultiModalAlzheimersVQAPage() {
 
               {/* ─── Footer CTA ─── */}
               <section className="rounded border border-border bg-card/40 p-6 sm:p-8">
-                <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent">
+                <p className="font-mono text-xs uppercase tracking-[0.22em] text-accent">
                   Status
                 </p>
                 <h3 className="mt-2 font-display text-xl text-foreground sm:text-2xl">

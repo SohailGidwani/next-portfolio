@@ -61,7 +61,7 @@ export default function Education() {
                 {/* Left column — number + year + location + cgpa */}
                 <div className="flex flex-col justify-start lg:pt-0.5">
                   <div className="mb-3 flex items-center gap-2">
-                    <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">
+                    <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
                       {n}
                     </span>
                     <div className="h-px w-4 bg-accent/50 transition-all duration-500 group-hover/section:w-8" />
@@ -70,11 +70,11 @@ export default function Education() {
                     {item.year}
                   </p>
                   {item.location && (
-                    <p className="mt-1 font-mono text-[10px] tracking-[0.1em] text-muted-foreground/60">
+                    <p className="mt-1 font-mono text-xs tracking-[0.1em] text-muted-foreground/60">
                       {item.location}
                     </p>
                   )}
-                  <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.15em] text-accent/80">
+                  <p className="mt-3 font-mono text-xs uppercase tracking-[0.15em] text-accent/80">
                     {item.cgpa}
                   </p>
                 </div>
@@ -106,14 +106,14 @@ export default function Education() {
 
                   {item.courses && item.courses.length > 0 && (
                     <div className="mt-5">
-                      <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
+                      <p className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground/70">
                         Coursework
                       </p>
                       <div className="mt-2 flex flex-wrap gap-1.5">
                         {item.courses.map((course) => (
                           <span
                             key={course}
-                            className="rounded-[3px] border border-border/70 bg-background/60 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground"
+                            className="rounded-[3px] border border-border/70 bg-background/60 px-2 py-0.5 font-mono text-xs uppercase tracking-[0.1em] text-muted-foreground"
                           >
                             {course}
                           </span>

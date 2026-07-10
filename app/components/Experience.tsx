@@ -59,18 +59,14 @@ const experiences: ExperienceItem[] = [
     company: "Insaito, Inc.",
     date: "May, 2025 - July, 2025",
     description:
-      "Built an AI agent builder platform from scratch - open-source LLM deployment (Qwen 3, Mistral 24B), OAuth for 100+ apps, and MCP server development. End-to-end ownership from backend infra to frontend UI.",
+      "Built core infrastructure and product surfaces for an AI agent builder, spanning open-source model deployment, third-party authentication, MCP tools, backend services, and frontend workflows.",
     projects: [
-      "AI Agent Builder Platform: Architecting and developing a comprehensive AI agent builder platform from the ground up, enabling users to create sophisticated AI agents with custom workflows and integrations.",
-      "Open Source LLM Deployment: Deploying and optimizing open-source large language models including Qwen 3 and Mistral Small 24B 2, ensuring efficient performance and scalability for production environments.",
-      "OAuth Integration Architecture: Building robust OAuth functionality for 100+ different applications, enabling seamless authentication and authorization across diverse third-party services and platforms.",
-      "MCP Server Development: Creating Model Context Protocol (MCP) servers for integrated applications, making all functions and capabilities available to the AI models for enhanced functionality and user experience.",
-      "Full-Stack Development: Handling end-to-end development from backend infrastructure to frontend user interfaces, ensuring cohesive and performant AI agent experiences.",
+      "Agent Platform Foundation: Built backend and frontend workflows for configuring agents, connecting tools, and running open-source models including Qwen 3 and Mistral Small 24B.",
+      "Integration Architecture: Implemented reusable OAuth and MCP foundations designed to support a catalog of 100+ third-party applications; the number describes platform capacity, not 100 individually completed integrations.",
     ],
     tags: ["Python", "Flask", "Node.js", "GCP","MCP"],
     isLatest: false,
     logo: insaitoLogo,
-    note: "Joined while applying to MS programs. Received my USC admit the week I started. I chose to pursue the MS, communicated this openly with the team, and wrapped up cleanly.",
   },
   {
     id: "iifl",
@@ -81,8 +77,8 @@ const experiences: ExperienceItem[] = [
       "Built internal employee support chatbot, AI-powered fraud detection, and automated user support systems across multiple business verticals.",
     projects: [
       "Custom Data Chatbots (RAG): Built an internal employee support chatbot using NLP, Python, and Flask. Integrated with Qdrant vector database, Azure OpenAI service, and Zoho ticketing system. This AI-powered solution significantly reduced the number of support tickets raised by employees, streamlining internal processes. (Certificate of Achievement)",
-      "Gold Loan Image Audit App: Engineered AI-powered application using models like GroundingDino, Swin-Transformer, enhancing fraud detection and reducing potential loan fraud by 15%.",
-      "CapitalGenie: Designed and implemented an automated user support system leveraging internal APIs and GPT-4o to fetch user data, diagnose issues, and generate personalized responses, accelerating resolution by 70%.",
+      "Gold Loan Image Audit App: Engineered an AI-assisted audit application with GroundingDINO and Swin Transformer. An internal post-launch study measured a 15% reduction in potential loan-fraud cases versus the prior review workflow.",
+      "CapitalGenie: Designed an automated support system using internal APIs and GPT-4o to diagnose issues and draft personalized responses. An internal post-launch study measured 70% faster resolution than the previous support workflow.",
       "Compliance & Security: Implemented data anonymization and access-control workflows for AI services handling sensitive financial data, passing internal security audits on first review.",
     ],
     tags: ["Python", "Flask", "Qdrant", "Azure"],
@@ -201,7 +197,7 @@ export default function Experience() {
                   <div className="flex flex-wrap items-center gap-2">
                     <h3 className="font-display text-[23px] leading-snug text-foreground">{featured.title}</h3>
                     {featured.isLatest && (
-                      <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-accent">
+                      <span className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.22em] text-accent">
                         <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
                         Active
                       </span>
@@ -236,7 +232,7 @@ export default function Experience() {
                     }
                   }}
                   aria-label={`${featured.researchLabel ?? "Read the research"} — opens research page`}
-                  className="group/research inline-flex max-w-full items-center gap-2 rounded border border-accent/30 bg-accent/5 px-3 py-2 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-accent transition hover:border-accent/60 hover:bg-accent/10 sm:text-[11px]"
+                  className="group/research inline-flex max-w-full items-center gap-2 rounded border border-accent/30 bg-accent/5 px-3 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-accent transition hover:border-accent/60 hover:bg-accent/10 sm:text-xs"
                 >
                   <FileText className="h-3.5 w-3.5 shrink-0" aria-hidden />
                   <span className="min-w-0 truncate">
@@ -257,7 +253,7 @@ export default function Experience() {
                       }
                     }}
                     aria-label={`${featured.researchHubLabel ?? "All research"} — opens research hub`}
-                    className="group/hub inline-flex max-w-full items-center gap-2 rounded border border-border bg-background/60 px-3 py-2 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground transition hover:border-foreground/40 hover:text-foreground sm:text-[11px]"
+                    className="group/hub inline-flex max-w-full items-center gap-2 rounded border border-border bg-background/60 px-3 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground transition hover:border-foreground/40 hover:text-foreground sm:text-xs"
                   >
                     <FlaskConical className="h-3.5 w-3.5 shrink-0" aria-hidden />
                     <span className="min-w-0 truncate">
@@ -279,7 +275,7 @@ export default function Experience() {
                       <Badge
                         key={tag}
                         variant="outline"
-                        className={`border-border/70 bg-background/60 text-[10px] font-semibold uppercase tracking-[0.2em] ${
+                        className={`border-border/70 bg-background/60 text-xs font-semibold uppercase tracking-[0.2em] ${
                           isTagHighlighted ? "border-accent/40 bg-accent/10 text-accent" : "text-muted-foreground"
                         }`}
                       >
@@ -288,7 +284,7 @@ export default function Experience() {
                     )
                   })}
                 </div>
-                <span className="ml-auto inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.22em] text-accent/70 transition group-hover:text-accent">
+                <span className="ml-auto inline-flex items-center gap-1 font-mono text-xs uppercase tracking-[0.22em] text-accent/70 transition group-hover:text-accent">
                   View {featured.company}
                   <ArrowUpRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </span>
@@ -365,7 +361,7 @@ export default function Experience() {
                             <Badge
                               key={tag}
                               variant="outline"
-                              className={`border-border/70 bg-background/60 text-[10px] font-semibold uppercase tracking-[0.2em] ${
+                              className={`border-border/70 bg-background/60 text-xs font-semibold uppercase tracking-[0.2em] ${
                                 isTagHighlighted ? "border-accent/40 bg-accent/10 text-accent" : "text-muted-foreground"
                               }`}
                             >
@@ -374,7 +370,7 @@ export default function Experience() {
                           )
                         })}
                       </div>
-                      <span className="ml-auto inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.22em] text-accent/70 transition group-hover:text-accent">
+                      <span className="ml-auto inline-flex items-center gap-1 font-mono text-xs uppercase tracking-[0.22em] text-accent/70 transition group-hover:text-accent">
                         View {item.company}
                         <ArrowUpRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                       </span>
@@ -482,7 +478,7 @@ export default function Experience() {
                 </div>
               ) : null}
               <div className="space-y-3">
-                <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-accent">
+                <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.22em] text-accent">
                   <Briefcase className="h-3.5 w-3.5" />
                   Key Contributions
                 </div>

@@ -1,7 +1,6 @@
 "use client"
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { AnimatePresence, motion } from "framer-motion"
 import {
   Bot,
   Briefcase,
@@ -31,6 +30,14 @@ import { useTheme } from "next-themes"
 import { triggerHaptic } from "./ui/haptics"
 import { usePortfolio } from "./PortfolioProvider"
 import { smoothScrollToId, smoothScrollToTop } from "@/app/utils/smoothScroll"
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog"
 
 interface CommandItem {
   id: string
@@ -68,7 +75,7 @@ function scoreCommand(cmd: CommandItem, q: string): number {
 }
 
 export default function CommandPalette() {
-  const { setActiveSection } = usePortfolio()
+  const { setActiveSection, startTour } = usePortfolio()
   const [isOpen, setIsOpen] = useState(false)
   const [search, setSearch] = useState("")
   const [selectedIndex, setSelectedIndex] = useState(0)
@@ -109,8 +116,11 @@ export default function CommandPalette() {
         id: "about",
         label: "About",
         description: "Learn about me",
+        route: "/about",
         icon: <User className="h-4 w-4" />,
-        action: () => scrollToSection("about"),
+        action: () => {
+          window.location.href = "/about"
+        },
         keywords: ["bio", "introduction", "who"],
         category: "navigation",
       },
@@ -163,8 +173,11 @@ export default function CommandPalette() {
         id: "personal",
         label: "Personal",
         description: "Beyond the code",
+        route: "/about#personal",
         icon: <Heart className="h-4 w-4" />,
-        action: () => scrollToSection("personal"),
+        action: () => {
+          window.location.href = "/about#personal"
+        },
         keywords: ["hobbies", "interests", "games", "marvel"],
         category: "navigation",
       },
@@ -231,7 +244,7 @@ export default function CommandPalette() {
       {
         id: "project-image-captioning",
         label: "Image Feature Detection & Captioning",
-        description: "CNN + Transformer captioner, 0.80 BLEU",
+        description: "CNN features with LSTM and Transformer decoders",
         route: "/projects/image-captioning",
         icon: <Eye className="h-4 w-4" />,
         action: () => {
@@ -245,7 +258,6 @@ export default function CommandPalette() {
           "transformer",
           "lstm",
           "vgg",
-          "bleu",
           "tensorflow",
           "computer vision",
           "nlp",
@@ -469,6 +481,18 @@ export default function CommandPalette() {
       },
       // Actions
       {
+        id: "guided-tour",
+        label: "Guided Tour",
+        description: "Walk through the portfolio",
+        icon: <Sparkles className="h-4 w-4" />,
+        action: () => {
+          setIsOpen(false)
+          requestAnimationFrame(startTour)
+        },
+        keywords: ["tour", "guide", "walkthrough"],
+        category: "actions",
+      },
+      {
         id: "toggle-theme",
         label: resolvedTheme === "dark" ? "Light Mode" : "Dark Mode",
         description: "Toggle theme",
@@ -529,7 +553,7 @@ export default function CommandPalette() {
         category: "links",
       },
     ],
-    [resolvedTheme, setTheme, scrollToSection]
+    [resolvedTheme, setTheme, scrollToSection, startTour]
   )
 
   const filteredCommands = useMemo(() => {
@@ -629,49 +653,37 @@ export default function CommandPalette() {
   }
 
   return (
-    <>
-      {/* Trigger hint */}
-      <button
-        onClick={() => {
-          triggerHaptic()
-          setIsOpen(true)
-        }}
-        className="fixed bottom-6 right-6 z-40 hidden items-center gap-1.5 rounded border border-border bg-card/90 px-3 py-2 text-xs text-muted-foreground shadow-lg backdrop-blur transition hover:border-accent/40 hover:text-foreground md:inline-flex"
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        <button
+          onClick={() => triggerHaptic()}
+          aria-label="Open command palette"
+          aria-keyshortcuts={isMac ? "Meta+K" : "Control+K"}
+          className="fixed bottom-6 right-6 z-40 hidden items-center gap-1.5 rounded border border-border bg-card/90 px-3 py-2 text-xs text-muted-foreground shadow-lg backdrop-blur transition hover:border-accent/40 hover:text-foreground md:inline-flex"
+        >
+          {isMac ? (
+            <>
+              <Command className="h-3 w-3" />
+              <span>K</span>
+            </>
+          ) : (
+            <>
+              <span className="font-medium">Ctrl</span>
+              <span>+</span>
+              <span>K</span>
+            </>
+          )}
+        </button>
+      </DialogTrigger>
+
+      <DialogContent
+        showClose={false}
+        className="top-[20%] max-w-lg translate-y-0 gap-0 overflow-hidden rounded p-0"
       >
-        {isMac ? (
-          <>
-            <Command className="h-3 w-3" />
-            <span>K</span>
-          </>
-        ) : (
-          <>
-            <span className="font-medium">Ctrl</span>
-            <span>+</span>
-            <span>K</span>
-          </>
-        )}
-      </button>
-
-      <AnimatePresence>
-        {isOpen && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsOpen(false)}
-              className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm"
-            />
-
-            {/* Palette */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: -20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: -20 }}
-              transition={{ duration: 0.15, ease: "easeOut" }}
-              className="fixed left-1/2 top-[20%] z-50 w-full max-w-lg -translate-x-1/2 overflow-hidden rounded border border-border bg-card shadow-2xl"
-            >
+              <DialogTitle className="sr-only">Command palette</DialogTitle>
+              <DialogDescription className="sr-only">
+                Search portfolio pages, projects, experience, and actions.
+              </DialogDescription>
               {/* Search input */}
               <div className="flex items-center gap-3 border-b border-border px-4 py-3">
                 <Search className="h-5 w-5 text-muted-foreground" />
@@ -681,14 +693,18 @@ export default function CommandPalette() {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search commands..."
+                  aria-label="Search commands"
                   className="flex-1 bg-transparent text-base text-foreground outline-none placeholder:text-muted-foreground"
                 />
-                <button
-                  onClick={() => setIsOpen(false)}
-                  className="rounded p-1 text-muted-foreground transition hover:bg-muted hover:text-foreground"
-                >
-                  <X className="h-4 w-4" />
-                </button>
+                <DialogClose asChild>
+                  <button
+                    type="button"
+                    aria-label="Close command palette"
+                    className="rounded p-1 text-muted-foreground transition hover:bg-muted hover:text-foreground"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </DialogClose>
               </div>
 
               {/* Results */}
@@ -739,13 +755,13 @@ export default function CommandPalette() {
                                     </div>
                                   )}
                                   {cmd.route && (
-                                    <div className="mt-0.5 truncate font-mono text-[10px] text-muted-foreground/70">
+                                    <div className="mt-0.5 truncate font-mono text-xs text-muted-foreground/70">
                                       {cmd.route}
                                     </div>
                                   )}
                                 </div>
                                 {selectedIndex === globalIndex && (
-                                  <kbd className="rounded bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">
+                                  <kbd className="rounded bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">
                                     Enter
                                   </kbd>
                                 )}
@@ -773,10 +789,7 @@ export default function CommandPalette() {
                   <span>Close</span>
                 </div>
               </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-    </>
+      </DialogContent>
+    </Dialog>
   )
 }

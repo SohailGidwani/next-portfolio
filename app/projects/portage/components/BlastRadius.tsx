@@ -686,7 +686,7 @@ export default function BlastRadius() {
       type="button"
       onClick={() => setRun((r) => r + 1)}
       aria-label="Replay blast radius animation"
-      className="absolute left-2 top-2 z-10 inline-flex items-center gap-1.5 rounded border border-border bg-card/90 px-2.5 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground backdrop-blur transition hover:border-accent/50 hover:text-foreground"
+      className="absolute left-2 top-2 z-10 inline-flex items-center gap-1.5 rounded border border-border bg-card/90 px-2.5 py-1.5 font-mono text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground backdrop-blur transition hover:border-accent/50 hover:text-foreground"
     >
       <RotateCcw className="h-3 w-3" />
       Replay

@@ -13,7 +13,7 @@ function SectionLabel({ n, label, id }: { n: string; label: string; id?: string 
   return (
     <div id={id} className="mb-6 scroll-mt-24">
       <div className="mb-2 flex items-center gap-2">
-        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">{n}</span>
+        <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">{n}</span>
         <div className="h-px w-5 bg-border" />
       </div>
       <h2 className="font-display text-xl font-bold uppercase tracking-tight text-foreground sm:text-2xl">
@@ -41,7 +41,7 @@ function Stat({ value, label, primary }: { value: string; label: string; primary
   return (
     <div className={`border-l-2 ${primary ? "border-accent" : "border-border"} pl-4`}>
       <p className="font-mono text-2xl font-bold text-foreground">{value}</p>
-      <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">{label}</p>
+      <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">{label}</p>
     </div>
   )
 }
@@ -49,7 +49,7 @@ function Stat({ value, label, primary }: { value: string; label: string; primary
 function CodeRow({ n, text }: { n: number; text: string }) {
   return (
     <div className="flex items-start gap-4 px-4 py-3">
-      <span className="w-5 shrink-0 text-right font-mono text-[10px] text-accent/60">
+      <span className="w-5 shrink-0 text-right font-mono text-xs text-accent/60">
         {String(n).padStart(2, "0")}
       </span>
       <span className="font-mono text-xs text-muted-foreground">{text}</span>
@@ -62,7 +62,7 @@ function CodeBlock({ title, rows }: { title: string; rows: string[] }) {
     <div className="overflow-hidden rounded border border-border bg-card">
       <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
         <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
-        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{title}</span>
+        <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">{title}</span>
       </div>
       <div className="divide-y divide-border/50">
         {rows.map((r, i) => <CodeRow key={i} n={i + 1} text={r} />)}
@@ -133,7 +133,7 @@ export default function KnowledgeHubDeepDivePage() {
             <div className="max-w-3xl">
               <div className="mb-5 flex items-center gap-3">
                 <div className="h-px w-8 bg-accent" />
-                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">
+                <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
                   Project / Technical Deep Dive
                 </span>
               </div>
@@ -152,7 +152,7 @@ export default function KnowledgeHubDeepDivePage() {
                 Every moving part of Knowledge Hub: the system architecture, OCR pipeline, full-text search stack, semantic search with pgvector, hybrid ranking math, and the RAG layer that powers cited answers, all with implementation notes.
               </p>
 
-              <div className="flex flex-wrap gap-2 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+              <div className="flex flex-wrap gap-2 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
                 {["Flask", "Postgres 16", "pgvector", "Tesseract", "TrOCR", "Sentence-Transformers", "IVFFlat", "Ollama", "Docker"].map((t) => (
                   <span key={t} className="rounded-[3px] border border-border bg-background/60 px-2 py-0.5">{t}</span>
                 ))}
@@ -183,7 +183,7 @@ export default function KnowledgeHubDeepDivePage() {
                   ].map((c) => (
                     <div key={c.label} className="rounded border border-border bg-card p-4">
                       <div className="mb-2 flex items-center gap-2 text-accent">{c.icon}
-                        <span className="font-mono text-[10px] uppercase tracking-[0.18em]">{c.label}</span>
+                        <span className="font-mono text-xs uppercase tracking-[0.18em]">{c.label}</span>
                       </div>
                       <p className="text-sm text-muted-foreground">{c.sub}</p>
                     </div>
@@ -200,7 +200,7 @@ export default function KnowledgeHubDeepDivePage() {
                 <div className="overflow-x-auto rounded border border-border bg-card/40">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="border-b border-border/70 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+                      <tr className="border-b border-border/70 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
                         <th className="px-4 py-3 text-left font-normal">Table</th>
                         <th className="px-4 py-3 text-left font-normal">Key Columns</th>
                         <th className="px-4 py-3 text-left font-normal">Notes</th>
@@ -239,7 +239,7 @@ export default function KnowledgeHubDeepDivePage() {
                   </table>
                 </div>
                 <div className="mt-4 rounded border border-accent/20 bg-card p-4">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">Design decision</p>
+                  <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">Design decision</p>
                   <p className="mt-2 text-sm leading-relaxed text-foreground">
                     Initially one chunk per page; later refined to 300–700 tokens with overlap once search quality testing showed that page-sized chunks hurt precision on long PDFs. Chunk size turned out to matter more than embedding model choice.
                   </p>
@@ -258,7 +258,7 @@ export default function KnowledgeHubDeepDivePage() {
 
                 <div className="mt-6 space-y-6">
                   <div>
-                    <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">3.1: Rendering & Preprocessing</p>
+                    <p className="mb-3 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">3.1: Rendering & Preprocessing</p>
                     <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
                       PyMuPDF rasterises each page at scale <span className="font-mono text-foreground">s=3</span> (typically 216 DPI) to improve OCR readability. Deskew estimates rotation via minimum-area rectangle on foreground pixels and applies an affine transform. Non-local-means denoising followed by an unsharp mask sharpens fine details. Binarization uses Otsu&apos;s global threshold or adaptive local thresholds for uneven illumination. A 2×2 closing operation connects broken handwriting strokes.
                     </p>
@@ -271,31 +271,31 @@ export default function KnowledgeHubDeepDivePage() {
                       ].map(({ eq, label }) => (
                         <div key={label} className="overflow-x-auto rounded border border-border/60 bg-card/60 px-4 py-2.5">
                           <p className="font-mono text-sm text-foreground">{eq}</p>
-                          <p className="mt-0.5 font-mono text-[10px] text-muted-foreground">{label}</p>
+                          <p className="mt-0.5 font-mono text-xs text-muted-foreground">{label}</p>
                         </div>
                       ))}
                     </div>
                   </div>
 
                   <div>
-                    <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">3.2: Tesseract OCR (multi-pass + confidence)</p>
+                    <p className="mb-3 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">3.2: Tesseract OCR (multi-pass + confidence)</p>
                     <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
                       Three PSM configs run (<span className="font-mono text-foreground">--psm 6, 11, 4</span>) and the result with highest average word confidence is kept. Token confidences c_i ∈ [0, 100] are returned by <span className="font-mono text-foreground">image_to_data</span>; the pipeline computes the average and stores it alongside the text in <span className="font-mono text-foreground">chunks.extra_json</span>.
                     </p>
                     <div className="overflow-x-auto rounded border border-border/60 bg-card/60 px-4 py-2.5">
                       <p className="font-mono text-sm text-foreground">{"avg_conf = (1/n) ∑ᵢ cᵢ,   cᵢ ∈ [0, 100]"}</p>
-                      <p className="mt-0.5 font-mono text-[10px] text-muted-foreground">average token confidence — stored in chunks.extra_json as ocr_conf; fallback if below threshold</p>
+                      <p className="mt-0.5 font-mono text-xs text-muted-foreground">average token confidence — stored in chunks.extra_json as ocr_conf; fallback if below threshold</p>
                     </div>
                   </div>
 
                   <div>
-                    <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">3.3: Handwriting Fallback (TrOCR)</p>
+                    <p className="mb-3 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">3.3: Handwriting Fallback (TrOCR)</p>
                     <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
                       When Tesseract confidence is low, TrOCR (VisionEncoderDecoder: ViT encoder + Transformer LM) handles the page. The decoder minimises cross-entropy loss over token sequences conditioned on the image, making it far more robust to cursive and irregular handwriting. This runs only as a fallback to keep inference time reasonable.
                     </p>
                     <div className="overflow-x-auto rounded border border-border/60 bg-card/60 px-4 py-2.5">
                       <p className="font-mono text-sm text-foreground">{"L = −∑ₜ log p(yₜ | y_{<t}, image)"}</p>
-                      <p className="mt-0.5 font-mono text-[10px] text-muted-foreground">cross-entropy loss — Transformer decoder conditioned on ViT image features</p>
+                      <p className="mt-0.5 font-mono text-xs text-muted-foreground">cross-entropy loss — Transformer decoder conditioned on ViT image features</p>
                     </div>
                   </div>
                 </div>
@@ -312,7 +312,7 @@ export default function KnowledgeHubDeepDivePage() {
                   <div className="rounded border border-border bg-card p-5">
                     <div className="mb-2 flex items-center gap-2 text-accent">
                       <Search className="h-4 w-4" />
-                      <p className="font-mono text-[10px] uppercase tracking-[0.22em]">4.1: Tokenisation → tsvector</p>
+                      <p className="font-mono text-xs uppercase tracking-[0.22em]">4.1: Tokenisation → tsvector</p>
                     </div>
                     <p className="text-sm leading-relaxed text-muted-foreground">
                       Postgres parses text, lowercases it, stems it, removes stopwords, and produces a multiset of <strong className="font-semibold text-foreground">lexemes</strong> with positional info. Example: <span className="font-mono text-xs">to_tsvector('english', text)</span> → <span className="font-mono text-xs">a:1 b:2,7 c:4</span>. We index on <span className="font-mono text-xs">to_tsvector('english', coalesce(text,''))</span> with a GIN index for sub-second search.
@@ -322,7 +322,7 @@ export default function KnowledgeHubDeepDivePage() {
                   <div className="rounded border border-border bg-card p-5">
                     <div className="mb-2 flex items-center gap-2 text-accent">
                       <Search className="h-4 w-4" />
-                      <p className="font-mono text-[10px] uppercase tracking-[0.22em]">4.2: Queries → tsquery</p>
+                      <p className="font-mono text-xs uppercase tracking-[0.22em]">4.2: Queries → tsquery</p>
                     </div>
                     <p className="text-sm leading-relaxed text-muted-foreground">
                       <span className="font-mono text-xs">plainto_tsquery('english', q)</span> handles plain queries robustly. <span className="font-mono text-xs">websearch_to_tsquery</span> supports Google-like syntax with <span className="font-mono text-xs">"phrase"</span>, <span className="font-mono text-xs">-exclude</span>, and <span className="font-mono text-xs">OR</span>.
@@ -332,7 +332,7 @@ export default function KnowledgeHubDeepDivePage() {
                   <div className="rounded border border-border bg-card p-5">
                     <div className="mb-2 flex items-center gap-2 text-accent">
                       <Search className="h-4 w-4" />
-                      <p className="font-mono text-[10px] uppercase tracking-[0.22em]">4.3: Ranking → ts_rank / ts_rank_cd</p>
+                      <p className="font-mono text-xs uppercase tracking-[0.22em]">4.3: Ranking → ts_rank / ts_rank_cd</p>
                     </div>
                     <p className="text-sm leading-relaxed text-muted-foreground">
                       <span className="font-mono text-xs">ts_rank</span> ranks by term frequency with optional weights per lexeme class. <span className="font-mono text-xs">ts_rank_cd</span> (cover density) favours compact spans covering many query terms — it scores coverage windows and normalises by document length. We use <span className="font-mono text-xs">ts_rank_cd</span> because it penalises chunks that contain the terms scattered across many pages rather than clustered together.
@@ -342,7 +342,7 @@ export default function KnowledgeHubDeepDivePage() {
                   <div className="rounded border border-border bg-card p-5">
                     <div className="mb-2 flex items-center gap-2 text-accent">
                       <FileText className="h-4 w-4" />
-                      <p className="font-mono text-[10px] uppercase tracking-[0.22em]">4.4: Snippets → ts_headline</p>
+                      <p className="font-mono text-xs uppercase tracking-[0.22em]">4.4: Snippets → ts_headline</p>
                     </div>
                     <p className="text-sm leading-relaxed text-muted-foreground">
                       <span className="font-mono text-xs">ts_headline</span> generates fragments with query terms emphasised. Parameters control fragment count, min/max word window, and surrounding HTML tags — we use <span className="font-mono text-xs">&lt;b&gt;…&lt;/b&gt;</span> to highlight hits in the search UI without XSS risk.
@@ -360,14 +360,14 @@ export default function KnowledgeHubDeepDivePage() {
 
                 <div className="space-y-5">
                   <div className="rounded border border-border bg-card p-5">
-                    <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.22em] text-accent">5.1: Embedding Model & Normalisation</p>
+                    <p className="mb-2 font-mono text-xs uppercase tracking-[0.22em] text-accent">5.1: Embedding Model & Normalisation</p>
                     <p className="text-sm leading-relaxed text-muted-foreground">
                       <span className="font-mono text-xs">sentence-transformers/all-MiniLM-L6-v2</span> encodes text into dense vectors x ∈ ℝ³⁸⁴. Vectors are L2-normalised so ‖x‖₂ = 1 — this makes cosine similarity equal to the inner product: cos(θ) = x · y. The embedding dimension must match the model output; the <span className="font-mono text-foreground">embeddings.dim</span> column enforces this at insert time.
                     </p>
                   </div>
 
                   <div className="rounded border border-border bg-card p-5">
-                    <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.22em] text-accent">5.2: Distance Metrics in pgvector</p>
+                    <p className="mb-3 font-mono text-xs uppercase tracking-[0.22em] text-accent">5.2: Distance Metrics in pgvector</p>
                     <div className="space-y-2 text-sm text-muted-foreground">
                       {[
                         { op: "<->", name: "L2 distance", note: "‖x − y‖₂" },
@@ -386,7 +386,7 @@ export default function KnowledgeHubDeepDivePage() {
                   </div>
 
                   <div className="rounded border border-border bg-card p-5">
-                    <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.22em] text-accent">5.3: IVFFlat Index (Approximate Nearest Neighbour)</p>
+                    <p className="mb-2 font-mono text-xs uppercase tracking-[0.22em] text-accent">5.3: IVFFlat Index (Approximate Nearest Neighbour)</p>
                     <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
                       Exact k-NN over all vectors is O(N). IVFFlat coarse-quantises the space into <span className="font-mono text-foreground">lists</span> buckets using k-means centroids. At query time only <span className="font-mono text-foreground">probes</span> nearest centroids are scanned, giving O(P · N/L) complexity — much faster with a controlled recall tradeoff.
                     </p>
@@ -426,7 +426,7 @@ export default function KnowledgeHubDeepDivePage() {
                 />
 
                 <div className="mt-5 rounded border border-accent/20 bg-card p-5">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">Why z-score and not min-max?</p>
+                  <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">Why z-score and not min-max?</p>
                   <p className="mt-2 text-sm leading-relaxed text-foreground">
                     Min-max normalisation is sensitive to outliers, one unusually high FTS score on a dense keyword document would compress every other score into a tiny range. Z-score handles outliers better and produces stable, interpretable blending. The weights α and β can later be tuned from click-through data.
                   </p>
@@ -444,7 +444,7 @@ export default function KnowledgeHubDeepDivePage() {
                   <div className="rounded border border-border bg-card p-5">
                     <div className="mb-2 flex items-center gap-2 text-accent">
                       <Brain className="h-4 w-4" />
-                      <p className="font-mono text-[10px] uppercase tracking-[0.22em]">7.1: Prompt Structure</p>
+                      <p className="font-mono text-xs uppercase tracking-[0.22em]">7.1: Prompt Structure</p>
                     </div>
                     <div className="mt-3 space-y-2 text-sm text-muted-foreground">
                       {[
@@ -453,7 +453,7 @@ export default function KnowledgeHubDeepDivePage() {
                         { role: "User", content: "Original question, unchanged." },
                       ].map((p) => (
                         <div key={p.role} className="flex items-start gap-3">
-                          <span className="w-14 shrink-0 font-mono text-[10px] uppercase tracking-[0.15em] text-accent">{p.role}</span>
+                          <span className="w-14 shrink-0 font-mono text-xs uppercase tracking-[0.15em] text-accent">{p.role}</span>
                           <span>{p.content}</span>
                         </div>
                       ))}
@@ -463,7 +463,7 @@ export default function KnowledgeHubDeepDivePage() {
                   <div className="rounded border border-border bg-card p-5">
                     <div className="mb-2 flex items-center gap-2 text-accent">
                       <FileText className="h-4 w-4" />
-                      <p className="font-mono text-[10px] uppercase tracking-[0.22em]">7.2: Context Packing & Map-Reduce</p>
+                      <p className="font-mono text-xs uppercase tracking-[0.22em]">7.2: Context Packing & Map-Reduce</p>
                     </div>
                     <p className="text-sm leading-relaxed text-muted-foreground">
                       Chunks are sorted by hybrid score so the highest-quality context appears early (models attend more to earlier tokens). Total context is capped at ~3k–4k tokens. When the top chunks overflow, the pipeline switches to map-reduce: each chunk is summarised independently (map), then the summaries are combined into a final answer (reduce), preserving citations throughout.
@@ -473,7 +473,7 @@ export default function KnowledgeHubDeepDivePage() {
                   <div className="rounded border border-border bg-card p-5">
                     <div className="mb-2 flex items-center gap-2 text-accent">
                       <FileText className="h-4 w-4" />
-                      <p className="font-mono text-[10px] uppercase tracking-[0.22em]">7.3: Citation Enforcement</p>
+                      <p className="font-mono text-xs uppercase tracking-[0.22em]">7.3: Citation Enforcement</p>
                     </div>
                     <p className="text-sm leading-relaxed text-muted-foreground">
                       Post-processing extracts <span className="font-mono text-foreground">[CIT-#]</span> tags from the LLM output and maps each back to <span className="font-mono text-foreground">(document_id, page_no, title)</span>. If the output contains no citation tags, the pipeline optionally re-prompts with a stricter instruction before returning.
@@ -511,7 +511,7 @@ export default function KnowledgeHubDeepDivePage() {
                     <div key={c.title} className="rounded border border-border bg-card p-5">
                       <div className="mb-3 flex items-center gap-2 text-accent">
                         {c.icon}
-                        <p className="font-mono text-[10px] uppercase tracking-[0.22em]">{c.title}</p>
+                        <p className="font-mono text-xs uppercase tracking-[0.22em]">{c.title}</p>
                       </div>
                       <p className="text-sm leading-relaxed text-muted-foreground">{c.body}</p>
                     </div>
@@ -581,7 +581,7 @@ export default function KnowledgeHubDeepDivePage() {
 
               {/* ─── Footer CTA ─── */}
               <section className="rounded border border-border bg-card/40 p-6 sm:p-8">
-                <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent">Source</p>
+                <p className="font-mono text-xs uppercase tracking-[0.22em] text-accent">Source</p>
                 <h3 className="mt-2 font-display text-xl text-foreground sm:text-2xl">
                   Fully open-source · Docker Compose setup
                 </h3>

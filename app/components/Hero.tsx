@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import dynamic from "next/dynamic"
-import { motion, useReducedMotion } from "framer-motion"
+import { motion } from "framer-motion"
 import { ArrowDown, ArrowUpRight, Github, Linkedin } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
 import { smoothScrollToId } from "@/app/utils/smoothScroll"
@@ -13,7 +13,7 @@ const ShootingStars = dynamic(() => import("./ShootingStars"), { ssr: false })
 
 function RoleBadge() {
   return (
-    <span className="inline-flex items-center gap-2 rounded border border-border bg-transparent px-3 py-1.5 font-mono text-[9px] font-medium uppercase tracking-[0.2em] text-foreground sm:px-4 sm:py-2 sm:text-[10px] sm:tracking-[0.18em]">
+    <span className="inline-flex items-center gap-2 rounded border border-border bg-transparent px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-foreground sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.18em]">
       <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden />
       <span className="whitespace-nowrap">Agentic AI/ML Engineer</span>
     </span>
@@ -26,18 +26,24 @@ function HeroStats() {
     suffix?: string
     text?: string
     label: string
+    href?: string
   }[] = [
-    { value: 2, suffix: "+", label: "Years production experience" },
-    { value: 3, label: "AI systems deployed at IIFL" },
-    { value: 70, suffix: "M", label: "Parameter Custom Model" },
-    { text: "LA", label: "Currently based" },
+    { value: 2, suffix: "+", label: "Years in production engineering", href: "#experience" },
+    { value: 3, label: "AI systems deployed at IIFL", href: "#experience" },
+    { text: "2,363", label: "ADNI subjects in MEMOIR-VLM", href: "/research/memoir-vlm-alzheimers-vqa" },
+    { text: "LA", label: "Currently based", href: "#contact" },
   ]
 
   return (
     <div className="mt-10 w-full border-t border-border pt-8 sm:mt-14 sm:pt-10 md:mt-16 md:pt-12">
       <div className="grid grid-cols-2 gap-6 sm:gap-8 md:grid-cols-4 md:gap-6 lg:gap-10">
         {items.map((item) => (
-          <div key={item.label} className="min-w-0 text-left md:text-center">
+          <a
+            key={item.label}
+            href={item.href}
+            className="group min-w-0 text-left md:text-center"
+            aria-label={`${item.value ?? item.text ?? ""} ${item.label}; view evidence`}
+          >
             <p className="font-display text-[clamp(1.15rem,3.2vw,2.65rem)] leading-none tracking-[-0.02em] text-foreground">
               {item.value !== undefined ? (
                 <AnimatedCounter value={item.value} suffix={item.suffix ?? ""} duration={1100} />
@@ -45,10 +51,10 @@ function HeroStats() {
                 item.text
               )}
             </p>
-            <p className="mt-1.5 font-mono text-[8px] font-medium uppercase leading-snug tracking-[0.18em] text-muted-foreground sm:mt-2 sm:text-[10px] sm:tracking-[0.22em]">
+            <p className="mt-1.5 font-mono text-[11px] font-medium uppercase leading-snug tracking-[0.14em] text-muted-foreground transition group-hover:text-foreground sm:mt-2 sm:text-xs">
               {item.label}
             </p>
-          </div>
+          </a>
         ))}
       </div>
     </div>
@@ -56,42 +62,13 @@ function HeroStats() {
 }
 
 function HeroTitle() {
-  const shouldReduce = useReducedMotion()
-
   const lineClass =
     "block w-full min-w-0 font-display font-extrabold uppercase leading-[0.95] tracking-[-0.03em] text-foreground text-[clamp(2.25rem,10.25cqi,9.375rem)]"
 
-  if (shouldReduce) {
-    return (
-      <h1 className={lineClass} aria-label="Sohail Gidwani">
-        <span className="block">Sohail</span>
-        <span className="block">Gidwani</span>
-      </h1>
-    )
-  }
-
   return (
     <h1 className={lineClass} aria-label="Sohail Gidwani">
-      <span className="block overflow-hidden pb-[0.06em] -mb-[0.06em]">
-        <motion.span
-          className="block"
-          initial={{ y: "110%" }}
-          animate={{ y: 0 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        >
-          Sohail
-        </motion.span>
-      </span>
-      <span className="block overflow-hidden pb-[0.06em] -mb-[0.06em]">
-        <motion.span
-          className="block"
-          initial={{ y: "110%" }}
-          animate={{ y: 0 }}
-          transition={{ duration: 0.7, delay: 0.09, ease: [0.22, 1, 0.36, 1] }}
-        >
-          Gidwani
-        </motion.span>
-      </span>
+      <span className="block pb-[0.06em] -mb-[0.06em]">Sohail</span>
+      <span className="block pb-[0.06em] -mb-[0.06em]">Gidwani</span>
     </h1>
   )
 }
@@ -162,8 +139,8 @@ export default function Hero() {
             <span className="absolute inset-0 animate-ping rounded-full bg-accent/70" />
             <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
           </span>
-          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground sm:text-[11px] sm:tracking-[0.2em]">
-            Open to work · Remote · Hybrid · Relocation
+          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground sm:text-xs sm:tracking-[0.2em]">
+            Open to full-time roles · Graduating May 2027 · Relocate / Hybrid / Remote
           </p>
         </motion.div>
 
@@ -197,7 +174,7 @@ export default function Hero() {
             style={{ x: magResume.x, y: magResume.y }}
             onPointerMove={magResume.onPointerMove}
             onPointerLeave={magResume.onPointerLeave}
-            className="inline-flex min-w-0 max-sm:min-h-9 items-center justify-center gap-1 rounded border border-border bg-transparent px-3 py-2 text-xs font-semibold text-foreground transition hover:border-foreground/40 sm:min-h-0 sm:gap-2 sm:px-8 sm:py-3.5 sm:text-sm"
+            className="inline-flex min-w-0 max-sm:min-h-9 items-center justify-center gap-1 rounded border border-accent/60 bg-transparent px-3 py-2 text-xs font-semibold text-foreground transition hover:border-accent hover:bg-accent/5 sm:min-h-0 sm:gap-2 sm:px-8 sm:py-3.5 sm:text-sm"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >

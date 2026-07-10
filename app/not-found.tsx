@@ -15,7 +15,7 @@ export default function NotFound() {
 
       <div className="mt-8 flex items-center gap-3">
         {/* <div className="h-px w-8 bg-accent" /> */}
-        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">
+        <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
           Page not found
         </span>
       </div>
@@ -42,7 +42,7 @@ export default function NotFound() {
         </Link>
       </div>
 
-      <div className="mt-10 flex flex-wrap justify-center gap-x-5 gap-y-2 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+      <div className="mt-10 flex flex-wrap justify-center gap-x-5 gap-y-2 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
         {[
           { href: "/#about", label: "About" },
           { href: "/#experience", label: "Experience" },

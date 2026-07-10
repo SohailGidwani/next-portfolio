@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect } from "react"
-import { triggerHaptic } from "@/app/components/ui/haptics"
 
 const DEBOUNCE_MS = 100
 
@@ -19,13 +18,14 @@ export function useScrollSpy(
             if (pending) clearTimeout(pending)
             const id = entry.target.id
             pending = setTimeout(() => {
-              triggerHaptic(10)
               onSectionChange(id)
             }, DEBOUNCE_MS)
           }
         }
       },
-      { threshold: 0.3, rootMargin: "-10% 0px -10% 0px" }
+      // A narrow viewport band works for sections of any height. An element
+      // threshold (previously 30%) can never be reached by very tall sections.
+      { threshold: 0, rootMargin: "-20% 0px -65% 0px" }
     )
 
     const elements: Element[] = []

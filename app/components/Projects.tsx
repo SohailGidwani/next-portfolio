@@ -30,7 +30,7 @@ export default function Projects() {
           </SectionHeading>
           <Link
             href="/projects"
-            className="inline-flex items-center gap-2 rounded border border-border bg-card/80 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground transition hover:border-accent/40 hover:text-foreground"
+            className="inline-flex items-center gap-2 rounded border border-border bg-card/80 px-4 py-2 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground transition hover:border-accent/40 hover:text-foreground"
             onClick={() => triggerHaptic()}
           >
             View all
@@ -66,8 +66,7 @@ export default function Projects() {
                       fill
                       placeholder="blur"
                       className="object-cover object-top"
-                      sizes="100vw"
-                      priority
+                      sizes="(max-width: 640px) 100vw, (max-width: 1080px) 90vw, 1080px"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
                   </div>
@@ -83,7 +82,7 @@ export default function Projects() {
                           target="_blank"
                           rel="noreferrer"
                           onClick={() => triggerHaptic()}
-                          className="relative z-10 inline-flex items-center gap-1.5 rounded border border-accent/30 bg-accent/10 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-accent transition hover:bg-accent/20"
+                          className="relative z-10 inline-flex items-center gap-1.5 rounded border border-accent/30 bg-accent/10 px-3 py-1.5 font-mono text-xs uppercase tracking-[0.2em] text-accent transition hover:bg-accent/20"
                           aria-label={`Live demo of ${primary.title}`}
                         >
                           <ExternalLink className="h-3 w-3" />
@@ -102,6 +101,9 @@ export default function Projects() {
                       </a>
                     </div>
                   </div>
+                  <p className="mt-4 font-mono text-[11px] leading-relaxed text-accent">
+                    {primary.outcome}
+                  </p>
                   <p className="mt-4 text-sm text-muted-foreground">{primary.description}</p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {primary.tags.map((tag) => {
@@ -112,7 +114,7 @@ export default function Projects() {
                         <Badge
                           key={tag}
                           variant="outline"
-                          className={`border-border/70 bg-background/60 text-[10px] font-semibold uppercase tracking-[0.2em] ${
+                          className={`border-border/70 bg-background/60 text-xs font-semibold uppercase tracking-[0.2em] ${
                             isHighlighted ? "border-accent/40 bg-accent/10 text-accent" : "text-muted-foreground"
                           }`}
                         >
@@ -152,6 +154,9 @@ export default function Projects() {
                         <div>
                           <h4 className="font-display text-xl text-foreground">{project.title}</h4>
                           <p className="mt-2 text-sm text-muted-foreground">{project.shortDescription}</p>
+                          <p className="mt-3 font-mono text-[11px] leading-relaxed text-accent">
+                            {project.outcome}
+                          </p>
                         </div>
                         <div className="flex items-center gap-2">
                           {project.demo && (
@@ -160,7 +165,7 @@ export default function Projects() {
                               target="_blank"
                               rel="noreferrer"
                               onClick={() => triggerHaptic()}
-                              className="relative z-10 inline-flex items-center gap-1 rounded border border-accent/30 bg-accent/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-accent transition hover:bg-accent/20"
+                              className="relative z-10 inline-flex items-center gap-1 rounded border border-accent/30 bg-accent/10 px-2.5 py-1 font-mono text-xs uppercase tracking-[0.2em] text-accent transition hover:bg-accent/20"
                               aria-label={`Live demo of ${project.title}`}
                             >
                               <ExternalLink className="h-3 w-3" />
@@ -188,7 +193,7 @@ export default function Projects() {
                             <Badge
                               key={tag}
                               variant="outline"
-                              className={`border-border/70 bg-background/60 text-[10px] font-semibold uppercase tracking-[0.2em] ${
+                              className={`border-border/70 bg-background/60 text-xs font-semibold uppercase tracking-[0.2em] ${
                                 tagHighlighted ? "border-accent/40 bg-accent/10 text-accent" : "text-muted-foreground"
                               }`}
                             >

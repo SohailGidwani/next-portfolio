@@ -1,9 +1,15 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { AnimatePresence, motion } from "framer-motion"
 import { Command, X } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "./ui/dialog"
 
 export default function KeyboardShortcuts() {
   const [isOpen, setIsOpen] = useState(false)
@@ -49,40 +55,31 @@ export default function KeyboardShortcuts() {
   }, [isOpen])
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <>
-          {/* Backdrop */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setIsOpen(false)}
-            className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm"
-          />
-
-          {/* Modal */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: -20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: -20 }}
-            transition={{ duration: 0.15, ease: "easeOut" }}
-            className="fixed left-1/2 top-[20%] z-50 w-full max-w-md -translate-x-1/2 overflow-hidden rounded border border-border bg-card shadow-2xl"
-          >
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogContent
+        showClose={false}
+        className="top-[20%] max-w-md translate-y-0 gap-0 overflow-hidden rounded p-0"
+      >
+            <DialogDescription className="sr-only">
+              Keyboard commands available throughout the portfolio.
+            </DialogDescription>
             {/* Header */}
             <div className="flex items-center justify-between border-b border-border px-5 py-4">
               <div className="flex items-center gap-3">
                 <span className="flex h-9 w-9 items-center justify-center rounded bg-accent/10 text-accent">
                   <Command className="h-4 w-4" />
                 </span>
-                <h2 className="font-display text-lg text-foreground">Keyboard Shortcuts</h2>
+                <DialogTitle className="font-display text-lg text-foreground">Keyboard Shortcuts</DialogTitle>
               </div>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="rounded-lg p-1.5 text-muted-foreground transition hover:bg-muted hover:text-foreground"
-              >
-                <X className="h-4 w-4" />
-              </button>
+              <DialogClose asChild>
+                <button
+                  type="button"
+                  aria-label="Close keyboard shortcuts"
+                  className="rounded-lg p-1.5 text-muted-foreground transition hover:bg-muted hover:text-foreground"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </DialogClose>
             </div>
 
             {/* Shortcuts list */}
@@ -115,9 +112,7 @@ export default function KeyboardShortcuts() {
             <div className="border-t border-border px-5 py-3 text-center text-xs text-muted-foreground">
               Press <kbd className="rounded bg-muted px-1.5 py-0.5 text-foreground">?</kbd> to toggle this menu
             </div>
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
+      </DialogContent>
+    </Dialog>
   )
 }

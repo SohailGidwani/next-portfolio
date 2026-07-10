@@ -1,30 +1,11 @@
-"use client"
-
-import { Suspense } from "react"
-import { motion } from "framer-motion"
 import { Badge } from "@/app/components/ui/badge"
-import { Github, FolderKanban, Code, Database, Globe, Zap } from "lucide-react"
-import Link from "next/link"
+import { Code, Database, Globe, Zap } from "lucide-react"
 import Image from "next/image"
 import blogsite from '@/public/images/BlogSite.jpg'
-import ProjectSkeleton from "@/app/components/ProjectSkeleton"
 import ProjectNav from "@/app/components/ProjectNav"
 import ProjectDetailStructuredData from "@/app/components/ProjectDetailStructuredData"
-import InteractiveCard from "@/app/components/ui/InteractiveCard"
-
-function SectionLabel({ n, label }: { n: string; label: string }) {
-  return (
-    <div className="mb-6">
-      <div className="mb-2 flex items-center gap-2">
-        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">{n}</span>
-        <div className="h-px w-5 bg-border" />
-      </div>
-      <h2 className="font-display text-xl font-bold uppercase tracking-tight text-foreground sm:text-2xl">
-        {label}
-      </h2>
-    </div>
-  )
-}
+import ProjectActions from "@/app/projects/components/ProjectActions"
+import ProjectSectionLabel from "@/app/projects/components/ProjectSectionLabel"
 
 export default function ScribeGlobePage() {
   const project = {
@@ -98,22 +79,16 @@ You can sign up, write posts with markdown, preview them in real time, and publi
         github={project.github}
         projectType="app"
       />
-      <Suspense fallback={<ProjectSkeleton />}>
-        <div className="min-h-screen overflow-x-clip bg-background text-foreground">
+      <div className="min-h-screen overflow-x-clip bg-background text-foreground">
           <ProjectNav />
 
           {/* Header */}
           <div className="border-b border-border bg-card/40 py-16 sm:py-20">
             <div className="container mx-auto">
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="max-w-3xl"
-              >
+              <div className="max-w-3xl">
                 <div className="mb-5 flex items-center gap-3">
                   <div className="h-px w-8 bg-accent" />
-                  <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">
+                  <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
                     Full Stack / Serverless
                   </span>
                 </div>
@@ -123,14 +98,15 @@ You can sign up, write posts with markdown, preview them in real time, and publi
                 <p className="mb-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
                   {project.description}
                 </p>
+                <ProjectActions github={project.github} className="mb-8" />
                 <div className="flex flex-wrap gap-2">
                   {project.tags.map((tag, index) => (
-                    <Badge key={index} variant="outline" className="font-mono text-[10px] uppercase tracking-[0.1em]">
+                    <Badge key={index} variant="outline" className="font-mono text-xs uppercase tracking-[0.1em]">
                       {tag}
                     </Badge>
                   ))}
                 </div>
-              </motion.div>
+              </div>
             </div>
           </div>
 
@@ -140,12 +116,8 @@ You can sign up, write posts with markdown, preview them in real time, and publi
               <div className="max-w-3xl space-y-16">
 
                 {/* 01 — Preview */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.15 }}
-                >
-                  <SectionLabel n="01" label="Preview" />
+                <section>
+                  <ProjectSectionLabel n="01" label="Preview" />
                   <div className="relative aspect-video overflow-hidden rounded border border-border">
                     <Image
                       src={project.image}
@@ -156,42 +128,30 @@ You can sign up, write posts with markdown, preview them in real time, and publi
                       priority
                     />
                   </div>
-                </motion.section>
+                </section>
 
                 {/* 02 — Why I Built It */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.25 }}
-                >
-                  <SectionLabel n="02" label="Why I Built It" />
+                <section>
+                  <ProjectSectionLabel n="02" label="Why I Built It" />
                   <p className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
                     {project.why}
                   </p>
-                </motion.section>
+                </section>
 
                 {/* 03 — How It Works */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                >
-                  <SectionLabel n="03" label="How It Works" />
+                <section>
+                  <ProjectSectionLabel n="03" label="How It Works" />
                   <p className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
                     {project.how}
                   </p>
-                </motion.section>
+                </section>
 
                 {/* 04 — Key Features */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.35 }}
-                >
-                  <SectionLabel n="04" label="Key Features" />
+                <section>
+                  <ProjectSectionLabel n="04" label="Key Features" />
                   <div className="grid gap-4 sm:grid-cols-2">
                     {project.features.map((feature, index) => (
-                      <InteractiveCard
+                      <div
                         key={index}
                         className="rounded border border-border bg-card p-5 transition-colors hover:border-accent/40"
                       >
@@ -202,29 +162,25 @@ You can sign up, write posts with markdown, preview them in real time, and publi
                           </h3>
                         </div>
                         <p className="text-sm leading-relaxed text-muted-foreground">{feature.description}</p>
-                      </InteractiveCard>
+                      </div>
                     ))}
                   </div>
-                </motion.section>
+                </section>
 
                 {/* 05 — Technical Stack */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.45 }}
-                >
-                  <SectionLabel n="05" label="Technical Stack" />
+                <section>
+                  <ProjectSectionLabel n="05" label="Technical Stack" />
                   <div className="overflow-hidden rounded border border-border bg-card">
                     <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
                       <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
-                      <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                      <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
                         implementation.notes
                       </span>
                     </div>
                     <div className="divide-y divide-border/50">
                       {project.technicalDetails.map((detail, index) => (
                         <div key={index} className="flex items-start gap-4 px-4 py-3">
-                          <span className="w-5 shrink-0 text-right font-mono text-[10px] text-accent/60">
+                          <span className="w-5 shrink-0 text-right font-mono text-xs text-accent/60">
                             {String(index + 1).padStart(2, '0')}
                           </span>
                           <span className="text-sm text-muted-foreground">{detail}</span>
@@ -232,18 +188,14 @@ You can sign up, write posts with markdown, preview them in real time, and publi
                       ))}
                     </div>
                   </div>
-                </motion.section>
+                </section>
 
                 {/* 06 — Friction & Takeaways */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.55 }}
-                >
-                  <SectionLabel n="06" label="Friction & Takeaways" />
+                <section>
+                  <ProjectSectionLabel n="06" label="Friction & Takeaways" />
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div className="rounded border border-border bg-card p-5">
-                      <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                      <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
                         Friction
                       </p>
                       <ul className="space-y-3">
@@ -256,7 +208,7 @@ You can sign up, write posts with markdown, preview them in real time, and publi
                       </ul>
                     </div>
                     <div className="rounded border border-accent/20 bg-card p-5">
-                      <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.2em] text-accent">
+                      <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-accent">
                         Takeaways
                       </p>
                       <ul className="space-y-3">
@@ -269,38 +221,12 @@ You can sign up, write posts with markdown, preview them in real time, and publi
                       </ul>
                     </div>
                   </div>
-                </motion.section>
-
-                {/* CTA */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.65 }}
-                  className="flex flex-wrap gap-3 border-t border-border pt-8"
-                >
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded bg-accent px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-white transition hover:bg-accent/90"
-                  >
-                    <Github className="h-4 w-4" />
-                    Source Code
-                  </a>
-                  <Link
-                    href="/projects"
-                    className="inline-flex items-center gap-2 rounded border border-border px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-foreground transition hover:border-foreground/40"
-                  >
-                    <FolderKanban className="h-4 w-4" />
-                    All Projects
-                  </Link>
-                </motion.div>
+                </section>
 
               </div>
             </div>
           </div>
-        </div>
-      </Suspense>
+      </div>
     </>
   )
 }

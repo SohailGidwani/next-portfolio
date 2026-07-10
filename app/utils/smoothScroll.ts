@@ -17,6 +17,11 @@ export function smoothScrollTo(
       ? target
       : target.getBoundingClientRect().top + window.scrollY - offset
 
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    window.scrollTo({ top: targetY, behavior: "auto" })
+    return
+  }
+
   const startY = window.scrollY
   const diff = targetY - startY
 
