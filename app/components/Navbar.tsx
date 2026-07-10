@@ -28,18 +28,21 @@ const navItems: NavItem[] = [
 export default function Navbar() {
   const { activeSection, setActiveSection } = usePortfolio()
   const [isOpen, setIsOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
+  const [atTop, setAtTop] = useState(true)
   const menuButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 16)
-    }
-
-    onScroll()
-    window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
+    const update = () => setAtTop(window.scrollY <= 8)
+    update()
+    window.addEventListener("scroll", update, { passive: true })
+    return () => window.removeEventListener("scroll", update)
   }, [])
+
+  // Fully transparent only before any scroll, so the hero dot grid runs
+  // unbroken behind the bar; the slightest scroll brings the glass back
+  // (also while the mobile menu is open, so there is no see-through strip
+  // above the panel).
+  const transparent = atTop && !isOpen
 
   const scrollToSection = (sectionId: string) => {
     triggerHaptic()
@@ -54,10 +57,10 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 h-[var(--nav-h)] border-b transition-[background-color,backdrop-filter] duration-300 ${
-        scrolled
-          ? "border-border bg-background/95 backdrop-blur-md"
-          : "border-transparent bg-background/85 backdrop-blur-sm"
+      className={`fixed inset-x-0 top-0 z-50 h-[var(--nav-h)] border-b transition-[background-color,backdrop-filter,border-color] duration-300 ${
+        transparent
+          ? "border-transparent bg-transparent"
+          : "border-border bg-background/95 backdrop-blur-md"
       }`}
     >
       <ReadingProgress />

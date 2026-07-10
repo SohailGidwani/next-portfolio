@@ -40,26 +40,52 @@ export default function ThemeToggle({ variant = "icon" }: ThemeToggleProps) {
     }
 
     // Circle anchored at the click point (button center on keyboard activation).
-    const rect = event.currentTarget.getBoundingClientRect()
-    const x = event.clientX || rect.left + rect.width / 2
-    const y = event.clientY || rect.top + rect.height / 2
-    const radius = Math.hypot(
-      Math.max(x, window.innerWidth - x),
-      Math.max(y, window.innerHeight - y)
-    )
+    // These are layout-viewport coordinates — only a fallback: the clip-path
+    // runs on ::view-transition pseudos, whose coordinate space is the
+    // snapshot containing block. On Android Chrome that block includes the
+    // top URL bar, so viewport coordinates land ~60px above the button.
+    const button = event.currentTarget
+    const rect = button.getBoundingClientRect()
+    const fallbackX = event.clientX || rect.left + rect.width / 2
+    const fallbackY = event.clientY || rect.top + rect.height / 2
 
     // To dark: the dark theme expands out of the button (reveal).
     // To light: the dark theme retracts back into it (cover up).
     const expanding = next === "dark"
     document.documentElement.dataset.themeVt = expanding ? "expand" : "cover"
+    // Name the clicked button so its snapshot group's transform tells us the
+    // button position in the snapshot containing block's own space.
+    button.style.viewTransitionName = "theme-toggle-anchor"
 
     const transition = doc.startViewTransition(() => {
       flushSync(() => setTheme(next))
     })
     transition.ready.then(() => {
+      const root = document.documentElement
+      let x = fallbackX
+      let y = fallbackY
+      let width = window.innerWidth
+      let height = window.innerHeight
+      try {
+        const group = getComputedStyle(root, "::view-transition-group(theme-toggle-anchor)")
+        const matrix = new DOMMatrixReadOnly(group.transform)
+        const groupWidth = parseFloat(group.width)
+        const groupHeight = parseFloat(group.height)
+        if (group.transform !== "none" && !Number.isNaN(groupWidth) && !Number.isNaN(groupHeight)) {
+          x = matrix.m41 + groupWidth / 2
+          y = matrix.m42 + groupHeight / 2
+        }
+        const snapshotBlock = getComputedStyle(root, "::view-transition")
+        width = parseFloat(snapshotBlock.width) || width
+        height = parseFloat(snapshotBlock.height) || height
+      } catch {
+        // Browsers that can't resolve the pseudo styles keep the viewport
+        // fallback, which is correct wherever both spaces share an origin.
+      }
+      const radius = Math.hypot(Math.max(x, width - x), Math.max(y, height - y))
       const small = `circle(0px at ${x}px ${y}px)`
       const full = `circle(${radius}px at ${x}px ${y}px)`
-      document.documentElement.animate(
+      root.animate(
         { clipPath: expanding ? [small, full] : [full, small] },
         {
           duration: 450,
@@ -73,6 +99,7 @@ export default function ThemeToggle({ variant = "icon" }: ThemeToggleProps) {
     })
     transition.finished.finally(() => {
       delete document.documentElement.dataset.themeVt
+      button.style.viewTransitionName = ""
     })
   }
 
