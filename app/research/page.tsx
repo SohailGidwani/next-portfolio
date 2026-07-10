@@ -9,7 +9,7 @@ const SITE = "https://sohailgidwani.app"
 export const metadata: Metadata = {
   title: "Research | Sohail Gidwani",
   description:
-    "Peer-reviewed and in-progress research by Sohail Gidwani, shown as a living lineage of papers and their extensions. Includes MEMOIR-VLM, a multimodal vision-language model for Alzheimer's disease classification and VQA.",
+    "Submitted and ongoing research by Sohail Gidwani, shown as a living lineage of papers and their extensions. Includes MEMOIR-VLM, a multimodal vision-language model for Alzheimer's disease classification and VQA.",
   keywords: [
     "Sohail Gidwani research",
     "MEMOIR-VLM",

@@ -19,7 +19,7 @@ export default function ConfusionMatrix({ title, labels, matrix, rowTotals, capt
   return (
     <figure className="my-8">
       {title ? (
-        <figcaption className="mb-4 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+        <figcaption className="mb-4 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
           {title}
         </figcaption>
       ) : null}
@@ -36,7 +36,7 @@ export default function ConfusionMatrix({ title, labels, matrix, rowTotals, capt
             {labels.map((label, i) => (
               <div
                 key={`col-${i}`}
-                className="pb-2 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground"
+                className="pb-2 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground"
               >
                 {label}
               </div>
@@ -45,7 +45,7 @@ export default function ConfusionMatrix({ title, labels, matrix, rowTotals, capt
 
             {matrix.map((row, i) => (
               <Fragment key={`row-${i}`}>
-                <div className="flex items-center pr-3 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                <div className="flex items-center pr-3 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
                   {labels[i]}
                 </div>
                 {row.map((cell, j) => {
@@ -69,14 +69,14 @@ export default function ConfusionMatrix({ title, labels, matrix, rowTotals, capt
                       >
                         {cell.count}
                       </span>
-                      <span className="mt-0.5 font-mono text-[9px] tracking-[0.1em] text-muted-foreground">
+                      <span className="mt-0.5 font-mono text-[11px] tracking-[0.1em] text-muted-foreground">
                         {cell.percent.toFixed(0)}%
                       </span>
                     </div>
                   )
                 })}
                 {rowTotals ? (
-                  <div className="flex items-center justify-center pl-3 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+                  <div className="flex items-center justify-center pl-3 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
                     {rowTotals[i]}
                   </div>
                 ) : null}

@@ -13,8 +13,8 @@ interface Panel {
 function PanelBlock({ title, subtitle, rows }: Panel) {
   return (
     <div className="rounded border border-border bg-card/40 p-4 sm:p-5">
-      <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent">{title}</p>
-      <p className="mt-0.5 font-mono text-[10px] tracking-[0.1em] text-muted-foreground/60">{subtitle}</p>
+      <p className="font-mono text-xs uppercase tracking-[0.22em] text-accent">{title}</p>
+      <p className="mt-0.5 font-mono text-xs tracking-[0.1em] text-muted-foreground/60">{subtitle}</p>
       <div className="mt-5 space-y-5">
         {rows.map((row) => {
           const delta = +(row.cot - row.noCot).toFixed(1)
@@ -22,11 +22,11 @@ function PanelBlock({ title, subtitle, rows }: Panel) {
           return (
             <div key={row.model}>
               <div className="mb-1.5 flex items-center justify-between">
-                <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-foreground">
+                <span className="font-mono text-xs uppercase tracking-[0.15em] text-foreground">
                   {row.model}
                 </span>
                 <span
-                  className={`font-mono text-[10px] font-bold tabular-nums ${
+                  className={`font-mono text-xs font-bold tabular-nums ${
                     improved ? "text-accent" : "text-muted-foreground"
                   }`}
                 >
@@ -36,7 +36,7 @@ function PanelBlock({ title, subtitle, rows }: Panel) {
               </div>
               <div className="space-y-1.5">
                 <div className="grid grid-cols-[52px_1fr_44px] items-center gap-2">
-                  <span className="font-mono text-[9px] uppercase tracking-[0.1em] text-muted-foreground/60">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-muted-foreground/60">
                     No CoT
                   </span>
                   <div className="relative h-1.5 overflow-hidden rounded-[2px] bg-border/40">
@@ -45,12 +45,12 @@ function PanelBlock({ title, subtitle, rows }: Panel) {
                       style={{ width: `${row.noCot}%` }}
                     />
                   </div>
-                  <span className="text-right font-mono text-[10px] tabular-nums text-muted-foreground">
+                  <span className="text-right font-mono text-xs tabular-nums text-muted-foreground">
                     {row.noCot}%
                   </span>
                 </div>
                 <div className="grid grid-cols-[52px_1fr_44px] items-center gap-2">
-                  <span className="font-mono text-[9px] uppercase tracking-[0.1em] text-muted-foreground/60">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-muted-foreground/60">
                     CoT
                   </span>
                   <div className="relative h-1.5 overflow-hidden rounded-[2px] bg-border/40">
@@ -60,7 +60,7 @@ function PanelBlock({ title, subtitle, rows }: Panel) {
                     />
                   </div>
                   <span
-                    className={`text-right font-mono text-[10px] font-bold tabular-nums ${
+                    className={`text-right font-mono text-xs font-bold tabular-nums ${
                       improved ? "text-accent" : "text-foreground"
                     }`}
                   >

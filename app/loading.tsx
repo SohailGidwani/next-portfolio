@@ -81,7 +81,7 @@ export default function Loading() {
           <div className="h-2 w-2 animate-bounce rounded-full bg-accent [animation-delay:-0.3s]" />
           <div className="h-2 w-2 animate-bounce rounded-full bg-accent [animation-delay:-0.15s]" />
           <div className="h-2 w-2 animate-bounce rounded-full bg-accent" />
-          <span className="ml-1 font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Loading</span>
+          <span className="ml-1 font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">Loading</span>
         </div>
       </div>
     </div>

@@ -16,9 +16,9 @@ function BarChart({ title, subtitle, bars, valueFormat, max = 1 }: ChartPanel) {
   const format = valueFormat ?? ((v: number) => v.toFixed(3))
   return (
     <div className="rounded border border-border bg-card/40 p-4 sm:p-5">
-      <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent">{title}</p>
+      <p className="font-mono text-xs uppercase tracking-[0.22em] text-accent">{title}</p>
       {subtitle ? (
-        <p className="mt-0.5 font-mono text-[10px] tracking-[0.1em] text-muted-foreground/60">
+        <p className="mt-0.5 font-mono text-xs tracking-[0.1em] text-muted-foreground/60">
           {subtitle}
         </p>
       ) : null}
@@ -28,7 +28,7 @@ function BarChart({ title, subtitle, bars, valueFormat, max = 1 }: ChartPanel) {
           return (
             <div key={bar.label} className="grid grid-cols-[140px_1fr_52px] items-center gap-3">
               <span
-                className={`truncate font-mono text-[10px] uppercase tracking-[0.12em] ${
+                className={`truncate font-mono text-xs uppercase tracking-[0.12em] ${
                   bar.highlight ? "text-foreground" : "text-muted-foreground"
                 }`}
               >

@@ -15,7 +15,7 @@ function SectionLabel({ n, label, id }: { n: string; label: string; id?: string 
   return (
     <div id={id} className="mb-6 scroll-mt-24">
       <div className="mb-2 flex items-center gap-2">
-        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">{n}</span>
+        <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">{n}</span>
         <div className="h-px w-5 bg-border" />
       </div>
       <h2 className="font-display text-xl font-bold uppercase tracking-tight text-foreground sm:text-2xl">
@@ -45,7 +45,7 @@ function Stat({ value, label, primary }: { value: string; label: string; primary
   return (
     <div className={`border-l-2 ${primary ? "border-accent" : "border-border"} pl-4`}>
       <p className="font-mono text-2xl font-bold text-foreground">{value}</p>
-      <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">{label}</p>
+      <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">{label}</p>
     </div>
   )
 }
@@ -53,7 +53,7 @@ function Stat({ value, label, primary }: { value: string; label: string; primary
 function CodeRow({ n, text }: { n: number; text: string }) {
   return (
     <div className="flex items-start gap-4 px-4 py-3">
-      <span className="w-5 shrink-0 text-right font-mono text-[10px] text-accent/60">
+      <span className="w-5 shrink-0 text-right font-mono text-xs text-accent/60">
         {String(n).padStart(2, "0")}
       </span>
       <span className="font-mono text-xs text-muted-foreground">{text}</span>
@@ -66,7 +66,7 @@ function CodeBlock({ title, rows }: { title: string; rows: string[] }) {
     <div className="overflow-hidden rounded border border-border bg-card">
       <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
         <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
-        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{title}</span>
+        <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">{title}</span>
       </div>
       <div className="divide-y divide-border/50">
         {rows.map((r, i) => <CodeRow key={i} n={i + 1} text={r} />)}
@@ -88,7 +88,7 @@ function SimpleTable({
     <div className="overflow-x-auto rounded border border-border bg-card/40">
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-border/70 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+          <tr className="border-b border-border/70 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
             {head.map((h) => (
               <th key={h} className="px-4 py-3 text-left font-normal">{h}</th>
             ))}
@@ -180,7 +180,7 @@ export default function PortageDeepDivePage() {
             <div className="max-w-3xl">
               <div className="mb-5 flex items-center gap-3">
                 <div className="h-px w-8 bg-accent" />
-                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">
+                <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
                   Project / Technical Deep Dive
                 </span>
               </div>
@@ -204,7 +204,7 @@ export default function PortageDeepDivePage() {
                 <span className="font-mono text-foreground">metrics</span> tables or documented DoD scripts.
               </p>
 
-              <div className="flex flex-wrap gap-2 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+              <div className="flex flex-wrap gap-2 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
                 {["FastAPI", "LangGraph", "Postgres 16", "pgvector", "LiteLLM", "Docker / gVisor", "Next.js", "FastMCP", "SQLAlchemy async", "Alembic", "pytest"].map((t) => (
                   <span key={t} className="rounded-[3px] border border-border bg-background/60 px-2 py-0.5">{t}</span>
                 ))}
@@ -238,7 +238,7 @@ export default function PortageDeepDivePage() {
                   ].map((c) => (
                     <div key={c.label} className="rounded border border-border bg-card p-4">
                       <div className="mb-2 flex items-center gap-2 text-accent">{c.icon}
-                        <span className="font-mono text-[10px] uppercase tracking-[0.18em]">{c.label}</span>
+                        <span className="font-mono text-xs uppercase tracking-[0.18em]">{c.label}</span>
                       </div>
                       <p className="text-sm text-muted-foreground">{c.sub}</p>
                     </div>
@@ -287,7 +287,7 @@ export default function PortageDeepDivePage() {
                   />
                 </div>
                 <div className="mt-4 rounded border border-accent/20 bg-card p-4">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">Honest green requires all three</p>
+                  <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">Honest green requires all three</p>
                   <p className="mt-2 text-sm leading-relaxed text-foreground">
                     (1) the full test suite passes — not just the blast-radius subset used during iteration;
                     (2) every planned task completed; (3) zero tasks rolled back or skipped by recovery. A run
@@ -312,7 +312,7 @@ export default function PortageDeepDivePage() {
                   <div className="rounded border border-border bg-card p-5">
                     <div className="mb-2 flex items-center gap-2 text-accent">
                       <Database className="h-4 w-4" />
-                      <p className="font-mono text-[10px] uppercase tracking-[0.22em]">3.1: Queue + lease</p>
+                      <p className="font-mono text-xs uppercase tracking-[0.22em]">3.1: Queue + lease</p>
                     </div>
                     <p className="text-sm leading-relaxed text-muted-foreground">
                       The claim is a single atomic SQL pattern:{" "}
@@ -327,7 +327,7 @@ export default function PortageDeepDivePage() {
                   <div className="rounded border border-border bg-card p-5">
                     <div className="mb-2 flex items-center gap-2 text-accent">
                       <Zap className="h-4 w-4" />
-                      <p className="font-mono text-[10px] uppercase tracking-[0.22em]">3.2: Content-hash idempotency</p>
+                      <p className="font-mono text-xs uppercase tracking-[0.22em]">3.2: Content-hash idempotency</p>
                     </div>
                     <p className="text-sm leading-relaxed text-muted-foreground">
                       Each Execute step is keyed by job + task + sha256 of the written file. Resume after a
@@ -339,7 +339,7 @@ export default function PortageDeepDivePage() {
                 <div className="mt-6 overflow-hidden rounded border border-border bg-card">
                   <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
                     <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
-                    <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                    <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
                       kill-and-resume demo — scripts/demo_kill_resume.sh
                     </span>
                   </div>
@@ -378,7 +378,7 @@ export default function PortageDeepDivePage() {
                   <BlastRadius />
                 </DiagramLightbox>
                 <div className="mt-6">
-                  <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                  <p className="mb-3 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
                     Anti-gaming predicates (learned the hard way)
                   </p>
                   <SimpleTable
@@ -391,7 +391,7 @@ export default function PortageDeepDivePage() {
                   />
                 </div>
                 <div className="mt-4 rounded border border-accent/20 bg-card p-4">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">MCP reuse</p>
+                  <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">MCP reuse</p>
                   <p className="mt-2 text-sm leading-relaxed text-foreground">
                     <span className="font-mono">verify_patch_in_sandbox</span> is the same sandbox contract,
                     exposed for co-pilot use: copy → apply diff → run → return structured result, never
@@ -426,7 +426,7 @@ export default function PortageDeepDivePage() {
                 />
                 <div className="mt-4 grid gap-4 sm:grid-cols-2">
                   <div className="rounded border border-border bg-card p-5">
-                    <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Self-review retries</p>
+                    <p className="mb-2 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">Self-review retries</p>
                     <p className="text-sm leading-relaxed text-muted-foreground">
                       Rolled-back attempts keep their failing diff, so retries see it (“debug your own code”)
                       instead of regenerating blind. Measured on flaskr: the app factory went from
@@ -434,7 +434,7 @@ export default function PortageDeepDivePage() {
                     </p>
                   </div>
                   <div className="rounded border border-accent/20 bg-card p-5">
-                    <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-accent">Integrity rule</p>
+                    <p className="mb-2 font-mono text-xs uppercase tracking-[0.2em] text-accent">Integrity rule</p>
                     <p className="text-sm leading-relaxed text-muted-foreground">
                       Skip-and-continue can make the suite green by restoring originals. That must never score
                       as a successful migration: green = suite green ∧ every planned task done ∧ none skipped.
@@ -522,7 +522,7 @@ export default function PortageDeepDivePage() {
                   ]}
                 />
                 <div className="mt-6">
-                  <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                  <p className="mb-3 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
                     What these numbers do NOT show
                   </p>
                   <SimpleTable
@@ -694,7 +694,7 @@ export default function PortageDeepDivePage() {
                   ]}
                 />
                 <div className="mt-6">
-                  <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                  <p className="mb-3 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
                     Domain tables (Alembic)
                   </p>
                   <SimpleTable
@@ -738,7 +738,7 @@ export default function PortageDeepDivePage() {
 
               {/* ─── Footer CTA ─── */}
               <section className="rounded border border-border bg-card/40 p-6 sm:p-8">
-                <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent">Source</p>
+                <p className="font-mono text-xs uppercase tracking-[0.22em] text-accent">Source</p>
                 <h3 className="mt-2 font-display text-xl text-foreground sm:text-2xl">
                   Fully open-source · Docker Compose stack
                 </h3>

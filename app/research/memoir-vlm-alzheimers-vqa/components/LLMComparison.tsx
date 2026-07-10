@@ -38,7 +38,7 @@ export default function LLMComparison({ rows, caption }: Props) {
                   {row.metric}
                 </p>
                 {row.sublabel ? (
-                  <p className="mt-0.5 font-mono text-[9px] tracking-[0.1em] text-muted-foreground/70">
+                  <p className="mt-0.5 font-mono text-[11px] tracking-[0.1em] text-muted-foreground/70">
                     {row.sublabel}
                   </p>
                 ) : null}
@@ -53,7 +53,7 @@ export default function LLMComparison({ rows, caption }: Props) {
                         className="grid grid-cols-[90px_1fr_44px] items-center gap-2"
                       >
                         <span
-                          className={`truncate font-mono text-[10px] uppercase tracking-[0.1em] ${
+                          className={`truncate font-mono text-xs uppercase tracking-[0.1em] ${
                             highlight ? "text-foreground" : "text-muted-foreground"
                           }`}
                         >
@@ -66,7 +66,7 @@ export default function LLMComparison({ rows, caption }: Props) {
                           />
                         </div>
                         <span
-                          className={`text-right font-mono text-[10px] tabular-nums ${
+                          className={`text-right font-mono text-xs tabular-nums ${
                             highlight ? "font-bold text-foreground" : "text-muted-foreground"
                           }`}
                         >
@@ -91,7 +91,7 @@ export default function LLMComparison({ rows, caption }: Props) {
                 <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground">
                   {m.label}
                 </p>
-                <p className="mt-0.5 font-mono text-[9px] uppercase tracking-[0.15em] text-muted-foreground">
+                <p className="mt-0.5 font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
                   {m.tag}
                 </p>
               </div>
@@ -113,7 +113,7 @@ export default function LLMComparison({ rows, caption }: Props) {
                       {row.metric}
                     </p>
                     {row.sublabel ? (
-                      <p className="mt-0.5 font-mono text-[9px] tracking-[0.1em] text-muted-foreground/70">
+                      <p className="mt-0.5 font-mono text-[11px] tracking-[0.1em] text-muted-foreground/70">
                         {row.sublabel}
                       </p>
                     ) : null}

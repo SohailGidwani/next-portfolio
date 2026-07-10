@@ -93,7 +93,7 @@ export default function ThemeToggle({ variant = "icon" }: ThemeToggleProps) {
         type="button"
         onClick={toggleTheme}
         whileTap={{ scale: 0.98 }}
-        className="inline-flex items-center gap-2 rounded border border-border bg-transparent px-4 py-2 font-body text-[10px] font-semibold uppercase tracking-[0.08em] text-foreground transition hover:border-foreground/40"
+        className="inline-flex items-center gap-2 rounded border border-border bg-transparent px-4 py-2 font-body text-xs font-semibold uppercase tracking-[0.08em] text-foreground transition hover:border-foreground/40"
         aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       >
         {isDark ? (

@@ -1,11 +1,5 @@
-"use client"
-
-import { Suspense } from "react"
-import { motion } from "framer-motion"
 import { Badge } from "@/app/components/ui/badge"
 import {
-  Github,
-  FolderKanban,
   Brain,
   Database,
   Globe,
@@ -15,41 +9,26 @@ import {
   Server,
   ListTree,
 } from "lucide-react"
-import Link from "next/link"
 import Image from "next/image"
 import techupdates from '@/public/images/Tech Updates.png'
-import ProjectSkeleton from "@/app/components/ProjectSkeleton"
 import ProjectNav from "@/app/components/ProjectNav"
 import ProjectDetailStructuredData from "@/app/components/ProjectDetailStructuredData"
-import InteractiveCard from "@/app/components/ui/InteractiveCard"
-
-function SectionLabel({ n, label }: { n: string; label: string }) {
-  return (
-    <div className="mb-6">
-      <div className="mb-2 flex items-center gap-2">
-        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">{n}</span>
-        <div className="h-px w-5 bg-border" />
-      </div>
-      <h2 className="font-display text-xl font-bold uppercase tracking-tight text-foreground sm:text-2xl">
-        {label}
-      </h2>
-    </div>
-  )
-}
+import ProjectActions from "@/app/projects/components/ProjectActions"
+import ProjectSectionLabel from "@/app/projects/components/ProjectSectionLabel"
 
 function CodeBlock({ title, rows }: { title: string; rows: string[] }) {
   return (
     <div className="overflow-hidden rounded border border-border bg-card">
       <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
         <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
-        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+        <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
           {title}
         </span>
       </div>
       <div className="divide-y divide-border/50">
         {rows.map((r, i) => (
           <div key={i} className="flex items-start gap-4 px-4 py-3">
-            <span className="w-5 shrink-0 text-right font-mono text-[10px] text-accent/60">
+            <span className="w-5 shrink-0 text-right font-mono text-xs text-accent/60">
               {String(i + 1).padStart(2, "0")}
             </span>
             <span className="font-mono text-xs text-muted-foreground">{r}</span>
@@ -205,22 +184,16 @@ export default function TechUpdatesPage() {
         github={project.github}
         projectType="app"
       />
-      <Suspense fallback={<ProjectSkeleton />}>
-        <div className="min-h-screen overflow-x-clip bg-background text-foreground">
+      <div className="min-h-screen overflow-x-clip bg-background text-foreground">
           <ProjectNav />
 
           {/* Header */}
           <div className="border-b border-border bg-card/40 py-16 sm:py-20">
             <div className="container mx-auto">
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="max-w-3xl"
-              >
+              <div className="max-w-3xl">
                 <div className="mb-5 flex items-center gap-3">
                   <div className="h-px w-8 bg-accent" />
-                  <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">
+                  <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
                     Full-stack / AI News Aggregator
                   </span>
                 </div>
@@ -230,14 +203,15 @@ export default function TechUpdatesPage() {
                 <p className="mb-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
                   {project.description}
                 </p>
+                <ProjectActions github={project.github} className="mb-8" />
                 <div className="flex flex-wrap gap-2">
                   {project.tags.map((tag, index) => (
-                    <Badge key={index} variant="outline" className="font-mono text-[10px] uppercase tracking-[0.1em]">
+                    <Badge key={index} variant="outline" className="font-mono text-xs uppercase tracking-[0.1em]">
                       {tag}
                     </Badge>
                   ))}
                 </div>
-              </motion.div>
+              </div>
             </div>
           </div>
 
@@ -247,12 +221,8 @@ export default function TechUpdatesPage() {
               <div className="max-w-3xl space-y-16">
 
                 {/* 01 — Preview */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1 }}
-                >
-                  <SectionLabel n="01" label="Preview" />
+                <section>
+                  <ProjectSectionLabel n="01" label="Preview" />
                   <div className="relative aspect-video overflow-hidden rounded border border-border">
                     <Image
                       src={project.image}
@@ -263,45 +233,33 @@ export default function TechUpdatesPage() {
                       priority
                     />
                   </div>
-                </motion.section>
+                </section>
 
                 {/* 02 — Overview */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.15 }}
-                >
-                  <SectionLabel n="02" label="Overview" />
+                <section>
+                  <ProjectSectionLabel n="02" label="Overview" />
                   <p className="text-base leading-relaxed text-muted-foreground">
                     Tech Updates is a personal tech news aggregator. The pipeline pulls articles from a few sources I actually read, tags them with categories like AI/ML, startups, and web dev, and indexes them in a vector database so I can search the feed semantically. The React + Vite frontend displays the articles as tiles with pagination, dark mode, and a modal for details.
                   </p>
                   <p className="mt-4 text-base leading-relaxed text-muted-foreground">
                     It is not a SaaS product. It is something I built so I would stop wasting twenty minutes every morning bouncing between tabs, and so I had a real reason to put a vector database and an LLM into the same app.
                   </p>
-                </motion.section>
+                </section>
 
                 {/* 03 — Why I Built It */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                >
-                  <SectionLabel n="03" label="Why I Built It" />
+                <section>
+                  <ProjectSectionLabel n="03" label="Why I Built It" />
                   <p className="text-base leading-relaxed text-muted-foreground">
                     The problem was small but real. I was reading tech news from four or five sources, and there was no single place that pulled them together in a way that respected what I cared about. Most aggregators are either too broad (RSS readers that drown you) or too narrow (one source, one perspective).
                   </p>
                   <p className="mt-4 text-base leading-relaxed text-muted-foreground">
                     I also wanted an excuse to play with vector search and LLM categorization. I had read about Qdrant and SentenceTransformers and wanted to wire them together myself instead of nodding along to blog posts. So this project did two things at once: solve my own annoyance, and let me build something end-to-end across scraping, an LLM pipeline, a vector DB, and a frontend.
                   </p>
-                </motion.section>
+                </section>
 
                 {/* 04 — How It Works */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.25 }}
-                >
-                  <SectionLabel n="04" label="How It Works" />
+                <section>
+                  <ProjectSectionLabel n="04" label="How It Works" />
                   <p className="mb-5 text-base leading-relaxed text-muted-foreground">
                     The flow is straightforward, with each step doing one thing:
                   </p>
@@ -315,7 +273,7 @@ export default function TechUpdatesPage() {
                       "The React frontend fetches categorized_data.json, renders articles as tiles, and shows details in a modal, six per page.",
                     ].map((step, index) => (
                       <li key={index} className="flex items-start gap-3">
-                        <span className="mt-0.5 w-6 shrink-0 font-mono text-[10px] uppercase tracking-[0.15em] text-accent">
+                        <span className="mt-0.5 w-6 shrink-0 font-mono text-xs uppercase tracking-[0.15em] text-accent">
                           {String(index + 1).padStart(2, "0")}
                         </span>
                         <span>{step}</span>
@@ -325,15 +283,11 @@ export default function TechUpdatesPage() {
                   <p className="mt-5 text-base leading-relaxed text-muted-foreground">
                     A search request goes to /api/search, which embeds the query, asks Qdrant for the nearest vectors, and returns the matching articles with a similarity score.
                   </p>
-                </motion.section>
+                </section>
 
                 {/* 05 — System Architecture */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                >
-                  <SectionLabel n="05" label="System Architecture" />
+                <section>
+                  <ProjectSectionLabel n="05" label="System Architecture" />
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                     The system has five clear layers. Each one has a single job, and the contract between them is plain JSON.
                   </p>
@@ -371,7 +325,7 @@ export default function TechUpdatesPage() {
                       >
                         <div className="mb-2 flex items-center gap-2 text-accent">
                           {layer.icon}
-                          <span className="font-mono text-[10px] uppercase tracking-[0.18em]">
+                          <span className="font-mono text-xs uppercase tracking-[0.18em]">
                             {layer.label}
                           </span>
                         </div>
@@ -389,15 +343,11 @@ export default function TechUpdatesPage() {
                       ]}
                     />
                   </div>
-                </motion.section>
+                </section>
 
                 {/* 06 — Backend Implementation */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.35 }}
-                >
-                  <SectionLabel n="06" label="Backend Implementation" />
+                <section>
+                  <ProjectSectionLabel n="06" label="Backend Implementation" />
                   <p className="text-base leading-relaxed text-muted-foreground">
                     The backend is a Flask app organized around blueprints and utility modules. The main app file registers the API blueprint under /api, initializes Flask-APScheduler so scraping can run on a schedule, and wires up the routes. Qdrant credentials and the Azure OpenAI key load from a .env file through python-dotenv, which kept secrets out of source control from day one and meant I could publish the repo without a cleanup pass.
                   </p>
@@ -424,15 +374,11 @@ export default function TechUpdatesPage() {
                       </span>
                     </li>
                   </ul>
-                </motion.section>
+                </section>
 
                 {/* 07 — Semantic Search with Qdrant */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.4 }}
-                >
-                  <SectionLabel n="07" label="Semantic Search with Qdrant" />
+                <section>
+                  <ProjectSectionLabel n="07" label="Semantic Search with Qdrant" />
                   <p className="text-base leading-relaxed text-muted-foreground">
                     Semantic search is what makes the feed feel different from a regular news reader. Instead of matching exact words, it compares the meaning of the query to the meaning of every article in the index.
                   </p>
@@ -451,15 +397,11 @@ export default function TechUpdatesPage() {
                   <p className="mt-5 text-base leading-relaxed text-muted-foreground">
                     The difference from keyword search shows up immediately. A query like &quot;open source models that run on a laptop&quot; can surface an article titled &quot;Mistral 7B on consumer hardware.&quot; Keyword search would miss that. Semantic search does not, because the embeddings cluster on meaning rather than overlapping words.
                   </p>
-                </motion.section>
+                </section>
 
                 {/* 08 — Frontend Implementation */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.45 }}
-                >
-                  <SectionLabel n="08" label="Frontend Implementation" />
+                <section>
+                  <ProjectSectionLabel n="08" label="Frontend Implementation" />
                   <p className="text-base leading-relaxed text-muted-foreground">
                     The frontend is a React + Vite app written in TypeScript. It defines a small <span className="font-mono text-foreground">Article</span> interface with the same fields the backend produces: <span className="font-mono text-foreground">Title</span>, <span className="font-mono text-foreground">Details</span>, <span className="font-mono text-foreground">URL</span>, <span className="font-mono text-foreground">Source</span>, <span className="font-mono text-foreground">Category</span>.
                   </p>
@@ -480,18 +422,14 @@ export default function TechUpdatesPage() {
                       </li>
                     ))}
                   </ul>
-                </motion.section>
+                </section>
 
                 {/* 09 — Key Features */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.5 }}
-                >
-                  <SectionLabel n="09" label="Key Features" />
+                <section>
+                  <ProjectSectionLabel n="09" label="Key Features" />
                   <div className="grid gap-4 sm:grid-cols-2">
                     {project.features.map((feature, index) => (
-                      <InteractiveCard
+                      <div
                         key={index}
                         className="rounded border border-border bg-card p-5 transition-colors hover:border-accent/40"
                       >
@@ -502,29 +440,25 @@ export default function TechUpdatesPage() {
                           </h3>
                         </div>
                         <p className="text-sm leading-relaxed text-muted-foreground">{feature.description}</p>
-                      </InteractiveCard>
+                      </div>
                     ))}
                   </div>
-                </motion.section>
+                </section>
 
                 {/* 10 — Technical Stack */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.55 }}
-                >
-                  <SectionLabel n="10" label="Technical Stack" />
+                <section>
+                  <ProjectSectionLabel n="10" label="Technical Stack" />
                   <div className="overflow-hidden rounded border border-border bg-card">
                     <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
                       <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
-                      <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                      <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
                         implementation.notes
                       </span>
                     </div>
                     <div className="divide-y divide-border/50">
                       {project.technicalDetails.map((detail, index) => (
                         <div key={index} className="flex items-start gap-4 px-4 py-3">
-                          <span className="w-5 shrink-0 text-right font-mono text-[10px] text-accent/60">
+                          <span className="w-5 shrink-0 text-right font-mono text-xs text-accent/60">
                             {String(index + 1).padStart(2, '0')}
                           </span>
                           <span className="text-sm text-muted-foreground">{detail}</span>
@@ -532,40 +466,32 @@ export default function TechUpdatesPage() {
                       ))}
                     </div>
                   </div>
-                </motion.section>
+                </section>
 
                 {/* 11 — Key Decisions */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.6 }}
-                >
-                  <SectionLabel n="11" label="Key Decisions" />
+                <section>
+                  <ProjectSectionLabel n="11" label="Key Decisions" />
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                     A few choices I want to defend, because they are the ones a reviewer would push on first:
                   </p>
                   <div className="grid gap-4 sm:grid-cols-2">
                     {project.decisions.map((d, i) => (
                       <div key={i} className="rounded border border-border bg-card p-5">
-                        <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.18em] text-accent">
+                        <p className="mb-2 font-mono text-xs uppercase tracking-[0.18em] text-accent">
                           {d.title}
                         </p>
                         <p className="text-sm leading-relaxed text-muted-foreground">{d.description}</p>
                       </div>
                     ))}
                   </div>
-                </motion.section>
+                </section>
 
                 {/* 12 — Challenges & Takeaways */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.65 }}
-                >
-                  <SectionLabel n="12" label="Challenges & Takeaways" />
+                <section>
+                  <ProjectSectionLabel n="12" label="Challenges & Takeaways" />
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div className="rounded border border-border bg-card p-5">
-                      <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                      <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
                         Challenges
                       </p>
                       <ul className="space-y-3">
@@ -578,7 +504,7 @@ export default function TechUpdatesPage() {
                       </ul>
                     </div>
                     <div className="rounded border border-accent/20 bg-card p-5">
-                      <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.2em] text-accent">
+                      <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-accent">
                         What I Learned
                       </p>
                       <ul className="space-y-3">
@@ -591,15 +517,11 @@ export default function TechUpdatesPage() {
                       </ul>
                     </div>
                   </div>
-                </motion.section>
+                </section>
 
                 {/* 13 — Future Improvements */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.7 }}
-                >
-                  <SectionLabel n="13" label="Future Improvements" />
+                <section>
+                  <ProjectSectionLabel n="13" label="Future Improvements" />
                   <p className="mb-5 text-base leading-relaxed text-muted-foreground">
                     Things I would do if I picked this up again, roughly in order of how much I would learn from each:
                   </p>
@@ -611,38 +533,12 @@ export default function TechUpdatesPage() {
                       </li>
                     ))}
                   </ul>
-                </motion.section>
-
-                {/* CTA */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.75 }}
-                  className="flex flex-wrap gap-3 border-t border-border pt-8"
-                >
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded bg-accent px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-white transition hover:bg-accent/90"
-                  >
-                    <Github className="h-4 w-4" />
-                    Source Code
-                  </a>
-                  <Link
-                    href="/projects"
-                    className="inline-flex items-center gap-2 rounded border border-border px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-foreground transition hover:border-foreground/40"
-                  >
-                    <FolderKanban className="h-4 w-4" />
-                    All Projects
-                  </Link>
-                </motion.div>
+                </section>
 
               </div>
             </div>
           </div>
-        </div>
-      </Suspense>
+      </div>
     </>
   )
 }

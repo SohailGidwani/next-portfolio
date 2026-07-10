@@ -22,7 +22,7 @@ function StatusBadge({ status }: { status: ResearchEntry["status"] }) {
   const meta = STATUS_META[status]
   return (
     <span
-      className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[9px] font-semibold uppercase tracking-[0.18em] ${meta.badge}`}
+      className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] ${meta.badge}`}
     >
       {meta.pulse ? (
         <span className="relative flex h-1.5 w-1.5">
@@ -49,7 +49,7 @@ function ResearchCard({ entry }: { entry: ResearchEntry }) {
     >
       {/* Type + status */}
       <div className="flex items-start justify-between gap-3">
-        <span className="inline-flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-accent">
+        <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-[0.22em] text-accent">
           {isExtension ? (
             <>
               <GitBranch className="h-3 w-3" />
@@ -67,7 +67,7 @@ function ResearchCard({ entry }: { entry: ResearchEntry }) {
 
       {/* Extends hint */}
       {isExtension ? (
-        <p className="mt-3 inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground/70">
+        <p className="mt-3 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground/70">
           <CornerDownRight className="h-3 w-3" />
           Extends MEMOIR-VLM
         </p>
@@ -98,7 +98,7 @@ function ResearchCard({ entry }: { entry: ResearchEntry }) {
               <p className="font-mono text-lg font-bold leading-none text-foreground">
                 {m.value}
               </p>
-              <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.15em] text-muted-foreground">
+              <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
                 {m.label}
               </p>
             </div>
@@ -111,7 +111,7 @@ function ResearchCard({ entry }: { entry: ResearchEntry }) {
         {entry.tags.map((t) => (
           <span
             key={t}
-            className="rounded-[3px] border border-border bg-background/60 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground"
+            className="rounded-[3px] border border-border bg-background/60 px-2 py-0.5 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground"
           >
             {t}
           </span>
@@ -120,16 +120,16 @@ function ResearchCard({ entry }: { entry: ResearchEntry }) {
 
       {/* Footer */}
       <div className="mt-6 flex items-center justify-between gap-3 border-t border-border/60 pt-4">
-        <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground/70">
+        <span className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground/70">
           {entry.venue} · {entry.year}
         </span>
         {entry.href ? (
-          <span className="inline-flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground transition group-hover:text-accent">
+          <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground transition group-hover:text-accent">
             Read
             <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </span>
         ) : (
-          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground/50">
+          <span className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground/50">
             Detail coming soon
           </span>
         )}
@@ -252,7 +252,7 @@ export default function ResearchHub() {
           >
             <div className="mb-5 flex items-center gap-3">
               <div className="h-px w-8 bg-accent" />
-              <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">
+              <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
                 Research
               </span>
             </div>
@@ -260,7 +260,7 @@ export default function ResearchHub() {
               Research &amp; ongoing work
             </h1>
             <p className="max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Peer-reviewed and in-progress research, shown as a living lineage:
+              Submitted and ongoing research, shown as a living lineage:
               each paper branches into the extensions and follow-up work it makes
               possible. Follow a node to read the full write-up.
             </p>
@@ -279,14 +279,14 @@ export default function ResearchHub() {
 
           {/* Legend */}
           <div className="mx-auto mt-14 flex max-w-3xl flex-wrap items-center gap-x-6 gap-y-3 border-t border-border/60 pt-6">
-            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground/60">
+            <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground/60">
               Legend
             </span>
-            <span className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+            <span className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
               <span className="h-3 w-3 rounded-full bg-accent" />
               Paper
             </span>
-            <span className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+            <span className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
               <span className="h-2.5 w-2.5 rounded-full border-2 border-accent bg-background" />
               Extension
             </span>

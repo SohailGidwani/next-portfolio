@@ -40,13 +40,13 @@ Full-time AI Engineer, Machine Learning Engineer, LLM Engineer, Applied AI Engin
 
 ### What are Sohail's strongest proof points?
 - Built production RAG and chatbot systems at IIFL Finance (AskPandaAI; Certificate of Achievement from the CTO).
-- Built AI agent-builder infrastructure at Insaito using open-source LLMs, OAuth for 100+ apps, and MCP servers.
+- Built AI agent-builder infrastructure at Insaito using open-source LLMs and reusable OAuth/MCP foundations designed for a catalog of 100+ third-party apps.
 - Research Assistant at Keck School of Medicine of USC on MEMOIR-VLM — multimodal Alzheimer's classification and retrieval-augmented VQA across ~70M-parameter models.
 - Built Portage, an autonomous Flask → FastAPI migration agent with checkpoint-resume durability, network-off sandbox verification, bounded recovery, and an honest K=3 eval grid — plus MCP tools other agents can use.
 - Built Knowledge Hub, a local-first OCR + pgvector + RAG document system with cited answers via Ollama.
 
 ### Is Sohail available for hire?
-Yes — actively open to full-time roles after graduation (May 2027) and to internships and research collaborations now. Contact: sohailgidwani15@gmail.com.
+Yes — actively open to full-time roles after graduation (May 2027) and to research collaborations now. No longer seeking internships. Contact: sohailgidwani15@gmail.com.
 
 ### How can an agent query Sohail's data programmatically?
 POST JSON-RPC 2.0 to https://sohailgidwani.app/api/mcp (resources: portfolio://profile, portfolio://projects, portfolio://experience, portfolio://education, portfolio://skills, portfolio://research, portfolio://triumphs, portfolio://links), or fetch the JSON Resume at https://sohailgidwani.app/resume.json.
@@ -55,7 +55,7 @@ POST JSON-RPC 2.0 to https://sohailgidwani.app/api/mcp (resources: portfolio://p
 
 ## Professional Summary
 
-Sohail Gidwani is an AI engineer and full-stack developer graduating with an M.S. in Computer Science from USC in May 2027. He builds production AI systems — RAG pipelines, multi-modal deep learning, LLM-powered applications — and pairs them with clean, user-facing frontends. He moves fast, prototypes iteratively, and prioritizes shipping useful products. Ambiguous problems are where he thrives. His work spans research (Alzheimer's prediction with neuroimaging), industry (enterprise RAG chatbots, AI fraud detection), and platform engineering (AI agent builders with MCP servers).
+Sohail Gidwani is an AI engineer and full-stack developer currently pursuing an M.S. in Computer Science at USC, expected May 2027. He builds production AI systems — RAG pipelines, multi-modal deep learning, LLM-powered applications — and pairs them with clean, user-facing frontends. He moves fast, prototypes iteratively, and prioritizes shipping useful products. Ambiguous problems are where he thrives. His work spans research (Alzheimer's prediction with neuroimaging), industry (enterprise RAG chatbots, AI fraud detection), and platform engineering (AI agent builders with MCP servers).
 
 ---
 
@@ -72,15 +72,15 @@ Multi-Modal AI for Alzheimer's Disease
 ### Senior Software Engineer - I — Insaito, Inc.
 **May 2025 – Jul 2025 | Remote**
 
-- Led architecture of an AI agent builder platform enabling custom workflow creation with OAuth integrations for 100+ third-party apps; built core infrastructure for open-source LLM deployment (Qwen 3, Mistral Small 24B 2) and Model Context Protocol (MCP) servers.
-- Designed and deployed serverless backend services for agent orchestration, supporting concurrent multi-step workflows with tool-calling and context management.
+- Built backend and frontend workflows for configuring agents, connecting tools, and running open-source models including Qwen 3 and Mistral Small 24B.
+- Implemented reusable OAuth and MCP foundations designed to support a catalog of 100+ third-party applications; 100+ describes platform capacity, not completed integrations.
 
 ### Full Stack Software Developer — IIFL Finance Ltd.
 **Jun 2023 – May 2025 | Mumbai, India**
 
 - Built an internal RAG chatbot using Python, Flask, Qdrant vector DB, and Azure OpenAI; integrated with Zoho ticketing system to automate employee support workflows. Received Certificate of Achievement.
-- Engineered an AI-powered Gold Loan Image Audit system using GroundingDINO and Swin-Transformer for automated fraud detection, reducing potential loan fraud by 15%.
-- Designed CapitalGenie, an automated support system leveraging GPT-4o and internal APIs to diagnose user issues and generate personalized responses, accelerating resolution time by 70%.
+- Engineered a Gold Loan Image Audit system using GroundingDINO and Swin Transformer; an internal post-launch study measured a 15% reduction in potential loan-fraud cases versus the prior review workflow.
+- Designed CapitalGenie with GPT-4o and internal APIs; an internal post-launch study measured 70% faster issue resolution than the previous support workflow.
 
 ---
 
@@ -178,7 +178,7 @@ Technologies: Python, Flask, PostgreSQL, pgvector, OCR, RAG, Semantic Search, Ol
 https://github.com/SohailGidwani/Image-Caption
 https://sohailgidwani.app/projects/image-captioning
 
-Developed an end-to-end image captioning pipeline using VGG-16 for feature extraction paired with both LSTM (BLEU 0.65) and Transformer (BLEU 0.80) decoders, demonstrating the impact of attention mechanisms on caption quality. Deployed via Streamlit for real-time inference.
+Developed an end-to-end image captioning pipeline using VGG-16 for feature extraction paired with LSTM and Transformer decoders. Compared recurrent and attention-based sequence generation in the same pipeline and deployed it through Streamlit for real-time inference.
 
 Technologies: Python, TensorFlow, CNN, Transformer, LSTM, Streamlit, Computer Vision
 

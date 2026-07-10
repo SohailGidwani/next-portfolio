@@ -1,42 +1,35 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
-import { AnimatePresence, motion } from "framer-motion"
-import { Menu, Sparkles, X } from "lucide-react"
+import { FileText, Menu, X } from "lucide-react"
 import ThemeToggle from "./ThemeToggle"
 import ReadingProgress from "./ReadingProgress"
 import { triggerHaptic } from "./ui/haptics"
 import { usePortfolio } from "./PortfolioProvider"
 import { smoothScrollToId, smoothScrollToTop } from "@/app/utils/smoothScroll"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "./ui/dialog"
 
 type NavItem = { label: string; id: string; href?: string }
 
 const navItems: NavItem[] = [
-  { label: "About", id: "about" },
-  { label: "Education", id: "education" },
   { label: "Experience", id: "experience" },
-  { label: "Skills", id: "skills" },
   { label: "Projects", id: "projects" },
-  { label: "Research", id: "research", href: "/research" },
-  { label: "Wins", id: "triumphs" },
-  { label: "Personal", id: "personal" },
+  { label: "Education", id: "education" },
+  { label: "About", id: "about" },
   { label: "Contact", id: "contact" },
 ]
 
 export default function Navbar() {
-  const { activeSection, setActiveSection, startTour } = usePortfolio()
+  const { activeSection, setActiveSection } = usePortfolio()
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-
-  useEffect(() => {
-    if (!isOpen) return
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIsOpen(false)
-    }
-    document.addEventListener("keydown", onKeyDown)
-    return () => document.removeEventListener("keydown", onKeyDown)
-  }, [isOpen])
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     const onScroll = () => {
@@ -117,103 +110,100 @@ export default function Navbar() {
           <div className="hidden sm:block">
             <ThemeToggle variant="pill" />
           </div>
-          <button
-            type="button"
-            onClick={() => {
-              triggerHaptic()
-              startTour()
-            }}
-            className="hidden items-center gap-1.5 rounded border border-border bg-transparent px-4 py-2 text-center font-body text-[11px] font-semibold uppercase tracking-[0.08em] text-foreground transition hover:border-foreground/40 min-[901px]:inline-flex min-[901px]:justify-center md:px-5"
-            aria-label="Start portfolio tour"
+          {/* The hero has its own Resume CTA — this one slides in once the hero scrolls away. */}
+          <a
+            href="/documents/Sohail_Gidwani_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => triggerHaptic()}
+            aria-hidden={activeSection === "hero"}
+            tabIndex={activeSection === "hero" ? -1 : 0}
+            className={`hidden items-center gap-1.5 overflow-hidden whitespace-nowrap rounded border bg-transparent py-2 text-center font-body text-[11px] font-semibold uppercase tracking-[0.08em] text-foreground transition-[max-width,opacity,padding,border-color] duration-300 min-[901px]:inline-flex min-[901px]:justify-center ${
+              activeSection === "hero"
+                ? "pointer-events-none max-w-0 border-transparent px-0 opacity-0"
+                : "max-w-40 border-border px-4 opacity-100 hover:border-foreground/40 md:px-5"
+            }`}
           >
-            <Sparkles className="h-3.5 w-3.5 text-accent" aria-hidden />
-            Tour
-          </button>
+            <FileText className="h-3.5 w-3.5 shrink-0 text-accent" aria-hidden />
+            Resume
+          </a>
           <div className="sm:hidden">
             <ThemeToggle variant="icon" />
           </div>
           <button
+            ref={menuButtonRef}
             type="button"
             onClick={() => setIsOpen((prev) => !prev)}
             className="flex h-9 w-9 items-center justify-center rounded border border-border text-foreground min-[901px]:hidden"
             aria-label={isOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isOpen}
+            aria-controls="mobile-navigation-dialog"
           >
             {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
         </div>
       </div>
 
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-background/95 backdrop-blur min-[901px]:hidden"
-            onClick={() => setIsOpen(false)}
-          >
-            <motion.nav
-              initial={{ y: 16, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: 16, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="absolute inset-x-3 top-[calc(var(--nav-h)+0.5rem)] flex max-h-[min(80vh,520px)] flex-col gap-1 overflow-y-auto rounded-md border border-border bg-card p-4 shadow-xl"
-              onClick={(event) => event.stopPropagation()}
-              aria-label="Mobile navigation"
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent
+          id="mobile-navigation-dialog"
+          showOverlay={false}
+          showClose={false}
+          onCloseAutoFocus={(event) => {
+            event.preventDefault()
+            menuButtonRef.current?.focus()
+          }}
+          className="left-0 top-[var(--nav-h)] h-[calc(100dvh-var(--nav-h))] w-full max-w-none translate-x-0 translate-y-0 gap-0 overflow-y-auto rounded-none border-x-0 border-b-0 bg-background/95 p-3 backdrop-blur min-[901px]:hidden"
+        >
+          <DialogTitle className="sr-only">Portfolio navigation</DialogTitle>
+          <DialogDescription className="sr-only">
+            Navigate to experience, projects, education, about, contact, or the resume.
+          </DialogDescription>
+          <nav className="flex flex-col gap-1" aria-label="Mobile navigation">
+            {navItems.map((item) =>
+              item.href ? (
+                <Link
+                  key={item.id}
+                  href={item.href}
+                  onClick={() => {
+                    triggerHaptic()
+                    setIsOpen(false)
+                  }}
+                  className="block rounded px-4 py-3 text-left font-body text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground hover:bg-card2 hover:text-foreground"
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => scrollToSection(item.id)}
+                  className={`rounded px-4 py-3 text-left font-body text-xs font-semibold uppercase tracking-[0.08em] ${
+                    activeSection === item.id
+                      ? "bg-foreground text-background"
+                      : "text-muted-foreground hover:bg-card2 hover:text-foreground"
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ),
+            )}
+            <a
+              href="/documents/Sohail_Gidwani_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 inline-flex items-center justify-center gap-2 rounded border border-border px-4 py-3 text-center font-body text-xs font-semibold uppercase tracking-[0.08em] text-foreground"
+              onClick={() => {
+                triggerHaptic()
+                setIsOpen(false)
+              }}
             >
-              {navItems.map((item, index) =>
-                item.href ? (
-                  <motion.div
-                    key={item.id}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.04 }}
-                  >
-                    <Link
-                      href={item.href}
-                      onClick={() => {
-                        triggerHaptic()
-                        setIsOpen(false)
-                      }}
-                      className="block rounded px-4 py-3 text-left font-body text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground hover:bg-card2 hover:text-foreground"
-                    >
-                      {item.label}
-                    </Link>
-                  </motion.div>
-                ) : (
-                  <motion.button
-                    key={item.id}
-                    type="button"
-                    onClick={() => scrollToSection(item.id)}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.04 }}
-                    className={`rounded px-4 py-3 text-left font-body text-[11px] font-semibold uppercase tracking-[0.08em] ${
-                      activeSection === item.id
-                        ? "bg-foreground text-background"
-                        : "text-muted-foreground hover:bg-card2 hover:text-foreground"
-                    }`}
-                  >
-                    {item.label}
-                  </motion.button>
-                ),
-              )}
-              <button
-                type="button"
-                className="mt-2 inline-flex items-center justify-center gap-2 rounded border border-border px-4 py-3 text-center font-body text-[11px] font-semibold uppercase tracking-[0.08em] text-foreground"
-                onClick={() => {
-                  triggerHaptic()
-                  startTour()
-                  setIsOpen(false)
-                }}
-              >
-                <Sparkles className="h-3.5 w-3.5 text-accent" aria-hidden />
-                Tour
-              </button>
-            </motion.nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              <FileText className="h-3.5 w-3.5 text-accent" aria-hidden />
+              Resume
+            </a>
+          </nav>
+        </DialogContent>
+      </Dialog>
     </header>
   )
 }

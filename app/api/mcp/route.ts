@@ -86,13 +86,13 @@ const projects = [
     url: `${SITE}/projects/image-captioning`,
     github: 'https://github.com/SohailGidwani/Image-Caption',
     type: 'application',
-    description: 'CNN + Transformer pipeline for automatic image caption generation, achieving 0.80 BLEU vs 0.65 LSTM baseline (+23%).',
+    description: 'CNN feature extraction with LSTM and Transformer decoders for automatic image caption generation.',
     highlights: [
       'VGG-16 extracts image features; LSTM and Transformer generate captions',
-      'Transformer BLEU: 0.80 vs LSTM BLEU: 0.65 — +23% improvement',
+      'Compared recurrent and attention-based decoders in the same end-to-end pipeline',
       'Deployed as Streamlit web app for interactive demo',
     ],
-    tags: ['TensorFlow', 'CNN', 'Transformer', 'VGG-16', 'BLEU', 'Streamlit', 'Python'],
+    tags: ['TensorFlow', 'CNN', 'Transformer', 'VGG-16', 'Streamlit', 'Python'],
     status: 'complete',
   },
   {
@@ -152,12 +152,10 @@ const experience = [
     endDate: '2025-07-31',
     current: false,
     tags: ['TypeScript', 'Next.js', 'Node.js', 'MongoDB', 'LLM', 'MCP'],
-    summary: 'AI agent builder platform from scratch — open-source LLM deployment, OAuth for 100+ apps, MCP server development.',
+    summary: 'Built core infrastructure and product surfaces for an AI agent builder spanning open-source models, OAuth, MCP tools, backend services, and frontend workflows.',
     highlights: [
-      'Led architecture of AI agent builder platform with OAuth integrations for 100+ third-party apps',
-      'Deployed open-source LLMs (Qwen 3, Mistral Small 24B 2) for production agent workflows',
-      'Built MCP servers exposing app functions to AI models',
-      'Serverless agent orchestration with concurrent multi-step tool-calling and context management',
+      'Built backend and frontend workflows for configuring agents, connecting tools, and running Qwen 3 and Mistral Small 24B',
+      'Implemented reusable OAuth and MCP foundations designed to support a catalog of 100+ third-party applications; 100+ describes platform capacity, not completed integrations',
     ],
   },
   {
@@ -171,8 +169,8 @@ const experience = [
     summary: 'Built internal AI tools for India\'s leading NBFC — RAG chatbot, AI fraud detection, automated support.',
     highlights: [
       'AskPandaAI (RAG chatbot): Python + Flask + Qdrant + Azure OpenAI + Zoho ticketing; Certificate of Achievement from CTO',
-      'Gold Loan Image Audit: GroundingDINO + Swin-Transformer for automated fraud detection; 15% loan fraud reduction',
-      'CapitalGenie: GPT-4o + internal APIs for automated user diagnosis and response; 70% faster issue resolution',
+      'Gold Loan Image Audit: internal post-launch study measured a 15% reduction in potential loan-fraud cases versus the prior review workflow',
+      'CapitalGenie: internal post-launch study measured 70% faster issue resolution than the previous support workflow',
       'Compliance: data anonymization + access-control for AI services on sensitive financial data; passed security audits first review',
     ],
   },

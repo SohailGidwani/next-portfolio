@@ -90,17 +90,17 @@ export default function Triumphs() {
           viewport={{ once: true }}
           className="group mt-10 w-full rounded border border-border border-l-2 border-l-accent bg-card/80 p-6 text-left transition hover:border-b-accent/50 hover:border-r-accent/50 hover:border-t-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background sm:p-8"
         >
-          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">
+          <p className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
             Featured · {featuredWin.tag}
           </p>
           <h3 className="mt-3 font-display text-2xl text-foreground sm:text-3xl">
             {featuredWin.title}
           </h3>
-          <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+          <p className="mt-2 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
             {featuredWin.issuer} · {featuredWin.date}
           </p>
           <p className="mt-4 max-w-2xl text-sm text-muted-foreground">{featuredWin.description}</p>
-          <span className="mt-5 inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.22em] text-accent/70 transition group-hover:text-accent">
+          <span className="mt-5 inline-flex items-center gap-1 font-mono text-xs uppercase tracking-[0.22em] text-accent/70 transition group-hover:text-accent">
             View certificate
             <ArrowUpRight className="h-3 w-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </span>
@@ -132,7 +132,7 @@ export default function Triumphs() {
                   </span>
                 </span>
               </span>
-              <span className="inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground transition group-hover:text-accent">
+              <span className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground transition group-hover:text-accent">
                 Cert
                 <ArrowUpRight className="h-3 w-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </span>

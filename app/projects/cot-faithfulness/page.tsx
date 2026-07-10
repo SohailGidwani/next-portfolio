@@ -1,34 +1,16 @@
-"use client"
-
-import { Suspense } from "react"
-import { motion } from "framer-motion"
 import { Badge } from "@/app/components/ui/badge"
 import { Github, FolderKanban, FlaskConical, Microscope, BarChart3, AlertTriangle } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import coverImage from "@/public/images/cot_faithfulness.jpeg"
-import ProjectSkeleton from "@/app/components/ProjectSkeleton"
 import ProjectNav from "@/app/components/ProjectNav"
 import ProjectDetailStructuredData from "@/app/components/ProjectDetailStructuredData"
-import InteractiveCard from "@/app/components/ui/InteractiveCard"
+import ProjectActions from "@/app/projects/components/ProjectActions"
+import ProjectSectionLabel from "@/app/projects/components/ProjectSectionLabel"
 import BaselineChart from "./components/BaselineChart"
 import TruncationChart from "./components/TruncationChart"
 import CorruptionChart from "./components/CorruptionChart"
 import HintsChart from "./components/HintsChart"
-
-function SectionLabel({ n, label }: { n: string; label: string }) {
-  return (
-    <div className="mb-6">
-      <div className="mb-2 flex items-center gap-2">
-        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">{n}</span>
-        <div className="h-px w-5 bg-border" />
-      </div>
-      <h2 className="font-display text-xl font-bold uppercase tracking-tight text-foreground sm:text-2xl">
-        {label}
-      </h2>
-    </div>
-  )
-}
 
 const tags = ["Python", "LLM", "Ollama", "NLP", "Research", "GSM8K", "ARC", "CSCI-544"]
 const github = "https://github.com/SohailGidwani/cot_faithfulness"
@@ -111,22 +93,16 @@ export default function CoTFaithfulnessPage() {
         dateCreated="2025-05-01"
         projectType="research"
       />
-      <Suspense fallback={<ProjectSkeleton />}>
-        <div className="min-h-screen overflow-x-clip bg-background text-foreground">
-          <ProjectNav />
+      <div className="min-h-screen overflow-x-clip bg-background text-foreground">
+        <ProjectNav />
 
-          {/* Header */}
-          <div className="border-b border-border bg-card/40 py-16 sm:py-20">
-            <div className="container mx-auto">
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="max-w-3xl"
-              >
+        {/* Header */}
+        <div className="border-b border-border bg-card/40 py-16 sm:py-20">
+          <div className="container mx-auto">
+            <div className="max-w-3xl">
                 <div className="mb-5 flex items-center gap-3">
                   <div className="h-px w-8 bg-accent" />
-                  <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">
+                  <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
                     NLP Research · CSCI-544 @ USC
                   </span>
                 </div>
@@ -137,48 +113,45 @@ export default function CoTFaithfulnessPage() {
                 <div className="mb-6 flex flex-wrap items-center gap-6">
                   <div className="border-l-2 border-accent pl-4">
                     <p className="font-mono text-2xl font-bold text-foreground">4</p>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">Experiments</p>
+                    <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Experiments</p>
                   </div>
                   <div className="border-l-2 border-border pl-4">
                     <p className="font-mono text-2xl font-bold text-foreground">~15K</p>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">Model Queries</p>
+                    <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Model Queries</p>
                   </div>
                   <div className="border-l-2 border-border pl-4">
                     <p className="font-mono text-2xl font-bold text-foreground">500</p>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">Benchmark Samples</p>
+                    <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Benchmark Samples</p>
                   </div>
                   <div className="border-l-2 border-border pl-4">
                     <p className="font-mono text-2xl font-bold text-foreground">17%</p>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">Max SBH Rate</p>
+                    <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Max SBH Rate</p>
                   </div>
                 </div>
 
                 <p className="mb-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
                   A CSCI-544 NLP course project at USC. When an LLM thinks step by step, does it actually use that reasoning to reach its answer, or is the chain of thought just a plausible explanation for something it already decided? Four experiments across two models and two benchmarks try to find out.
                 </p>
+                <ProjectActions github={github} className="mb-6" />
                 <div className="flex flex-wrap gap-2">
                   {tags.map((tag) => (
-                    <Badge key={tag} variant="outline" className="font-mono text-[10px] uppercase tracking-[0.1em]">
+                    <Badge key={tag} variant="outline" className="font-mono text-xs uppercase tracking-[0.1em]">
                       {tag}
                     </Badge>
                   ))}
                 </div>
-              </motion.div>
             </div>
           </div>
+        </div>
 
-          {/* Content */}
-          <div className="py-16 sm:py-20">
-            <div className="container mx-auto">
-              <div className="max-w-3xl space-y-16">
+        {/* Content */}
+        <div className="py-16 sm:py-20">
+          <div className="container mx-auto">
+            <div className="max-w-3xl space-y-16">
 
                 {/* 01 — Preview */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1 }}
-                >
-                  <SectionLabel n="01" label="Preview" />
+                <section>
+                  <ProjectSectionLabel n="01" label="Preview" />
                   <div className="relative aspect-video overflow-hidden rounded border border-border">
                     <Image
                       src={coverImage}
@@ -189,15 +162,11 @@ export default function CoTFaithfulnessPage() {
                       priority
                     />
                   </div>
-                </motion.section>
+                </section>
 
                 {/* 02 — Overview */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                >
-                  <SectionLabel n="02" label="The Question" />
+                <section>
+                  <ProjectSectionLabel n="02" label="The Question" />
                   <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                     <p>
                       The question that drove this project is deceptively simple: when an LLM writes out its reasoning, does that reasoning actually change what answer it gives? The short answer: it depends on the task. For math, the reasoning is partially faithful and the model genuinely needs the chain. For science multiple choice, the chain is largely unfaithful, mostly written to explain an answer the model already decided on.
@@ -215,21 +184,17 @@ export default function CoTFaithfulnessPage() {
                       All proportions come with 95% Wald confidence intervals. Cross-model comparisons use McNemar's exact test, both significant at p below 0.001.
                     </p>
                   </div>
-                </motion.section>
+                </section>
 
                 {/* 03 — Verdict table */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.25 }}
-                >
-                  <SectionLabel n="03" label="Faithfulness Verdict" />
+                <section>
+                  <ProjectSectionLabel n="03" label="Faithfulness Verdict" />
                   <div className="overflow-x-auto">
                     <div className="min-w-[520px] overflow-hidden rounded border border-border bg-card">
                       <div className="grid grid-cols-3 border-b border-border bg-card/60">
-                        <div className="px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Dimension</div>
-                        <div className="border-l border-border px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Math (GSM8K)</div>
-                        <div className="border-l border-border px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Science MC (ARC)</div>
+                        <div className="px-4 py-2.5 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">Dimension</div>
+                        <div className="border-l border-border px-4 py-2.5 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">Math (GSM8K)</div>
+                        <div className="border-l border-border px-4 py-2.5 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">Science MC (ARC)</div>
                       </div>
                       <div className="divide-y divide-border/50">
                         {verdictRows.map((row, i) => (
@@ -246,70 +211,50 @@ export default function CoTFaithfulnessPage() {
                       </div>
                     </div>
                   </div>
-                </motion.section>
+                </section>
 
                 {/* 04 — Baseline */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                >
-                  <SectionLabel n="04" label="Exp 0 — Baseline Accuracy" />
+                <section>
+                  <ProjectSectionLabel n="04" label="Exp 0 — Baseline Accuracy" />
                   <p className="mb-2 text-sm leading-relaxed text-muted-foreground">
                     Every (model, dataset, question) pair gets two queries: direct and chain-of-thought. On GSM8K, CoT turns near-random guessing into real performance. On ARC, both models do worse when they reason out loud, which suggests the chain is introducing noise on top of knowledge the model already has.
                   </p>
                   <BaselineChart caption="No-CoT vs CoT accuracy for both models. Amber bar = CoT improved; gray bar = CoT degraded. Deltas shown top-right of each group." />
-                </motion.section>
+                </section>
 
                 {/* 05 — Truncation */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.35 }}
-                >
-                  <SectionLabel n="05" label="Exp 1 — Step Truncation (SCR)" />
+                <section>
+                  <ProjectSectionLabel n="05" label="Exp 1 — Step Truncation (SCR)" />
                   <p className="mb-2 text-sm leading-relaxed text-muted-foreground">
                     The CoT from Experiment 0 gets parsed into discrete steps using a three-level hierarchy (numbered markers, transition words, sentence boundaries). The model then answers using only the first k steps, and we check how often that partial answer matches the full-chain answer. Low SCR at step 1 means the model genuinely needs later steps. Qwen reaches the same ARC answer from step 1 alone in 83% of cases, which means those remaining steps add nothing.
                   </p>
                   <TruncationChart caption="Step Consistency Rate across truncation steps 1 to 5. Science lines (blue) stay high from the start. Math lines (amber) stay low, showing the model needs the full chain." />
-                </motion.section>
+                </section>
 
                 {/* 06 — Corruption */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.4 }}
-                >
-                  <SectionLabel n="06" label="Exp 2 — Reasoning Corruption (CFR)" />
+                <section>
+                  <ProjectSectionLabel n="06" label="Exp 2 — Reasoning Corruption (CFR)" />
                   <p className="mb-2 text-sm leading-relaxed text-muted-foreground">
                     Rule-based errors are injected into the CoT across six conditions: none, early, middle, late, early+late, and all. For GSM8K, the Corruption Following Rate (CFR) climbs as more steps are corrupted, and late-step corruption consistently outpaces early-step corruption by about 10pp. That pattern makes sense if the final calculation steps are what actually determine the answer. On ARC, Qwen's CFR stays flat at 9 to 11% regardless of how much of the reasoning is corrupted.
                   </p>
                   <CorruptionChart caption="CFR by corruption condition for each model and dataset. The 'All' bar is highlighted. Notice the contrast between math (moderate and increasing) and Qwen on science (flat and near-zero)." />
-                </motion.section>
+                </section>
 
                 {/* 07 — Hints */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.45 }}
-                >
-                  <SectionLabel n="07" label="Exp 3 — Biased Hints (SBH)" />
+                <section>
+                  <ProjectSectionLabel n="07" label="Exp 3 — Biased Hints (SBH)" />
                   <p className="mb-2 text-sm leading-relaxed text-muted-foreground">
                     A hint suggesting a wrong answer is prepended at four strength levels, from a gentle "could the answer perhaps be X?" up to "a Stanford professor mentioned the answer is X." Responses are classified into four outcomes: Faithful Reject (acknowledged the hint, gave correct answer), Faithful Follow (acknowledged it, followed it), Unfaithful Ignore (silently ignored), and Steered-But-Hidden (silently followed it). SBH is the one that matters most. On ARC, Qwen's SBH rate triples from weak to strong hints while the Hint Acknowledgment Rate barely moves. The model is getting more influenced but hiding it better.
                   </p>
                   <HintsChart caption="Steered-But-Hidden rate by hint strength. Blue lines = science MC (vulnerable). Amber lines = math (nearly flat). Dashed = Qwen 7B." />
-                </motion.section>
+                </section>
 
                 {/* 08 — Experiment Design */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.5 }}
-                >
-                  <SectionLabel n="08" label="Experiment Design" />
+                <section>
+                  <ProjectSectionLabel n="08" label="Experiment Design" />
                   <div className="grid gap-4 sm:grid-cols-2">
                     {features.map((feature, index) => (
-                      <InteractiveCard
+                      <div
                         key={index}
                         className="rounded border border-border bg-card p-5 transition-colors hover:border-accent/40"
                       >
@@ -320,29 +265,25 @@ export default function CoTFaithfulnessPage() {
                           </h3>
                         </div>
                         <p className="text-sm leading-relaxed text-muted-foreground">{feature.description}</p>
-                      </InteractiveCard>
+                      </div>
                     ))}
                   </div>
-                </motion.section>
+                </section>
 
                 {/* 09 — Technical Stack */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.55 }}
-                >
-                  <SectionLabel n="09" label="Technical Stack" />
+                <section>
+                  <ProjectSectionLabel n="09" label="Technical Stack" />
                   <div className="overflow-hidden rounded border border-border bg-card">
                     <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
                       <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
-                      <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                      <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
                         implementation.notes
                       </span>
                     </div>
                     <div className="divide-y divide-border/50">
                       {technicalDetails.map((detail, index) => (
                         <div key={index} className="flex items-start gap-4 px-4 py-3">
-                          <span className="w-5 shrink-0 text-right font-mono text-[10px] text-accent/60">
+                          <span className="w-5 shrink-0 text-right font-mono text-xs text-accent/60">
                             {String(index + 1).padStart(2, "0")}
                           </span>
                           <span className="text-sm text-muted-foreground">{detail}</span>
@@ -350,18 +291,14 @@ export default function CoTFaithfulnessPage() {
                       ))}
                     </div>
                   </div>
-                </motion.section>
+                </section>
 
                 {/* 10 — Friction & Takeaways */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.6 }}
-                >
-                  <SectionLabel n="10" label="Friction & Takeaways" />
+                <section>
+                  <ProjectSectionLabel n="10" label="Friction & Takeaways" />
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div className="rounded border border-border bg-card p-5">
-                      <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                      <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
                         Friction
                       </p>
                       <ul className="space-y-3">
@@ -374,7 +311,7 @@ export default function CoTFaithfulnessPage() {
                       </ul>
                     </div>
                     <div className="rounded border border-accent/20 bg-card p-5">
-                      <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.2em] text-accent">
+                      <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-accent">
                         Takeaways
                       </p>
                       <ul className="space-y-3">
@@ -387,15 +324,10 @@ export default function CoTFaithfulnessPage() {
                       </ul>
                     </div>
                   </div>
-                </motion.section>
+                </section>
 
                 {/* CTA */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.65 }}
-                  className="flex flex-wrap gap-3 border-t border-border pt-8"
-                >
+                <div className="flex flex-wrap gap-3 border-t border-border pt-8">
                   <a
                     href={github}
                     target="_blank"
@@ -412,13 +344,12 @@ export default function CoTFaithfulnessPage() {
                     <FolderKanban className="h-4 w-4" />
                     All Projects
                   </Link>
-                </motion.div>
+                </div>
 
-              </div>
             </div>
           </div>
         </div>
-      </Suspense>
+      </div>
     </>
   )
 }

@@ -118,7 +118,7 @@ export default function RootLayout({
                   "givenName": "Sohail",
                   "familyName": "Gidwani",
                   "jobTitle": "AI / CS Engineer",
-                  "description": "AI/ML software developer specializing in full-stack development, RAG systems, and applied intelligence. Graduating with M.S. in Computer Science from USC in May 2027.",
+                  "description": "AI/ML engineer specializing in agentic systems, RAG, and full-stack products. Currently pursuing an M.S. in Computer Science at USC (Expected May 2027).",
                   "url": "https://sohailgidwani.app",
                   "image": "https://sohailgidwani.app/api/og",
                   "email": "sohailgidwani15@gmail.com",
@@ -133,24 +133,23 @@ export default function RootLayout({
                     "addressRegion": "CA",
                     "addressCountry": "US"
                   },
-                  "alumniOf": [
-                    {
-                      "@type": "CollegeOrUniversity",
-                      "name": "University of Southern California",
-                      "department": "Viterbi School of Engineering",
-                      "url": "https://www.usc.edu"
-                    },
-                    {
-                      "@type": "CollegeOrUniversity",
-                      "name": "Thadomal Shahani Engineering College",
-                      "url": "https://tsec.edu"
-                    }
-                  ],
+                  "affiliation": {
+                    "@type": "CollegeOrUniversity",
+                    "name": "University of Southern California",
+                    "department": "Viterbi School of Engineering",
+                    "url": "https://www.usc.edu",
+                    "description": "Current M.S. in Computer Science student; Expected May 2027"
+                  },
+                  "alumniOf": {
+                    "@type": "CollegeOrUniversity",
+                    "name": "Thadomal Shahani Engineering College",
+                    "url": "https://tsec.edu"
+                  },
                   "hasCredential": {
                     "@type": "EducationalOccupationalCredential",
                     "credentialCategory": "degree",
-                    "educationalLevel": "Master's Degree",
-                    "name": "M.S. in Computer Science"
+                    "educationalLevel": "Bachelor's Degree",
+                    "name": "B.E. in Computer Engineering"
                   },
                   "worksFor": {
                     "@type": "EducationalOrganization",

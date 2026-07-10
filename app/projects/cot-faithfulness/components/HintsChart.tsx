@@ -237,7 +237,7 @@ export default function HintsChart({ caption }: Props) {
                   borderTop: s.dashed ? `2px dashed ${s.color}` : `2px solid ${s.color}`,
                 }}
               />
-              <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+              <span className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
                 {s.label}
               </span>
             </div>

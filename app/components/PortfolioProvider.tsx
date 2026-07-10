@@ -4,19 +4,18 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { useScrollSpy } from "@/app/hooks/useScrollSpy"
 
 export const SECTION_IDS = [
-  "hero", "about", "education", "experience",
-  "skills", "projects", "triumphs", "personal", "contact",
+  "hero", "experience", "projects", "education",
+  "skills", "about", "triumphs", "contact",
 ] as const
 
 export const TOUR_STEPS = [
   { id: "hero", title: "At a Glance", description: "A high-level snapshot of my focus, impact, and availability." },
-  { id: "about", title: "About", description: "My positioning and the kind of work I want to do next." },
-  { id: "education", title: "Education", description: "Academic foundations and coursework shaping my AI systems focus." },
   { id: "experience", title: "Experience", description: "Highlights from research and industry work with measurable scope." },
-  { id: "skills", title: "Skills", description: "Your AI and systems toolkit, grouped by discipline." },
-  { id: "projects", title: "Projects", description: "Featured builds and case studies with outcomes." },
+  { id: "projects", title: "Projects", description: "Flagship builds and case studies with outcomes and evidence." },
+  { id: "education", title: "Education", description: "Academic foundations shaping my AI systems focus." },
+  { id: "skills", title: "Capabilities", description: "My AI and systems toolkit, grouped by the work it enables." },
+  { id: "about", title: "About", description: "How I approach engineering and the work I want to do next." },
   { id: "triumphs", title: "Triumphs", description: "Certifications, awards, and milestones along the way." },
-  { id: "personal", title: "Personal", description: "Get to know me beyond the professional side - my interests, hobbies, and what I enjoy." },
   { id: "contact", title: "Contact", description: "Fast ways to connect and start a conversation." },
 ]
 

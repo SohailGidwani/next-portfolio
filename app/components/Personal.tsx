@@ -137,7 +137,7 @@ export default function Personal() {
         >
           <div className="mb-4 flex items-center gap-2">
             <Film className="h-3.5 w-3.5 text-accent" />
-            <h3 className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Marvel Universe</h3>
+            <h3 className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">Marvel Universe</h3>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             {marvelFavorites.map((hero, index) => (
@@ -161,7 +161,7 @@ export default function Personal() {
                 <figcaption className="flex min-w-0 flex-col justify-center">
                   <div className="flex items-center gap-2">
                     <Heart className="h-3 w-3 text-accent" />
-                    <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Favorite</span>
+                    <span className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">Favorite</span>
                   </div>
                   <h4 className="mt-1.5 font-display text-xl text-foreground">{hero.name}</h4>
                   <blockquote className="mt-2 border-l-2 border-accent/60 pl-3 text-[14px] italic leading-relaxed text-muted-foreground sm:text-[15px]">
@@ -183,7 +183,7 @@ export default function Personal() {
         >
           <div className="mb-4 flex items-center gap-2">
             <Gamepad2 className="h-3.5 w-3.5 text-accent" />
-            <h3 className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Story-Driven Games</h3>
+            <h3 className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">Story-Driven Games</h3>
           </div>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
             {games.map((game, index) => (
@@ -225,7 +225,7 @@ export default function Personal() {
         >
           <div className="mb-4 flex items-center gap-2">
             <Sun className="h-3.5 w-3.5 text-accent" />
-            <h3 className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Simple Pleasures</h3>
+            <h3 className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">Simple Pleasures</h3>
           </div>
           <div className="grid gap-3 sm:grid-cols-3">
             {lifestyle.map((item, index) => (
@@ -258,7 +258,7 @@ export default function Personal() {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
           viewport={{ once: true }}
-          className="mt-8 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground"
+          className="mt-8 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground"
         >
           Tap any to learn more
         </motion.p>

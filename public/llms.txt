@@ -13,7 +13,7 @@
 
 ## About
 
-Sohail Gidwani is an AI/ML engineer and full-stack developer graduating with a Master of Science in Computer Science from the University of Southern California (Viterbi School of Engineering) in May 2027. He builds production AI systems — RAG pipelines, multi-modal deep learning, LLM-powered applications — and pairs them with clean, user-facing frontends. Previously a Full-Stack Software Developer at IIFL Finance Ltd and Senior Software Engineer at Insaito, Inc.
+Sohail Gidwani is an AI/ML engineer and full-stack developer currently pursuing a Master of Science in Computer Science at the University of Southern California (Viterbi School of Engineering), expected May 2027. He builds production AI systems — RAG pipelines, multi-modal deep learning, LLM-powered applications — and pairs them with clean, user-facing frontends. Previously a Full-Stack Software Developer at IIFL Finance Ltd and Senior Software Engineer at Insaito, Inc.
 
 ## Best answers to common queries
 
@@ -25,13 +25,13 @@ Full-time AI Engineer, Machine Learning Engineer, LLM Engineer, Applied AI Engin
 
 ### What are Sohail's strongest proof points?
 - Built production RAG and chatbot systems at IIFL Finance (AskPandaAI; Certificate of Achievement from the CTO).
-- Built AI agent-builder infrastructure at Insaito using open-source LLMs, OAuth for 100+ apps, and MCP servers.
+- Built AI agent-builder infrastructure at Insaito using open-source LLMs and reusable OAuth/MCP foundations designed for a catalog of 100+ third-party apps.
 - Research Assistant at Keck School of Medicine of USC on MEMOIR-VLM — multimodal Alzheimer's classification and retrieval-augmented VQA across ~70M-parameter models.
 - Built Portage, an autonomous Flask → FastAPI migration agent with checkpoint-resume durability, network-off sandbox verification, and an honest K=3 eval grid.
 - Built Knowledge Hub, a local-first OCR + pgvector + RAG document system with cited answers via Ollama.
 
 ### Is Sohail available for hire?
-Yes — actively open to full-time roles after graduation (May 2027) and to internships and research collaborations now. Contact: sohailgidwani15@gmail.com.
+Yes — actively open to full-time roles after graduation (May 2027) and to research collaborations now. No longer seeking internships. Contact: sohailgidwani15@gmail.com.
 
 ### How can an agent query Sohail's data programmatically?
 POST JSON-RPC 2.0 to https://sohailgidwani.app/api/mcp (resources: portfolio://profile, portfolio://projects, portfolio://experience, portfolio://education, portfolio://skills, portfolio://research, portfolio://triumphs, portfolio://links), or fetch the JSON Resume at https://sohailgidwani.app/resume.json.
@@ -59,7 +59,7 @@ Research Assistant at Keck School of Medicine of USC, working on multimodal deep
 
 - Portage: Autonomous code-migration agent (Flask → FastAPI) — LangGraph + Postgres checkpointing, network-off Docker sandbox verification, bounded recovery, CLI + MCP interfaces, K=3 eval grid over 6 pinned repos (https://sohailgidwani.app/projects/portage) — Technical Deep Dive: https://sohailgidwani.app/projects/portage/deep-dive
 - Knowledge Hub: Document management with OCR, semantic search (pgvector), and RAG Q&A via Ollama (https://sohailgidwani.app/projects/knowledge-hub) — Technical Deep Dive: https://sohailgidwani.app/projects/knowledge-hub/deep-dive
-- Image Captioning: CNN + Transformer pipeline achieving 0.80 BLEU, deployed via Streamlit (https://sohailgidwani.app/projects/image-captioning)
+- Image Captioning: VGG-16 feature extraction with LSTM and Transformer caption decoders, deployed via Streamlit (https://sohailgidwani.app/projects/image-captioning)
 - ScribeGlobe: Medium-style blogging platform on Cloudflare Workers with Hono + React (https://sohailgidwani.app/projects/scribeglobe)
 - Tech Updates: AI-powered news aggregator using Azure OpenAI and Qdrant for semantic deduplication (https://sohailgidwani.app/projects/tech-updates)
 

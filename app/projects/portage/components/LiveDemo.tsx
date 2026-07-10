@@ -31,7 +31,7 @@ export default function LiveDemo() {
       <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-2.5">
         <div className="flex items-center gap-2">
           <MonitorPlay className="h-3.5 w-3.5 text-accent" />
-          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+          <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
             live demo — portage dashboard
           </span>
         </div>
@@ -39,7 +39,7 @@ export default function LiveDemo() {
           href={PORTAGE_DEMO_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground transition hover:text-foreground"
+          className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground transition hover:text-foreground"
         >
           Open full screen
           <ExternalLink className="h-3 w-3" />
@@ -50,7 +50,7 @@ export default function LiveDemo() {
         {!loaded && (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-muted-foreground">
             <Loader2 className="h-5 w-5 animate-spin text-accent" />
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em]">loading live dashboard…</p>
+            <p className="font-mono text-xs uppercase tracking-[0.2em]">loading live dashboard…</p>
           </div>
         )}
         <iframe
@@ -64,7 +64,7 @@ export default function LiveDemo() {
       </div>
 
       <div className="border-t border-border px-4 py-2.5">
-        <p className="font-mono text-[10px] leading-relaxed text-muted-foreground">
+        <p className="font-mono text-xs leading-relaxed text-muted-foreground">
           Demo limits apply: GitHub sign-in, per-user concurrency + daily job quota, per-job LLM cost
           ceiling. Eval leaderboard is public.
         </p>
