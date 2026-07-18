@@ -264,10 +264,10 @@ export default function KnowledgeHubDeepDivePage() {
                     </p>
                     <div className="space-y-2">
                       {[
-                        { eq: "M = [[cos θ,  sin θ,  tₓ], [−sin θ,  cos θ,  tᵧ]]", label: "affine deskew — θ from minAreaRect on foreground pixels" },
-                        { eq: "I_sharp = a·I − b·G_σ(I)   (a=1.5, b=0.5)", label: "unsharp mask — G_σ is Gaussian blur at scale σ" },
-                        { eq: "t* = arg max_t  σ²_B(t)", label: "Otsu threshold — maximises between-class variance" },
-                        { eq: "T(x,y) = μ_{N(x,y)} − C", label: "adaptive threshold — local neighbourhood mean minus constant C" },
+                        { eq: "M = [[cos θ,  sin θ,  tₓ], [−sin θ,  cos θ,  tᵧ]]", label: "affine deskew: θ from minAreaRect on foreground pixels" },
+                        { eq: "I_sharp = a·I − b·G_σ(I)   (a=1.5, b=0.5)", label: "unsharp mask: G_σ is Gaussian blur at scale σ" },
+                        { eq: "t* = arg max_t  σ²_B(t)", label: "Otsu threshold: maximises between-class variance" },
+                        { eq: "T(x,y) = μ_{N(x,y)} − C", label: "adaptive threshold: local neighbourhood mean minus constant C" },
                       ].map(({ eq, label }) => (
                         <div key={label} className="overflow-x-auto rounded border border-border/60 bg-card/60 px-4 py-2.5">
                           <p className="font-mono text-sm text-foreground">{eq}</p>
@@ -284,7 +284,7 @@ export default function KnowledgeHubDeepDivePage() {
                     </p>
                     <div className="overflow-x-auto rounded border border-border/60 bg-card/60 px-4 py-2.5">
                       <p className="font-mono text-sm text-foreground">{"avg_conf = (1/n) ∑ᵢ cᵢ,   cᵢ ∈ [0, 100]"}</p>
-                      <p className="mt-0.5 font-mono text-xs text-muted-foreground">average token confidence — stored in chunks.extra_json as ocr_conf; fallback if below threshold</p>
+                      <p className="mt-0.5 font-mono text-xs text-muted-foreground">average token confidence: stored in chunks.extra_json as ocr_conf; fallback if below threshold</p>
                     </div>
                   </div>
 
@@ -295,7 +295,7 @@ export default function KnowledgeHubDeepDivePage() {
                     </p>
                     <div className="overflow-x-auto rounded border border-border/60 bg-card/60 px-4 py-2.5">
                       <p className="font-mono text-sm text-foreground">{"L = −∑ₜ log p(yₜ | y_{<t}, image)"}</p>
-                      <p className="mt-0.5 font-mono text-xs text-muted-foreground">cross-entropy loss — Transformer decoder conditioned on ViT image features</p>
+                      <p className="mt-0.5 font-mono text-xs text-muted-foreground">cross-entropy loss: Transformer decoder conditioned on ViT image features</p>
                     </div>
                   </div>
                 </div>
@@ -305,7 +305,7 @@ export default function KnowledgeHubDeepDivePage() {
               <section>
                 <SectionLabel n="04" label="Full-Text Search in Postgres" id="section-04" />
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
-                  Postgres's native FTS is fast enough for sub-second search over tens of thousands of chunks with a GIN index, and it ships with the database — no Elasticsearch to operate.
+                  Postgres's native FTS is fast enough for sub-second search over tens of thousands of chunks with a GIN index, and it ships with the database, so there is no Elasticsearch to operate.
                 </p>
 
                 <div className="space-y-5">
@@ -335,7 +335,7 @@ export default function KnowledgeHubDeepDivePage() {
                       <p className="font-mono text-xs uppercase tracking-[0.22em]">4.3: Ranking → ts_rank / ts_rank_cd</p>
                     </div>
                     <p className="text-sm leading-relaxed text-muted-foreground">
-                      <span className="font-mono text-xs">ts_rank</span> ranks by term frequency with optional weights per lexeme class. <span className="font-mono text-xs">ts_rank_cd</span> (cover density) favours compact spans covering many query terms — it scores coverage windows and normalises by document length. We use <span className="font-mono text-xs">ts_rank_cd</span> because it penalises chunks that contain the terms scattered across many pages rather than clustered together.
+                      <span className="font-mono text-xs">ts_rank</span> ranks by term frequency with optional weights per lexeme class. <span className="font-mono text-xs">ts_rank_cd</span> (cover density) favours compact spans covering many query terms: it scores coverage windows and normalises by document length. We use <span className="font-mono text-xs">ts_rank_cd</span> because it penalises chunks that contain the terms scattered across many pages rather than clustered together.
                     </p>
                   </div>
 
@@ -345,7 +345,7 @@ export default function KnowledgeHubDeepDivePage() {
                       <p className="font-mono text-xs uppercase tracking-[0.22em]">4.4: Snippets → ts_headline</p>
                     </div>
                     <p className="text-sm leading-relaxed text-muted-foreground">
-                      <span className="font-mono text-xs">ts_headline</span> generates fragments with query terms emphasised. Parameters control fragment count, min/max word window, and surrounding HTML tags — we use <span className="font-mono text-xs">&lt;b&gt;…&lt;/b&gt;</span> to highlight hits in the search UI without XSS risk.
+                      <span className="font-mono text-xs">ts_headline</span> generates fragments with query terms emphasised. Parameters control fragment count, min/max word window, and surrounding HTML tags; we use <span className="font-mono text-xs">&lt;b&gt;…&lt;/b&gt;</span> to highlight hits in the search UI without XSS risk.
                     </p>
                   </div>
                 </div>
@@ -362,7 +362,7 @@ export default function KnowledgeHubDeepDivePage() {
                   <div className="rounded border border-border bg-card p-5">
                     <p className="mb-2 font-mono text-xs uppercase tracking-[0.22em] text-accent">5.1: Embedding Model & Normalisation</p>
                     <p className="text-sm leading-relaxed text-muted-foreground">
-                      <span className="font-mono text-xs">sentence-transformers/all-MiniLM-L6-v2</span> encodes text into dense vectors x ∈ ℝ³⁸⁴. Vectors are L2-normalised so ‖x‖₂ = 1 — this makes cosine similarity equal to the inner product: cos(θ) = x · y. The embedding dimension must match the model output; the <span className="font-mono text-foreground">embeddings.dim</span> column enforces this at insert time.
+                      <span className="font-mono text-xs">sentence-transformers/all-MiniLM-L6-v2</span> encodes text into dense vectors x ∈ ℝ³⁸⁴. Vectors are L2-normalised so ‖x‖₂ = 1, which makes cosine similarity equal to the inner product: cos(θ) = x · y. The embedding dimension must match the model output; the <span className="font-mono text-foreground">embeddings.dim</span> column enforces this at insert time.
                     </p>
                   </div>
 
@@ -376,7 +376,7 @@ export default function KnowledgeHubDeepDivePage() {
                       ].map((m) => (
                         <div key={m.op} className="flex items-start gap-3">
                           <span className="mt-0.5 font-mono text-xs text-accent">{m.op}</span>
-                          <span><strong className="text-foreground">{m.name}</strong> — {m.note}</span>
+                          <span><strong className="text-foreground">{m.name}</strong>: {m.note}</span>
                         </div>
                       ))}
                     </div>
@@ -388,7 +388,7 @@ export default function KnowledgeHubDeepDivePage() {
                   <div className="rounded border border-border bg-card p-5">
                     <p className="mb-2 font-mono text-xs uppercase tracking-[0.22em] text-accent">5.3: IVFFlat Index (Approximate Nearest Neighbour)</p>
                     <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
-                      Exact k-NN over all vectors is O(N). IVFFlat coarse-quantises the space into <span className="font-mono text-foreground">lists</span> buckets using k-means centroids. At query time only <span className="font-mono text-foreground">probes</span> nearest centroids are scanned, giving O(P · N/L) complexity — much faster with a controlled recall tradeoff.
+                      Exact k-NN over all vectors is O(N). IVFFlat coarse-quantises the space into <span className="font-mono text-foreground">lists</span> buckets using k-means centroids. At query time only <span className="font-mono text-foreground">probes</span> nearest centroids are scanned, giving O(P · N/L) complexity, much faster with a controlled recall tradeoff.
                     </p>
                     <CodeBlock
                       title="ivfflat.tuning"
@@ -524,10 +524,10 @@ export default function KnowledgeHubDeepDivePage() {
                 <SectionLabel n="09" label="Security & Privacy" id="section-09" />
                 <div className="space-y-3">
                   {[
-                    { bullet: "Local-first by default — originals never leave the machine unless Storage is configured to S3." },
+                    { bullet: "Local-first by default: originals never leave the machine unless Storage is configured to S3." },
                     { bullet: "Files are hashed with SHA-256 on upload for deduplication and to detect tampering." },
-                    { bullet: "AuthZ is per user_id — users can only access their own documents." },
-                    { bullet: "HTML rendering in search snippets uses only <b> tags — no arbitrary HTML, preventing XSS." },
+                    { bullet: "AuthZ is per user_id; users can only access their own documents." },
+                    { bullet: "HTML rendering in search snippets uses only <b> tags, no arbitrary HTML, preventing XSS." },
                     { bullet: "Optional encryption at rest when writing to Storage." },
                   ].map((b, i) => (
                     <div key={i} className="flex items-start gap-3 text-sm text-muted-foreground">
@@ -574,7 +574,7 @@ export default function KnowledgeHubDeepDivePage() {
                     "IVFFlat complexity: O(P · N / L)  vs  O(N) exact",
                     "FTS cover density:  prefers compact spans covering many query terms",
                     "Embedding dim:      must match model output (384 for MiniLM-L6-v2)",
-                    "Hybrid weights:     α=0.6 (semantic)  β=0.4 (FTS) — tune from data",
+                    "Hybrid weights:     α=0.6 (semantic)  β=0.4 (FTS); tune from data",
                   ]}
                 />
               </section>

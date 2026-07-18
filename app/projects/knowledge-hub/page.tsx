@@ -336,7 +336,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                   <div className="mb-1 font-mono text-xs uppercase tracking-[0.22em] text-accent">Technical Deep Dive</div>
                   <h3 className="mb-2 font-display text-lg font-bold text-foreground">Architecture, OCR Pipeline & Hybrid Ranking</h3>
                   <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
-                    Every moving part explained: system architecture diagram, ingestion pipeline, full-text search in Postgres, pgvector semantic search with IVFFlat, z-score hybrid ranking, and the RAG prompt structure — with interactive SVG diagrams.
+                    Every moving part explained: system architecture diagram, ingestion pipeline, full-text search in Postgres, pgvector semantic search with IVFFlat, z-score hybrid ranking, and the RAG prompt structure, with interactive SVG diagrams.
                   </p>
                   <div className="flex flex-wrap gap-3">
                     <Link

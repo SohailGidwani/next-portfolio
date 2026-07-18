@@ -6,7 +6,9 @@ import {
   RefreshCcw,
   TrendingUp,
   ShieldCheck,
-  Puzzle,
+  Layers,
+  Fingerprint,
+  FileCheck,
   DollarSign,
   Terminal,
   Bot,
@@ -37,30 +39,31 @@ import portal01 from "@/public/images/portage/portal-01-dashboard.png"
 import portal02 from "@/public/images/portage/portal-02-job-detail.png"
 import portal03 from "@/public/images/portage/portal-03-eval-leaderboard.png"
 
-// Live demo embed — fully built, waiting on the hosted deployment.
+// Live demo embed: fully built, waiting on the hosted deployment.
 // See app/projects/portage/components/LiveDemo.tsx for the enable checklist
 // (demo URL + CSP frame-src change in next.config.mjs).
 // import LiveDemo from "./components/LiveDemo"
 
 const evalRows = [
-  { repo: "flask-items-fixture", tier: "baseline", green: "3/3", pass: "1.00", recover: "0.0", cost: "$0.022", wall: "10s", strong: true },
-  { repo: "minimal-flask-api", tier: "baseline", green: "2/3", pass: "0.67", recover: "0.3", cost: "$0.013", wall: "10s", strong: true },
-  { repo: "flask-restx-api", tier: "framework", green: "1/3", pass: "0.67", recover: "3.3", cost: "$0.044", wall: "17s", strong: false },
-  { repo: "flaskr", tier: "structural", green: "0/3", pass: "0.67", recover: "3.7", cost: "$0.250", wall: "55s", strong: false },
-  { repo: "watchlist", tier: "structural", green: "0/3", pass: "0.67", recover: "4.0", cost: "$0.261", wall: "61s", strong: false },
-  { repo: "microblog", tier: "heavy", green: "0/3", pass: "0.00", recover: "4.3", cost: "$1.503", wall: "165s", strong: false },
+  { repo: "flask-structural-fixture", tier: "baseline", green: "3/3", cost: "$0.18", readout: "stable structural seam coverage", strong: true },
+  { repo: "minimal-flask-api", tier: "baseline", green: "3/3", cost: "$0.13", readout: "stable external baseline", strong: true },
+  { repo: "flask-restx-api", tier: "framework", green: "3/3", cost: "$0.21", readout: "the old extension wall, now stable", strong: true },
+  { repo: "flaskr (Pallets tutorial)", tier: "structural", green: "2/3", cost: "$0.31", readout: "both completed runs 24/24 with zero recovery; one engine error counted as red", strong: false },
+  { repo: "flask-items-fixture", tier: "baseline", green: "2/3", cost: "$0.12", readout: "one 5/6 test-harness semantic miss", strong: false },
+  { repo: "watchlist", tier: "structural", green: "0/3", cost: "$0.58", readout: "Flask-SQLAlchemy surface realization; migrated suite now collects and executes all 15 tests", strong: false },
+  { repo: "microblog", tier: "heavy", green: "0/3", cost: "$5.34", readout: "one stable import-cycle root cause; 77% of the grid's cost", strong: false },
 ]
 
 const allImages = [
-  { src: cli01, alt: "Portage CLI — live task transitions during portage migrate --watch" },
-  { src: cli02, alt: "Portage CLI — recent jobs list with id, status, recipe, and test counts" },
-  { src: cli03, alt: "Portage CLI — task tree, attempts, and verdict for one job" },
-  { src: cli04, alt: "Portage CLI — full migration diff via portage report --diff" },
-  { src: mcp01, alt: "Portage MCP — a breaking diff applied in the sandbox and honestly failed with named tests" },
-  { src: mcp02, alt: "Portage MCP — structural repo graph and blast-radius impact for a proposed change" },
-  { src: portal01, alt: "Portage dashboard — jobs list and launch surface" },
-  { src: portal02, alt: "Portage dashboard — job detail with task tree, diffs, and recovery timeline" },
-  { src: portal03, alt: "Portage dashboard — aggregate eval leaderboard with fault-run proof" },
+  { src: cli01, alt: "Portage CLI: live task transitions during portage migrate --watch" },
+  { src: cli02, alt: "Portage CLI: recent jobs list with id, status, recipe, and test counts" },
+  { src: cli03, alt: "Portage CLI: task tree, attempts, and verdict for one job" },
+  { src: cli04, alt: "Portage CLI: full migration diff via portage report --diff" },
+  { src: mcp01, alt: "Portage MCP: a breaking diff applied in the sandbox and honestly failed with named tests" },
+  { src: mcp02, alt: "Portage MCP: structural repo graph and blast-radius impact for a proposed change" },
+  { src: portal01, alt: "Portage dashboard: jobs list and launch surface" },
+  { src: portal02, alt: "Portage dashboard: job detail with task tree, diffs, and recovery timeline" },
+  { src: portal03, alt: "Portage dashboard: aggregate eval leaderboard with fault-run proof" },
 ]
 
 function Screenshot({
@@ -94,72 +97,90 @@ export default function PortagePage() {
   const project = {
     title: "Portage - Autonomous Code-Migration Agent",
     description:
-      "Give it a Flask repo and a recipe; it plans a per-file task DAG, rewrites each file with an LLM on a git worktree, verifies against the repo's own tests in a network-off Docker sandbox, recovers from failures under bounded budgets, and reports honestly — including when it fails.",
+      "Give it a Flask repo and a recipe; it plans the target architecture, rewrites existing files and creates the new modules the migration requires, verifies against the repo's own tests in a network-off Docker sandbox, recovers from failures under bounded budgets, and reports honestly, including when it fails.",
     why: `Most "AI migration" demos are single-shot prompts with no verification story. Portage is built around the opposite claim: a migration is only real if the repo's own tests still pass, every planned file was actually migrated, and recovery cannot game the score by giving up.
 
 The governing principle is narrow + measured beats broad + unproven. One hard migration (Flask → FastAPI) instead of a catalogue of half-working recipes. An eval harness that runs the real queue/worker path, not a mocked agent loop. A failure taxonomy with SOLVED / PARTIAL / OPEN statuses and evidence, not an all-green sheet. The autonomous + eval core is the credibility engine for the MCP product: if the verify/recover loop is measured, another agent can trust verify_patch_in_sandbox over a raw sandbox.`,
-    how: `v1 ships one recipe: Flask → FastAPI. That target is deliberate — routing decorators, request/response handling, blueprints → routers, error handlers, and app factories need understanding, not mechanical rewriting; deterministic codemods cannot do this reliably. The architecture is recipe-pluggable; the evidence is recipe-specific by design.
+    how: `v1 ships one recipe: Flask → FastAPI. That target is deliberate. Routing decorators, request/response handling, blueprints → routers, error handlers, app factories, and ambient request context (g, session) need understanding, not mechanical rewriting; deterministic codemods cannot do this reliably. The architecture is recipe-pluggable; the evidence is recipe-specific by design.
 
-One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --watch\` drives the full graph. Co-pilot mode: Claude Code / Cursor call verify_patch_in_sandbox, repo_graph, and blast_radius over MCP — the same verified primitives the eval numbers were measured on. The dashboard is the observability and proof surface, not the front door.`,
+The capability that unlocked the hard repos: some migrations are unreachable by rewriting existing files. Flask's g/session have no FastAPI equivalent. A correct port needs a new request-context module, a test-compatibility surface, a rendering layer, and every consumer wired to them coherently. Portage plans those artifacts with a bounded architect call, freezes their contracts before generation, compiles the deterministic parts itself, and enforces that a framework-shaped capability is only valid when the plan owns and implements it, so a model can't reference a helper it wishes existed.
+
+One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --watch\` drives the full graph. Co-pilot mode: Claude Code / Cursor call verify_patch_in_sandbox, repo_graph, and blast_radius over MCP, the same verified primitives the eval numbers were measured on. The dashboard is the observability and proof surface, not the front door.`,
     tags: ["Python", "FastAPI", "LangGraph", "Postgres", "pgvector", "LiteLLM", "Docker", "Next.js", "MCP", "pytest"],
     github: "https://github.com/SohailGidwani/Portage",
     features: [
       {
+        icon: <Layers className="w-5 h-5" />,
+        title: "Artifact-Producing Plans",
+        description: "A bounded architect call proposes new target-architecture modules; a deterministic contract compiler fills in what the engine already derives; contracts freeze before generation and bind every retry, escalation, replan, and resume. Created files get the same ordering, diffs, rollback, and cost accounting as rewrites.",
+      },
+      {
+        icon: <Fingerprint className="w-5 h-5" />,
+        title: "Defined-vs-Invented Capabilities",
+        description: "A Flask-shaped capability (test_client, app_context, g, session) is accepted only when a frozen plan artifact owns and implements it, checked receiver-aware. \"The model referenced a module it wished existed\" becomes a pre-sandbox rejection, not a silent runtime failure.",
+      },
+      {
         icon: <Zap className="w-5 h-5" />,
         title: "Checkpoint Durability",
-        description: "LangGraph Postgres checkpointer after every node; worker lease with heartbeat. Kill the worker mid-run and a restarted one resumes — Ingest runs once, Execute skips already-applied files via content hashes.",
+        description: "LangGraph Postgres checkpointer after every node; worker lease with heartbeat. Kill the worker mid-run and a restarted one resumes: Ingest runs once, Execute skips already-applied files via content hashes.",
       },
       {
         icon: <RefreshCcw className="w-5 h-5" />,
-        title: "Bounded Recovery",
-        description: "Failures are classified, blamed, and rolled back surgically: targeted git checkout + regenerate, widen-on-repeat, replan on planner misses, skip-and-continue as last resort. Budgets bound everything.",
+        title: "Bounded Recovery, Targeted First",
+        description: "Uniquely attributable failures repair the single owning artifact (measured: a stray .decode() fixed for $0.011 without touching its ten-file cut). Otherwise: targeted rollback + regenerate, widen-on-repeat, replan, skip-and-continue as last resort, all budget-bounded.",
+      },
+      {
+        icon: <FileCheck className="w-5 h-5" />,
+        title: "Oracle Integrity",
+        description: "Test files are protected artifacts: names, assertions, raises/parametrize/skip structure and fixture lifecycles are frozen at Plan; only sanctioned plumbing may differ. Deleted, renamed, skipped, and weakened assertions are all caught mechanically: 1.0 integrity across every report-bearing run.",
       },
       {
         icon: <ShieldCheck className="w-5 h-5" />,
         title: "Honest Scoring",
-        description: "Green cannot be gamed by skip-and-continue, empty diffs, or all-skipped suites. Report reloads task truth from Postgres, Integrate recomputes the diff, Verify requires passed > 0.",
+        description: "Green cannot be gamed by skip-and-continue, empty diffs, or all-skipped suites. Report reloads task truth from Postgres, Integrate recomputes the diff, Verify requires passed > 0, and engine errors count against the score.",
       },
       {
         icon: <TrendingUp className="w-5 h-5" />,
         title: "Measured Escalation",
-        description: "First N attempts use the driver model tier; later attempts escalate. Every attempt lands in attempts_log with tier, model, tokens, and USD — \"how often does escalation rescue?\" is a SQL query.",
-      },
-      {
-        icon: <Puzzle className="w-5 h-5" />,
-        title: "Pluggable Recipes",
-        description: "A recipe declares detection, task types, and per-task verify specs. Unknown recipes degrade safely to ingest → verify → report: tests run, nothing changed, verdict honest red.",
+        description: "First N attempts use the driver model tier; later attempts escalate. Every attempt lands in attempts_log with tier, model, tokens, and USD, so \"how often does escalation rescue?\" is a SQL query.",
       },
       {
         icon: <DollarSign className="w-5 h-5" />,
         title: "Cost as a Metric",
-        description: "Every LLM call's tokens and USD recorded per attempt, summed per job, averaged per eval cell — retries and escalations included. Cost scales with recovery, and that relationship is part of the result.",
+        description: "Every LLM call's tokens and USD recorded per attempt, summed per job, averaged per eval cell, with retries, escalations, and architect calls included. Cost scales with recovery, and that relationship is part of the result.",
       },
     ],
     technicalDetails: [
       "Monorepo: apps/backend (Python 3.12, uv) + apps/frontend (Next.js App Router, pnpm)",
-      "FastAPI control plane, async throughout — CLI and dashboard are thin REST clients",
+      "FastAPI control plane, async throughout; CLI and dashboard are thin REST clients",
       "LangGraph agent with langgraph-checkpoint-postgres; thread_id = job_id",
       "Postgres job queue claimed via FOR UPDATE SKIP LOCKED with heartbeat lease",
       "Two DB drivers, one Postgres: asyncpg for domain tables (Alembic), psycopg3 for checkpoints",
+      "Plan freezes everything: SCC-condensation dependency ordering, a frozen interface manifest, executable cuts, the architect call + deterministic contract compiler, and the oracle census",
+      "Pre-sandbox AST gates: contract shape, capability ownership, import direction, decorator/middleware shape, new-cycle rejection; each violation gets one accounted repair call",
       "Ephemeral Docker sandbox per verify run, --network none; gVisor (runsc) option for hosting",
-      "LiteLLM provider ladder: driver / escalation / cheap — provider is env config, not code",
+      "LiteLLM provider ladder: driver / escalation / cheap; provider is env config, not code",
+      "Pluggable recipes: detection + task types + per-task verify_spec; unknown recipes degrade safely to ingest → verify → report with an honest red",
       "code-review-graph behind a Protocol for the structural graph + blast radius",
       "FastMCP stdio server exposing verify_patch_in_sandbox, repo_graph, blast_radius",
       "GitHub OAuth (hosted mode), rotating refresh cookies, pk_ API keys, quota + spend caps",
     ],
     challenges: [
-      "A single shared sandbox image cannot serve mutually incompatible dependency pins — four corpus candidates dropped for that reason; the unlock is per-repo sandbox images",
-      "Skip-and-continue produced false greens (original suite passes after full rollback) — fixed by reloading task truth, recomputing diffs, and requiring full completion",
-      "Models can \"pass\" by decorating every test with skip — Verify now requires passed > 0",
-      "Export contracts pin names, not call shapes — get_db() drifting between plain function / needs-request / context manager across files is the dominant residual failure",
-      "Flask-coupled extensions (flask_sqlalchemy, flask_restx) need per-extension sub-strategies; partially cracked, not reliable",
-      "LLM nondeterminism means single runs are anecdotes — K-run mean±variance is mandatory, and organic flake is a finding, not noise to hide",
+      "Some migrations are unreachable by rewriting files, proven by migrating flaskr by hand under the same sandbox oracle: 24/24, but only after creating four new modules. That manual run became the acceptance spec, and the engine's missing capability had a name",
+      "A model told us what was missing: on one repo GPT-4o imported a compatibility module that didn't exist. It wanted the right architecture; the engine had no way to let it own one. Artifact-producing plans exist because of that log line",
+      "Whole-file regeneration is a near-no-op against an unattributed bug: two measured cases reproduced identical failures across paid regeneration rounds. Attribution, not retry budget, was the bottleneck",
+      "Skip-and-continue produced false greens (original suite passes after full rollback); fixed by reloading task truth, recomputing diffs, and requiring full completion",
+      "Models can \"pass\" by decorating every test with skip; Verify requires passed > 0, and the oracle census now catches the whole family mechanically",
+      "A single shared sandbox image cannot serve mutually incompatible dependency pins; four corpus candidates dropped for that reason; the unlock is per-repo sandbox images",
+      "LLM nondeterminism means single runs are anecdotes; K-run mean±variance is mandatory, and organic flake is a finding, not noise to hide",
     ],
     learnings: [
       "The hard thing (autonomous migrate + eval) validates the easy thing (MCP verify tool)",
-      "Honesty bars must be structural, not aspirational — every false-green class found in the wild became a hard predicate",
+      "Honesty bars must be structural, not aspirational; every false-green class found in the wild became a hard predicate, and engine crashes count against the score",
+      "Give the model judgment, take back the bookkeeping: it decides ownership, grouping, and design; the engine deterministically supplies facts it already derives, and rejects contradictions loudly",
+      "Separate your random variables: architect acceptance and generation quality are independent; measuring them together makes every fix unattributable",
       "Recovery is a product feature only if it is measured: fault scenarios, attempts_log, cost deltas",
-      "Recipe rules encode observed failures cheaply; structural gaps need architecture, not more prompt text",
+      "Recipe rules encode observed failures cheaply; structural gaps (interface contracts, target architecture, extension surfaces) need architecture, not more prompt text",
       "Cost that includes retries is the only honest cost; cheap first-pass numbers lie",
       "Compose + network-off sandboxes make multi-service agent systems operable without cloud lock-in",
     ],
@@ -197,20 +218,20 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                 {/* Stat callout row */}
                 <div className="mb-6 flex flex-wrap items-center gap-6">
                   <div className="border-l-2 border-accent pl-4">
-                    <p className="font-mono text-2xl font-bold text-foreground">0</p>
-                    <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Humans in the Loop</p>
+                    <p className="font-mono text-2xl font-bold text-foreground">61.9%</p>
+                    <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Strict Green · 21 Autonomous Runs</p>
                   </div>
                   <div className="border-l-2 border-border pl-4">
-                    <p className="font-mono text-2xl font-bold text-foreground">K=3 × 6</p>
+                    <p className="font-mono text-2xl font-bold text-foreground">K=3 × 7</p>
                     <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Eval Grid · Pinned Repos</p>
                   </div>
                   <div className="border-l-2 border-border pl-4">
-                    <p className="font-mono text-2xl font-bold text-foreground">100%</p>
-                    <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Fault Recovery (Fixture)</p>
+                    <p className="font-mono text-2xl font-bold text-foreground">1.0</p>
+                    <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Oracle Integrity · Every Run</p>
                   </div>
                   <div className="border-l-2 border-border pl-4">
-                    <p className="font-mono text-2xl font-bold text-foreground">2</p>
-                    <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Interfaces · CLI + MCP</p>
+                    <p className="font-mono text-2xl font-bold text-foreground">0</p>
+                    <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Humans in the Loop</p>
                   </div>
                 </div>
 
@@ -240,13 +261,13 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
             <div className="container mx-auto px-4">
               <div className="mx-auto max-w-3xl space-y-16">
 
-                {/* 01 — System Overview */}
+                {/* 01 · System Overview */}
                 <section id="recovery-proof" className="scroll-mt-24">
                   <ProjectSectionLabel n="01" label="System Overview" />
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                     One core engine, two interfaces: the CLI drives fully autonomous migrations, and an MCP
                     server hands the same verified primitives to co-pilot agents like Claude Code and Cursor.
-                    The dashboard is the proof surface — live task trees, diffs, recovery timelines, and the
+                    The dashboard is the proof surface: live task trees, diffs, recovery timelines, and the
                     eval leaderboard. Below is the core durability claim, live: the worker is killed
                     mid-migration, and a restarted worker resumes from the Postgres checkpoint instead of
                     starting over.
@@ -255,7 +276,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                     <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
                       <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
                       <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                        durability proof — kill the worker, it resumes
+                        durability proof: kill the worker, it resumes
                       </span>
                     </div>
                     <Image
@@ -272,7 +293,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                   </div>
                 </section>
 
-                {/* 02 — Why I Built It */}
+                {/* 02 · Why I Built It */}
                 <section>
                   <ProjectSectionLabel n="02" label="Why I Built It" />
                   <p className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
@@ -280,23 +301,23 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                   </p>
                 </section>
 
-                {/* 03 — How It Works */}
+                {/* 03 · How It Works */}
                 <section>
                   <ProjectSectionLabel n="03" label="How It Works" />
                   <p className="mb-6 whitespace-pre-line text-base leading-relaxed text-muted-foreground">
                     {project.how}
                   </p>
-                  <DiagramLightbox title="Job Lifecycle — LangGraph Nodes">
+                  <DiagramLightbox title="Job Lifecycle: LangGraph Nodes">
                     <MigrationFlow />
                   </DiagramLightbox>
                 </section>
 
-                {/* 04 — CLI */}
+                {/* 04 · CLI */}
                 <section>
-                  <ProjectSectionLabel n="04" label="CLI — Autonomous Mode" />
+                  <ProjectSectionLabel n="04" label="CLI: Autonomous Mode" />
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                     The <span className="font-mono text-foreground">portage</span> console script is a thin
-                    httpx client over the REST API — it never touches the DB or queue directly, the same
+                    httpx client over the REST API; it never touches the DB or queue directly, the same
                     boundary the dashboard respects. <span className="font-mono text-foreground">migrate --watch</span>{" "}
                     streams live task transitions; <span className="font-mono text-foreground">status</span>,{" "}
                     <span className="font-mono text-foreground">jobs</span>, and{" "}
@@ -312,20 +333,20 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                   </div>
                 </section>
 
-                {/* 05 — MCP */}
+                {/* 05 · MCP */}
                 <section>
-                  <ProjectSectionLabel n="05" label="MCP — Co-pilot Mode" />
+                  <ProjectSectionLabel n="05" label="MCP: Co-pilot Mode" />
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                     The MCP server exposes the verified core so another AI agent can test its own work before
                     writing to the caller&apos;s tree:{" "}
                     <span className="font-mono text-foreground">verify_patch_in_sandbox</span> copies the repo,
                     applies a unified diff, runs the tests network-off, and returns structured pass/fail with
-                    failing test names — never mutating the caller&apos;s files.{" "}
+                    failing test names, never mutating the caller&apos;s files.{" "}
                     <span className="font-mono text-foreground">repo_graph</span> and{" "}
                     <span className="font-mono text-foreground">blast_radius</span> give it structural
                     awareness. Here is what a blast-radius query actually computes:
                   </p>
-                  <DiagramLightbox title="Blast Radius — Impact of a Change">
+                  <DiagramLightbox title="Blast Radius: Impact of a Change">
                     <BlastRadius />
                   </DiagramLightbox>
                   <div className="mt-6 grid gap-4 sm:grid-cols-2">
@@ -334,11 +355,11 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                   </div>
                 </section>
 
-                {/* 06 — Dashboard as Proof */}
+                {/* 06 · Dashboard as Proof */}
                 <section>
                   <ProjectSectionLabel n="06" label="Dashboard as Proof" />
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
-                    Next.js App Router, REST only — the frontend never owns schema. Jobs list with launch
+                    Next.js App Router, REST only; the frontend never owns schema. Jobs list with launch
                     form, job detail with live pipeline route, per-file diffs, and attempt tier/model
                     timelines, and a public <span className="font-mono text-foreground">/eval</span>{" "}
                     leaderboard rendering per repo×scenario green rates, mean±variance, cost, and recovery
@@ -355,7 +376,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                 </section>
 
                 {/*
-                  ── 06.5 — Live Demo (enable after Phase 8 hosting) ──────────
+                  ── 06.5 · Live Demo (enable after Phase 8 hosting) ──────────
                   The embed component is fully built. To turn this on:
                   1. Set PORTAGE_DEMO_URL in ./components/LiveDemo.tsx
                   2. Allow the origin in next.config.mjs CSP (frame-src)
@@ -365,14 +386,14 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                   <ProjectSectionLabel n="06.5" label="Try It Live" />
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                     The hosted Portage dashboard, embedded. Sign in with GitHub, submit a migration against a
-                    corpus repo, and watch the task tree, diffs, and recovery timeline update live — or browse
+                    corpus repo, and watch the task tree, diffs, and recovery timeline update live, or browse
                     the public eval leaderboard without signing in.
                   </p>
                   <LiveDemo />
                 </section>
                 */}
 
-                {/* 07 — Key Features */}
+                {/* 07 · Key Features */}
                 <section>
                   <ProjectSectionLabel n="07" label="Key Features" />
                   <div className="grid gap-4 sm:grid-cols-2">
@@ -393,13 +414,14 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                   </div>
                 </section>
 
-                {/* 08 — Eval Headline */}
+                {/* 08 · Eval Headline */}
                 <section>
                   <ProjectSectionLabel n="08" label="Eval Headline" />
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
-                    Suite <span className="font-mono text-foreground">k3-baseline</span>: every repo×scenario
-                    cell runs K=3 times through the real queue/worker path, and green requires the full suite
-                    passing, every task done, and zero skips. Straight from the{" "}
+                    Suite <span className="font-mono text-foreground">eval-full-corpus-k3-20260714</span>: every
+                    repo×scenario cell runs K=3 times through the real queue/worker path: 21 fully autonomous
+                    runs. Green requires the full suite passing, every task done, zero skips, and oracle
+                    integrity 1.0 (no test deleted, renamed, skipped, or weakened). Straight from the{" "}
                     <span className="font-mono text-foreground">runs</span>/
                     <span className="font-mono text-foreground">metrics</span> tables:
                   </p>
@@ -410,10 +432,8 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                           <th className="px-4 py-3 text-left font-normal">Repo</th>
                           <th className="px-4 py-3 text-left font-normal">Tier</th>
                           <th className="px-4 py-3 text-left font-normal">Green</th>
-                          <th className="px-4 py-3 text-left font-normal">Test-pass</th>
-                          <th className="px-4 py-3 text-left font-normal">Recover</th>
                           <th className="px-4 py-3 text-left font-normal">Cost</th>
-                          <th className="px-4 py-3 text-left font-normal">Wall</th>
+                          <th className="px-4 py-3 text-left font-normal">Readout</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-border/50">
@@ -422,27 +442,41 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                             <td className="px-4 py-3 font-mono text-xs text-foreground">{r.repo}</td>
                             <td className="px-4 py-3 font-mono text-[11px] text-muted-foreground">{r.tier}</td>
                             <td className={`px-4 py-3 font-mono text-xs font-bold ${r.strong ? "text-accent" : "text-muted-foreground"}`}>{r.green}</td>
-                            <td className="px-4 py-3 font-mono text-xs text-muted-foreground">{r.pass}</td>
-                            <td className="px-4 py-3 font-mono text-xs text-muted-foreground">{r.recover}</td>
                             <td className="px-4 py-3 font-mono text-xs text-muted-foreground">{r.cost}</td>
-                            <td className="px-4 py-3 font-mono text-xs text-muted-foreground">{r.wall}</td>
+                            <td className="px-4 py-3 text-xs text-muted-foreground">{r.readout}</td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
                   </div>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                    <span className="font-semibold text-foreground">Strict autonomous score: 13/21 green (61.9%)</span>,
+                    with engine errors counted against the score, not excused. Two grids earlier the same corpus
+                    scored 6/21 (28.6%) with external repos at 0/15; they are now 8/15. Every red restored and
+                    re-verified the repo&apos;s original suite: no false greens, no weakened tests.
+                  </p>
+                  <div className="mt-4 rounded border border-accent/30 bg-accent/5 p-4">
+                    <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">Headline result</p>
+                    <p className="mt-2 text-sm leading-relaxed text-foreground">
+                      flaskr, the canonical Flask tutorial app (templates + factory + auth + SQLite + Click
+                      CLI), went from never green in any grid to 24/24 tests, 12/12 tasks, zero recovery,
+                      $0.154, five model calls, then repeated it in two more independent autonomous samples. It
+                      needed four new modules to exist; the engine designed and wired them.
+                    </p>
+                  </div>
                   <div className="mt-4 rounded border border-accent/20 bg-card p-4">
                     <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">Finding</p>
                     <p className="mt-2 text-sm leading-relaxed text-foreground">
-                      The reliability boundary is idiom, not size. JSON APIs migrate green at ~$0.01–0.02 with
-                      zero recovery; server-rendered apps complete their task DAGs but fail behaviorally — the
-                      named frontier is cross-file call-shape drift. Fault injection on the stable tier
-                      (bad_patch, bad_patch_until_escalation) recovers 100% green on the fixture, 3/3 each.
+                      The reliability boundary is idiom, not size. JSON APIs and RESTX-style APIs migrate green
+                      for ~$0.02–0.07; the remaining reds are concentrated in extension-heavy applications, and
+                      both are past their structural blockers. Fault injection (bad_patch,
+                      bad_patch_until_escalation, drop_task) is a standing part of the eval and green on the
+                      current engine.
                     </p>
                   </div>
                 </section>
 
-                {/* 09 — Technical Stack */}
+                {/* 09 · Technical Stack */}
                 <section>
                   <ProjectSectionLabel n="09" label="Technical Stack" />
                   <div className="overflow-hidden rounded border border-border bg-card">
@@ -465,7 +499,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                   </div>
                 </section>
 
-                {/* 10 — Friction & Takeaways */}
+                {/* 10 · Friction & Takeaways */}
                 <section>
                   <ProjectSectionLabel n="10" label="Friction & Takeaways" />
                   <div className="grid gap-5 sm:grid-cols-2">
@@ -523,8 +557,9 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                   </h3>
                   <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
                     Every moving part explained: the animated architecture, graph-node lifecycle, checkpoint
-                    and lease mechanics, sandbox anti-gaming predicates, the seven recovery strategies, K-run
-                    eval methodology with non-claims, and the nine-category failure taxonomy with evidence.
+                    and lease mechanics, sandbox anti-gaming predicates, artifact-producing plans, the eight
+                    recovery strategies, K-run eval methodology with non-claims, and the ten-category failure
+                    taxonomy with evidence.
                   </p>
                   <div className="flex flex-wrap gap-3">
                     <Link

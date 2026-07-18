@@ -46,7 +46,7 @@ export default function ResearchPage() {
   const collectionData = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Research — Sohail Gidwani",
+    name: "Research: Sohail Gidwani",
     url: `${SITE}/research`,
     description:
       "Research papers and their extensions by Sohail Gidwani, including MEMOIR-VLM for Alzheimer's disease classification and VQA.",

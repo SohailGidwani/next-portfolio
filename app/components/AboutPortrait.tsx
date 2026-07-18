@@ -24,7 +24,7 @@ export default function AboutPortrait() {
         <div className="relative aspect-[3/4] w-full overflow-hidden border border-foreground/20 bg-background">
           <Image
             src={portrait}
-            alt="Sohail Gidwani — professional portrait"
+            alt="Sohail Gidwani, professional portrait"
             fill
             sizes="(min-width: 1280px) 380px, 320px"
             className="object-cover object-[50%_18%]"

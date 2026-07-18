@@ -306,10 +306,10 @@ export default function MigrationFlow() {
         </svg>
       </div>
       <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
-        A submitted job runs this LangGraph graph, checkpointing to Postgres after every node — kill the
+        A submitted job runs this LangGraph graph, checkpointing to Postgres after every node: kill the
         worker mid-run and a restarted worker resumes from the last completed node. When Verify fails, Recover
         classifies the failure and routes back: targeted rollback + regenerate to Execute, replan to Plan for
-        planner misses, or give up to Integrate once budgets are exhausted — reporting an honest red rather
+        planner misses, or give up to Integrate once budgets are exhausted, reporting an honest red rather
         than a gamed green.
       </p>
     </figure>

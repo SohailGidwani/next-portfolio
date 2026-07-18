@@ -29,8 +29,8 @@ export const projects: ProjectData[] = [
     kind: "Agentic AI",
     shortDescription: "An autonomous agent that migrates Flask apps to FastAPI and proves it with the repo's own tests.",
     description:
-      "LangGraph agent that plans a per-file task DAG, rewrites each file with an LLM, verifies in a network-off Docker sandbox, and recovers from failures under bounded budgets. Checkpointed to Postgres, so you can kill the worker mid-run and it resumes. Evaluated on 6 pinned repositories at K=3.",
-    outcome: "6 pinned repositories · K=3 evaluation grid · checkpoint-resume recovery",
+      "LangGraph agent that plans the target architecture (creating new modules, not just rewriting files), verifies in a network-off Docker sandbox, and recovers from failures under bounded budgets. Checkpointed to Postgres, so you can kill the worker mid-run and it resumes. 61.9% strict green across 21 autonomous runs (7 pinned repos, K=3).",
+    outcome: "61.9% strict green · 21 autonomous runs · 7 pinned repos at K=3",
     image: portage,
     tags: ["LangGraph", "FastAPI", "Postgres", "Docker", "MCP", "Agents"],
     github: "https://github.com/SohailGidwani/Portage",
@@ -60,7 +60,7 @@ export const projects: ProjectData[] = [
     kind: "AI Research",
     shortDescription: "Do LLMs actually use their chain-of-thought, or is it just decoration?",
     description:
-      "CSCI-544 course project at USC. Four experiments probing whether CoT reasoning in Llama 3.2 and Qwen 2.5 causally drives answers or is post-hoc rationalization — across math and science benchmarks.",
+      "CSCI-544 course project at USC. Four experiments probing whether CoT reasoning in Llama 3.2 and Qwen 2.5 causally drives answers or is post-hoc rationalization, across math and science benchmarks.",
     outcome: "~15,000 deterministic queries · 500 benchmark samples · 4 experiments",
     image: cotfaithfulness,
     tags: ["Python", "LLM", "Ollama", "NLP", "Research"],

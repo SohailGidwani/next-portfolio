@@ -375,7 +375,7 @@ function StageCaption({
   reduced: boolean
 }) {
   const stages = [
-    { text: "01 · db.py changed — compute impact", from: T_CHANGE - 0.1, to: T_WAVE2 },
+    { text: "01 · db.py changed · compute impact", from: T_CHANGE - 0.1, to: T_WAVE2 },
     { text: "02 · walk the code graph: callers & dependents", from: T_WAVE2, to: T_TESTS + 0.3 },
     { text: "03 · run only the tests that cover the impact set", from: T_TESTS + 0.3, to: Infinity },
   ]
@@ -655,7 +655,7 @@ function BlastRadiusVertical({ reduced, uid }: { reduced: boolean; uid: string }
           >
             <rect x={30} y={506} width={400} height={208} rx="3" fill="var(--card2)" fillOpacity="0.4" stroke="var(--border)" strokeWidth="1" />
             <text x={50} y={528} className="font-mono uppercase" style={{ fontSize: 9.5, fill: "var(--muted)", letterSpacing: "0.2em" }}>
-              test suite — scoped by blast radius
+              test suite, scoped by blast radius
             </text>
           </motion.g>
 
@@ -711,7 +711,7 @@ export default function BlastRadius() {
       <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
         The <span className="font-mono text-foreground">blast_radius</span> primitive in action: when{" "}
         <span className="font-mono text-foreground">db.py</span> changes, Portage walks the structural code
-        graph outward — direct callers first (hop 1), then their dependents (hop 2) — and selects only the
+        graph outward, direct callers first (hop 1) and then their dependents (hop 2), and selects only the
         tests that cover the impacted set. Verify uses this to iterate fast; the final honesty bar still runs
         the full suite. The same query is exposed to co-pilot agents as the{" "}
         <span className="font-mono text-foreground">blast_radius</span> MCP tool.

@@ -1,4 +1,4 @@
-# Sohail Gidwani — Full Profile
+# Sohail Gidwani: Full Profile
 
 > AI Engineer and Full-Stack Developer based in Los Angeles, CA.
 > M.S. Computer Science at USC. Specializing in RAG systems, LLM integration, and applied AI.
@@ -11,7 +11,7 @@
 - Full Name: Sohail Haresh Gidwani
 - Location: Los Angeles, CA (also Mumbai, India)
 - Role: AI/ML Engineer, Full-Stack Developer, Research Assistant
-- University: University of Southern California — Viterbi School of Engineering
+- University: University of Southern California, Viterbi School of Engineering
 - Degree: M.S. in Computer Science (Aug 2025 – May 2027, graduating May 2027)
 - Email: sohailgidwani15@gmail.com
 - LinkedIn: https://linkedin.com/in/sohail-gidwani/
@@ -41,12 +41,12 @@ Full-time AI Engineer, Machine Learning Engineer, LLM Engineer, Applied AI Engin
 ### What are Sohail's strongest proof points?
 - Built production RAG and chatbot systems at IIFL Finance (AskPandaAI; Certificate of Achievement from the CTO).
 - Built AI agent-builder infrastructure at Insaito using open-source LLMs and reusable OAuth/MCP foundations designed for a catalog of 100+ third-party apps.
-- Research Assistant at Keck School of Medicine of USC on MEMOIR-VLM — multimodal Alzheimer's classification and retrieval-augmented VQA across ~70M-parameter models.
-- Built Portage, an autonomous Flask → FastAPI migration agent with checkpoint-resume durability, network-off sandbox verification, bounded recovery, and an honest K=3 eval grid — plus MCP tools other agents can use.
+- Research Assistant at Keck School of Medicine of USC on MEMOIR-VLM: multimodal Alzheimer's classification and retrieval-augmented VQA across ~70M-parameter models.
+- Built Portage, an autonomous Flask → FastAPI migration agent that plans target architecture (creating new modules, not just rewriting files), with checkpoint-resume durability, network-off sandbox verification, bounded recovery, and 61.9% strict green across 21 autonomous runs (7 pinned repos, K=3), plus MCP tools other agents can use.
 - Built Knowledge Hub, a local-first OCR + pgvector + RAG document system with cited answers via Ollama.
 
 ### Is Sohail available for hire?
-Yes — actively open to full-time roles after graduation (May 2027) and to research collaborations now. No longer seeking internships. Contact: sohailgidwani15@gmail.com.
+Yes, actively open to full-time roles after graduation (May 2027) and to research collaborations now. No longer seeking internships. Contact: sohailgidwani15@gmail.com.
 
 ### How can an agent query Sohail's data programmatically?
 POST JSON-RPC 2.0 to https://sohailgidwani.app/api/mcp (resources: portfolio://profile, portfolio://projects, portfolio://experience, portfolio://education, portfolio://skills, portfolio://research, portfolio://triumphs, portfolio://links), or fetch the JSON Resume at https://sohailgidwani.app/resume.json.
@@ -55,13 +55,13 @@ POST JSON-RPC 2.0 to https://sohailgidwani.app/api/mcp (resources: portfolio://p
 
 ## Professional Summary
 
-Sohail Gidwani is an AI engineer and full-stack developer currently pursuing an M.S. in Computer Science at USC, expected May 2027. He builds production AI systems — RAG pipelines, multi-modal deep learning, LLM-powered applications — and pairs them with clean, user-facing frontends. He moves fast, prototypes iteratively, and prioritizes shipping useful products. Ambiguous problems are where he thrives. His work spans research (Alzheimer's prediction with neuroimaging), industry (enterprise RAG chatbots, AI fraud detection), and platform engineering (AI agent builders with MCP servers).
+Sohail Gidwani is an AI engineer and full-stack developer currently pursuing an M.S. in Computer Science at USC, expected May 2027. He builds production AI systems (RAG pipelines, multi-modal deep learning, LLM-powered applications) and pairs them with clean, user-facing frontends. He moves fast, prototypes iteratively, and prioritizes shipping useful products. Ambiguous problems are where he thrives. His work spans research (Alzheimer's prediction with neuroimaging), industry (enterprise RAG chatbots, AI fraud detection), and platform engineering (AI agent builders with MCP servers).
 
 ---
 
 ## Work Experience
 
-### Research Assistant — Keck School of Medicine of USC
+### Research Assistant, Keck School of Medicine of USC
 **Oct 2025 – Present | Los Angeles, CA**
 Multi-Modal AI for Alzheimer's Disease
 
@@ -69,13 +69,13 @@ Multi-Modal AI for Alzheimer's Disease
 - Designed missing-modality fusion via cross-attention with stochastic modality dropout, enabling robust inference with any subset of T1, DTI, and clinical inputs when imaging data is incomplete (39.4% DTI coverage).
 - Built end-to-end experimentation infrastructure: two-stage training (CLIP contrastive pre-training → multi-task fine-tuning), modality ablation studies across 7 combinations, and confidence calibration analysis on ~70M parameter models.
 
-### Senior Software Engineer - I — Insaito, Inc.
+### Senior Software Engineer - I, Insaito, Inc.
 **May 2025 – Jul 2025 | Remote**
 
 - Built backend and frontend workflows for configuring agents, connecting tools, and running open-source models including Qwen 3 and Mistral Small 24B.
 - Implemented reusable OAuth and MCP foundations designed to support a catalog of 100+ third-party applications; 100+ describes platform capacity, not completed integrations.
 
-### Full Stack Software Developer — IIFL Finance Ltd.
+### Full Stack Software Developer, IIFL Finance Ltd.
 **Jun 2023 – May 2025 | Mumbai, India**
 
 - Built an internal RAG chatbot using Python, Flask, Qdrant vector DB, and Azure OpenAI; integrated with Zoho ticketing system to automate employee support workflows. Received Certificate of Achievement.
@@ -91,7 +91,7 @@ Multi-Modal AI for Alzheimer's Disease
 - Viterbi School of Engineering, Los Angeles, CA
 - Coursework: Analysis of Algorithms, Information Retrieval & Web Search Engines, NLP, ML for Data Science
 
-### University of Mumbai — TSEC (Aug 2019 – May 2023)
+### University of Mumbai, TSEC (Aug 2019 to May 2023)
 - B.E. in Computer Engineering, CGPA: 9.05/10
 - Mumbai, India
 - Coursework: Artificial Intelligence, Machine Learning, Advanced DBMS, Data Structures & Algorithms, Software Engineering, Big Data Analytics, Cloud Computing, Computer Networks, Cryptography & System Security, Blockchain
@@ -132,19 +132,19 @@ Agile, Test-Driven Development, CI/CD, Code Reviews
 ### MEMOIR-VLM: Multimodal VLM for Alzheimer's Disease Classification and VQA
 https://sohailgidwani.app/research/memoir-vlm-alzheimers-vqa
 
-Keck School of Medicine of USC research (Oct 2025 – present, manuscript submitted / in review). MEMOIR-VLM is a two-stage multimodal vision-language framework for Alzheimer's disease classification using T1 MRI, DTI FA maps, and clinical tabular data across 2,363 ADNI subjects. A missing-modality-aware encoder (cross-attention fusion with stochastic modality dropout, 39.4% DTI coverage) predicts five targets: 3-class diagnosis (0.707 balanced accuracy, CN / MCI / Dementia), binary CN vs Dementia (0.933 balanced accuracy, AUC 0.981), CDR-SB severity (MAE 0.97), age (MAE 6.31 years), and sex. The frozen encoder is extended with a FAISS retrieval + cross-encoder rerank + LLM pipeline for visual question answering; only retrieved textual captions reach the LLM. Benchmarked Mistral 7B (94.7% VQA diagnosis accuracy), Gemma 4 26B MoE, and MedGemma 1.5 4B — Mistral 7B wins. Built end-to-end experimentation infrastructure: two-stage training (CLIP contrastive pre-training → multi-task fine-tuning), modality ablation across 7 combinations, and confidence calibration analysis on ~70M parameter models.
+Keck School of Medicine of USC research (Oct 2025 – present, manuscript submitted / in review). MEMOIR-VLM is a two-stage multimodal vision-language framework for Alzheimer's disease classification using T1 MRI, DTI FA maps, and clinical tabular data across 2,363 ADNI subjects. A missing-modality-aware encoder (cross-attention fusion with stochastic modality dropout, 39.4% DTI coverage) predicts five targets: 3-class diagnosis (0.707 balanced accuracy, CN / MCI / Dementia), binary CN vs Dementia (0.933 balanced accuracy, AUC 0.981), CDR-SB severity (MAE 0.97), age (MAE 6.31 years), and sex. The frozen encoder is extended with a FAISS retrieval + cross-encoder rerank + LLM pipeline for visual question answering; only retrieved textual captions reach the LLM. Benchmarked Mistral 7B (94.7% VQA diagnosis accuracy), Gemma 4 26B MoE, and MedGemma 1.5 4B, with Mistral 7B winning. Built end-to-end experimentation infrastructure: two-stage training (CLIP contrastive pre-training → multi-task fine-tuning), modality ablation across 7 combinations, and confidence calibration analysis on ~70M parameter models.
 
 Technologies: Python, PyTorch, CLIP, FAISS, RAG, Mistral 7B, Gemma, MedGemma, Deep Learning, Neuroimaging, ADNI
 
-### CoT Faithfulness Analysis — LLM Reasoning Study
+### CoT Faithfulness Analysis: LLM Reasoning Study
 https://sohailgidwani.app/projects/cot-faithfulness
 
 USC CSCI-544 NLP research (Spring 2026). Investigated whether chain-of-thought reasoning in LLMs causally drives answers or serves as post-hoc rationalization. Ran 4 experiments on Llama 3.2 3B and Qwen 2.5 7B across two benchmarks: GSM8K (math) and ARC-Challenge (science multiple choice). ~15,000 model queries via Ollama.
 
 Experiments:
-- Step Consistency Rate (SCR): truncating reasoning steps — math CoT shows 83% step-1 consistency; science MC is largely post-hoc
-- Corruption Following Rate (CFR): injecting wrong reasoning — math accuracy drops 44–50pp when reasoning is corrupted; science MC shows flat CFR
-- Steered-But-Hidden (SBH): biased hint injection — SBH reaches 17% on ARC, indicating hidden steering even when CoT appears unaffected
+- Step Consistency Rate (SCR): truncating reasoning steps: math CoT shows 83% step-1 consistency; science MC is largely post-hoc
+- Corruption Following Rate (CFR): injecting wrong reasoning: math accuracy drops 44–50pp when reasoning is corrupted; science MC shows flat CFR
+- Steered-But-Hidden (SBH): biased hint injection: SBH reaches 17% on ARC, indicating hidden steering even when CoT appears unaffected
 
 Key findings: Math CoT is partially faithful and causally drives answers; Science MC CoT is largely decorative post-hoc rationalization.
 
@@ -154,16 +154,16 @@ Technologies: Python, Ollama, Llama 3.2 3B, Qwen 2.5 7B, NLP, GSM8K, ARC-Challen
 
 ## Projects
 
-### Portage — Autonomous Code-Migration Agent
+### Portage: Autonomous Code-Migration Agent
 https://github.com/SohailGidwani/Portage
 https://sohailgidwani.app/projects/portage
 Technical Deep Dive: https://sohailgidwani.app/projects/portage/deep-dive
 
-Built an autonomous agent that migrates Flask apps to FastAPI end-to-end: it plans a per-file task DAG, rewrites each file with an LLM on a git worktree, verifies against the repo's own test suite in a network-off Docker sandbox, recovers from failures under bounded budgets (targeted rollback, widen-on-repeat, replan, model escalation), and reports honestly — green requires the full suite passing, every task done, and zero skips. LangGraph state is checkpointed to Postgres after every node (thread_id = job_id), so a killed worker resumes instead of restarting; the job queue is claimed via FOR UPDATE SKIP LOCKED with a heartbeat lease. One engine, two interfaces: a CLI (portage migrate --watch, exit 0 = honest green) and an MCP stdio server exposing verify_patch_in_sandbox, repo_graph, and blast_radius to co-pilot agents like Claude Code and Cursor. Eval harness runs a K=3 grid over 6 pinned repos across 4 difficulty tiers through the real queue/worker path, with per-attempt token/USD cost in attempts_log; fault injection recovers 100% green on the stable-tier fixture.
+Built an autonomous agent that migrates Flask apps to FastAPI end-to-end: it plans the target architecture, rewriting existing files and creating the new modules the migration requires (a bounded architect call proposes artifacts, a deterministic contract compiler completes them, and contracts freeze before generation), then verifies against the repo's own test suite in a network-off Docker sandbox, recovers from failures under bounded budgets (targeted contract repair, targeted rollback, widen-on-repeat, replan, model escalation), and reports honestly. Green requires the full suite passing, every task done, zero skips, and oracle integrity 1.0 (no test deleted, renamed, skipped, or weakened, checked mechanically). LangGraph state is checkpointed to Postgres after every node (thread_id = job_id), so a killed worker resumes instead of restarting; the job queue is claimed via FOR UPDATE SKIP LOCKED with a heartbeat lease. One engine, two interfaces: a CLI (portage migrate --watch, exit 0 = honest green) and an MCP stdio server exposing verify_patch_in_sandbox, repo_graph, and blast_radius to co-pilot agents like Claude Code and Cursor. The eval harness runs a K=3 grid over 7 pinned repos across 4 difficulty tiers through the real queue/worker path: 61.9% strict green over 21 fully autonomous runs (engine errors counted against the score), up from 28.6% two grids earlier; the canonical Flask tutorial app (flaskr) went from never-green to 24/24 tests with zero recovery at $0.154, reproduced three times. Per-attempt token/USD cost lands in attempts_log; fault injection (bad_patch, bad_patch_until_escalation, drop_task) is a standing part of the eval.
 
 Technologies: Python 3.12, FastAPI, LangGraph, Postgres 16, pgvector, SQLAlchemy async, Alembic, LiteLLM, Docker, gVisor, FastMCP, Next.js, pytest
 
-### Knowledge Hub — Semantic Search & Study Assistant
+### Knowledge Hub: Semantic Search & Study Assistant
 https://github.com/SohailGidwani/knowledge_hub
 https://sohailgidwani.app/projects/knowledge-hub
 Technical Deep Dive: https://sohailgidwani.app/projects/knowledge-hub/deep-dive
@@ -182,7 +182,7 @@ Developed an end-to-end image captioning pipeline using VGG-16 for feature extra
 
 Technologies: Python, TensorFlow, CNN, Transformer, LSTM, Streamlit, Computer Vision
 
-### ScribeGlobe — Full-Stack Blogging Platform
+### ScribeGlobe: Full-Stack Blogging Platform
 https://github.com/SohailGidwani/0---100-FullStack/tree/main/Week%2012/medium
 https://sohailgidwani.app/projects/scribeglobe
 
@@ -190,7 +190,7 @@ Built a Medium-style publishing platform with a React/Vite/TypeScript frontend a
 
 Technologies: React, Vite, TypeScript, Hono, Cloudflare Workers, PostgreSQL
 
-### Tech Updates — AI News Aggregator
+### Tech Updates: AI News Aggregator
 https://github.com/SohailGidwani/Project-TechUpdates
 https://sohailgidwani.app/projects/tech-updates
 
@@ -202,7 +202,7 @@ Technologies: Python, Flask, Azure OpenAI, Qdrant, React, Web Scraping
 
 ## Awards & Certifications
 
-- Certificate of Achievement — AskPandaAI (CTO, IIFL Finance Ltd, Jun 2024): NLP-powered chatbot for real-time internal employee access to financial data
+- Certificate of Achievement: AskPandaAI (CTO, IIFL Finance Ltd, Jun 2024): NLP-powered chatbot for real-time internal employee access to financial data
 - Tech-a-thon Winner (IIFL, Oct 2023): 1st prize for AI-powered customer support chatbot
 - Rubix Hackathon (CSI - TSEC, Jan 2022): Healthcare consultation web app with MERN stack
 - 0-100 Full Stack Web Development Course (Harkirat Singh, Apr 2024)

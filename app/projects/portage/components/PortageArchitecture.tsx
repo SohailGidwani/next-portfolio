@@ -171,13 +171,13 @@ function PortageArchitectureVertical({ reduced, uid }: { reduced: boolean; uid: 
           <Edge reduced={reduced} markers={markers} id={`${uid}-v-mcp-sb`} d={`M 128 794 L 128 748`} dashed opacity={0.8} delay={0.8} packet={{ dur: 2.2, begin: 2.8 }} />
 
           {/* edge labels */}
-          <text x={230} y={130} textAnchor="middle" className="font-mono" style={{ fontSize: 9.5, fill: "var(--muted)", fontStyle: "italic" }}>REST — never touch DB directly</text>
+          <text x={230} y={130} textAnchor="middle" className="font-mono" style={{ fontSize: 9.5, fill: "var(--muted)", fontStyle: "italic" }}>REST; never touches DB directly</text>
           <text x={244} y={280} className="font-mono" style={{ fontSize: 9.5, fill: "var(--muted)", fontStyle: "italic" }}>enqueue job</text>
           <text x={60} y={456} className="font-mono" style={{ fontSize: 9.5, fill: "var(--accent)", fontStyle: "italic" }}>claim · SKIP LOCKED + lease</text>
           <text x={274} y={456} className="font-mono" style={{ fontSize: 9.5, fill: "var(--muted)", fontStyle: "italic" }}>checkpoint</text>
           <text x={62} y={630} className="font-mono" style={{ fontSize: 9.5, fill: "var(--accent)", fontStyle: "italic" }}>verify</text>
           <text x={330} y={630} className="font-mono" style={{ fontSize: 9.5, fill: "var(--muted)", fontStyle: "italic" }}>rewrite</text>
-          <text x={140} y={775} className="font-mono" style={{ fontSize: 9.5, fill: "var(--muted)", fontStyle: "italic" }}>same primitives — no compose stack needed</text>
+          <text x={140} y={775} className="font-mono" style={{ fontSize: 9.5, fill: "var(--muted)", fontStyle: "italic" }}>same primitives; no compose stack needed</text>
         </svg>
       </div>
     </figure>
@@ -279,11 +279,11 @@ export default function PortageArchitecture() {
           <text x={836} y={216} textAnchor="middle" className="font-mono" style={{ fontSize: 9.5, fill: "var(--accent)", fontStyle: "italic" }}>verify</text>
           <text x={822} y={330} textAnchor="middle" className="font-mono" style={{ fontSize: 9.5, fill: "var(--muted)", fontStyle: "italic" }}>per-file rewrite</text>
           <text x={222} y={352} textAnchor="middle" className="font-mono" style={{ fontSize: 9.5, fill: "var(--muted)", fontStyle: "italic" }}>stdio</text>
-          <text x={640} y={442} textAnchor="middle" className="font-mono" style={{ fontSize: 9.5, fill: "var(--muted)", fontStyle: "italic" }}>same verified primitives — compose stack not required</text>
+          <text x={640} y={442} textAnchor="middle" className="font-mono" style={{ fontSize: 9.5, fill: "var(--muted)", fontStyle: "italic" }}>same verified primitives; compose stack not required</text>
         </svg>
       </div>
       <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
-        One core engine, two interfaces. The CLI and dashboard are thin REST clients — neither touches the
+        One core engine, two interfaces. The CLI and dashboard are thin REST clients; neither touches the
         queue or database directly. Jobs land in Postgres; a LangGraph worker claims them atomically with{" "}
         <span className="font-mono text-foreground">FOR UPDATE SKIP LOCKED</span> plus a heartbeat lease, and
         checkpoints state after every node so a killed worker resumes instead of restarting. Verification runs

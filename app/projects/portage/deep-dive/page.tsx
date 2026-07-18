@@ -32,6 +32,7 @@ const tocItems = [
   { id: "section-04", n: "04", label: "Sandbox & Verification" },
   { id: "section-05", n: "05", label: "Recovery Strategies" },
   { id: "section-06", n: "06", label: "Recipe System" },
+  { id: "section-06b", n: "6B", label: "Artifact-Producing Plans" },
   { id: "section-07", n: "07", label: "Eval Methodology" },
   { id: "section-08", n: "08", label: "Failure Taxonomy" },
   { id: "section-09", n: "09", label: "Corpus & Admission" },
@@ -125,9 +126,9 @@ export default function PortageDeepDivePage() {
     author: { "@type": "Person", name: "Sohail Gidwani", url: "https://sohailgidwani.app" },
     datePublished: "2026-07-09",
     description:
-      "Full technical breakdown of Portage: LangGraph node lifecycle, Postgres checkpoint + lease durability, network-off sandbox verification with anti-gaming predicates, recovery strategies, recipe system, eval methodology, and failure taxonomy.",
+      "Full technical breakdown of Portage: LangGraph node lifecycle, Postgres checkpoint + lease durability, network-off sandbox verification with anti-gaming predicates, artifact-producing plans, recovery strategies, recipe system, eval methodology, and failure taxonomy.",
     keywords:
-      "autonomous agent, code migration, LangGraph, Postgres checkpointing, Docker sandbox, LiteLLM, MCP, blast radius, eval harness, failure taxonomy",
+      "autonomous agent, code migration, LangGraph, Postgres checkpointing, Docker sandbox, LiteLLM, MCP, blast radius, eval harness, failure taxonomy, artifact-producing plans, oracle integrity",
     inLanguage: "en",
   }
 
@@ -189,18 +190,18 @@ export default function PortageDeepDivePage() {
               </h1>
 
               <div className="mb-6 flex flex-wrap items-center gap-x-6 gap-y-4">
-                <Stat value="12" label="Sections" primary />
-                <Stat value="7" label="Recovery Strategies" />
-                <Stat value="K=3 × 6" label="Eval Grid" />
-                <Stat value="9" label="Failure Categories" />
+                <Stat value="61.9%" label="Strict Green · K=3 × 7" primary />
+                <Stat value="13" label="Sections" />
+                <Stat value="8" label="Recovery Strategies" />
+                <Stat value="10" label="Failure Categories" />
               </div>
 
               <p className="mb-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
                 Every moving part of Portage: the compose-stack architecture, the LangGraph node lifecycle,
                 checkpoint + lease durability, network-off sandbox verification with anti-gaming predicates,
-                the recovery strategy table, the Flask → FastAPI recipe system, K-run eval methodology with
-                explicit non-claims, and the failure taxonomy with evidence. Every number comes from the{" "}
-                <span className="font-mono text-foreground">runs</span>/
+                artifact-producing plans, the recovery strategy table, the Flask → FastAPI recipe system,
+                K-run eval methodology with explicit non-claims, and the failure taxonomy with evidence. Every
+                number comes from the <span className="font-mono text-foreground">runs</span>/
                 <span className="font-mono text-foreground">metrics</span> tables or documented DoD scripts.
               </p>
 
@@ -218,12 +219,12 @@ export default function PortageDeepDivePage() {
           <div className="container mx-auto px-4">
             <div className="mx-auto max-w-3xl space-y-20">
 
-              {/* 01 — Architecture Overview */}
+              {/* 01 · Architecture Overview */}
               <section>
                 <SectionLabel n="01" label="Architecture Overview" id="section-01" />
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                   Portage is one core engine exposed through two interfaces. The autonomous agent + eval
-                  harness is the credibility engine; the MCP tools are the product wedge — build the moat
+                  harness is the credibility engine; the MCP tools are the product wedge: build the moat
                   first, the wedge second. The frontend never owns schema, and the CLI and dashboard are both
                   thin REST clients: neither touches the queue or DB directly.
                 </p>
@@ -232,7 +233,7 @@ export default function PortageDeepDivePage() {
                 </DiagramLightbox>
                 <div className="mt-6 grid gap-3 sm:grid-cols-3">
                   {[
-                    { icon: <Terminal className="h-4 w-4" />, label: "CLI — portage", sub: "Autonomous migrations · developer / CI" },
+                    { icon: <Terminal className="h-4 w-4" />, label: "CLI: portage", sub: "Autonomous migrations · developer / CI" },
                     { icon: <Bot className="h-4 w-4" />, label: "MCP server", sub: "Verified primitives for Claude Code, Cursor" },
                     { icon: <Gauge className="h-4 w-4" />, label: "Dashboard", sub: "Observability + eval proof for humans" },
                   ].map((c) => (
@@ -248,16 +249,16 @@ export default function PortageDeepDivePage() {
                   <CodeBlock
                     title="design_constraints.that_matter"
                     rows={[
-                      "Async everywhere in the backend — handlers, sessions, graph nodes",
-                      "Interfaces before adapters — Docker, LiteLLM, storage behind core/ Protocols; provider is env, not code",
-                      "Two DB drivers, one Postgres — asyncpg (domain, Alembic) + psycopg3 (LangGraph checkpoints); never merge the DSNs",
-                      "Job/Task status is VARCHAR + app-side StrEnum — keeps Alembic simple as states are added",
+                      "Async everywhere in the backend: handlers, sessions, graph nodes",
+                      "Interfaces before adapters: Docker, LiteLLM, storage behind core/ Protocols; provider is env, not code",
+                      "Two DB drivers, one Postgres: asyncpg (domain, Alembic) + psycopg3 (LangGraph checkpoints); never merge the DSNs",
+                      "Job/Task status is VARCHAR + app-side StrEnum, which keeps Alembic simple as states are added",
                     ]}
                   />
                 </div>
               </section>
 
-              {/* 02 — Job Lifecycle */}
+              {/* 02 · Job Lifecycle */}
               <section>
                 <SectionLabel n="02" label="Job Lifecycle & Graph Nodes" id="section-02" />
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
@@ -266,10 +267,10 @@ export default function PortageDeepDivePage() {
                   runs this graph with state keyed by{" "}
                   <span className="font-mono text-foreground">thread_id = job_id</span>. The runner checks
                   checkpoint state first: no checkpoint → fresh start; pending nodes →{" "}
-                  <span className="font-mono text-foreground">ainvoke(None)</span> without re-passing input —
+                  <span className="font-mono text-foreground">ainvoke(None)</span> without re-passing input;
                   the difference between “resume” and “accidentally restart from Ingest.”
                 </p>
-                <DiagramLightbox title="Job Lifecycle — LangGraph Nodes">
+                <DiagramLightbox title="Job Lifecycle: LangGraph Nodes">
                   <MigrationFlow />
                 </DiagramLightbox>
                 <div className="mt-6">
@@ -277,32 +278,33 @@ export default function PortageDeepDivePage() {
                     head={["Node", "What it does"]}
                     rows={[
                       ["Ingest", "Clone (optionally SHA-pinned, optional --subdir), snapshot as a git worktree, build the structural code graph. Runs exactly once on resume."],
-                      ["Plan", "Recipe detects framework usage, classifies each file, builds a task DAG with per-task verify_spec. An export-contract AST pass states what sibling files import."],
-                      ["Execute", "Per-file LLM rewrite on the worktree. Content-hash idempotency: resume skips already-applied files. Driver → escalation model ladder after N failures."],
-                      ["Verify", "Blast-radius-scoped tests in an ephemeral --network none sandbox, JUnit-parsed. All-skipped suites are failures (passed > 0 required)."],
-                      ["Recover", "Classify failure → targeted rollback + regenerate / model escalation / replan / skip-and-continue. Budgets bound everything."],
-                      ["Integrate", "Always recomputes the migration diff from the worktree — never trusts a stale cached diff."],
-                      ["Report", "Reloads task truth from Postgres; emits report with recovery actions, LLM cost, and verdict."],
+                      ["Plan", "Everything is frozen here: tasks ordered by a cycle-safe SCC condensation of the real import graph (dependencies first); an interface manifest freezes every cross-file symbol's target shape; a bounded architect call proposes new artifacts and a deterministic contract compiler completes what the engine already knows; executable cuts define which files must be mutually coherent before tests can honestly run; the oracle census freezes what tests may change. Replan may append, never mutate."],
+                      ["Execute", "LLM generation in dependency order, in bounded coordinated units. Every draft passes mechanical AST gates before the sandbox: contract shape, defined-vs-invented capability ownership, import direction, decorator/middleware shape, new-cycle rejection. Violations get one accounted repair call. Content-hash idempotent on resume; driver → escalation model ladder."],
+                      ["Verify", "Per-cut tests in an ephemeral --network none sandbox, JUnit-parsed, stale report deleted before every run. All-skipped suites are failures (passed > 0 required); Recover sees stdout + stderr."],
+                      ["Recover", "Uniquely attributable failures repair one artifact on a separate bounded ledger; otherwise replan / targeted rollback / widen-on-repeat / skip-and-continue. Failure fingerprints stop no-progress loops."],
+                      ["Integrate", "Full suite as the final gate; always recomputes the migration diff from the worktree, never trusting a stale cached diff. An Integrate-only regression can route back through Recover once."],
+                      ["Report", "Reloads task truth from Postgres; emits the artifact plan, oracle census, per-call cost ledger, recovery actions, diffs, and verdict."],
                     ]}
                   />
                 </div>
                 <div className="mt-4 rounded border border-accent/20 bg-card p-4">
-                  <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">Honest green requires all three</p>
+                  <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">Honest green requires all four</p>
                   <p className="mt-2 text-sm leading-relaxed text-foreground">
-                    (1) the full test suite passes — not just the blast-radius subset used during iteration;
-                    (2) every planned task completed; (3) zero tasks rolled back or skipped by recovery. A run
-                    that recovery rolls back to original sources will pass the original suite — and is scored
-                    red. That false-green class was caught live (“GREEN 24/24” with an empty diff) and fixed
-                    structurally.
+                    (1) the full test suite passes, not just the per-cut subset used during iteration;
+                    (2) every planned task completed with migration_outcome = success; (3) zero tasks rolled
+                    back or skipped by recovery; (4) oracle integrity 1.0, meaning no test deleted, renamed, skipped,
+                    or weakened. A run that recovery rolls back to original sources will pass the original
+                    suite, and is scored red. That false-green class was caught live (“GREEN 24/24” with an
+                    empty diff) and fixed structurally.
                   </p>
                 </div>
               </section>
 
-              {/* 03 — Durability */}
+              {/* 03 · Durability */}
               <section>
                 <SectionLabel n="03" label="Durability Model" id="section-03" />
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
-                  Durability is the core product edge — not “the LLM is smart,” but “the run survives process
+                  Durability is the core product edge: not “the LLM is smart,” but “the run survives process
                   death and still tells the truth.” LangGraph&apos;s{" "}
                   <span className="font-mono text-foreground">AsyncPostgresSaver</span> persists state after
                   every node; a worker that dies mid-graph is replaced by another that resumes from the last
@@ -340,7 +342,7 @@ export default function PortageDeepDivePage() {
                   <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
                     <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
                     <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                      kill-and-resume demo — scripts/demo_kill_resume.sh
+                      kill-and-resume demo: scripts/demo_kill_resume.sh
                     </span>
                   </div>
                   <Image
@@ -357,7 +359,7 @@ export default function PortageDeepDivePage() {
                 </p>
               </section>
 
-              {/* 04 — Sandbox & Verification */}
+              {/* 04 · Sandbox & Verification */}
               <section>
                 <SectionLabel n="04" label="Sandbox & Verification" id="section-04" />
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
@@ -365,16 +367,16 @@ export default function PortageDeepDivePage() {
                   sibling jobs), reproducible (same image, same pins, same offline constraint as corpus
                   admission), and structured (JUnit parsed into totals plus failing test names). Every verify
                   run gets an ephemeral Docker container with{" "}
-                  <span className="font-mono text-foreground">--network none</span> — no pip install at test
+                  <span className="font-mono text-foreground">--network none</span>, so no pip install at test
                   time; hosted deployments can switch the runtime to gVisor with{" "}
                   <span className="font-mono text-foreground">SANDBOX_RUNTIME=runsc</span>.
                 </p>
                 <p className="mb-4 text-base leading-relaxed text-muted-foreground">
-                  During iteration, Verify scopes to the tests implicated by changed files — the{" "}
+                  During iteration, Verify scopes to the tests implicated by changed files, the{" "}
                   <span className="font-mono text-foreground">blast_radius</span> query below. Scoped runs are
                   a speed lever, never a scoring lever: the honesty bar for green still requires the full suite.
                 </p>
-                <DiagramLightbox title="Blast Radius — Impact of a Change">
+                <DiagramLightbox title="Blast Radius: Impact of a Change">
                   <BlastRadius />
                 </DiagramLightbox>
                 <div className="mt-6">
@@ -395,19 +397,19 @@ export default function PortageDeepDivePage() {
                   <p className="mt-2 text-sm leading-relaxed text-foreground">
                     <span className="font-mono">verify_patch_in_sandbox</span> is the same sandbox contract,
                     exposed for co-pilot use: copy → apply diff → run → return structured result, never
-                    modifying the caller&apos;s tree. That reuse is intentional — the eval proves the loop;
+                    modifying the caller&apos;s tree. That reuse is intentional: the eval proves the loop;
                     MCP sells the loop.
                   </p>
                 </div>
               </section>
 
-              {/* 05 — Recovery */}
+              {/* 05 · Recovery */}
               <section>
                 <SectionLabel n="05" label="Recovery Strategies" id="section-05" />
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                   Recover classifies and rolls back; Execute owns regeneration; Plan owns replanning. Inputs:
                   the last verify output (stdout + stderr), the planned file set vs the worktree, per-task
-                  attempt counts and prior blame targets, and the budgets —{" "}
+                  attempt counts and prior blame targets, and the budgets:{" "}
                   <span className="font-mono text-foreground">max_task_attempts=3</span>,{" "}
                   <span className="font-mono text-foreground">max_recover_visits=4</span>,{" "}
                   <span className="font-mono text-foreground">escalate_after_attempts=2</span>.
@@ -415,6 +417,7 @@ export default function PortageDeepDivePage() {
                 <SimpleTable
                   head={["Strategy", "Trigger", "Action"]}
                   rows={[
+                    ["Targeted contract repair", "Failure maps to exactly one frozen contract owner: missing module/export, an import-cycle edge, or a unique application traceback leaf", "Roll back and regenerate only that artifact against the failure + its rejected draft + its frozen contract; siblings are content-hash skipped; the whole enclosing cut is re-verified. Runs on its own bounded ledger. Measured: a stale .decode() repaired for $0.011 without regenerating its ten-file cut."],
                     ["Replan", "An unplanned source file still imports Flask (planner miss)", "Route to Plan; append the missing task(s). Fault scenario: drop_task."],
                     ["Targeted rollback + regenerate", "Crash traceback implicates specific planned files", "git checkout only those files; reset tasks to pending; Execute regenerates with the failing output as context. Fault: bad_patch."],
                     ["Widen-on-repeat", "The same lone file is implicated twice running", "Single-file blame isn't converging (crash site ≠ offender); widen to reset all active tasks. Rescued flaskr mid-run."],
@@ -437,9 +440,23 @@ export default function PortageDeepDivePage() {
                     <p className="mb-2 font-mono text-xs uppercase tracking-[0.2em] text-accent">Integrity rule</p>
                     <p className="text-sm leading-relaxed text-muted-foreground">
                       Skip-and-continue can make the suite green by restoring originals. That must never score
-                      as a successful migration: green = suite green ∧ every planned task done ∧ none skipped.
+                      as a successful migration: green = suite green ∧ every planned task done ∧ none skipped
+                      ∧ migration_outcome = success ∧ oracle integrity 1.0.
                     </p>
                   </div>
+                </div>
+                <div className="mt-4 rounded border border-border bg-card p-5">
+                  <p className="mb-2 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                    Attribution beats budget (measured)
+                  </p>
+                  <p className="text-sm leading-relaxed text-muted-foreground">
+                    Two autopsies reconstructed failing runs byte-exact from LangGraph checkpoints and peeled
+                    them by hand. Both found the same thing: whole-file regeneration against an unattributed
+                    bug is a paid no-op. One run spent 19 recover visits and never found a two-line
+                    middleware-ordering fix, because every failure surfaced as one identical ExceptionGroup
+                    rooted in framework internals. The engineering answer was better attribution (contract
+                    ownership, import-cycle edges, unique traceback leaves), not more retries.
+                  </p>
                 </div>
                 <div className="mt-4">
                   <CodeBlock
@@ -448,13 +465,13 @@ export default function PortageDeepDivePage() {
                       "bad_patch → corrupted first attempt → crash classify → targeted rollback → regenerate",
                       "bad_patch_until_escalation → driver tier keeps failing → escalation tier takes over (logged per attempt)",
                       "drop_task → planner miss → residue detection → replan appends the missing task",
-                      "recovery quality = delta vs the same repo's baseline green rate — a single averaged rate flatters easy repos and slanders hard ones",
+                      "recovery quality = delta vs the same repo's baseline green rate; a single averaged rate flatters easy repos and slanders hard ones",
                     ]}
                   />
                 </div>
               </section>
 
-              {/* 06 — Recipe System */}
+              {/* 06 · Recipe System */}
               <section>
                 <SectionLabel n="06" label="Recipe System (Flask → FastAPI)" id="section-06" />
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
@@ -463,7 +480,7 @@ export default function PortageDeepDivePage() {
                   handlers, app factory + config semantics, and the test-client seam. A recipe declares four
                   things: detection (which files are in scope), task types and subtasks, a per-task{" "}
                   <span className="font-mono text-foreground">verify_spec</span>, and prompt guidance encoded
-                  after observed failures. A recipe that doesn&apos;t recognize the repo yields an empty plan —
+                  after observed failures. A recipe that doesn&apos;t recognize the repo yields an empty plan;
                   the run degrades safely to ingest → verify → report with an honest red.
                 </p>
                 <SimpleTable
@@ -484,7 +501,7 @@ export default function PortageDeepDivePage() {
                     rows={[
                       "JSONResponse silently overriding status_code (201→200) → explicit status guidance",
                       "HTTPException bypassing app handlers ({detail} vs {error}) → prefer app-level handlers matching prior JSON shape",
-                      "redirect() must become RedirectResponse(..., 302) — the 307 default re-sends POST",
+                      "redirect() must become RedirectResponse(..., 302); the 307 default re-sends POST",
                       "@app.on_event deprecation warning-as-error under pytest → lifespan handlers (rule 11)",
                       "hallucinated fastapi_flash / fastapi_login → never invent packages; inline equivalents (rule 12)",
                       "dropped router export broke siblings → AST export-contract pass in Plan (was ~50% flake on a 3-file app)",
@@ -492,14 +509,60 @@ export default function PortageDeepDivePage() {
                   />
                 </div>
                 <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                  What recipes do <em>not</em> solve alone: cross-file call-shape drift (contracts pin names,
-                  not signatures), deep framework-inspecting tests (<span className="font-mono">flask.session</span>,{" "}
-                  <span className="font-mono">g</span>, <span className="font-mono">app.testing</span>), and
-                  full fidelity for every Flask extension without per-extension sub-strategies.
+                  What recipes do <em>not</em> solve alone: encoded rules are cheap and effective for known
+                  idioms, but they cannot supply a target <em>architecture</em>, which is what
+                  artifact-producing plans (next section) exist for, and they don&apos;t cover full fidelity
+                  for every Flask extension without per-extension surface contracts.
                 </p>
               </section>
 
-              {/* 07 — Eval Methodology */}
+              {/* 6B · Artifact-Producing Plans */}
+              <section>
+                <SectionLabel n="6B" label="Artifact-Producing Plans" id="section-06b" />
+                <p className="mb-6 text-base leading-relaxed text-muted-foreground">
+                  The capability that moved the hard repos. Three independent lines of evidence converged on
+                  the same conclusion: some migrations are unreachable by rewriting existing files. The
+                  canonical Flask tutorial app (flaskr) was migrated <em>by hand</em> under the identical
+                  sandbox oracle: 24/24, but the winning solution required four new modules: a contextvars
+                  request-context layer replacing <span className="font-mono text-foreground">g</span>/
+                  <span className="font-mono text-foreground">session</span>, a Flask-shaped test surface, a
+                  Jinja rendering layer, and a werkzeug-format password checker. On another repo, the model{" "}
+                  <em>imported a compatibility module that did not exist</em>; it had identified the right
+                  architecture and had no mechanism to own one, so it hallucinated the import. And correct
+                  executable cuts alone left external green at 0/4: scheduling was necessary and demonstrably
+                  not the binding constraint.
+                </p>
+                <SimpleTable
+                  head={["Piece", "What it does"]}
+                  rows={[
+                    ["Bounded architect call", "One Plan-time call proposes 0–4 create artifacts: path, purpose, capabilities, exports, class members, consumers, dependencies. Strict JSON; deterministic validation; at most two repairs, each of which must strictly reduce the violation count."],
+                    ["Closed-choice placement", "Paths are selected from a collision-free set derived from the repo's real application roots; path naming was a repeated convergence failure, so it became a selection, not free-form text."],
+                    ["Deterministic contract compiler", "The recipe completes what the engine already derives: required consumers, typed module exports, uniquely-attributable class members (called ⇒ method, read ⇒ attribute). Wrong kinds are rejected, never overwritten; ambiguous ownership stays a model decision."],
+                    ["Frozen contracts", "Created exports enter the same interface manifest, dependency ordering, cuts, prompts, diffs, checkpoints, rollback and reporting as rewrites. Retries, escalations, replans, and crash-resumes all converge on the same interfaces."],
+                    ["Ownership-based capability checks", "A framework-shaped capability is valid only when a frozen contract owns it, the owner mechanically implements it, and the consumer is a declared one, checked receiver-aware, so a hallucination can't be laundered through a matching attribute name."],
+                    ["Provider-first topology", "Consumer/dependency contradictions and proposal-level cycles are rejected at Plan; providers may not import their declared consumers; module-level providers are ordered before consumer imports."],
+                    ["Action-aware rollback", "rewrite restores the worktree HEAD version; create removes the file. New files appear in git diff from the first write; the diff stays authoritative and rollback stays transactional."],
+                  ]}
+                />
+                <div className="mt-4 rounded border border-accent/30 bg-accent/5 p-4">
+                  <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">Result</p>
+                  <p className="mt-2 text-sm leading-relaxed text-foreground">
+                    The frozen plan for a flaskr migration now contains an application-owned context module
+                    exporting real <span className="font-mono">g</span>/<span className="font-mono">session</span>{" "}
+                    proxies with the test file as a declared consumer: the same architecture the manual
+                    migration used. First fully autonomous green: 12/12 tasks, 24/24 tests, zero recovery
+                    visits, $0.154, five model calls, reproduced in two further independent samples.
+                  </p>
+                </div>
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                  Measurement discipline it forced: full runs multiply two independent random variables:
+                  architect acceptance and generation quality given an accepted plan. Measuring their product
+                  makes every fix unattributable, so the harness gained a frozen-plan replay mode (~$0.2–0.5 a
+                  probe). Replays are diagnostic-only and never aggregated into headline green rates.
+                </p>
+              </section>
+
+              {/* 07 · Eval Methodology */}
               <section>
                 <SectionLabel n="07" label="Eval Methodology" id="section-07" />
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
@@ -509,18 +572,32 @@ export default function PortageDeepDivePage() {
                   through the real queue/worker path; per-run rows land in{" "}
                   <span className="font-mono text-foreground">runs</span>, mean±variance aggregates in{" "}
                   <span className="font-mono text-foreground">metrics</span>. Variance is reported, not
-                  smoothed — minimal-flask-api&apos;s 2/3 baseline was a finding that motivated the
+                  smoothed: minimal-flask-api&apos;s 2/3 baseline was a finding that motivated the
                   export-contract work, not noise.
                 </p>
                 <CodeBlock
                   title="reproducibility.pins"
                   rows={[
-                    "remote repos pinned to a commit SHA — corpus.toml rejects unpinned remotes",
-                    "sandbox image pins dependencies — no pip install at test time",
+                    "remote repos pinned to a commit SHA; corpus.toml rejects unpinned remotes",
+                    "sandbox image pins dependencies; no pip install at test time",
                     "model + config recorded per attempt in attempts_log",
-                    "cost includes retries and escalations — microblog's ~$1.50/run is mostly recovery rounds",
+                    "cost includes retries, escalations, and architect calls; microblog's cost is mostly recovery rounds",
+                    "engine errors count against the score; a crashed run's paid planning calls are reconstructed into the ledger",
                   ]}
                 />
+                <div className="mt-6 rounded border border-accent/20 bg-card p-4">
+                  <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">Oracle integrity, mechanically</p>
+                  <p className="mt-2 text-sm leading-relaxed text-foreground">
+                    Test files are protected artifacts with a per-file strategy frozen at Plan. A census
+                    records test names, normalized assertion expressions,{" "}
+                    <span className="font-mono">raises</span>/<span className="font-mono">parametrize</span>,
+                    skip/xfail sites, fixture names and lifecycles. Only an explicit normalization list may
+                    differ (e.g. <span className="font-mono">get_json()</span>→<span className="font-mono">json()</span>,
+                    or an audited import swap to a plan-owned context proxy, recorded line-by-line in the
+                    report). Adversarial unit tests prove deletions, renames, added skips, and weakened
+                    assertions are all caught at Execute time, before the sandbox.
+                  </p>
+                </div>
                 <div className="mt-6">
                   <p className="mb-3 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
                     What these numbers do NOT show
@@ -528,61 +605,89 @@ export default function PortageDeepDivePage() {
                   <SimpleTable
                     head={["Non-claim", "Why"]}
                     rows={[
-                      ["Generality across migrations", "One recipe, one language, six repos. The architecture is recipe-agnostic; the evidence is recipe-specific."],
-                      ["Stronger-model lift", "If driver and escalation resolve to the same deployment, escalation-rescue measures the retry-ladder machinery, not a stronger model. Swapping LLM_ESCALATION_MODEL measures real lift — env-only."],
+                      ["Generality across migrations", "One recipe, one language, seven repos. The architecture is recipe-agnostic; the evidence is recipe-specific."],
+                      ["Stronger-model lift", "If driver and escalation resolve to the same deployment, escalation-rescue measures the retry-ladder machinery, not a stronger model. Swapping LLM_ESCALATION_MODEL measures real lift, env-only."],
                       ["Big-repo behaviour", "Corpus repos are small (≲ ~40 files). Thousand-file horizons are unproven."],
-                      ["Immunity to prompt-tuning bias", "Several recipe rules were added after corpus failures; the grid partly measures a recipe tuned to this corpus. Disclosed, not pretended away."],
+                      ["Immunity to prompt-tuning bias", "Several recipe rules were added after corpus failures; the grid partly measures a recipe tuned to this corpus. Disclosed, not pretended away; held-out validation (R5) exists to expose exactly this."],
+                      ["Replay results as autonomous results", "Frozen-plan replays isolate generation quality from architect variance. They are diagnostic, tagged as such, and never aggregated into headline green rates."],
+                      ["\"Recipe-neutral\" as proven", "The engine contains no corpus identity and the contract machinery is framework-agnostic by construction, but neutrality is only proven by a second recipe, which is deliberately deferred."],
                     ]}
                   />
                 </div>
               </section>
 
-              {/* 08 — Failure Taxonomy */}
+              {/* 08 · Failure Taxonomy */}
               <section>
                 <SectionLabel n="08" label="Failure Taxonomy" id="section-08" />
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
-                  Nine categories, ordered easy → hard, each with a status and a fix direction. The fault-recovery
-                  grid on the stable tier: 100% green on the fixture (3/3 for both{" "}
-                  <span className="font-mono text-foreground">bad_patch</span> and{" "}
-                  <span className="font-mono text-foreground">bad_patch_until_escalation</span>), degrading on
-                  the real repo where baseline already flakes 1-in-3 and injected faults consume the retry
-                  budget the organic flake then needs.
+                  Headline grid <span className="font-mono text-foreground">eval-full-corpus-k3-20260714</span>:
+                  21 autonomous runs, 7 pinned repos, GPT-4o driver + escalation, 252 model calls, $6.92,
+                  ~18 minutes of aggregate worker time. Strict autonomous score:{" "}
+                  <span className="font-semibold text-foreground">13/21 green (61.9%)</span>, with two engine
+                  errors counted as failures, not excused. The prior grid on the same corpus scored 6/21
+                  (28.6%) with externals at 0/15; externals are now 8/15. Reading the reds honestly: three of
+                  the eight non-greens are one repo (microblog) failing the same way three times, and it
+                  consumed 77% of the grid&apos;s cost: a systematic root cause, not variance.
+                </p>
+                <div className="mb-6">
+                  <p className="mb-3 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
+                    Movement, one line per repo (2026-07-08 → 2026-07-14)
+                  </p>
+                  <SimpleTable
+                    head={["Repo", "Then", "Now"]}
+                    rows={[
+                      ["flaskr", "0/3, avg test-pass 0.67", "2 green at 24/24, zero recovery"],
+                      ["flask-restx-api", "1/3", "3/3"],
+                      ["minimal-flask-api", "2/3", "3/3"],
+                      ["watchlist", "0/3, suite failed to complete", "0/3, but the migrated suite now collects and executes all 15 tests"],
+                      ["microblog", "0/3, 0.00 test-pass", "0/3, migrations reach test execution; one named runtime semantic remains"],
+                    ]}
+                  />
+                </div>
+                <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+                  Ten categories, ordered easy → hard, each with a status and evidence. Standing fault
+                  scenarios (<span className="font-mono text-foreground">bad_patch</span>,{" "}
+                  <span className="font-mono text-foreground">bad_patch_until_escalation</span>,{" "}
+                  <span className="font-mono text-foreground">drop_task</span>) are green on the current
+                  engine; recovery quality is always reported as a delta against the same repo&apos;s baseline.
                 </p>
                 <SimpleTable
                   head={["#", "Category", "Status"]}
                   monoCols={[0]}
                   rows={[
-                    ["1", "Routing / parsing / responses / error handlers — pitfalls like JSONResponse status override, HTTPException body shape, 302 vs 307 redirects", "SOLVED by recipe rules"],
-                    ["2", "Cross-file name contracts — dropped router export caused ~50% flake on a 3-file app", "SOLVED structurally (export-contract AST pass)"],
-                    ["3", "Deprecated / hallucinated APIs — @app.on_event; invented fastapi_flash / fastapi_login", "SOLVED by rules 11/12; each new instance is cheap to encode"],
-                    ["4", "Environment gaps — e.g. python-multipart for Form() took watchlist from collection-crash to all 15 tests executing", "SOLVED case-by-case in the sandbox image"],
-                    ["5", "App factory & config — config-as-plain-dict, instance path, lifespan", "MOSTLY SOLVED; residual bugs in rarely-exercised branches"],
-                    ["6", "Templates / sessions / flash / auth — template apps complete DAGs, most tests pass (0.67 avg), all-or-nothing green not met", "PARTIAL — the v1 frontier"],
-                    ["7", "Cross-file call-shape drift — flaskr's get_db() drifts between plain function / needs-request / context manager (19/24 failures in a final probe)", "OPEN, dominant residual; fix direction: signature-level contracts or a shared interfaces step"],
-                    ["8", "Flask-coupled extensions — flask_restx reached green 1/3 (was: never collected); flask_sqlalchemy completes but fails behaviorally", "OPEN / v1 boundary; needs per-extension sub-strategies"],
-                    ["9", "Framework-inspecting tests — assertions on flask.session / g / app.testing internals cannot pass unchanged against FastAPI", "OPEN by design; harness rewrites plumbing, never assertion meaning"],
+                    ["1", "Routing / parsing / responses / error handlers: pitfalls like JSONResponse status override, HTTPException body shape, 302 vs 307 redirects", "SOLVED by recipe rules"],
+                    ["2", "Cross-file name contracts: dropped router export caused ~50% flake on a 3-file app", "SOLVED structurally (export-contract AST pass)"],
+                    ["3", "Deprecated / hallucinated APIs: @app.on_event; invented fastapi_flash / fastapi_login", "SOLVED by rules 11/12; each new instance is cheap to encode"],
+                    ["4", "Environment gaps: e.g. python-multipart for Form() took watchlist from collection-crash to all 15 tests executing", "SOLVED case-by-case in the sandbox image"],
+                    ["5", "App factory & config: config-as-plain-dict, instance path, lifespan", "MOSTLY SOLVED; residual bugs in rarely-exercised branches"],
+                    ["6", "Templates / sessions / flash / auth: the app gets an owned request-context artifact, an owned rendering layer, and correctly-ordered session middleware; flaskr migrates autonomously at 24/24 with zero recovery", "SOLVED for the canonical case, architecturally rather than by prompts"],
+                    ["7", "Cross-file call-shape drift: get_db() drifting between plain function / needs-request / context manager was the dominant residual (19/24 failures in one probe)", "SOLVED structurally: SCC ordering + frozen interface manifest + pre-sandbox enforcement of both DEFINES and CALLS"],
+                    ["8", "Flask-coupled extensions: flask_restx is now 3/3 at K=3 (the strongest generality evidence: none of the contract machinery was built against it); flask_sqlalchemy collects and executes its full suite, runtime behavior remains", "SPLIT: restx SOLVED, sqlalchemy PARTIAL"],
+                    ["9", "Framework-inspecting tests: assertions on flask.session / g / app.testing internals pass because the plan owns real implementations of those surfaces, with an audited line-level import swap; the census proves nothing else changed", "SOLVED via ownership, not exemption"],
+                    ["10", "Provider initialization / import cycles in multi-package apps: generated code can close a cycle the source never had; cycle rejection, provider-first ordering, and extension-binding contracts have landed", "OPEN, the current frontier; one runtime error-handler semantic remains on the heaviest repo"],
                   ]}
                 />
               </section>
 
-              {/* 09 — Corpus */}
+              {/* 09 · Corpus */}
               <section>
                 <SectionLabel n="09" label="Corpus & Admission" id="section-09" />
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                   Admission requires: a real Flask app, a real pytest suite green on the unmodified repo in the
                   offline sandbox, sandbox-runnable with no network, small (~≤25 Python files / ≤2k LOC for
-                  v1 — reliability, not context-window heroics), permissively licensed, and SHA-pinned for
+                  v1: reliability, not context-window heroics), permissively licensed, and SHA-pinned for
                   remotes. The original ≥10-repo target was traded for a documented finding: a single shared
-                  sandbox image cannot serve mutually incompatible dependency pins — four candidates dropped
+                  sandbox image cannot serve mutually incompatible dependency pins; four candidates dropped
                   for that shared cause; the unlock is per-repo sandbox images.
                 </p>
                 <SimpleTable
                   head={["Repo", "Tier", "Role"]}
                   rows={[
                     ["flask-items-fixture", "baseline", "Bundled offline-clean Phase-2 fixture"],
+                    ["flask-structural-fixture", "baseline", "Bundled structural fixture: factory + g/current_app SQLite + Click + blueprint; makes structural regressions catchable for ~$0.04 instead of $0.30"],
                     ["minimal-flask-api", "baseline", "First real OSS repo migrated green"],
-                    ["flask-restx-api", "framework", "Extension / marshalling wall"],
-                    ["flaskr (Pallets tutorial)", "structural", "Templates + factory + auth-shaped flows"],
+                    ["flask-restx-api", "framework", "Extension / marshalling wall, now 3/3"],
+                    ["flaskr (Pallets tutorial)", "structural", "Templates + factory + auth + CLI; the acceptance benchmark; a hand migration under the same oracle defines the target"],
                     ["watchlist", "structural", "flask_sqlalchemy + sessions"],
                     ["microblog", "heavy", "Multi-extension / long recovery"],
                   ]}
@@ -595,7 +700,7 @@ export default function PortageDeepDivePage() {
                 </p>
               </section>
 
-              {/* 10 — CLI & MCP Contracts */}
+              {/* 10 · CLI & MCP Contracts */}
               <section>
                 <SectionLabel n="10" label="CLI & MCP Contracts" id="section-10" />
                 <div className="space-y-6">
@@ -611,7 +716,7 @@ export default function PortageDeepDivePage() {
                   <p className="text-sm leading-relaxed text-muted-foreground">
                     <span className="font-mono text-foreground">PORTAGE_API</span> or{" "}
                     <span className="font-mono text-foreground">--api</span> selects the control plane. Exit
-                    codes: 0 honest green · 1 red · 2 usage/infra — the same bar as the eval harness.
+                    codes: 0 honest green · 1 red · 2 usage/infra, the same bar as the eval harness.
                   </p>
                   <SimpleTable
                     head={["MCP tool", "Input (conceptual)", "Output"]}
@@ -624,8 +729,8 @@ export default function PortageDeepDivePage() {
                   <CodeBlock
                     title="intended_copilot_workflow"
                     rows={[
-                      "repo_graph(R) once — full build first time, incremental after",
-                      "blast_radius(R, files) — what does my change touch?",
+                      "repo_graph(R) once: full build first time, incremental after",
+                      "blast_radius(R, files): what does my change touch?",
                       "draft the diff WITHOUT writing to disk",
                       "verify_patch_in_sandbox(R, diff, test_args=affected)",
                       "green → write to disk · red → iterate on failing + output_tail",
@@ -635,24 +740,24 @@ export default function PortageDeepDivePage() {
                     Errors return readable dicts, never protocol crashes. An empty diff means “is the suite
                     green as-is?”; a malformed diff returns{" "}
                     <span className="font-mono text-foreground">{"{ok: false, error: \"diff does not apply\"}"}</span>.
-                    The MCP server is standalone — Docker and the sandbox image are required on the host, but
+                    The MCP server is standalone: Docker and the sandbox image are required on the host, but
                     the compose stack does not need to be up.
                   </p>
                 </div>
               </section>
 
-              {/* 11 — Auth */}
+              {/* 11 · Auth */}
               <section>
                 <SectionLabel n="11" label="Auth & Demo Protection" id="section-11" />
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                   Designed so local DoD scripts stay unchanged while a hosted demo doesn&apos;t get burned by
                   unbounded LLM spend. <span className="font-mono text-foreground">AUTH_MODE=disabled</span>{" "}
-                  locally (synthetic admin), <span className="font-mono text-foreground">github</span> hosted —
+                  locally (synthetic admin), <span className="font-mono text-foreground">github</span> hosted;
                   GitHub OAuth is the sole provider. Browsers get a 15-minute access JWT plus a rotating
                   refresh cookie with family reuse-detection; machines get revocable{" "}
                   <span className="font-mono text-foreground">pk_</span> API keys (sha256 at rest).
                   Authorization is ownership-or-admin on every <span className="font-mono text-foreground">/jobs*</span>{" "}
-                  route — 404, never 403, so nothing leaks existence. Eval endpoints stay public and
+                  route: 404, never 403, so nothing leaks existence. Eval endpoints stay public and
                   aggregate-only.
                 </p>
                 <SimpleTable
@@ -667,15 +772,15 @@ export default function PortageDeepDivePage() {
                 <div className="mt-4 flex items-start gap-3 rounded border border-border bg-card p-4 text-sm text-muted-foreground">
                   <Shield className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
                   <p>
-                    Secret redaction runs at every seam where repo content leaves the sandbox — prompt context,
-                    retry errors, report diffs — via a path deny-list plus pattern scrub
+                    Secret redaction runs at every seam where repo content leaves the sandbox (prompt context,
+                    retry errors, report diffs) via a path deny-list plus pattern scrub
                     (<span className="font-mono">agent/nodes/redaction.py</span>). The spend ledger is the same{" "}
                     <span className="font-mono">attempts_log</span> the eval numbers use.
                   </p>
                 </div>
               </section>
 
-              {/* 12 — Stack & Data Model */}
+              {/* 12 · Stack & Data Model */}
               <section>
                 <SectionLabel n="12" label="Stack & Data Model" id="section-12" />
                 <SimpleTable
@@ -685,11 +790,11 @@ export default function PortageDeepDivePage() {
                     ["API", "FastAPI, async throughout"],
                     ["Agent", "LangGraph + langgraph-checkpoint-postgres"],
                     ["ORM / migrations", "SQLAlchemy 2.0 async + asyncpg · Alembic (domain tables only)"],
-                    ["Database", "Postgres 16 + pgvector — checkpoints via psycopg3 in the same DB"],
-                    ["LLM", "LiteLLM ladder (driver / escalation / cheap) — provider is env config"],
+                    ["Database", "Postgres 16 + pgvector; checkpoints via psycopg3 in the same DB"],
+                    ["LLM", "LiteLLM ladder (driver / escalation / cheap); provider is env config"],
                     ["Sandbox", "Ephemeral Docker, --network none; gVisor (runsc) option for hosting"],
                     ["Retrieval", "code-review-graph behind a Protocol (graph + blast radius)"],
-                    ["Frontend", "Next.js App Router, TypeScript, pnpm — REST only"],
+                    ["Frontend", "Next.js App Router, TypeScript, pnpm; REST only"],
                     ["Interfaces", "CLI (portage console script) + FastMCP stdio server"],
                   ]}
                 />
@@ -709,7 +814,7 @@ export default function PortageDeepDivePage() {
                 </div>
                 <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
                   LangGraph checkpoint tables live in the same database but are created by the worker via{" "}
-                  <span className="font-mono text-foreground">AsyncPostgresSaver.setup()</span> — never put in
+                  <span className="font-mono text-foreground">AsyncPostgresSaver.setup()</span>, never put in
                   Alembic. One <span className="font-mono text-foreground">POSTGRES_*</span> env derives both
                   DSNs: <span className="font-mono text-foreground">postgresql+asyncpg://</span> for domain,{" "}
                   <span className="font-mono text-foreground">postgresql://</span> for checkpoints. The{" "}
@@ -717,6 +822,21 @@ export default function PortageDeepDivePage() {
                   action, tokens, cost_usd, failing_diff) feeds recovery timelines in the UI,
                   escalation-rescue queries, per-job cost ceilings, global spend caps, and eval cost metrics.
                 </p>
+                <div className="mt-6 rounded border border-border bg-card p-5">
+                  <p className="mb-2 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                    Current phase: recipe excellence, not deployment
+                  </p>
+                  <p className="text-sm leading-relaxed text-muted-foreground">
+                    After Phase 6, external review made the call that shapes everything since: the strongest
+                    claim is depth, not breadth. Deployment was parked by decision (the repo is deploy-ready)
+                    until the recipe meets a readiness bar set before the work: JSON-API tier ≥90% green,
+                    template/session tier 70–80%, extension tier supported or honestly rejected, no
+                    fault-scenario degradation, and results reproduced on held-out repositories never touched
+                    during development. The current structural tier is ~56% strict green; the bar is{" "}
+                    <span className="font-semibold text-foreground">not met yet</span>, and that is stated
+                    plainly rather than met by redefinition.
+                  </p>
+                </div>
               </section>
 
               {/* Quick Reference */}
@@ -725,13 +845,13 @@ export default function PortageDeepDivePage() {
                 <CodeBlock
                   title="cheat_sheet.md"
                   rows={[
-                    "Honesty bar:   green ⇔ full_suite_pass ∧ all_tasks_done ∧ skipped == 0 ∧ passed > 0",
-                    "Budgets:       escalate_after_attempts=2 · max_task_attempts=3 · max_recover_visits=4",
+                    "Honesty bar:   green ⇔ full_suite_pass ∧ all_tasks_done ∧ skipped == 0 ∧ passed > 0 ∧ outcome == success ∧ oracle_integrity == 1.0",
+                    "Budgets:       escalate_after_attempts=2 · max_task_attempts=3 · max_recover_visits=4 · targeted repairs=1 (own ledger) · architect: 1 call + ≤2 strictly-improving repairs · ≤4 created artifacts",
                     "Queue claim:   UPDATE … WHERE id = (SELECT … FOR UPDATE SKIP LOCKED LIMIT 1)",
-                    "Resume:        aget_state(config) → pending nodes → ainvoke(None) — never re-pass input",
+                    "Resume:        aget_state(config) → pending nodes → ainvoke(None); never re-pass input",
                     "Faults:        bad_patch → rollback+regen · bad_patch_until_escalation → tier switch · drop_task → replan",
-                    "Boundary:      JSON APIs green at ~$0.01–0.02; template/extension apps are the honest frontier",
-                    "Dominant residual: cross-file call-shape drift — names are pinned, call shapes are not",
+                    "Boundary:      JSON APIs, RESTX APIs, and the canonical template/factory/auth/CLI app green at ~$0.02–0.15; extension-heavy apps are the honest frontier",
+                    "Headline:      13/21 strict green (61.9%) · was 6/21 · externals 8/15 (was 0/15) · flaskr 24/24 ×3 · oracle integrity 1.0 · 237 backend tests",
                   ]}
                 />
               </section>

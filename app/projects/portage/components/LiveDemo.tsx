@@ -32,7 +32,7 @@ export default function LiveDemo() {
         <div className="flex items-center gap-2">
           <MonitorPlay className="h-3.5 w-3.5 text-accent" />
           <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            live demo — portage dashboard
+            live demo: portage dashboard
           </span>
         </div>
         <a

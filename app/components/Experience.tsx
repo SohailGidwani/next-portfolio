@@ -42,7 +42,7 @@ const experiences: ExperienceItem[] = [
     projects: [
       "Multimodal Deep Learning Pipeline: Architected a multimodal deep learning pipeline (MEMOIR-VLM) for Alzheimer's disease classification using T1 MRI, DTI imaging, and clinical data across 2,363 ADNI subjects, achieving 70.7% balanced accuracy on 3-class diagnosis and 93.3% on binary classification (CN vs Dementia).",
       "Missing-Modality Fusion: Designed missing-modality fusion via cross-attention with stochastic modality dropout, enabling robust inference with any subset of T1, DTI, and clinical inputs when imaging data is incomplete (39.4% DTI coverage).",
-      "Retrieval-Augmented VQA: Extended the frozen VLM with a FAISS-based retrieval + cross-encoder rerank + LLM pipeline; benchmarked Mistral 7B, Gemma 4 26B MoE, and MedGemma 1.5 4B — Mistral 7B wins at 94.7% diagnosis VQA accuracy.",
+      "Retrieval-Augmented VQA: Extended the frozen VLM with a FAISS-based retrieval + cross-encoder rerank + LLM pipeline; benchmarked Mistral 7B, Gemma 4 26B MoE, and MedGemma 1.5 4B, with Mistral 7B winning at 94.7% diagnosis VQA accuracy.",
       "Experimentation Infrastructure: Built end-to-end experimentation infrastructure: two-stage training (CLIP contrastive pre-training → multi-task fine-tuning), modality ablation studies across 7 combinations, and confidence calibration analysis on ~70M parameter models.",
     ],
     tags: ["Python", "PyTorch", "Deep Learning", "CLIP", "RAG"],
@@ -231,7 +231,7 @@ export default function Experience() {
                       event.stopPropagation()
                     }
                   }}
-                  aria-label={`${featured.researchLabel ?? "Read the research"} — opens research page`}
+                  aria-label={`${featured.researchLabel ?? "Read the research"}: opens research page`}
                   className="group/research inline-flex max-w-full items-center gap-2 rounded border border-accent/30 bg-accent/5 px-3 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-accent transition hover:border-accent/60 hover:bg-accent/10 sm:text-xs"
                 >
                   <FileText className="h-3.5 w-3.5 shrink-0" aria-hidden />
@@ -252,7 +252,7 @@ export default function Experience() {
                         event.stopPropagation()
                       }
                     }}
-                    aria-label={`${featured.researchHubLabel ?? "All research"} — opens research hub`}
+                    aria-label={`${featured.researchHubLabel ?? "All research"}: opens research hub`}
                     className="group/hub inline-flex max-w-full items-center gap-2 rounded border border-border bg-background/60 px-3 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground transition hover:border-foreground/40 hover:text-foreground sm:text-xs"
                   >
                     <FlaskConical className="h-3.5 w-3.5 shrink-0" aria-hidden />

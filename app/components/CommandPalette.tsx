@@ -318,7 +318,7 @@ export default function CommandPalette() {
       {
         id: "project-cot-faithfulness",
         label: "CoT Faithfulness Analysis",
-        description: "CSCI-544 @ USC — probing whether LLM chain-of-thought is causal or decorative",
+        description: "CSCI-544 @ USC: probing whether LLM chain-of-thought is causal or decorative",
         route: "/projects/cot-faithfulness",
         icon: <FlaskConical className="h-4 w-4" />,
         action: () => {

@@ -149,7 +149,7 @@ export default function CoTFaithfulnessPage() {
           <div className="container mx-auto">
             <div className="max-w-3xl space-y-16">
 
-                {/* 01 — Preview */}
+                {/* 01 · Preview */}
                 <section>
                   <ProjectSectionLabel n="01" label="Preview" />
                   <div className="relative aspect-video overflow-hidden rounded border border-border">
@@ -164,7 +164,7 @@ export default function CoTFaithfulnessPage() {
                   </div>
                 </section>
 
-                {/* 02 — Overview */}
+                {/* 02 · Overview */}
                 <section>
                   <ProjectSectionLabel n="02" label="The Question" />
                   <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
@@ -186,7 +186,7 @@ export default function CoTFaithfulnessPage() {
                   </div>
                 </section>
 
-                {/* 03 — Verdict table */}
+                {/* 03 · Verdict table */}
                 <section>
                   <ProjectSectionLabel n="03" label="Faithfulness Verdict" />
                   <div className="overflow-x-auto">
@@ -213,43 +213,43 @@ export default function CoTFaithfulnessPage() {
                   </div>
                 </section>
 
-                {/* 04 — Baseline */}
+                {/* 04 · Baseline */}
                 <section>
-                  <ProjectSectionLabel n="04" label="Exp 0 — Baseline Accuracy" />
+                  <ProjectSectionLabel n="04" label="Exp 0: Baseline Accuracy" />
                   <p className="mb-2 text-sm leading-relaxed text-muted-foreground">
                     Every (model, dataset, question) pair gets two queries: direct and chain-of-thought. On GSM8K, CoT turns near-random guessing into real performance. On ARC, both models do worse when they reason out loud, which suggests the chain is introducing noise on top of knowledge the model already has.
                   </p>
                   <BaselineChart caption="No-CoT vs CoT accuracy for both models. Amber bar = CoT improved; gray bar = CoT degraded. Deltas shown top-right of each group." />
                 </section>
 
-                {/* 05 — Truncation */}
+                {/* 05 · Truncation */}
                 <section>
-                  <ProjectSectionLabel n="05" label="Exp 1 — Step Truncation (SCR)" />
+                  <ProjectSectionLabel n="05" label="Exp 1: Step Truncation (SCR)" />
                   <p className="mb-2 text-sm leading-relaxed text-muted-foreground">
                     The CoT from Experiment 0 gets parsed into discrete steps using a three-level hierarchy (numbered markers, transition words, sentence boundaries). The model then answers using only the first k steps, and we check how often that partial answer matches the full-chain answer. Low SCR at step 1 means the model genuinely needs later steps. Qwen reaches the same ARC answer from step 1 alone in 83% of cases, which means those remaining steps add nothing.
                   </p>
                   <TruncationChart caption="Step Consistency Rate across truncation steps 1 to 5. Science lines (blue) stay high from the start. Math lines (amber) stay low, showing the model needs the full chain." />
                 </section>
 
-                {/* 06 — Corruption */}
+                {/* 06 · Corruption */}
                 <section>
-                  <ProjectSectionLabel n="06" label="Exp 2 — Reasoning Corruption (CFR)" />
+                  <ProjectSectionLabel n="06" label="Exp 2: Reasoning Corruption (CFR)" />
                   <p className="mb-2 text-sm leading-relaxed text-muted-foreground">
                     Rule-based errors are injected into the CoT across six conditions: none, early, middle, late, early+late, and all. For GSM8K, the Corruption Following Rate (CFR) climbs as more steps are corrupted, and late-step corruption consistently outpaces early-step corruption by about 10pp. That pattern makes sense if the final calculation steps are what actually determine the answer. On ARC, Qwen's CFR stays flat at 9 to 11% regardless of how much of the reasoning is corrupted.
                   </p>
                   <CorruptionChart caption="CFR by corruption condition for each model and dataset. The 'All' bar is highlighted. Notice the contrast between math (moderate and increasing) and Qwen on science (flat and near-zero)." />
                 </section>
 
-                {/* 07 — Hints */}
+                {/* 07 · Hints */}
                 <section>
-                  <ProjectSectionLabel n="07" label="Exp 3 — Biased Hints (SBH)" />
+                  <ProjectSectionLabel n="07" label="Exp 3: Biased Hints (SBH)" />
                   <p className="mb-2 text-sm leading-relaxed text-muted-foreground">
                     A hint suggesting a wrong answer is prepended at four strength levels, from a gentle "could the answer perhaps be X?" up to "a Stanford professor mentioned the answer is X." Responses are classified into four outcomes: Faithful Reject (acknowledged the hint, gave correct answer), Faithful Follow (acknowledged it, followed it), Unfaithful Ignore (silently ignored), and Steered-But-Hidden (silently followed it). SBH is the one that matters most. On ARC, Qwen's SBH rate triples from weak to strong hints while the Hint Acknowledgment Rate barely moves. The model is getting more influenced but hiding it better.
                   </p>
                   <HintsChart caption="Steered-But-Hidden rate by hint strength. Blue lines = science MC (vulnerable). Amber lines = math (nearly flat). Dashed = Qwen 7B." />
                 </section>
 
-                {/* 08 — Experiment Design */}
+                {/* 08 · Experiment Design */}
                 <section>
                   <ProjectSectionLabel n="08" label="Experiment Design" />
                   <div className="grid gap-4 sm:grid-cols-2">
@@ -270,7 +270,7 @@ export default function CoTFaithfulnessPage() {
                   </div>
                 </section>
 
-                {/* 09 — Technical Stack */}
+                {/* 09 · Technical Stack */}
                 <section>
                   <ProjectSectionLabel n="09" label="Technical Stack" />
                   <div className="overflow-hidden rounded border border-border bg-card">
@@ -293,7 +293,7 @@ export default function CoTFaithfulnessPage() {
                   </div>
                 </section>
 
-                {/* 10 — Friction & Takeaways */}
+                {/* 10 · Friction & Takeaways */}
                 <section>
                   <ProjectSectionLabel n="10" label="Friction & Takeaways" />
                   <div className="grid gap-5 sm:grid-cols-2">

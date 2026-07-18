@@ -10,7 +10,7 @@ const profile = {
   url: SITE,
   location: { city: 'Los Angeles', region: 'CA', countryCode: 'US', also: 'Mumbai, India' },
   openToWork: true,
-  summary: 'AI/ML engineer and full-stack developer graduating with an M.S. in Computer Science from USC in May 2027. Builds production AI systems — RAG pipelines, multi-modal deep learning, LLM-powered applications — and pairs them with clean, user-facing frontends. Thrives in ambiguous, fast-moving environments.',
+  summary: 'AI/ML engineer and full-stack developer graduating with an M.S. in Computer Science from USC in May 2027. Builds production AI systems (RAG pipelines, multi-modal deep learning, LLM-powered applications) and pairs them with clean, user-facing frontends. Thrives in ambiguous, fast-moving environments.',
   profiles: [
     { network: 'GitHub', url: 'https://github.com/SohailGidwani' },
     { network: 'LinkedIn', url: 'https://linkedin.com/in/sohail-gidwani/' },
@@ -35,11 +35,11 @@ const projects = [
     description:
       'Autonomous code-migration agent (Flask → FastAPI): plans a per-file task DAG, rewrites files with an LLM on a git worktree, verifies in a network-off Docker sandbox, recovers under bounded budgets, and reports honestly. One engine, two interfaces: CLI + MCP.',
     highlights: [
-      'LangGraph agent checkpointed to Postgres after every node — kill the worker mid-run and it resumes (thread_id = job_id)',
+      'LangGraph agent checkpointed to Postgres after every node; kill the worker mid-run and it resumes (thread_id = job_id)',
       'Postgres job queue claimed via FOR UPDATE SKIP LOCKED with heartbeat lease; content-hash idempotent Execute',
       'Ephemeral --network none Docker sandbox verification with anti-gaming predicates (passed > 0, recomputed diffs, task truth reloaded from Postgres)',
       'Seven recovery strategies (targeted rollback, widen-on-repeat, replan, model escalation, skip-and-continue) bounded by budgets and fully logged in attempts_log with per-attempt cost',
-      'Eval harness: K=3 grid over 6 pinned repos / 4 difficulty tiers through the real queue/worker path; 100% fault recovery on the stable tier fixture',
+      'Eval harness: K=3 grid over 7 pinned repos / 4 difficulty tiers through the real queue/worker path; 61.9% strict green across 21 autonomous runs, oracle integrity 1.0 on every report-bearing run',
       'MCP server exposes verify_patch_in_sandbox, repo_graph, and blast_radius so co-pilot agents (Claude Code, Cursor) can verify patches before writing',
     ],
     tags: ['Python', 'FastAPI', 'LangGraph', 'Postgres', 'pgvector', 'LiteLLM', 'Docker', 'MCP', 'Next.js', 'Agents'],
@@ -58,7 +58,7 @@ const projects = [
       'pgvector semantic search (IVFFlat ANN) alongside full-text search (GIN + ts_rank_cd) in PostgreSQL',
       'Z-score hybrid ranking: score = 0.6·z_semantic + 0.4·z_fts with OCR confidence penalty',
       'RAG Q&A with local LLM (Ollama gemma3:1b) that cites source passages via [CIT-#] tags',
-      'Containerized with Docker — setup is docker-compose up',
+      'Containerized with Docker; setup is docker-compose up',
     ],
     tags: ['Flask', 'pgvector', 'RAG', 'OCR', 'Ollama', 'Python', 'PostgreSQL', 'Docker'],
     status: 'complete',
@@ -71,9 +71,9 @@ const projects = [
     type: 'research',
     description: 'USC CSCI-544 NLP study probing whether chain-of-thought reasoning in LLMs causally drives answers or is post-hoc rationalization.',
     highlights: [
-      'SCR (step truncation): removing CoT steps drops accuracy — causal signal confirmed',
-      'CFR (corruption): corrupted reasoning still reaches correct answers — partial post-hoc',
-      'SBH (biased hints): models follow biased hints over correct CoT — faithfulness breaks',
+      'SCR (step truncation): removing CoT steps drops accuracy, confirming a causal signal',
+      'CFR (corruption): corrupted reasoning still reaches correct answers, indicating partial post-hoc',
+      'SBH (biased hints): models follow biased hints over correct CoT, so faithfulness breaks',
       'Models: Llama 3.2 3B and Qwen 2.5 7B via Ollama; benchmarks: GSM8K + ARC-Challenge',
       '~15K queries; conclusion: CoT is partially causal, partially decorative',
     ],
@@ -101,7 +101,7 @@ const projects = [
     url: `${SITE}/projects/scribeglobe`,
     github: 'https://github.com/SohailGidwani/ScribeGlobe',
     type: 'application',
-    description: 'Medium-style blogging platform built to understand edge computing — React + Vite frontend, Hono API on Cloudflare Workers, Neon PostgreSQL.',
+    description: 'Medium-style blogging platform built to understand edge computing: React + Vite frontend, Hono API on Cloudflare Workers, Neon PostgreSQL.',
     highlights: [
       'Hono API running at the edge on Cloudflare Workers (zero cold-start latency)',
       'React + Vite frontend with full auth flow (JWT)',
@@ -119,7 +119,7 @@ const projects = [
     description: 'AI-powered news aggregator with Azure OpenAI summarization and Qdrant vector DB for semantic duplicate detection.',
     highlights: [
       'Automated ingestion from multiple RSS feeds',
-      'Qdrant vector search for semantic deduplication — same story from different sources merged',
+      'Qdrant vector search for semantic deduplication, merging the same story from different sources',
       'Azure OpenAI GPT-4o for article summarization and category tagging',
     ],
     tags: ['Python', 'Flask', 'Azure OpenAI', 'Qdrant', 'SentenceTransformers', 'React', 'Vector Search'],
@@ -136,10 +136,10 @@ const experience = [
     endDate: null,
     current: true,
     tags: ['Python', 'PyTorch', 'Deep Learning', 'CLIP', 'RAG', 'FAISS'],
-    summary: 'Multimodal AI for Alzheimer\'s disease classification and VQA — neuroimaging + clinical data, end-to-end experimentation infrastructure. Manuscript submitted (MEMOIR-VLM).',
+    summary: 'Multimodal AI for Alzheimer\'s disease classification and VQA: neuroimaging + clinical data, end-to-end experimentation infrastructure. Manuscript submitted (MEMOIR-VLM).',
     highlights: [
       'Multimodal pipeline (MEMOIR-VLM): T1 MRI + DTI imaging + clinical data across 2,363 ADNI subjects; 70.7% balanced accuracy on 3-class diagnosis, 93.3% on binary (CN vs Dementia)',
-      'Missing-modality cross-attention fusion with stochastic modality dropout — robust inference with any subset of T1, DTI, and clinical inputs (39.4% DTI coverage)',
+      'Missing-modality cross-attention fusion with stochastic modality dropout, enabling robust inference with any subset of T1, DTI, and clinical inputs (39.4% DTI coverage)',
       'RAG-based VQA: FAISS retrieval + cross-encoder rerank + LLM answer generation over retrieved captions; Mistral 7B wins at 94.7% diagnosis VQA accuracy vs Gemma 4 26B MoE and MedGemma 1.5 4B',
       'Two-stage training: CLIP contrastive pre-training → multi-task fine-tuning across five heads; modality ablation across 7 combinations on ~70M parameter models',
     ],
@@ -166,7 +166,7 @@ const experience = [
     endDate: '2025-05-31',
     current: false,
     tags: ['Python', 'Flask', 'Qdrant', 'Azure OpenAI', 'React', 'Node.js'],
-    summary: 'Built internal AI tools for India\'s leading NBFC — RAG chatbot, AI fraud detection, automated support.',
+    summary: 'Built internal AI tools for India\'s leading NBFC: RAG chatbot, AI fraud detection, automated support.',
     highlights: [
       'AskPandaAI (RAG chatbot): Python + Flask + Qdrant + Azure OpenAI + Zoho ticketing; Certificate of Achievement from CTO',
       'Gold Loan Image Audit: internal post-launch study measured a 15% reduction in potential loan-fraud cases versus the prior review workflow',
@@ -340,9 +340,9 @@ const research = [
     year: 2025,
     summary: 'Empirical study of whether chain-of-thought reasoning causally drives LLM outputs or serves as post-hoc rationalization, using 4 controlled experiments across math and science benchmarks.',
     keyResults: [
-      'SCR (step truncation) drops accuracy — confirms partial causal role of CoT',
-      'CFR (corruption) still reaches correct answers — partial post-hoc rationalization confirmed',
-      'SBH (biased hints) causes models to follow hints over correct reasoning — faithfulness breaks under social pressure',
+      'SCR (step truncation) drops accuracy, confirming a partial causal role for CoT',
+      'CFR (corruption) still reaches correct answers, confirming partial post-hoc rationalization',
+      'SBH (biased hints) causes models to follow hints over correct reasoning, so faithfulness breaks under social pressure',
       'Qwen 2.5 7B more faithful than Llama 3.2 3B across all experiments',
     ],
     methods: [
@@ -357,21 +357,21 @@ const research = [
 
 const triumphs = [
   {
-    title: 'Certificate of Achievement — AskPandaAI',
+    title: 'Certificate of Achievement: AskPandaAI',
     issuer: 'CTO, IIFL Finance Ltd.',
     date: '2024-06-13',
     type: 'award',
     description: 'Recognized by the CTO for designing and implementing NLP-powered internal chatbot (AskPandaAI) for real-time employee access to financial data via RAG.',
   },
   {
-    title: 'Tech-a-thon Hackathon — 1st Prize',
+    title: 'Tech-a-thon Hackathon: 1st Prize',
     issuer: 'IIFL',
     date: '2023-10-07',
     type: 'award',
     description: 'Won 1st place at IIFL\'s internal hackathon for an AI-powered customer support chatbot.',
   },
   {
-    title: 'Rubix Hackathon — Finalist',
+    title: 'Rubix Hackathon: Finalist',
     issuer: 'CSI TSEC',
     date: '2022-01-20',
     type: 'award',
@@ -443,10 +443,10 @@ const RESOURCE_DESCRIPTIONS: Record<string, string> = {
   'portfolio://projects': 'All portfolio projects with full descriptions, highlights, tags, and links',
   'portfolio://experience': 'Work experience and research roles with detailed highlights',
   'portfolio://education': 'Academic background, GPA, and coursework',
-  'portfolio://skills': 'Full skill inventory across AI/ML, languages, web, databases, cloud, and tools — with proficiency levels (1-5)',
+  'portfolio://skills': 'Full skill inventory across AI/ML, languages, web, databases, cloud, and tools, with proficiency levels (1-5)',
   'portfolio://research': 'Published and in-progress research with key results, methods, and datasets',
   'portfolio://triumphs': 'Awards, hackathon wins, and certifications',
-  'portfolio://links': 'Structured index of all important URLs — projects, research, GitHub repos, resume, and machine-readable endpoints',
+  'portfolio://links': 'Structured index of all important URLs: projects, research, GitHub repos, resume, and machine-readable endpoints',
   'portfolio://contact': 'Contact information and preferred ways to reach Sohail Gidwani.',
 }
 
@@ -490,7 +490,7 @@ ${JSON.stringify(experience)}`,
         role: 'user',
         content: {
           type: 'text',
-          text: `Using the data below, write an assessment of why Sohail Gidwani is a strong candidate for ML/AI engineering roles. Ground every claim in his specific experience, projects, and research — cite concrete results (metrics, models, datasets). Organize the assessment around production ML systems, research depth, and breadth of the ML/AI stack.
+          text: `Using the data below, write an assessment of why Sohail Gidwani is a strong candidate for ML/AI engineering roles. Ground every claim in his specific experience, projects, and research; cite concrete results (metrics, models, datasets). Organize the assessment around production ML systems, research depth, and breadth of the ML/AI stack.
 
 EXPERIENCE:
 ${JSON.stringify(experience)}
@@ -508,7 +508,7 @@ ${JSON.stringify(skills)}`,
     ],
   },
   full_profile_brief: {
-    description: 'A complete brief covering experience, skills, research, and projects — useful for AI clients that want a single-shot context load.',
+    description: 'A complete brief covering experience, skills, research, and projects, useful for AI clients that want a single-shot context load.',
     build: () => [
       {
         role: 'user',
@@ -667,7 +667,7 @@ export async function GET() {
     name: 'Sohail Gidwani Portfolio MCP Server',
     protocol: 'MCP 2024-11-05',
     version: '2.0.0',
-    description: 'Query portfolio data for Sohail Gidwani — AI/ML Engineer & Full-Stack Developer. This endpoint speaks JSON-RPC 2.0 over HTTP POST; a GET (this response) is descriptive only. Send POST requests with Content-Type: application/json.',
+    description: 'Query portfolio data for Sohail Gidwani, AI/ML Engineer & Full-Stack Developer. This endpoint speaks JSON-RPC 2.0 over HTTP POST; a GET (this response) is descriptive only. Send POST requests with Content-Type: application/json.',
     transport: { method: 'POST', contentType: 'application/json', endpoint: `${SITE}/api/mcp` },
     resources: Object.entries(RESOURCE_DESCRIPTIONS).map(([uri, description]) => ({ uri, description })),
     usage: {

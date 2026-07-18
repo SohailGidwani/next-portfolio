@@ -6,7 +6,7 @@
     "image": "https://sohailgidwani.app/api/og",
     "email": "sohailgidwani15@gmail.com",
     "url": "https://sohailgidwani.app",
-    "summary": "AI/ML engineer and full-stack developer graduating with an M.S. in Computer Science from USC in May 2027. Builds production AI systems — RAG pipelines, multi-modal deep learning, LLM-powered applications — and pairs them with clean, user-facing frontends.",
+    "summary": "AI/ML engineer and full-stack developer graduating with an M.S. in Computer Science from USC in May 2027. Builds production AI systems (RAG pipelines, multi-modal deep learning, LLM-powered applications) and pairs them with clean, user-facing frontends.",
     "location": {
       "city": "Los Angeles",
       "region": "CA",
@@ -122,11 +122,11 @@
   "projects": [
     {
       "name": "Portage",
-      "description": "Autonomous code-migration agent (Flask → FastAPI): plans a per-file task DAG, rewrites files with an LLM, verifies in a network-off Docker sandbox, recovers under bounded budgets, and reports honestly. CLI + MCP interfaces over one engine.",
+      "description": "Autonomous code-migration agent (Flask → FastAPI): plans the target architecture (creating new modules, not just rewriting files), verifies in a network-off Docker sandbox, recovers under bounded budgets, and reports honestly. CLI + MCP interfaces over one engine.",
       "highlights": [
-        "LangGraph agent checkpointed to Postgres after every node — kill the worker mid-run and it resumes",
-        "Job queue via FOR UPDATE SKIP LOCKED with heartbeat lease; content-hash idempotent execution",
-        "Eval harness: K=3 grid over 6 pinned repos through the real queue/worker path; honest green bar",
+        "61.9% strict green across 21 fully autonomous runs (7 pinned repos, K=3), up from 28.6% two grids earlier; oracle integrity 1.0 on every report-bearing run",
+        "Artifact-producing plans: a bounded architect call proposes new target-architecture modules, a deterministic contract compiler completes them, and frozen contracts bind every retry and resume",
+        "LangGraph agent checkpointed to Postgres after every node; kill the worker mid-run and it resumes; job queue via FOR UPDATE SKIP LOCKED with heartbeat lease",
         "MCP tools (verify_patch_in_sandbox, repo_graph, blast_radius) for co-pilot agents like Claude Code and Cursor"
       ],
       "keywords": ["Python", "FastAPI", "LangGraph", "Postgres", "Docker", "LiteLLM", "MCP", "Agents"],
@@ -141,7 +141,7 @@
         "OCR pipeline for handwritten notes and PDFs using Tesseract",
         "pgvector semantic search alongside full-text search",
         "RAG Q&A with Ollama (gemma3:1b) citing source passages",
-        "Containerized with Docker — setup is docker-compose up"
+        "Containerized with Docker; setup is docker-compose up"
       ],
       "keywords": ["Flask", "PostgreSQL", "pgvector", "RAG", "OCR", "Ollama", "Python"],
       "url": "https://sohailgidwani.app/projects/knowledge-hub",
