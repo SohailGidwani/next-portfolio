@@ -69,7 +69,7 @@ export default function Navbar() {
           type="button"
           onClick={() => scrollToSection("hero")}
           className="flex justify-start text-left font-display text-base font-extrabold tracking-tight text-foreground"
-          aria-label="Scroll to top"
+          aria-label="SohailG, scroll to top"
         >
           <span className="inline-flex items-center gap-0.5">
             SohailG

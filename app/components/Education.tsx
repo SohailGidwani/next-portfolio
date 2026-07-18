@@ -70,11 +70,11 @@ export default function Education() {
                     {item.year}
                   </p>
                   {item.location && (
-                    <p className="mt-1 font-mono text-xs tracking-[0.1em] text-muted-foreground/60">
+                    <p className="mt-1 font-mono text-xs tracking-[0.1em] text-muted-foreground">
                       {item.location}
                     </p>
                   )}
-                  <p className="mt-3 font-mono text-xs uppercase tracking-[0.15em] text-accent/80">
+                  <p className="mt-3 font-mono text-xs uppercase tracking-[0.15em] text-accent">
                     {item.cgpa}
                   </p>
                 </div>
@@ -106,7 +106,7 @@ export default function Education() {
 
                   {item.courses && item.courses.length > 0 && (
                     <div className="mt-5">
-                      <p className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground/70">
+                      <p className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
                         Coursework
                       </p>
                       <div className="mt-2 flex flex-wrap gap-1.5">
