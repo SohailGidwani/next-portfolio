@@ -1,6 +1,5 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import dynamic from "next/dynamic"
 import { motion } from "framer-motion"
 import { ArrowDown, ArrowUpRight, Github, Linkedin } from "lucide-react"
@@ -79,18 +78,6 @@ export default function Hero() {
   const magGithub = useMagnetic<HTMLAnchorElement>()
   const magLinkedin = useMagnetic<HTMLAnchorElement>()
 
-  const [ds] = useState(() => {
-    if (typeof window === "undefined") return 1
-    return sessionStorage.getItem("hero-seen") ? 0.35 : 1
-  })
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      sessionStorage.setItem("hero-seen", "1")
-    }, 2000)
-    return () => clearTimeout(timeout)
-  }, [])
-
   const scrollToProjects = () => {
     triggerHaptic()
     smoothScrollToId("projects")
@@ -106,34 +93,25 @@ export default function Hero() {
       </div>
 
       <div className="container relative z-[1] mx-auto flex min-h-[calc(100svh-var(--nav-h)-1.25rem)] flex-col items-start justify-center pb-16 pt-6 text-left sm:pb-20 md:items-center md:text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.05 * ds }}
-          className="flex flex-col items-start md:items-center"
-        >
+        <div className="hero-enter flex flex-col items-start md:items-center" style={{ animationDelay: "0.05s" }}>
           <RoleBadge />
-        </motion.div>
+        </div>
 
         <div className="mt-6 w-full min-w-0 [container-type:inline-size] sm:mt-10 md:mt-10">
           <HeroTitle />
         </div>
 
-        <motion.p
-          className="mt-5 max-w-xl text-[14px] font-normal leading-relaxed text-muted-foreground sm:mt-8 sm:text-[15px] md:mx-auto md:mt-10 md:px-1"
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.35 * ds }}
+        <p
+          className="hero-enter mt-5 max-w-xl text-[14px] font-normal leading-relaxed text-muted-foreground sm:mt-8 sm:text-[15px] md:mx-auto md:mt-10 md:px-1"
+          style={{ animationDelay: "0.35s" }}
         >
           I build AI systems that actually work in production, not just in notebooks. Full-stack engineering meets applied
           machine learning.
-        </motion.p>
+        </p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.4 * ds }}
-          className="mt-4 flex items-start justify-start gap-2 sm:mt-5 sm:items-center md:justify-center"
+        <div
+          className="hero-enter mt-4 flex items-start justify-start gap-2 sm:mt-5 sm:items-center md:justify-center"
+          style={{ animationDelay: "0.4s" }}
         >
           {/* Mobile: a status stack — dot + "Open to full-time roles" as the
               status line, details beneath it, no separators. sm+: one line
@@ -151,13 +129,11 @@ export default function Hero() {
             <span className="hidden sm:inline"> · </span>
             <span className="mt-1 block whitespace-nowrap sm:mt-0 sm:inline">Relocate / Hybrid / Remote</span>
           </p>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.45 * ds }}
-          className="mt-6 grid w-full max-w-3xl grid-cols-2 gap-2 sm:mt-10 sm:flex sm:flex-wrap sm:justify-center sm:gap-3"
+        <div
+          className="hero-enter mt-6 grid w-full max-w-3xl grid-cols-2 gap-2 sm:mt-10 sm:flex sm:flex-wrap sm:justify-center sm:gap-3"
+          style={{ animationDelay: "0.45s" }}
         >
           <motion.button
             type="button"
@@ -226,16 +202,14 @@ export default function Hero() {
               <ArrowUpRight className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" aria-hidden />
             </motion.a>
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.55 * ds }}
-          className="flex w-full min-w-0 flex-col items-stretch md:items-center"
+        <div
+          className="hero-enter flex w-full min-w-0 flex-col items-stretch md:items-center"
+          style={{ animationDelay: "0.55s" }}
         >
           <HeroStats />
-        </motion.div>
+        </div>
       </div>
     </section>
   )

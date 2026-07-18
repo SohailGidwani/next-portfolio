@@ -21,6 +21,9 @@ const fm = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--fm',
   weight: ['400', '500'],
+  // Mono only styles small utility labels, never LCP text; keeping it out of
+  // the preload set frees critical bandwidth for Syne and DM Sans.
+  preload: false,
 })
 
 export const viewport: Viewport = {

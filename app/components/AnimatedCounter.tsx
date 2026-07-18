@@ -16,7 +16,11 @@ export default function AnimatedCounter({
   duration = 1500,
   className = "",
 }: AnimatedCounterProps) {
-  const [count, setCount] = useState(0)
+  // SSR the final value: the counter is an LCP candidate, and server-rendering
+  // "0" defers the real paint until hydration + a full count-up (measured as a
+  // 4.2s LCP). Painting the final value first keeps LCP at first render; the
+  // count-up then restarts from 0 as a pure enhancement.
+  const [count, setCount] = useState(value)
   const ref = useRef<HTMLSpanElement>(null)
   const isInView = useInView(ref, { once: true, margin: "-50px" })
   const hasAnimated = useRef(false)
@@ -30,6 +34,7 @@ export default function AnimatedCounter({
       return
     }
 
+    setCount(0)
     const startTime = Date.now()
     const endValue = value
 
