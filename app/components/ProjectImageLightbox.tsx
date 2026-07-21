@@ -119,7 +119,7 @@ export default function ProjectImageLightbox({
         {active ? (
           <DialogContent
             showClose={false}
-            className="h-[94dvh] w-[96vw] max-w-[96vw] grid-rows-[auto_1fr_auto] gap-3 overflow-hidden rounded bg-black/95 p-3 text-white sm:p-5"
+            className="h-[94dvh] w-[96vw] max-w-[96vw] grid-cols-[minmax(0,1fr)] grid-rows-[auto_1fr_auto] gap-3 overflow-hidden rounded bg-black/95 p-3 text-white sm:p-5"
             onKeyDown={(event) => {
               if (event.key === "ArrowLeft") {
                 event.preventDefault()
