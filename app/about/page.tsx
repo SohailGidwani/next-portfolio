@@ -49,7 +49,7 @@ export default function AboutPage() {
               <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-accent">
                 About
               </p>
-              <h1 className="mt-4 font-display text-4xl leading-tight text-foreground sm:text-5xl">
+              <h1 className="mt-4 font-display text-3xl leading-tight text-foreground sm:text-4xl lg:text-5xl">
                 I like difficult systems and plain explanations.
               </h1>
               <div className="mt-7 space-y-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
@@ -84,16 +84,46 @@ export default function AboutPage() {
             </div>
 
             <figure className="mx-auto w-full max-w-[340px]">
-              <div className="relative aspect-[3/4] overflow-hidden border border-foreground/20 bg-background">
-                <Image
-                  src={portrait}
-                  alt="Sohail Gidwani"
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 340px, 340px"
-                  className="object-cover object-[50%_18%]"
+              <div className="group relative">
+                {/* Amber mounting block: slides out from behind the print */}
+                <div
+                  aria-hidden
+                  className="portrait-mount absolute inset-0 translate-x-2.5 translate-y-2.5 bg-accent"
                 />
+                {/* Registration marks stamp in; the block owns the fourth corner */}
+                <span
+                  aria-hidden
+                  className="portrait-mark absolute -left-2 -top-2 h-3 w-3 origin-top-left border-l border-t border-foreground/40"
+                  style={{ animationDelay: "0.5s" }}
+                />
+                <span
+                  aria-hidden
+                  className="portrait-mark absolute -right-2 -top-2 h-3 w-3 origin-top-right border-r border-t border-foreground/40"
+                  style={{ animationDelay: "0.56s" }}
+                />
+                <span
+                  aria-hidden
+                  className="portrait-mark absolute -bottom-2 -left-2 h-3 w-3 origin-bottom-left border-b border-l border-foreground/40"
+                  style={{ animationDelay: "0.62s" }}
+                />
+                <div className="portrait-photo relative aspect-[3/4] overflow-hidden border border-border bg-background">
+                  <Image
+                    src={portrait}
+                    alt="Sohail Gidwani, professional portrait"
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 340px, 340px"
+                    className="object-cover object-[50%_18%] [filter:sepia(0.12)_saturate(1.06)] transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:scale-[1.03]"
+                  />
+                </div>
               </div>
+              <figcaption className="mt-4">
+                <span aria-hidden className="portrait-rule block h-px w-full origin-left bg-border" />
+                <div className="portrait-caption flex items-baseline justify-between gap-3 pt-2.5 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+                  <span>Fig. 01 · Sohail Gidwani</span>
+                  <span className="text-accent">LA · 2026</span>
+                </div>
+              </figcaption>
             </figure>
           </div>
         </section>

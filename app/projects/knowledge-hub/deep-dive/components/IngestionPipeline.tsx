@@ -1,6 +1,7 @@
 "use client"
 
-import { motion, useReducedMotion } from "framer-motion"
+import { useRef, type RefObject } from "react"
+import { motion, useInView, useReducedMotion } from "framer-motion"
 import { useDiagramVertical } from "@/app/components/DiagramOrientation"
 
 interface Step {
@@ -174,10 +175,23 @@ function IngestionPipelineVertical({ reduced }: { reduced: boolean }) {
 }
 
 export default function IngestionPipeline() {
-  const reduced = useReducedMotion() ?? false
+  const prefersReduced = useReducedMotion() ?? false
+  // Decorative loops (pulses, packet flows) pause offscreen: folding !inView
+  // into the reduced flag stops every downstream animation for free.
+  const rootRef = useRef<HTMLElement>(null)
+  const inView = useInView(rootRef, { margin: "200px 0px" })
+  const reduced = prefersReduced || !inView
   const vertical = useDiagramVertical()
 
-  if (vertical) return <IngestionPipelineVertical reduced={reduced} />
+  if (vertical) {
+    // The observed root must exist on this branch too; otherwise useInView
+    // stays false forever and the phone-dialog copy renders static.
+    return (
+      <div ref={rootRef as RefObject<HTMLDivElement>} className="h-full">
+        <IngestionPipelineVertical reduced={reduced} />
+      </div>
+    )
+  }
 
   // ── geometry ──────────────────────────────────────
   const W = 1260
@@ -230,7 +244,7 @@ export default function IngestionPipeline() {
   const chunkBot = chunkCy + steps[4].h / 2    // 152
 
   return (
-    <figure className="my-8">
+    <figure ref={rootRef} className="my-8">
       <div className="rounded border border-border bg-card/40 p-4 sm:p-6">
         <svg
           viewBox={`0 0 ${W} ${H}`}

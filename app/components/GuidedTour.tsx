@@ -1,6 +1,7 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, type ReactNode } from "react"
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { ArrowLeft, ArrowRight, Sparkles, X } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
 import { usePortfolio, TOUR_STEPS } from "./PortfolioProvider"
@@ -25,6 +26,24 @@ interface GuidedTourProps {
 export default function GuidedTour({ steps = TOUR_STEPS }: GuidedTourProps) {
   const { tourStep: stepIndex, nextTourStep: onNext, previousTourStep: onPrevious, stopTour: onClose } = usePortfolio()
   const activeStep = stepIndex !== null ? steps[stepIndex] : null
+  // Framer bypasses the CSS reduced-motion kill switch; drop the blur there.
+  const reduced = useReducedMotion()
+
+  // Step changes crossfade with a subtle blur mask instead of teleporting.
+  const StepText = ({ id, className, children }: { id: string; className?: string; children: ReactNode }) => (
+    <AnimatePresence mode="popLayout" initial={false}>
+      <motion.span
+        key={id}
+        className={className ? `block ${className}` : "block"}
+        initial={reduced ? { opacity: 0 } : { opacity: 0, filter: "blur(2px)" }}
+        animate={{ opacity: 1, filter: "blur(0px)" }}
+        exit={reduced ? { opacity: 0 } : { opacity: 0, filter: "blur(2px)" }}
+        transition={{ duration: 0.15, ease: "easeOut" }}
+      >
+        {children}
+      </motion.span>
+    </AnimatePresence>
+  )
   const currentIndex = stepIndex ?? 0
   const previousElementRef = useRef<HTMLElement | null>(null)
   const returnFocusRef = useRef<HTMLElement | null>(null)
@@ -108,6 +127,11 @@ export default function GuidedTour({ steps = TOUR_STEPS }: GuidedTourProps) {
         <DialogContent
           showOverlay={false}
           showClose={false}
+          // A tour must survive interaction with the page it is touring; the
+          // default outside-dismiss also raced the command palette's async
+          // focus restore, killing the tour the instant it opened.
+          onInteractOutside={(event) => event.preventDefault()}
+          onFocusOutside={(event) => event.preventDefault()}
           onCloseAutoFocus={(event) => {
             event.preventDefault()
             returnFocusRef.current?.focus()
@@ -132,7 +156,9 @@ export default function GuidedTour({ steps = TOUR_STEPS }: GuidedTourProps) {
             <div className="flex min-w-0 flex-1 items-center gap-2">
               <Sparkles className="h-4 w-4 shrink-0 text-accent" />
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium text-foreground">{activeStep.title}</p>
+                <p className="relative text-sm font-medium text-foreground">
+                  <StepText id={activeStep.id} className="truncate">{activeStep.title}</StepText>
+                </p>
                 <p className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
                   {currentIndex + 1}/{steps.length}
                 </p>
@@ -164,7 +190,9 @@ export default function GuidedTour({ steps = TOUR_STEPS }: GuidedTourProps) {
                 </span>
                 <div>
                   <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Guided tour</p>
-                  <h3 className="font-display text-lg text-foreground">{activeStep.title}</h3>
+                  <h3 className="relative font-display text-lg text-foreground">
+                    <StepText id={activeStep.id}>{activeStep.title}</StepText>
+                  </h3>
                 </div>
               </div>
               <button
@@ -176,7 +204,9 @@ export default function GuidedTour({ steps = TOUR_STEPS }: GuidedTourProps) {
                 <X className="h-4 w-4" />
               </button>
             </div>
-            <p className="mt-4 text-sm text-muted-foreground">{activeStep.description}</p>
+            <p className="relative mt-4 text-sm text-muted-foreground">
+              <StepText id={activeStep.id}>{activeStep.description}</StepText>
+            </p>
             <div className="mt-5 flex items-center justify-between gap-3 text-xs text-muted-foreground">
               <span>Step {currentIndex + 1} of {steps.length}</span>
               <div className="flex items-center gap-2">

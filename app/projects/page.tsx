@@ -33,7 +33,7 @@ export default function ProjectsPage() {
               <div className="h-full transition-transform duration-300 ease-out group-hover:-translate-y-1.5 motion-reduce:transition-none motion-reduce:group-hover:translate-y-0">
               <InteractiveCard
                 tilt
-                className="group flex h-full cursor-pointer flex-col rounded border border-foreground/10 bg-card2 p-5 shadow-card transition-all duration-300 group-hover:border-accent/40 group-hover:shadow-card-hover"
+                className="group flex h-full cursor-pointer flex-col rounded border border-foreground/10 bg-card2 p-5 shadow-card transition-[border-color,box-shadow] duration-300 group-hover:border-accent/40 group-hover:shadow-card-hover"
               >
                 <Link
                   href={`/projects/${project.id}`}

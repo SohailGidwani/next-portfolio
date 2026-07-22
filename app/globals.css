@@ -213,11 +213,6 @@
     font-family: var(--fm);
   }
   
-  /* Only apply transitions to elements that need it */
-  .theme-transition {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
   /* Keep scroll position visible without using the browser's heavy default. */
   ::-webkit-scrollbar {
     width: 10px;
@@ -259,46 +254,48 @@
     opacity: 0.35;
   }
 
+  /* Tour highlight: the base ring paints once; the stronger glow lives on a
+     pseudo-element painted once and pulsed via opacity, so the infinite
+     animation stays on the compositor instead of repainting box-shadow. */
   .tour-highlight {
     position: relative;
     border-radius: var(--radius-md);
     box-shadow: 0 0 0 2px color-mix(in oklch, var(--fg) 50%, transparent),
       0 0 0 6px color-mix(in oklch, var(--fg) 15%, transparent),
       0 0 40px 8px color-mix(in oklch, var(--fg) 10%, transparent);
-    animation: tour-pulse 2s ease-in-out infinite;
   }
 
-  @keyframes tour-pulse {
-    0%, 100% {
-      box-shadow: 0 0 0 2px color-mix(in oklch, var(--fg) 50%, transparent),
-        0 0 0 6px color-mix(in oklch, var(--fg) 15%, transparent),
-        0 0 40px 8px color-mix(in oklch, var(--fg) 10%, transparent);
-    }
-    50% {
-      box-shadow: 0 0 0 3px color-mix(in oklch, var(--fg) 60%, transparent),
-        0 0 0 10px color-mix(in oklch, var(--fg) 20%, transparent),
-        0 0 60px 12px color-mix(in oklch, var(--fg) 15%, transparent);
-    }
+  .tour-highlight::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--fg) 60%, transparent),
+      0 0 0 10px color-mix(in oklch, var(--fg) 20%, transparent),
+      0 0 60px 12px color-mix(in oklch, var(--fg) 15%, transparent);
+    opacity: 0;
+    animation: tour-ring-pulse 2s ease-in-out infinite;
   }
 
-  @keyframes tour-dialog-glow {
+  @keyframes tour-ring-pulse {
     0%, 100% {
-      box-shadow: 0 0 30px -5px color-mix(in oklch, var(--accent) 35%, transparent),
-        0 30px 80px -60px rgba(0, 0, 0, 0.5);
-      border-color: color-mix(in oklch, var(--accent) 50%, transparent);
+      opacity: 0;
     }
     50% {
-      box-shadow: 0 0 50px 0px color-mix(in oklch, var(--accent) 50%, transparent),
-        0 30px 80px -60px rgba(0, 0, 0, 0.5);
-      border-color: color-mix(in oklch, var(--accent) 70%, transparent);
+      opacity: 1;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
+      /* Delays must go too: a delayed animation with "both" fill parks the
+         element at its invisible from-state for the whole delay. */
+      animation-delay: 0ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
+      transition-delay: 0ms !important;
       scroll-behavior: auto !important;
     }
   }
@@ -539,6 +536,68 @@
 
   .mobile-nav-item {
     animation: mobile-nav-item-in 0.25s var(--ease-out-soft) both;
+  }
+
+  /* /about editorial portrait: the print assembles itself on load. Photo
+     settles, the amber board slides out from behind it, registration marks
+     stamp in, the caption rule draws, the credit fades up. Pure CSS, both
+     fill, so reduced motion collapses to the finished print instantly. */
+  @keyframes portrait-photo-in {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+  }
+
+  @keyframes portrait-mount-in {
+    from {
+      opacity: 0;
+      transform: translate(0, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate(10px, 10px);
+    }
+  }
+
+  @keyframes portrait-mark-in {
+    from {
+      opacity: 0;
+      transform: scale(0);
+    }
+  }
+
+  @keyframes portrait-rule-in {
+    from {
+      transform: scaleX(0);
+    }
+  }
+
+  @keyframes portrait-caption-in {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+  }
+
+  .portrait-photo {
+    animation: portrait-photo-in 0.5s var(--ease-out-soft) both;
+  }
+
+  .portrait-mount {
+    animation: portrait-mount-in 0.45s var(--ease-sheet) 0.25s both;
+  }
+
+  .portrait-mark {
+    animation: portrait-mark-in 0.3s var(--ease-out-soft) both;
+  }
+
+  .portrait-rule {
+    animation: portrait-rule-in 0.4s var(--ease-sheet) 0.7s both;
+  }
+
+  .portrait-caption {
+    animation: portrait-caption-in 0.35s var(--ease-out-soft) 0.85s both;
   }
 
   /* Hero entrance: pure CSS so above-the-fold content paints before JS

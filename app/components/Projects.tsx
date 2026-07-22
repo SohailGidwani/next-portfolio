@@ -50,7 +50,7 @@ export default function Projects() {
                   <InteractiveCard
                     tilt
                     maxTilt={1.5}
-                    className={`group h-full cursor-pointer rounded border p-6 shadow-card transition-all duration-300 hover:shadow-card-hover ${
+                    className={`group h-full cursor-pointer rounded border p-6 shadow-card transition-[border-color,box-shadow] duration-300 hover:shadow-card-hover ${
                       primaryHighlighted
                         ? "border-accent/40 bg-accent/5"
                         : "border-foreground/10 bg-card2 hover:border-accent/40"
@@ -141,7 +141,7 @@ export default function Projects() {
                     >
                     <InteractiveCard
                       tilt
-                      className={`group h-full cursor-pointer rounded border p-5 shadow-card transition-all duration-300 hover:shadow-card-hover ${
+                      className={`group h-full cursor-pointer rounded border p-5 shadow-card transition-[border-color,box-shadow] duration-300 hover:shadow-card-hover ${
                         isHighlighted
                           ? "border-accent/40 bg-accent/5"
                           : "border-foreground/10 bg-card2 hover:border-accent/40"

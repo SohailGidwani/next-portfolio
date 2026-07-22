@@ -27,7 +27,7 @@ export default function ResearchSpotlight() {
 
         <Link
           href={entry.href ?? "/research"}
-          className="group mt-10 block rounded border border-foreground/10 bg-card2 p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-card-hover sm:p-8"
+          className="group mt-10 block rounded border border-foreground/10 bg-card2 p-6 shadow-card transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-card-hover sm:p-8"
         >
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div className="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-[0.18em] text-accent">

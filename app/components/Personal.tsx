@@ -197,7 +197,7 @@ export default function Personal() {
                 whileTap={{ scale: 0.98 }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
                 viewport={{ once: true }}
-                className="group relative aspect-[3/4] overflow-hidden rounded border border-border bg-card text-left transition-all hover:border-accent/40"
+                className="group relative aspect-[3/4] overflow-hidden rounded border border-border bg-card text-left transition-colors hover:border-accent/40"
               >
                 <Image
                   src={game.image}

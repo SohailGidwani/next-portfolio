@@ -1,6 +1,7 @@
 "use client"
 
-import { motion, useReducedMotion } from "framer-motion"
+import { useRef, type RefObject } from "react"
+import { motion, useInView, useReducedMotion } from "framer-motion"
 import { useDiagramVertical } from "@/app/components/DiagramOrientation"
 
 interface EdgeProps {
@@ -49,10 +50,23 @@ function Edge({ id, d, accent, delay = 0, packet, reduced, mk = "" }: EdgeProps)
 }
 
 export default function VQAPipeline() {
-  const reduced = useReducedMotion() ?? false
+  const prefersReduced = useReducedMotion() ?? false
+  // Decorative loops (pulses, packet flows) pause offscreen: folding !inView
+  // into the reduced flag stops every downstream animation for free.
+  const rootRef = useRef<HTMLElement>(null)
+  const inView = useInView(rootRef, { margin: "200px 0px" })
+  const reduced = prefersReduced || !inView
   const vertical = useDiagramVertical()
 
-  if (vertical) return <VQAPipelineVertical reduced={reduced} />
+  if (vertical) {
+    // The observed root must exist on this branch too; otherwise useInView
+    // stays false forever and the phone-dialog copy renders static.
+    return (
+      <div ref={rootRef as RefObject<HTMLDivElement>} className="h-full">
+        <VQAPipelineVertical reduced={reduced} />
+      </div>
+    )
+  }
 
   const W = 1200
   const H = 380
@@ -72,7 +86,7 @@ export default function VQAPipeline() {
       }
 
   return (
-    <figure className="my-8">
+    <figure ref={rootRef} className="my-8">
       <div className="rounded border border-border bg-card/40 p-4 sm:p-6">
         <svg
           viewBox={`0 0 ${W} ${H}`}

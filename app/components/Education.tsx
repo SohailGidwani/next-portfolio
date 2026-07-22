@@ -64,7 +64,7 @@ export default function Education() {
                     <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
                       {n}
                     </span>
-                    <div className="h-px w-4 bg-accent/50 transition-all duration-500 group-hover/section:w-8" />
+                    <div className="h-px w-8 origin-left scale-x-50 bg-accent/50 transition-transform duration-500 group-hover/section:scale-x-100" />
                   </div>
                   <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
                     {item.year}
