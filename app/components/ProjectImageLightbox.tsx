@@ -4,7 +4,9 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
+  useRef,
   useState,
   type PointerEvent,
   type ReactNode,
@@ -66,13 +68,31 @@ export default function ProjectImageLightbox({
 }) {
   const [selected, setSelected] = useState<number | null>(null)
   const [zoom, setZoom] = useState(1)
-  const [position, setPosition] = useState({ x: 0, y: 0 })
-  const [dragStart, setDragStart] = useState<{ x: number; y: number } | null>(null)
+  const [dragging, setDragging] = useState(false)
+  // Pan position lives in refs and is written straight to the image style:
+  // routing it through React state re-rendered the dialog on every
+  // pointermove, which is exactly the choppiness a drag must not have.
+  const imgRef = useRef<HTMLImageElement>(null)
+  const posRef = useRef({ x: 0, y: 0 })
+  const dragOriginRef = useRef<{ x: number; y: number } | null>(null)
+  const rafRef = useRef(0)
+
+  const applyTransform = useCallback((zoomValue: number) => {
+    if (imgRef.current) {
+      imgRef.current.style.transform =
+        `translate(${posRef.current.x}px, ${posRef.current.y}px) scale(${zoomValue})`
+    }
+  }, [])
+
+  useEffect(() => {
+    applyTransform(zoom)
+  }, [zoom, selected, applyTransform])
 
   const resetView = useCallback(() => {
     setZoom(1)
-    setPosition({ x: 0, y: 0 })
-    setDragStart(null)
+    posRef.current = { x: 0, y: 0 }
+    dragOriginRef.current = null
+    setDragging(false)
   }, [])
 
   const open = useCallback((index: number) => {
@@ -99,12 +119,30 @@ export default function ProjectImageLightbox({
   const onPointerDown = (event: PointerEvent<HTMLDivElement>) => {
     if (zoom <= 1) return
     event.currentTarget.setPointerCapture(event.pointerId)
-    setDragStart({ x: event.clientX - position.x, y: event.clientY - position.y })
+    dragOriginRef.current = {
+      x: event.clientX - posRef.current.x,
+      y: event.clientY - posRef.current.y,
+    }
+    setDragging(true)
   }
 
   const onPointerMove = (event: PointerEvent<HTMLDivElement>) => {
-    if (!dragStart || zoom <= 1) return
-    setPosition({ x: event.clientX - dragStart.x, y: event.clientY - dragStart.y })
+    if (!dragOriginRef.current || zoom <= 1) return
+    posRef.current = {
+      x: event.clientX - dragOriginRef.current.x,
+      y: event.clientY - dragOriginRef.current.y,
+    }
+    if (!rafRef.current) {
+      rafRef.current = requestAnimationFrame(() => {
+        rafRef.current = 0
+        applyTransform(zoom)
+      })
+    }
+  }
+
+  const endDrag = () => {
+    dragOriginRef.current = null
+    setDragging(false)
   }
 
   return (
@@ -153,7 +191,7 @@ export default function ProjectImageLightbox({
                   type="button"
                   onClick={() => setZoom((value) => Math.min(3, value + 0.5))}
                   aria-label="Zoom in"
-                  className="flex h-10 w-10 items-center justify-center rounded border border-white/20 bg-black/40 text-white"
+                  className="flex h-10 w-10 items-center justify-center rounded border border-white/20 bg-black/40 text-white transition-transform active:scale-[0.98]"
                 >
                   <ZoomIn className="h-4 w-4" />
                 </button>
@@ -161,7 +199,7 @@ export default function ProjectImageLightbox({
                   type="button"
                   onClick={() => setZoom((value) => Math.max(0.5, value - 0.5))}
                   aria-label="Zoom out"
-                  className="flex h-10 w-10 items-center justify-center rounded border border-white/20 bg-black/40 text-white"
+                  className="flex h-10 w-10 items-center justify-center rounded border border-white/20 bg-black/40 text-white transition-transform active:scale-[0.98]"
                 >
                   <ZoomOut className="h-4 w-4" />
                 </button>
@@ -169,7 +207,7 @@ export default function ProjectImageLightbox({
                   type="button"
                   onClick={resetView}
                   aria-label="Reset image zoom"
-                  className="flex h-10 w-10 items-center justify-center rounded border border-white/20 bg-black/40 text-white"
+                  className="flex h-10 w-10 items-center justify-center rounded border border-white/20 bg-black/40 text-white transition-transform active:scale-[0.98]"
                 >
                   <RotateCcw className="h-4 w-4" />
                 </button>
@@ -177,7 +215,7 @@ export default function ProjectImageLightbox({
                   <button
                     type="button"
                     aria-label="Close image viewer"
-                    className="flex h-10 w-10 items-center justify-center rounded border border-white/20 bg-black/40 text-white"
+                    className="flex h-10 w-10 items-center justify-center rounded border border-white/20 bg-black/40 text-white transition-transform active:scale-[0.98]"
                   >
                     <X className="h-4 w-4" />
                   </button>
@@ -189,19 +227,21 @@ export default function ProjectImageLightbox({
               className="relative flex min-h-0 touch-none items-center justify-center overflow-hidden rounded"
               onPointerDown={onPointerDown}
               onPointerMove={onPointerMove}
-              onPointerUp={() => setDragStart(null)}
-              onPointerCancel={() => setDragStart(null)}
-              style={{ cursor: zoom > 1 ? (dragStart ? "grabbing" : "grab") : "default" }}
+              onPointerUp={endDrag}
+              onPointerCancel={endDrag}
+              style={{ cursor: zoom > 1 ? (dragging ? "grabbing" : "grab") : "default" }}
             >
               <Image
+                ref={imgRef}
                 src={active.src}
                 alt={active.alt}
                 fill
                 sizes="96vw"
-                className="object-contain transition-transform duration-150"
-                style={{
-                  transform: `translate(${position.x}px, ${position.y}px) scale(${zoom})`,
-                }}
+                className={
+                  dragging
+                    ? "object-contain"
+                    : "object-contain transition-transform duration-150 ease-[var(--ease-out-soft)]"
+                }
               />
             </div>
 
@@ -210,7 +250,7 @@ export default function ProjectImageLightbox({
                 type="button"
                 onClick={() => move(-1)}
                 aria-label="Previous image"
-                className="inline-flex min-h-10 items-center gap-2 rounded border border-white/20 px-3 text-xs font-semibold uppercase tracking-[0.12em] text-white"
+                className="inline-flex min-h-10 items-center gap-2 rounded border border-white/20 px-3 text-xs font-semibold uppercase tracking-[0.12em] text-white transition-transform active:scale-[0.98]"
               >
                 <ChevronLeft className="h-4 w-4" />
                 Previous
@@ -222,7 +262,7 @@ export default function ProjectImageLightbox({
                 type="button"
                 onClick={() => move(1)}
                 aria-label="Next image"
-                className="inline-flex min-h-10 items-center gap-2 rounded border border-white/20 px-3 text-xs font-semibold uppercase tracking-[0.12em] text-white"
+                className="inline-flex min-h-10 items-center gap-2 rounded border border-white/20 px-3 text-xs font-semibold uppercase tracking-[0.12em] text-white transition-transform active:scale-[0.98]"
               >
                 Next
                 <ChevronRight className="h-4 w-4" />

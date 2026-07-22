@@ -81,3 +81,40 @@ describe("server-first project routes", () => {
     expect(lightbox).toContain('aria-label="Close image viewer"')
   })
 })
+
+describe("motion system", () => {
+  it("dialog overlay never animates backdrop blur", () => {
+    const dialog = read("app/components/ui/dialog.tsx")
+    expect(dialog).not.toContain("backdrop-blur")
+  })
+
+  it("defines the shared easing tokens", () => {
+    const css = read("app/globals.css")
+    expect(css).toContain("--ease-sheet: cubic-bezier(0.32, 0.72, 0, 1)")
+    expect(css).toContain("--ease-out-soft: cubic-bezier(0.25, 1, 0.5, 1)")
+  })
+
+  it("mobile nav is a thumb-reachable bottom sheet without backdrop blur", () => {
+    const navbar = read("app/components/Navbar.tsx")
+    expect(navbar).not.toContain("backdrop-blur min-[901px]:hidden")
+    expect(navbar).toContain("mobile-sheet bottom-0")
+    expect(navbar).toContain("safe-area-inset-bottom")
+  })
+
+  it("lightbox image transition is disabled while dragging", () => {
+    const lightbox = read("app/components/ProjectImageLightbox.tsx")
+    expect(lightbox).not.toMatch(/className="object-contain transition-transform/)
+    expect(lightbox).toContain("dragging")
+  })
+
+  it("theme view-transition overrides are scoped, not global", () => {
+    const css = read("app/globals.css")
+    expect(css).not.toMatch(/^::view-transition-old\(root\),/m)
+    expect(css).toContain(":root[data-theme-vt]::view-transition-old(root)")
+  })
+
+  it("route transition never animates the initial load", () => {
+    const rt = read("app/components/RouteTransition.tsx")
+    expect(rt).toContain("firstRender")
+  })
+})

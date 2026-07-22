@@ -10,12 +10,73 @@
 
 }
 
+/* Radix dialog surfaces: entrances 250ms on the sheet curve, exits 180ms.
+   Plain CSS because tailwindcss-animate's duration/ease utilities lose the
+   arbitrary-value race to the core transition plugin (measured, not assumed).
+   The class is doubled to out-rank the data-variant utility that also sets
+   animation-duration at equal specificity later in the cascade. */
+.dialog-motion.dialog-motion[data-state="open"] {
+  animation-duration: 0.25s;
+  animation-timing-function: var(--ease-sheet);
+}
+
+.dialog-motion.dialog-motion[data-state="closed"] {
+  animation-duration: 0.18s;
+  animation-timing-function: var(--ease-out-soft);
+}
+
+/* Mobile nav bottom sheet: rises from the bottom edge into the thumb zone.
+   Own keyframes (replacing the plugin enter/exit) so the base dialog's
+   centered slide/zoom variables can never leak into the geometry; duration
+   and easing still come from .dialog-motion. Doubled class for the same
+   specificity tie described above. */
+@keyframes mobile-sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+@keyframes mobile-sheet-out {
+  to {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+.mobile-sheet.mobile-sheet[data-state="open"] {
+  animation-name: mobile-sheet-in;
+}
+
+.mobile-sheet.mobile-sheet[data-state="closed"] {
+  animation-name: mobile-sheet-out;
+}
+
+/* Phone theme switch: no whole-page snapshot, just a soft canvas crossfade. */
+:root.theme-fade,
+:root.theme-fade body {
+  transition: background-color 0.2s var(--ease-out-soft), color 0.2s var(--ease-out-soft);
+}
+
 /* Theme toggle circular reveal: disable the default cross-fade so the
-   clip-path animation driven from ThemeToggle is the only effect. */
-::view-transition-old(root),
-::view-transition-new(root) {
+   clip-path animation driven from ThemeToggle is the only effect. Scoped to
+   data-theme-vt so route view transitions keep their own dissolve below. */
+:root[data-theme-vt]::view-transition-old(root),
+:root[data-theme-vt]::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
+}
+
+/* Client-side route navigations: a fast fade-in of the incoming page,
+   applied by RouteTransition. Initial loads never get this class. */
+@keyframes vt-route-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.soft-nav-enter {
+  animation: vt-route-in 0.18s var(--ease-out-soft) both;
 }
 
 /* Cover-up direction (to light): the outgoing dark snapshot sits on top
@@ -45,6 +106,10 @@
     --radius-md: 6px;
     --radius-btn: 4px;
     --radius-pill: 100px;
+
+    /* Motion vocabulary: Apple sheet curve for surfaces, soft ease for fades */
+    --ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);
+    --ease-out-soft: cubic-bezier(0.25, 1, 0.5, 1);
 
     /* Tailwind / shadcn bridge */
     --background: var(--bg);
@@ -457,6 +522,23 @@
 
   .skip-link:focus {
     top: 1rem;
+  }
+
+  /* Mobile menu rows cascade in; delays are set inline per row. The global
+     reduced-motion block collapses this to an instant state change. */
+  @keyframes mobile-nav-item-in {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .mobile-nav-item {
+    animation: mobile-nav-item-in 0.25s var(--ease-out-soft) both;
   }
 
   /* Hero entrance: pure CSS so above-the-fold content paints before JS

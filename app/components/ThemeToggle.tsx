@@ -34,7 +34,15 @@ export default function ThemeToggle({ variant = "icon" }: ThemeToggleProps) {
 
     const doc = document as DocumentWithViewTransition
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    if (!doc.startViewTransition || reduce) {
+    // Coarse pointers skip the whole-page snapshot (measured 880ms INP on
+    // phones); they get a cheap canvas crossfade instead.
+    const coarse = window.matchMedia("(pointer: coarse)").matches
+    if (!doc.startViewTransition || reduce || coarse) {
+      if (coarse && !reduce) {
+        const root = document.documentElement
+        root.classList.add("theme-fade")
+        window.setTimeout(() => root.classList.remove("theme-fade"), 250)
+      }
       setTheme(next)
       return
     }

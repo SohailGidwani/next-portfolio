@@ -1,4 +1,6 @@
-const DURATION = 600
+const MIN_DURATION = 300
+const MAX_DURATION = 700
+const MS_PER_PIXEL = 0.35
 const NAVBAR_HEIGHT = 80
 
 function easeOutQuart(t: number): number {
@@ -10,12 +12,18 @@ export function smoothScrollTo(
   options?: { offset?: number; duration?: number }
 ) {
   const offset = options?.offset ?? NAVBAR_HEIGHT
-  const duration = options?.duration ?? DURATION
 
   const targetY =
     typeof target === "number"
       ? target
       : target.getBoundingClientRect().top + window.scrollY - offset
+
+  // Distance-proportional by default: short hops feel snappy, long jumps
+  // neither teleport nor drag.
+  const distance = Math.abs(targetY - window.scrollY)
+  const duration =
+    options?.duration ??
+    Math.min(MAX_DURATION, Math.max(MIN_DURATION, distance * MS_PER_PIXEL))
 
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     window.scrollTo({ top: targetY, behavior: "auto" })

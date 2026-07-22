@@ -1,5 +1,6 @@
 import '@/app/globals.css'
 import { Syne, DM_Sans, JetBrains_Mono } from 'next/font/google'
+import RouteTransition from './components/RouteTransition'
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { ThemeProvider } from './components/ThemeProvider'
@@ -263,7 +264,7 @@ export default function RootLayout({
       </head>
       <body className={`${fd.variable} ${fb.variable} ${fm.variable} font-body`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
+          <RouteTransition>{children}</RouteTransition>
           <Analytics />
           <SpeedInsights />
         </ThemeProvider>

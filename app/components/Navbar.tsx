@@ -150,20 +150,19 @@ export default function Navbar() {
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent
           id="mobile-navigation-dialog"
-          showOverlay={false}
           showClose={false}
           onCloseAutoFocus={(event) => {
             event.preventDefault()
             menuButtonRef.current?.focus()
           }}
-          className="left-0 top-[var(--nav-h)] h-[calc(100dvh-var(--nav-h))] w-full max-w-none translate-x-0 translate-y-0 gap-0 overflow-y-auto rounded-none border-x-0 border-b-0 bg-background/95 p-3 backdrop-blur min-[901px]:hidden"
+          className="mobile-sheet bottom-0 left-0 right-0 top-auto h-auto max-h-[80dvh] w-full max-w-none translate-x-0 translate-y-0 gap-0 overflow-y-auto rounded-none rounded-t-md border-x-0 border-b-0 bg-background p-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] min-[901px]:hidden sm:rounded-none sm:rounded-t-md"
         >
           <DialogTitle className="sr-only">Portfolio navigation</DialogTitle>
           <DialogDescription className="sr-only">
             Navigate to experience, projects, education, about, contact, or the resume.
           </DialogDescription>
           <nav className="flex flex-col gap-1" aria-label="Mobile navigation">
-            {navItems.map((item) =>
+            {navItems.map((item, index) =>
               item.href ? (
                 <Link
                   key={item.id}
@@ -172,7 +171,8 @@ export default function Navbar() {
                     triggerHaptic()
                     setIsOpen(false)
                   }}
-                  className="block rounded px-4 py-3 text-left font-body text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground hover:bg-card2 hover:text-foreground"
+                  className="mobile-nav-item block rounded px-4 py-3 text-left font-body text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground transition-transform hover:bg-card2 hover:text-foreground active:scale-[0.98]"
+                  style={{ animationDelay: `${index * 20}ms` }}
                 >
                   {item.label}
                 </Link>
@@ -181,11 +181,12 @@ export default function Navbar() {
                   key={item.id}
                   type="button"
                   onClick={() => scrollToSection(item.id)}
-                  className={`rounded px-4 py-3 text-left font-body text-xs font-semibold uppercase tracking-[0.08em] ${
+                  className={`mobile-nav-item rounded px-4 py-3 text-left font-body text-xs font-semibold uppercase tracking-[0.08em] transition-transform active:scale-[0.98] ${
                     activeSection === item.id
                       ? "bg-foreground text-background"
                       : "text-muted-foreground hover:bg-card2 hover:text-foreground"
                   }`}
+                  style={{ animationDelay: `${index * 20}ms` }}
                 >
                   {item.label}
                 </button>
@@ -195,7 +196,8 @@ export default function Navbar() {
               href="/documents/Sohail_Gidwani_Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-2 inline-flex items-center justify-center gap-2 rounded border border-border px-4 py-3 text-center font-body text-xs font-semibold uppercase tracking-[0.08em] text-foreground"
+              className="mobile-nav-item mt-2 inline-flex items-center justify-center gap-2 rounded border border-border px-4 py-3 text-center font-body text-xs font-semibold uppercase tracking-[0.08em] text-foreground transition-transform active:scale-[0.98]"
+              style={{ animationDelay: `${navItems.length * 20}ms` }}
               onClick={() => {
                 triggerHaptic()
                 setIsOpen(false)
