@@ -97,12 +97,12 @@ function FlowNode({
 
 /* ─────────────────────────── vertical (phones) ─────────────────────────── */
 
-function MigrationFlowVertical({ reduced, uid }: { reduced: boolean; uid: string }) {
+function MigrationFlowVertical({ reduced, paused, uid }: { reduced: boolean; paused: boolean; uid: string }) {
   const W = 460
   const H = 860
   const markers = { normal: `${uid}-vf`, accent: `${uid}-vfA` }
 
-  const pulse = reduced ? {} : {
+  const pulse = paused ? {} : {
     animate: { opacity: [0.85, 1, 0.85] },
     transition: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
   }
@@ -201,11 +201,13 @@ function MigrationFlowVertical({ reduced, uid }: { reduced: boolean; uid: string
 
 export default function MigrationFlow() {
   const prefersReduced = useReducedMotion() ?? false
-  // Decorative loops (pulses, packet flows) pause offscreen: folding !inView
-  // into the reduced flag stops every downstream animation for free.
+  // reduced gates ENTRANCES (initial props are mount-time-only, so this must
+  // never be polluted by the async inView flag); paused gates the infinite
+  // pulses so they stop offscreen.
   const rootRef = useRef<HTMLElement>(null)
   const inView = useInView(rootRef, { margin: "200px 0px" })
-  const reduced = prefersReduced || !inView
+  const reduced = prefersReduced
+  const paused = prefersReduced || !inView
   const vertical = useDiagramVertical()
   // Deterministic (SSR-safe) id, unique across the lightbox's mounted copies.
   const uid = `mflow-${useDiagramInstance()}`
@@ -215,7 +217,7 @@ export default function MigrationFlow() {
     // stays false forever and the phone-dialog copy renders static.
     return (
       <div ref={rootRef as RefObject<HTMLDivElement>} className="h-full">
-        <MigrationFlowVertical reduced={reduced} uid={uid} />
+        <MigrationFlowVertical reduced={reduced} paused={paused} uid={uid} />
       </div>
     )
   }
@@ -224,7 +226,7 @@ export default function MigrationFlow() {
   const H = 430
   const markers = { normal: `${uid}-f`, accent: `${uid}-fA` }
 
-  const pulse = reduced ? {} : {
+  const pulse = paused ? {} : {
     animate: { opacity: [0.85, 1, 0.85] },
     transition: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
   }

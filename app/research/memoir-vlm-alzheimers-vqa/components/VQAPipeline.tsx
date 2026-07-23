@@ -51,11 +51,13 @@ function Edge({ id, d, accent, delay = 0, packet, reduced, mk = "" }: EdgeProps)
 
 export default function VQAPipeline() {
   const prefersReduced = useReducedMotion() ?? false
-  // Decorative loops (pulses, packet flows) pause offscreen: folding !inView
-  // into the reduced flag stops every downstream animation for free.
+  // reduced gates ENTRANCES (initial props are mount-time-only, so this must
+  // never be polluted by the async inView flag); paused gates the infinite
+  // pulses so they stop offscreen.
   const rootRef = useRef<HTMLElement>(null)
   const inView = useInView(rootRef, { margin: "200px 0px" })
-  const reduced = prefersReduced || !inView
+  const reduced = prefersReduced
+  const paused = prefersReduced || !inView
   const vertical = useDiagramVertical()
 
   if (vertical) {
@@ -63,7 +65,7 @@ export default function VQAPipeline() {
     // stays false forever and the phone-dialog copy renders static.
     return (
       <div ref={rootRef as RefObject<HTMLDivElement>} className="h-full">
-        <VQAPipelineVertical reduced={reduced} />
+        <VQAPipelineVertical reduced={reduced} paused={paused} />
       </div>
     )
   }
@@ -78,7 +80,7 @@ export default function VQAPipeline() {
     strokeWidth: 1.2,
   } as const
 
-  const pulse = reduced
+  const pulse = paused
     ? {}
     : {
         animate: { opacity: [0.85, 1, 0.85] },
@@ -263,7 +265,7 @@ export default function VQAPipeline() {
    Portrait layout for phone lightbox. Top-to-bottom flow, all
    text kept horizontal so the device never needs rotating.
    ───────────────────────────────────────────────────────────── */
-function VQAPipelineVertical({ reduced }: { reduced: boolean }) {
+function VQAPipelineVertical({ reduced, paused }: { reduced: boolean; paused: boolean }) {
   const W = 460
   const H = 900
   const cx = 230
@@ -275,7 +277,7 @@ function VQAPipelineVertical({ reduced }: { reduced: boolean }) {
     strokeWidth: 1.2,
   } as const
 
-  const pulse = reduced
+  const pulse = paused
     ? {}
     : {
         animate: { opacity: [0.85, 1, 0.85] },

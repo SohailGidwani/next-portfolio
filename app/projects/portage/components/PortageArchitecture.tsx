@@ -97,12 +97,12 @@ function Box({
 
 /* ─────────────────────────── vertical (phones) ─────────────────────────── */
 
-function PortageArchitectureVertical({ reduced, uid }: { reduced: boolean; uid: string }) {
+function PortageArchitectureVertical({ reduced, paused, uid }: { reduced: boolean; paused: boolean; uid: string }) {
   const W = 460
   const H = 900
   const markers = { normal: `${uid}-va`, accent: `${uid}-vaA` }
 
-  const pulse = reduced ? {} : {
+  const pulse = paused ? {} : {
     animate: { opacity: [0.85, 1, 0.85] },
     transition: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
   }
@@ -189,11 +189,13 @@ function PortageArchitectureVertical({ reduced, uid }: { reduced: boolean; uid: 
 
 export default function PortageArchitecture() {
   const prefersReduced = useReducedMotion() ?? false
-  // Decorative loops (pulses, packet flows) pause offscreen: folding !inView
-  // into the reduced flag stops every downstream animation for free.
+  // reduced gates ENTRANCES (initial props are mount-time-only, so this must
+  // never be polluted by the async inView flag); paused gates the infinite
+  // pulses so they stop offscreen.
   const rootRef = useRef<HTMLElement>(null)
   const inView = useInView(rootRef, { margin: "200px 0px" })
-  const reduced = prefersReduced || !inView
+  const reduced = prefersReduced
+  const paused = prefersReduced || !inView
   const vertical = useDiagramVertical()
   // Deterministic (SSR-safe) id, unique across the lightbox's mounted copies.
   const uid = `parch-${useDiagramInstance()}`
@@ -203,7 +205,7 @@ export default function PortageArchitecture() {
     // stays false forever and the phone-dialog copy renders static.
     return (
       <div ref={rootRef as RefObject<HTMLDivElement>} className="h-full">
-        <PortageArchitectureVertical reduced={reduced} uid={uid} />
+        <PortageArchitectureVertical reduced={reduced} paused={paused} uid={uid} />
       </div>
     )
   }
@@ -212,7 +214,7 @@ export default function PortageArchitecture() {
   const H = 470
   const markers = { normal: `${uid}-a`, accent: `${uid}-aA` }
 
-  const pulse = reduced ? {} : {
+  const pulse = paused ? {} : {
     animate: { opacity: [0.85, 1, 0.85] },
     transition: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
   }

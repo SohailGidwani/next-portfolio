@@ -659,7 +659,7 @@ export default function CommandPalette() {
           onClick={() => triggerHaptic()}
           aria-label="Open command palette"
           aria-keyshortcuts={isMac ? "Meta+K" : "Control+K"}
-          className="fixed bottom-6 right-6 z-40 hidden items-center gap-1.5 rounded border border-border bg-card/90 px-3 py-2 text-xs text-muted-foreground shadow-lg backdrop-blur transition hover:border-accent/40 hover:text-foreground md:inline-flex"
+          className="fixed bottom-6 right-6 z-40 hidden items-center gap-1.5 rounded border border-border bg-card/90 px-3 py-2 text-xs text-muted-foreground shadow-lg backdrop-blur transition hover:border-accent/40 hover:text-foreground active:scale-[0.97] md:inline-flex"
         >
           {isMac ? (
             <>

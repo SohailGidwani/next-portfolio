@@ -56,7 +56,7 @@ function Edge({ id, d, accent, dashed, delay = 0, packet, reduced, mk = "" }: Ed
   )
 }
 
-function IngestionPipelineVertical({ reduced }: { reduced: boolean }) {
+function IngestionPipelineVertical({ reduced, paused }: { reduced: boolean; paused: boolean }) {
   const W = 440
   const H = 750
   const cx = 150
@@ -79,7 +79,7 @@ function IngestionPipelineVertical({ reduced }: { reduced: boolean }) {
 
   const boxStyle = { fill: "var(--card)", stroke: "var(--border)", strokeWidth: 1.2 } as const
 
-  const pulse = reduced ? {} : {
+  const pulse = paused ? {} : {
     animate: { opacity: [0.85, 1, 0.85] },
     transition: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
   }
@@ -176,11 +176,13 @@ function IngestionPipelineVertical({ reduced }: { reduced: boolean }) {
 
 export default function IngestionPipeline() {
   const prefersReduced = useReducedMotion() ?? false
-  // Decorative loops (pulses, packet flows) pause offscreen: folding !inView
-  // into the reduced flag stops every downstream animation for free.
+  // reduced gates ENTRANCES (initial props are mount-time-only, so this must
+  // never be polluted by the async inView flag); paused gates the infinite
+  // pulses so they stop offscreen.
   const rootRef = useRef<HTMLElement>(null)
   const inView = useInView(rootRef, { margin: "200px 0px" })
-  const reduced = prefersReduced || !inView
+  const reduced = prefersReduced
+  const paused = prefersReduced || !inView
   const vertical = useDiagramVertical()
 
   if (vertical) {
@@ -188,7 +190,7 @@ export default function IngestionPipeline() {
     // stays false forever and the phone-dialog copy renders static.
     return (
       <div ref={rootRef as RefObject<HTMLDivElement>} className="h-full">
-        <IngestionPipelineVertical reduced={reduced} />
+        <IngestionPipelineVertical reduced={reduced} paused={paused} />
       </div>
     )
   }
@@ -216,7 +218,7 @@ export default function IngestionPipeline() {
 
   const boxStyle = { fill: "var(--card)", stroke: "var(--border)", strokeWidth: 1.2 } as const
 
-  const pulse = reduced ? {} : {
+  const pulse = paused ? {} : {
     animate: { opacity: [0.85, 1, 0.85] },
     transition: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
   }

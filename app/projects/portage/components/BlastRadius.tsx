@@ -1,7 +1,7 @@
 "use client"
 
-import { useRef, useState, type RefObject } from "react"
-import { motion, useInView, useReducedMotion } from "framer-motion"
+import { useState } from "react"
+import { motion, useReducedMotion } from "framer-motion"
 import { RotateCcw } from "lucide-react"
 import { useDiagramInstance, useDiagramVertical } from "@/app/components/DiagramOrientation"
 
@@ -675,11 +675,7 @@ function BlastRadiusVertical({ reduced, uid }: { reduced: boolean; uid: string }
 /* ─────────────────────────── shell with replay ─────────────────────────── */
 
 export default function BlastRadius() {
-  const prefersReduced = useReducedMotion() ?? false
-  // Decorative loops pause offscreen; see sibling diagram components.
-  const rootRef = useRef<HTMLElement>(null)
-  const inView = useInView(rootRef, { margin: "200px 0px" })
-  const reduced = prefersReduced || !inView
+  const reduced = useReducedMotion() ?? false
   const vertical = useDiagramVertical()
   // Deterministic (SSR-safe) id, unique across the lightbox's mounted copies.
   const uid = `blast-${useDiagramInstance()}`
@@ -699,9 +695,7 @@ export default function BlastRadius() {
 
   if (vertical) {
     return (
-      // The observed root must exist on this branch too; otherwise useInView
-      // stays false forever and the phone-dialog copy renders static.
-      <div ref={rootRef as RefObject<HTMLDivElement>} className="relative flex h-full flex-col" key={`v-${run}`}>
+      <div className="relative flex h-full flex-col" key={`v-`}>
         {replayButton}
         <BlastRadiusVertical reduced={reduced} uid={uid} />
       </div>
@@ -709,7 +703,7 @@ export default function BlastRadius() {
   }
 
   return (
-    <figure ref={rootRef} className="my-8">
+    <figure className="my-8">
       <div className="relative rounded border border-border bg-card/40 p-4 sm:p-6" key={`h-${run}`}>
         {replayButton}
         <BlastRadiusHorizontal reduced={reduced} uid={uid} />

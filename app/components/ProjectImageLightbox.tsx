@@ -116,33 +116,149 @@ export default function ProjectImageLightbox({
   const context = useMemo(() => ({ open }), [open])
   const active = selected === null ? null : images[selected]
 
+  // ── Unzoomed touch gestures: swipe to page, drag down to dismiss ──────
+  const swipeStartRef = useRef<{ x: number; y: number } | null>(null)
+  const swipeAxisRef = useRef<"x" | "y" | null>(null)
+  const swipeDeltaRef = useRef({ x: 0, y: 0 })
+  const swipeSamplesRef = useRef<{ t: number; x: number; y: number }[]>([])
+
+  const reducedMotion = () =>
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+
   const onPointerDown = (event: PointerEvent<HTMLDivElement>) => {
-    if (zoom <= 1) return
-    event.currentTarget.setPointerCapture(event.pointerId)
-    dragOriginRef.current = {
-      x: event.clientX - posRef.current.x,
-      y: event.clientY - posRef.current.y,
+    if (zoom > 1) {
+      event.currentTarget.setPointerCapture(event.pointerId)
+      dragOriginRef.current = {
+        x: event.clientX - posRef.current.x,
+        y: event.clientY - posRef.current.y,
+      }
+      setDragging(true)
+      return
     }
-    setDragging(true)
+    swipeStartRef.current = { x: event.clientX, y: event.clientY }
+    swipeAxisRef.current = null
+    swipeDeltaRef.current = { x: 0, y: 0 }
+    swipeSamplesRef.current = [{ t: event.timeStamp, x: event.clientX, y: event.clientY }]
   }
 
   const onPointerMove = (event: PointerEvent<HTMLDivElement>) => {
-    if (!dragOriginRef.current || zoom <= 1) return
-    posRef.current = {
-      x: event.clientX - dragOriginRef.current.x,
-      y: event.clientY - dragOriginRef.current.y,
+    if (zoom > 1) {
+      if (!dragOriginRef.current) return
+      posRef.current = {
+        x: event.clientX - dragOriginRef.current.x,
+        y: event.clientY - dragOriginRef.current.y,
+      }
+      if (!rafRef.current) {
+        rafRef.current = requestAnimationFrame(() => {
+          rafRef.current = 0
+          applyTransform(zoom)
+        })
+      }
+      return
     }
+    const start = swipeStartRef.current
+    if (!start) return
+    const dx = event.clientX - start.x
+    const dy = event.clientY - start.y
+    if (!swipeAxisRef.current) {
+      if (Math.max(Math.abs(dx), Math.abs(dy)) < 10) return
+      // Horizontal pages; only a downward vertical drag dismisses.
+      if (Math.abs(dx) >= Math.abs(dy)) {
+        swipeAxisRef.current = "x"
+      } else if (dy > 0) {
+        swipeAxisRef.current = "y"
+      } else {
+        swipeStartRef.current = null
+        return
+      }
+      event.currentTarget.setPointerCapture(event.pointerId)
+      setDragging(true)
+    }
+    swipeDeltaRef.current = { x: dx, y: dy }
+    swipeSamplesRef.current.push({ t: event.timeStamp, x: event.clientX, y: event.clientY })
+    if (swipeSamplesRef.current.length > 5) swipeSamplesRef.current.shift()
     if (!rafRef.current) {
       rafRef.current = requestAnimationFrame(() => {
         rafRef.current = 0
-        applyTransform(zoom)
+        const el = imgRef.current
+        if (!el) return
+        const delta = swipeDeltaRef.current
+        el.style.transform =
+          swipeAxisRef.current === "x"
+            ? `translateX(${delta.x}px)`
+            : `translateY(${delta.y}px)`
       })
     }
   }
 
-  const endDrag = () => {
-    dragOriginRef.current = null
+  const endDrag = (event: PointerEvent<HTMLDivElement>) => {
+    if (zoom > 1 || !swipeAxisRef.current) {
+      dragOriginRef.current = null
+      swipeStartRef.current = null
+      swipeAxisRef.current = null
+      setDragging(false)
+      return
+    }
+    if (rafRef.current) cancelAnimationFrame(rafRef.current)
+    rafRef.current = 0
+    const axis = swipeAxisRef.current
+    const delta = swipeDeltaRef.current
+    const samples = swipeSamplesRef.current
+    const first = samples[0]
+    const last = samples[samples.length - 1]
+    const el = imgRef.current
+    const width = event.currentTarget.getBoundingClientRect().width || 1
+    swipeStartRef.current = null
+    swipeAxisRef.current = null
+    swipeSamplesRef.current = []
     setDragging(false)
+    if (!el) return
+    const soft = "cubic-bezier(0.25, 1, 0.5, 1)"
+    if (axis === "x") {
+      const velocity = last.t > first.t ? (last.x - first.x) / (last.t - first.t) : 0
+      if (Math.abs(velocity) > 0.11 || Math.abs(delta.x) > width * 0.35) {
+        // Swipe left pages forward; the next image enters from that side.
+        const direction: 1 | -1 = delta.x < 0 ? 1 : -1
+        move(direction)
+        requestAnimationFrame(() => {
+          imgRef.current?.animate(
+            [
+              { transform: `translateX(${40 * direction}px) scale(1)`, opacity: 0.5 },
+              { transform: "translateX(0px) scale(1)", opacity: 1 },
+            ],
+            { duration: reducedMotion() ? 0 : 200, easing: soft }
+          )
+        })
+      } else {
+        el.animate(
+          [{ transform: `translateX(${delta.x}px)` }, { transform: "translateX(0px)" }],
+          { duration: reducedMotion() ? 0 : 200, easing: soft }
+        )
+        applyTransform(zoom)
+      }
+      return
+    }
+    const velocity = last.t > first.t ? (last.y - first.y) / (last.t - first.t) : 0
+    if (velocity > 0.11 || delta.y > 120) {
+      if (reducedMotion()) {
+        close()
+        return
+      }
+      const exit = el.animate(
+        [
+          { transform: `translateY(${delta.y}px)`, opacity: 1 },
+          { transform: `translateY(${delta.y + 160}px)`, opacity: 0 },
+        ],
+        { duration: 180, easing: soft, fill: "forwards" }
+      )
+      exit.finished.then(close).catch(close)
+    } else {
+      el.animate(
+        [{ transform: `translateY(${delta.y}px)` }, { transform: "translateY(0px)" }],
+        { duration: reducedMotion() ? 0 : 200, easing: soft }
+      )
+      applyTransform(zoom)
+    }
   }
 
   return (
