@@ -79,7 +79,7 @@ export default function Projects() {
                   </div>
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <h3 className="font-display text-2xl text-foreground">{primary.title}</h3>
+                      <h3 data-vt-title className="font-display text-2xl text-foreground">{primary.title}</h3>
                       <p className="mt-2 text-sm text-muted-foreground">{primary.shortDescription}</p>
                     </div>
                     <div className="flex items-center gap-2">
@@ -179,7 +179,7 @@ export default function Projects() {
                       </div>
                       <div className="flex items-start justify-between gap-4">
                         <div>
-                          <h4 className="font-display text-xl text-foreground">{project.title}</h4>
+                          <h4 data-vt-title className="font-display text-xl text-foreground">{project.title}</h4>
                           <p className="mt-2 text-sm text-muted-foreground">{project.shortDescription}</p>
                           <p className="mt-3 font-mono text-[11px] leading-relaxed text-accent">
                             {project.outcome}

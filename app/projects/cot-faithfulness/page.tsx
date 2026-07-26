@@ -124,7 +124,10 @@ export default function CoTFaithfulnessPage() {
                     NLP Research · CSCI-544 @ USC
                   </span>
                 </div>
-                <h1 className="font-display mb-5 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+                <h1
+                  data-vt-title-target
+                  className="font-display mb-5 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl"
+                >
                   CoT Faithfulness Analysis
                 </h1>
 

@@ -87,16 +87,78 @@
   mix-blend-mode: normal;
 }
 
-/* Client-side route navigations: a fast fade-in of the incoming page,
-   applied by RouteTransition. Initial loads never get this class. */
-@keyframes vt-route-in {
-  from {
+/* ── Route view transitions ──────────────────────────────────────────
+   Scoped under :root[data-nav], which ViewTransitions.tsx sets for the
+   duration of a navigation only. The theme toggle's transition lives
+   under :root[data-theme-vt], so the two can never style the same
+   pseudo-elements at once.
+
+   Distances stay small on purpose. A full-width push reads as native on
+   a phone but as sluggish on a site where navigation is frequent, and
+   duration is the first thing that starts to feel slow. 48px plus a fade
+   reads as direction without costing time. */
+:root[data-nav] {
+  --vt-slide: 48px;
+  --vt-duration: 280ms;
+}
+
+:root[data-nav="fade"] {
+  /* Sibling routes: crossfade only, no implied hierarchy. */
+  --vt-slide: 0px;
+  --vt-duration: 200ms;
+}
+
+@keyframes vt-nav-out {
+  to {
     opacity: 0;
+    transform: translateX(calc(var(--vt-slide) * -1));
   }
 }
 
-.soft-nav-enter {
-  animation: vt-route-in 0.18s var(--ease-out-soft) both;
+@keyframes vt-nav-in {
+  from {
+    opacity: 0;
+    transform: translateX(var(--vt-slide));
+  }
+}
+
+:root[data-nav]::view-transition-old(root) {
+  animation: vt-nav-out var(--vt-duration) cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+:root[data-nav]::view-transition-new(root) {
+  animation: vt-nav-in var(--vt-duration) cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+/* Going back mirrors the path it came in on, so the spatial story reads
+   the same in both directions. */
+:root[data-nav="back"]::view-transition-old(root) {
+  animation-name: vt-nav-in;
+  animation-direction: reverse;
+}
+
+:root[data-nav="back"]::view-transition-new(root) {
+  animation-name: vt-nav-out;
+  animation-direction: reverse;
+}
+
+/* Title morph: the destination heading only claims the shared name while a
+   morph is actually running, so ordinary crossfades leave it in the root
+   snapshot and it slides with the rest of the page. */
+:root[data-vt-morph="title"] [data-vt-title-target] {
+  view-transition-name: vt-title;
+}
+
+:root[data-nav]::view-transition-group(vt-title) {
+  animation-duration: 320ms;
+  animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-nav]::view-transition-old(root),
+  :root[data-nav]::view-transition-new(root) {
+    animation: none;
+  }
 }
 
 /* Cover-up direction (to light): the outgoing dark snapshot sits on top

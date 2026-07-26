@@ -92,7 +92,10 @@ You can sign up, write posts with markdown, preview them in real time, and publi
                     Full Stack / Serverless
                   </span>
                 </div>
-                <h1 className="font-display mb-5 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+                <h1
+                  data-vt-title-target
+                  className="font-display mb-5 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl"
+                >
                   {project.title}
                 </h1>
                 <p className="mb-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">

@@ -229,7 +229,10 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                     Agentic AI / Autonomous Migration
                   </span>
                 </div>
-                <h1 className="font-display mb-5 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+                <h1
+                  data-vt-title-target
+                  className="font-display mb-5 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl"
+                >
                   {project.title}
                 </h1>
 
