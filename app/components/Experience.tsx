@@ -178,7 +178,7 @@ export default function Experience() {
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.4 }}
               viewport={{ once: true }}
-              className={`group cursor-pointer rounded border border-border border-l-2 border-l-accent bg-card/80 p-6 transition hover:border-t-accent/50 hover:border-r-accent/50 hover:border-b-accent/50 sm:p-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background ${
+              className={`group cursor-pointer rounded border border-border border-l-2 border-l-accent bg-card/80 p-6 transition active:scale-[0.99] hover:border-t-accent/50 hover:border-r-accent/50 hover:border-b-accent/50 sm:p-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background ${
                 featuredHighlighted ? "bg-accent/5" : ""
               }`}
             >

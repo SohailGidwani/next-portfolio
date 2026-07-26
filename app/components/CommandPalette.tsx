@@ -678,6 +678,7 @@ export default function CommandPalette() {
 
       <DialogContent
         showClose={false}
+        instant
         className="top-[20%] max-w-lg translate-y-0 gap-0 overflow-hidden rounded p-0"
       >
               <DialogTitle className="sr-only">Command palette</DialogTitle>

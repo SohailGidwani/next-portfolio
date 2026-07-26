@@ -10,6 +10,8 @@ type InteractiveCardProps = {
   tilt?: boolean
   /** Max tilt in degrees, applied at the card edges. */
   maxTilt?: number
+  /** Scales the card slightly on press, for tap feedback. */
+  pressable?: boolean
 }
 
 /**
@@ -22,6 +24,7 @@ export default function InteractiveCard({
   className = "",
   tilt = false,
   maxTilt = 2.5,
+  pressable = false,
 }: InteractiveCardProps) {
   const ref = useRef<HTMLDivElement>(null)
   const reduced = useReducedMotion()
@@ -70,6 +73,11 @@ export default function InteractiveCard({
       onPointerMove={onPointerMove}
       onPointerDown={onPointerDown}
       onPointerLeave={onPointerLeave}
+      /* Press feedback goes through framer, not an active: class: this
+         element already carries an inline transform for the tilt, and an
+         inline transform beats any class. whileTap composes with it. */
+      whileTap={pressable && !reduced ? { scale: 0.98 } : undefined}
+      transition={{ duration: 0.16, ease: [0.23, 1, 0.32, 1] }}
       style={shouldTilt ? { rotateX, rotateY, transformPerspective: 900 } : undefined}
       className={`group/spot relative ${className}`}
     >

@@ -94,7 +94,7 @@ export default function Triumphs() {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.4 }}
           viewport={{ once: true }}
-          className="group mt-10 w-full rounded border border-border border-l-2 border-l-accent bg-card/80 p-6 text-left transition hover:border-b-accent/50 hover:border-r-accent/50 hover:border-t-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background sm:p-8"
+          className="group mt-10 w-full rounded border border-border border-l-2 border-l-accent bg-card/80 p-6 text-left transition active:scale-[0.99] hover:border-b-accent/50 hover:border-r-accent/50 hover:border-t-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background sm:p-8"
         >
           <p className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
             Featured · {featuredWin.tag}
@@ -123,7 +123,7 @@ export default function Triumphs() {
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.35, delay: index * 0.06 }}
               viewport={{ once: true }}
-              className="group grid w-full grid-cols-1 gap-1.5 border-b border-border px-1 py-4 text-left transition hover:bg-card/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:grid-cols-[56px_1fr_auto] sm:items-center sm:gap-6 sm:py-5"
+              className="group grid w-full grid-cols-1 gap-1.5 border-b border-border px-1 py-4 text-left transition active:scale-[0.99] hover:bg-card/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:grid-cols-[56px_1fr_auto] sm:items-center sm:gap-6 sm:py-5"
             >
               <span className="font-mono text-[11px] tracking-[0.2em] text-accent">{win.year}</span>
               <span className="min-w-0">

@@ -51,6 +51,7 @@ export default function Projects() {
                   >
                   <InteractiveCard
                     tilt
+                    pressable
                     maxTilt={1.5}
                     className={`group h-full cursor-pointer rounded border p-6 shadow-card transition-[border-color,box-shadow] duration-300 hover:shadow-card-hover ${
                       primaryHighlighted
@@ -61,7 +62,11 @@ export default function Projects() {
                   <Link href={`/projects/${primary.id}`} className="absolute inset-0 z-0 rounded" aria-label={primary.title}>
                     <span className="sr-only">View {primary.title}</span>
                   </Link>
-                  <div className="relative mb-5 h-40 w-full overflow-hidden rounded border border-border sm:mb-6 sm:h-64">
+                  {/* pointer-events-none so the cover is part of the card's
+                      click target: this wrapper is positioned and comes after
+                      the full-card link in DOM order, so it would otherwise
+                      paint above the link and swallow the click. */}
+                  <div className="pointer-events-none relative mb-5 h-40 w-full overflow-hidden rounded border border-border sm:mb-6 sm:h-64">
                     <Image
                       src={primary.image}
                       alt={primary.title}
@@ -148,6 +153,7 @@ export default function Projects() {
                     >
                     <InteractiveCard
                       tilt
+                      pressable
                       className={`group h-full cursor-pointer rounded border p-5 shadow-card transition-[border-color,box-shadow] duration-300 hover:shadow-card-hover ${
                         isHighlighted
                           ? "border-accent/40 bg-accent/5"
@@ -160,7 +166,7 @@ export default function Projects() {
                       {/* Cover art on phones only: a deck card is tall enough
                           that text alone leaves it looking empty, while the
                           desktop grid stays text-led as designed. */}
-                      <div className="relative mb-5 h-40 w-full overflow-hidden rounded border border-border sm:hidden">
+                      <div className="pointer-events-none relative mb-5 h-40 w-full overflow-hidden rounded border border-border sm:hidden">
                         <Image
                           src={project.image}
                           alt=""
