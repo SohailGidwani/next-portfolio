@@ -1,18 +1,13 @@
 "use client"
 
-import {
-  useEffect,
-  useRef,
-  useState,
-  type MouseEvent as ReactMouseEvent,
-  type PointerEvent as ReactPointerEvent,
-} from "react"
+import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { FileText, Menu, X } from "lucide-react"
 import ThemeToggle from "./ThemeToggle"
 import ReadingProgress from "./ReadingProgress"
 import { triggerHaptic } from "./ui/haptics"
 import { usePortfolio } from "./PortfolioProvider"
+import { useSheetDrag } from "@/app/hooks/useSheetDrag"
 import { smoothScrollToId, smoothScrollToTop } from "@/app/utils/smoothScroll"
 import {
   Dialog,
@@ -61,123 +56,8 @@ export default function Navbar() {
     setIsOpen(false)
   }
 
-  // ── Sheet drag-to-dismiss ────────────────────────────────────────────
-  // 1:1 downward tracking with a 10px hysteresis (so row taps stay taps),
-  // rubber-banding above the origin, and velocity-based dismissal.
-  const sheetRef = useRef<HTMLDivElement>(null)
-  const sheetDrag = useRef({
-    startX: 0,
-    startY: 0,
-    engaged: false,
-    suppressClick: false,
-    raf: 0,
-    dy: 0,
-    samples: [] as { t: number; y: number }[],
-  })
-
-  const reducedMotion = () =>
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
-
-  const rubberband = (overshoot: number, dimension: number, constant = 0.55) =>
-    (overshoot * dimension * constant) /
-    (dimension + constant * Math.abs(overshoot))
-
-  const applySheetTransform = () => {
-    const el = sheetRef.current
-    const drag = sheetDrag.current
-    drag.raf = 0
-    if (!el) return
-    const h = el.getBoundingClientRect().height || 1
-    const y = drag.dy >= 0 ? drag.dy : rubberband(drag.dy, h)
-    el.style.transform = `translateY(${y}px)`
-  }
-
-  const onSheetPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
-    const drag = sheetDrag.current
-    drag.startX = event.clientX
-    drag.startY = event.clientY
-    drag.engaged = false
-    drag.suppressClick = false
-    drag.dy = 0
-    drag.samples = [{ t: event.timeStamp, y: event.clientY }]
-  }
-
-  const onSheetPointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
-    const drag = sheetDrag.current
-    const el = sheetRef.current
-    if (!el || drag.samples.length === 0) return
-    const dx = event.clientX - drag.startX
-    const dy = event.clientY - drag.startY
-    if (!drag.engaged) {
-      if (Math.abs(dy) < 10 || Math.abs(dy) <= Math.abs(dx)) return
-      drag.engaged = true
-      drag.suppressClick = true
-      el.setPointerCapture(event.pointerId)
-    }
-    drag.dy = dy
-    drag.samples.push({ t: event.timeStamp, y: event.clientY })
-    if (drag.samples.length > 5) drag.samples.shift()
-    if (!drag.raf) drag.raf = requestAnimationFrame(applySheetTransform)
-  }
-
-  const onSheetPointerEnd = () => {
-    const drag = sheetDrag.current
-    const el = sheetRef.current
-    if (drag.raf) cancelAnimationFrame(drag.raf)
-    drag.raf = 0
-    const wasEngaged = drag.engaged
-    drag.engaged = false
-    if (!el || !wasEngaged) return
-    const first = drag.samples[0]
-    const last = drag.samples[drag.samples.length - 1]
-    const velocity =
-      last && first && last.t > first.t ? (last.y - first.y) / (last.t - first.t) : 0
-    const h = el.getBoundingClientRect().height || 1
-    const dy = drag.dy
-    drag.samples = []
-    if (dy > 0 && (velocity > 0.11 || dy > h * 0.5)) {
-      // Dismiss: keep travelling the way the finger sent it, then close.
-      if (reducedMotion()) {
-        el.style.transform = ""
-        setIsOpen(false)
-        return
-      }
-      const exit = el.animate(
-        [
-          { transform: `translateY(${dy}px)`, opacity: 1 },
-          { transform: `translateY(${h}px)`, opacity: 0.6 },
-        ],
-        {
-          duration: Math.min(250, Math.max(140, (h - dy) * 0.5)),
-          easing: "cubic-bezier(0.25, 1, 0.5, 1)",
-          fill: "forwards",
-        }
-      )
-      const close = () => setIsOpen(false)
-      exit.finished.then(close).catch(close)
-    } else {
-      // Settle back on the sheet curve, from the rubber-banded position.
-      const from = dy >= 0 ? dy : rubberband(dy, h)
-      el.style.transform = ""
-      if (!reducedMotion() && from !== 0) {
-        el.animate(
-          [{ transform: `translateY(${from}px)` }, { transform: "translateY(0px)" }],
-          {
-            duration: Math.min(350, Math.max(200, Math.abs(from) * 0.9)),
-            easing: "cubic-bezier(0.32, 0.72, 0, 1)",
-          }
-        )
-      }
-    }
-  }
-
-  const onSheetClickCapture = (event: ReactMouseEvent<HTMLDivElement>) => {
-    if (sheetDrag.current.suppressClick) {
-      event.preventDefault()
-      event.stopPropagation()
-      sheetDrag.current.suppressClick = false
-    }
-  }
+  // Shared sheet physics: see app/hooks/useSheetDrag.ts
+  const { sheetRef, sheetHandlers } = useSheetDrag(() => setIsOpen(false))
 
   return (
     <header
@@ -280,11 +160,7 @@ export default function Navbar() {
             event.preventDefault()
             menuButtonRef.current?.focus()
           }}
-          onPointerDown={onSheetPointerDown}
-          onPointerMove={onSheetPointerMove}
-          onPointerUp={onSheetPointerEnd}
-          onPointerCancel={onSheetPointerEnd}
-          onClickCapture={onSheetClickCapture}
+          {...sheetHandlers}
           style={{ touchAction: "none" }}
           className="mobile-sheet bottom-0 left-0 right-0 top-auto h-auto max-h-[80dvh] w-full max-w-none translate-x-0 translate-y-0 gap-0 overflow-y-auto rounded-none rounded-t-md border-x-0 border-b-0 bg-background p-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] min-[901px]:hidden sm:rounded-none sm:rounded-t-md"
         >

@@ -5,6 +5,8 @@ import ThemeToggle from "@/app/components/ThemeToggle"
 import BreadcrumbStructuredData from "@/app/components/BreadcrumbStructuredData"
 import ReadingProgress from "@/app/components/ReadingProgress"
 import SectionTOC from "@/app/components/SectionTOC"
+import MobileChapterNav from "@/app/components/MobileChapterNav"
+import MobileSection from "@/app/components/MobileSection"
 import DiagramLightbox from "@/app/components/DiagramLightbox"
 import VLMArchitecture from "./components/VLMArchitecture"
 import VQAPipeline from "./components/VQAPipeline"
@@ -12,20 +14,6 @@ import ConfusionMatrix from "./components/ConfusionMatrix"
 import AblationChart from "./components/AblationChart"
 import TrainingChart from "./components/TrainingChart"
 import LLMComparison from "./components/LLMComparison"
-
-function SectionLabel({ n, label, id }: { n: string; label: string; id?: string }) {
-  return (
-    <div id={id} className="mb-6 scroll-mt-24">
-      <div className="mb-2 flex items-center gap-2">
-        <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">{n}</span>
-        <div className="h-px w-5 bg-border" />
-      </div>
-      <h2 className="font-display text-xl font-bold uppercase tracking-tight text-foreground sm:text-2xl">
-        {label}
-      </h2>
-    </div>
-  )
-}
 
 const tocItems = [
   { id: "section-01", n: "01", label: "The Clinical Ask" },
@@ -178,6 +166,8 @@ export default function MultiModalAlzheimersVQAPage() {
         </div>
 
         <SectionTOC items={tocItems} />
+        {/* Wayfinding below the 1200px rail: the two never show at once. */}
+        <MobileChapterNav items={tocItems} />
 
         {/* ─── Header ─── */}
         <div className="border-b border-border bg-card/40 py-16 sm:py-20">
@@ -240,8 +230,10 @@ export default function MultiModalAlzheimersVQAPage() {
           <div className="container mx-auto px-4">
             <div className="mx-auto max-w-3xl space-y-20">
               {/* 01 — Clinical Motivation */}
-              <section>
-                <SectionLabel n="01" label="The Clinical Ask" id="section-01" />
+              <MobileSection
+                n="01" label="The Clinical Ask" id="section-01"
+                summary="Why Alzheimer's assessment needs several scan types at once, and why most systems break when one of them is missing."
+              >
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
                     Alzheimer&apos;s disease assessment is inherently multimodal. Structural MRI
@@ -273,11 +265,13 @@ export default function MultiModalAlzheimersVQAPage() {
                     retrieval-augmented VQA pipeline for interpretable case-based answers.
                   </p>
                 </div>
-              </section>
+              </MobileSection>
 
               {/* 02 — Dataset */}
-              <section>
-                <SectionLabel n="02" label="Dataset" id="section-02" />
+              <MobileSection
+                n="02" label="Dataset" id="section-02"
+                summary="The ADNI cohort behind every number here: 2,363 subjects, and the 39 percent who actually had DTI available."
+              >
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
                     All data comes from the{" "}
@@ -348,11 +342,18 @@ export default function MultiModalAlzheimersVQAPage() {
                     </div>
                   ))}
                 </div>
-              </section>
+              </MobileSection>
 
               {/* 03 — VLM Architecture */}
-              <section>
-                <SectionLabel n="03" label="Model Architecture" id="section-03" />
+              <MobileSection
+                n="03" label="Model Architecture" id="section-03"
+                summary="Three modality encoders, per-modality masking, and the cross-attention fusion that feeds five prediction heads."
+                figure={
+                  <DiagramLightbox title="VLM Architecture">
+                    <VLMArchitecture />
+                  </DiagramLightbox>
+                }
+              >
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
                     The model is a multimodal vision-language model with missing-modality
@@ -365,9 +366,6 @@ export default function MultiModalAlzheimersVQAPage() {
                   </p>
                 </div>
 
-                <DiagramLightbox title="VLM Architecture">
-                  <VLMArchitecture />
-                </DiagramLightbox>
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="rounded border border-border bg-card p-5">
@@ -409,11 +407,13 @@ export default function MultiModalAlzheimersVQAPage() {
                     copying labels.
                   </p>
                 </div>
-              </section>
+              </MobileSection>
 
               {/* 04 — Training */}
-              <section>
-                <SectionLabel n="04" label="Training Procedure" id="section-04" />
+              <MobileSection
+                n="04" label="Training Procedure" id="section-04"
+                summary="Two stages: contrastive pre-training across modality pairs, then multi-task fine-tuning at differential learning rates."
+              >
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
                     Training runs in two stages. Stage 1 is contrastive pre-training: a
@@ -470,11 +470,13 @@ export default function MultiModalAlzheimersVQAPage() {
                   bestEpoch={5}
                   caption="Stage 2B training history. Best composite checkpoint selected at epoch 5; later epochs showed overfitting. The epoch-5 checkpoint was used for downstream evaluation."
                 />
-              </section>
+              </MobileSection>
 
               {/* 05 — Results */}
-              <section>
-                <SectionLabel n="05" label="Results" id="section-05" />
+              <MobileSection
+                n="05" label="Results" id="section-05"
+                summary="Headline accuracy and AUC on the held-out 474-subject test set, reported per task head."
+              >
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
                     Evaluated on the held-out 474-subject test set using all available modalities.
@@ -595,11 +597,13 @@ export default function MultiModalAlzheimersVQAPage() {
                     </p>
                   </div>
                 </div>
-              </section>
+              </MobileSection>
 
               {/* 06 — Modality Ablation */}
-              <section>
-                <SectionLabel n="06" label="Modality Ablation" id="section-06" />
+              <MobileSection
+                n="06" label="Modality Ablation" id="section-06"
+                summary="All seven modality combinations run through the same trained model, showing where the signal actually comes from."
+              >
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
                     Every one of the seven possible modality subsets was evaluated using the same
@@ -613,11 +617,18 @@ export default function MultiModalAlzheimersVQAPage() {
                   panels={ablationPanels}
                   caption="Clinical scores carry the strongest diagnostic signal, with clinical-only performance approaching the full-modality model for 3-class diagnosis. Imaging remains useful, especially for non-diagnostic tasks and for deployment settings where clinical information is incomplete. The modality-dropout strategy prevents catastrophic degradation when DTI or clinical variables are missing."
                 />
-              </section>
+              </MobileSection>
 
               {/* 07 — VQA Pipeline */}
-              <section>
-                <SectionLabel n="07" label="Retrieval-Augmented VQA Extension" id="section-07" />
+              <MobileSection
+                n="07" label="Retrieval-Augmented VQA Extension" id="section-07"
+                summary="Turning a prediction into an explanation: retrieval over similar cases, reranked, then answered in natural language."
+                figure={
+                  <DiagramLightbox title="RAG VQA Pipeline">
+                    <VQAPipeline />
+                  </DiagramLightbox>
+                }
+              >
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
                     The encoder gives you a prediction and a confidence score. What it doesn&apos;t
@@ -636,9 +647,6 @@ export default function MultiModalAlzheimersVQAPage() {
                   </p>
                 </div>
 
-                <DiagramLightbox title="RAG VQA Pipeline">
-                  <VQAPipeline />
-                </DiagramLightbox>
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="rounded border border-border bg-card p-5">
@@ -670,11 +678,13 @@ export default function MultiModalAlzheimersVQAPage() {
                     </p>
                   </div>
                 </div>
-              </section>
+              </MobileSection>
 
               {/* 08 — LLM Comparison */}
-              <section>
-                <SectionLabel n="08" label="LLM Backbone Comparison" id="section-08" />
+              <MobileSection
+                n="08" label="LLM Backbone Comparison" id="section-08"
+                summary="How the candidate language backbones compare once they are all answering from the same retrieved context."
+              >
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
                     Three models were given the same retrieved context: Mistral 7B Instruct v0.3
@@ -727,11 +737,13 @@ export default function MultiModalAlzheimersVQAPage() {
                     and format its output correctly.
                   </p>
                 </div>
-              </section>
+              </MobileSection>
 
               {/* 09 — Key Findings */}
-              <section>
-                <SectionLabel n="09" label="Key Findings" id="section-09" />
+              <MobileSection
+                n="09" label="Key Findings" id="section-09"
+                summary="What these results support, what they do not, and the limitations worth stating plainly."
+              >
                 <div className="space-y-4">
                   {[
                     {
@@ -775,7 +787,7 @@ export default function MultiModalAlzheimersVQAPage() {
                     </div>
                   ))}
                 </div>
-              </section>
+              </MobileSection>
 
               {/* ─── Footer CTA ─── */}
               <section className="rounded border border-border bg-card/40 p-6 sm:p-8">

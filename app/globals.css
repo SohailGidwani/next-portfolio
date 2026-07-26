@@ -52,6 +52,18 @@
   animation-name: mobile-sheet-out;
 }
 
+/* Dialogs that are a bottom sheet on phones but stay centred on desktop:
+   the sheet keyframes must not replace the centred zoom above 640px. */
+@media (max-width: 639px) {
+  .sheet-on-mobile.sheet-on-mobile[data-state="open"] {
+    animation-name: mobile-sheet-in;
+  }
+
+  .sheet-on-mobile.sheet-on-mobile[data-state="closed"] {
+    animation-name: mobile-sheet-out;
+  }
+}
+
 /* Phone theme switch: no whole-page snapshot, just a soft canvas crossfade. */
 :root.theme-fade,
 :root.theme-fade body {
@@ -100,7 +112,9 @@
     --accent: oklch(52% 0.18 50);
 
     --w: 1080px;
-    --sp: 56px;
+    /* Phone rhythm. Eight sections at 56px each spent close to a full screen
+       on padding alone; 44px still separates them clearly at this width. */
+    --sp: 44px;
     --nav-h: 56px;
     --radius-sm: 3px;
     --radius-md: 6px;
@@ -679,4 +693,100 @@
     animation: shimmer 1.6s infinite;
   }
 
+}
+
+/* ───────────────────────────────────────────────────────────────────
+   Mobile reading structure
+
+   Phones get a different information shape from desktop, not a
+   reflowed copy of it. Every rule that changes in-flow structure lives
+   here in CSS rather than behind a JS media-query check, so the server
+   HTML already ships the mobile shape: no hydration flash, no layout
+   shift once scripts arrive, and no duplicated DOM for crawlers.
+
+   Deliberately unlayered. @layer base loses to Tailwind's utilities
+   layer, which would let a `grid` utility outrank the deck's flex
+   display. Unlayered rules outrank every layered one.
+   ─────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 767px) {
+  /* Reading-size prose is set per-paragraph at the call site, not by a
+     descendant rule here. Metric labels and captions are also <p>, so a
+     blanket selector would inflate every label along with the prose. */
+
+  /* Collapsed section body. The clamp is the default state so it is
+     already correct in server HTML; MobileSection animates between
+     this height and the measured full height, then hands control back
+     here so later reflows are never pinned to a stale pixel value. */
+  .m-collapse-body {
+    max-height: 8.5rem;
+    overflow: hidden;
+    mask-image: linear-gradient(to bottom, #000 45%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 45%, transparent 100%);
+  }
+
+  [data-expanded="true"] > .m-collapse-body {
+    max-height: none;
+    overflow: visible;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+
+}
+
+/* Deck yields at 640px, where the card grids themselves go two-column.
+   Matching each rule to the breakpoint of the layout it replaces keeps
+   flex and grid from ever applying to the same element at once. */
+@media (max-width: 639px) {
+  /* Horizontal card deck. Full-bleed past the container gutter so the
+     next card peeks at the screen edge, which is what tells a thumb
+     the row is swipeable. */
+  .m-deck {
+    /* Card width drives the side padding: at (100vw - card) / 2 the first
+       and last cards can reach the middle of the scrollport, which is what
+       lets every card snap centred rather than to the left edge. */
+    --deck-card: 78vw;
+    display: flex;
+    /* Positioned so children measure their offsetLeft against the deck
+       itself, which is what CardDeck's position readout relies on. */
+    position: relative;
+    gap: 0.75rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    /* One card per flick: a six-card deck should never fly past three. */
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    margin-inline: calc(50% - 50vw);
+    padding-inline: calc((100vw - var(--deck-card)) / 2);
+    padding-bottom: 0.25rem;
+  }
+
+  .m-deck::-webkit-scrollbar {
+    display: none;
+  }
+
+  .m-deck > * {
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    /* Card stops short of full width so both neighbours stay visible. */
+    flex: 0 0 var(--deck-card);
+    min-width: 0;
+  }
+}
+
+/* Chapter navigator pill. Sits bottom-centre in the thumb arc rather
+   than up at the top, matching the one-hand reasoning behind the
+   mobile nav sheet. */
+.chapter-pill {
+  bottom: calc(env(safe-area-inset-bottom) + 1rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .m-collapse-body {
+    transition: none !important;
+  }
+
+  .m-deck {
+    scroll-behavior: auto !important;
+  }
 }

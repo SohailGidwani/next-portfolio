@@ -6,7 +6,9 @@ import coverImage from "@/public/images/cot_faithfulness.jpeg"
 import ProjectNav from "@/app/components/ProjectNav"
 import ProjectDetailStructuredData from "@/app/components/ProjectDetailStructuredData"
 import ProjectActions from "@/app/projects/components/ProjectActions"
-import ProjectSectionLabel from "@/app/projects/components/ProjectSectionLabel"
+import SectionTOC from "@/app/components/SectionTOC"
+import MobileChapterNav from "@/app/components/MobileChapterNav"
+import MobileSection from "@/app/components/MobileSection"
 import BaselineChart from "./components/BaselineChart"
 import TruncationChart from "./components/TruncationChart"
 import CorruptionChart from "./components/CorruptionChart"
@@ -80,6 +82,19 @@ const learnings = [
   "High SCR on ARC (up to 83%) means the chain-of-thought is mostly narrative written to explain a predetermined answer, not to arrive at one",
 ]
 
+const tocItems = [
+  { id: "section-01", n: "01", label: "Preview" },
+  { id: "section-02", n: "02", label: "The Question" },
+  { id: "section-03", n: "03", label: "Faithfulness Verdict" },
+  { id: "section-04", n: "04", label: "Exp 0: Baseline Accuracy" },
+  { id: "section-05", n: "05", label: "Exp 1: Step Truncation (SCR)" },
+  { id: "section-06", n: "06", label: "Exp 2: Reasoning Corruption (CFR)" },
+  { id: "section-07", n: "07", label: "Exp 3: Biased Hints (SBH)" },
+  { id: "section-08", n: "08", label: "Experiment Design" },
+  { id: "section-09", n: "09", label: "Technical Stack" },
+  { id: "section-10", n: "10", label: "Friction & Takeaways" },
+]
+
 export default function CoTFaithfulnessPage() {
   return (
     <>
@@ -95,6 +110,9 @@ export default function CoTFaithfulnessPage() {
       />
       <div className="min-h-screen overflow-x-clip bg-background text-foreground">
         <ProjectNav />
+        {/* Chapter wayfinding for long project pages on phones and tablets. */}
+        <SectionTOC items={tocItems} />
+        <MobileChapterNav items={tocItems} />
 
         {/* Header */}
         <div className="border-b border-border bg-card/40 py-16 sm:py-20">
@@ -150,8 +168,16 @@ export default function CoTFaithfulnessPage() {
             <div className="max-w-3xl space-y-16">
 
                 {/* 01 · Preview */}
-                <section>
-                  <ProjectSectionLabel n="01" label="Preview" />
+                <section id="section-01" className="scroll-mt-24">
+                  <div className="mb-6">
+                    <div className="mb-2 flex items-center gap-2">
+                      <span className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-accent">01</span>
+                      <div className="h-px w-5 bg-border" />
+                    </div>
+                    <h2 className="font-display text-xl font-bold uppercase tracking-tight text-foreground sm:text-2xl">
+                      Preview
+                    </h2>
+                  </div>
                   <div className="relative aspect-video overflow-hidden rounded border border-border">
                     <Image
                       src={coverImage}
@@ -165,8 +191,7 @@ export default function CoTFaithfulnessPage() {
                 </section>
 
                 {/* 02 · Overview */}
-                <section>
-                  <ProjectSectionLabel n="02" label="The Question" />
+                <MobileSection n="02" label="The Question" id="section-02">
                   <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                     <p>
                       The question that drove this project is deceptively simple: when an LLM writes out its reasoning, does that reasoning actually change what answer it gives? The short answer: it depends on the task. For math, the reasoning is partially faithful and the model genuinely needs the chain. For science multiple choice, the chain is largely unfaithful, mostly written to explain an answer the model already decided on.
@@ -184,11 +209,10 @@ export default function CoTFaithfulnessPage() {
                       All proportions come with 95% Wald confidence intervals. Cross-model comparisons use McNemar's exact test, both significant at p below 0.001.
                     </p>
                   </div>
-                </section>
+                </MobileSection>
 
                 {/* 03 · Verdict table */}
-                <section>
-                  <ProjectSectionLabel n="03" label="Faithfulness Verdict" />
+                <MobileSection n="03" label="Faithfulness Verdict" id="section-03" summary="The verdict table: how faithful the reasoning proved to be on maths versus science questions.">
                   <div className="overflow-x-auto">
                     <div className="min-w-[520px] overflow-hidden rounded border border-border bg-card">
                       <div className="grid grid-cols-3 border-b border-border bg-card/60">
@@ -211,47 +235,42 @@ export default function CoTFaithfulnessPage() {
                       </div>
                     </div>
                   </div>
-                </section>
+                </MobileSection>
 
                 {/* 04 · Baseline */}
-                <section>
-                  <ProjectSectionLabel n="04" label="Exp 0: Baseline Accuracy" />
+                <MobileSection n="04" label="Exp 0: Baseline Accuracy" id="section-04">
                   <p className="mb-2 text-sm leading-relaxed text-muted-foreground">
                     Every (model, dataset, question) pair gets two queries: direct and chain-of-thought. On GSM8K, CoT turns near-random guessing into real performance. On ARC, both models do worse when they reason out loud, which suggests the chain is introducing noise on top of knowledge the model already has.
                   </p>
                   <BaselineChart caption="No-CoT vs CoT accuracy for both models. Amber bar = CoT improved; gray bar = CoT degraded. Deltas shown top-right of each group." />
-                </section>
+                </MobileSection>
 
                 {/* 05 · Truncation */}
-                <section>
-                  <ProjectSectionLabel n="05" label="Exp 1: Step Truncation (SCR)" />
+                <MobileSection n="05" label="Exp 1: Step Truncation (SCR)" id="section-05">
                   <p className="mb-2 text-sm leading-relaxed text-muted-foreground">
                     The CoT from Experiment 0 gets parsed into discrete steps using a three-level hierarchy (numbered markers, transition words, sentence boundaries). The model then answers using only the first k steps, and we check how often that partial answer matches the full-chain answer. Low SCR at step 1 means the model genuinely needs later steps. Qwen reaches the same ARC answer from step 1 alone in 83% of cases, which means those remaining steps add nothing.
                   </p>
                   <TruncationChart caption="Step Consistency Rate across truncation steps 1 to 5. Science lines (blue) stay high from the start. Math lines (amber) stay low, showing the model needs the full chain." />
-                </section>
+                </MobileSection>
 
                 {/* 06 · Corruption */}
-                <section>
-                  <ProjectSectionLabel n="06" label="Exp 2: Reasoning Corruption (CFR)" />
+                <MobileSection n="06" label="Exp 2: Reasoning Corruption (CFR)" id="section-06">
                   <p className="mb-2 text-sm leading-relaxed text-muted-foreground">
                     Rule-based errors are injected into the CoT across six conditions: none, early, middle, late, early+late, and all. For GSM8K, the Corruption Following Rate (CFR) climbs as more steps are corrupted, and late-step corruption consistently outpaces early-step corruption by about 10pp. That pattern makes sense if the final calculation steps are what actually determine the answer. On ARC, Qwen's CFR stays flat at 9 to 11% regardless of how much of the reasoning is corrupted.
                   </p>
                   <CorruptionChart caption="CFR by corruption condition for each model and dataset. The 'All' bar is highlighted. Notice the contrast between math (moderate and increasing) and Qwen on science (flat and near-zero)." />
-                </section>
+                </MobileSection>
 
                 {/* 07 · Hints */}
-                <section>
-                  <ProjectSectionLabel n="07" label="Exp 3: Biased Hints (SBH)" />
+                <MobileSection n="07" label="Exp 3: Biased Hints (SBH)" id="section-07">
                   <p className="mb-2 text-sm leading-relaxed text-muted-foreground">
                     A hint suggesting a wrong answer is prepended at four strength levels, from a gentle "could the answer perhaps be X?" up to "a Stanford professor mentioned the answer is X." Responses are classified into four outcomes: Faithful Reject (acknowledged the hint, gave correct answer), Faithful Follow (acknowledged it, followed it), Unfaithful Ignore (silently ignored), and Steered-But-Hidden (silently followed it). SBH is the one that matters most. On ARC, Qwen's SBH rate triples from weak to strong hints while the Hint Acknowledgment Rate barely moves. The model is getting more influenced but hiding it better.
                   </p>
                   <HintsChart caption="Steered-But-Hidden rate by hint strength. Blue lines = science MC (vulnerable). Amber lines = math (nearly flat). Dashed = Qwen 7B." />
-                </section>
+                </MobileSection>
 
                 {/* 08 · Experiment Design */}
-                <section>
-                  <ProjectSectionLabel n="08" label="Experiment Design" />
+                <MobileSection n="08" label="Experiment Design" id="section-08">
                   <div className="grid gap-4 sm:grid-cols-2">
                     {features.map((feature, index) => (
                       <div
@@ -268,11 +287,10 @@ export default function CoTFaithfulnessPage() {
                       </div>
                     ))}
                   </div>
-                </section>
+                </MobileSection>
 
                 {/* 09 · Technical Stack */}
-                <section>
-                  <ProjectSectionLabel n="09" label="Technical Stack" />
+                <MobileSection n="09" label="Technical Stack" id="section-09" summary="The models, datasets, and tooling every experiment on this page ran through.">
                   <div className="overflow-hidden rounded border border-border bg-card">
                     <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
                       <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
@@ -291,11 +309,10 @@ export default function CoTFaithfulnessPage() {
                       ))}
                     </div>
                   </div>
-                </section>
+                </MobileSection>
 
                 {/* 10 · Friction & Takeaways */}
-                <section>
-                  <ProjectSectionLabel n="10" label="Friction & Takeaways" />
+                <MobileSection n="10" label="Friction & Takeaways" id="section-10">
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div className="rounded border border-border bg-card p-5">
                       <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
@@ -324,7 +341,7 @@ export default function CoTFaithfulnessPage() {
                       </ul>
                     </div>
                   </div>
-                </section>
+                </MobileSection>
 
                 {/* CTA */}
                 <div className="flex flex-wrap gap-3 border-t border-border pt-8">

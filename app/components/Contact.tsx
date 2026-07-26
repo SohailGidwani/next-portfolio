@@ -103,7 +103,7 @@ export default function Contact() {
                     target={item.external ? "_blank" : undefined}
                     rel={item.external ? "noreferrer" : undefined}
                     onClick={() => triggerHaptic()}
-                    className="inline-flex min-w-0 items-center gap-1 break-words text-sm font-semibold text-foreground underline-offset-4 hover:text-accent hover:underline md:text-base"
+                    className="inline-flex min-h-11 min-w-0 items-center gap-1 break-words text-sm font-semibold text-foreground underline-offset-4 hover:text-accent hover:underline sm:min-h-0 md:text-base"
                     aria-label={item.label === "Email" ? emailAriaLabel : `${item.label}: ${item.value}`}
                   >
                     <span className="min-w-0 break-all">{item.value}</span>
@@ -113,7 +113,7 @@ export default function Contact() {
                     <button
                       type="button"
                       onClick={() => handleCopy(item.copyValue!, item.label)}
-                      className={`inline-grid h-8 w-8 shrink-0 place-items-center rounded border transition ${
+                      className={`inline-grid h-11 w-11 shrink-0 place-items-center rounded border transition sm:h-8 sm:w-8 ${
                         copiedLabel === item.label
                           ? "border-accent/50 text-accent"
                           : "border-border text-muted-foreground hover:border-accent/40 hover:text-foreground"
@@ -179,7 +179,7 @@ export default function Contact() {
               href="https://github.com/SohailGidwani"
               target="_blank"
               rel="noreferrer"
-              className="text-muted-foreground transition hover:text-foreground"
+              className="inline-flex min-h-11 items-center text-muted-foreground transition hover:text-foreground sm:min-h-0"
             >
               GitHub
             </a>
@@ -187,13 +187,13 @@ export default function Contact() {
               href="https://www.linkedin.com/in/sohail-gidwani/"
               target="_blank"
               rel="noreferrer"
-              className="text-muted-foreground transition hover:text-foreground"
+              className="inline-flex min-h-11 items-center text-muted-foreground transition hover:text-foreground sm:min-h-0"
             >
               LinkedIn
             </a>
             <a
               href="mailto:sohailgidwani15@gmail.com"
-              className="text-muted-foreground transition hover:text-foreground"
+              className="inline-flex min-h-11 items-center text-muted-foreground transition hover:text-foreground sm:min-h-0"
             >
               Email
             </a>

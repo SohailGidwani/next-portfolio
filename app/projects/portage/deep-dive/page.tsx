@@ -5,25 +5,13 @@ import ThemeToggle from "@/app/components/ThemeToggle"
 import BreadcrumbStructuredData from "@/app/components/BreadcrumbStructuredData"
 import ReadingProgress from "@/app/components/ReadingProgress"
 import SectionTOC from "@/app/components/SectionTOC"
+import MobileChapterNav from "@/app/components/MobileChapterNav"
+import MobileSection from "@/app/components/MobileSection"
 import DiagramLightbox from "@/app/components/DiagramLightbox"
 import PortageArchitecture from "../components/PortageArchitecture"
 import MigrationFlow from "../components/MigrationFlow"
 import BlastRadius from "../components/BlastRadius"
 import killResume from "@/public/images/portage/kill-resume.gif"
-
-function SectionLabel({ n, label, id }: { n: string; label: string; id?: string }) {
-  return (
-    <div id={id} className="mb-6 scroll-mt-24">
-      <div className="mb-2 flex items-center gap-2">
-        <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">{n}</span>
-        <div className="h-px w-5 bg-border" />
-      </div>
-      <h2 className="font-display text-xl font-bold uppercase tracking-tight text-foreground sm:text-2xl">
-        {label}
-      </h2>
-    </div>
-  )
-}
 
 const tocItems = [
   { id: "section-01", n: "01", label: "Architecture Overview" },
@@ -174,6 +162,8 @@ export default function PortageDeepDivePage() {
         </div>
 
         <SectionTOC items={tocItems} />
+        {/* Wayfinding below the 1200px rail: the two never show at once. */}
+        <MobileChapterNav items={tocItems} />
 
         {/* ─── Header ─── */}
         <div className="border-b border-border bg-card/40 py-16 sm:py-20">
@@ -220,17 +210,23 @@ export default function PortageDeepDivePage() {
             <div className="mx-auto max-w-3xl space-y-20">
 
               {/* 01 · Architecture Overview */}
-              <section>
-                <SectionLabel n="01" label="Architecture Overview" id="section-01" />
-                <p className="mb-6 text-base leading-relaxed text-muted-foreground">
-                  Portage is one core engine exposed through two interfaces. The autonomous agent + eval
-                  harness is the credibility engine; the MCP tools are the product wedge: build the moat
-                  first, the wedge second. The frontend never owns schema, and the CLI and dashboard are both
-                  thin REST clients: neither touches the queue or DB directly.
-                </p>
-                <DiagramLightbox title="System Architecture">
-                  <PortageArchitecture />
-                </DiagramLightbox>
+              <MobileSection
+                n="01" label="Architecture Overview" id="section-01"
+                summary="One engine behind two interfaces. The CLI and dashboard are thin REST clients that never touch the queue or database directly."
+                lead={
+                  <p className="mb-6 text-base leading-relaxed text-muted-foreground">
+                    Portage is one core engine exposed through two interfaces. The autonomous agent + eval
+                    harness is the credibility engine; the MCP tools are the product wedge: build the moat
+                    first, the wedge second. The frontend never owns schema, and the CLI and dashboard are both
+                    thin REST clients: neither touches the queue or DB directly.
+                  </p>
+                }
+                figure={
+                  <DiagramLightbox title="System Architecture">
+                    <PortageArchitecture />
+                  </DiagramLightbox>
+                }
+              >
                 <div className="mt-6 grid gap-3 sm:grid-cols-3">
                   {[
                     { icon: <Terminal className="h-4 w-4" />, label: "CLI: portage", sub: "Autonomous migrations · developer / CI" },
@@ -256,23 +252,29 @@ export default function PortageDeepDivePage() {
                     ]}
                   />
                 </div>
-              </section>
+              </MobileSection>
 
               {/* 02 · Job Lifecycle */}
-              <section>
-                <SectionLabel n="02" label="Job Lifecycle & Graph Nodes" id="section-02" />
-                <p className="mb-6 text-base leading-relaxed text-muted-foreground">
-                  A job submitted via <span className="font-mono text-foreground">POST /jobs</span> lands as{" "}
-                  <span className="font-mono text-foreground">queued</span>; a worker claims it atomically and
-                  runs this graph with state keyed by{" "}
-                  <span className="font-mono text-foreground">thread_id = job_id</span>. The runner checks
-                  checkpoint state first: no checkpoint → fresh start; pending nodes →{" "}
-                  <span className="font-mono text-foreground">ainvoke(None)</span> without re-passing input;
-                  the difference between “resume” and “accidentally restart from Ingest.”
-                </p>
-                <DiagramLightbox title="Job Lifecycle: LangGraph Nodes">
-                  <MigrationFlow />
-                </DiagramLightbox>
+              <MobileSection
+                n="02" label="Job Lifecycle & Graph Nodes" id="section-02"
+                summary="How a queued job becomes a running graph, and what separates a real resume from an accidental restart at Ingest."
+                lead={
+                  <p className="mb-6 text-base leading-relaxed text-muted-foreground">
+                    A job submitted via <span className="font-mono text-foreground">POST /jobs</span> lands as{" "}
+                    <span className="font-mono text-foreground">queued</span>; a worker claims it atomically and
+                    runs this graph with state keyed by{" "}
+                    <span className="font-mono text-foreground">thread_id = job_id</span>. The runner checks
+                    checkpoint state first: no checkpoint → fresh start; pending nodes →{" "}
+                    <span className="font-mono text-foreground">ainvoke(None)</span> without re-passing input;
+                    the difference between “resume” and “accidentally restart from Ingest.”
+                  </p>
+                }
+                figure={
+                  <DiagramLightbox title="Job Lifecycle: LangGraph Nodes">
+                    <MigrationFlow />
+                  </DiagramLightbox>
+                }
+              >
                 <div className="mt-6">
                   <SimpleTable
                     head={["Node", "What it does"]}
@@ -289,20 +291,36 @@ export default function PortageDeepDivePage() {
                 </div>
                 <div className="mt-4 rounded border border-accent/20 bg-card p-4">
                   <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">Honest green requires all four</p>
-                  <p className="mt-2 text-sm leading-relaxed text-foreground">
-                    (1) the full test suite passes, not just the per-cut subset used during iteration;
-                    (2) every planned task completed with migration_outcome = success; (3) zero tasks rolled
-                    back or skipped by recovery; (4) oracle integrity 1.0, meaning no test deleted, renamed, skipped,
-                    or weakened. A run that recovery rolls back to original sources will pass the original
-                    suite, and is scored red. That false-green class was caught live (“GREEN 24/24” with an
-                    empty diff) and fixed structurally.
+                  {/* Four numbered conditions read as four rows, not as one
+                      paragraph a phone reader has to parse for the numerals. */}
+                  <ol className="mt-3 space-y-2 text-sm leading-relaxed text-foreground">
+                    {[
+                      "The full test suite passes, not just the per-cut subset used during iteration.",
+                      "Every planned task completed with migration_outcome = success.",
+                      "Zero tasks rolled back or skipped by recovery.",
+                      "Oracle integrity 1.0: no test deleted, renamed, skipped, or weakened.",
+                    ].map((condition, i) => (
+                      <li key={i} className="flex gap-3">
+                        <span className="shrink-0 font-mono text-xs text-accent" aria-hidden>
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span>{condition}</span>
+                      </li>
+                    ))}
+                  </ol>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                    A run that recovery rolls back to original sources will pass the original suite, and is
+                    scored red. That false-green class was caught live (“GREEN 24/24” with an empty diff) and
+                    fixed structurally.
                   </p>
                 </div>
-              </section>
+              </MobileSection>
 
               {/* 03 · Durability */}
-              <section>
-                <SectionLabel n="03" label="Durability Model" id="section-03" />
+              <MobileSection
+                n="03" label="Durability Model" id="section-03"
+                summary="State is checkpointed after every node, so a worker that dies mid-run is replaced by one that resumes instead of starting over."
+              >
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                   Durability is the core product edge: not “the LLM is smart,” but “the run survives process
                   death and still tells the truth.” LangGraph&apos;s{" "}
@@ -357,28 +375,34 @@ export default function PortageDeepDivePage() {
                   <span className="font-mono text-foreground">demo_kill_resume.sh</span> and the stricter{" "}
                   <span className="font-mono text-foreground">dod_check.sh</span>, separately from the K-run grid.
                 </p>
-              </section>
+              </MobileSection>
 
               {/* 04 · Sandbox & Verification */}
-              <section>
-                <SectionLabel n="04" label="Sandbox & Verification" id="section-04" />
-                <p className="mb-6 text-base leading-relaxed text-muted-foreground">
-                  Verification must be isolated (untrusted migrated code must not touch the host network or
-                  sibling jobs), reproducible (same image, same pins, same offline constraint as corpus
-                  admission), and structured (JUnit parsed into totals plus failing test names). Every verify
-                  run gets an ephemeral Docker container with{" "}
-                  <span className="font-mono text-foreground">--network none</span>, so no pip install at test
-                  time; hosted deployments can switch the runtime to gVisor with{" "}
-                  <span className="font-mono text-foreground">SANDBOX_RUNTIME=runsc</span>.
-                </p>
+              <MobileSection
+                n="04" label="Sandbox & Verification" id="section-04"
+                summary="Every verification runs in a throwaway Docker container with no network, so untrusted migrated code cannot reach the host."
+                lead={
+                  <p className="mb-6 text-base leading-relaxed text-muted-foreground">
+                    Verification must be isolated (untrusted migrated code must not touch the host network or
+                    sibling jobs), reproducible (same image, same pins, same offline constraint as corpus
+                    admission), and structured (JUnit parsed into totals plus failing test names). Every verify
+                    run gets an ephemeral Docker container with{" "}
+                    <span className="font-mono text-foreground">--network none</span>, so no pip install at test
+                    time; hosted deployments can switch the runtime to gVisor with{" "}
+                    <span className="font-mono text-foreground">SANDBOX_RUNTIME=runsc</span>.
+                  </p>
+                }
+                figure={
+                  <DiagramLightbox title="Blast Radius: Impact of a Change">
+                    <BlastRadius />
+                  </DiagramLightbox>
+                }
+              >
                 <p className="mb-4 text-base leading-relaxed text-muted-foreground">
                   During iteration, Verify scopes to the tests implicated by changed files, the{" "}
                   <span className="font-mono text-foreground">blast_radius</span> query below. Scoped runs are
                   a speed lever, never a scoring lever: the honesty bar for green still requires the full suite.
                 </p>
-                <DiagramLightbox title="Blast Radius: Impact of a Change">
-                  <BlastRadius />
-                </DiagramLightbox>
                 <div className="mt-6">
                   <p className="mb-3 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
                     Anti-gaming predicates (learned the hard way)
@@ -401,11 +425,13 @@ export default function PortageDeepDivePage() {
                     MCP sells the loop.
                   </p>
                 </div>
-              </section>
+              </MobileSection>
 
               {/* 05 · Recovery */}
-              <section>
-                <SectionLabel n="05" label="Recovery Strategies" id="section-05" />
+              <MobileSection
+                n="05" label="Recovery Strategies" id="section-05"
+                summary="Who owns what when a run goes wrong: rollback, regeneration, and replanning, plus the budgets that stop runaway loops."
+              >
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                   Recover classifies and rolls back; Execute owns regeneration; Plan owns replanning. Inputs:
                   the last verify output (stdout + stderr), the planned file set vs the worktree, per-task
@@ -469,11 +495,13 @@ export default function PortageDeepDivePage() {
                     ]}
                   />
                 </div>
-              </section>
+              </MobileSection>
 
               {/* 06 · Recipe System */}
-              <section>
-                <SectionLabel n="06" label="Recipe System (Flask → FastAPI)" id="section-06" />
+              <MobileSection
+                n="06" label="Recipe System (Flask → FastAPI)" id="section-06"
+                summary="What a recipe declares, and why a repo it does not recognize degrades to an honest red rather than a false green."
+              >
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                   Flask → FastAPI spans exactly the things deterministic tools cannot do reliably: routing
                   decorators and HTTP methods, path/query/body parsing, blueprints → APIRouters, error
@@ -514,11 +542,13 @@ export default function PortageDeepDivePage() {
                   artifact-producing plans (next section) exist for, and they don&apos;t cover full fidelity
                   for every Flask extension without per-extension surface contracts.
                 </p>
-              </section>
+              </MobileSection>
 
               {/* 6B · Artifact-Producing Plans */}
-              <section>
-                <SectionLabel n="6B" label="Artifact-Producing Plans" id="section-06b" />
+              <MobileSection
+                n="6B" label="Artifact-Producing Plans" id="section-06b"
+                summary="The capability that moved the hard repos. Some migrations need entirely new modules, not rewrites of the files already there."
+              >
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                   The capability that moved the hard repos. Three independent lines of evidence converged on
                   the same conclusion: some migrations are unreachable by rewriting existing files. The
@@ -560,11 +590,13 @@ export default function PortageDeepDivePage() {
                   makes every fix unattributable, so the harness gained a frozen-plan replay mode (~$0.2–0.5 a
                   probe). Replays are diagnostic-only and never aggregated into headline green rates.
                 </p>
-              </section>
+              </MobileSection>
 
               {/* 07 · Eval Methodology */}
-              <section>
-                <SectionLabel n="07" label="Eval Methodology" id="section-07" />
+              <MobileSection
+                n="07" label="Eval Methodology" id="section-07"
+                summary="The oracle behind every score: a behavioral suite that passes before migration has to pass after it too."
+              >
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                   The oracle: every corpus repo ships a behavioral pytest suite that is green on the unmodified
                   repo, verified during admission in the same sandbox the eval uses. After migration, the same
@@ -614,11 +646,13 @@ export default function PortageDeepDivePage() {
                     ]}
                   />
                 </div>
-              </section>
+              </MobileSection>
 
               {/* 08 · Failure Taxonomy */}
-              <section>
-                <SectionLabel n="08" label="Failure Taxonomy" id="section-08" />
+              <MobileSection
+                n="08" label="Failure Taxonomy" id="section-08"
+                summary="Twenty-one runs read honestly, including the single repo that failed the same way three times and burned 77 percent of the cost."
+              >
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                   Headline grid <span className="font-mono text-foreground">eval-full-corpus-k3-20260714</span>:
                   21 autonomous runs, 7 pinned repos, GPT-4o driver + escalation, 252 model calls, $6.92,
@@ -667,11 +701,13 @@ export default function PortageDeepDivePage() {
                     ["10", "Provider initialization / import cycles in multi-package apps: generated code can close a cycle the source never had; cycle rejection, provider-first ordering, and extension-binding contracts have landed", "OPEN, the current frontier; one runtime error-handler semantic remains on the heaviest repo"],
                   ]}
                 />
-              </section>
+              </MobileSection>
 
               {/* 09 · Corpus */}
-              <section>
-                <SectionLabel n="09" label="Corpus & Admission" id="section-09" />
+              <MobileSection
+                n="09" label="Corpus & Admission" id="section-09"
+                summary="What a repo must prove before it enters the corpus, and the dependency-pin finding that cost four candidates."
+              >
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                   Admission requires: a real Flask app, a real pytest suite green on the unmodified repo in the
                   offline sandbox, sandbox-runnable with no network, small (~≤25 Python files / ≤2k LOC for
@@ -698,11 +734,13 @@ export default function PortageDeepDivePage() {
                   <span className="font-mono">test_args</span> scoping (≙ the repo&apos;s CI selection),
                   documented <span className="font-mono">test_env</span> vars, and a schema-provision hook.
                 </p>
-              </section>
+              </MobileSection>
 
               {/* 10 · CLI & MCP Contracts */}
-              <section>
-                <SectionLabel n="10" label="CLI & MCP Contracts" id="section-10" />
+              <MobileSection
+                n="10" label="CLI & MCP Contracts" id="section-10"
+                summary="The full command surface and its exit codes, held to the same honest-green bar as the eval harness."
+              >
                 <div className="space-y-6">
                   <SimpleTable
                     head={["Command", "Purpose"]}
@@ -744,11 +782,13 @@ export default function PortageDeepDivePage() {
                     the compose stack does not need to be up.
                   </p>
                 </div>
-              </section>
+              </MobileSection>
 
               {/* 11 · Auth */}
-              <section>
-                <SectionLabel n="11" label="Auth & Demo Protection" id="section-11" />
+              <MobileSection
+                n="11" label="Auth & Demo Protection" id="section-11"
+                summary="How local scripts stay untouched while a hosted demo avoids unbounded model spend."
+              >
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                   Designed so local DoD scripts stay unchanged while a hosted demo doesn&apos;t get burned by
                   unbounded LLM spend. <span className="font-mono text-foreground">AUTH_MODE=disabled</span>{" "}
@@ -778,11 +818,13 @@ export default function PortageDeepDivePage() {
                     <span className="font-mono">attempts_log</span> the eval numbers use.
                   </p>
                 </div>
-              </section>
+              </MobileSection>
 
               {/* 12 · Stack & Data Model */}
-              <section>
-                <SectionLabel n="12" label="Stack & Data Model" id="section-12" />
+              <MobileSection
+                n="12" label="Stack & Data Model" id="section-12"
+                summary="Every technology choice and the tables behind them, from the queue claim down to where each run's evidence is stored."
+              >
                 <SimpleTable
                   head={["Concern", "Choice"]}
                   rows={[
@@ -837,11 +879,13 @@ export default function PortageDeepDivePage() {
                     plainly rather than met by redefinition.
                   </p>
                 </div>
-              </section>
+              </MobileSection>
 
               {/* Quick Reference */}
-              <section>
-                <SectionLabel n="QR" label="Quick Reference" id="section-qr" />
+              <MobileSection
+                n="QR" label="Quick Reference" id="section-qr"
+                summary="The honesty bar, the budgets, and the queue claim in one block, for when you already know what you are looking for."
+              >
                 <CodeBlock
                   title="cheat_sheet.md"
                   rows={[
@@ -854,7 +898,7 @@ export default function PortageDeepDivePage() {
                     "Headline:      13/21 strict green (61.9%) · was 6/21 · externals 8/15 (was 0/15) · flaskr 24/24 ×3 · oracle integrity 1.0 · 237 backend tests",
                   ]}
                 />
-              </section>
+              </MobileSection>
 
               {/* ─── Footer CTA ─── */}
               <section className="rounded border border-border bg-card/40 p-6 sm:p-8">
