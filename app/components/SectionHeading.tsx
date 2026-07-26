@@ -14,7 +14,9 @@ export default function SectionHeading({
   return (
     <div className={className}>
       <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">{eyebrow}</p>
-      <h2 className="mt-3 pb-[0.08em] -mb-[0.08em] font-display text-3xl text-foreground sm:text-4xl">
+      {/* 24px on phones, where 30px display type wrapped these sentences to
+          four and six lines and spent a quarter screen before any content. */}
+      <h2 className="mt-3 pb-[0.08em] -mb-[0.08em] font-display text-2xl text-foreground sm:text-4xl">
         {children}
       </h2>
     </div>

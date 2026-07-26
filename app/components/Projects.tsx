@@ -7,6 +7,7 @@ import { Badge } from "@/app/components/ui/badge"
 import { ArrowUpRight, ExternalLink, Github } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
 import SectionHeading from "./SectionHeading"
+import CardDeck from "./CardDeck"
 import { useSkillHighlight } from "./SkillHighlightProvider"
 import InteractiveCard from "./ui/InteractiveCard"
 import { projects } from "@/app/data/projects"
@@ -38,7 +39,8 @@ export default function Projects() {
           </Link>
         </div>
 
-        <div className="mt-10 grid gap-6 sm:grid-cols-2">
+        <div className="mt-10">
+          <CardDeck label="Projects" className="sm:grid sm:grid-cols-2 sm:gap-6">
               {primary && (
                   <motion.div
                     initial={{ opacity: 0 }}
@@ -49,6 +51,7 @@ export default function Projects() {
                   >
                   <InteractiveCard
                     tilt
+                    pressable
                     maxTilt={1.5}
                     className={`group h-full cursor-pointer rounded border p-6 shadow-card transition-[border-color,box-shadow] duration-300 hover:shadow-card-hover ${
                       primaryHighlighted
@@ -59,7 +62,11 @@ export default function Projects() {
                   <Link href={`/projects/${primary.id}`} className="absolute inset-0 z-0 rounded" aria-label={primary.title}>
                     <span className="sr-only">View {primary.title}</span>
                   </Link>
-                  <div className="relative mb-6 h-56 w-full overflow-hidden rounded border border-border sm:h-64">
+                  {/* pointer-events-none so the cover is part of the card's
+                      click target: this wrapper is positioned and comes after
+                      the full-card link in DOM order, so it would otherwise
+                      paint above the link and swallow the click. */}
+                  <div className="pointer-events-none relative mb-5 h-40 w-full overflow-hidden rounded border border-border sm:mb-6 sm:h-64">
                     <Image
                       src={primary.image}
                       alt={primary.title}
@@ -72,7 +79,7 @@ export default function Projects() {
                   </div>
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <h3 className="font-display text-2xl text-foreground">{primary.title}</h3>
+                      <h3 data-vt-title className="font-display text-2xl text-foreground">{primary.title}</h3>
                       <p className="mt-2 text-sm text-muted-foreground">{primary.shortDescription}</p>
                     </div>
                     <div className="flex items-center gap-2">
@@ -104,7 +111,12 @@ export default function Projects() {
                   <p className="mt-4 font-mono text-[11px] leading-relaxed text-accent">
                     {primary.outcome}
                   </p>
-                  <p className="mt-4 text-sm text-muted-foreground">{primary.description}</p>
+                  {/* The short description and outcome already carry the card on
+                      a phone; the long form would stretch every sibling in the
+                      deck to match it. */}
+                  <p className="mt-4 hidden text-sm text-muted-foreground sm:block">
+                    {primary.description}
+                  </p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {primary.tags.map((tag) => {
                       const isHighlighted = normalizedSkill
@@ -141,6 +153,7 @@ export default function Projects() {
                     >
                     <InteractiveCard
                       tilt
+                      pressable
                       className={`group h-full cursor-pointer rounded border p-5 shadow-card transition-[border-color,box-shadow] duration-300 hover:shadow-card-hover ${
                         isHighlighted
                           ? "border-accent/40 bg-accent/5"
@@ -150,9 +163,23 @@ export default function Projects() {
                       <Link href={`/projects/${project.id}`} className="absolute inset-0 z-0 rounded" aria-label={project.title}>
                         <span className="sr-only">View {project.title}</span>
                       </Link>
+                      {/* Cover art on phones only: a deck card is tall enough
+                          that text alone leaves it looking empty, while the
+                          desktop grid stays text-led as designed. */}
+                      <div className="pointer-events-none relative mb-5 h-40 w-full overflow-hidden rounded border border-border sm:hidden">
+                        <Image
+                          src={project.image}
+                          alt=""
+                          fill
+                          placeholder="blur"
+                          className="object-cover object-top"
+                          sizes="80vw"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent" />
+                      </div>
                       <div className="flex items-start justify-between gap-4">
                         <div>
-                          <h4 className="font-display text-xl text-foreground">{project.title}</h4>
+                          <h4 data-vt-title className="font-display text-xl text-foreground">{project.title}</h4>
                           <p className="mt-2 text-sm text-muted-foreground">{project.shortDescription}</p>
                           <p className="mt-3 font-mono text-[11px] leading-relaxed text-accent">
                             {project.outcome}
@@ -177,7 +204,7 @@ export default function Projects() {
                             target="_blank"
                             rel="noreferrer"
                             onClick={() => triggerHaptic()}
-                            className="relative z-10 inline-flex h-8 w-8 items-center justify-center rounded border border-border bg-background/70 text-foreground transition hover:border-accent/40"
+                            className="relative z-10 inline-flex h-11 w-11 items-center justify-center rounded border border-border bg-background/70 text-foreground transition hover:border-accent/40 sm:h-8 sm:w-8"
                             aria-label={`Open ${project.title} on GitHub`}
                           >
                             <Github className="h-3.5 w-3.5" />
@@ -206,6 +233,7 @@ export default function Projects() {
                     </motion.div>
                   )
                 })}
+          </CardDeck>
         </div>
       </div>
     </section>

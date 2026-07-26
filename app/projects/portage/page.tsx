@@ -24,7 +24,9 @@ import ProjectImageLightbox, {
 import InteractiveCard from "@/app/components/ui/InteractiveCard"
 import DiagramLightbox from "@/app/components/DiagramLightbox"
 import ProjectActions from "@/app/projects/components/ProjectActions"
-import ProjectSectionLabel from "@/app/projects/components/ProjectSectionLabel"
+import SectionTOC from "@/app/components/SectionTOC"
+import MobileChapterNav from "@/app/components/MobileChapterNav"
+import MobileSection from "@/app/components/MobileSection"
 import MigrationFlow from "./components/MigrationFlow"
 import BlastRadius from "./components/BlastRadius"
 
@@ -92,6 +94,19 @@ function Screenshot({
     </ProjectImageTrigger>
   )
 }
+
+const tocItems = [
+  { id: "recovery-proof", n: "01", label: "System Overview" },
+  { id: "section-02", n: "02", label: "Why I Built It" },
+  { id: "section-03", n: "03", label: "How It Works" },
+  { id: "section-04", n: "04", label: "CLI: Autonomous Mode" },
+  { id: "section-05", n: "05", label: "MCP: Co-pilot Mode" },
+  { id: "section-06", n: "06", label: "Dashboard as Proof" },
+  { id: "section-07", n: "07", label: "Key Features" },
+  { id: "section-08", n: "08", label: "Eval Headline" },
+  { id: "section-09", n: "09", label: "Technical Stack" },
+  { id: "section-10", n: "10", label: "Friction & Takeaways" },
+]
 
 export default function PortagePage() {
   const project = {
@@ -200,6 +215,9 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
       <ProjectImageLightbox images={allImages}>
         <div className="min-h-screen overflow-x-clip bg-background text-foreground">
           <ProjectNav />
+          {/* Chapter wayfinding for long project pages on phones and tablets. */}
+          <SectionTOC items={tocItems} />
+          <MobileChapterNav items={tocItems} />
 
           {/* Header */}
           <div className="border-b border-border bg-card/40 py-16 sm:py-20">
@@ -211,7 +229,10 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                     Agentic AI / Autonomous Migration
                   </span>
                 </div>
-                <h1 className="font-display mb-5 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+                <h1
+                  data-vt-title-target
+                  className="font-display mb-5 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl"
+                >
                   {project.title}
                 </h1>
 
@@ -262,8 +283,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
               <div className="mx-auto max-w-3xl space-y-16">
 
                 {/* 01 · System Overview */}
-                <section id="recovery-proof" className="scroll-mt-24">
-                  <ProjectSectionLabel n="01" label="System Overview" />
+                <MobileSection n="01" label="System Overview" id="recovery-proof">
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                     One core engine, two interfaces: the CLI drives fully autonomous migrations, and an MCP
                     server hands the same verified primitives to co-pilot agents like Claude Code and Cursor.
@@ -291,30 +311,32 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                       </p>
                     </div>
                   </div>
-                </section>
+                </MobileSection>
 
                 {/* 02 · Why I Built It */}
-                <section>
-                  <ProjectSectionLabel n="02" label="Why I Built It" />
+                <MobileSection n="02" label="Why I Built It" id="section-02">
                   <p className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
                     {project.why}
                   </p>
-                </section>
+                </MobileSection>
 
                 {/* 03 · How It Works */}
-                <section>
-                  <ProjectSectionLabel n="03" label="How It Works" />
-                  <p className="mb-6 whitespace-pre-line text-base leading-relaxed text-muted-foreground">
-                    {project.how}
-                  </p>
-                  <DiagramLightbox title="Job Lifecycle: LangGraph Nodes">
-                    <MigrationFlow />
-                  </DiagramLightbox>
-                </section>
+                  <MobileSection n="03" label="How It Works" id="section-03"
+                  lead={
+                    <p className="mb-6 whitespace-pre-line text-base leading-relaxed text-muted-foreground">
+                      {project.how}
+                    </p>
+                  }
+                  figure={
+                    <DiagramLightbox title="Job Lifecycle: LangGraph Nodes">
+                      <MigrationFlow />
+                    </DiagramLightbox>
+                  }
+                >
+                </MobileSection>
 
                 {/* 04 · CLI */}
-                <section>
-                  <ProjectSectionLabel n="04" label="CLI: Autonomous Mode" />
+                <MobileSection n="04" label="CLI: Autonomous Mode" id="section-04">
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                     The <span className="font-mono text-foreground">portage</span> console script is a thin
                     httpx client over the REST API; it never touches the DB or queue directly, the same
@@ -331,33 +353,36 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                     <Screenshot index={2} />
                     <Screenshot index={3} />
                   </div>
-                </section>
+                </MobileSection>
 
                 {/* 05 · MCP */}
-                <section>
-                  <ProjectSectionLabel n="05" label="MCP: Co-pilot Mode" />
-                  <p className="mb-6 text-base leading-relaxed text-muted-foreground">
-                    The MCP server exposes the verified core so another AI agent can test its own work before
-                    writing to the caller&apos;s tree:{" "}
-                    <span className="font-mono text-foreground">verify_patch_in_sandbox</span> copies the repo,
-                    applies a unified diff, runs the tests network-off, and returns structured pass/fail with
-                    failing test names, never mutating the caller&apos;s files.{" "}
-                    <span className="font-mono text-foreground">repo_graph</span> and{" "}
-                    <span className="font-mono text-foreground">blast_radius</span> give it structural
-                    awareness. Here is what a blast-radius query actually computes:
-                  </p>
-                  <DiagramLightbox title="Blast Radius: Impact of a Change">
-                    <BlastRadius />
-                  </DiagramLightbox>
+                  <MobileSection n="05" label="MCP: Co-pilot Mode" id="section-05"
+                  lead={
+                    <p className="mb-6 text-base leading-relaxed text-muted-foreground">
+                      The MCP server exposes the verified core so another AI agent can test its own work before
+                      writing to the caller&apos;s tree:{" "}
+                      <span className="font-mono text-foreground">verify_patch_in_sandbox</span> copies the repo,
+                      applies a unified diff, runs the tests network-off, and returns structured pass/fail with
+                      failing test names, never mutating the caller&apos;s files.{" "}
+                      <span className="font-mono text-foreground">repo_graph</span> and{" "}
+                      <span className="font-mono text-foreground">blast_radius</span> give it structural
+                      awareness. Here is what a blast-radius query actually computes:
+                    </p>
+                  }
+                  figure={
+                    <DiagramLightbox title="Blast Radius: Impact of a Change">
+                      <BlastRadius />
+                    </DiagramLightbox>
+                  }
+                >
                   <div className="mt-6 grid gap-4 sm:grid-cols-2">
                     <Screenshot index={4} />
                     <Screenshot index={5} />
                   </div>
-                </section>
+                </MobileSection>
 
                 {/* 06 · Dashboard as Proof */}
-                <section>
-                  <ProjectSectionLabel n="06" label="Dashboard as Proof" />
+                <MobileSection n="06" label="Dashboard as Proof" id="section-06">
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                     Next.js App Router, REST only; the frontend never owns schema. Jobs list with launch
                     form, job detail with live pipeline route, per-file diffs, and attempt tier/model
@@ -373,7 +398,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                   <div className="mt-4">
                     <Screenshot index={8} aspect="aspect-[21/9]" />
                   </div>
-                </section>
+                </MobileSection>
 
                 {/*
                   ── 06.5 · Live Demo (enable after Phase 8 hosting) ──────────
@@ -381,21 +406,22 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                   1. Set PORTAGE_DEMO_URL in ./components/LiveDemo.tsx
                   2. Allow the origin in next.config.mjs CSP (frame-src)
                   3. Uncomment the import at the top of this file + this block.
+                  4. Add { id: "section-06-5", n: "06.5", label: "Try It Live" }
+                     to tocItems above, after section-06, so the chapter
+                     navigator lists it.
 
-                <section>
-                  <ProjectSectionLabel n="06.5" label="Try It Live" />
+                <MobileSection n="06.5" label="Try It Live" id="section-06-5">
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                     The hosted Portage dashboard, embedded. Sign in with GitHub, submit a migration against a
                     corpus repo, and watch the task tree, diffs, and recovery timeline update live, or browse
                     the public eval leaderboard without signing in.
                   </p>
                   <LiveDemo />
-                </section>
+                </MobileSection>
                 */}
 
                 {/* 07 · Key Features */}
-                <section>
-                  <ProjectSectionLabel n="07" label="Key Features" />
+                <MobileSection n="07" label="Key Features" id="section-07">
                   <div className="grid gap-4 sm:grid-cols-2">
                     {project.features.map((feature, index) => (
                       <InteractiveCard
@@ -412,11 +438,10 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                       </InteractiveCard>
                     ))}
                   </div>
-                </section>
+                </MobileSection>
 
                 {/* 08 · Eval Headline */}
-                <section>
-                  <ProjectSectionLabel n="08" label="Eval Headline" />
+                <MobileSection n="08" label="Eval Headline" id="section-08">
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                     Suite <span className="font-mono text-foreground">eval-full-corpus-k3-20260714</span>: every
                     repo×scenario cell runs K=3 times through the real queue/worker path: 21 fully autonomous
@@ -474,11 +499,10 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                       current engine.
                     </p>
                   </div>
-                </section>
+                </MobileSection>
 
                 {/* 09 · Technical Stack */}
-                <section>
-                  <ProjectSectionLabel n="09" label="Technical Stack" />
+                <MobileSection n="09" label="Technical Stack" id="section-09" summary="Every implementation choice, numbered, from the queue claim to the sandbox runtime.">
                   <div className="overflow-hidden rounded border border-border bg-card">
                     <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
                       <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
@@ -497,11 +521,10 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                       ))}
                     </div>
                   </div>
-                </section>
+                </MobileSection>
 
                 {/* 10 · Friction & Takeaways */}
-                <section>
-                  <ProjectSectionLabel n="10" label="Friction & Takeaways" />
+                <MobileSection n="10" label="Friction & Takeaways" id="section-10">
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div className="rounded border border-border bg-card p-5">
                       <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
@@ -530,7 +553,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                       </ul>
                     </div>
                   </div>
-                </section>
+                </MobileSection>
 
                 {/* Interfaces recap strip */}
                 <div className="grid gap-3 sm:grid-cols-3">

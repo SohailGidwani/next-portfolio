@@ -4,24 +4,12 @@ import ThemeToggle from "@/app/components/ThemeToggle"
 import BreadcrumbStructuredData from "@/app/components/BreadcrumbStructuredData"
 import ReadingProgress from "@/app/components/ReadingProgress"
 import SectionTOC from "@/app/components/SectionTOC"
+import MobileChapterNav from "@/app/components/MobileChapterNav"
+import MobileSection from "@/app/components/MobileSection"
 import DiagramLightbox from "@/app/components/DiagramLightbox"
 import SystemArchitecture from "./components/SystemArchitecture"
 import IngestionPipeline from "./components/IngestionPipeline"
 import HybridRanking from "./components/HybridRanking"
-
-function SectionLabel({ n, label, id }: { n: string; label: string; id?: string }) {
-  return (
-    <div id={id} className="mb-6 scroll-mt-24">
-      <div className="mb-2 flex items-center gap-2">
-        <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">{n}</span>
-        <div className="h-px w-5 bg-border" />
-      </div>
-      <h2 className="font-display text-xl font-bold uppercase tracking-tight text-foreground sm:text-2xl">
-        {label}
-      </h2>
-    </div>
-  )
-}
 
 const tocItems = [
   { id: "section-01", n: "01", label: "Architecture Overview" },
@@ -126,6 +114,8 @@ export default function KnowledgeHubDeepDivePage() {
         </div>
 
         <SectionTOC items={tocItems} />
+        {/* Wayfinding below the 1200px rail: the two never show at once. */}
+        <MobileChapterNav items={tocItems} />
 
         {/* ─── Header ─── */}
         <div className="border-b border-border bg-card/40 py-16 sm:py-20">
@@ -167,14 +157,20 @@ export default function KnowledgeHubDeepDivePage() {
             <div className="mx-auto max-w-3xl space-y-20">
 
               {/* 01 — Architecture Overview */}
-              <section>
-                <SectionLabel n="01" label="Architecture Overview" id="section-01" />
-                <p className="mb-6 text-base leading-relaxed text-muted-foreground">
-                  The system is a single-origin Flask API behind Gunicorn. All storage is local, Postgres 16 handles both keyword search and semantic vectors via pgvector, so there is one operational store and no separate vector database to run. File originals live in Storage (local filesystem or S3). Ollama runs the answer LLM entirely on-device.
-                </p>
-                <DiagramLightbox title="System Architecture">
-                  <SystemArchitecture />
-                </DiagramLightbox>
+              <MobileSection
+                n="01" label="Architecture Overview" id="section-01"
+                summary="One Flask API and one Postgres instance handling both keyword and vector search, with no separate vector database to operate."
+                lead={
+                  <p className="mb-6 text-base leading-relaxed text-muted-foreground">
+                    The system is a single-origin Flask API behind Gunicorn. All storage is local, Postgres 16 handles both keyword search and semantic vectors via pgvector, so there is one operational store and no separate vector database to run. File originals live in Storage (local filesystem or S3). Ollama runs the answer LLM entirely on-device.
+                  </p>
+                }
+                figure={
+                  <DiagramLightbox title="System Architecture">
+                    <SystemArchitecture />
+                  </DiagramLightbox>
+                }
+              >
                 <div className="mt-6 grid gap-3 sm:grid-cols-3">
                   {[
                     { icon: <Database className="h-4 w-4" />, label: "Postgres 16 + pgvector", sub: "GIN for FTS · IVFFlat for ANN" },
@@ -189,11 +185,13 @@ export default function KnowledgeHubDeepDivePage() {
                     </div>
                   ))}
                 </div>
-              </section>
+              </MobileSection>
 
               {/* 02 — Data Model */}
-              <section>
-                <SectionLabel n="02" label="Data Model & Storage" id="section-02" />
+              <MobileSection
+                n="02" label="Data Model & Storage" id="section-02"
+                summary="Four tables carry the whole system: the catalogue, the retrieval unit, the vectors, and the multi-user layer."
+              >
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                   The schema centres on four tables. <span className="font-mono text-foreground">documents</span> is the catalogue; <span className="font-mono text-foreground">chunks</span> is the retrieval unit; <span className="font-mono text-foreground">embeddings</span> holds the pgvector column; users and tags round out multi-user and organisational features.
                 </p>
@@ -244,17 +242,23 @@ export default function KnowledgeHubDeepDivePage() {
                     Initially one chunk per page; later refined to 300–700 tokens with overlap once search quality testing showed that page-sized chunks hurt precision on long PDFs. Chunk size turned out to matter more than embedding model choice.
                   </p>
                 </div>
-              </section>
+              </MobileSection>
 
               {/* 03 — Ingestion Pipeline */}
-              <section>
-                <SectionLabel n="03" label="Ingestion Pipeline" id="section-03" />
-                <p className="mb-4 text-base leading-relaxed text-muted-foreground">
-                  Upload returns 202 immediately. A background thread does the heavy work: rendering, preprocessing, OCR, chunking, and embedding. Each stage records per-page errors and continues rather than aborting on a bad page.
-                </p>
-                <DiagramLightbox title="Ingestion Pipeline">
-                  <IngestionPipeline />
-                </DiagramLightbox>
+              <MobileSection
+                n="03" label="Ingestion Pipeline" id="section-03"
+                summary="Upload returns immediately while a background thread does the work, recording per-page errors instead of aborting."
+                lead={
+                  <p className="mb-4 text-base leading-relaxed text-muted-foreground">
+                    Upload returns 202 immediately. A background thread does the heavy work: rendering, preprocessing, OCR, chunking, and embedding. Each stage records per-page errors and continues rather than aborting on a bad page.
+                  </p>
+                }
+                figure={
+                  <DiagramLightbox title="Ingestion Pipeline">
+                    <IngestionPipeline />
+                  </DiagramLightbox>
+                }
+              >
 
                 <div className="mt-6 space-y-6">
                   <div>
@@ -299,11 +303,13 @@ export default function KnowledgeHubDeepDivePage() {
                     </div>
                   </div>
                 </div>
-              </section>
+              </MobileSection>
 
               {/* 04 — Full-Text Search */}
-              <section>
-                <SectionLabel n="04" label="Full-Text Search in Postgres" id="section-04" />
+              <MobileSection
+                n="04" label="Full-Text Search in Postgres" id="section-04"
+                summary="Why Postgres native full-text search with a GIN index was fast enough, and no Elasticsearch was needed."
+              >
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                   Postgres's native FTS is fast enough for sub-second search over tens of thousands of chunks with a GIN index, and it ships with the database, so there is no Elasticsearch to operate.
                 </p>
@@ -349,11 +355,13 @@ export default function KnowledgeHubDeepDivePage() {
                     </p>
                   </div>
                 </div>
-              </section>
+              </MobileSection>
 
               {/* 05 — Semantic Search */}
-              <section>
-                <SectionLabel n="05" label="Semantic Search with Embeddings (pgvector)" id="section-05" />
+              <MobileSection
+                n="05" label="Semantic Search with Embeddings (pgvector)" id="section-05"
+                summary="Encoding chunks and queries into the same vector space, so search still works when no keywords match."
+              >
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                   Semantic search finds conceptually similar chunks even when the user's query shares no exact keywords with the document. Both the chunks and the query are encoded into the same vector space; nearest-neighbor search does the rest.
                 </p>
@@ -401,17 +409,23 @@ export default function KnowledgeHubDeepDivePage() {
                     />
                   </div>
                 </div>
-              </section>
+              </MobileSection>
 
               {/* 06 — Hybrid Ranking */}
-              <section>
-                <SectionLabel n="06" label="Hybrid Ranking (FTS ⊕ Semantic)" id="section-06" />
-                <p className="mb-4 text-base leading-relaxed text-muted-foreground">
-                  FTS gives precision (exact keyword hits); semantic search gives recall (conceptual matches). Combining both yields stable rankings across document types and query styles. The key challenge is that the two score scales are incomparable, so z-score normalisation brings them to the same range before blending.
-                </p>
-                <DiagramLightbox title="Hybrid Ranking">
-                  <HybridRanking />
-                </DiagramLightbox>
+              <MobileSection
+                n="06" label="Hybrid Ranking (FTS ⊕ Semantic)" id="section-06"
+                summary="Blending keyword precision with semantic recall, and the normalisation step that makes the two scores comparable."
+                lead={
+                  <p className="mb-4 text-base leading-relaxed text-muted-foreground">
+                    FTS gives precision (exact keyword hits); semantic search gives recall (conceptual matches). Combining both yields stable rankings across document types and query styles. The key challenge is that the two score scales are incomparable, so z-score normalisation brings them to the same range before blending.
+                  </p>
+                }
+                figure={
+                  <DiagramLightbox title="Hybrid Ranking">
+                    <HybridRanking />
+                  </DiagramLightbox>
+                }
+              >
 
                 <CodeBlock
                   title="hybrid_ranking.steps"
@@ -431,11 +445,13 @@ export default function KnowledgeHubDeepDivePage() {
                     Min-max normalisation is sensitive to outliers, one unusually high FTS score on a dense keyword document would compress every other score into a tiny range. Z-score handles outliers better and produces stable, interpretable blending. The weights α and β can later be tuned from click-through data.
                   </p>
                 </div>
-              </section>
+              </MobileSection>
 
               {/* 07 — RAG */}
-              <section>
-                <SectionLabel n="07" label="RAG with Ollama LLM" id="section-07" />
+              <MobileSection
+                n="07" label="RAG with Ollama LLM" id="section-07"
+                summary="Composing answers only from retrieved chunks, with citations, on a model running entirely on-device."
+              >
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                   The goal is to compose an answer <em>only</em> from retrieved chunks, with citations, so the model cannot hallucinate facts that aren't in the user's own documents. Ollama runs <span className="font-mono text-foreground">gemma3:1b</span> entirely on-device.
                 </p>
@@ -480,11 +496,13 @@ export default function KnowledgeHubDeepDivePage() {
                     </p>
                   </div>
                 </div>
-              </section>
+              </MobileSection>
 
               {/* 08 — Performance & Ops */}
-              <section>
-                <SectionLabel n="08" label="Performance, Scalability & Ops" id="section-08" />
+              <MobileSection
+                n="08" label="Performance, Scalability & Ops" id="section-08"
+                summary="The indexing, batching, and monitoring choices that keep queries sub-second as the corpus grows."
+              >
                 <div className="grid gap-4 sm:grid-cols-2">
                   {[
                     {
@@ -517,11 +535,13 @@ export default function KnowledgeHubDeepDivePage() {
                     </div>
                   ))}
                 </div>
-              </section>
+              </MobileSection>
 
               {/* 09 — Security */}
-              <section>
-                <SectionLabel n="09" label="Security & Privacy" id="section-09" />
+              <MobileSection
+                n="09" label="Security & Privacy" id="section-09"
+                summary="Local-first storage, per-user access control, and the hashing and escaping rules behind them."
+              >
                 <div className="space-y-3">
                   {[
                     { bullet: "Local-first by default: originals never leave the machine unless Storage is configured to S3." },
@@ -538,11 +558,13 @@ export default function KnowledgeHubDeepDivePage() {
                     </div>
                   ))}
                 </div>
-              </section>
+              </MobileSection>
 
               {/* 10 — Future Work */}
-              <section>
-                <SectionLabel n="10" label="Future Upgrades & Research Notes" id="section-10" />
+              <MobileSection
+                n="10" label="Future Upgrades & Research Notes" id="section-10"
+                summary="What would change next, and what each upgrade would actually buy."
+              >
                 <div className="grid gap-4 sm:grid-cols-2">
                   {[
                     { title: "Text-first extraction", body: "Prefer embedded text over OCR. Run OCR only when the PDF has no selectable text layer." },
@@ -558,11 +580,13 @@ export default function KnowledgeHubDeepDivePage() {
                     </div>
                   ))}
                 </div>
-              </section>
+              </MobileSection>
 
               {/* Quick Reference */}
-              <section>
-                <SectionLabel n="QR" label="Quick Reference" id="section-qr" />
+              <MobileSection
+                n="QR" label="Quick Reference" id="section-qr"
+                summary="The stack, the endpoints, and the tuning knobs collected in one block."
+              >
                 <CodeBlock
                   title="cheat_sheet.md"
                   rows={[
@@ -577,7 +601,7 @@ export default function KnowledgeHubDeepDivePage() {
                     "Hybrid weights:     α=0.6 (semantic)  β=0.4 (FTS); tune from data",
                   ]}
                 />
-              </section>
+              </MobileSection>
 
               {/* ─── Footer CTA ─── */}
               <section className="rounded border border-border bg-card/40 p-6 sm:p-8">

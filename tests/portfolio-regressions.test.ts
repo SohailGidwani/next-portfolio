@@ -113,8 +113,29 @@ describe("motion system", () => {
     expect(css).toContain(":root[data-theme-vt]::view-transition-old(root)")
   })
 
-  it("route transition never animates the initial load", () => {
-    const rt = read("app/components/RouteTransition.tsx")
-    expect(rt).toContain("firstRender")
+  it("route transitions can only be started by a click, never on load", () => {
+    const vt = read("app/components/ViewTransitions.tsx")
+    // The guarantee is structural: the only startViewTransition call lives
+    // inside the click handler. React's <ViewTransition> boundary was rejected
+    // precisely because it also fired on Suspense reveals during hydration.
+    const calls = vt.match(/startViewTransition\(/g) ?? []
+    expect(calls).toHaveLength(1)
+    expect(vt).toMatch(/const onClick[\s\S]*startViewTransition\(/)
+    expect(vt).toContain('addEventListener("click", onClick, true)')
+  })
+
+  it("route transition CSS is scoped so it cannot collide with the theme toggle", () => {
+    const css = read("app/globals.css")
+    expect(css).toContain(":root[data-nav]::view-transition-old(root)")
+    expect(css).not.toMatch(/^::view-transition-old\(root\)/m)
+  })
+
+  it("the navigation snapshot resolves from a layout effect, not a passive one", () => {
+    const vt = read("app/components/ViewTransitions.tsx")
+    // Painting is suspended while the browser holds the snapshot, so React
+    // never flushes passive effects: useEffect here would leave every
+    // navigation waiting on the timeout instead of the route arriving.
+    expect(vt).toContain("useIsomorphicLayoutEffect")
+    expect(vt).toMatch(/useIsomorphicLayoutEffect\(\(\) => \{[\s\S]*?\}, \[pathname\]\)/)
   })
 })

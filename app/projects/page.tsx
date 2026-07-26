@@ -56,7 +56,7 @@ export default function ProjectsPage() {
                   <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-accent">
                     {project.kind}
                   </p>
-                  <h2 className="font-display text-xl text-foreground">{project.title}</h2>
+                  <h2 data-vt-title className="font-display text-xl text-foreground">{project.title}</h2>
                   <p className="text-sm text-muted-foreground">{project.shortDescription}</p>
                   <p className="font-mono text-[11px] leading-relaxed text-muted-foreground">
                     {project.outcome}

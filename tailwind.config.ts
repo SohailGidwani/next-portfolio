@@ -12,6 +12,17 @@ const withAlpha = (variable: string) =>
 
 const config = {
   darkMode: ["class"],
+  future: {
+    /**
+     * Compiles every `hover:` utility inside `@media (hover: hover)`.
+     *
+     * Touch Chrome leaves :hover on whatever sat under the finger, so after
+     * swiping the card deck the neighbouring card kept an accent border as
+     * though it were selected. Gating hover on real pointers fixes that
+     * everywhere rather than card by card, and changes nothing on desktop.
+     */
+    hoverOnlyWhenSupported: true,
+  },
   content: [
     './app/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
@@ -99,22 +110,12 @@ const config = {
         pill: "var(--radius-pill)",
       },
       keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
-        },
         float: {
           "0%, 100%": { transform: "translateY(0px)" },
           "50%": { transform: "translateY(-12px)" },
         },
       },
       animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
         "float-slow": "float 12s ease-in-out infinite",
         "float-slower": "float 18s ease-in-out infinite",
       },

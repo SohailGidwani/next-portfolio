@@ -113,7 +113,11 @@ export default function Education() {
                         {item.courses.map((course) => (
                           <span
                             key={course}
-                            className="rounded-[3px] border border-border/70 bg-background/60 px-2 py-0.5 font-mono text-xs uppercase tracking-[0.1em] text-muted-foreground"
+                            /* Tighter tracking and size on phones: at the full
+                               scale the longest course name is exactly one
+                               container wide, so it alone wraps to two lines
+                               and reads as a box next to single-line chips. */
+                            className="rounded-[3px] border border-border/70 bg-background/60 px-2 py-0.5 font-mono text-[11px] uppercase tracking-[0.04em] text-muted-foreground sm:text-xs sm:tracking-[0.1em]"
                           >
                             {course}
                           </span>

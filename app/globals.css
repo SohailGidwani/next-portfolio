@@ -25,6 +25,14 @@
   animation-timing-function: var(--ease-out-soft);
 }
 
+/* Keyboard-reached surfaces open instantly. Doubled class for the same
+   specificity reason as above, and it must out-rank .dialog-motion, which
+   sets a duration on the very same element. */
+.dialog-instant.dialog-instant[data-state="open"],
+.dialog-instant.dialog-instant[data-state="closed"] {
+  animation: none !important;
+}
+
 /* Mobile nav bottom sheet: rises from the bottom edge into the thumb zone.
    Own keyframes (replacing the plugin enter/exit) so the base dialog's
    centered slide/zoom variables can never leak into the geometry; duration
@@ -52,6 +60,18 @@
   animation-name: mobile-sheet-out;
 }
 
+/* Dialogs that are a bottom sheet on phones but stay centred on desktop:
+   the sheet keyframes must not replace the centred zoom above 640px. */
+@media (max-width: 639px) {
+  .sheet-on-mobile.sheet-on-mobile[data-state="open"] {
+    animation-name: mobile-sheet-in;
+  }
+
+  .sheet-on-mobile.sheet-on-mobile[data-state="closed"] {
+    animation-name: mobile-sheet-out;
+  }
+}
+
 /* Phone theme switch: no whole-page snapshot, just a soft canvas crossfade. */
 :root.theme-fade,
 :root.theme-fade body {
@@ -67,16 +87,78 @@
   mix-blend-mode: normal;
 }
 
-/* Client-side route navigations: a fast fade-in of the incoming page,
-   applied by RouteTransition. Initial loads never get this class. */
-@keyframes vt-route-in {
-  from {
+/* ── Route view transitions ──────────────────────────────────────────
+   Scoped under :root[data-nav], which ViewTransitions.tsx sets for the
+   duration of a navigation only. The theme toggle's transition lives
+   under :root[data-theme-vt], so the two can never style the same
+   pseudo-elements at once.
+
+   Distances stay small on purpose. A full-width push reads as native on
+   a phone but as sluggish on a site where navigation is frequent, and
+   duration is the first thing that starts to feel slow. 48px plus a fade
+   reads as direction without costing time. */
+:root[data-nav] {
+  --vt-slide: 48px;
+  --vt-duration: 280ms;
+}
+
+:root[data-nav="fade"] {
+  /* Sibling routes: crossfade only, no implied hierarchy. */
+  --vt-slide: 0px;
+  --vt-duration: 200ms;
+}
+
+@keyframes vt-nav-out {
+  to {
     opacity: 0;
+    transform: translateX(calc(var(--vt-slide) * -1));
   }
 }
 
-.soft-nav-enter {
-  animation: vt-route-in 0.18s var(--ease-out-soft) both;
+@keyframes vt-nav-in {
+  from {
+    opacity: 0;
+    transform: translateX(var(--vt-slide));
+  }
+}
+
+:root[data-nav]::view-transition-old(root) {
+  animation: vt-nav-out var(--vt-duration) cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+:root[data-nav]::view-transition-new(root) {
+  animation: vt-nav-in var(--vt-duration) cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+/* Going back mirrors the path it came in on, so the spatial story reads
+   the same in both directions. */
+:root[data-nav="back"]::view-transition-old(root) {
+  animation-name: vt-nav-in;
+  animation-direction: reverse;
+}
+
+:root[data-nav="back"]::view-transition-new(root) {
+  animation-name: vt-nav-out;
+  animation-direction: reverse;
+}
+
+/* Title morph: the destination heading only claims the shared name while a
+   morph is actually running, so ordinary crossfades leave it in the root
+   snapshot and it slides with the rest of the page. */
+:root[data-vt-morph="title"] [data-vt-title-target] {
+  view-transition-name: vt-title;
+}
+
+:root[data-nav]::view-transition-group(vt-title) {
+  animation-duration: 320ms;
+  animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-nav]::view-transition-old(root),
+  :root[data-nav]::view-transition-new(root) {
+    animation: none;
+  }
 }
 
 /* Cover-up direction (to light): the outgoing dark snapshot sits on top
@@ -100,7 +182,9 @@
     --accent: oklch(52% 0.18 50);
 
     --w: 1080px;
-    --sp: 56px;
+    /* Phone rhythm. Eight sections at 56px each spent close to a full screen
+       on padding alone; 44px still separates them clearly at this width. */
+    --sp: 44px;
     --nav-h: 56px;
     --radius-sm: 3px;
     --radius-md: 6px;
@@ -560,10 +644,12 @@
     }
   }
 
+  /* Not scale(0): nothing in the real world appears from nothing. Starting
+     just under full size reads as the mark settling into place. */
   @keyframes portrait-mark-in {
     from {
       opacity: 0;
-      transform: scale(0);
+      transform: scale(0.6);
     }
   }
 
@@ -679,4 +765,112 @@
     animation: shimmer 1.6s infinite;
   }
 
+}
+
+/* ───────────────────────────────────────────────────────────────────
+   Mobile reading structure
+
+   Phones get a different information shape from desktop, not a
+   reflowed copy of it. Every rule that changes in-flow structure lives
+   here in CSS rather than behind a JS media-query check, so the server
+   HTML already ships the mobile shape: no hydration flash, no layout
+   shift once scripts arrive, and no duplicated DOM for crawlers.
+
+   Deliberately unlayered. @layer base loses to Tailwind's utilities
+   layer, which would let a `grid` utility outrank the deck's flex
+   display. Unlayered rules outrank every layered one.
+   ─────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 767px) {
+  /* Reading-size prose is set per-paragraph at the call site, not by a
+     descendant rule here. Metric labels and captions are also <p>, so a
+     blanket selector would inflate every label along with the prose. */
+
+  /* Collapsed section body. The clamp is the default state so it is
+     already correct in server HTML; MobileSection animates between
+     this height and the measured full height, then hands control back
+     here so later reflows are never pinned to a stale pixel value. */
+  .m-collapse-body {
+    max-height: 8.5rem;
+    overflow: hidden;
+    mask-image: linear-gradient(to bottom, #000 45%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 45%, transparent 100%);
+  }
+
+  /* Descendant, not direct child: the body sits one wrapper deeper whenever
+     MobileSection needs its flex order swap, and a `>` here silently stops
+     matching, which leaves every chapter stuck closed. */
+  [data-expanded="true"] .m-collapse-body {
+    max-height: none;
+    overflow: visible;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+
+}
+
+/* Deck yields at 640px, where the card grids themselves go two-column.
+   Matching each rule to the breakpoint of the layout it replaces keeps
+   flex and grid from ever applying to the same element at once. */
+@media (max-width: 639px) {
+  /* Horizontal card deck. Full-bleed past the container gutter so the
+     next card peeks at the screen edge, which is what tells a thumb
+     the row is swipeable. */
+  .m-deck {
+    /* Card width drives the side padding: at (100vw - card) / 2 the first
+       and last cards can reach the middle of the scrollport, which is what
+       lets every card snap centred rather than to the left edge. */
+    --deck-card: 78vw;
+    display: flex;
+    /* Positioned so children measure their offsetLeft against the deck
+       itself, which is what CardDeck's position readout relies on. */
+    position: relative;
+    gap: 0.75rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    /* One card per flick: a six-card deck should never fly past three. */
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    margin-inline: calc(50% - 50vw);
+    padding-inline: calc((100vw - var(--deck-card)) / 2);
+    padding-bottom: 0.25rem;
+  }
+
+  .m-deck::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Deck children must never depend on a viewport-rooted whileInView: a card
+     scrolled sideways out of the scrollport never intersects the viewport, so
+     its entrance never fires and the card stays invisible even after you swipe
+     to it. A horizontal deck is one unit anyway; its cards do not need
+     individual entrances. !important because framer writes opacity inline. */
+  .m-deck > * {
+    opacity: 1 !important;
+  }
+
+  .m-deck > * {
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    /* Card stops short of full width so both neighbours stay visible. */
+    flex: 0 0 var(--deck-card);
+    min-width: 0;
+  }
+}
+
+/* Chapter navigator pill. Sits bottom-centre in the thumb arc rather
+   than up at the top, matching the one-hand reasoning behind the
+   mobile nav sheet. */
+.chapter-pill {
+  bottom: calc(env(safe-area-inset-bottom) + 1rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .m-collapse-body {
+    transition: none !important;
+  }
+
+  .m-deck {
+    scroll-behavior: auto !important;
+  }
 }

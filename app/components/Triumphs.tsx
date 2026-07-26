@@ -5,6 +5,8 @@ import Image, { StaticImageData } from "next/image"
 import { motion } from "framer-motion"
 import { ArrowUpRight } from "lucide-react"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/app/components/ui/dialog"
+import { useMediaQuery } from "@/app/hooks/useMediaQuery"
+import { useSheetDrag } from "@/app/hooks/useSheetDrag"
 import { triggerHaptic } from "./ui/haptics"
 import SectionHeading from "./SectionHeading"
 import AskPandaAI from "@/public/images/AskPandaAI-Certificate.jpg"
@@ -67,6 +69,10 @@ const ledgerWins: Win[] = [
 
 export default function Triumphs() {
   const [selected, setSelected] = useState<Win | null>(null)
+  // Drag only where the dialog is a bottom sheet: above sm it is centred by a
+  // transform that a drag write would clobber.
+  const isPhone = useMediaQuery("(max-width: 639px)")
+  const { sheetRef, sheetHandlers } = useSheetDrag(() => setSelected(null), isPhone)
 
   const openModal = (win: Win) => {
     triggerHaptic()
@@ -88,7 +94,7 @@ export default function Triumphs() {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.4 }}
           viewport={{ once: true }}
-          className="group mt-10 w-full rounded border border-border border-l-2 border-l-accent bg-card/80 p-6 text-left transition hover:border-b-accent/50 hover:border-r-accent/50 hover:border-t-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background sm:p-8"
+          className="group mt-10 w-full rounded border border-border border-l-2 border-l-accent bg-card/80 p-6 text-left transition active:scale-[0.99] hover:border-b-accent/50 hover:border-r-accent/50 hover:border-t-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background sm:p-8"
         >
           <p className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
             Featured · {featuredWin.tag}
@@ -117,7 +123,7 @@ export default function Triumphs() {
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.35, delay: index * 0.06 }}
               viewport={{ once: true }}
-              className="group grid w-full grid-cols-1 gap-1.5 border-b border-border px-1 py-4 text-left transition hover:bg-card/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:grid-cols-[56px_1fr_auto] sm:items-center sm:gap-6 sm:py-5"
+              className="group grid w-full grid-cols-1 gap-1.5 border-b border-border px-1 py-4 text-left transition active:scale-[0.99] hover:bg-card/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:grid-cols-[56px_1fr_auto] sm:items-center sm:gap-6 sm:py-5"
             >
               <span className="font-mono text-[11px] tracking-[0.2em] text-accent">{win.year}</span>
               <span className="min-w-0">
@@ -143,7 +149,13 @@ export default function Triumphs() {
 
       <Dialog open={!!selected} onOpenChange={(open) => !open && setSelected(null)}>
         {selected && (
-          <DialogContent className="max-h-[85vh] max-w-3xl overflow-y-auto rounded border-border bg-card top-auto bottom-4 translate-y-0 sm:bottom-auto sm:top-[50%] sm:translate-y-[-50%] sm:rounded">
+          <DialogContent
+            ref={sheetRef}
+            {...sheetHandlers}
+            style={isPhone ? { touchAction: "none" } : undefined}
+            className="sheet-on-mobile bottom-0 left-0 right-0 top-auto max-h-[85vh] w-full max-w-none translate-x-0 translate-y-0 overflow-y-auto rounded-none rounded-t-md border-x-0 border-b-0 border-border bg-card pb-[calc(env(safe-area-inset-bottom)+1rem)] sm:bottom-auto sm:left-[50%] sm:top-[50%] sm:max-w-3xl sm:translate-x-[-50%] sm:translate-y-[-50%] sm:rounded sm:border-x sm:border-b sm:pb-6">
+            {/* Grabber: the same affordance as the nav and chapter sheets. */}
+            <div aria-hidden className="mx-auto mb-1 h-1 w-9 shrink-0 rounded-[2px] bg-border sm:hidden" />
             <DialogHeader>
               <DialogTitle className="font-display text-2xl text-foreground">{selected.title}</DialogTitle>
               <DialogDescription className="text-sm text-muted-foreground">
