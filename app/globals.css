@@ -725,7 +725,10 @@
     -webkit-mask-image: linear-gradient(to bottom, #000 45%, transparent 100%);
   }
 
-  [data-expanded="true"] > .m-collapse-body {
+  /* Descendant, not direct child: the body sits one wrapper deeper whenever
+     MobileSection needs its flex order swap, and a `>` here silently stops
+     matching, which leaves every chapter stuck closed. */
+  [data-expanded="true"] .m-collapse-body {
     max-height: none;
     overflow: visible;
     mask-image: none;

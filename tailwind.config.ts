@@ -12,6 +12,17 @@ const withAlpha = (variable: string) =>
 
 const config = {
   darkMode: ["class"],
+  future: {
+    /**
+     * Compiles every `hover:` utility inside `@media (hover: hover)`.
+     *
+     * Touch Chrome leaves :hover on whatever sat under the finger, so after
+     * swiping the card deck the neighbouring card kept an accent border as
+     * though it were selected. Gating hover on real pointers fixes that
+     * everywhere rather than card by card, and changes nothing on desktop.
+     */
+    hoverOnlyWhenSupported: true,
+  },
   content: [
     './app/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',

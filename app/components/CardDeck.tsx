@@ -2,6 +2,7 @@
 
 import { Children, useCallback, useEffect, useRef, useState, type ReactNode } from "react"
 import { useReducedMotion } from "framer-motion"
+import { triggerHaptic } from "./ui/haptics"
 
 /**
  * Card sections as a swipeable deck on phones, unchanged grid on desktop.
@@ -28,6 +29,8 @@ export default function CardDeck({
   const count = Children.count(children)
   const scrollerRef = useRef<HTMLDivElement>(null)
   const frame = useRef<number | null>(null)
+  // Tracked in a ref so the haptic fires on a real change, not on re-render.
+  const lastIndex = useRef(0)
   const [index, setIndex] = useState(0)
   const reduced = useReducedMotion() ?? false
 
@@ -49,6 +52,12 @@ export default function CardDeck({
         nearest = i
       }
     })
+    // A short tick each time a new card takes the centre, so a swipe feels
+    // like the card clicking into place rather than sliding silently.
+    if (nearest !== lastIndex.current) {
+      lastIndex.current = nearest
+      triggerHaptic(8)
+    }
     setIndex(nearest)
   }, [])
 
