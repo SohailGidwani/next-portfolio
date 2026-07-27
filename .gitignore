@@ -52,4 +52,5 @@ GEMINI.md
 .worktrees/
 .agents/
 .cursor/
+.code-review-graph/
 skills-lock.json

@@ -1,5 +1,4 @@
 import Link from "next/link"
-import Image from "next/image"
 import { Home, ArrowLeft, Github, Shield, Zap, Terminal, Bot, Gauge, Database } from "lucide-react"
 import ThemeToggle from "@/app/components/ThemeToggle"
 import BreadcrumbStructuredData from "@/app/components/BreadcrumbStructuredData"
@@ -8,10 +7,10 @@ import SectionTOC from "@/app/components/SectionTOC"
 import MobileChapterNav from "@/app/components/MobileChapterNav"
 import MobileSection from "@/app/components/MobileSection"
 import DiagramLightbox from "@/app/components/DiagramLightbox"
+import DemoVideo from "@/app/components/DemoVideo"
 import PortageArchitecture from "../components/PortageArchitecture"
 import MigrationFlow from "../components/MigrationFlow"
 import BlastRadius from "../components/BlastRadius"
-import killResume from "@/public/images/portage/kill-resume.gif"
 
 const tocItems = [
   { id: "section-01", n: "01", label: "Architecture Overview" },
@@ -363,12 +362,11 @@ export default function PortageDeepDivePage() {
                       kill-and-resume demo: scripts/demo_kill_resume.sh
                     </span>
                   </div>
-                  <Image
-                    src={killResume}
-                    alt="Terminal recording: the Portage worker is killed mid-migration and a restarted worker resumes from the Postgres checkpoint to finish the job"
-                    className="h-auto w-full"
-                    unoptimized
-                  />
+                  <DemoVideo
+                      src="/images/portage/kill-resume.mp4"
+                      poster="/images/portage/kill-resume-poster.jpg"
+                      label="Terminal recording: the Portage worker is killed mid-migration and a restarted worker resumes from the Postgres checkpoint to finish the job"
+                    />
                 </div>
                 <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
                   The eval harness cannot SIGKILL the worker it depends on, so crash-resume is covered by{" "}

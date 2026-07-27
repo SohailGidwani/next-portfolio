@@ -6,22 +6,26 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import { ThemeProvider } from './components/ThemeProvider'
 import type { Viewport } from 'next'
 
+// Declared weights are matched to what the pages actually render. A weight the
+// CSS asks for but the font never shipped gets synthesized by the browser, and
+// faux bold on a monospace face looks visibly smeared: 142 elements were
+// rendering that way. A declared weight nothing uses is just wasted range.
 const fd = Syne({
   subsets: ['latin'],
   variable: '--fd',
-  weight: ['400', '600', '700', '800'],
+  weight: ['600', '700', '800'],
 })
 
 const fb = DM_Sans({
   subsets: ['latin'],
   variable: '--fb',
-  weight: ['400', '500', '600'],
+  weight: ['400', '500', '600', '700'],
 })
 
 const fm = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--fm',
-  weight: ['400', '500'],
+  weight: ['400', '500', '600', '700'],
   // Mono only styles small utility labels, never LCP text; keeping it out of
   // the preload set frees critical bandwidth for Syne and DM Sans.
   preload: false,

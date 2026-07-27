@@ -17,6 +17,7 @@ import {
 import Link from "next/link"
 import Image from "next/image"
 import ProjectNav from "@/app/components/ProjectNav"
+import DemoVideo from "@/app/components/DemoVideo"
 import ProjectDetailStructuredData from "@/app/components/ProjectDetailStructuredData"
 import ProjectImageLightbox, {
   ProjectImageTrigger,
@@ -30,7 +31,6 @@ import MobileSection from "@/app/components/MobileSection"
 import MigrationFlow from "./components/MigrationFlow"
 import BlastRadius from "./components/BlastRadius"
 
-import killResume from "@/public/images/portage/kill-resume.gif"
 import cli01 from "@/public/images/portage/cli-01-migrate-watch.png"
 import cli02 from "@/public/images/portage/cli-02-jobs.png"
 import cli03 from "@/public/images/portage/cli-03-status.png"
@@ -299,11 +299,10 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                         durability proof: kill the worker, it resumes
                       </span>
                     </div>
-                    <Image
-                      src={killResume}
-                      alt="Terminal recording: the Portage worker is killed mid-migration and a restarted worker resumes from the Postgres checkpoint to finish the job"
-                      className="h-auto w-full"
-                      unoptimized
+                    <DemoVideo
+                      src="/images/portage/kill-resume.mp4"
+                      poster="/images/portage/kill-resume-poster.jpg"
+                      label="Terminal recording: the Portage worker is killed mid-migration and a restarted worker resumes from the Postgres checkpoint to finish the job"
                     />
                     <div className="border-t border-border px-4 py-2">
                       <p className="font-mono text-xs text-muted-foreground">

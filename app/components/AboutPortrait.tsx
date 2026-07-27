@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { motion, useReducedMotion } from "framer-motion"
-import portrait from "@/public/images/personal/SohailGidwani.png"
+import portrait from "@/public/images/personal/SohailGidwani.jpg"
 
 export default function AboutPortrait() {
   const reduceMotion = useReducedMotion()
