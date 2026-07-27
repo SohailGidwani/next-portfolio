@@ -36,7 +36,7 @@ const experiences: ExperienceItem[] = [
     id: "keck-usc",
     title: "Research Assistant",
     company: "Keck School of Medicine of USC",
-    date: "Oct, 2025 - Present",
+    date: "Oct 2025 - Present",
     description:
       "Building MEMOIR-VLM, a multimodal deep learning pipeline for Alzheimer's disease classification and VQA using neuroimaging and clinical data, with end-to-end experimentation infrastructure across ~70M parameter models.",
     projects: [
@@ -57,7 +57,7 @@ const experiences: ExperienceItem[] = [
     id: "insaito",
     title: "Senior Software Engineer - I",
     company: "Insaito, Inc.",
-    date: "May, 2025 - July, 2025",
+    date: "May 2025 - Jul 2025",
     description:
       "Built core infrastructure and product surfaces for an AI agent builder, spanning open-source model deployment, third-party authentication, MCP tools, backend services, and frontend workflows.",
     projects: [
@@ -72,7 +72,7 @@ const experiences: ExperienceItem[] = [
     id: "iifl",
     title: "Full Stack - Software Developer",
     company: "IIFL Finance Ltd",
-    date: "June, 2023 - May, 2025",
+    date: "Jun 2023 - May 2025",
     description:
       "Built internal employee support chatbot, AI-powered fraud detection, and automated user support systems across multiple business verticals.",
     projects: [

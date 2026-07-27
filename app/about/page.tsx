@@ -4,7 +4,7 @@ import { ArrowLeft, ArrowUpRight } from "lucide-react"
 import BreadcrumbStructuredData from "@/app/components/BreadcrumbStructuredData"
 import Personal from "@/app/components/Personal"
 import ThemeToggle from "@/app/components/ThemeToggle"
-import portrait from "@/public/images/personal/SohailGidwani.png"
+import portrait from "@/public/images/personal/SohailGidwani.jpg"
 
 const values = [
   {

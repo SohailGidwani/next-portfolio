@@ -19,7 +19,7 @@ const education: EducationItem[] = [
   {
     degree: "M.S in Computer Science",
     institution: "University of Southern California",
-    year: "August 2025 - May 2027",
+    year: "Aug 2025 - May 2027",
     cgpa: "GPA - 3.75 / 4.0",
     location: "Los Angeles, CA, USA",
     description: "Advanced studies in AI systems, retrieval, and large-scale software engineering.",
