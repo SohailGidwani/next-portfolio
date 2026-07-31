@@ -13,6 +13,8 @@ import {
   Terminal,
   Bot,
   Gauge,
+  GitBranch,
+  Lock,
 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
@@ -46,14 +48,19 @@ import portal03 from "@/public/images/portage/portal-03-eval-leaderboard.png"
 // (demo URL + CSP frame-src change in next.config.mjs).
 // import LiveDemo from "./components/LiveDemo"
 
-const evalRows = [
-  { repo: "flask-structural-fixture", tier: "baseline", green: "3/3", cost: "$0.18", readout: "stable structural seam coverage", strong: true },
-  { repo: "minimal-flask-api", tier: "baseline", green: "3/3", cost: "$0.13", readout: "stable external baseline", strong: true },
-  { repo: "flask-restx-api", tier: "framework", green: "3/3", cost: "$0.21", readout: "the old extension wall, now stable", strong: true },
-  { repo: "flaskr (Pallets tutorial)", tier: "structural", green: "2/3", cost: "$0.31", readout: "both completed runs 24/24 with zero recovery; one engine error counted as red", strong: false },
-  { repo: "flask-items-fixture", tier: "baseline", green: "2/3", cost: "$0.12", readout: "one 5/6 test-harness semantic miss", strong: false },
-  { repo: "watchlist", tier: "structural", green: "0/3", cost: "$0.58", readout: "Flask-SQLAlchemy surface realization; migrated suite now collects and executes all 15 tests", strong: false },
-  { repo: "microblog", tier: "heavy", green: "0/3", cost: "$5.34", readout: "one stable import-cycle root cause; 77% of the grid's cost", strong: false },
+// Two evidence sets, deliberately shown together: the development corpus is where
+// the engine converged, the frozen held-out set is where it did not.
+const evidenceRows = [
+  { set: "Flaskr + Watchlist · K=5 gates", result: "10/10", meaning: "the hard known structural and extension apps converge repeatably", strong: true },
+  { set: "Items / RESTX / Structural / Minimal · K=3", result: "12/12", meaning: "the smaller development tiers hold on the same code", strong: true },
+  { set: "Fresh seven-repo sweep · one sample each", result: "6/7", meaning: "Microblog red on architect variance; its accepted-plan replay is 26/26 tasks, 4/4 tests", strong: true },
+  { set: "Frozen R5 v1 · three unseen repos × K=3", result: "0/9", meaning: "the recipe does not yet generalize to repositories it has never seen", strong: false },
+]
+
+const heldOutRows = [
+  { repo: "ws-example", baseline: "42/42", result: "0/3", failure: "generated test-client facade shadowed route decorators; the test adapter also removed protected test functions" },
+  { repo: "silicon", baseline: "34/34", result: "0/3", failure: "invalid generated signatures; a raw FastAPI object constructed instead of the frozen facade" },
+  { repo: "flask-email-login", baseline: "18/18", result: "0/3", failure: "architect missed the required context owner; the fallback left CSRF and mail providers as None" },
 ]
 
 const allImages = [
@@ -120,6 +127,10 @@ The governing principle is narrow + measured beats broad + unproven. One hard mi
 
 The capability that unlocked the hard repos: some migrations are unreachable by rewriting existing files. Flask's g/session have no FastAPI equivalent. A correct port needs a new request-context module, a test-compatibility surface, a rendering layer, and every consumer wired to them coherently. Portage plans those artifacts with a bounded architect call, freezes their contracts before generation, compiles the deterministic parts itself, and enforces that a framework-shaped capability is only valid when the plan owns and implements it, so a model can't reference a helper it wishes existed.
 
+A second wave, coherent-cut preservation, closed the gap the first one left open. One bad file inside an otherwise-correct migration used to trigger a full rollback of every file in its verification cut, so a single local mistake could sink a ten-file run. Recover now checkpoints the last coherent state before a targeted repair and restores that on failure instead of the whole migration, and one shared gate (caller, capability, import-direction, cycle, and contract checks) runs identically across every generation path: first draft, contract repair, and targeted repair alike. That is what took watchlist, a Flask-SQLAlchemy app that had never gone green, to autonomous 15/15, and pushed flaskr to a 5-for-5 reliability gate.
+
+Then the first frozen held-out evaluation supplied the correction. On three repositories never migrated during development, Portage scored 0/9 strict green. The engine failed honestly: five trees restored coherently, four stayed migrated-but-red, zero were hybrid, and an attempted test-set reduction was caught. But the recipe did not generalize. The project now has both halves of a credible result, strong development convergence and a measured unseen-repository gap, and publishes them together.
+
 One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --watch\` drives the full graph. Co-pilot mode: Claude Code / Cursor call verify_patch_in_sandbox, repo_graph, and blast_radius over MCP, the same verified primitives the eval numbers were measured on. The dashboard is the observability and proof surface, not the front door.`,
     tags: ["Python", "FastAPI", "LangGraph", "Postgres", "pgvector", "LiteLLM", "Docker", "Next.js", "MCP", "pytest"],
     github: "https://github.com/SohailGidwani/Portage",
@@ -145,9 +156,14 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
         description: "Uniquely attributable failures repair the single owning artifact (measured: a stray .decode() fixed for $0.011 without touching its ten-file cut). Otherwise: targeted rollback + regenerate, widen-on-repeat, replan, skip-and-continue as last resort, all budget-bounded.",
       },
       {
+        icon: <GitBranch className="w-5 h-5" />,
+        title: "Coherent-Cut Preservation",
+        description: "A failed targeted repair restores the last known-coherent checkpoint, not the original sources, so one bad file can no longer roll back the nine correct ones beside it. The single highest-leverage fix in the project: it converted watchlist and flaskr from occasional greens into repeatable ones.",
+      },
+      {
         icon: <FileCheck className="w-5 h-5" />,
         title: "Oracle Integrity",
-        description: "Test files are protected artifacts: names, assertions, raises/parametrize/skip structure and fixture lifecycles are frozen at Plan; only sanctioned plumbing may differ. Deleted, renamed, skipped, and weakened assertions are all caught mechanically: 1.0 integrity across every report-bearing run.",
+        description: "Test files are protected artifacts: names, assertions, raises/parametrize/skip structure and fixture lifecycles are frozen at Plan; only sanctioned plumbing may differ. It earned its keep on unseen code: a held-out adapter quietly dropped nine test functions, integrity fell to 0.75, and all three samples were scored red instead of counted as partial progress.",
       },
       {
         icon: <ShieldCheck className="w-5 h-5" />,
@@ -163,6 +179,11 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
         icon: <DollarSign className="w-5 h-5" />,
         title: "Cost as a Metric",
         description: "Every LLM call's tokens and USD recorded per attempt, summed per job, averaged per eval cell, with retries, escalations, and architect calls included. Cost scales with recovery, and that relationship is part of the result.",
+      },
+      {
+        icon: <Lock className="w-5 h-5" />,
+        title: "Held-Out Validation",
+        description: "Three repositories were frozen, baseline-vetted, and never migrated during development. R5 v1 ran once from a pinned commit and scored 0/9. No failed sample was renamed, replaced, or rerun, and the result is published beside the development gates rather than behind them.",
       },
     ],
     technicalDetails: [
@@ -181,6 +202,9 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
       "GitHub OAuth (hosted mode), rotating refresh cookies, pk_ API keys, quota + spend caps",
     ],
     challenges: [
+      "Development convergence did not predict held-out generalization. Flaskr and watchlist reached 10/10 at K=5 while the frozen unseen set went 0/9. The next work is capability coverage, not a larger victory-lap grid",
+      "One bad file used to sink the whole cut: before coherent-cut checkpointing, a single local mistake inside a ten-file verification batch rolled back everything in it. Checkpointing the last coherent state and restoring that, not the original, is what made the hard repos repeatable",
+      "Oracle protection earned its keep on unseen code: one held-out adapter deleted test functions, and the 0.75 integrity score poison-pilled the run before its partial suite result could look encouraging",
       "Some migrations are unreachable by rewriting files, proven by migrating flaskr by hand under the same sandbox oracle: 24/24, but only after creating four new modules. That manual run became the acceptance spec, and the engine's missing capability had a name",
       "A model told us what was missing: on one repo GPT-4o imported a compatibility module that didn't exist. It wanted the right architecture; the engine had no way to let it own one. Artifact-producing plans exist because of that log line",
       "Whole-file regeneration is a near-no-op against an unattributed bug: two measured cases reproduced identical failures across paid regeneration rounds. Attribution, not retry budget, was the bottleneck",
@@ -190,6 +214,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
       "LLM nondeterminism means single runs are anecdotes; K-run mean±variance is mandatory, and organic flake is a finding, not noise to hide",
     ],
     learnings: [
+      "A held-out set is only evidence if you publish it when it loses; 0/9 sits beside 10/10 rather than behind it, and the repos that shape fixes become development inputs permanently",
       "The hard thing (autonomous migrate + eval) validates the easy thing (MCP verify tool)",
       "Honesty bars must be structural, not aspirational; every false-green class found in the wild became a hard predicate, and engine crashes count against the score",
       "Give the model judgment, take back the bookkeeping: it decides ownership, grouping, and design; the engine deterministically supplies facts it already derives, and rejects contradictions loudly",
@@ -239,16 +264,16 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                 {/* Stat callout row */}
                 <div className="mb-6 flex flex-wrap items-center gap-6">
                   <div className="border-l-2 border-accent pl-4">
-                    <p className="font-mono text-2xl font-bold text-foreground">61.9%</p>
-                    <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Strict Green · 21 Autonomous Runs</p>
+                    <p className="font-mono text-2xl font-bold text-foreground">10/10</p>
+                    <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">K=5 Gates · Flaskr + Watchlist</p>
                   </div>
                   <div className="border-l-2 border-border pl-4">
-                    <p className="font-mono text-2xl font-bold text-foreground">K=3 × 7</p>
-                    <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Eval Grid · Pinned Repos</p>
+                    <p className="font-mono text-2xl font-bold text-foreground">6/7</p>
+                    <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Fresh Full-Corpus Sweep</p>
                   </div>
                   <div className="border-l-2 border-border pl-4">
-                    <p className="font-mono text-2xl font-bold text-foreground">1.0</p>
-                    <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Oracle Integrity · Every Run</p>
+                    <p className="font-mono text-2xl font-bold text-foreground">0/9</p>
+                    <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Frozen Held-Out · Published As Is</p>
                   </div>
                   <div className="border-l-2 border-border pl-4">
                     <p className="font-mono text-2xl font-bold text-foreground">0</p>
@@ -283,7 +308,10 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
               <div className="mx-auto max-w-3xl space-y-16">
 
                 {/* 01 · System Overview */}
-                <MobileSection n="01" label="System Overview" id="recovery-proof">
+                {/* Never clamped: this is what the project *is*, and the
+                    durability recording is the single strongest proof on the
+                    page. Neither should cost a tap. */}
+                <MobileSection n="01" label="System Overview" id="recovery-proof" alwaysOpen>
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                     One core engine, two interfaces: the CLI drives fully autonomous migrations, and an MCP
                     server hands the same verified primitives to co-pilot agents like Claude Code and Cursor.
@@ -442,60 +470,91 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                 {/* 08 · Eval Headline */}
                 <MobileSection n="08" label="Eval Headline" id="section-08">
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
-                    Suite <span className="font-mono text-foreground">eval-full-corpus-k3-20260714</span>: every
-                    repo×scenario cell runs K=3 times through the real queue/worker path: 21 fully autonomous
-                    runs. Green requires the full suite passing, every task done, zero skips, and oracle
-                    integrity 1.0 (no test deleted, renamed, skipped, or weakened). Straight from the{" "}
-                    <span className="font-mono text-foreground">runs</span>/
-                    <span className="font-mono text-foreground">metrics</span> tables:
+                    Development gates are strong; unseen generalization is not. Both halves are published
+                    together, because only one of them is a claim about the future. Green requires the full
+                    suite passing, every planned task done, zero skips, oracle integrity 1.0, and a{" "}
+                    <span className="font-mono text-foreground">tree_state</span> of{" "}
+                    <span className="font-mono text-foreground">migrated</span>: a run that recovery rolls back
+                    to original sources passes the original suite and still scores red.
                   </p>
                   <div className="overflow-x-auto rounded border border-border bg-card/40">
                     <table className="w-full text-sm">
                       <thead>
                         <tr className="border-b border-border/70 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
-                          <th className="px-4 py-3 text-left font-normal">Repo</th>
-                          <th className="px-4 py-3 text-left font-normal">Tier</th>
+                          <th className="px-4 py-3 text-left font-normal">Evidence set</th>
                           <th className="px-4 py-3 text-left font-normal">Green</th>
-                          <th className="px-4 py-3 text-left font-normal">Cost</th>
-                          <th className="px-4 py-3 text-left font-normal">Readout</th>
+                          <th className="px-4 py-3 text-left font-normal">What it means</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-border/50">
-                        {evalRows.map((r) => (
-                          <tr key={r.repo}>
-                            <td className="px-4 py-3 font-mono text-xs text-foreground">{r.repo}</td>
-                            <td className="px-4 py-3 font-mono text-[11px] text-muted-foreground">{r.tier}</td>
-                            <td className={`px-4 py-3 font-mono text-xs font-bold ${r.strong ? "text-accent" : "text-muted-foreground"}`}>{r.green}</td>
-                            <td className="px-4 py-3 font-mono text-xs text-muted-foreground">{r.cost}</td>
-                            <td className="px-4 py-3 text-xs text-muted-foreground">{r.readout}</td>
+                        {evidenceRows.map((r) => (
+                          <tr key={r.set}>
+                            <td className="px-4 py-3 font-mono text-xs text-foreground">{r.set}</td>
+                            <td className={`px-4 py-3 font-mono text-xs font-bold ${r.strong ? "text-accent" : "text-muted-foreground"}`}>{r.result}</td>
+                            <td className="px-4 py-3 text-xs text-muted-foreground">{r.meaning}</td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
                   </div>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                    <span className="font-semibold text-foreground">Strict autonomous score: 13/21 green (61.9%)</span>,
-                    with engine errors counted against the score, not excused. Two grids earlier the same corpus
-                    scored 6/21 (28.6%) with external repos at 0/15; they are now 8/15. Every red restored and
-                    re-verified the repo&apos;s original suite: no false greens, no weakened tests.
+
+                  <p className="mb-3 mt-8 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
+                    The held-out set, in full
                   </p>
+                  <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+                    R5 v1 ran exactly once, from frozen commit{" "}
+                    <span className="font-mono text-foreground">3b25ee9</span> against{" "}
+                    <span className="font-mono text-foreground">corpus/heldout.toml</span>, one offline sandbox
+                    image, GPT-4o on both tiers. No failed sample was renamed, replaced, or rerun.
+                  </p>
+                  <div className="overflow-x-auto rounded border border-border bg-card/40">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b border-border/70 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
+                          <th className="px-4 py-3 text-left font-normal">Unseen repo</th>
+                          <th className="px-4 py-3 text-left font-normal">Baseline</th>
+                          <th className="px-4 py-3 text-left font-normal">K=3</th>
+                          <th className="px-4 py-3 text-left font-normal">Dominant failure</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-border/50">
+                        {heldOutRows.map((r) => (
+                          <tr key={r.repo}>
+                            <td className="px-4 py-3 font-mono text-xs text-foreground">{r.repo}</td>
+                            <td className="px-4 py-3 font-mono text-xs text-muted-foreground">{r.baseline}</td>
+                            <td className="px-4 py-3 font-mono text-xs font-bold text-muted-foreground">{r.result}</td>
+                            <td className="px-4 py-3 text-xs text-muted-foreground">{r.failure}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+
                   <div className="mt-4 rounded border border-accent/30 bg-accent/5 p-4">
-                    <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">Headline result</p>
+                    <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
+                      The integrity machinery passed even though the recipe failed
+                    </p>
                     <p className="mt-2 text-sm leading-relaxed text-foreground">
-                      flaskr, the canonical Flask tutorial app (templates + factory + auth + SQLite + Click
-                      CLI), went from never green in any grid to 24/24 tests, 12/12 tasks, zero recovery,
-                      $0.154, five model calls, then repeated it in two more independent autonomous samples. It
-                      needed four new modules to exist; the engine designed and wired them.
+                      This is the part worth reading. On{" "}
+                      <span className="font-mono">ws-example</span>, generation quietly reduced the discovered
+                      test set from 26 functions to 17. Oracle integrity fell to 0.75 and poison-pilled all
+                      three samples, so a partial 13/42 runtime result could not masquerade as progress. Trees
+                      came back 4 migrated / 5 restored-coherent / 0 hybrid, and restored trees scored zero even
+                      though their original suites passed. All nine jobs produced durable reports with no
+                      missing run rows: 119 LLM calls, 19 recovery visits, $3.86.
                     </p>
                   </div>
                   <div className="mt-4 rounded border border-accent/20 bg-card p-4">
-                    <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">Finding</p>
+                    <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
+                      What convergence looks like when it works
+                    </p>
                     <p className="mt-2 text-sm leading-relaxed text-foreground">
-                      The reliability boundary is idiom, not size. JSON APIs and RESTX-style APIs migrate green
-                      for ~$0.02–0.07; the remaining reds are concentrated in extension-heavy applications, and
-                      both are past their structural blockers. Fault injection (bad_patch,
-                      bad_patch_until_escalation, drop_task) is a standing part of the eval and green on the
-                      current engine.
+                      flaskr, the canonical Flask tutorial app (templates + factory + auth + SQLite + Click
+                      CLI), went from never green in any grid to 24/24 tests, 12/12 tasks, zero recovery, for
+                      $0.15 to $0.23 a run, and now holds 5/5 at K=5. watchlist, a Flask-SQLAlchemy app that had
+                      never gone green, holds 5/5 at 15/15 tests. Both needed new modules to exist; the engine
+                      designed and wired them. What made them repeatable rather than occasional was
+                      coherent-cut preservation.
                     </p>
                   </div>
                 </MobileSection>

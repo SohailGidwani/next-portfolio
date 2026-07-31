@@ -28,6 +28,8 @@ export default function MobileSection({
   summary,
   lead,
   figure,
+  figureAfter,
+  alwaysOpen,
   children,
 }: {
   id: string
@@ -50,6 +52,19 @@ export default function MobileSection({
    * thing that earns the tap, so collapsing a chapter must never hide one.
    */
   figure?: ReactNode
+  /**
+   * Render the figure after the body on desktop while keeping it first, and
+   * therefore outside the clamp, on phones. For sections whose visual is the
+   * payoff at the end of the prose rather than the hook at the start.
+   */
+  figureAfter?: boolean
+  /**
+   * Never clamp: no summary, no toggle, full text at every width. For the
+   * one or two sections that are the price of entry rather than optional
+   * depth, where making a reader tap to learn what the thing *is* costs more
+   * than the scroll it saves.
+   */
+  alwaysOpen?: boolean
   children?: ReactNode
 }) {
   const [expanded, setExpanded] = useState(false)
@@ -59,6 +74,9 @@ export default function MobileSection({
   const isPhone = useMediaQuery("(max-width: 767px)")
   // A section can be just a lead plus a figure; then the lead is the body.
   const hasBody = Boolean(children)
+  // Both cases put the figure first in the DOM and let desktop order it back:
+  // when the lead IS the body, and when the caller asks for it explicitly.
+  const swapFigure = !hasBody || Boolean(figureAfter)
 
   useLayoutEffect(() => {
     const body = bodyRef.current
@@ -121,7 +139,7 @@ export default function MobileSection({
         </h2>
       </div>
 
-      {summary && (
+      {summary && !alwaysOpen && (
         <p className="mb-5 text-[15px] leading-[1.7] text-muted-foreground md:hidden">{summary}</p>
       )}
 
@@ -131,38 +149,40 @@ export default function MobileSection({
           When a section is only a lead plus a figure, the lead IS the body
           and belongs inside the clamp instead. */}
       {hasBody && lead && (
-        <div className={summary ? "hidden md:block" : undefined}>{lead}</div>
+        <div className={summary && !alwaysOpen ? "hidden md:block" : undefined}>{lead}</div>
       )}
 
-      {/* When the lead IS the body, the two swap: the phone wants the figure
-          first as the hook, desktop wants its original text-then-figure
-          order. A flex order swap does that without duplicating markup. */}
-      <div className={hasBody ? undefined : "flex flex-col"}>
-        <div className={hasBody ? undefined : "order-1 md:order-2"}>{figure}</div>
+      {/* The phone wants the figure first, as the hook and outside the clamp;
+          desktop wants its original text-then-figure order. A flex order swap
+          does that without duplicating markup. */}
+      <div className={swapFigure ? "flex flex-col" : undefined}>
+        <div className={swapFigure ? "order-1 md:order-2" : undefined}>{figure}</div>
 
         <div
           ref={bodyRef}
           id={`${id}-body`}
-          className={`m-collapse-body ${hasBody ? "" : "order-2 md:order-1"}`}
-          inert={isPhone && !expanded}
+          className={`${alwaysOpen ? "" : "m-collapse-body"} ${swapFigure ? "order-2 md:order-1" : ""}`}
+          inert={isPhone && !expanded && !alwaysOpen}
         >
           {hasBody ? children : lead}
         </div>
       </div>
 
-      <button
-        type="button"
-        onClick={toggle}
-        aria-expanded={expanded}
-        aria-controls={`${id}-body`}
-        className="mt-4 inline-flex min-h-[44px] items-center gap-2 rounded border border-border px-4 py-2.5 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground transition-transform active:scale-[0.97] md:hidden"
-      >
-        {expanded ? "Collapse" : "Read this chapter"}
-        <ChevronDown
-          aria-hidden
-          className={`h-3.5 w-3.5 transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}
-        />
-      </button>
+      {!alwaysOpen && (
+        <button
+          type="button"
+          onClick={toggle}
+          aria-expanded={expanded}
+          aria-controls={`${id}-body`}
+          className="mt-4 inline-flex min-h-[44px] items-center gap-2 rounded border border-border px-4 py-2.5 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground transition-transform active:scale-[0.97] md:hidden"
+        >
+          {expanded ? "Collapse" : "Read this chapter"}
+          <ChevronDown
+            aria-hidden
+            className={`h-3.5 w-3.5 transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}
+          />
+        </button>
+      )}
     </section>
   )
 }

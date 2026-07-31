@@ -3,7 +3,7 @@ import { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Portage: Autonomous Code-Migration Agent | Sohail Gidwani',
   description:
-    'LangGraph agent that migrates Flask apps to FastAPI end-to-end: it plans the target architecture (creating new modules, not just rewriting files), verifies in a network-off Docker sandbox, recovers under bounded budgets, and scores 61.9% strict green across 21 autonomous runs on seven pinned repositories at K=3.',
+    'LangGraph agent that migrates Flask apps to FastAPI end-to-end: it plans the target architecture (creating new modules, not just rewriting files), verifies in a network-off Docker sandbox, recovers under bounded budgets, and reports honestly. 10/10 on the K=5 development gates, 0/9 on a frozen held-out set of three unseen repositories, both published together.',
   keywords: ['Portage', 'autonomous agent', 'code migration', 'LangGraph', 'FastAPI', 'Flask', 'MCP', 'Docker sandbox', 'LLM evals', 'Sohail Gidwani', 'AI project'],
   authors: [{ name: 'Sohail Gidwani', url: 'https://sohailgidwani.app' }],
   alternates: {
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Portage: Autonomous Code-Migration Agent | Sohail Gidwani',
     description:
-      'Autonomous Flask → FastAPI migration agent: checkpointed, sandbox-verified, 61.9% strict green across 21 autonomous runs on seven pinned repositories at K=3.',
+      'Autonomous Flask → FastAPI migration agent: checkpointed, sandbox-verified, 10/10 on its K=5 development gates and 0/9 on a frozen held-out set, published side by side.',
     images: [
       '/api/og?title=Portage&description=Autonomous%20Flask%20%E2%86%92%20FastAPI%20migration%20agent%20%E2%80%94%20checkpointed%2C%20sandbox-verified%2C%20evaluated%20at%20K%3D3&type=project&tags=LangGraph,FastAPI,Postgres,Docker,MCP',
     ],

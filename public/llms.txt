@@ -27,7 +27,7 @@ Full-time AI Engineer, Machine Learning Engineer, LLM Engineer, Applied AI Engin
 - Built production RAG and chatbot systems at IIFL Finance (AskPandaAI; Certificate of Achievement from the CTO).
 - Built AI agent-builder infrastructure at Insaito using open-source LLMs and reusable OAuth/MCP foundations designed for a catalog of 100+ third-party apps.
 - Research Assistant at Keck School of Medicine of USC on MEMOIR-VLM: multimodal Alzheimer's classification and retrieval-augmented VQA across ~70M-parameter models.
-- Built Portage, an autonomous Flask → FastAPI migration agent that plans target architecture (creating new modules, not just rewriting files), with checkpoint-resume durability, network-off sandbox verification, and 61.9% strict green across 21 autonomous runs (7 pinned repos, K=3).
+- Built Portage, an autonomous Flask → FastAPI migration agent that plans target architecture (creating new modules, not just rewriting files), with checkpoint-resume durability, network-off sandbox verification, 10/10 green on its K=5 development gates, and a frozen held-out set of three unseen repositories that scored 0/9 and is published beside the development result.
 - Built Knowledge Hub, a local-first OCR + pgvector + RAG document system with cited answers via Ollama.
 
 ### Is Sohail available for hire?
@@ -57,7 +57,7 @@ Research Assistant at Keck School of Medicine of USC, working on multimodal deep
 
 ## Projects
 
-- [Portage](https://sohailgidwani.app/projects/portage): Autonomous code-migration agent (Flask → FastAPI): plans target architecture with artifact-producing plans, LangGraph + Postgres checkpointing, network-off Docker sandbox verification, bounded recovery, CLI + MCP interfaces, 61.9% strict green over 21 autonomous runs (7 pinned repos, K=3)
+- [Portage](https://sohailgidwani.app/projects/portage): Autonomous code-migration agent (Flask → FastAPI): plans target architecture with artifact-producing plans, LangGraph + Postgres checkpointing, network-off Docker sandbox verification, bounded recovery, CLI + MCP interfaces, 10/10 on the K=5 development gates and 0/9 on a frozen held-out set of unseen repositories
 - [Portage Technical Deep Dive](https://sohailgidwani.app/projects/portage/deep-dive): Architecture, graph nodes, durability, recovery, eval methodology, and the failure taxonomy
 - [Knowledge Hub](https://sohailgidwani.app/projects/knowledge-hub): Document management with OCR, semantic search (pgvector), and RAG Q&A via Ollama
 - [Knowledge Hub Technical Deep Dive](https://sohailgidwani.app/projects/knowledge-hub/deep-dive): OCR pipeline, full-text and semantic search, hybrid ranking, and the RAG layer

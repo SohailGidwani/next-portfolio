@@ -211,7 +211,9 @@ export default function PortageArchitecture() {
   }
 
   const W = 1140
-  const H = 470
+  // Tall enough for the MCP edge to run under the stack. It used to cut a
+  // diagonal straight through the worker box and collide with two labels.
+  const H = 496
   const markers = { normal: `${uid}-a`, accent: `${uid}-aA` }
 
   const pulse = paused ? {} : {
@@ -265,9 +267,11 @@ export default function PortageArchitecture() {
             <text x={620} y={381} textAnchor="middle" className="font-mono" style={{ fontSize: 9.5, fill: "var(--accent)" }}>checkpointed after every node</text>
           </motion.g>
 
-          {/* Sandbox + LLM */}
-          <Box x={890} y={60} w={225} h={92} title="Sandbox" sub="Docker · --network none" lines={["ephemeral per run", "pytest → JUnit report"]} accent />
-          <Box x={890} y={200} w={225} h={80} title="LiteLLM" sub="model ladder" lines={["driver → escalation tier"]} />
+          {/* Sandbox + LLM. LiteLLM is deliberately narrower than Sandbox: it
+              frees the gutter at x≈1095 that the MCP edge climbs to reach the
+              sandbox without crossing either box. */}
+          <Box x={880} y={60} w={235} h={92} title="Sandbox" sub="Docker · --network none" lines={["ephemeral per run", "pytest → JUnit report"]} accent />
+          <Box x={880} y={200} w={180} h={80} title="LiteLLM" sub="model ladder" lines={["driver → escalation tier"]} />
 
           {/* MCP */}
           <Box x={25} y={330} w={160} h={70} title="MCP host" sub="Claude Code · Cursor" />
@@ -279,10 +283,14 @@ export default function PortageArchitecture() {
           <Edge reduced={reduced} markers={markers} id={`${uid}-api-pg`} d={`M 430 141 L 501 141`} delay={0.25} packet={{ dur: 2, begin: 0.9 }} />
           <Edge reduced={reduced} markers={markers} id={`${uid}-pg-worker`} d={`M 580 200 L 580 292`} accent delay={0.4} packet={{ dur: 1.8, begin: 1.4 }} />
           <Edge reduced={reduced} markers={markers} id={`${uid}-worker-pg`} d={`M 660 292 L 660 204`} dashed opacity={0.8} delay={0.5} packet={{ dur: 1.8, begin: 2.0 }} />
-          <Edge reduced={reduced} markers={markers} id={`${uid}-worker-sb`} d={`M 735 316 Q 830 290, 886 140`} accent delay={0.6} packet={{ dur: 2, begin: 1.9 }} />
-          <Edge reduced={reduced} markers={markers} id={`${uid}-worker-llm`} d={`M 735 348 Q 820 340, 886 260`} delay={0.6} packet={{ dur: 2.2, begin: 2.3 }} />
+          {/* The two worker fan-out edges leave the box 30px apart and diverge
+              from there, so they never run parallel down the same corridor. */}
+          <Edge reduced={reduced} markers={markers} id={`${uid}-worker-sb`} d={`M 735 322 C 810 316, 830 190, 876 132`} accent delay={0.6} packet={{ dur: 2, begin: 1.9 }} />
+          <Edge reduced={reduced} markers={markers} id={`${uid}-worker-llm`} d={`M 735 352 Q 815 345, 876 245`} delay={0.6} packet={{ dur: 2.2, begin: 2.3 }} />
           <Edge reduced={reduced} markers={markers} id={`${uid}-mcphost-mcp`} d={`M 185 365 L 256 365`} delay={0.7} packet={{ dur: 2.2, begin: 2.6 }} />
-          <Edge reduced={reduced} markers={markers} id={`${uid}-mcp-sb`} d={`M 430 380 Q 850 440, 990 156`} dashed opacity={0.75} delay={0.8} packet={{ dur: 3, begin: 3.0 }} />
+          {/* Routed around the whole stack rather than through it, which is
+              also what it means: the MCP server needs no compose stack. */}
+          <Edge reduced={reduced} markers={markers} id={`${uid}-mcp-sb`} d={`M 345 416 L 345 448 Q 345 462, 359 462 L 1081 462 Q 1095 462, 1095 448 L 1095 158`} dashed opacity={0.75} delay={0.8} packet={{ dur: 3.4, begin: 3.0 }} />
 
           {/* edge labels */}
           <text x={222} y={78} textAnchor="middle" className="font-mono" style={{ fontSize: 9.5, fill: "var(--muted)", fontStyle: "italic" }}>REST</text>
@@ -292,10 +300,16 @@ export default function PortageArchitecture() {
           <text x={566} y={263} textAnchor="end" className="font-mono" style={{ fontSize: 9.5, fill: "var(--accent)", fontStyle: "italic" }}>SKIP LOCKED + lease</text>
           <text x={674} y={250} className="font-mono" style={{ fontSize: 9.5, fill: "var(--muted)", fontStyle: "italic" }}>checkpoint</text>
           <text x={674} y={263} className="font-mono" style={{ fontSize: 9.5, fill: "var(--muted)", fontStyle: "italic" }}>every node</text>
-          <text x={836} y={216} textAnchor="middle" className="font-mono" style={{ fontSize: 9.5, fill: "var(--accent)", fontStyle: "italic" }}>verify</text>
-          <text x={822} y={330} textAnchor="middle" className="font-mono" style={{ fontSize: 9.5, fill: "var(--muted)", fontStyle: "italic" }}>per-file rewrite</text>
+          {/* Each label sits in the empty corridor beside its own edge: verify
+              above its curve, rewrite below its own, and the MCP caption above
+              the long bottom run it describes. */}
+          {/* Both curves are steep, so a horizontal label set near one always
+              crosses it. Each sits in the open wedge beside its own edge
+              instead: verify above its curve, rewrite below its own. */}
+          <text x={770} y={272} textAnchor="middle" className="font-mono" style={{ fontSize: 9.5, fill: "var(--accent)", fontStyle: "italic" }}>verify</text>
+          <text x={812} y={374} textAnchor="middle" className="font-mono" style={{ fontSize: 9.5, fill: "var(--muted)", fontStyle: "italic" }}>per-file rewrite</text>
           <text x={222} y={352} textAnchor="middle" className="font-mono" style={{ fontSize: 9.5, fill: "var(--muted)", fontStyle: "italic" }}>stdio</text>
-          <text x={640} y={442} textAnchor="middle" className="font-mono" style={{ fontSize: 9.5, fill: "var(--muted)", fontStyle: "italic" }}>same verified primitives; compose stack not required</text>
+          <text x={700} y={444} textAnchor="middle" className="font-mono" style={{ fontSize: 9.5, fill: "var(--muted)", fontStyle: "italic" }}>same verified primitives; compose stack not required</text>
         </svg>
       </div>
       <p className="mt-4 text-xs leading-relaxed text-muted-foreground">

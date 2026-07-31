@@ -124,7 +124,7 @@
       "name": "Portage",
       "description": "Autonomous code-migration agent (Flask → FastAPI): plans the target architecture (creating new modules, not just rewriting files), verifies in a network-off Docker sandbox, recovers under bounded budgets, and reports honestly. CLI + MCP interfaces over one engine.",
       "highlights": [
-        "61.9% strict green across 21 fully autonomous runs (7 pinned repos, K=3), up from 28.6% two grids earlier; oracle integrity 1.0 on every report-bearing run",
+        "10/10 green on the Flaskr + Watchlist K=5 reliability gates and 6/7 on a fresh full-corpus sweep; a frozen held-out set of three unseen repositories scored 0/9, published beside the development gates rather than behind them",
         "Artifact-producing plans: a bounded architect call proposes new target-architecture modules, a deterministic contract compiler completes them, and frozen contracts bind every retry and resume",
         "LangGraph agent checkpointed to Postgres after every node; kill the worker mid-run and it resumes; job queue via FOR UPDATE SKIP LOCKED with heartbeat lease",
         "MCP tools (verify_patch_in_sandbox, repo_graph, blast_radius) for co-pilot agents like Claude Code and Cursor"
