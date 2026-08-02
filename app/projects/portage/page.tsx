@@ -117,7 +117,7 @@ const tocItems = [
 
 export default function PortagePage() {
   const project = {
-    title: "Portage - Autonomous Code-Migration Agent",
+    title: "Portage: Autonomous Code-Migration Agent",
     description:
       "Give it a Flask repo and a recipe; it plans the target architecture, rewrites existing files and creates the new modules the migration requires, verifies against the repo's own tests in a network-off Docker sandbox, recovers from failures under bounded budgets, and reports honestly, including when it fails.",
     why: `Most "AI migration" demos are single-shot prompts with no verification story. Portage is built around the opposite claim: a migration is only real if the repo's own tests still pass, every planned file was actually migrated, and recovery cannot game the score by giving up.
