@@ -6,6 +6,18 @@ import ProjectNav from "@/app/components/ProjectNav"
 import ProjectDetailStructuredData from "@/app/components/ProjectDetailStructuredData"
 import ProjectActions from "@/app/projects/components/ProjectActions"
 import ProjectSectionLabel from "@/app/projects/components/ProjectSectionLabel"
+import SectionTOC from "@/app/components/SectionTOC"
+import MobileChapterNav from "@/app/components/MobileChapterNav"
+
+const tocItems = [
+  { id: "section-01", n: "01", label: "Preview" },
+  { id: "section-02", n: "02", label: "Why I Built It" },
+  { id: "section-03", n: "03", label: "How It Works" },
+  { id: "section-04", n: "04", label: "Decoder Comparison" },
+  { id: "section-05", n: "05", label: "Key Features" },
+  { id: "section-06", n: "06", label: "Technical Stack" },
+  { id: "section-07", n: "07", label: "Friction & Takeaways" },
+]
 
 export default function ImageCaptioningPage() {
   const project = {
@@ -85,6 +97,9 @@ The hardest part was honestly the training pipeline. VGG-16 is memory-hungry, th
       />
       <div className="min-h-screen overflow-x-clip bg-background text-foreground">
           <ProjectNav />
+          {/* Chapter wayfinding: the rail above 1200px, the pill below it. */}
+          <SectionTOC items={tocItems} />
+          <MobileChapterNav items={tocItems} />
 
           {/* Header */}
           <div className="border-b border-border bg-card/40 py-16 sm:py-20">
@@ -141,7 +156,7 @@ The hardest part was honestly the training pipeline. VGG-16 is memory-hungry, th
 
                 {/* 01 — Preview */}
                 <section>
-                  <ProjectSectionLabel n="01" label="Preview" />
+                  <ProjectSectionLabel n="01" label="Preview" id="section-01" />
                   <div className="relative aspect-video overflow-hidden rounded border border-border">
                     <Image
                       src={project.image}
@@ -156,7 +171,7 @@ The hardest part was honestly the training pipeline. VGG-16 is memory-hungry, th
 
                 {/* 02 — Why I Built It */}
                 <section>
-                  <ProjectSectionLabel n="02" label="Why I Built It" />
+                  <ProjectSectionLabel n="02" label="Why I Built It" id="section-02" />
                   <p className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
                     {project.why}
                   </p>
@@ -164,7 +179,7 @@ The hardest part was honestly the training pipeline. VGG-16 is memory-hungry, th
 
                 {/* 03 — How It Works */}
                 <section>
-                  <ProjectSectionLabel n="03" label="How It Works" />
+                  <ProjectSectionLabel n="03" label="How It Works" id="section-03" />
                   <p className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
                     {project.how}
                   </p>
@@ -172,7 +187,7 @@ The hardest part was honestly the training pipeline. VGG-16 is memory-hungry, th
 
                 {/* 04 — Results */}
                 <section>
-                  <ProjectSectionLabel n="04" label="Decoder Comparison" />
+                  <ProjectSectionLabel n="04" label="Decoder Comparison" id="section-04" />
                   <p className="mb-5 text-base leading-relaxed text-muted-foreground">
                     {project.results}
                   </p>
@@ -194,7 +209,7 @@ The hardest part was honestly the training pipeline. VGG-16 is memory-hungry, th
 
                 {/* 05 — Key Features */}
                 <section>
-                  <ProjectSectionLabel n="05" label="Key Features" />
+                  <ProjectSectionLabel n="05" label="Key Features" id="section-05" />
                   <div className="grid gap-4 sm:grid-cols-2">
                     {project.features.map((feature, index) => (
                       <div
@@ -215,7 +230,7 @@ The hardest part was honestly the training pipeline. VGG-16 is memory-hungry, th
 
                 {/* 06 — Technical Stack */}
                 <section>
-                  <ProjectSectionLabel n="06" label="Technical Stack" />
+                  <ProjectSectionLabel n="06" label="Technical Stack" id="section-06" />
                   <div className="overflow-hidden rounded border border-border bg-card">
                     <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
                       <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
@@ -238,7 +253,7 @@ The hardest part was honestly the training pipeline. VGG-16 is memory-hungry, th
 
                 {/* 07 — Friction & Takeaways */}
                 <section>
-                  <ProjectSectionLabel n="07" label="Friction & Takeaways" />
+                  <ProjectSectionLabel n="07" label="Friction & Takeaways" id="section-07" />
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div className="rounded border border-border bg-card p-5">
                       <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">

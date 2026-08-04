@@ -12,6 +12,19 @@ import ProjectDetailStructuredData from "@/app/components/ProjectDetailStructure
 import ProjectImageLightbox, { ProjectImageTrigger } from "@/app/components/ProjectImageLightbox"
 import ProjectActions from "@/app/projects/components/ProjectActions"
 import ProjectSectionLabel from "@/app/projects/components/ProjectSectionLabel"
+import SectionTOC from "@/app/components/SectionTOC"
+import MobileChapterNav from "@/app/components/MobileChapterNav"
+
+const tocItems = [
+  { id: "section-01", n: "01", label: "System Overview" },
+  { id: "section-02", n: "02", label: "Why I Built It" },
+  { id: "section-03", n: "03", label: "How It Works" },
+  { id: "section-04", n: "04", label: "Upload & Processing" },
+  { id: "section-05", n: "05", label: "AI Question Answering" },
+  { id: "section-06", n: "06", label: "Key Features" },
+  { id: "section-07", n: "07", label: "Technical Stack" },
+  { id: "section-08", n: "08", label: "Friction & Takeaways" },
+]
 
 export default function KnowledgeHubPage() {
   const project = {
@@ -113,6 +126,9 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
       <ProjectImageLightbox images={allImages}>
         <div className="min-h-screen overflow-x-clip bg-background text-foreground">
           <ProjectNav />
+          {/* Chapter wayfinding: the rail above 1200px, the pill below it. */}
+          <SectionTOC items={tocItems} />
+          <MobileChapterNav items={tocItems} />
 
           {/* Header */}
           <div className="border-b border-border bg-card/40 py-16 sm:py-20">
@@ -173,7 +189,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
 
                 {/* 01 — System Overview */}
                 <section>
-                  <ProjectSectionLabel n="01" label="System Overview" />
+                  <ProjectSectionLabel n="01" label="System Overview" id="section-01" />
                   <ProjectImageTrigger
                     index={0}
                     label={`Expand ${project.images.howItWorks.alt}`}
@@ -197,7 +213,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
 
                 {/* 02 — Why I Built It */}
                 <section>
-                  <ProjectSectionLabel n="02" label="Why I Built It" />
+                  <ProjectSectionLabel n="02" label="Why I Built It" id="section-02" />
                   <p className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
                     {project.why}
                   </p>
@@ -205,7 +221,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
 
                 {/* 03 — How It Works */}
                 <section>
-                  <ProjectSectionLabel n="03" label="How It Works" />
+                  <ProjectSectionLabel n="03" label="How It Works" id="section-03" />
                   <p className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
                     {project.how}
                   </p>
@@ -213,7 +229,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
 
                 {/* 04 — Upload & Processing */}
                 <section>
-                  <ProjectSectionLabel n="04" label="Upload & Processing" />
+                  <ProjectSectionLabel n="04" label="Upload & Processing" id="section-04" />
                   <div className="grid gap-4 sm:grid-cols-2">
                     {project.images.upload.map((image, index) => (
                       <ProjectImageTrigger
@@ -236,7 +252,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
 
                 {/* 05 — AI Question Answering */}
                 <section>
-                  <ProjectSectionLabel n="05" label="AI Question Answering" />
+                  <ProjectSectionLabel n="05" label="AI Question Answering" id="section-05" />
                   <div className="grid gap-4 sm:grid-cols-2">
                     {project.images.llmResponses.map((image, index) => (
                       <ProjectImageTrigger
@@ -259,7 +275,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
 
                 {/* 06 — Key Features */}
                 <section>
-                  <ProjectSectionLabel n="06" label="Key Features" />
+                  <ProjectSectionLabel n="06" label="Key Features" id="section-06" />
                   <div className="grid gap-4 sm:grid-cols-2">
                     {project.features.map((feature, index) => (
                       <div
@@ -280,7 +296,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
 
                 {/* 07 — Technical Stack */}
                 <section>
-                  <ProjectSectionLabel n="07" label="Technical Stack" />
+                  <ProjectSectionLabel n="07" label="Technical Stack" id="section-07" />
                   <div className="overflow-hidden rounded border border-border bg-card">
                     <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
                       <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
@@ -303,7 +319,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
 
                 {/* 08 — Friction & Takeaways */}
                 <section>
-                  <ProjectSectionLabel n="08" label="Friction & Takeaways" />
+                  <ProjectSectionLabel n="08" label="Friction & Takeaways" id="section-08" />
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div className="rounded border border-border bg-card p-5">
                       <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
