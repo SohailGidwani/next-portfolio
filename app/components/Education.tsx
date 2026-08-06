@@ -17,7 +17,7 @@ interface EducationItem {
 
 const education: EducationItem[] = [
   {
-    degree: "M.S in Computer Science",
+    degree: "M.S. in Computer Science",
     institution: "University of Southern California",
     year: "Aug 2025 - May 2027",
     cgpa: "GPA - 3.75 / 4.0",

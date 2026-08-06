@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { Badge } from "@/app/components/ui/badge"
@@ -8,6 +7,7 @@ import { ArrowUpRight, ExternalLink, Github } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
 import SectionHeading from "./SectionHeading"
 import CardDeck from "./CardDeck"
+import ProjectGlyph from "./ProjectGlyph"
 import { useSkillHighlight } from "./SkillHighlightProvider"
 import InteractiveCard from "./ui/InteractiveCard"
 import { projects } from "@/app/data/projects"
@@ -62,21 +62,12 @@ export default function Projects() {
                   <Link href={`/projects/${primary.id}`} className="absolute inset-0 z-0 rounded" aria-label={primary.title}>
                     <span className="sr-only">View {primary.title}</span>
                   </Link>
-                  {/* pointer-events-none so the cover is part of the card's
-                      click target: this wrapper is positioned and comes after
-                      the full-card link in DOM order, so it would otherwise
-                      paint above the link and swallow the click. */}
-                  <div className="pointer-events-none relative mb-5 h-40 w-full overflow-hidden rounded border border-border sm:mb-6 sm:h-64">
-                    <Image
-                      src={primary.image}
-                      alt={primary.title}
-                      fill
-                      placeholder="blur"
-                      className="object-cover object-top"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1080px) 90vw, 1080px"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
-                  </div>
+                  {/* pointer-events-none so the schematic is part of the
+                      card's click target rather than swallowing it. */}
+                  <ProjectGlyph
+                    id={primary.id}
+                    className="pointer-events-none mb-5 sm:mb-6"
+                  />
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <h3 data-vt-title className="font-display text-2xl text-foreground">{primary.title}</h3>
@@ -108,7 +99,7 @@ export default function Projects() {
                       </a>
                     </div>
                   </div>
-                  <p className="mt-4 font-mono text-[11px] leading-relaxed text-accent">
+                  <p className="mt-4 text-pretty font-mono text-[11px] leading-relaxed text-accent">
                     {primary.outcome}
                   </p>
                   {/* The short description and outcome already carry the card on
@@ -163,25 +154,19 @@ export default function Projects() {
                       <Link href={`/projects/${project.id}`} className="absolute inset-0 z-0 rounded" aria-label={project.title}>
                         <span className="sr-only">View {project.title}</span>
                       </Link>
-                      {/* Cover art on phones only: a deck card is tall enough
-                          that text alone leaves it looking empty, while the
-                          desktop grid stays text-led as designed. */}
-                      <div className="pointer-events-none relative mb-5 h-40 w-full overflow-hidden rounded border border-border sm:hidden">
-                        <Image
-                          src={project.image}
-                          alt=""
-                          fill
-                          placeholder="blur"
-                          className="object-cover object-top"
-                          sizes="80vw"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent" />
-                      </div>
+                      {/* Top of the card, matching the featured one above and
+                          the /projects grid: the schematic is the hook, so
+                          every card leads with it. */}
+                      <ProjectGlyph id={project.id} className="pointer-events-none mb-5" />
+
                       <div className="flex items-start justify-between gap-4">
                         <div>
                           <h4 data-vt-title className="font-display text-xl text-foreground">{project.title}</h4>
                           <p className="mt-2 text-sm text-muted-foreground">{project.shortDescription}</p>
-                          <p className="mt-3 font-mono text-[11px] leading-relaxed text-accent">
+                          {/* text-pretty: these lines are long enough to wrap,
+                              and mono at 11px makes a one-word last line
+                              obvious. */}
+                          <p className="mt-3 text-pretty font-mono text-[11px] leading-relaxed text-accent">
                             {project.outcome}
                           </p>
                         </div>

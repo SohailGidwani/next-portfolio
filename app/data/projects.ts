@@ -13,6 +13,7 @@ export interface ProjectData {
   shortDescription: string
   description: string
   outcome: string
+  /** Hero art on the project's own detail page. Cards use ProjectGlyph. */
   image: StaticImageData
   tags: string[]
   github: string
@@ -29,7 +30,7 @@ export const projects: ProjectData[] = [
     kind: "Agentic AI",
     shortDescription: "An autonomous agent that migrates Flask apps to FastAPI and proves it with the repo's own tests.",
     description:
-      "LangGraph agent that plans the target architecture (creating new modules, not just rewriting files), verifies in a network-off Docker sandbox, and recovers from failures under bounded budgets. Checkpointed to Postgres, so you can kill the worker mid-run and it resumes. 10/10 on its K=5 development gates; a frozen held-out set of three unseen repos scored 0/9, and both are published together.",
+      "LangGraph agent that plans the target architecture (creating new modules, not just rewriting files), verifies in a network-off Docker sandbox, and recovers from failures under bounded budgets. Checkpointed to Postgres, so you can kill the worker mid-run and it resumes.",
     outcome: "10/10 on K=5 dev gates · 0/9 on a frozen held-out set · published side by side",
     image: portage,
     tags: ["LangGraph", "FastAPI", "Postgres", "Docker", "MCP", "Agents"],

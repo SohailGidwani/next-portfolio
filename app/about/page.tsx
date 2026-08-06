@@ -49,7 +49,11 @@ export default function AboutPage() {
               <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-accent">
                 About
               </p>
-              <h1 className="mt-4 font-display text-3xl leading-tight text-foreground sm:text-4xl lg:text-5xl">
+              {/* text-balance: measured line widths go from 464/486/185/513
+                  (spread 328, with "plain" orphaned) to 464/319/351/513
+                  (spread 194). Every max-width tried was worse or added a
+                  fifth line. */}
+              <h1 className="mt-4 text-balance font-display text-3xl leading-tight text-foreground sm:text-4xl lg:text-5xl">
                 I like difficult systems and plain explanations.
               </h1>
               <div className="mt-7 space-y-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
@@ -115,6 +119,12 @@ export default function AboutPage() {
                     sizes="(max-width: 1024px) 340px, 340px"
                     className="object-cover object-[50%_18%] [filter:sepia(0.12)_saturate(1.06)] transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:scale-[1.03]"
                   />
+                  {/* The studio backdrop is a light grey gradient, which reads
+                      as a sticker on a near-black page. A cutout is not an
+                      option (the vignette runs 72,71,77 to 11,14,23, so keying
+                      it would eat hair and shoulders), so the edges are graded
+                      into the page instead and the frame does the rest. */}
+                  <div aria-hidden className="portrait-vignette pointer-events-none absolute inset-0" />
                 </div>
               </div>
               <figcaption className="mt-4">

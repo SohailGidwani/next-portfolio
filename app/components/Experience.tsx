@@ -317,7 +317,10 @@ export default function Experience() {
                     whileInView={{ opacity: 1 }}
                     transition={{ duration: 0.4, delay: index * 0.08 }}
                     viewport={{ once: true }}
-                    className={`group cursor-pointer rounded border bg-card/80 p-5 transition hover:border-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background ${
+                    /* Flex column so the tag/link footer can be pushed to the
+                       bottom: side-by-side cards have different description
+                       lengths, which otherwise leaves their footers unaligned. */
+                    className={`group flex h-full cursor-pointer flex-col rounded border bg-card/80 p-5 transition hover:border-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background ${
                       isHighlighted ? "border-accent/40 bg-accent/5" : "border-border"
                     }`}
                   >
@@ -351,7 +354,7 @@ export default function Experience() {
 
                     <p className="mt-2.5 line-clamp-3 text-sm text-muted-foreground">{item.description}</p>
 
-                    <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                    <div className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-1.5 pt-3">
                       <div className="flex flex-wrap gap-1.5">
                         {item.tags.map((tag) => {
                           const isTagHighlighted = normalizedSkill

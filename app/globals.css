@@ -686,6 +686,27 @@
     animation: portrait-caption-in 0.35s var(--ease-out-soft) 0.85s both;
   }
 
+  /* Grades the studio backdrop into the page so the print sits on the page
+     rather than on top of it. Shared by /about and the homepage portrait.
+     Two layers: a corner-weighted radial that kills the bright grey at the
+     edges, and a bottom-up wash that carries the shoulders into the caption
+     rule. The subject stays untouched in the middle. */
+  /* Deliberately the DARK background in both themes, not var(--bg): grading a
+     photo toward white washes the subject out and reads far heavier than the
+     same treatment in dark mode. A dark edge burn is what a printed plate
+     does, and it works on a light page too. */
+  .portrait-vignette {
+    --portrait-burn: 15 15 14;
+    background:
+      radial-gradient(
+        104% 76% at 50% 30%,
+        transparent 30%,
+        rgb(var(--portrait-burn) / 0.4) 68%,
+        rgb(var(--portrait-burn) / 0.78) 100%
+      ),
+      linear-gradient(to top, rgb(var(--portrait-burn) / 0.62), transparent 46%);
+  }
+
   /* Hero entrance: pure CSS so above-the-fold content paints before JS
      hydrates. Framer-motion entrances SSR at opacity 0 and hold the LCP
      hostage on slow connections; these run as soon as HTML+CSS arrive. */
@@ -855,6 +876,288 @@
     /* Card stops short of full width so both neighbours stay visible. */
     flex: 0 0 var(--deck-card);
     min-width: 0;
+  }
+}
+
+/* Live project schematics (ProjectGlyph).
+
+   Stage-based rather than a dot on a wire: a 2.5px dot is invisible at card
+   size, so a box LIGHTS UP as work reaches it and the wire between boxes
+   carries a bright charge. The pipeline reads as running from across the room.
+
+   Phasing comes from two inherited custom properties set per stage in the
+   component: --cycle is one loop length for the whole diagram, --phase is a
+   negative delay that offsets each stage into its slot. Every rule below
+   reads those, so no rule needs to know the sequence it belongs to.
+
+   All of it is gated on [data-live="true"], which the component sets from an
+   IntersectionObserver, and being plain CSS animation it is already stopped by
+   the global prefers-reduced-motion block at the end of this file. */
+.glyph-stage rect,
+.glyph-stage circle,
+.glyph-stage line {
+  transition: none;
+}
+
+[data-live="true"] .glyph-stage rect,
+[data-live="true"] .glyph-stage > circle,
+[data-live="true"] .glyph-stage > line {
+  animation: glyph-light var(--cycle, 6s) var(--phase, 0s) ease-out infinite;
+}
+
+[data-live="true"] .glyph-stage text {
+  animation: glyph-light-text var(--cycle, 6s) var(--phase, 0s) ease-out infinite;
+}
+
+/* Idle is dim; the box brightens and lifts as work lands, then settles back.
+   Only 14% of the cycle is spent lit, which is what makes the sequence read
+   as a travelling pulse rather than everything breathing at once. */
+@keyframes glyph-light {
+  0%,
+  100% {
+    stroke-opacity: 0.5;
+    fill-opacity: 1;
+  }
+  4% {
+    stroke-opacity: 1;
+    stroke-width: 1.6;
+  }
+  14% {
+    stroke-opacity: 1;
+  }
+  30% {
+    stroke-opacity: 0.5;
+    stroke-width: 1;
+  }
+}
+
+@keyframes glyph-light-text {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  4%,
+  14% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0.55;
+  }
+}
+
+/* A failed verification: the box flashes rather than glowing, then goes out. */
+[data-live="true"] .glyph-stage--fail rect {
+  animation: glyph-fail var(--cycle, 6s) var(--phase, 0s) ease-out infinite;
+}
+
+@keyframes glyph-fail {
+  0%,
+  100% {
+    stroke: var(--border);
+    stroke-opacity: 0.5;
+  }
+  3% {
+    stroke: var(--accent);
+    stroke-opacity: 1;
+    stroke-width: 1.8;
+  }
+  8% {
+    stroke-opacity: 0.35;
+  }
+  13% {
+    stroke: var(--accent);
+    stroke-opacity: 1;
+  }
+  26% {
+    stroke: var(--border);
+    stroke-opacity: 0.5;
+    stroke-width: 1;
+  }
+}
+
+/* A box that does its work twice in one cycle: Portage's agent plans, then
+   repairs after the failed verification. Two beats on one element, because
+   drawing a second copy at the same coordinates stacks the rects and reads as
+   permanently lit. */
+[data-live="true"] .glyph-stage--twice rect {
+  animation: glyph-twice var(--cycle, 6s) var(--phase, 0s) ease-out infinite;
+}
+
+[data-live="true"] .glyph-stage--twice text {
+  animation: glyph-twice-text var(--cycle, 6s) var(--phase, 0s) ease-out infinite;
+}
+
+@keyframes glyph-twice {
+  0%,
+  100% {
+    stroke-opacity: 0.5;
+    stroke-width: 1;
+  }
+  3% {
+    stroke-opacity: 1;
+    stroke-width: 1.6;
+  }
+  11% {
+    stroke-opacity: 1;
+  }
+  22% {
+    stroke-opacity: 0.5;
+    stroke-width: 1;
+  }
+  /* Second beat: the repair pass, after recovery hands work back. */
+  43% {
+    stroke-opacity: 1;
+    stroke-width: 1.6;
+  }
+  52% {
+    stroke-opacity: 1;
+  }
+  64% {
+    stroke-opacity: 0.5;
+    stroke-width: 1;
+  }
+}
+
+@keyframes glyph-twice-text {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  3%,
+  11% {
+    opacity: 1;
+  }
+  22% {
+    opacity: 0.55;
+  }
+  43%,
+  52% {
+    opacity: 1;
+  }
+  64% {
+    opacity: 0.55;
+  }
+}
+
+/* Verification, twice: red on the first pass, green on the retry. The stroke
+   colour carries the verdict, which is the whole story of the project. */
+[data-live="true"] .glyph-stage--verify rect {
+  animation: glyph-verify var(--cycle, 6s) var(--phase, 0s) ease-out infinite;
+}
+
+[data-live="true"] .glyph-stage--verify text {
+  animation: glyph-twice-text var(--cycle, 6s) var(--phase, 0s) ease-out infinite;
+}
+
+@keyframes glyph-verify {
+  0%,
+  100% {
+    stroke: var(--border);
+    stroke-opacity: 0.5;
+    stroke-width: 1;
+    fill: var(--card);
+  }
+  /* Fails: flashes, does not settle. */
+  3% {
+    stroke: var(--destructive);
+    stroke-opacity: 1;
+    stroke-width: 1.8;
+  }
+  8% {
+    stroke-opacity: 0.4;
+  }
+  13% {
+    stroke: var(--destructive);
+    stroke-opacity: 1;
+  }
+  24% {
+    stroke: var(--border);
+    stroke-opacity: 0.5;
+    stroke-width: 1;
+  }
+  /* Passes: settles into the accent and holds. */
+  43% {
+    stroke: var(--accent);
+    stroke-opacity: 1;
+    stroke-width: 1.6;
+    fill: color-mix(in srgb, var(--accent) 18%, var(--card));
+  }
+  56% {
+    stroke: var(--accent);
+    stroke-opacity: 1;
+    fill: color-mix(in srgb, var(--accent) 18%, var(--card));
+  }
+  70% {
+    stroke: var(--border);
+    stroke-opacity: 0.5;
+    stroke-width: 1;
+    fill: var(--card);
+  }
+}
+
+/* The result landing: fills in, holds, and releases. */
+[data-live="true"] .glyph-stage--pass rect,
+[data-live="true"] .glyph-stage--pass > circle {
+  animation: glyph-pass var(--cycle, 6s) var(--phase, 0s) ease-out infinite;
+}
+
+@keyframes glyph-pass {
+  0%,
+  100% {
+    fill: var(--card);
+    stroke-opacity: 0.5;
+  }
+  5% {
+    fill: color-mix(in srgb, var(--accent) 26%, var(--card));
+    stroke-opacity: 1;
+    stroke-width: 1.6;
+  }
+  24% {
+    fill: color-mix(in srgb, var(--accent) 26%, var(--card));
+    stroke-opacity: 1;
+  }
+  40% {
+    fill: var(--card);
+    stroke-opacity: 0.5;
+    stroke-width: 1;
+  }
+}
+
+/* The charge crossing a wire. pathLength=100 in the markup normalises these
+   dash units, so one length looks the same on a short hop and a long curve. */
+.glyph-charge {
+  stroke: var(--muted);
+  stroke-dasharray: 22 100;
+  stroke-dashoffset: 22;
+  opacity: 0;
+}
+
+.glyph-charge--accent {
+  stroke: var(--accent);
+}
+
+[data-live="true"] .glyph-charge {
+  animation: glyph-charge var(--cycle, 6s) var(--phase, 0s) ease-in-out infinite;
+}
+
+@keyframes glyph-charge {
+  0% {
+    stroke-dashoffset: 22;
+    opacity: 0;
+  }
+  3% {
+    opacity: 1;
+  }
+  13% {
+    opacity: 1;
+  }
+  16% {
+    stroke-dashoffset: -100;
+    opacity: 0;
+  }
+  100% {
+    stroke-dashoffset: -100;
+    opacity: 0;
   }
 }
 

@@ -7,7 +7,8 @@ import { Dialog, DialogContent, DialogTitle, DialogDescription } from "./ui/dial
 import { useMediaQuery } from "@/app/hooks/useMediaQuery"
 import { useSheetDrag } from "@/app/hooks/useSheetDrag"
 import { triggerHaptic } from "./ui/haptics"
-import type { TocItem } from "./SectionTOC"
+import { smoothScrollToId } from "@/app/utils/smoothScroll"
+import { HEADING_OFFSET, type TocItem } from "./SectionTOC"
 
 /** Fired when a chapter is picked, so a collapsed MobileSection can open itself. */
 export const CHAPTER_OPEN_EVENT = "chapter:open"
@@ -81,11 +82,11 @@ export default function MobileChapterNav({ items }: { items: TocItem[] }) {
     // Ask the chapter to open before scrolling, so the target is already at
     // its full height when the scroll lands.
     window.dispatchEvent(new CustomEvent(CHAPTER_OPEN_EVENT, { detail: id }))
+    // smoothScrollTo rather than scrollIntoView, so a chapter jump is paced
+    // by distance and killed under reduced motion like every other scroll
+    // on the site. It reads the preference itself, so no ternary here.
     requestAnimationFrame(() => {
-      document.getElementById(id)?.scrollIntoView({
-        behavior: reduced ? "auto" : "smooth",
-        block: "start",
-      })
+      smoothScrollToId(id, { offset: HEADING_OFFSET })
     })
   }
 
