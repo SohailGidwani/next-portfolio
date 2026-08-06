@@ -98,6 +98,9 @@ export default function AboutPortrait() {
               className="object-cover object-[50%_18%] [filter:sepia(0.12)_saturate(1.06)] transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:scale-[1.03]"
               priority={false}
             />
+            {/* Same grading as /about: the light studio backdrop is carried
+                into the page so the print does not read as a pasted sticker. */}
+            <div aria-hidden className="portrait-vignette pointer-events-none absolute inset-0" />
           </motion.div>
         </div>
 

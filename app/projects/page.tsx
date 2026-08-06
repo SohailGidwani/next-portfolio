@@ -1,8 +1,8 @@
 import { Badge } from "@/app/components/ui/badge"
 import { ArrowUpRight, Github } from "lucide-react"
 import Link from "next/link"
-import Image from "next/image"
 import ProjectNav from "@/app/components/ProjectNav"
+import ProjectGlyph from "@/app/components/ProjectGlyph"
 import BreadcrumbStructuredData from "@/app/components/BreadcrumbStructuredData"
 import InteractiveCard from "@/app/components/ui/InteractiveCard"
 import { projects } from "@/app/data/projects"
@@ -42,23 +42,14 @@ export default function ProjectsPage() {
                 >
                   <span className="sr-only">View {project.title}</span>
                 </Link>
-                <div className="relative h-40 w-full overflow-hidden rounded">
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    placeholder="blur"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    sizes="(max-width: 1024px) 100vw, 33vw"
-                  />
-                </div>
+                <ProjectGlyph id={project.id} />
                 <div className="mt-4 flex-1 space-y-2">
                   <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-accent">
                     {project.kind}
                   </p>
                   <h2 data-vt-title className="font-display text-xl text-foreground">{project.title}</h2>
                   <p className="text-sm text-muted-foreground">{project.shortDescription}</p>
-                  <p className="font-mono text-[11px] leading-relaxed text-muted-foreground">
+                  <p className="text-pretty font-mono text-[11px] leading-relaxed text-muted-foreground">
                     {project.outcome}
                   </p>
                 </div>

@@ -1,6 +1,10 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { smoothScrollToId } from "@/app/utils/smoothScroll"
+
+/** Matches the `scroll-mt-24` on every section heading this rail targets. */
+export const HEADING_OFFSET = 96
 
 export type TocItem = {
   id: string
@@ -37,8 +41,13 @@ export default function SectionTOC({ items }: { items: TocItem[] }) {
     return () => observer.disconnect()
   }, [items])
 
+  // Not scrollIntoView: the browser's smooth behaviour ignores
+  // prefers-reduced-motion (measured: it still animated 117 frames under
+  // reduce) and paces every jump the same regardless of distance.
+  // smoothScrollTo teleports for reduced motion and is distance-proportional,
+  // which is what the navbar, hero, and command palette already do.
   const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" })
+    smoothScrollToId(id, { offset: HEADING_OFFSET })
   }
 
   return (
@@ -57,6 +66,7 @@ export default function SectionTOC({ items }: { items: TocItem[] }) {
               <button
                 type="button"
                 onClick={() => scrollTo(item.id)}
+                aria-current={isActive ? "true" : undefined}
                 className={`-ml-px flex w-full items-baseline gap-2 border-l py-0.5 pl-4 text-left font-mono text-xs uppercase tracking-[0.12em] transition-colors ${
                   isActive
                     ? "border-accent text-foreground"
