@@ -107,10 +107,23 @@ describe("motion system", () => {
     expect(lightbox).toContain("dragging")
   })
 
-  it("theme view-transition overrides are scoped, not global", () => {
+  it("the theme toggle runs no view transition, only a colour crossfade", () => {
+    // Previously the toggle drove a circular clip-path reveal over a
+    // whole-page snapshot, and this test pinned those overrides to
+    // [data-theme-vt] so they could not collide with route transitions. The
+    // reveal was removed by request; the guarantee is now stronger, so assert
+    // the mechanism is gone rather than merely scoped.
+    const toggle = read("app/components/ThemeToggle.tsx")
+    expect(toggle).not.toContain("startViewTransition")
+    expect(toggle).not.toContain("clipPath")
+    expect(toggle).toContain("theme-fade")
+
     const css = read("app/globals.css")
-    expect(css).not.toMatch(/^::view-transition-old\(root\),/m)
-    expect(css).toContain(":root[data-theme-vt]::view-transition-old(root)")
+    expect(css).not.toContain("data-theme-vt")
+    // The crossfade must stay colour-only: `all` here would animate layout on
+    // every element at exactly the moment the whole page restyles.
+    expect(css).toMatch(/\.theme-fade[\s\S]{0,400}transition-property:\s*background-color/)
+    expect(css).not.toMatch(/\.theme-fade[\s\S]{0,400}transition-property:\s*all/)
   })
 
   it("route transitions can only be started by a click, never on load", () => {

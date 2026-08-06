@@ -2,8 +2,7 @@
 
 import { useTheme } from "next-themes"
 import { Moon, Sun } from "lucide-react"
-import { useEffect, useState, type MouseEvent } from "react"
-import { flushSync } from "react-dom"
+import { useEffect, useRef, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { triggerHaptic } from "./ui/haptics"
 
@@ -11,104 +10,42 @@ type ThemeToggleProps = {
   variant?: "icon" | "pill"
 }
 
-type DocumentWithViewTransition = Document & {
-  startViewTransition?: (callback: () => void) => {
-    ready: Promise<void>
-    finished: Promise<void>
-  }
-}
+/** Must match the transition-duration of .theme-fade in globals.css. */
+const THEME_FADE_MS = 220
 
 export default function ThemeToggle({ variant = "icon" }: ThemeToggleProps) {
   const { resolvedTheme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
+  const fadeTimer = useRef<number | undefined>(undefined)
 
   useEffect(() => {
     setMounted(true)
+    // Two toggles share one document, so a pending timer from an unmounted
+    // instance would otherwise strip the class mid-fade for the other.
+    return () => window.clearTimeout(fadeTimer.current)
   }, [])
 
   const isDark = resolvedTheme === "dark"
 
-  const toggleTheme = (event: MouseEvent<HTMLButtonElement>) => {
+  /**
+   * Switches the theme with a colour crossfade and nothing else.
+   *
+   * This used to run a circular clip-path reveal over a whole-page view
+   * transition snapshot. That is gone by request: a theme switch is a setting
+   * change, and animating the whole page for it drew attention to the
+   * mechanism rather than the result. A hard swap is the other extreme and
+   * reads as a flash, so the colours cross over 220ms instead. Nothing moves.
+   *
+   * The class is added for the length of the fade only. Leaving the transition
+   * on permanently would make every hover and state change inherit it.
+   */
+  const toggleTheme = () => {
     triggerHaptic()
-    const next = isDark ? "light" : "dark"
-
-    const doc = document as DocumentWithViewTransition
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    // Coarse pointers skip the whole-page snapshot (measured 880ms INP on
-    // phones); they get a cheap canvas crossfade instead.
-    const coarse = window.matchMedia("(pointer: coarse)").matches
-    if (!doc.startViewTransition || reduce || coarse) {
-      if (coarse && !reduce) {
-        const root = document.documentElement
-        root.classList.add("theme-fade")
-        window.setTimeout(() => root.classList.remove("theme-fade"), 250)
-      }
-      setTheme(next)
-      return
-    }
-
-    // Circle anchored at the click point (button center on keyboard activation).
-    // These are layout-viewport coordinates — only a fallback: the clip-path
-    // runs on ::view-transition pseudos, whose coordinate space is the
-    // snapshot containing block. On Android Chrome that block includes the
-    // top URL bar, so viewport coordinates land ~60px above the button.
-    const button = event.currentTarget
-    const rect = button.getBoundingClientRect()
-    const fallbackX = event.clientX || rect.left + rect.width / 2
-    const fallbackY = event.clientY || rect.top + rect.height / 2
-
-    // To dark: the dark theme expands out of the button (reveal).
-    // To light: the dark theme retracts back into it (cover up).
-    const expanding = next === "dark"
-    document.documentElement.dataset.themeVt = expanding ? "expand" : "cover"
-    // Name the clicked button so its snapshot group's transform tells us the
-    // button position in the snapshot containing block's own space.
-    button.style.viewTransitionName = "theme-toggle-anchor"
-
-    const transition = doc.startViewTransition(() => {
-      flushSync(() => setTheme(next))
-    })
-    transition.ready.then(() => {
-      const root = document.documentElement
-      let x = fallbackX
-      let y = fallbackY
-      let width = window.innerWidth
-      let height = window.innerHeight
-      try {
-        const group = getComputedStyle(root, "::view-transition-group(theme-toggle-anchor)")
-        const matrix = new DOMMatrixReadOnly(group.transform)
-        const groupWidth = parseFloat(group.width)
-        const groupHeight = parseFloat(group.height)
-        if (group.transform !== "none" && !Number.isNaN(groupWidth) && !Number.isNaN(groupHeight)) {
-          x = matrix.m41 + groupWidth / 2
-          y = matrix.m42 + groupHeight / 2
-        }
-        const snapshotBlock = getComputedStyle(root, "::view-transition")
-        width = parseFloat(snapshotBlock.width) || width
-        height = parseFloat(snapshotBlock.height) || height
-      } catch {
-        // Browsers that can't resolve the pseudo styles keep the viewport
-        // fallback, which is correct wherever both spaces share an origin.
-      }
-      const radius = Math.hypot(Math.max(x, width - x), Math.max(y, height - y))
-      const small = `circle(0px at ${x}px ${y}px)`
-      const full = `circle(${radius}px at ${x}px ${y}px)`
-      root.animate(
-        { clipPath: expanding ? [small, full] : [full, small] },
-        {
-          duration: 450,
-          easing: "ease-in-out",
-          fill: "forwards",
-          pseudoElement: expanding
-            ? "::view-transition-new(root)"
-            : "::view-transition-old(root)",
-        }
-      )
-    })
-    transition.finished.finally(() => {
-      delete document.documentElement.dataset.themeVt
-      button.style.viewTransitionName = ""
-    })
+    const root = document.documentElement
+    root.classList.add("theme-fade")
+    window.clearTimeout(fadeTimer.current)
+    fadeTimer.current = window.setTimeout(() => root.classList.remove("theme-fade"), THEME_FADE_MS)
+    setTheme(isDark ? "light" : "dark")
   }
 
   if (!mounted) {
