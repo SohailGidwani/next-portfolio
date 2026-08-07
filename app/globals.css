@@ -221,12 +221,16 @@
   }
 
   .dark {
-    --bg: #0f0f0e;
+    /* The dark ramp moved down together (Aug 2026) so the theme reads darker
+       while the surface steps keep their spacing: dropping --bg alone would
+       have left the cards floating well above the page. Each value keeps the
+       palette's slight warm cast (blue one step under red and green). */
+    --bg: #080807;
     --fg: #f0efe9;
     --muted: #8a8980;
-    --border: #252420;
-    --card: #1a1918;
-    --card2: #1f1e1c;
+    --border: #1c1b18;
+    --card: #131211;
+    --card2: #171614;
     --accent: oklch(52% 0.18 50);
 
     --background: var(--bg);
@@ -691,7 +695,8 @@
      same treatment in dark mode. A dark edge burn is what a printed plate
      does, and it works on a light page too. */
   .portrait-vignette {
-    --portrait-burn: 15 15 14;
+    /* Matches the dark --bg so the portrait grades into the page it sits on. */
+    --portrait-burn: 8 8 7;
     background:
       radial-gradient(
         104% 76% at 50% 30%,

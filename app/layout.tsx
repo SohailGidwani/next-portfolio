@@ -37,7 +37,9 @@ export const viewport: Viewport = {
   maximumScale: 5,
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: '#f7f6f3' },
-    { media: '(prefers-color-scheme: dark)', color: '#0f0f0e' },
+    // Must track the dark --bg in globals.css: on mobile this paints the
+    // browser chrome, so a stale value leaves a visible seam above the page.
+    { media: '(prefers-color-scheme: dark)', color: '#080807' },
   ],
 }
 
