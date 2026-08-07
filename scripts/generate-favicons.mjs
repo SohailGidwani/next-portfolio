@@ -13,7 +13,7 @@ const publicDir = join(__dirname, '..', 'public')
 //   renders the period glyph as a square, not a circle. Coordinates measured from
 //   actual pixel output: amber center (202, 157), period size ~14.5×14px in 256px space.
 const RASTER_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-  <rect width="256" height="256" rx="48" fill="#0f0f0e"/>
+  <rect width="256" height="256" rx="48" fill="#080807"/>
   <text
     x="128" y="128"
     dy="0.35em"
@@ -24,7 +24,7 @@ const RASTER_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256
     letter-spacing="-2"
     fill="#f0efe9"
   >SG.</text>
-  <rect x="183" y="138" width="42" height="38" fill="#0f0f0e"/>
+  <rect x="183" y="138" width="42" height="38" fill="#080807"/>
   <circle cx="202" cy="157" r="8" fill="#b85c0e"/>
 </svg>`
 

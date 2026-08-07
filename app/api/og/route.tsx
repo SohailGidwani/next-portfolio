@@ -4,11 +4,11 @@ import { NextRequest } from 'next/server'
 export const runtime = 'edge'
 
 const AMBER = '#b85c0e'
-const BG = '#0f0f0e'
+const BG = '#080807'
 const FG = '#f0efe9'
 const MUTED = '#8a8980'
-const BORDER = '#252420'
-const CARD = '#1a1918'
+const BORDER = '#1c1b18'
+const CARD = '#131211'
 
 const headers = {
   'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800',
