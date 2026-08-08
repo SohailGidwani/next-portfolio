@@ -107,23 +107,39 @@ describe("motion system", () => {
     expect(lightbox).toContain("dragging")
   })
 
-  it("the theme toggle runs no view transition, only a colour crossfade", () => {
-    // Previously the toggle drove a circular clip-path reveal over a
-    // whole-page snapshot, and this test pinned those overrides to
-    // [data-theme-vt] so they could not collide with route transitions. The
-    // reveal was removed by request; the guarantee is now stronger, so assert
-    // the mechanism is gone rather than merely scoped.
-    const toggle = read("app/components/ThemeToggle.tsx")
-    expect(toggle).not.toContain("startViewTransition")
-    expect(toggle).not.toContain("clipPath")
-    expect(toggle).toContain("theme-fade")
-
+  it("the theme switch animates one composited element, never the document", () => {
+    // Two mechanisms have been tried and measured on the real page. A circular
+    // clip-path reveal over a whole-page view transition snapshot, and then a
+    // `:root.theme-fade *` colour crossfade which started 7,600 main-thread
+    // transitions: 412ms of style recalc, and four rendered frames in 600ms at
+    // 4x CPU throttle. Both stuttered. What matters is not which mechanism is
+    // in use but that a switch cannot fan out across the element tree again.
     const css = read("app/globals.css")
     expect(css).not.toContain("data-theme-vt")
-    // The crossfade must stay colour-only: `all` here would animate layout on
-    // every element at exactly the moment the whole page restyles.
-    expect(css).toMatch(/\.theme-fade[\s\S]{0,400}transition-property:\s*background-color/)
-    expect(css).not.toMatch(/\.theme-fade[\s\S]{0,400}transition-property:\s*all/)
+    expect(css).not.toMatch(/:root\.theme-fade\s*\*/)
+    expect(css).not.toMatch(/\.theme-fade[\s\S]{0,400}transition-property/)
+
+    const fade = read("app/utils/themeFade.ts")
+    // Opacity only. Any colour property here would be non-composited and put
+    // the work back on the main thread, which is the whole defect.
+    expect(fade).not.toMatch(/animate\(\[[\s\S]{0,200}(background|color|filter):/)
+    expect(fade).toContain("position:fixed")
+    // The Web Animations API does not inherit the global reduced-motion block
+    // in globals.css the way a CSS transition did, so the gate must be in JS.
+    expect(fade).toContain("prefers-reduced-motion: reduce")
+
+    // Every caller goes through the shared helper: a bare setTheme would swap
+    // with no dissolve at all, which is the abruptness this replaced.
+    for (const caller of ["app/components/ThemeToggle.tsx", "app/components/CommandPalette.tsx"]) {
+      const src = read(caller)
+      expect(src).not.toContain("startViewTransition")
+      expect(src).toContain("switchTheme(resolvedTheme, setTheme)")
+      // setTheme is handed over, never invoked here. A caller that computed
+      // its own target would read a resolvedTheme next-themes has not yet
+      // committed, so two quick taps would both ask for the same theme and
+      // net one flip. switchTheme derives the target from the last request.
+      expect(src).not.toMatch(/\bsetTheme\(/)
+    }
   })
 
   it("route transitions can only be started by a click, never on load", () => {

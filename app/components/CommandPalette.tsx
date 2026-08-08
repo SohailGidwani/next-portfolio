@@ -30,6 +30,7 @@ import { useTheme } from "next-themes"
 import { triggerHaptic } from "./ui/haptics"
 import { usePortfolio } from "./PortfolioProvider"
 import { smoothScrollToId, smoothScrollToTop } from "@/app/utils/smoothScroll"
+import { switchTheme } from "@/app/utils/themeFade"
 import {
   Dialog,
   DialogClose,
@@ -498,7 +499,7 @@ export default function CommandPalette() {
         description: "Toggle theme",
         icon: resolvedTheme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />,
         action: () => {
-          setTheme(resolvedTheme === "dark" ? "light" : "dark")
+          switchTheme(resolvedTheme, setTheme)
           setIsOpen(false)
         },
         keywords: ["theme", "dark", "light", "mode"],

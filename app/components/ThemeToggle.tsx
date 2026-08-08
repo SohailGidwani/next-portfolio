@@ -2,50 +2,33 @@
 
 import { useTheme } from "next-themes"
 import { Moon, Sun } from "lucide-react"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { triggerHaptic } from "./ui/haptics"
+import { switchTheme } from "@/app/utils/themeFade"
 
 type ThemeToggleProps = {
   variant?: "icon" | "pill"
 }
 
-/** Must match the transition-duration of .theme-fade in globals.css. */
-const THEME_FADE_MS = 220
-
 export default function ThemeToggle({ variant = "icon" }: ThemeToggleProps) {
   const { resolvedTheme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
-  const fadeTimer = useRef<number | undefined>(undefined)
 
   useEffect(() => {
     setMounted(true)
-    // Two toggles share one document, so a pending timer from an unmounted
-    // instance would otherwise strip the class mid-fade for the other.
-    return () => window.clearTimeout(fadeTimer.current)
   }, [])
 
   const isDark = resolvedTheme === "dark"
 
   /**
-   * Switches the theme with a colour crossfade and nothing else.
-   *
-   * This used to run a circular clip-path reveal over a whole-page view
-   * transition snapshot. That is gone by request: a theme switch is a setting
-   * change, and animating the whole page for it drew attention to the
-   * mechanism rather than the result. A hard swap is the other extreme and
-   * reads as a flash, so the colours cross over 220ms instead. Nothing moves.
-   *
-   * The class is added for the length of the fade only. Leaving the transition
-   * on permanently would make every hover and state change inherit it.
+   * A theme switch is a setting change, so nothing here moves or reveals: the
+   * page dissolves through a single composited veil and comes back in the new
+   * colours. See switchTheme for why that shape and not a colour transition.
    */
   const toggleTheme = () => {
     triggerHaptic()
-    const root = document.documentElement
-    root.classList.add("theme-fade")
-    window.clearTimeout(fadeTimer.current)
-    fadeTimer.current = window.setTimeout(() => root.classList.remove("theme-fade"), THEME_FADE_MS)
-    setTheme(isDark ? "light" : "dark")
+    switchTheme(resolvedTheme, setTheme)
   }
 
   if (!mounted) {

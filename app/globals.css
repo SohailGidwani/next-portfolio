@@ -72,24 +72,11 @@
   }
 }
 
-/* Theme switch: a colour crossfade, applied only while the switch is in
-   flight. ThemeToggle adds this class, then removes it after THEME_FADE_MS,
-   because leaving the transition on permanently would make every hover and
-   focus change inherit it.
-
-   Only colour properties are listed, never `all`: the page must not animate
-   layout or transforms here, and a theme change is exactly the moment when a
-   sloppy `all` would try to. The global prefers-reduced-motion block above
-   zeroes transition-duration, so this collapses to an instant swap there. */
-:root.theme-fade,
-:root.theme-fade *,
-:root.theme-fade *::before,
-:root.theme-fade *::after {
-  transition-property: background-color, border-color, color, fill, stroke,
-    text-decoration-color, outline-color;
-  transition-duration: 220ms;
-  transition-timing-function: var(--ease-out-soft);
-}
+/* The theme switch owns no CSS. It used to crossfade colours by putting a
+   transition on every element in the document, which started 7,600 main-thread
+   transitions and froze the page for the length of the fade. It now dissolves
+   through one composited overlay built in app/utils/themeFade.ts, so there is
+   nothing to declare here. */
 
 /* ── Route view transitions ──────────────────────────────────────────
    Scoped under :root[data-nav], which ViewTransitions.tsx sets for the
