@@ -28,8 +28,14 @@ function HeroStats() {
     href?: string
   }[] = [
     { value: 2, suffix: "+", label: "Years in production engineering", href: "#experience" },
-    { value: 3, label: "AI systems deployed at IIFL", href: "#experience" },
-    { text: "2,363", label: "ADNI subjects in MEMOIR-VLM", href: "/research/memoir-vlm-alzheimers-vqa" },
+    { value: 3, label: "Enterprise AI systems shipped", href: "#experience" },
+    // Outcome, not corpus size: 2,363 subjects measured the dataset, not the
+    // work. The figure is the binary head, so it carries a scoping duty the
+    // label no longer states: the href does that job instead, landing on a page
+    // whose own header puts 0.707 (3-class) beside 0.933 (CN vs dementia). Keep
+    // this linked to the research page for that reason, and do not restate 93.3%
+    // anywhere it would stand alone as a general Alzheimer's accuracy claim.
+    { text: "93.3%", label: "MEMOIR-VLM balanced accuracy", href: "/research/memoir-vlm-alzheimers-vqa" },
     { text: "LA", label: "Currently based", href: "#contact" },
   ]
 

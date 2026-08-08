@@ -54,11 +54,12 @@ const evidenceRows = [
   { set: "Flaskr + Watchlist · K=5 gates", result: "10/10", meaning: "the hard known structural and extension apps converge repeatably", strong: true },
   { set: "Items / RESTX / Structural / Minimal · K=3", result: "12/12", meaning: "the smaller development tiers hold on the same code", strong: true },
   { set: "Fresh seven-repo sweep · one sample each", result: "6/7", meaning: "Microblog red on architect variance; its accepted-plan replay is 26/26 tasks, 4/4 tests", strong: true },
-  { set: "Frozen R5 v1 · three unseen repos × K=3", result: "0/9", meaning: "the recipe does not yet generalize to repositories it has never seen", strong: false },
+  { set: "Frozen R5 v1 · three then-unseen repos × K=3", result: "0/9", meaning: "the recipe does not yet generalize to repositories it has never seen", strong: false },
+  { set: "Post-R5 ws-example · K=1", result: "1/1", meaning: "first remediation gate is green, on a repo that is now a development input: not held-out evidence", strong: true },
 ]
 
 const heldOutRows = [
-  { repo: "ws-example", baseline: "42/42", result: "0/3", failure: "generated test-client facade shadowed route decorators; the test adapter also removed protected test functions" },
+  { repo: "ws-example", baseline: "42/42", result: "0/3", failure: "generated test-client facade shadowed FastAPI route decorators; two samples stalled at 13/42" },
   { repo: "silicon", baseline: "34/34", result: "0/3", failure: "invalid generated signatures; a raw FastAPI object constructed instead of the frozen facade" },
   { repo: "flask-email-login", baseline: "18/18", result: "0/3", failure: "architect missed the required context owner; the fallback left CSRF and mail providers as None" },
 ]
@@ -129,7 +130,9 @@ The capability that unlocked the hard repos: some migrations are unreachable by 
 
 A second wave, coherent-cut preservation, closed the gap the first one left open. One bad file inside an otherwise-correct migration used to trigger a full rollback of every file in its verification cut, so a single local mistake could sink a ten-file run. Recover now checkpoints the last coherent state before a targeted repair and restores that on failure instead of the whole migration, and one shared gate (caller, capability, import-direction, cycle, and contract checks) runs identically across every generation path: first draft, contract repair, and targeted repair alike. That is what took watchlist, a Flask-SQLAlchemy app that had never gone green, to autonomous 15/15, and pushed flaskr to a 5-for-5 reliability gate.
 
-Then the first frozen held-out evaluation supplied the correction. On three repositories never migrated during development, Portage scored 0/9 strict green. The engine failed honestly: five trees restored coherently, four stayed migrated-but-red, zero were hybrid, and an attempted test-set reduction was caught. But the recipe did not generalize. The project now has both halves of a credible result, strong development convergence and a measured unseen-repository gap, and publishes them together.
+Then the first frozen held-out evaluation supplied the correction. On three repositories that had never been migrated during development, Portage scored 0/9 strict green. The engine failed honestly: five trees restored coherently, four stayed migrated-but-red, zero were hybrid. But the recipe did not generalize. The project now has both halves of a credible result, strong development convergence and a measured unseen-repository gap, and publishes them together.
+
+A later forensic audit then corrected one of its own measurements. R5 had reported ws-example's oracle integrity at 0.75, which reads as deleted tests; byte-level reconstruction showed the protected files were identical, and the 0.75 was an artifact of Execute and Report each reading only the first 8 KiB of a long test file. Both readers now inspect full content and a >8 KiB regression covers the bug. The score stays 0/9: every sample was independently red for migration reasons. Those three repositories are development inputs now, and the first remediation gate is green, with ws-example passing strict autonomous K=1 at 42/42 tests, 5/5 tasks, a migrated tree and oracle integrity 1.0. That is development evidence, not a revision of R5 v1.
 
 One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --watch\` drives the full graph. Co-pilot mode: Claude Code / Cursor call verify_patch_in_sandbox, repo_graph, and blast_radius over MCP, the same verified primitives the eval numbers were measured on. The dashboard is the observability and proof surface, not the front door.`,
     tags: ["Python", "FastAPI", "LangGraph", "Postgres", "pgvector", "LiteLLM", "Docker", "Next.js", "MCP", "pytest"],
@@ -163,7 +166,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
       {
         icon: <FileCheck className="w-5 h-5" />,
         title: "Oracle Integrity",
-        description: "Test files are protected artifacts: names, assertions, raises/parametrize/skip structure and fixture lifecycles are frozen at Plan; only sanctioned plumbing may differ. It earned its keep on unseen code: a held-out adapter quietly dropped nine test functions, integrity fell to 0.75, and all three samples were scored red instead of counted as partial progress.",
+        description: "Test files are protected artifacts: names, assertions, raises/parametrize/skip structure and fixture lifecycles are frozen at Plan; only sanctioned plumbing may differ. The guard also had to survive an audit of itself. A held-out 0.75 integrity score looked like deleted tests, but the files were byte-identical and both readers had truncated them at 8 KiB. Fixed, regression-covered, and the run stayed red on its own merits.",
       },
       {
         icon: <ShieldCheck className="w-5 h-5" />,
@@ -183,7 +186,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
       {
         icon: <Lock className="w-5 h-5" />,
         title: "Held-Out Validation",
-        description: "Three repositories were frozen, baseline-vetted, and never migrated during development. R5 v1 ran once from a pinned commit and scored 0/9. No failed sample was renamed, replaced, or rerun, and the result is published beside the development gates rather than behind them.",
+        description: "Three repositories were frozen, baseline-vetted, and unseen at the time R5 v1 ran. It ran once from a pinned commit and scored 0/9. No failed sample was renamed, replaced, or rerun, and the result is published beside the development gates rather than behind them. All three are development inputs now, so the next held-out claim needs freshly scouted repositories.",
       },
     ],
     technicalDetails: [
@@ -204,7 +207,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
     challenges: [
       "Development convergence did not predict held-out generalization. Flaskr and watchlist reached 10/10 at K=5 while the frozen unseen set went 0/9. The next work is capability coverage, not a larger victory-lap grid",
       "One bad file used to sink the whole cut: before coherent-cut checkpointing, a single local mistake inside a ten-file verification batch rolled back everything in it. Checkpointing the last coherent state and restoring that, not the original, is what made the hard repos repeatable",
-      "Oracle protection earned its keep on unseen code: one held-out adapter deleted test functions, and the 0.75 integrity score poison-pilled the run before its partial suite result could look encouraging",
+      "Measurement instruments need the same scrutiny as output. A held-out 0.75 oracle score looked like deleted tests; byte-level reconstruction proved the file was unchanged and both readers had stopped at 8 KiB. The readers and the regression are fixed, and the run stayed red for reasons that had nothing to do with the bug",
       "Some migrations are unreachable by rewriting files, proven by migrating flaskr by hand under the same sandbox oracle: 24/24, but only after creating four new modules. That manual run became the acceptance spec, and the engine's missing capability had a name",
       "A model told us what was missing: on one repo GPT-4o imported a compatibility module that didn't exist. It wanted the right architecture; the engine had no way to let it own one. Artifact-producing plans exist because of that log line",
       "Whole-file regeneration is a near-no-op against an unattributed bug: two measured cases reproduced identical failures across paid regeneration rounds. Attribution, not retry budget, was the bottleneck",
@@ -532,16 +535,22 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
 
                   <div className="mt-4 rounded border border-accent/30 bg-accent/5 p-4">
                     <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
-                      The integrity machinery passed even though the recipe failed
+                      The scoring machinery held even though the recipe failed
                     </p>
                     <p className="mt-2 text-sm leading-relaxed text-foreground">
-                      This is the part worth reading. On{" "}
-                      <span className="font-mono">ws-example</span>, generation quietly reduced the discovered
-                      test set from 26 functions to 17. Oracle integrity fell to 0.75 and poison-pilled all
-                      three samples, so a partial 13/42 runtime result could not masquerade as progress. Trees
-                      came back 4 migrated / 5 restored-coherent / 0 hybrid, and restored trees scored zero even
-                      though their original suites passed. All nine jobs produced durable reports with no
-                      missing run rows: 119 LLM calls, 19 recovery visits, $3.86.
+                      This is the part worth reading. Rejected cuts restored the original suite, and those
+                      restored passes contributed exactly zero migration score. Trees came back 4 migrated /
+                      5 restored-coherent / 0 hybrid. All nine jobs produced durable reports with no missing
+                      run rows: 119 LLM calls, 19 recovery visits, $3.8643, architect acceptance 6/9.
+                    </p>
+                    <p className="mt-3 text-sm leading-relaxed text-foreground">
+                      The audit that followed cuts the other way, and belongs here too. R5 reported{" "}
+                      <span className="font-mono">ws-example</span> oracle integrity at 0.75, which reads as
+                      deleted tests. It was a false positive: the protected files were byte-identical, and
+                      Execute and Report had each read only the first 8 KiB of a longer test file. Both now
+                      read full content, with a &gt;8 KiB regression. The 0/9 is unchanged, because all three
+                      samples were independently red: two stalled at 13/42 behind the shadowed route
+                      decorators, one restored the original tree with tasks still incomplete.
                     </p>
                   </div>
                   <div className="mt-4 rounded border border-accent/20 bg-card p-4">
@@ -555,6 +564,23 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                       never gone green, holds 5/5 at 15/15 tests. Both needed new modules to exist; the engine
                       designed and wired them. What made them repeatable rather than occasional was
                       coherent-cut preservation.
+                    </p>
+                  </div>
+                  <div className="mt-4 rounded border border-border bg-card/40 p-4">
+                    <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                      Where it stands now
+                    </p>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                      All three R5 repositories are development inputs from here, so they can no longer
+                      produce held-out evidence. The first remediation gate is green:{" "}
+                      <span className="font-mono text-foreground">ws-example</span> passed strict autonomous
+                      K=1 at 42/42 tests, 5/5 tasks, a migrated tree and oracle integrity 1.0. Silicon and
+                      flask-email-login are the next gates. Any future held-out claim has to keep R5 v1
+                      visible, hold the untouched ClipBin reserve, and add at least two newly scouted
+                      repositories. The current tree passes 331/331 backend tests, Ruff on{" "}
+                      <span className="font-mono text-foreground">src tests</span>, and{" "}
+                      <span className="font-mono text-foreground">git diff --check</span>. Evidence current
+                      through 2026-08-04.
                     </p>
                   </div>
                 </MobileSection>

@@ -749,26 +749,47 @@ export default function PortageDeepDivePage() {
                   <SimpleTable
                     head={["Repo", "Baseline", "K=3", "Terminal shape", "Dominant failure"]}
                     rows={[
-                      ["ws-example", "42/42", "0/3", "2 migrated, 1 restored", "generated test-client facade shadowed route decorators; the test adapter also removed protected test functions"],
+                      ["ws-example", "42/42", "0/3", "2 migrated, 1 restored", "generated test-client facade shadowed FastAPI route decorators; the two migrated samples stalled at 13/42"],
                       ["silicon", "34/34", "0/3", "3 restored", "invalid Python signatures; raw FastAPI constructed instead of the frozen facade"],
                       ["flask-email-login", "18/18", "0/3", "2 migrated, 1 restored", "architect missed the required context owner; the fallback left CSRF and mail providers as None"],
                     ]}
                   />
                   <div className="mt-4 rounded border border-accent/30 bg-accent/5 p-4">
                     <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
-                      The integrity machinery passed even though the recipe failed
+                      The scoring machinery held even though the recipe failed
                     </p>
                     <p className="mt-2 text-sm leading-relaxed text-foreground">
                       Strict green 0/9, architect acceptance 6/9, trees 4 migrated / 5 restored-coherent / 0
                       hybrid, 119 LLM calls, 19 recovery visits, $3.8643, and 9/9 durable reports with zero
-                      missing run rows. <span className="font-mono">ws-example</span> is the sharpest result:
-                      generation reduced the discovered test set from 26 functions to 17, oracle integrity fell
-                      to 0.75, and all three samples were poison-pilled, so a partial 13/42 runtime result
-                      could not masquerade as progress. Restored trees scored zero even though their original
-                      suites passed. R5 rejects the claim that the recipe is generally reliable today; it does
-                      not erase the development gates, it bounds them. If these failures drive production
-                      changes, all three repositories become development inputs permanently, and the next
-                      held-out claim must publish this 0/9 beside it.
+                      missing run rows. Rejected cuts restored the original suite, and those restored passes
+                      contributed zero migration score. R5 rejects the claim that the recipe is generally
+                      reliable today; it does not erase the development gates, it bounds them.
+                    </p>
+                  </div>
+                  <div className="mt-4 rounded border border-border bg-card p-4">
+                    <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                      The August 4 audit, and what it did not change
+                    </p>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                      R5 originally reported <span className="font-mono text-foreground">ws-example</span>{" "}
+                      oracle integrity at 0.75, which reads as a generation that deleted protected tests. A
+                      forensic audit disproved it: every protected test file was byte-identical, and the score
+                      was a false positive because Execute and Report each read only the first 8 KiB of a
+                      longer test file. Both readers now inspect full content, and a &gt;8 KiB regression
+                      covers the bug. The result does not move. All three samples were independently red:
+                      two stalled at 13/42 behind the shadowed decorators, and one restored the original tree
+                      with tasks still incomplete. Correcting a measurement is not the same as revising an
+                      outcome, and the outcome is still 0/9.
+                    </p>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                      Because these failures now drive production changes, all three repositories are
+                      development inputs. The first remediation gate is green:{" "}
+                      <span className="font-mono text-foreground">ws-example</span> passed strict autonomous
+                      K=1 at 42/42 tests, 5/5 tasks, <span className="font-mono text-foreground">tree_state=migrated</span>,
+                      and oracle integrity 1.0. That is development evidence, not a revision of R5 v1. Silicon
+                      and flask-email-login remain the next gates, and any later held-out claim must keep this
+                      0/9 visible, hold the untouched ClipBin reserve, and add at least two newly scouted
+                      repositories.
                     </p>
                   </div>
                 </div>
@@ -795,7 +816,7 @@ export default function PortageDeepDivePage() {
                     ["6", "Templates / sessions / flash / auth: the app gets an owned request-context artifact, an owned rendering layer, and correctly-ordered session middleware; flaskr migrates autonomously at 24/24 with zero recovery", "SOLVED for the canonical case, architecturally rather than by prompts"],
                     ["7", "Cross-file call-shape drift: get_db() drifting between plain function / needs-request / context manager was the dominant residual (19/24 failures in one probe)", "SOLVED structurally: SCC ordering + frozen interface manifest + pre-sandbox enforcement of both DEFINES and CALLS"],
                     ["8", "Flask-coupled extensions: flask_restx holds 3/3 and watchlist's SQLAlchemy facade holds 5/5 with real pagination, but held-out flask-email-login retained CSRF and mail owners as None and then crashed at init_app", "SOLVED for development cases, OPEN generally: extension identity is not enough, every source-exercised provider must be materially realized"],
-                    ["9", "Framework-inspecting tests: flaskr passes because the plan owns real session / g / app.testing surfaces with an audited import swap; the held-out ws-example adapter deleted test functions and the oracle caught it", "SOLVED for flaskr, integrity guard proven generally, generation did not preserve the harness"],
+                    ["9", "Framework-inspecting tests: flaskr passes because the plan owns real session / g / app.testing surfaces with an audited import swap; the held-out ws-example harness broke instead on a generated client facade that shadowed route decorators, and the 0.75 integrity score first blamed on it was later shown to be a truncated-reader false positive", "SOLVED for flaskr; the oracle reader is fixed and regression-covered, but generation still does not preserve an unseen harness"],
                     ["10", "Provider initialization / import cycles in multi-package apps: cycles are rejected at generation and at Verify, and microblog's accepted plan replays to 26/26 tasks and 4/4 tests", "PARTIAL: gaps remain on both sides, microblog's autonomous proposal varies and held-out fallbacks never realized their providers"],
                   ]}
                 />
@@ -814,6 +835,9 @@ export default function PortageDeepDivePage() {
                   sandbox image cannot serve mutually incompatible dependency pins; four candidates dropped
                   for that shared cause; the unlock is per-repo sandbox images.
                 </p>
+                <p className="mb-3 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
+                  Development corpus · 7 repos, 4 tiers
+                </p>
                 <SimpleTable
                   head={["Repo", "Tier", "Role"]}
                   rows={[
@@ -826,6 +850,12 @@ export default function PortageDeepDivePage() {
                     ["microblog", "heavy", "Multi-extension / long recovery"],
                   ]}
                 />
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  Ten repositories now, not seven. The three R5 repositories joined after the fact, because
+                  they shaped the fixes that followed; they are listed with their frozen baselines below
+                  rather than given a difficulty tier here, since they were admitted as held-out inputs and
+                  never classified against this taxonomy.
+                </p>
                 <div className="mt-6">
                   <p className="mb-3 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
                     Frozen held-out corpus
@@ -837,6 +867,11 @@ export default function PortageDeepDivePage() {
                     as reserve, and every temporary clone was deleted after admission. The one-shot result is
                     final evidence, not a tuning loop: any held-out repository used to change the recipe moves
                     permanently into the development corpus, and a later held-out set must be newly frozen.
+                    That rule has now been paid rather than merely stated. All three R5 repositories shaped the
+                    fixes that followed, so all three are development inputs and cannot produce held-out
+                    evidence again. ClipBin stays untouched in reserve, and the next held-out set needs it plus
+                    at least two newly scouted repositories, with this 0/9 still published beside whatever it
+                    returns.
                   </p>
                   <SimpleTable
                     head={["Repo", "Pinned baseline", "R5 v1"]}
@@ -1000,7 +1035,11 @@ export default function PortageDeepDivePage() {
                     the governing constraint rather than something met by redefinition. Next is R5.1:
                     generalize from the held-out failure classes while preserving every development and fault
                     gate, then freeze a fresh unseen set built from ClipBin plus at least two newly scouted
-                    untouched repositories.
+                    untouched repositories. R5.1 is underway and its first gate is green:{" "}
+                    <span className="font-mono text-foreground">ws-example</span> now passes strict autonomous
+                    K=1 at 42/42 tests, 5/5 tasks, a migrated tree and oracle integrity 1.0, closing the
+                    returned-client receiver gap on a repository that is a development input from here.
+                    Silicon and flask-email-login are the remaining gates, and none of this revises R5 v1.
                   </p>
                 </div>
               </MobileSection>
@@ -1021,7 +1060,8 @@ export default function PortageDeepDivePage() {
                     "Boundary:      converges strongly on the development corpus; R5 v1 scored 0/9 on unseen repos, so general capability realization is the frontier now",
                     "Development:   flaskr 5/5 · watchlist 5/5 at K=5 · items/restx/structural/minimal 3/3 at K=3 · fresh full-corpus sweep 6/7",
                     "Held-out:      R5 v1 0/9 strict green · architect 6/9 · trees 4 migrated / 5 restored / 0 hybrid · 119 calls · $3.8643 · 9/9 reports, 0 missing rows",
-                    "Integrity:     ws-example test loss caught at 0.75 oracle score; no weakened result counted green · 303 backend tests passing",
+                    "Remediation:   R5 repos are development inputs now · ws-example strict autonomous K=1 green 42/42, 5/5 tasks, migrated, oracle 1.0 (development evidence, not a revised R5)",
+                    "Integrity:     the 0.75 ws-example score was an 8 KiB truncated-reader false positive; files byte-identical, readers fixed, 0/9 unchanged · 331/331 backend tests passing",
                   ]}
                 />
               </MobileSection>
