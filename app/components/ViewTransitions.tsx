@@ -6,6 +6,23 @@ import { usePathname } from "next/navigation"
 /** Fallback so a hung navigation can never freeze the page under a snapshot. */
 const SETTLE_TIMEOUT_MS = 600
 
+/** The destination half of the shared-portrait pair. */
+const FIGURE_TARGET = "[data-vt-portrait-target]"
+
+/**
+ * The route a zoom last carried us into, if any.
+ *
+ * The return leg retraces the way in, which presupposes there was one. Below
+ * the lg breakpoint the homepage print is display:none so the outbound cannot
+ * zoom, while the /about print is visible at every width and would happily
+ * zoom on the way back: arrive by a slide, leave by a zoom. Landing on /about
+ * directly is the same story with no outbound at all.
+ *
+ * Module scope is the right lifetime, as it is for the print's assembly: it
+ * survives client navigation and resets on a real page load.
+ */
+let zoomedInto: string | null = null
+
 /** useLayoutEffect warns during SSR; this component still renders there. */
 const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect
 
@@ -76,6 +93,17 @@ export default function ViewTransitions() {
       document.querySelectorAll<HTMLElement>("[data-vt-title]").forEach((el) => {
         el.style.viewTransitionName = ""
       })
+      document.querySelectorAll<HTMLElement>("[data-vt-portrait]").forEach((el) => {
+        el.style.viewTransitionName = ""
+      })
+      delete document.documentElement.dataset.vtZoom
+      document.documentElement.style.removeProperty("--vt-origin-x")
+      document.documentElement.style.removeProperty("--vt-origin-y")
+      // vtFigure deliberately survives this cleanup. It is what stops the
+      // destination print from replaying its own entrance over a photo the
+      // morph has already placed, and that rule has to outlive the transition:
+      // dropping the attribute here would simply start the entrance late. The
+      // next click clears it instead.
     }
 
     const onClick = (event: MouseEvent) => {
@@ -103,6 +131,13 @@ export default function ViewTransitions() {
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
       if (!doc.startViewTransition || reduced) return
 
+      // Clear the previous navigation's shared-figure name before anything can
+      // claim it again. It is left set on purpose after a morph, so without
+      // this the destination print would still be holding vt-portrait when the
+      // next snapshot is captured, and a duplicate name makes Chrome skip the
+      // whole transition rather than just the morph.
+      delete document.documentElement.dataset.vtFigure
+
       const from = depthOf(window.location.pathname)
       const to = depthOf(url.pathname)
       // Siblings at the same depth crossfade: sliding sideways would imply a
@@ -118,6 +153,58 @@ export default function ViewTransitions() {
         document.documentElement.dataset.vtMorph = "title"
       }
 
+      // Two separate jobs, deliberately not the same flag.
+      //
+      // Morphing needs a print on BOTH sides: a source to name now and a
+      // destination that will claim the same name. Only the homepage figure has
+      // that, because only /about carries the target. Claiming the name on a
+      // leg where the destination cannot answer leaves the old snapshot
+      // unpaired, fading out alone at the position it came from.
+      //
+      // The zoom only needs a point to scale about, and both legs have one: on
+      // the way out it is the print being approached, on the way back the print
+      // being left behind. Splitting them is what lets the return mirror the
+      // outbound path without risking an unpaired morph.
+      const onScreen = (el: HTMLElement | null | undefined) =>
+        !!el && el.getClientRects().length > 0
+
+      // The homepage figure is `hidden lg:block`, so below 1024px there is no
+      // source at all. Naming an unrendered element leaves the new side with
+      // nothing to animate from, which shows up as the photo popping in.
+      const source = document.querySelector<HTMLElement>("[data-vt-portrait]")
+      const canMorph = source?.dataset.vtPortrait === url.pathname && onScreen(source)
+
+      if (canMorph && source) {
+        source.style.viewTransitionName = "vt-portrait"
+        document.documentElement.dataset.vtFigure = "portrait"
+      }
+
+      const returning = document.querySelector<HTMLElement>("[data-vt-anchor]")
+      const isRetrace =
+        zoomedInto === window.location.pathname &&
+        returning?.dataset.vtAnchor === url.pathname &&
+        onScreen(returning)
+
+      const zoomAnchor = canMorph ? source : isRetrace ? returning : null
+
+      // Remember the way in only while it is still the way we came. Every other
+      // navigation, the retrace included, leaves nothing further to mirror.
+      zoomedInto = canMorph ? url.pathname : null
+
+      if (zoomAnchor) {
+        document.documentElement.dataset.vtZoom = "portrait"
+
+        // The page pulls back toward the print and the next one grows out of
+        // it, so the scale needs the print's centre as its origin. Measured
+        // here rather than guessed in CSS: the figure moves with the viewport
+        // width, and an origin even slightly off turns a move that is about
+        // this photograph into a generic zoom.
+        const box = zoomAnchor.getBoundingClientRect()
+        const root = document.documentElement.style
+        root.setProperty("--vt-origin-x", `${((box.left + box.width / 2) / window.innerWidth) * 100}%`)
+        root.setProperty("--vt-origin-y", `${((box.top + box.height / 2) / window.innerHeight) * 100}%`)
+      }
+
       targetRef.current = url.pathname
       arrivedRef.current = false
 
@@ -127,12 +214,6 @@ export default function ViewTransitions() {
       const transition = doc.startViewTransition(
         () =>
           new Promise<void>((resolve) => {
-            // The route may already have committed while the browser was
-            // capturing; if so there is nothing to wait for.
-            if (arrivedRef.current) {
-              resolve()
-              return
-            }
             let done = false
             const settle = () => {
               if (done) return
@@ -141,8 +222,41 @@ export default function ViewTransitions() {
               commitRef.current = null
               resolve()
             }
+
+            /**
+             * Arriving is not the same as having rendered the shared figure.
+             * A route that misses its prefetch shows app/loading.tsx first, and
+             * a snapshot taken against that skeleton finds no element holding
+             * the name: the browser then pairs nothing, and the old portrait
+             * fades out alone at its old position, which is worse than no morph
+             * at all. So when a figure is pending, hold for it. The timeout
+             * below is still the ceiling, and a plain crossfade is the fallback.
+             */
+            const settleWhenFigureIsReady = () => {
+              if (!document.documentElement.dataset.vtFigure) {
+                settle()
+                return
+              }
+              const poll = () => {
+                if (done) return
+                if (document.querySelector(FIGURE_TARGET)) {
+                  settle()
+                  return
+                }
+                requestAnimationFrame(poll)
+              }
+              poll()
+            }
+
             const timer = window.setTimeout(settle, SETTLE_TIMEOUT_MS)
-            commitRef.current = settle
+
+            // The route may already have committed while the browser was
+            // capturing, in which case there is no arrival left to wait on.
+            if (arrivedRef.current) {
+              settleWhenFigureIsReady()
+              return
+            }
+            commitRef.current = settleWhenFigureIsReady
           })
       )
 

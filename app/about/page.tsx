@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowUpRight } from "lucide-react"
 import BreadcrumbStructuredData from "@/app/components/BreadcrumbStructuredData"
 import Personal from "@/app/components/Personal"
 import ThemeToggle from "@/app/components/ThemeToggle"
+import PortraitAssemblyGate from "./PortraitAssemblyGate"
 import portrait from "@/public/images/personal/SohailGidwani.jpg"
 
 const values = [
@@ -87,7 +88,12 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <figure className="mx-auto w-full max-w-[340px]">
+            <figure
+              data-vt-portrait-target
+              data-vt-anchor="/"
+              className="mx-auto w-full max-w-[340px]"
+            >
+              <PortraitAssemblyGate />
               <div className="group relative">
                 {/* Amber mounting block: slides out from behind the print */}
                 <div

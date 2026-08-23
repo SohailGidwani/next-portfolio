@@ -145,9 +145,154 @@
   animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+/* ── Shared portrait: homepage About section → /about ────────────────
+   The two prints were measured 24px and 7% apart, so there is nowhere for
+   the portrait to travel and no morph to watch. The effect is the
+   opposite: the whole print is lifted out of the page and holds still
+   while everything else pulls back and dissolves around it.
+
+   The name is on the whole figure, board and marks and caption included,
+   because a print is one object. Naming only the photo left its own frame
+   in the root snapshot, where it scaled away with the page while the
+   photo stayed put. */
+:root[data-vt-figure="portrait"] [data-vt-portrait-target] {
+  view-transition-name: vt-portrait;
+}
+
+/* Same clock as the page it is anchoring, so the whole move settles as one
+   gesture. The portrait has only 24px to cover, so this duration is really
+   just deciding how long it holds still for. */
+:root[data-nav]::view-transition-group(vt-portrait) {
+  animation-duration: var(--vt-duration);
+  animation-timing-function: var(--ease-sheet);
+}
+
+/* The two prints are the same photograph 24px apart, so a straight
+   crossfade shows both at once: for a moment there are two captions and
+   two frame edges, which reads as a double exposure rather than one print
+   settling. A few pixels of blur across the handover bridges them into a
+   single object, which is the standard fix for a crossfade that shows its
+   seams. Kept small and brief: blur is not a compositor-friendly property,
+   and this is 140ms on one element.
+
+   Short also bounds the failure case: if the destination never claims the
+   name, the old snapshot is unpaired and fades out alone at the position
+   it came from, and 140ms of that reads as a blink rather than a ghost. */
+@keyframes vt-print-out {
+  to {
+    opacity: 0;
+    filter: blur(3px);
+  }
+}
+
+@keyframes vt-print-in {
+  from {
+    opacity: 0;
+    filter: blur(3px);
+  }
+}
+
+:root[data-nav]::view-transition-old(vt-portrait) {
+  animation: vt-print-out 140ms var(--ease-out-soft) both;
+}
+
+:root[data-nav]::view-transition-new(vt-portrait) {
+  animation: vt-print-in 140ms var(--ease-out-soft) both;
+}
+
+/* The print assembles itself once per page session and is then simply
+   there. Watching a frame rebuild from nothing on every visit is tiring,
+   and it works against a transition whose whole claim is that this is the
+   same print, already standing. PortraitAssemblyGate sets the attribute
+   before paint, so none of these ever get a frame on screen.
+
+   Unlayered, so it beats the @layer base rules without !important. */
+:root[data-portrait-assembled] .portrait-photo,
+:root[data-portrait-assembled] .portrait-mount,
+:root[data-portrait-assembled] .portrait-mark,
+:root[data-portrait-assembled] .portrait-rule,
+:root[data-portrait-assembled] .portrait-caption {
+  animation: none;
+}
+
+/* Safety net for the one path the gate cannot cover: a click that starts a
+   morph before the homepage print has ever been in view, so the session is
+   not marked yet. The photo would then fade up from 14px underneath a morph
+   that has already placed it. */
+:root[data-vt-figure="portrait"] [data-vt-portrait-target] .portrait-photo {
+  animation: none;
+}
+
+/* ── The drama, scoped to this one navigation ────────────────────────
+   The portrait cannot supply it: the two prints sit 24px apart, so there
+   is nowhere to travel. So the page supplies it instead. Everything that
+   is not the portrait pulls back and dissolves while the portrait stays
+   nailed in place, and the new page expands out from that same point.
+
+   The origin is the portrait's own centre, measured at click time, which
+   is what turns a generic zoom into a move that is clearly about this
+   photograph: the old page collapses toward it, the new one grows out of
+   it. Both are transform and opacity on a snapshot, so it stays on the
+   compositor.
+
+   The named portrait is lifted out of the root snapshot by the browser,
+   so none of this touches it. That is the entire effect: the world moves,
+   the print does not. */
+:root[data-vt-zoom="portrait"] {
+  --vt-duration: 460ms;
+}
+
+@keyframes vt-portrait-recede {
+  to {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+}
+
+@keyframes vt-portrait-approach {
+  from {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+}
+
+:root[data-vt-zoom="portrait"][data-nav]::view-transition-old(root) {
+  animation: vt-portrait-recede var(--vt-duration) var(--ease-sheet) both;
+  transform-origin: var(--vt-origin-x, 50%) var(--vt-origin-y, 50%);
+}
+
+:root[data-vt-zoom="portrait"][data-nav]::view-transition-new(root) {
+  animation: vt-portrait-approach var(--vt-duration) var(--ease-sheet) both;
+  transform-origin: var(--vt-origin-x, 50%) var(--vt-origin-y, 50%);
+}
+
+/* The return retraces the way in. Going out we move toward the print, so
+   coming back we move away from it: the same two curves about the same
+   point, played backwards. Without this the way out was a zoom anchored on
+   the photograph and the way back was a sideways slide, which is the kind
+   of mismatch that makes a place feel like it has no geography. */
+:root[data-vt-zoom="portrait"][data-nav="back"]::view-transition-old(root) {
+  animation-name: vt-portrait-approach;
+  animation-direction: reverse;
+}
+
+:root[data-vt-zoom="portrait"][data-nav="back"]::view-transition-new(root) {
+  animation-name: vt-portrait-recede;
+  animation-direction: reverse;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  /* ViewTransitions bails before starting a transition at all under reduce, so
+     this is belt and braces. It has to name the portrait selectors explicitly:
+     they carry an extra attribute and so outrank the plain [data-nav] pair,
+     and would otherwise keep animating if that JS guard were ever removed. */
   :root[data-nav]::view-transition-old(root),
-  :root[data-nav]::view-transition-new(root) {
+  :root[data-nav]::view-transition-new(root),
+  :root[data-vt-zoom="portrait"][data-nav]::view-transition-old(root),
+  :root[data-vt-zoom="portrait"][data-nav]::view-transition-new(root),
+  :root[data-nav]::view-transition-group(vt-portrait),
+  :root[data-nav]::view-transition-old(vt-portrait),
+  :root[data-nav]::view-transition-new(vt-portrait) {
     animation: none;
   }
 }

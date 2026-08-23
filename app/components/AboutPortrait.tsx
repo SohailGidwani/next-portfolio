@@ -1,8 +1,10 @@
 "use client"
 
 import Image from "next/image"
+import { useLayoutEffect, useState } from "react"
 import { motion, useReducedMotion, type Variants } from "framer-motion"
 import portrait from "@/public/images/personal/SohailGidwani.jpg"
+import { hasAssembled, markAssembled } from "@/app/utils/portraitAssembly"
 
 /**
  * Homepage portrait, running the same print-assembly choreography as /about:
@@ -24,17 +26,30 @@ const BOARD_OFFSET = 10
 export default function AboutPortrait() {
   const reduceMotion = useReducedMotion()
 
-  /** Reduced motion keeps every element, just skips the travel. */
+  /**
+   * Coming back from /about must not rebuild the print again. This starts false
+   * so the server markup and the first client render agree, then a layout
+   * effect corrects it before the browser paints, so a returning visitor never
+   * sees a frame of the disassembled state.
+   */
+  const [built, setBuilt] = useState(false)
+  useLayoutEffect(() => {
+    if (hasAssembled()) setBuilt(true)
+  }, [])
+
+  /** Both cases keep every element and skip only the travel: someone who
+   *  asked for less motion, and someone who has already watched it build. */
+  const instant = reduceMotion || built
   const settle = (duration: number, delay: number, ease: readonly number[]) =>
-    reduceMotion ? { duration: 0 } : { duration, delay, ease: ease as number[] }
+    instant ? { duration: 0 } : { duration, delay, ease: ease as number[] }
 
   const photo: Variants = {
-    hidden: reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 },
+    hidden: instant ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 },
     shown: { opacity: 1, y: 0, transition: settle(0.5, 0, EASE_OUT_SOFT) },
   }
 
   const board: Variants = {
-    hidden: reduceMotion
+    hidden: instant
       ? { opacity: 1, x: BOARD_OFFSET, y: BOARD_OFFSET }
       : { opacity: 0, x: 0, y: 0 },
     shown: {
@@ -48,23 +63,40 @@ export default function AboutPortrait() {
   // Not scale(0): nothing in the real world appears from nothing. Starting
   // just under full size reads as the mark settling into place.
   const mark = (delay: number): Variants => ({
-    hidden: reduceMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.6 },
+    hidden: instant ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.6 },
     shown: { opacity: 1, scale: 1, transition: settle(0.3, delay, EASE_OUT_SOFT) },
   })
 
   const rule: Variants = {
-    hidden: reduceMotion ? { scaleX: 1 } : { scaleX: 0 },
+    hidden: instant ? { scaleX: 1 } : { scaleX: 0 },
     shown: { scaleX: 1, transition: settle(0.4, 0.7, EASE_SHEET) },
   }
 
   const caption: Variants = {
-    hidden: reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 4 },
+    hidden: instant ? { opacity: 1, y: 0 } : { opacity: 0, y: 4 },
     shown: { opacity: 1, y: 0, transition: settle(0.35, 0.85, EASE_OUT_SOFT) },
   }
 
+  // data-vt-portrait goes on the whole print, not just the photo. A print is
+  // one object: naming only the photo left the amber board and the caption
+  // behind in the root snapshot, so they scaled away with the page while the
+  // photo stayed put, and the frame came apart from its own picture mid-flight.
+  // The value is the route it pairs with, so ViewTransitions only claims the
+  // name when that is where the click is going.
   return (
-    <figure className="hidden min-w-0 self-start lg:block lg:pl-4 lg:pt-1">
-      <motion.div initial="hidden" whileInView="shown" viewport={{ once: true, amount: 0.4 }}>
+    <figure
+      data-vt-portrait="/about"
+      className="hidden min-w-0 self-start lg:block lg:pl-4 lg:pt-1"
+    >
+      {/* Marked on viewport entry rather than on mount: the print is six
+          screens down, so mounting proves nothing about whether anyone has
+          actually watched it build. */}
+      <motion.div
+        initial="hidden"
+        whileInView="shown"
+        onViewportEnter={markAssembled}
+        viewport={{ once: true, amount: 0.4 }}
+      >
         <div className="group relative isolate">
           {/* Amber mounting block: slides out from behind the print */}
           <motion.div aria-hidden variants={board} className="absolute inset-0 -z-10 bg-accent" />

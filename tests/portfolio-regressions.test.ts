@@ -159,6 +159,74 @@ describe("motion system", () => {
     expect(css).not.toMatch(/^::view-transition-old\(root\)/m)
   })
 
+  it("the shared portrait is paired by route and waits for its destination", () => {
+    const home = read("app/components/AboutPortrait.tsx")
+    const about = read("app/about/page.tsx")
+    const vt = read("app/components/ViewTransitions.tsx")
+    const css = read("app/globals.css")
+
+    // Both halves of the pair have to exist, and the source names the route it
+    // pairs with so the name is only claimed when that is where the click goes.
+    expect(home).toContain('data-vt-portrait="/about"')
+    expect(about).toContain("data-vt-portrait-target")
+    expect(css).toMatch(/\[data-vt-figure="portrait"\][\s\S]{0,80}\[data-vt-portrait-target\]/)
+
+    // The name belongs to the whole print. Naming only the photo left the amber
+    // board and caption in the root snapshot, where they scaled away with the
+    // page while the photo held still, so the frame came apart from its own
+    // picture mid-flight.
+    expect(home).toMatch(/<figure\s+data-vt-portrait="\/about"/)
+    expect(about).toMatch(/<figure\s+data-vt-portrait-target/)
+    expect(css).toMatch(/\[data-vt-portrait-target\] \.portrait-photo\s*\{\s*animation:\s*none/)
+
+    // Measured: the two prints sit 24px and 7% apart, so there is nowhere to
+    // travel and the drama has to come from the page instead. It scales about
+    // the portrait's own centre, so the move is about this photograph rather
+    // than being a generic zoom; a 50% fallback means the origin never landed.
+    expect(css).toContain("--vt-origin-x")
+    expect(vt).toMatch(/setProperty\("--vt-origin-x"/)
+    expect(css).toMatch(/view-transition-old\(root\)\s*\{[\s\S]{0,160}vt-portrait-recede/)
+    expect(css).toMatch(/view-transition-new\(root\)\s*\{[\s\S]{0,160}vt-portrait-approach/)
+
+    // The return retraces the way in. Leaving these unmirrored gave a zoom
+    // anchored on the photograph going out and a sideways slide coming back.
+    expect(css).toMatch(/\[data-vt-zoom="portrait"\]\[data-nav="back"\][\s\S]{0,200}animation-direction:\s*reverse/)
+
+    // Morphing needs a print on both sides; the zoom only needs a point to
+    // scale about, which both legs have. One flag for each, or the return leg
+    // would claim a name its destination cannot answer and strand the old
+    // snapshot unpaired.
+    expect(vt).toMatch(/dataset\.vtFigure = "portrait"/)
+    expect(vt).toMatch(/dataset\.vtZoom = "portrait"/)
+    expect(about).toContain('data-vt-anchor="/"')
+
+    // The print assembles once per page session, never again on traversal.
+    // Module scope is the lifetime: it survives client navigation and resets on
+    // a real load. Reading it during a server render would leak one visitor's
+    // state into another's markup, so both accessors are browser-only.
+    const assembly = read("app/utils/portraitAssembly.ts")
+    expect(assembly).toMatch(/typeof window !== "undefined"/)
+    expect(read("app/components/AboutPortrait.tsx")).toContain("onViewportEnter={markAssembled}")
+    expect(read("app/about/PortraitAssemblyGate.tsx")).toContain("useLayoutEffect")
+    for (const cls of ["portrait-photo", "portrait-mount", "portrait-mark", "portrait-rule", "portrait-caption"]) {
+      expect(css).toContain(`:root[data-portrait-assembled] .${cls}`)
+    }
+
+    // Arrival is not the same as having rendered: a route that misses its
+    // prefetch shows app/loading.tsx, and a snapshot taken against that
+    // skeleton pairs nothing, leaving the old portrait to fade out alone.
+    expect(vt).toContain("FIGURE_TARGET")
+    expect(vt).toMatch(/querySelector\(FIGURE_TARGET\)/)
+
+    // Left set on purpose after a morph, so it must be cleared before the next
+    // capture: a duplicate view-transition-name makes Chrome skip everything.
+    expect(vt).toMatch(/delete document\.documentElement\.dataset\.vtFigure/)
+    // It must NOT be dropped in cleanup: that would only restart the entrance
+    // it suppresses at the moment the transition finishes.
+    const cleanup = vt.slice(vt.indexOf("const cleanup"), vt.indexOf("const onClick"))
+    expect(cleanup).not.toMatch(/delete[^\n]*vtFigure/)
+  })
+
   it("the navigation snapshot resolves from a layout effect, not a passive one", () => {
     const vt = read("app/components/ViewTransitions.tsx")
     // Painting is suspended while the browser holds the snapshot, so React
