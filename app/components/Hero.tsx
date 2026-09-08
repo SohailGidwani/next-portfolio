@@ -107,12 +107,14 @@ export default function Hero() {
           <HeroTitle />
         </div>
 
+        {/* text-balance: measured at 1280px the natural break leaves a 117px
+            stub under a 563px first line (spread 446). Balanced it sets
+            339/341, spread 2. Mobile already broke evenly and is unaffected. */}
         <p
-          className="hero-enter mt-5 max-w-xl text-[14px] font-normal leading-relaxed text-muted-foreground sm:mt-8 sm:text-[15px] md:mx-auto md:mt-10 md:px-1"
+          className="hero-enter mt-5 max-w-xl text-balance text-[14px] font-normal leading-relaxed text-muted-foreground sm:mt-8 sm:text-[15px] md:mx-auto md:mt-10 md:px-1"
           style={{ animationDelay: "0.35s" }}
         >
-          I build AI systems that actually work in production, not just in notebooks. Full-stack engineering meets applied
-          machine learning.
+          I build AI systems that hold up in production, and publish the evaluations that say whether they do.
         </p>
 
         <div
