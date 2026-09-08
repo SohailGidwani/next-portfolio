@@ -196,6 +196,15 @@ export default function PortageDeepDivePage() {
                 <span className="font-mono text-foreground">metrics</span> tables or documented DoD scripts.
               </p>
 
+              {/* The publishing date is not the measurement date. Stating both stops
+                  a later review pass from reading as a fresh benchmark run. */}
+              <p className="mb-8 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                Evidence reviewed September 8, 2026. Development gate history is from July 2026; frozen R5 v1
+                ran in July 2026; the three post-R5 development K1 greens are from August 2026. Current
+                regression closure remains in progress. These stored runs were inspected again for this page;
+                they were not rerun on the current tree.
+              </p>
+
               <div className="flex flex-wrap gap-2 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
                 {["FastAPI", "LangGraph", "Postgres 16", "pgvector", "LiteLLM", "Docker / gVisor", "Next.js", "FastMCP", "SQLAlchemy async", "Alembic", "pytest"].map((t) => (
                   <span key={t} className="rounded-[3px] border border-border bg-background/60 px-2 py-0.5">{t}</span>
@@ -685,6 +694,7 @@ export default function PortageDeepDivePage() {
                       ["Immunity to prompt-tuning bias", "Several recipe rules were learned from the development corpus. R5 v1 exposed the consequence rather than disproving it: the known-corpus gates stayed strong while unseen performance was 0/9."],
                       ["Replay results as autonomous results", "Frozen-plan replays isolate generation quality from architect variance. They are diagnostic, tagged as such, and never aggregated into headline green rates."],
                       ["\"Recipe-neutral\" as proven", "The engine contains no corpus identity and the contract machinery is framework-agnostic by construction, but neutrality is only proven by a second recipe, which is deliberately deferred."],
+                      ["Production readiness", "Development results are strong. Portage is not production-ready, generally solved, or held-out validated, and unseen-repository reliability remains unproven. Regression closure is still open: a later accepted-plan Microblog preservation replay is red on a source-defined initializer callback."],
                     ]}
                   />
                 </div>
@@ -774,22 +784,28 @@ export default function PortageDeepDivePage() {
                       R5 originally reported <span className="font-mono text-foreground">ws-example</span>{" "}
                       oracle integrity at 0.75, which reads as a generation that deleted protected tests. A
                       forensic audit disproved it: every protected test file was byte-identical, and the score
-                      was a false positive because Execute and Report each read only the first 8 KiB of a
-                      longer test file. Both readers now inspect full content, and a &gt;8 KiB regression
-                      covers the bug. The result does not move. All three samples were independently red:
+                      was a false positive caused by a truncated read of a long protected test file. Both
+                      readers now inspect full content, and a regression covers the bug. The result does not
+                      move. All three samples were independently red:
                       two stalled at 13/42 behind the shadowed decorators, and one restored the original tree
                       with tasks still incomplete. Correcting a measurement is not the same as revising an
                       outcome, and the outcome is still 0/9.
                     </p>
                     <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                       Because these failures now drive production changes, all three repositories are
-                      development inputs. The first remediation gate is green:{" "}
-                      <span className="font-mono text-foreground">ws-example</span> passed strict autonomous
-                      K=1 at 42/42 tests, 5/5 tasks, <span className="font-mono text-foreground">tree_state=migrated</span>,
-                      and oracle integrity 1.0. That is development evidence, not a revision of R5 v1. Silicon
-                      and flask-email-login remain the next gates, and any later held-out claim must keep this
-                      0/9 visible, hold the untouched ClipBin reserve, and add at least two newly scouted
-                      repositories.
+                      development inputs permanently, and all three have since reached one strict autonomous
+                      development K1 green: <span className="font-mono text-foreground">ws-example</span> at
+                      42/42 tests and 5/5 tasks, Silicon at 34/34 and 14/14, flask-email-login at 18/18 and
+                      15/15, each with <span className="font-mono text-foreground">tree_state=migrated</span>{" "}
+                      and oracle integrity 1.0. That is development evidence, not a revision of R5 v1, and
+                      their later successful runs cannot supply held-out evidence.
+                    </p>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                      Remediation is not fully closed. A new accepted-plan Microblog preservation replay
+                      exposed a general callback-retention bug involving a source-defined initializer
+                      callback: a replay diagnostic, not autonomous evidence. Any later held-out claim must
+                      keep this 0/9 visible and use a genuinely fresh frozen corpus scouted after that
+                      closure.
                     </p>
                   </div>
                 </div>
@@ -1032,14 +1048,19 @@ export default function PortageDeepDivePage() {
                     held-out repositories never touched during development. The development side is largely
                     met. R5 v1 failed the required final clause at 0/9, so the bar is{" "}
                     <span className="font-semibold text-foreground">not met yet</span>, and that result is now
-                    the governing constraint rather than something met by redefinition. Next is R5.1:
-                    generalize from the held-out failure classes while preserving every development and fault
-                    gate, then freeze a fresh unseen set built from ClipBin plus at least two newly scouted
-                    untouched repositories. R5.1 is underway and its first gate is green:{" "}
-                    <span className="font-mono text-foreground">ws-example</span> now passes strict autonomous
-                    K=1 at 42/42 tests, 5/5 tasks, a migrated tree and oracle integrity 1.0, closing the
-                    returned-client receiver gap on a repository that is a development input from here.
-                    Silicon and flask-email-login are the remaining gates, and none of this revises R5 v1.
+                    the governing constraint rather than something met by redefinition. The remediation
+                    work generalizes from the held-out failure classes while preserving every development and
+                    fault gate, before any fresh unseen set is frozen.
+                  </p>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                    All three former R5 repositories have since reached one strict autonomous development K1
+                    green: <span className="font-mono text-foreground">ws-example</span> at 42/42 tests and
+                    5/5 tasks, Silicon at 34/34 and 14/14, flask-email-login at 18/18 and 15/15, each with a
+                    migrated tree and oracle integrity 1.0. None of that revises R5 v1, and none of it is
+                    held-out evidence. The goal is not fully closed either: a new accepted-plan Microblog
+                    preservation replay is red on a source-defined initializer callback that was not
+                    retained, so regression closure is still in progress. Only after it closes does a newly
+                    frozen held-out corpus become meaningful.
                   </p>
                 </div>
               </MobileSection>
@@ -1060,8 +1081,9 @@ export default function PortageDeepDivePage() {
                     "Boundary:      converges strongly on the development corpus; R5 v1 scored 0/9 on unseen repos, so general capability realization is the frontier now",
                     "Development:   flaskr 5/5 · watchlist 5/5 at K=5 · items/restx/structural/minimal 3/3 at K=3 · fresh full-corpus sweep 6/7",
                     "Held-out:      R5 v1 0/9 strict green · architect 6/9 · trees 4 migrated / 5 restored / 0 hybrid · 119 calls · $3.8643 · 9/9 reports, 0 missing rows",
-                    "Remediation:   R5 repos are development inputs now · ws-example strict autonomous K=1 green 42/42, 5/5 tasks, migrated, oracle 1.0 (development evidence, not a revised R5)",
-                    "Integrity:     the 0.75 ws-example score was an 8 KiB truncated-reader false positive; files byte-identical, readers fixed, 0/9 unchanged · 331/331 backend tests passing",
+                    "Remediation:   all three R5 repos are development inputs now, each with one strict autonomous K1 green · ws-example 42/42 (5/5 tasks) · Silicon 34/34 (14/14) · flask-email-login 18/18 (15/15) · development evidence, not a revised R5",
+                    "Open:          a later accepted-plan Microblog preservation replay is red on a source-defined initializer callback; regression closure in progress",
+                    "Integrity:     the ws-example oracle alarm was a truncated read of a long protected test file; files byte-identical, readers fixed, 0/9 unchanged",
                   ]}
                 />
               </MobileSection>

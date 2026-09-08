@@ -39,7 +39,7 @@ const projects = [
       'Postgres job queue claimed via FOR UPDATE SKIP LOCKED with heartbeat lease; content-hash idempotent Execute',
       'Ephemeral --network none Docker sandbox verification with anti-gaming predicates (passed > 0, recomputed diffs, task truth reloaded from Postgres)',
       'Eight recovery strategies (targeted contract repair, targeted rollback, widen-on-repeat, behavioral retry-all, replan, model escalation, skip-and-continue, give up) bounded by budgets and fully logged in attempts_log with per-attempt cost; a failed targeted repair restores the last coherent cut rather than the original sources',
-      'Eval harness runs the real queue/worker path: 10/10 green on the Flaskr + Watchlist K=5 gates, 12/12 on the smaller K=3 tiers, 6/7 on a fresh full-corpus sweep, and 0/9 on a frozen held-out set of three previously unseen repositories, published beside the development gates rather than behind them',
+      'Eval harness runs the real queue/worker path: 10/10 green on the Flaskr + Watchlist K=5 gates, 12/12 on the smaller K=3 tiers, 6/7 on a fresh full-corpus sweep, and 0/9 on the frozen held-out evaluation of three previously unseen repositories, published beside the development gates rather than behind them. All three later reached one strict autonomous development K1 green (42/42, 34/34, 18/18 tests) as development inputs, which is not held-out evidence; regression closure is in progress',
       'MCP server exposes verify_patch_in_sandbox, repo_graph, and blast_radius so co-pilot agents (Claude Code, Cursor) can verify patches before writing',
     ],
     tags: ['Python', 'FastAPI', 'LangGraph', 'Postgres', 'pgvector', 'LiteLLM', 'Docker', 'MCP', 'Next.js', 'Agents'],
