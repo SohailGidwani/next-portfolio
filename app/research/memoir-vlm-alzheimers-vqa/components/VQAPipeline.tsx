@@ -95,7 +95,7 @@ export default function VQAPipeline() {
           className="h-auto w-full"
           preserveAspectRatio="xMidYMid meet"
           role="img"
-          aria-label="VQA pipeline: frozen encoders produce fused embeddings; FAISS retrieves top-50 similar subjects; cross-encoder reranks to top-5; LLM generates answers"
+          aria-label="VQA pipeline: frozen encoders produce fused embeddings; FAISS retrieves the top-50 similar subjects; a cross-encoder re-scores the top 20 and keeps 5; the LLM generates answers"
         >
           <defs>
             <marker
@@ -187,7 +187,7 @@ export default function VQAPipeline() {
             <rect x={700} y={midY - 32} width="140" height="64" rx="3" {...boxStyle} />
             <text x={770} y={midY - 8} textAnchor="middle" className="font-mono" style={{ fontSize: 13, fill: "var(--fg)", fontWeight: 600 }}>Cross-Encoder</text>
             <text x={770} y={midY + 9} textAnchor="middle" className="font-mono" style={{ fontSize: 12, fill: "var(--muted)" }}>Rerank</text>
-            <text x={770} y={midY + 22} textAnchor="middle" className="font-mono" style={{ fontSize: 12, fill: "var(--muted)" }}>top-50 → top-5</text>
+            <text x={770} y={midY + 22} textAnchor="middle" className="font-mono" style={{ fontSize: 12, fill: "var(--muted)" }}>top-20 → top-5</text>
           </g>
 
           {/* ═══ LLM ═══ */}
@@ -229,13 +229,13 @@ export default function VQAPipeline() {
           {/* Cross-encoder → LLM */}
           <Edge reduced={reduced} id="vqa-cross-llm" d={`M 840 ${midY} L 898 ${midY}`} delay={0.6} packet={{ dur: 1.8, begin: 2.2 }} />
 
-          {/* LLM → VQA Answer (accent — hero output) */}
+          {/* LLM → VQA Answer (accent, the hero output) */}
           <Edge reduced={reduced} id="vqa-llm-answer" d={`M 1060 ${midY - 24} L 1088 ${midY - 70}`} accent delay={0.7} packet={{ dur: 2.0, begin: 2.6 }} />
 
           {/* LLM → Caption */}
           <Edge reduced={reduced} id="vqa-llm-caption" d={`M 1060 ${midY} L 1088 ${midY}`} delay={0.7} packet={null} />
 
-          {/* Cross-encoder → Similar cases — routed below LLM */}
+          {/* Cross-encoder → Similar cases, routed below the LLM */}
           <Edge
             reduced={reduced}
             id="vqa-cross-similar"
@@ -252,10 +252,10 @@ export default function VQAPipeline() {
       </div>
       <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
         The frozen five-head encoder produces the fused embedding{" "}
-        <span className="font-mono text-foreground">z_f ∈ ℝ⁵¹²</span>. FAISS retrieves top-50
-        similar training subjects; a cross-encoder reranks down to top-5. Only the retrieved
-        textual captions reach the LLM, which never sees raw brain images. Three LLM backbones are
-        compared: Mistral 7B, Gemma 4 26B MoE, and MedGemma 1.5 4B.
+        <span className="font-mono text-foreground">z_f ∈ ℝ⁵¹²</span>. FAISS retrieves the top-50
+        similar training subjects; a cross-encoder re-scores the top 20 and keeps 5. Only the
+        retrieved textual captions reach the LLM, which never sees raw brain images. Three LLM
+        backbones are compared: Mistral 7B, Gemma 4 26B MoE, and MedGemma 1.5 4B.
       </p>
     </figure>
   )
@@ -293,7 +293,7 @@ function VQAPipelineVertical({ reduced, paused }: { reduced: boolean; paused: bo
           height="100%"
           preserveAspectRatio="xMidYMid meet"
           role="img"
-          aria-label="VQA pipeline: frozen encoders produce fused embeddings; FAISS retrieves top-50 similar subjects; cross-encoder reranks to top-5; LLM generates answers"
+          aria-label="VQA pipeline: frozen encoders produce fused embeddings; FAISS retrieves the top-50 similar subjects; a cross-encoder re-scores the top 20 and keeps 5; the LLM generates answers"
         >
           <defs>
             <marker
@@ -384,7 +384,7 @@ function VQAPipelineVertical({ reduced, paused }: { reduced: boolean; paused: bo
             <rect x={cx - 85} y={548} width="170" height="64" rx="3" {...boxStyle} />
             <text x={cx} y={572} textAnchor="middle" className="font-mono" style={{ fontSize: 13, fill: "var(--fg)", fontWeight: 600 }}>Cross-Encoder</text>
             <text x={cx} y={588} textAnchor="middle" className="font-mono" style={{ fontSize: 11, fill: "var(--muted)" }}>Rerank</text>
-            <text x={cx} y={603} textAnchor="middle" className="font-mono" style={{ fontSize: 11, fill: "var(--muted)" }}>top-50 → top-5</text>
+            <text x={cx} y={603} textAnchor="middle" className="font-mono" style={{ fontSize: 11, fill: "var(--muted)" }}>top-20 → top-5</text>
           </g>
 
           {/* ═══ LLM ═══ */}
@@ -426,13 +426,13 @@ function VQAPipelineVertical({ reduced, paused }: { reduced: boolean; paused: bo
           {/* Cross-encoder → LLM */}
           <Edge reduced={reduced} mk="-v" id="vqa-v-cross-llm" d={`M ${cx} 612 L ${cx} 660`} delay={0.6} packet={{ dur: 1.8, begin: 2.2 }} />
 
-          {/* LLM → VQA Answer (accent — hero output) */}
+          {/* LLM → VQA Answer (accent, the hero output) */}
           <Edge reduced={reduced} mk="-v" id="vqa-v-llm-answer" d={`M ${cx - 20} 758 Q ${cols[0]} 800 ${cols[0]} 832`} accent delay={0.7} packet={{ dur: 2.0, begin: 2.6 }} />
 
           {/* LLM → Caption */}
           <Edge reduced={reduced} mk="-v" id="vqa-v-llm-caption" d={`M ${cx} 758 L ${cx} 832`} delay={0.7} packet={null} />
 
-          {/* Cross-encoder → Similar cases — routed down the right margin */}
+          {/* Cross-encoder → Similar cases, routed down the right margin */}
           <Edge
             reduced={reduced}
             mk="-v"

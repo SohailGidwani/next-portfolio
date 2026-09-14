@@ -4,7 +4,7 @@ export const metadata: Metadata = {
   title:
     "MEMOIR-VLM: Multimodal VLM for Alzheimer's Classification and VQA | Sohail Gidwani Research",
   description:
-    "Technical deep dive on MEMOIR-VLM, a two-stage multimodal vision-language framework (T1 MRI, DTI FA, clinical) for Alzheimer's disease classification and VQA. 2,363 ADNI subjects, missing-modality cross-attention fusion, 0.707 DX3 balanced accuracy, retrieval-augmented VQA with a three-way LLM comparison (Mistral 7B vs Gemma 4 26B vs MedGemma 1.5 4B).",
+    "Technical deep dive on MEMOIR-VLM, a two-stage multimodal vision-language framework (T1 MRI, DTI FA, clinical) for Alzheimer's disease classification and question answering, accepted at Frontiers in Computational Neuroscience. 2,363 ADNI subjects, missing-modality cross-attention fusion, 68.2% 3-class and 91.3% CN vs dementia balanced accuracy, zero-shot OASIS-3 validation, and a leakage-audited retrieval-augmented VQA layer compared across Mistral 7B, Gemma 4 26B, and MedGemma 1.5 4B.",
   keywords: [
     "Alzheimer's disease",
     "multimodal deep learning",

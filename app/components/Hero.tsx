@@ -27,15 +27,19 @@ function HeroStats() {
     label: string
     href?: string
   }[] = [
-    { value: 2, suffix: "+", label: "Years in production engineering", href: "#experience" },
+    // Counted from 19 June 2023 (IIFL) and includes the Keck research role, so
+    // the label says engineering experience: production work alone is ~2y2m.
+    { value: 3, suffix: "+", label: "Years of engineering experience", href: "#experience" },
     { value: 3, label: "Enterprise AI systems shipped", href: "#experience" },
     // Outcome, not corpus size: 2,363 subjects measured the dataset, not the
-    // work. The figure is the binary head, so it carries a scoping duty the
-    // label no longer states: the href does that job instead, landing on a page
-    // whose own header puts 0.707 (3-class) beside 0.933 (CN vs dementia). Keep
-    // this linked to the research page for that reason, and do not restate 93.3%
-    // anywhere it would stand alone as a general Alzheimer's accuracy claim.
-    { text: "93.3%", label: "MEMOIR-VLM balanced accuracy", href: "/research/memoir-vlm-alzheimers-vqa" },
+    // work. The figure is the CN vs dementia head of the accepted paper's
+    // corrected model; the earlier 93.3% had CDR-SB among its inputs and is
+    // retracted. It carries a scoping duty the label no longer states: the href
+    // does that job instead, landing on a page whose own header puts 68.2%
+    // (3-class) beside it. Keep this linked to the research page for that
+    // reason, and do not restate 91.3% anywhere it would stand alone as a
+    // general Alzheimer's accuracy claim.
+    { text: "91.3%", label: "MEMOIR-VLM balanced accuracy", href: "/research/memoir-vlm-alzheimers-vqa" },
     { text: "LA", label: "Currently based", href: "#contact" },
   ]
 
@@ -47,7 +51,7 @@ function HeroStats() {
             key={item.label}
             href={item.href}
             className="group min-w-0 text-left md:text-center"
-            aria-label={`${item.value ?? item.text ?? ""} ${item.label}; view evidence`}
+            aria-label={`${item.value !== undefined ? `${item.value}${item.suffix ?? ""}` : item.text ?? ""} ${item.label}; view evidence`}
           >
             <p className="font-display text-[clamp(1.15rem,3.2vw,2.65rem)] leading-none tracking-[-0.02em] text-foreground">
               {item.value !== undefined ? (

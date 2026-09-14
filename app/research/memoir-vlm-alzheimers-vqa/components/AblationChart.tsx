@@ -65,7 +65,7 @@ interface Props {
 export default function AblationChart({ panels, caption }: Props) {
   return (
     <figure className="my-8">
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className={`grid gap-4 ${panels.length > 1 ? "sm:grid-cols-2" : ""}`}>
         {panels.map((panel) => (
           <BarChart key={panel.title} {...panel} />
         ))}

@@ -38,12 +38,12 @@ const experiences: ExperienceItem[] = [
     company: "Keck School of Medicine of USC",
     date: "Oct 2025 - Present",
     description:
-      "Building MEMOIR-VLM, a multimodal deep learning pipeline for Alzheimer's disease classification and VQA using neuroimaging and clinical data, with end-to-end experimentation infrastructure across ~70M parameter models.",
+      "Built MEMOIR-VLM, a multimodal vision-language model for Alzheimer's disease classification and question answering from neuroimaging and clinical data, now accepted at Frontiers in Computational Neuroscience.",
     projects: [
-      "Multimodal Deep Learning Pipeline: Architected a multimodal deep learning pipeline (MEMOIR-VLM) for Alzheimer's disease classification using T1 MRI, DTI imaging, and clinical data across 2,363 ADNI subjects, achieving 70.7% balanced accuracy on 3-class diagnosis and 93.3% on binary classification (CN vs Dementia).",
+      "Multimodal Deep Learning Pipeline: Architected a multimodal deep learning pipeline (MEMOIR-VLM) for Alzheimer's disease classification using T1 MRI, DTI imaging, and clinical data across 2,363 ADNI subjects, achieving 68.2% balanced accuracy on 3-class diagnosis and 91.3% on binary classification (CN vs Dementia), with 78.7% zero-shot balanced accuracy on the external OASIS-3 cohort.",
       "Missing-Modality Fusion: Designed missing-modality fusion via cross-attention with stochastic modality dropout, enabling robust inference with any subset of T1, DTI, and clinical inputs when imaging data is incomplete (39.4% DTI coverage).",
-      "Retrieval-Augmented VQA: Extended the frozen VLM with a FAISS-based retrieval + cross-encoder rerank + LLM pipeline; benchmarked Mistral 7B, Gemma 4 26B MoE, and MedGemma 1.5 4B, with Mistral 7B winning at 94.7% diagnosis VQA accuracy.",
-      "Experimentation Infrastructure: Built end-to-end experimentation infrastructure: two-stage training (CLIP contrastive pre-training → multi-task fine-tuning), modality ablation studies across 7 combinations, and confidence calibration analysis on ~70M parameter models.",
+      "Retrieval-Augmented VQA: Extended the frozen VLM with FAISS retrieval, cross-encoder reranking, and LLM generation (Mistral 7B, Gemma 4 26B MoE, MedGemma 1.5 4B); a leakage audit traced the headline VQA accuracy to diagnosis labels in retrieved captions, so the encoder does the diagnosis and the RAG layer serves as an interpretable interface.",
+      "Experimentation Infrastructure: Built end-to-end experimentation infrastructure: two-stage training (CLIP contrastive pre-training → multi-task fine-tuning), modality ablation studies across 7 combinations, paired-bootstrap significance testing, and confidence calibration analysis.",
     ],
     tags: ["Python", "PyTorch", "Deep Learning", "CLIP", "RAG"],
     isLatest: true,

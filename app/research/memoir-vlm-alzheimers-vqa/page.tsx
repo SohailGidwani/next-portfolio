@@ -1,3 +1,4 @@
+import type { ReactNode } from "react"
 import Link from "next/link"
 import Script from "next/script"
 import { Home, FileText, Github, Brain, Microscope, MessageSquare } from "lucide-react"
@@ -10,10 +11,18 @@ import MobileSection from "@/app/components/MobileSection"
 import DiagramLightbox from "@/app/components/DiagramLightbox"
 import VLMArchitecture from "./components/VLMArchitecture"
 import VQAPipeline from "./components/VQAPipeline"
-import ConfusionMatrix from "./components/ConfusionMatrix"
 import AblationChart from "./components/AblationChart"
-import TrainingChart from "./components/TrainingChart"
 import LLMComparison from "./components/LLMComparison"
+import PairedDifferences from "./components/PairedDifferences"
+
+// Every number on this page is from the accepted paper's corrected model,
+// which removed CDR-SB from the clinical inputs. The original (leaky) figures
+// appear only in the labeled comparison table in Results. Some tables in the
+// author's proof still carry pre-correction values (0.707 / 0.933, "six task
+// heads", "6 continuous features"); the corrected prose and Tables 10 and 21
+// win every conflict, so do not "fix" this page back from those tables.
+
+const DOI = "10.3389/fncom.2026.1902258"
 
 const tocItems = [
   { id: "section-01", n: "01", label: "The Clinical Ask" },
@@ -24,7 +33,8 @@ const tocItems = [
   { id: "section-06", n: "06", label: "Modality Ablation" },
   { id: "section-07", n: "07", label: "RAG VQA Extension" },
   { id: "section-08", n: "08", label: "LLM Comparison" },
-  { id: "section-09", n: "09", label: "Key Findings" },
+  { id: "section-09", n: "09", label: "External Validation" },
+  { id: "section-10", n: "10", label: "Key Findings" },
 ]
 
 function Stat({
@@ -33,7 +43,7 @@ function Stat({
   primary,
 }: {
   value: string
-  label: string
+  label: ReactNode
   primary?: boolean
 }) {
   return (
@@ -47,57 +57,39 @@ function Stat({
 }
 
 export default function MultiModalAlzheimersVQAPage() {
-  // ── Training history data (Stage 2B, 30 epochs) ──
-  const training = {
-    dx3: [
-      0.621, 0.624, 0.613, 0.659, 0.662, 0.672, 0.653, 0.639, 0.64, 0.677,
-      0.672, 0.674, 0.609, 0.675, 0.661, 0.688, 0.714, 0.662, 0.704, 0.711,
-      0.72, 0.718, 0.71, 0.698, 0.707, 0.715, 0.701, 0.725, 0.715, 0.727,
-    ],
-    sex: [
-      0.542, 0.568, 0.559, 0.538, 0.586, 0.576, 0.597, 0.565, 0.605, 0.599,
-      0.603, 0.591, 0.599, 0.591, 0.589, 0.599, 0.589, 0.597, 0.601, 0.614,
-      0.612, 0.605, 0.603, 0.601, 0.603, 0.605, 0.614, 0.605, 0.605, 0.61,
-    ],
-  }
-
-  // ── Ablation data (balanced accuracy across 7 modality combinations) ──
-  const ablationCombos = [
-    "T1 + DTI + Clin",
-    "T1 + Clin",
-    "DTI + Clin",
-    "Clin only",
-    "T1 + DTI",
-    "T1 only",
-    "DTI only",
-  ]
+  // ── Corrected ablation (paper Table 21a). Only the four clinical-inclusive
+  // configurations have corrected values; the imaging-only bars in the proof's
+  // Table 14b are pre-correction, so they stay out of the chart. ──
   const ablationPanels = [
     {
       title: "DX 3-class (Bal. Acc.)",
-      subtitle: "CN / MCI / Dementia",
+      subtitle: "CN / MCI / Dementia · n = 474",
       bars: [
-        { label: ablationCombos[0], value: 0.707, highlight: true },
-        { label: ablationCombos[1], value: 0.692 },
-        { label: ablationCombos[2], value: 0.701 },
-        { label: ablationCombos[3], value: 0.7 },
-        { label: ablationCombos[4], value: 0.598 },
-        { label: ablationCombos[5], value: 0.587 },
-        { label: ablationCombos[6], value: 0.388 },
+        { label: "T1 + DTI + Clin", value: 0.682 },
+        { label: "T1 + Clin", value: 0.683 },
+        { label: "DTI + Clin", value: 0.701, highlight: true },
+        { label: "Clin only", value: 0.666 },
       ],
     },
     {
       title: "DX Binary (Bal. Acc.)",
-      subtitle: "CN vs Dementia",
+      subtitle: "CN vs Dementia · n = 311",
       bars: [
-        { label: ablationCombos[0], value: 0.933, highlight: true },
-        { label: ablationCombos[1], value: 0.932 },
-        { label: ablationCombos[2], value: 0.938 },
-        { label: ablationCombos[3], value: 0.938 },
-        { label: ablationCombos[4], value: 0.848 },
-        { label: ablationCombos[5], value: 0.833 },
-        { label: ablationCombos[6], value: 0.528 },
+        { label: "T1 + DTI + Clin", value: 0.913 },
+        { label: "T1 + Clin", value: 0.906 },
+        { label: "DTI + Clin", value: 0.91 },
+        { label: "Clin only", value: 0.893 },
       ],
     },
+  ]
+
+  // ── Paired bootstrap comparisons, three-class diagnosis (Table 21a). ──
+  const pairedDX3 = [
+    { id: "A", a: { name: "Clinical only", value: 0.666 }, b: { name: "DTI + Clinical", value: 0.701 }, diff: 0.034, lo: 0.009, hi: 0.06, p: "0.012" },
+    { id: "B", a: { name: "Clinical only", value: 0.666 }, b: { name: "Full", value: 0.682 }, diff: 0.016, lo: -0.031, hi: 0.062, p: "0.498" },
+    { id: "C", a: { name: "Clinical only", value: 0.666 }, b: { name: "T1 + Clinical", value: 0.683 }, diff: 0.016, lo: -0.028, hi: 0.062, p: "0.488" },
+    { id: "D", a: { name: "Full", value: 0.682 }, b: { name: "Clinical MLP", value: 0.705 }, diff: 0.023, lo: -0.023, hi: 0.068, p: "0.379" },
+    { id: "E", a: { name: "Full", value: 0.682 }, b: { name: "AutoGluon", value: 0.699 }, diff: 0.016, lo: -0.031, hi: 0.064, p: "0.549" },
   ]
 
   // ── Structured data (ScholarlyArticle) ──
@@ -106,27 +98,35 @@ export default function MultiModalAlzheimersVQAPage() {
     "@type": "ScholarlyArticle",
     headline:
       "MEMOIR-VLM: A Multimodal Vision-Language Model for Alzheimer's Disease Classification and Question Answering",
-    author: {
-      "@type": "Person",
-      name: "Sohail Gidwani",
-      url: "https://sohailgidwani.app",
-      affiliation: {
-        "@type": "Organization",
-        name: "Keck School of Medicine of USC",
+    author: [
+      {
+        "@type": "Person",
+        name: "Sohail Gidwani",
+        url: "https://sohailgidwani.app",
+        affiliation: {
+          "@type": "Organization",
+          name: "Keck School of Medicine of USC",
+        },
       },
-    },
-    datePublished: "2026-04-23",
-    dateModified: "2026-06-10",
+      { "@type": "Person", name: "Tamoghna Chattopadhyay" },
+      { "@type": "Person", name: "Sophia I. Thomopoulos" },
+      { "@type": "Person", name: "Paul M. Thompson" },
+      { "@type": "Organization", name: "Alzheimer's Disease Neuroimaging Initiative" },
+    ],
+    identifier: { "@type": "PropertyValue", propertyID: "DOI", value: DOI },
+    // No datePublished until the journal publishes: schema.org has no
+    // "accepted" state, and a date is a publication claim.
+    dateModified: "2026-09-13",
     keywords: [
       "Alzheimer's disease",
       "multimodal deep learning",
       "missing modality",
       "ADNI",
+      "OASIS-3",
       "retrieval-augmented VQA",
-      "Mistral 7B",
     ],
     description:
-      "MEMOIR-VLM is a two-stage multimodal vision-language framework for Alzheimer's disease classification using T1 MRI, DTI FA maps, and structured clinical features. A missing-modality-aware encoder predicts diagnosis, clinical severity, age, and sex, and a retrieval-augmented VQA pipeline (FAISS + cross-encoder rerank + LLM) enables case-based reasoning, benchmarked across Mistral 7B, Gemma 4 26B MoE, and MedGemma 1.5 4B.",
+      "MEMOIR-VLM is a two-stage multimodal vision-language framework for Alzheimer's disease classification using T1 MRI, DTI FA maps, and structured clinical scores, accepted at Frontiers in Computational Neuroscience. A missing-modality-aware encoder performs diagnosis and clinical prediction from any available subset of inputs (91.3% CN vs dementia and 68.2% 3-class balanced accuracy after removing a CDR-SB input leak) and transfers zero-shot to OASIS-3 (78.7% balanced accuracy). A retrieval-augmented language layer serves as an interpretable interface over comparable cases, not as a diagnostic classifier.",
     isAccessibleForFree: true,
     inLanguage: "en",
     publisher: {
@@ -179,25 +179,57 @@ export default function MultiModalAlzheimersVQAPage() {
                   Research / Keck USC
                 </span>
               </div>
-              <h1 className="font-display mb-5 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-                MEMOIR-VLM: Multimodal Vision-Language Model for Alzheimer&apos;s Disease Classification and VQA
+              {/* The published title separates name and subtitle with an em
+                  dash; the site renders it with a colon, as everywhere else. */}
+              <h1 className="font-display mb-4 text-balance text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+                MEMOIR-VLM: a multimodal vision-language model for Alzheimer&apos;s disease
+                classification and question answering
               </h1>
 
-              {/* Stats row */}
-              <div className="mb-6 flex flex-wrap items-center gap-x-6 gap-y-4">
+              <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
+                <span className="text-foreground">Sohail Gidwani</span>, Tamoghna Chattopadhyay,
+                Sophia I. Thomopoulos, Paul M. Thompson, and the Alzheimer&apos;s Disease
+                Neuroimaging Initiative
+              </p>
+
+              {/* The DOI stays text until it resolves: the journal registers it
+                  at publication, and a dead link is worse than none. */}
+              <p className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
+                <span className="inline-flex items-center gap-1.5 text-foreground">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" aria-hidden />
+                  Accepted, in production
+                </span>
+                {/* Phones wrap the journal onto its own line; a separator
+                    left there would dangle at the end of the first. */}
+                <span aria-hidden className="hidden sm:inline">·</span>
+                <span>Frontiers in Computational Neuroscience</span>
+              </p>
+              <p className="mb-8 mt-1 font-mono text-xs text-muted-foreground">doi: {DOI}</p>
+
+              {/* Equal columns: a flex row let the longest label push the
+                  fourth stat onto a line of its own. */}
+              <div className="mb-6 grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-4">
                 <Stat value="2,363" label="ADNI subjects" primary />
-                <Stat value="~70M" label="Model params" />
-                <Stat value="0.707" label="DX 3-class Bal. Acc." />
-                <Stat value="0.933" label="CN vs Dem Bal. Acc." />
+                <Stat value="68.2%" label="3-class Bal. Acc." />
+                <Stat value="91.3%" label="CN vs Dem Bal. Acc." />
+                <Stat
+                  value="78.7%"
+                  label={
+                    <>
+                      OASIS-3 <span className="whitespace-nowrap">zero-shot</span> Bal. Acc.
+                    </>
+                  }
+                />
               </div>
 
               <p className="mb-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-                MEMOIR-VLM is a two-stage multimodal vision-language framework for Alzheimer&apos;s
-                disease characterization using T1-weighted MRI, DTI fractional anisotropy maps, and
-                structured clinical features. A missing-modality-aware encoder learns a shared
-                representation for diagnosis, clinical severity, age, and sex prediction, while a
-                retrieval-augmented VQA pipeline enables case-based reasoning and natural-language
-                answers grounded in similar ADNI subjects.
+                MEMOIR-VLM is a two-stage framework for Alzheimer&apos;s disease characterization
+                from T1-weighted MRI, DTI fractional anisotropy maps, and structured clinical
+                scores. A missing-modality-aware encoder does the diagnosis: one set of weights
+                runs on any available subset of inputs and predicts diagnosis, CDR-SB severity,
+                age, and sex. A retrieval-augmented language layer on top retrieves comparable
+                cases and writes readable summaries grounded in them. It is an interpretable
+                interface, not a better classifier.
               </p>
 
               <div className="flex flex-wrap gap-2 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
@@ -212,6 +244,7 @@ export default function MultiModalAlzheimersVQAPage() {
                   "Gemma 4 26B",
                   "MedGemma",
                   "ADNI",
+                  "OASIS-3",
                 ].map((t) => (
                   <span
                     key={t}
@@ -229,7 +262,7 @@ export default function MultiModalAlzheimersVQAPage() {
         <div className="py-16 sm:py-20">
           <div className="container mx-auto px-4">
             <div className="mx-auto max-w-3xl space-y-20">
-              {/* 01 — Clinical Motivation */}
+              {/* 01 · Clinical Motivation */}
               <MobileSection
                 n="01" label="The Clinical Ask" id="section-01"
                 summary="Why Alzheimer's assessment needs several scan types at once, and why most systems break when one of them is missing."
@@ -250,7 +283,7 @@ export default function MultiModalAlzheimersVQAPage() {
                     </strong>{" "}
                     can integrate whatever data is available, classify disease stage, estimate
                     clinical severity, retrieve similar historical cases, and support
-                    natural-language VQA over brain-scan-derived representations.
+                    natural-language questions over brain-scan-derived representations.
                   </p>
                 </div>
 
@@ -259,36 +292,48 @@ export default function MultiModalAlzheimersVQAPage() {
                     Primary target
                   </p>
                   <p className="mt-2 text-sm leading-relaxed text-foreground">
-                    Build a robust multimodal AI system for Alzheimer&apos;s disease diagnosis and
-                    clinical reasoning. The model predicts CN / MCI / Dementia, CN vs Dementia,
-                    CDR-SB severity, age, and sex, then extends the frozen encoder into a
-                    retrieval-augmented VQA pipeline for interpretable case-based answers.
+                    One multimodal model for Alzheimer&apos;s diagnosis and clinical prediction
+                    that keeps working when inputs are missing. The encoder predicts CN / MCI /
+                    Dementia, CN vs Dementia, CDR-SB severity, age, and sex. The frozen encoder
+                    then feeds a retrieval-augmented language layer that returns comparable cases
+                    and plain-language summaries, so a prediction can be inspected rather than
+                    just read.
                   </p>
                 </div>
               </MobileSection>
 
-              {/* 02 — Dataset */}
+              {/* 02 · Dataset */}
               <MobileSection
                 n="02" label="Dataset" id="section-02"
-                summary="The ADNI cohort behind every number here: 2,363 subjects, and the 39 percent who actually had DTI available."
+                summary="Development and internal testing used 2,363 ADNI subjects, with zero-shot external validation on 1,048 OASIS-3 subjects."
               >
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
-                    All data comes from the{" "}
+                    The{" "}
                     <strong className="font-semibold text-foreground">
                       Alzheimer&apos;s Disease Neuroimaging Initiative (ADNI)
-                    </strong>
-                    . After filtering to subjects with valid DX labels and 9DOF T1 paths and
-                    deduplicating to one scan per subject, the cohort is{" "}
-                    <strong className="font-semibold text-foreground">2,363 subjects</strong>. All
-                    subjects had valid diagnostic labels and T1-weighted MRI. DTI-FA was available
-                    for a subset of 930 participants, corresponding to 39.4% of the full cohort.
+                    </strong>{" "}
+                    cohort was filtered to subjects with valid diagnostic labels and T1 MRI, then
+                    deduplicated to one scan per subject before any split, leaving{" "}
+                    <strong className="font-semibold text-foreground">2,363 subjects</strong>.
+                    DTI-FA was available for 930 of them (39.4%). The FAISS reference index is
+                    built only from training subjects, so a test subject can never retrieve
+                    itself.
+                  </p>
+                  <p>
+                    External validation used{" "}
+                    <strong className="font-semibold text-foreground">
+                      1,048 OASIS-3 subjects
+                    </strong>{" "}
+                    (one session each: 751 CN, 297 impaired), which have T1 MRI and clinical
+                    scores but no processed diffusion data. None of it was used for training,
+                    model selection, or index construction.
                   </p>
                 </div>
 
                 <div className="mt-6 overflow-x-auto rounded border border-border bg-card/40 p-5">
                   <p className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
-                    80 / 20 stratified split by diagnosis
+                    ADNI · 80 / 20 split, stratified by diagnosis
                   </p>
                   <table className="mt-3 w-full text-sm">
                     <thead>
@@ -328,11 +373,10 @@ export default function MultiModalAlzheimersVQAPage() {
                   </table>
                 </div>
 
-                <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                <div className="mt-4 grid gap-3 sm:grid-cols-2">
                   {[
                     { value: "100%", label: "T1 MRI (9DOF 2mm)" },
-                    { value: "39.4%", label: "DTI FA coverage" },
-                    { value: "~100%", label: "Clinical scores" },
+                    { value: "39.4%", label: "DTI FA coverage · 930 subjects" },
                   ].map((m) => (
                     <div key={m.label} className="rounded border border-border bg-card/40 p-4">
                       <p className="font-display text-xl font-bold text-foreground">{m.value}</p>
@@ -342,9 +386,37 @@ export default function MultiModalAlzheimersVQAPage() {
                     </div>
                   ))}
                 </div>
+
+                {/* Per-score, not "~100%": MoCA is missing for a third of the
+                    training set, and those gaps are mean-imputed. */}
+                <div className="mt-3 rounded border border-border bg-card/40 p-4">
+                  <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
+                    Clinical score availability · training set
+                  </p>
+                  <div className="mt-3 grid grid-cols-3 gap-x-4 gap-y-3 sm:grid-cols-5">
+                    {[
+                      ["91.5%", "APOE"],
+                      ["91.2%", "MMSE"],
+                      ["90.3%", "ADAS-11"],
+                      ["89.3%", "ADAS-13"],
+                      ["63.9%", "MoCA"],
+                    ].map(([value, label]) => (
+                      <div key={label}>
+                        <p className="font-display text-lg font-bold text-foreground">{value}</p>
+                        <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
+                          {label}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+                    MEMOIR-VLM avoids imputing missing imaging modalities. Individual missing
+                    clinical scores, such as an absent MoCA, are mean-imputed.
+                  </p>
+                </div>
               </MobileSection>
 
-              {/* 03 — VLM Architecture */}
+              {/* 03 · VLM Architecture */}
               <MobileSection
                 n="03" label="Model Architecture" id="section-03"
                 summary="Three modality encoders, per-modality masking, and the cross-attention fusion that feeds five prediction heads."
@@ -367,7 +439,7 @@ export default function MultiModalAlzheimersVQAPage() {
                 </div>
 
 
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="mt-6 grid gap-4 sm:grid-cols-2">
                   <div className="rounded border border-border bg-card p-5">
                     <div className="mb-3 flex items-center gap-2 text-accent">
                       <Brain className="h-4 w-4" />
@@ -389,27 +461,30 @@ export default function MultiModalAlzheimersVQAPage() {
                       </p>
                     </div>
                     <p className="text-sm leading-relaxed text-muted-foreground">
-                      MLP over 5 continuous clinical features (CDR-SB, ADAS-11, ADAS-13, MMSE,
-                      MoCA) plus an APOE genotype embedding. Output: 512-d, ℓ2-normalized.
+                      MLP over 4 continuous clinical scores (ADAS-11, ADAS-13, MMSE, MoCA) plus an
+                      APOE genotype embedding. Output: 512-d, ℓ2-normalized. CDR-SB is a
+                      prediction target, never an input.
                     </p>
                   </div>
                 </div>
 
                 <div className="mt-6 rounded border border-accent/30 bg-accent/5 p-5">
                   <p className="font-mono text-xs uppercase tracking-[0.22em] text-accent">
-                    Design decision: no label leakage
+                    Design decision: targets stay out of the inputs
                   </p>
                   <p className="mt-2 text-sm leading-relaxed text-foreground">
-                    Target variables are excluded from the clinical input space. Diagnosis, sex,
-                    and age are prediction targets rather than inputs. The clinical encoder only
-                    receives cognitive / clinical scores and APOE genotype, forcing the model to
-                    learn relationships among imaging features and clinical indicators rather than
-                    copying labels.
+                    Diagnosis, sex, age, and CDR-SB are prediction targets, not inputs. An earlier
+                    version also fed CDR-SB into the clinical encoder. CDR-SB is one of the
+                    targets and tracks diagnosis closely, so that was a cognitive-score leak; the
+                    final model removes it, and every number on this page comes from the corrected
+                    model unless it is marked original. The remaining scores still correlate with
+                    diagnosis, which is itself partly derived from cognitive testing, so the paper
+                    makes no claim that the model finds signal those scores do not already carry.
                   </p>
                 </div>
               </MobileSection>
 
-              {/* 04 — Training */}
+              {/* 04 · Training */}
               <MobileSection
                 n="04" label="Training Procedure" id="section-04"
                 summary="Two stages: contrastive pre-training across modality pairs, then multi-task fine-tuning at differential learning rates."
@@ -420,7 +495,9 @@ export default function MultiModalAlzheimersVQAPage() {
                     pairwise CLIP/InfoNCE loss between all three modality pairs (T1–DTI,
                     T1–Clinical, DTI–Clinical), computed only on pairs where both modalities are
                     present. Stage 2B is multi-task fine-tuning across five heads with differential
-                    learning rates (backbone 10⁻⁵, heads 5×10⁻⁴).
+                    learning rates (backbone 10⁻⁵, heads 5×10⁻⁴). The best composite checkpoint
+                    came at epoch 5, after which the model began to overfit, and that checkpoint
+                    is the one evaluated.
                   </p>
                   <p>
                     During training, modalities are randomly dropped so the model learns to work
@@ -448,39 +525,26 @@ export default function MultiModalAlzheimersVQAPage() {
                       Stage 2B · Multi-task
                     </p>
                     <p className="mt-2 font-display text-lg text-foreground">
-                      30 epochs · 5 joint heads
+                      5 joint heads · best at epoch 5
                     </p>
                     <p className="mt-1 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
                       focal (γ=2) + smooth L1 · AMP FP16
                     </p>
                   </div>
                 </div>
-
-                <TrainingChart
-                  series={[
-                    { name: "DX3 Bal. Acc.", data: training.dx3, color: "var(--accent)" },
-                    {
-                      name: "Sex Acc.",
-                      data: training.sex,
-                      color: "#10b981",
-                      dashed: true,
-                    },
-                  ]}
-                  xMax={30}
-                  bestEpoch={5}
-                  caption="Stage 2B training history. Best composite checkpoint selected at epoch 5; later epochs showed overfitting. The epoch-5 checkpoint was used for downstream evaluation."
-                />
               </MobileSection>
 
-              {/* 05 — Results */}
+              {/* 05 · Results */}
               <MobileSection
                 n="05" label="Results" id="section-05"
-                summary="Headline accuracy and AUC on the held-out 474-subject test set, reported per task head."
+                summary="The corrected encoder on the held-out 474-subject ADNI test set, beside the original numbers it replaced."
               >
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
-                    Evaluated on the held-out 474-subject test set using all available modalities.
-                    Headline metrics on the best model (Stage 2B, epoch 5):
+                    Evaluated on the held-out 474-subject test set with all available modalities.
+                    The final column is the corrected model. The original column is the earlier
+                    version that still had CDR-SB among its inputs, kept so the correction is
+                    visible rather than silently overwritten.
                   </p>
                 </div>
 
@@ -489,18 +553,20 @@ export default function MultiModalAlzheimersVQAPage() {
                     <thead>
                       <tr className="border-b border-border/70 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
                         <th className="py-2 text-left font-normal">Task</th>
-                        <th className="py-2 text-right font-normal">Bal. Acc.</th>
-                        <th className="py-2 text-right font-normal">Macro F1</th>
-                        <th className="py-2 text-right font-normal">AUC</th>
+                        <th className="py-2 text-right font-normal text-foreground">Final</th>
+                        <th className="py-2 pl-4 text-right font-normal">Original</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border/50 font-mono tabular-nums">
                       {[
-                        ["DX 3-class (CN / MCI / Dem)", "0.707", "0.703", "0.865", true],
-                        ["DX Binary (CN vs Dem)", "0.933", "0.932", "0.981", false],
-                        ["Sex", "0.575", "0.563", "0.597", false],
+                        ["DX 3-class balanced accuracy", "0.682", "0.707", true],
+                        ["DX 3-class macro-F1", "0.681", "0.703", false],
+                        ["CN vs Dementia balanced accuracy", "0.913", "0.933", false],
+                        ["Sex accuracy", "0.555", "0.575", false],
+                        ["Age MAE (years) ↓", "5.96", "6.31", false],
+                        ["CDR-SB MAE ↓", "1.11", "0.97", false],
                       ].map((row) => {
-                        const highlight = row[4] as boolean
+                        const highlight = row[3] as boolean
                         return (
                           <tr key={row[0] as string}>
                             <td
@@ -516,59 +582,26 @@ export default function MultiModalAlzheimersVQAPage() {
                               ) : null}
                             </td>
                             <td
-                              className={`py-2 text-right ${
-                                highlight ? "font-bold text-foreground" : "text-muted-foreground"
+                              className={`py-2 text-right text-foreground ${
+                                highlight ? "font-bold" : ""
                               }`}
                             >
                               {row[1]}
                             </td>
-                            <td className="py-2 text-right text-muted-foreground">{row[2]}</td>
-                            <td className="py-2 text-right text-muted-foreground">{row[3]}</td>
+                            <td className="py-2 pl-4 text-right text-muted-foreground/60">
+                              {row[2]}
+                            </td>
                           </tr>
                         )
                       })}
-                      <tr>
-                        <td className="py-2 text-muted-foreground">Age (years, MAE ↓)</td>
-                        <td className="py-2 text-right text-muted-foreground" colSpan={3}>
-                          6.31
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="py-2 text-muted-foreground">CDR-SB (MAE ↓)</td>
-                        <td className="py-2 text-right text-muted-foreground" colSpan={3}>
-                          0.97
-                        </td>
-                      </tr>
                     </tbody>
                   </table>
-                </div>
-
-                <div className="mt-8">
-                  <p className="mb-4 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
-                    DX 3-class confusion matrix · full test set (n=474)
+                  <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
+                    Original: the earlier model with CDR-SB among its inputs. CDR-SB error rises
+                    to 1.11 because the original figure had the target partly present in its own
+                    inputs; that is the leak being removed, not the model getting worse. No AUC is
+                    listed because the paper reports AUC only for the original model.
                   </p>
-                  <ConfusionMatrix
-                    labels={["CN", "MCI", "Dem"]}
-                    matrix={[
-                      [
-                        { count: 119, percent: 70.8 },
-                        { count: 48, percent: 28.6 },
-                        { count: 1, percent: 0.6 },
-                      ],
-                      [
-                        { count: 40, percent: 24.5 },
-                        { count: 90, percent: 55.2 },
-                        { count: 33, percent: 20.2 },
-                      ],
-                      [
-                        { count: 2, percent: 1.4 },
-                        { count: 18, percent: 12.6 },
-                        { count: 123, percent: 86.0 },
-                      ],
-                    ]}
-                    rowTotals={[168, 163, 143]}
-                    caption="Rows = true class, columns = predicted. Each cell shows count and row-normalized %. MCI is the hardest class at 55% recall. It sits between CN and Dementia so the model hedges in both directions. Dementia recall is the strongest at 86%, with only 2 misclassified as CN."
-                  />
                 </div>
 
                 <div className="mt-6 grid gap-4 sm:grid-cols-2">
@@ -577,52 +610,78 @@ export default function MultiModalAlzheimersVQAPage() {
                       CN vs Dementia
                     </p>
                     <p className="mt-2 font-display text-2xl font-bold text-foreground">
-                      0.933 Bal. Acc. · 0.981 AUC
+                      0.913 Bal. Acc.
                     </p>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      Strong separation between the extremes of the disease spectrum. The model
-                      cleanly distinguishes cognitively normal subjects from those with dementia.
+                      The extremes of the disease spectrum separate cleanly. MCI remains the
+                      hardest boundary: it sits between CN and dementia and overlaps both.
                     </p>
                   </div>
                   <div className="rounded border border-border bg-card p-5">
                     <p className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
-                      Severity &amp; demographics
+                      Severity &amp; age
                     </p>
                     <p className="mt-2 font-display text-2xl font-bold text-foreground">
-                      0.97 CDR-SB MAE · 6.31 yr age MAE
+                      1.11 CDR-SB MAE · 5.96 yr age MAE
                     </p>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      Alongside diagnosis, the shared representation supports clinical severity
-                      (CDR-SB) and age regression, learned jointly from the same fused embedding.
+                      Learned jointly with diagnosis from the same fused embedding, which is also
+                      what retrieval searches in section 07.
                     </p>
                   </div>
                 </div>
               </MobileSection>
 
-              {/* 06 — Modality Ablation */}
+              {/* 06 · Modality Ablation */}
               <MobileSection
                 n="06" label="Modality Ablation" id="section-06"
-                summary="All seven modality combinations run through the same trained model, showing where the signal actually comes from."
+                summary="Masking inputs on the same trained model: where the diagnostic signal comes from, and which differences survive a significance test."
               >
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
-                    Every one of the seven possible modality subsets was evaluated using the same
-                    trained model, with non-selected modalities masked at inference time. This
-                    shows where the signal actually comes from and which combination works best
-                    for each task.
+                    Every modality subset runs through the same trained weights, with the missing
+                    modalities masked at inference. The chart shows the four configurations that
+                    include clinical scores. With the clinical encoder masked entirely, imaging
+                    alone retains DX3 0.58 and DX2 0.84 (T1 + DTI), and DTI-FA by itself sits near
+                    the three-class chance line at 0.392.
                   </p>
                 </div>
 
                 <AblationChart
                   panels={ablationPanels}
-                  caption="Clinical scores carry the strongest diagnostic signal, with clinical-only performance approaching the full-modality model for 3-class diagnosis. Imaging remains useful, especially for non-diagnostic tasks and for deployment settings where clinical information is incomplete. The modality-dropout strategy prevents catastrophic degradation when DTI or clinical variables are missing."
+                  caption="Highlighted: the only configuration whose gain over clinical-only is statistically supported. On CN vs Dementia no configuration separates from clinical-only."
                 />
+
+                <PairedDifferences
+                  title="Paired differences · DX 3-class"
+                  subtitle="Positive favors the second configuration · n = 474"
+                  domain={[-0.05, 0.1]}
+                  rows={pairedDX3}
+                  caption="Stratified paired-bootstrap 95% intervals (10,000 resamples of the test set) with McNemar's exact p. Only A clears zero; B to E are secondary, and Holm adjustment takes each to p = 1.00. On the 179 test subjects who actually have DTI, A roughly doubles to +0.071 [+0.002, +0.141]. The model was trained once, so the intervals do not capture training-seed variability."
+                />
+
+                <div className="mt-6 rounded border border-accent/30 bg-accent/5 p-5">
+                  <p className="font-mono text-xs uppercase tracking-[0.22em] text-accent">
+                    What the ablation supports
+                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-foreground">
+                    Clinical scores carry most of the diagnostic signal. DTI contributes a
+                    statistically measurable gain when combined with clinical information for
+                    3-class diagnosis, but imaging alone is not sufficient for staging, so imaging
+                    and cognitive assessment are complementary rather than redundant. The full
+                    model is not significantly better than clinical-only on diagnosis, and simple
+                    clinical baselines are statistically indistinguishable from it, not better. On
+                    CN vs Dementia none of the comparisons clears zero. Where imaging does win
+                    clearly is age: imaging-only beats clinical-only by 0.63 years MAE [+0.14,
+                    +1.11], Wilcoxon p = 0.005.
+                  </p>
+                </div>
               </MobileSection>
 
-              {/* 07 — VQA Pipeline */}
+              {/* 07 · VQA Pipeline */}
               <MobileSection
                 n="07" label="Retrieval-Augmented VQA Extension" id="section-07"
-                summary="Turning a prediction into an explanation: retrieval over similar cases, reranked, then answered in natural language."
+                summary="Retrieval, reranking, and generation over similar cases, and the audit that found where its headline accuracy came from."
                 figure={
                   <DiagramLightbox title="RAG VQA Pipeline">
                     <VQAPipeline />
@@ -631,13 +690,12 @@ export default function MultiModalAlzheimersVQAPage() {
               >
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
-                    The encoder gives you a prediction and a confidence score. What it doesn&apos;t
-                    give you is an explanation, or any way to ask follow-up questions in natural
-                    language. That&apos;s what the VQA extension adds. The frozen encoder turns a
-                    query case into a 512-d embedding. FAISS finds the 50 most similar training
-                    subjects by inner product. A cross-encoder reranks those 50 down to the top 5
-                    most relevant matches. Those 5 captions become the context fed to a language
-                    model, which answers clinical questions about the case.
+                    The encoder gives you a prediction. What it doesn&apos;t give you is an
+                    explanation, or any way to ask follow-up questions in natural language.
+                    That&apos;s what the VQA extension adds. The frozen encoder turns a query case
+                    into a 512-d fused embedding. FAISS retrieves the 50 most similar training
+                    subjects, a cross-encoder re-scores the top 20 of those, and the 5 most
+                    relevant go to Mistral 7B as context for its answer.
                   </p>
                   <p>
                     The LLM never receives raw brain images. T1, DTI, and clinical inputs are
@@ -648,7 +706,7 @@ export default function MultiModalAlzheimersVQAPage() {
                 </div>
 
 
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="mt-6 grid gap-4 sm:grid-cols-2">
                   <div className="rounded border border-border bg-card p-5">
                     <div className="mb-3 flex items-center gap-2 text-accent">
                       <Microscope className="h-4 w-4" />
@@ -672,109 +730,258 @@ export default function MultiModalAlzheimersVQAPage() {
                     </div>
                     <p className="text-sm leading-relaxed text-muted-foreground">
                       FAISS IndexFlatIP over 1,889 ℓ2-normalized training vectors, exact
-                      inner-product search. Cross-encoder:{" "}
-                      <span className="font-mono text-xs">ms-marco-MiniLM-L-6-v2</span>,
-                      reranking top-50 to top-5.
+                      inner-product search, top-50. Cross-encoder{" "}
+                      <span className="font-mono text-xs">ms-marco-MiniLM-L-6-v2</span> re-scores
+                      the top 20 and keeps 5.
                     </p>
                   </div>
                 </div>
+
+                <div className="mt-8 space-y-4 text-base leading-relaxed text-muted-foreground">
+                  <p>
+                    <strong className="font-semibold text-foreground">
+                      The 94.7% was label exposure, not diagnosis.
+                    </strong>{" "}
+                    With labeled captions the pipeline reached 94.7% diagnosis accuracy. But the
+                    captions of retrieved training subjects state their diagnosis, which opens two
+                    routes to the answer without any inference: the cross-encoder can rerank
+                    neighbors by matching the diagnosis text, and the language model can copy the
+                    majority label from its context. The final paper treats 94.7% as a
+                    label-exposure artifact.
+                  </p>
+                  <p>
+                    The deployment-realistic test withholds the diagnosis field, since a new
+                    patient&apos;s diagnosis is unknown. Under masked captions no evaluated LLM
+                    exceeds a retrieval-only k-NN majority vote of 67.3%, which itself only
+                    matches the encoder&apos;s 68.2% 3-class accuracy.
+                  </p>
+                </div>
+
+                <AblationChart
+                  panels={[
+                    {
+                      title: "Diagnosis, labels masked",
+                      subtitle: "3-class · LLMs and k-NN on 150 stratified test subjects",
+                      bars: [
+                        { label: "Encoder (DX3)", value: 0.682, highlight: true },
+                        { label: "k-NN majority", value: 0.673 },
+                        { label: "Gemma 4 26B", value: 0.653 },
+                        { label: "Mistral 7B", value: 0.473 },
+                        { label: "MedGemma 1.5 4B", value: 0.413 },
+                      ],
+                    },
+                  ]}
+                  caption="The encoder figure is its balanced accuracy on the full 474-subject test set. Retrieval does not beat the encoder, and no language model beats retrieval."
+                />
+
+                <div className="mt-6 rounded border border-accent/30 bg-accent/5 p-5">
+                  <p className="font-mono text-xs uppercase tracking-[0.22em] text-accent">
+                    Where the diagnosis comes from
+                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-foreground">
+                    The multimodal encoder performs diagnosis. The retrieval-augmented language
+                    layer provides case-based reasoning, comparable historical cases, and
+                    natural-language summaries grounded in retrieved evidence. Building the
+                    reference index from label-free captions is a requirement of that setup, not
+                    an implementation detail.
+                  </p>
+                </div>
               </MobileSection>
 
-              {/* 08 — LLM Comparison */}
+              {/* 08 · LLM Comparison */}
               <MobileSection
                 n="08" label="LLM Backbone Comparison" id="section-08"
-                summary="How the candidate language backbones compare once they are all answering from the same retrieved context."
+                summary="Three backbones on identical retrieved context, and a ranking that flips once the labels are hidden."
               >
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
                     Three models were given the same retrieved context: Mistral 7B Instruct v0.3
                     (general-purpose, dense), Gemma 4 26B MoE (larger, mixture-of-experts), and
-                    MedGemma 1.5 4B IT (smaller, fine-tuned on medical data). All quantized to
-                    4-bit NF4. The question was simple: does a medical fine-tune beat a bigger
-                    general model on this task?
+                    MedGemma 1.5 4B IT (smaller, fine-tuned on medical data), all quantized to
+                    4-bit NF4. Retrieval is identical across them, so any difference comes from
+                    the generation step alone.
                   </p>
                 </div>
 
                 <LLMComparison
                   rows={[
                     {
-                      metric: "VQA Diagnosis",
-                      sublabel: "full modality (T1 + DTI + Clinical)",
+                      metric: "Diagnosis · labeled",
+                      sublabel: "label-exposure artifact",
                       mistral: 0.947,
                       gemma: 0.927,
                       medgemma: 0.507,
-                      higher: "mistral",
                     },
                     {
-                      metric: "BERTScore",
-                      sublabel: "contextual similarity",
-                      mistral: 0.894,
-                      gemma: 0.845,
-                      medgemma: 0.823,
-                      higher: "mistral",
+                      metric: "Diagnosis · masked",
+                      sublabel: "deployment-realistic · tick = k-NN 0.673",
+                      mistral: 0.473,
+                      gemma: 0.653,
+                      medgemma: 0.413,
+                      higher: "gemma",
+                      reference: 0.673,
                     },
                     {
-                      metric: "SBERT CosSim",
-                      sublabel: "sentence-level",
-                      mistral: 0.811,
-                      gemma: 0.81,
-                      medgemma: 0.428,
-                      higher: "mistral",
+                      metric: "Format adherence",
+                      sublabel: "parseable outputs",
+                      mistral: 1,
+                      gemma: 1,
+                      medgemma: 0.667,
+                      format: (v: number) => (v >= 0.995 ? "≈100%" : `${(v * 100).toFixed(1)}%`),
                     },
                   ]}
-                  caption="Same retrieved context across all three models; only the generation model changes. Mistral 7B wins every metric: diagnosis VQA accuracy and text quality (BERTScore, SBERT). MedGemma's medical fine-tune loses to a general-purpose 7B model. At this size, instruction-following matters more than raw model size or medical fine-tuning."
+                  caption="Same retrieved context across all three models; only the generation model changes. Under labeled captions Mistral 7B looked strongest because it copied the stated labels most faithfully. With labels masked the ranking inverts: Gemma 4 26B leads, and still falls short of the retrieval-only vote."
                 />
 
                 <div className="mt-6 rounded border border-accent/30 bg-accent/5 p-5">
                   <p className="font-mono text-xs uppercase tracking-[0.22em] text-accent">
-                    Headline finding
+                    Why Mistral 7B stays in the pipeline
                   </p>
                   <p className="mt-2 text-sm leading-relaxed text-foreground">
-                    <strong>Instruction-following beats size and domain.</strong> Mistral 7B, a
-                    general-purpose dense model, outperforms both a 26B MoE and a medically
-                    fine-tuned 4B on every metric. The retrieved context already supplies the
-                    medical knowledge. What matters is whether the model can follow instructions
-                    and format its output correctly.
+                    Not for diagnosis. In the label-masked setting Gemma 4 26B performs best among
+                    the tested LLMs, but none surpasses the retrieval-only baseline. Mistral 7B
+                    remains the natural-language interface backbone because it holds the output
+                    format (about 100% parseable, against 66.7% for MedGemma), produces
+                    high-fidelity text, and runs in about 4.5 GB of GPU memory with 4 to 6 s
+                    end-to-end inference.
+                  </p>
+                </div>
+
+                <div className="mt-6 overflow-x-auto rounded border border-border bg-card/40 p-5">
+                  <p className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
+                    Text quality · Mistral 7B, top-10 context, 150 subjects
+                  </p>
+                  <table className="mt-3 w-full text-sm">
+                    <thead>
+                      {/* Metrics as rows: two value columns fit a phone, where
+                          four pushed BERTScore and SBERT behind a scroll. */}
+                      <tr className="border-b border-border/70 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
+                        <th className="py-2 text-left font-normal">Metric</th>
+                        <th className="py-2 pl-4 text-right font-normal text-foreground">VQA</th>
+                        <th className="py-2 pl-4 text-right font-normal">Captioning</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border/50 font-mono text-xs tabular-nums">
+                      {[
+                        ["BLEU", "0.066 ± 0.038", "0.044 ± 0.025", false],
+                        ["ROUGE-L", "0.345 ± 0.084", "0.211 ± 0.057", false],
+                        ["BERTScore", "0.894 ± 0.022", "0.866 ± 0.017", true],
+                        ["SBERT", "0.811 ± 0.076", "0.767 ± 0.077", true],
+                      ].map(([metric, vqa, caption, semantic]) => (
+                        <tr key={metric as string}>
+                          <td className="whitespace-nowrap py-2 font-sans text-sm text-foreground">
+                            {metric}
+                          </td>
+                          <td
+                            className={`whitespace-nowrap py-2 pl-4 text-right ${
+                              semantic ? "font-bold text-foreground" : "text-muted-foreground"
+                            }`}
+                          >
+                            {vqa}
+                          </td>
+                          <td className="whitespace-nowrap py-2 pl-4 text-right text-muted-foreground">
+                            {caption}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
+                    Lexical overlap is modest because the references are structured templates and
+                    the model writes free prose; semantic similarity is strong. The layer reads as
+                    a readable, evidence-grounded interface rather than a diagnostic classifier.
                   </p>
                 </div>
               </MobileSection>
 
-              {/* 09 — Key Findings */}
+              {/* 09 · External Validation */}
               <MobileSection
-                n="09" label="Key Findings" id="section-09"
-                summary="What these results support, what they do not, and the limitations worth stating plainly."
+                n="09" label="External Validation" id="section-09"
+                summary="The unchanged ADNI-trained weights, run zero-shot on 1,048 OASIS-3 subjects with no diffusion imaging at all."
+              >
+                <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
+                  <p>
+                    OASIS-3 has T1 MRI and clinical scores but no processed diffusion maps, so the
+                    same ADNI-trained weights run on it with the DTI branch masked: exactly the
+                    missing-modality path the model was trained for. No OASIS-3 data touched
+                    training, model selection, or the retrieval index.
+                  </p>
+                </div>
+
+                <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                  <div className="rounded border border-accent/30 bg-accent/5 p-5">
+                    <p className="font-mono text-xs uppercase tracking-[0.22em] text-accent">
+                      CN vs impaired · n = 1,048
+                    </p>
+                    <p className="mt-2 font-display text-2xl font-bold text-foreground">
+                      0.787 Bal. Acc. · 0.889 AUC
+                    </p>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                      Binary diagnosis transfers across sites, scanners, and protocols with a
+                      whole modality absent.
+                    </p>
+                  </div>
+                  <div className="rounded border border-border bg-card p-5">
+                    <p className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
+                      What does not transfer
+                    </p>
+                    <p className="mt-2 font-display text-2xl font-bold text-foreground">
+                      0.524 3-class · 8.43 yr age MAE
+                    </p>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                      Three-class accuracy degrades, driven by an MCI class that is small in
+                      OASIS-3. Age fails because OASIS-3 skews younger than ADNI. CDR-SB MAE is
+                      nominally lower (0.90 vs 1.11), but only because the cohort is mostly
+                      cognitively normal.
+                    </p>
+                  </div>
+                </div>
+
+                <p className="mt-6 text-base leading-relaxed text-muted-foreground">
+                  A model that needed every modality, or imputed the missing one, could not run
+                  here without extra machinery. This is the clearest evidence that the
+                  missing-modality mechanism is load-bearing. OASIS-3 is still a North American
+                  research cohort, so it shows cross-site transfer, not generalization to diverse
+                  clinical populations.
+                </p>
+              </MobileSection>
+
+              {/* 10 · Key Findings */}
+              <MobileSection
+                n="10" label="Key Findings" id="section-10"
+                summary="What the corrected results support, and what they do not."
               >
                 <div className="space-y-4">
                   {[
                     {
-                      headline: "Clinical scores dominate diagnosis, but imaging adds robustness",
+                      headline: "Corrected encoder performance",
                       body:
-                        "Clinical-only performance approaches the full model for 3-class diagnosis, confirming that cognitive scores carry much of the diagnostic signal. Imaging still contributes useful structure, especially when clinical data is incomplete and for tasks such as age and severity estimation.",
+                        "After removing CDR-SB from the input space, MEMOIR-VLM reaches 91.3% balanced accuracy for CN vs Dementia and 68.2% for 3-class diagnosis. MCI remains the hardest class boundary.",
                     },
                     {
-                      headline: "The model handles missing modalities",
+                      headline: "One set of weights for every modality subset",
                       body:
-                        "Stochastic modality dropout during training allows the encoder to operate with any subset of T1, DTI, and clinical inputs. This is important because only 39.4% of subjects had usable DTI.",
+                        "One shared set of weights operates across all seven non-empty combinations of T1w MRI, DTI-FA, and clinical inputs, with no separate model per subset and no imaging imputation. Only 39.4% of subjects had usable DTI.",
                     },
                     {
-                      headline: "Binary CN vs Dementia separation is strong",
+                      headline: "DTI adds measurable 3-class signal alongside clinical context",
                       body:
-                        "The model reaches 93.3% balanced accuracy and AUC 0.981 for CN vs Dementia, showing strong separation between the extremes of the Alzheimer's disease spectrum.",
+                        "Adding DTI-FA to clinical inputs raises 3-class balanced accuracy from 0.666 to 0.701, a +0.034 gain whose 95% interval excludes zero (McNemar p = 0.012). Imaging alone is not enough for staging.",
                     },
                     {
-                      headline: "MCI remains the hardest class",
+                      headline: "RAG VQA is interpretability infrastructure, not a better classifier",
                       body:
-                        "MCI recall is 55%, with errors split toward both CN and Dementia. This reflects the transitional and heterogeneous nature of MCI rather than a simple modeling failure.",
+                        "The 94.7% labeled-caption accuracy was a label-exposure artifact. Once diagnosis labels are removed from retrieved captions, no evaluated LLM exceeds the retrieval-only baseline. The encoder remains the diagnostic component.",
                     },
                     {
-                      headline: "Retrieval-augmented VQA improves interpretability",
+                      headline: "Zero-shot external validation",
                       body:
-                        "The VQA pipeline retrieves similar training cases and uses their captions as grounded context for the LLM, producing natural-language answers instead of only class probabilities.",
+                        "On 1,048 OASIS-3 subjects with diffusion imaging entirely absent, the unchanged ADNI-trained model retains 78.7% balanced accuracy for CN vs impaired (AUC 0.889).",
                     },
                     {
-                      headline: "Mistral 7B is the best VQA backbone",
+                      headline: "Faithful natural-language summaries",
                       body:
-                        "Mistral 7B achieves 94.7% VQA diagnosis accuracy and outperforms Gemma 4 26B MoE and MedGemma 1.5 4B IT under the same retrieval context.",
+                        "VQA summaries reach BERTScore 0.894 and SBERT cosine similarity 0.811, which supports the language layer as a readable clinical interface.",
                     },
                   ].map((f) => (
                     <div key={f.headline} className="border-l-2 border-accent pl-4">
@@ -792,21 +999,27 @@ export default function MultiModalAlzheimersVQAPage() {
               {/* ─── Footer CTA ─── */}
               <section className="rounded border border-border bg-card/40 p-6 sm:p-8">
                 <p className="font-mono text-xs uppercase tracking-[0.22em] text-accent">
-                  Status
+                  Publication
                 </p>
                 <h3 className="mt-2 font-display text-xl text-foreground sm:text-2xl">
-                  Manuscript submitted / in review
+                  Accepted · Frontiers in Computational Neuroscience
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                  This work has been submitted as{" "}
-                  <em>
-                    MEMOIR-VLM: A Multimodal Vision-Language Model for Alzheimer&apos;s Disease
-                    Classification and Question Answering
-                  </em>
-                  . It was completed at the Keck School of Medicine of USC. Code and manuscript
-                  links will be added when publicly available. Future work will extend MEMOIR-VLM
-                  to amyloid prediction using amyloid-specific supervision while avoiding
-                  biomarker leakage.
+                  Accepted 27 August 2026 and now in production; the DOI resolves once the article
+                  is published. The work was done at the Imaging Genetics Center, Keck School of
+                  Medicine of USC.
+                </p>
+                <p className="mt-4 border-l-2 border-border pl-4 text-sm leading-relaxed text-muted-foreground">
+                  Gidwani S, Chattopadhyay T, Thomopoulos SI, Thompson PM and the Alzheimer&apos;s
+                  Disease Neuroimaging Initiative (2026). MEMOIR-VLM: a multimodal
+                  vision-language model for Alzheimer&apos;s disease classification and question
+                  answering. <em>Front. Comput. Neurosci.</em> 20:1902258.{" "}
+                  <span className="whitespace-nowrap font-mono text-xs">doi: {DOI}</span>
+                </p>
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                  Future work extends MEMOIR-VLM to amyloid prediction supervised on PET-derived
+                  labels, with cognitive variables kept out of the inputs, the most direct route
+                  to testing what the imaging pathway carries on its own.
                 </p>
                 <div className="mt-6 flex flex-wrap gap-3">
                   <Link

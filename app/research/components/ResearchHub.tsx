@@ -260,7 +260,7 @@ export default function ResearchHub() {
               Research &amp; ongoing work
             </h1>
             <p className="max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Submitted and ongoing research, shown as a living lineage:
+              Accepted and ongoing research, shown as a living lineage:
               each paper branches into the extensions and follow-up work it makes
               possible. Follow a node to read the full write-up.
             </p>

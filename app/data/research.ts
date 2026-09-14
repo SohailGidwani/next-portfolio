@@ -8,6 +8,7 @@
 
 export type ResearchStatus =
   | "in-review"
+  | "accepted"
   | "in-progress"
   | "planned"
   | "published"
@@ -59,6 +60,14 @@ export const STATUS_META: Record<ResearchStatus, StatusMeta> = {
     badge: "border-accent/40 bg-accent/10 text-accent",
     pulse: true,
   },
+  // Accepted but not yet out: the DOI does not resolve until the journal
+  // publishes, so this must not borrow the "published" badge. Kept to one
+  // word: the badge is shrink-0 and a longer label overflowed a 390px card.
+  accepted: {
+    label: "Accepted",
+    badge: "border-emerald-500/40 bg-emerald-500/10 text-emerald-500",
+    pulse: true,
+  },
   "in-progress": {
     label: "In progress",
     badge: "border-emerald-500/40 bg-emerald-500/10 text-emerald-500",
@@ -81,18 +90,20 @@ export const research: ResearchEntry[] = [
     parentId: null,
     shortTitle: "MEMOIR-VLM",
     title:
-      "Multimodal Vision-Language Model for Alzheimer's Disease Classification and VQA",
+      "A multimodal vision-language model for Alzheimer's disease classification and question answering",
     summary:
-      "A two-stage, missing-modality-aware framework over T1 MRI, DTI FA maps, and clinical features for Alzheimer's disease classification, extended with retrieval-augmented VQA for case-based clinical reasoning.",
-    status: "in-review",
+      "A missing-modality-aware encoder over T1 MRI, DTI FA maps, and clinical scores that diagnoses from any available subset, with a retrieval-augmented language layer that surfaces comparable cases. Validated zero-shot on OASIS-3.",
+    status: "accepted",
     year: "2026",
-    venue: "Keck School of Medicine of USC",
-    tags: ["Multimodal", "ADNI", "RAG VQA", "PyTorch", "Mistral 7B"],
+    venue: "Frontiers in Computational Neuroscience",
+    tags: ["Multimodal", "ADNI", "OASIS-3", "RAG VQA", "PyTorch"],
     href: "/research/memoir-vlm-alzheimers-vqa",
+    // Corrected model only (CDR-SB removed from the inputs). The retracted
+    // 0.933 and the unsupported ~70M parameter count must not come back.
     metrics: [
       { value: "2,363", label: "ADNI subjects" },
-      { value: "0.933", label: "CN vs Dem Bal. Acc." },
-      { value: "~70M", label: "Parameters" },
+      { value: "91.3%", label: "CN vs Dem Bal. Acc." },
+      { value: "78.7%", label: "OASIS-3 zero-shot" },
     ],
   },
 ]

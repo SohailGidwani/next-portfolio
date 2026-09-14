@@ -236,3 +236,93 @@ describe("motion system", () => {
     expect(vt).toMatch(/useIsomorphicLayoutEffect\(\(\) => \{[\s\S]*?\}, \[pathname\]\)/)
   })
 })
+
+describe("MEMOIR-VLM reflects the accepted paper, not the pre-correction manuscript", () => {
+  const dir = "app/research/memoir-vlm-alzheimers-vqa"
+
+  it("reports the corrected model and keeps the leaky numbers out of the headline", () => {
+    const page = read(`${dir}/page.tsx`)
+    const header = page.slice(page.indexOf("{/* ─── Header ─── */}"), page.indexOf("{/* ─── Content ─── */}"))
+
+    for (const figure of ["68.2%", "91.3%", "78.7%"]) expect(header).toContain(figure)
+    // 0.707 / 0.933 had CDR-SB among the inputs; they may only appear in the
+    // labeled original column, never as the page's result.
+    for (const stale of ["0.707", "0.933", "~70M", "Model params"]) expect(header).not.toContain(stale)
+    expect(page).not.toContain("0.865")
+    expect(page).not.toContain("0.981")
+    expect(page).not.toMatch(/ConfusionMatrix|TrainingChart/)
+  })
+
+  it("never lists CDR-SB as an input to the clinical encoder", () => {
+    const page = read(`${dir}/page.tsx`)
+    const arch = read(`${dir}/components/VLMArchitecture.tsx`)
+
+    expect(page).not.toMatch(/\(CDR-SB, ADAS/)
+    expect(page).toContain("4 continuous clinical scores (ADAS-11, ADAS-13, MMSE, MoCA)")
+    expect(arch).not.toContain("5 scores")
+    expect(arch.match(/4 scores \+ APOE/g)).toHaveLength(2)
+  })
+
+  it("labels 94.7% as label exposure and makes the encoder the diagnostic component", () => {
+    const page = read(`${dir}/page.tsx`)
+
+    expect(page).toMatch(/94\.7%[\s\S]{0,500}label-exposure artifact/)
+    expect(page).toContain("The multimodal encoder performs diagnosis.")
+    // Masked diagnosis: Gemma leads, measured against the k-NN tick.
+    expect(page).toMatch(/metric: "Diagnosis · masked",[\s\S]{0,300}higher: "gemma",[\s\S]{0,40}reference: 0\.673/)
+  })
+
+  it("describes the rerank as top-50, then top-20, then top-5", () => {
+    const vqa = read(`${dir}/components/VQAPipeline.tsx`)
+
+    expect(vqa).not.toContain("top-50 → top-5")
+    expect(vqa.match(/top-20 → top-5/g)).toHaveLength(2)
+  })
+
+  it("marks the paper accepted, not published, with the DOI as text until it resolves", () => {
+    const data = read("app/data/research.ts")
+    const page = read(`${dir}/page.tsx`)
+
+    expect(data).toMatch(/status: "accepted"/)
+    // The card values, not the comment above them that names what was retracted.
+    expect(data).not.toMatch(/value: "(0\.933|93\.3%|0\.707|70\.7%|~70M)"/)
+    expect(page).toContain('const DOI = "10.3389/fncom.2026.1902258"')
+    expect(page).not.toMatch(/href=\{?[`"]https:\/\/doi\.org/)
+    // The JSON-LD must not claim a publication date the journal has not set.
+    // The property, not the comment explaining its absence.
+    expect(page).not.toMatch(/datePublished\s*:/)
+  })
+
+  it("has no em dash anywhere in the research routes", () => {
+    // Built from its code point so this file never carries the character.
+    const emDash = String.fromCharCode(0x2014)
+    const files = (fs.readdirSync(path.join(root, "app/research"), { recursive: true }) as string[])
+      .filter((f) => /\.tsx?$/.test(f))
+    expect(files.length).toBeGreaterThan(5)
+    for (const f of files) expect(read(`app/research/${f}`), f).not.toContain(emDash)
+    expect(read("app/data/research.ts")).not.toContain(emDash)
+  })
+
+  it("keeps every copy outside /research on the corrected numbers", () => {
+    const hero = read("app/components/Hero.tsx")
+    expect(hero).toContain('text: "91.3%"')
+    expect(hero).not.toContain('text: "93.3%"')
+
+    // Resume bullets, the MCP endpoint, and the LLM crawler files repeat the
+    // research claims; they drifted once, so pin them with the page.
+    for (const file of [
+      "app/components/Experience.tsx",
+      "app/api/mcp/route.ts",
+      "public/llms.txt",
+      "public/llms-full.txt",
+      "public/resume.json",
+    ]) {
+      const text = read(file)
+      expect(text, file).not.toMatch(/70\.7%|93\.3%|0\.707|0\.933|AUC 0\.981|~70M|[Mm]anuscript submitted|Mistral 7B win/)
+      // 94.7% may appear only with the audit that retracted it.
+      for (const m of text.matchAll(/94\.7%/g)) {
+        expect(text.slice(m.index, m.index + 200), file).toMatch(/label/)
+      }
+    }
+  })
+})

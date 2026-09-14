@@ -136,12 +136,12 @@ const experience = [
     endDate: null,
     current: true,
     tags: ['Python', 'PyTorch', 'Deep Learning', 'CLIP', 'RAG', 'FAISS'],
-    summary: 'Multimodal AI for Alzheimer\'s disease classification and VQA: neuroimaging + clinical data, end-to-end experimentation infrastructure. Manuscript submitted (MEMOIR-VLM).',
+    summary: 'Multimodal AI for Alzheimer\'s disease classification and question answering: neuroimaging + clinical data, end-to-end experimentation infrastructure. MEMOIR-VLM accepted at Frontiers in Computational Neuroscience (2026).',
     highlights: [
-      'Multimodal pipeline (MEMOIR-VLM): T1 MRI + DTI imaging + clinical data across 2,363 ADNI subjects; 70.7% balanced accuracy on 3-class diagnosis, 93.3% on binary (CN vs Dementia)',
+      'Multimodal pipeline (MEMOIR-VLM): T1 MRI + DTI imaging + clinical data across 2,363 ADNI subjects; 68.2% balanced accuracy on 3-class diagnosis, 91.3% on binary (CN vs Dementia), 78.7% zero-shot on external OASIS-3',
       'Missing-modality cross-attention fusion with stochastic modality dropout, enabling robust inference with any subset of T1, DTI, and clinical inputs (39.4% DTI coverage)',
-      'RAG-based VQA: FAISS retrieval + cross-encoder rerank + LLM answer generation over retrieved captions; Mistral 7B wins at 94.7% diagnosis VQA accuracy vs Gemma 4 26B MoE and MedGemma 1.5 4B',
-      'Two-stage training: CLIP contrastive pre-training → multi-task fine-tuning across five heads; modality ablation across 7 combinations on ~70M parameter models',
+      'RAG-based VQA: FAISS retrieval + cross-encoder rerank + LLM answer generation over retrieved captions (Mistral 7B, Gemma 4 26B MoE, MedGemma 1.5 4B); a leakage audit showed LLMs add no diagnostic accuracy once caption labels are masked, so the encoder does diagnosis and the RAG layer is an interpretable interface',
+      'Two-stage training: CLIP contrastive pre-training → multi-task fine-tuning across five heads; modality ablation across 7 combinations with paired-bootstrap significance testing',
     ],
     researchUrl: `${SITE}/research/memoir-vlm-alzheimers-vqa`,
   },
@@ -306,20 +306,25 @@ const skills = [
 
 const research = [
   {
-    title: 'MEMOIR-VLM: Multimodal Vision-Language Model for Alzheimer\'s Disease Classification and VQA',
+    title: 'MEMOIR-VLM: A Multimodal Vision-Language Model for Alzheimer\'s Disease Classification and Question Answering',
     slug: 'memoir-vlm-alzheimers-vqa',
     url: `${SITE}/research/memoir-vlm-alzheimers-vqa`,
     institution: 'Keck School of Medicine of USC',
-    status: 'manuscript submitted / in review',
-    year: 2025,
-    summary: 'Two-stage multimodal vision-language framework for Alzheimer\'s disease classification using T1 MRI, DTI imaging, and clinical data, with a missing-modality-aware encoder and a retrieval-augmented VQA pipeline for case-based clinical question answering.',
+    status: 'accepted, in production (Frontiers in Computational Neuroscience)',
+    // Registered at acceptance; resolves once the journal publishes.
+    doi: '10.3389/fncom.2026.1902258',
+    year: 2026,
+    summary: 'Two-stage multimodal vision-language framework for Alzheimer\'s disease classification using T1 MRI, DTI imaging, and clinical data. A missing-modality-aware encoder performs diagnosis and clinical prediction from any subset of inputs; a retrieval-augmented language layer serves as an interpretable interface over comparable cases, not as a diagnostic classifier.',
+    // Corrected model (CDR-SB removed from the inputs). The pre-correction
+    // figures are retracted; the regression test sweeps this file for them.
     keyResults: [
-      '70.7% balanced accuracy on 3-class diagnosis (CN / MCI / Dementia) across 2,363 ADNI subjects',
-      '93.3% balanced accuracy and AUC 0.981 on binary classification (CN vs Dementia)',
-      'CDR-SB severity MAE 0.97; age MAE 6.31 years',
-      'Missing-modality fusion: robust inference with any subset of T1, DTI, and clinical inputs (39.4% DTI coverage)',
-      'RAG VQA: Mistral 7B achieves 94.7% diagnosis accuracy; outperforms Gemma 4 26B MoE and MedGemma 1.5 4B',
-      '~70M parameter models; 7-combination modality ablation study',
+      '68.2% balanced accuracy (macro-F1 0.681) on 3-class diagnosis (CN / MCI / Dementia), 2,363 ADNI subjects with 474 held out',
+      '91.3% balanced accuracy on binary classification (CN vs Dementia)',
+      'CDR-SB severity MAE 1.11; age MAE 5.96 years',
+      'Zero-shot external validation on 1,048 OASIS-3 subjects with no DTI: 78.7% balanced accuracy, AUC 0.889 (CN vs impaired)',
+      'Adding DTI-FA to clinical inputs raises 3-class balanced accuracy from 0.666 to 0.701 (+0.034, 95% CI [+0.009, +0.060], McNemar p = 0.012)',
+      'Missing-modality fusion: one set of weights for all 7 non-empty subsets of T1, DTI, and clinical inputs (39.4% DTI coverage)',
+      'RAG VQA: 94.7% under labeled captions was a label-exposure artifact; with labels masked no LLM exceeds a retrieval-only k-NN baseline (0.673)',
     ],
     methods: [
       'CLIP contrastive pre-training on neuroimaging + clinical pairs',
@@ -327,8 +332,8 @@ const research = [
       'Cross-attention missing-modality fusion with stochastic modality dropout',
       'FAISS retrieval + cross-encoder rerank + LLM (Mistral 7B / Gemma 4 / MedGemma) over retrieved captions for VQA',
     ],
-    tags: ['PyTorch', 'CLIP', 'Multi-modal', 'Alzheimer\'s', 'ADNI', 'RAG', 'VQA', 'Mistral', 'MedGemma'],
-    dataset: '2,363 ADNI subjects; T1 MRI (100%), DTI (39.4%), clinical tabular data (100%)',
+    tags: ['PyTorch', 'CLIP', 'Multi-modal', 'Alzheimer\'s', 'ADNI', 'OASIS-3', 'RAG', 'VQA', 'Mistral', 'MedGemma'],
+    dataset: '2,363 ADNI subjects; T1 MRI (100%), DTI (39.4%), clinical scores (63.9% to 91.5% per score, mean-imputed when missing); external validation on 1,048 OASIS-3 subjects',
   },
   {
     title: 'CoT Faithfulness Analysis in LLMs',

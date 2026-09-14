@@ -90,7 +90,7 @@ function VLMArchitectureVertical({ reduced, paused }: { reduced: boolean; paused
   const inputs = [
     { x: c1, label: "T1 MRI", sub: "91×109×91" },
     { x: c2, label: "DTI FA", sub: "91×109×91" },
-    { x: c3, label: "Clinical", sub: "5 scores + APOE" },
+    { x: c3, label: "Clinical", sub: "4 scores + APOE" },
   ]
   const encoders = [
     { x: c1, label: "3D ResNet-18" },
@@ -355,7 +355,7 @@ export default function VLMArchitecture() {
 
             <rect x={colIn - 40} y={rowC - 30} width="100" height="60" rx="3" {...boxStyle} />
             <text x={colIn + 10} y={rowC - 5} textAnchor="middle" className="font-mono" style={{ fontSize: 14, fill: "var(--fg)", fontWeight: 600 }}>Clinical</text>
-            <text x={colIn + 10} y={rowC + 15} textAnchor="middle" className="font-mono" style={{ fontSize: 12, fill: "var(--muted)" }}>5 scores + APOE</text>
+            <text x={colIn + 10} y={rowC + 15} textAnchor="middle" className="font-mono" style={{ fontSize: 12, fill: "var(--muted)" }}>4 scores + APOE</text>
           </g>
 
           {/* ═══ ENCODERS ═══ */}
@@ -427,7 +427,7 @@ export default function VLMArchitecture() {
           ))}
 
           {/* ═══ ANIMATED EDGES ═══ */}
-          {/* Inputs → Encoders — each gets a flowing packet, staggered */}
+          {/* Inputs → Encoders: each gets a flowing packet, staggered */}
           <Edge reduced={reduced} id="vlm-in-enc-t1" d={`M ${colIn + 60} ${rowT} L ${colEnc - 62} ${rowT}`} packet={{ dur: 3, begin: 0 }} />
           <Edge reduced={reduced} id="vlm-in-enc-dti" d={`M ${colIn + 60} ${rowD} L ${colEnc - 62} ${rowD}`} packet={{ dur: 3, begin: 0.4 }} />
           <Edge reduced={reduced} id="vlm-in-enc-clin" d={`M ${colIn + 60} ${rowC} L ${colEnc - 62} ${rowC}`} packet={{ dur: 3, begin: 0.8 }} />
@@ -442,7 +442,7 @@ export default function VLMArchitecture() {
           <Edge reduced={reduced} id="vlm-emb-mask-dti" d={`M ${colEmb + 28} ${rowD} L ${colMask - 22} ${rowD}`} delay={0.3} packet={{ dur: 1.8, begin: 1.6 }} />
           <Edge reduced={reduced} id="vlm-emb-mask-clin" d={`M ${colEmb + 28} ${rowC} L ${colMask - 22} ${rowC}`} delay={0.3} packet={{ dur: 1.8, begin: 2.0 }} />
 
-          {/* Masks → Fusion (converging — all get packets, shows merge) */}
+          {/* Masks → Fusion (converging; all get packets to show the merge) */}
           <Edge reduced={reduced} id="vlm-mask-fuse-t1" d={`M ${colMask + 22} ${rowT} L ${colFuse - 62} ${rowD}`} delay={0.4} packet={{ dur: 2.2, begin: 1.2 }} />
           <Edge reduced={reduced} id="vlm-mask-fuse-dti" d={`M ${colMask + 22} ${rowD} L ${colFuse - 62} ${rowD}`} delay={0.4} packet={{ dur: 2.2, begin: 1.6 }} />
           <Edge reduced={reduced} id="vlm-mask-fuse-clin" d={`M ${colMask + 22} ${rowC} L ${colFuse - 62} ${rowD}`} delay={0.4} packet={{ dur: 2.2, begin: 2.0 }} />

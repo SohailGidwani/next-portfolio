@@ -1,23 +1,64 @@
 interface Row {
   metric: string
   sublabel?: string
+  /** Omit when no backbone should read as the winner (a tie, or an artifact). */
   higher?: "mistral" | "gemma" | "medgemma"
   mistral: number
   gemma: number
   medgemma: number
   max?: number
   format?: (v: number) => string
+  /** A baseline every bar is measured against, drawn as a tick on the track. */
+  reference?: number
 }
 
-const MODELS: { id: "mistral" | "gemma" | "medgemma"; label: string; tag: string }[] = [
-  { id: "mistral", label: "Mistral 7B", tag: "Instruct v0.3" },
-  { id: "gemma", label: "Gemma 4 26B", tag: "MoE" },
-  { id: "medgemma", label: "MedGemma 1.5 4B", tag: "IT · medical FT" },
+// `short` is the phone label: the 96px name column truncated "Gemma 4 26B",
+// which is the one name the masked row highlights.
+const MODELS: {
+  id: "mistral" | "gemma" | "medgemma"
+  label: string
+  short: string
+  tag: string
+}[] = [
+  { id: "mistral", label: "Mistral 7B", short: "Mistral 7B", tag: "Instruct v0.3" },
+  { id: "gemma", label: "Gemma 4 26B", short: "Gemma 4 26B", tag: "MoE" },
+  { id: "medgemma", label: "MedGemma 1.5 4B", short: "MedGemma 4B", tag: "IT · medical FT" },
 ]
 
 interface Props {
   rows: Row[]
   caption?: string
+}
+
+function Track({
+  pct,
+  highlight,
+  refPct,
+  className = "",
+}: {
+  pct: number
+  highlight: boolean
+  refPct?: number
+  className?: string
+}) {
+  return (
+    <div className={`relative h-1.5 ${className}`}>
+      <div className="h-full overflow-hidden rounded-[2px] bg-border/50">
+        <div
+          className={`h-full ${highlight ? "bg-accent" : "bg-foreground/40"}`}
+          style={{ width: `${pct}%` }}
+        />
+      </div>
+      {/* Outside the clipped track so the tick can stand proud of it. */}
+      {refPct !== undefined ? (
+        <span
+          aria-hidden
+          className="absolute -inset-y-1 w-px bg-foreground"
+          style={{ left: `${refPct}%` }}
+        />
+      ) : null}
+    </div>
+  )
 }
 
 export default function LLMComparison({ rows, caption }: Props) {
@@ -29,6 +70,7 @@ export default function LLMComparison({ rows, caption }: Props) {
           {rows.map((row) => {
             const max = row.max ?? 1
             const format = row.format ?? ((v: number) => v.toFixed(3))
+            const refPct = row.reference !== undefined ? (row.reference / max) * 100 : undefined
             return (
               <div
                 key={`m-${row.metric}-${row.sublabel ?? ""}`}
@@ -50,21 +92,16 @@ export default function LLMComparison({ rows, caption }: Props) {
                     return (
                       <div
                         key={m.id}
-                        className="grid grid-cols-[90px_1fr_44px] items-center gap-2"
+                        className="grid grid-cols-[96px_1fr_44px] items-center gap-2"
                       >
                         <span
-                          className={`truncate font-mono text-xs uppercase tracking-[0.1em] ${
+                          className={`truncate font-mono text-xs uppercase tracking-[0.06em] ${
                             highlight ? "text-foreground" : "text-muted-foreground"
                           }`}
                         >
-                          {m.label}
+                          {m.short}
                         </span>
-                        <div className="relative h-1.5 overflow-hidden rounded-[2px] bg-border/50">
-                          <div
-                            className={`h-full ${highlight ? "bg-accent" : "bg-foreground/40"}`}
-                            style={{ width: `${pct}%` }}
-                          />
-                        </div>
+                        <Track pct={pct} highlight={highlight} refPct={refPct} />
                         <span
                           className={`text-right font-mono text-xs tabular-nums ${
                             highlight ? "font-bold text-foreground" : "text-muted-foreground"
@@ -103,6 +140,7 @@ export default function LLMComparison({ rows, caption }: Props) {
             {rows.map((row) => {
               const max = row.max ?? 1
               const format = row.format ?? ((v: number) => v.toFixed(3))
+              const refPct = row.reference !== undefined ? (row.reference / max) * 100 : undefined
               return (
                 <div
                   key={`d-${row.metric}-${row.sublabel ?? ""}`}
@@ -124,12 +162,7 @@ export default function LLMComparison({ rows, caption }: Props) {
                     const pct = Math.min(100, (value / max) * 100)
                     return (
                       <div key={m.id} className="flex items-center gap-2">
-                        <div className="relative h-1.5 flex-1 overflow-hidden rounded-[2px] bg-border/50">
-                          <div
-                            className={`h-full ${highlight ? "bg-accent" : "bg-foreground/40"}`}
-                            style={{ width: `${pct}%` }}
-                          />
-                        </div>
+                        <Track pct={pct} highlight={highlight} refPct={refPct} className="flex-1" />
                         <span
                           className={`min-w-[44px] text-right font-mono text-[11px] tabular-nums ${
                             highlight ? "font-bold text-foreground" : "text-muted-foreground"

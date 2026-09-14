@@ -41,7 +41,7 @@ Full-time AI Engineer, Machine Learning Engineer, LLM Engineer, Applied AI Engin
 ### What are Sohail's strongest proof points?
 - Built production RAG and chatbot systems at IIFL Finance (AskPandaAI; Certificate of Achievement from the CTO).
 - Built AI agent-builder infrastructure at Insaito using open-source LLMs and reusable OAuth/MCP foundations designed for a catalog of 100+ third-party apps.
-- Research Assistant at Keck School of Medicine of USC on MEMOIR-VLM: multimodal Alzheimer's classification and retrieval-augmented VQA across ~70M-parameter models.
+- Research Assistant at Keck School of Medicine of USC on MEMOIR-VLM, a multimodal Alzheimer's classification and question-answering model accepted at Frontiers in Computational Neuroscience (91.3% CN vs dementia balanced accuracy, 78.7% zero-shot on OASIS-3).
 - Built Portage, an autonomous Flask → FastAPI migration agent that plans target architecture (creating new modules, not just rewriting files), with checkpoint-resume durability, network-off sandbox verification, bounded recovery, 10/10 green on its K=5 development gates, and a frozen held-out set of three then-unseen repositories that scored 0/9 and is published beside the development result, plus MCP tools other agents can use. All three later reached one strict autonomous development K1 green as development inputs, which is not held-out evidence; regression closure is in progress.
 - Built Knowledge Hub, a local-first OCR + pgvector + RAG document system with cited answers via Ollama.
 
@@ -65,9 +65,9 @@ Sohail Gidwani is an AI engineer and full-stack developer currently pursuing an 
 **Oct 2025 – Present | Los Angeles, CA**
 Multi-Modal AI for Alzheimer's Disease
 
-- Architected a multimodal deep learning pipeline (MEMOIR-VLM) for Alzheimer's disease classification using T1 MRI, DTI imaging, and clinical data across 2,363 ADNI subjects, achieving 70.7% balanced accuracy on 3-class diagnosis and 93.3% on binary classification (CN vs Dementia).
+- Architected a multimodal deep learning pipeline (MEMOIR-VLM) for Alzheimer's disease classification using T1 MRI, DTI imaging, and clinical data across 2,363 ADNI subjects, achieving 68.2% balanced accuracy on 3-class diagnosis and 91.3% on binary classification (CN vs Dementia), with 78.7% zero-shot balanced accuracy on the external OASIS-3 cohort.
 - Designed missing-modality fusion via cross-attention with stochastic modality dropout, enabling robust inference with any subset of T1, DTI, and clinical inputs when imaging data is incomplete (39.4% DTI coverage).
-- Built end-to-end experimentation infrastructure: two-stage training (CLIP contrastive pre-training → multi-task fine-tuning), modality ablation studies across 7 combinations, and confidence calibration analysis on ~70M parameter models.
+- Built end-to-end experimentation infrastructure: two-stage training (CLIP contrastive pre-training → multi-task fine-tuning), modality ablation studies across 7 combinations, paired-bootstrap significance testing, and confidence calibration analysis.
 
 ### Senior Software Engineer - I, Insaito, Inc.
 **May 2025 – Jul 2025 | Remote**
@@ -129,12 +129,12 @@ Agile, Test-Driven Development, CI/CD, Code Reviews
 
 ## Research
 
-### MEMOIR-VLM: Multimodal VLM for Alzheimer's Disease Classification and VQA
+### MEMOIR-VLM: Multimodal VLM for Alzheimer's Disease Classification and Question Answering
 https://sohailgidwani.app/research/memoir-vlm-alzheimers-vqa
 
-Keck School of Medicine of USC research (Oct 2025 – present, manuscript submitted / in review). MEMOIR-VLM is a two-stage multimodal vision-language framework for Alzheimer's disease classification using T1 MRI, DTI FA maps, and clinical tabular data across 2,363 ADNI subjects. A missing-modality-aware encoder (cross-attention fusion with stochastic modality dropout, 39.4% DTI coverage) predicts five targets: 3-class diagnosis (0.707 balanced accuracy, CN / MCI / Dementia), binary CN vs Dementia (0.933 balanced accuracy, AUC 0.981), CDR-SB severity (MAE 0.97), age (MAE 6.31 years), and sex. The frozen encoder is extended with a FAISS retrieval + cross-encoder rerank + LLM pipeline for visual question answering; only retrieved textual captions reach the LLM. Benchmarked Mistral 7B (94.7% VQA diagnosis accuracy), Gemma 4 26B MoE, and MedGemma 1.5 4B, with Mistral 7B winning. Built end-to-end experimentation infrastructure: two-stage training (CLIP contrastive pre-training → multi-task fine-tuning), modality ablation across 7 combinations, and confidence calibration analysis on ~70M parameter models.
+Keck School of Medicine of USC research (Oct 2025 – present). Accepted at Frontiers in Computational Neuroscience on 27 August 2026 and in production (DOI 10.3389/fncom.2026.1902258, which resolves on publication). MEMOIR-VLM is a two-stage multimodal vision-language framework for Alzheimer's disease classification using T1 MRI, DTI FA maps, and clinical scores (ADAS-11, ADAS-13, MMSE, MoCA, APOE genotype) across 2,363 ADNI subjects. A missing-modality-aware encoder (cross-attention fusion with stochastic modality dropout, 39.4% DTI coverage) uses one set of weights for any subset of inputs and predicts five targets. After removing a CDR-SB input leak, it reaches 68.2% balanced accuracy on 3-class diagnosis (CN / MCI / Dementia), 91.3% on binary CN vs Dementia, CDR-SB MAE 1.11, and age MAE 5.96 years. Run zero-shot on 1,048 OASIS-3 subjects with no diffusion data, it retains 78.7% balanced accuracy for CN vs impaired (AUC 0.889). Adding DTI-FA to clinical inputs gives a statistically significant 3-class gain (0.666 to 0.701, 95% CI [+0.009, +0.060]). The frozen encoder is extended with FAISS retrieval, cross-encoder reranking, and LLM generation for question answering. A leakage audit showed the 94.7% labeled-caption VQA accuracy came from diagnosis labels in retrieved captions; with labels masked, no LLM (Mistral 7B, Gemma 4 26B MoE, MedGemma 1.5 4B) beats a retrieval-only k-NN baseline, so the encoder performs diagnosis and the language layer is an interpretable interface over comparable cases.
 
-Technologies: Python, PyTorch, CLIP, FAISS, RAG, Mistral 7B, Gemma, MedGemma, Deep Learning, Neuroimaging, ADNI
+Technologies: Python, PyTorch, CLIP, FAISS, RAG, Mistral 7B, Gemma, MedGemma, Deep Learning, Neuroimaging, ADNI, OASIS-3
 
 ### CoT Faithfulness Analysis: LLM Reasoning Study
 https://sohailgidwani.app/projects/cot-faithfulness
