@@ -1,7 +1,7 @@
 import type { ReactNode } from "react"
 import Link from "next/link"
 import Script from "next/script"
-import { Home, FileText, Github, Brain, Microscope, MessageSquare } from "lucide-react"
+import { Home, FileText, Github, Brain, Microscope, MessageSquare, ArrowUpRight, BookOpen } from "lucide-react"
 import ThemeToggle from "@/app/components/ThemeToggle"
 import BreadcrumbStructuredData from "@/app/components/BreadcrumbStructuredData"
 import ReadingProgress from "@/app/components/ReadingProgress"
@@ -23,6 +23,11 @@ import PairedDifferences from "./components/PairedDifferences"
 // win every conflict, so do not "fix" this page back from those tables.
 
 const DOI = "10.3389/fncom.2026.1902258"
+// The journal's article page: abstract online now, full text to follow at the
+// same address (its /full URL currently redirects here). This is the live link
+// until doi.org resolves the DOI.
+const FRONTIERS_URL =
+  "https://www.frontiersin.org/journals/computational-neuroscience/articles/10.3389/fncom.2026.1902258/abstract"
 
 const tocItems = [
   { id: "section-01", n: "01", label: "The Clinical Ask" },
@@ -114,6 +119,8 @@ export default function MultiModalAlzheimersVQAPage() {
       { "@type": "Organization", name: "Alzheimer's Disease Neuroimaging Initiative" },
     ],
     identifier: { "@type": "PropertyValue", propertyID: "DOI", value: DOI },
+    url: FRONTIERS_URL,
+    isPartOf: { "@type": "Periodical", name: "Frontiers in Computational Neuroscience" },
     // No datePublished until the journal publishes: schema.org has no
     // "accepted" state, and a date is a publication claim.
     dateModified: "2026-09-13",
@@ -202,7 +209,22 @@ export default function MultiModalAlzheimersVQAPage() {
                 {/* Phones wrap the journal onto its own line; a separator
                     left there would dangle at the end of the first. */}
                 <span aria-hidden className="hidden sm:inline">·</span>
-                <span>Frontiers in Computational Neuroscience</span>
+                <a
+                  href={FRONTIERS_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Frontiers in Computational Neuroscience: read the abstract (opens in a new tab)"
+                  className="group/journal underline decoration-border underline-offset-4 transition hover:text-foreground hover:decoration-accent"
+                >
+                  {/* Inline, not inline-flex: on phones the name wraps, and a
+                      flex box pushed the arrow to the far edge. The arrow rides
+                      with the last word instead. */}
+                  Frontiers in Computational{" "}
+                  <span className="whitespace-nowrap">
+                    Neuroscience
+                    <ArrowUpRight className="ml-1 inline h-3 w-3 align-[-1px] transition-transform group-hover/journal:translate-x-0.5 group-hover/journal:-translate-y-0.5" aria-hidden />
+                  </span>
+                </a>
               </p>
               <p className="mb-8 mt-1 font-mono text-xs text-muted-foreground">doi: {DOI}</p>
 
@@ -1005,9 +1027,9 @@ export default function MultiModalAlzheimersVQAPage() {
                   Accepted · Frontiers in Computational Neuroscience
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                  Accepted 27 August 2026 and now in production; the DOI resolves once the article
-                  is published. The work was done at the Imaging Genetics Center, Keck School of
-                  Medicine of USC.
+                  Accepted 27 August 2026. The abstract is live on Frontiers, and the full article
+                  will appear at the same address when it is published; the DOI resolves then. The
+                  work was done at the Imaging Genetics Center, Keck School of Medicine of USC.
                 </p>
                 <p className="mt-4 border-l-2 border-border pl-4 text-sm leading-relaxed text-muted-foreground">
                   Gidwani S, Chattopadhyay T, Thomopoulos SI, Thompson PM and the Alzheimer&apos;s
@@ -1022,6 +1044,16 @@ export default function MultiModalAlzheimersVQAPage() {
                   to testing what the imaging pathway carries on its own.
                 </p>
                 <div className="mt-6 flex flex-wrap gap-3">
+                  <a
+                    href={FRONTIERS_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="group/paper inline-flex items-center gap-2 rounded bg-accent px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-white transition hover:bg-accent/90 active:scale-[0.98]"
+                  >
+                    <BookOpen className="h-3.5 w-3.5" aria-hidden />
+                    Read on Frontiers
+                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover/paper:translate-x-0.5 group-hover/paper:-translate-y-0.5" aria-hidden />
+                  </a>
                   <Link
                     href="/#experience"
                     className="inline-flex items-center gap-2 rounded border border-border bg-transparent px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-foreground transition hover:border-accent/40 hover:text-accent"

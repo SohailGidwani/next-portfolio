@@ -202,6 +202,14 @@
       "type": "application"
     }
   ],
+  "publications": [
+    {
+      "name": "MEMOIR-VLM: A Multimodal Vision-Language Model for Alzheimer's Disease Classification and Question Answering",
+      "publisher": "Frontiers in Computational Neuroscience",
+      "url": "https://www.frontiersin.org/journals/computational-neuroscience/articles/10.3389/fncom.2026.1902258/abstract",
+      "summary": "Accepted 27 August 2026; abstract online, full article in production. With T. Chattopadhyay, S. I. Thomopoulos, P. M. Thompson, and the Alzheimer's Disease Neuroimaging Initiative. DOI 10.3389/fncom.2026.1902258."
+    }
+  ],
   "languages": [
     { "language": "English", "fluency": "Fluent" },
     { "language": "Hindi", "fluency": "Native speaker" },

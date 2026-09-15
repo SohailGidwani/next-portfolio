@@ -144,6 +144,7 @@ const experience = [
       'Two-stage training: CLIP contrastive pre-training → multi-task fine-tuning across five heads; modality ablation across 7 combinations with paired-bootstrap significance testing',
     ],
     researchUrl: `${SITE}/research/memoir-vlm-alzheimers-vqa`,
+    publicationUrl: 'https://www.frontiersin.org/journals/computational-neuroscience/articles/10.3389/fncom.2026.1902258/abstract',
   },
   {
     company: 'Insaito, Inc.',
@@ -310,9 +311,11 @@ const research = [
     slug: 'memoir-vlm-alzheimers-vqa',
     url: `${SITE}/research/memoir-vlm-alzheimers-vqa`,
     institution: 'Keck School of Medicine of USC',
-    status: 'accepted, in production (Frontiers in Computational Neuroscience)',
+    status: 'accepted; abstract online, full article in production (Frontiers in Computational Neuroscience)',
     // Registered at acceptance; resolves once the journal publishes.
     doi: '10.3389/fncom.2026.1902258',
+    // The journal's article page; the full text will appear at the same address.
+    publicationUrl: 'https://www.frontiersin.org/journals/computational-neuroscience/articles/10.3389/fncom.2026.1902258/abstract',
     year: 2026,
     summary: 'Two-stage multimodal vision-language framework for Alzheimer\'s disease classification using T1 MRI, DTI imaging, and clinical data. A missing-modality-aware encoder performs diagnosis and clinical prediction from any subset of inputs; a retrieval-augmented language layer serves as an interpretable interface over comparable cases, not as a diagnostic classifier.',
     // Corrected model (CDR-SB removed from the inputs). The pre-correction

@@ -288,6 +288,9 @@ describe("MEMOIR-VLM reflects the accepted paper, not the pre-correction manuscr
     expect(data).not.toMatch(/value: "(0\.933|93\.3%|0\.707|70\.7%|~70M)"/)
     expect(page).toContain('const DOI = "10.3389/fncom.2026.1902258"')
     expect(page).not.toMatch(/href=\{?[`"]https:\/\/doi\.org/)
+    // The journal's article page is the live link: header and footer both use it.
+    expect(page).toContain("frontiersin.org/journals/computational-neuroscience/articles/10.3389/fncom.2026.1902258")
+    expect(page.match(/href=\{FRONTIERS_URL\}/g)).toHaveLength(2)
     // The JSON-LD must not claim a publication date the journal has not set.
     // The property, not the comment explaining its absence.
     expect(page).not.toMatch(/datePublished\s*:/)
@@ -323,6 +326,8 @@ describe("MEMOIR-VLM reflects the accepted paper, not the pre-correction manuscr
       for (const m of text.matchAll(/94\.7%/g)) {
         expect(text.slice(m.index, m.index + 200), file).toMatch(/label/)
       }
+      // Every copy that presents the paper points readers to the journal.
+      expect(text, file).toContain("frontiersin.org/journals/computational-neuroscience/articles/10.3389/fncom.2026.1902258")
     }
   })
 })

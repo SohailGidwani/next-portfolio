@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import { animate, motion, useDragControls, useMotionValue } from "framer-motion"
 import Link from "next/link"
-import { ArrowUpRight, Briefcase, Calendar, FileText, FlaskConical, X } from "lucide-react"
+import { ArrowUpRight, BookOpen, Briefcase, Calendar, FileText, FlaskConical, X } from "lucide-react"
 import Image, { StaticImageData } from "next/image"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/app/components/ui/dialog"
 import { Badge } from "@/app/components/ui/badge"
@@ -28,6 +28,9 @@ interface ExperienceItem {
   researchLabel?: string
   researchHubUrl?: string
   researchHubLabel?: string
+  /** External journal page for a paper from this role; opens in a new tab. */
+  publicationUrl?: string
+  publicationLabel?: string
   note?: string
 }
 
@@ -50,6 +53,9 @@ const experiences: ExperienceItem[] = [
     logo: keckUSC,
     researchUrl: "/research/memoir-vlm-alzheimers-vqa",
     researchLabel: "Read the MEMOIR-VLM research",
+    publicationUrl:
+      "https://www.frontiersin.org/journals/computational-neuroscience/articles/10.3389/fncom.2026.1902258/abstract",
+    publicationLabel: "Paper on Frontiers",
     researchHubUrl: "/research",
     researchHubLabel: "All research",
   },
@@ -232,7 +238,7 @@ export default function Experience() {
                     }
                   }}
                   aria-label={`${featured.researchLabel ?? "Read the research"}: opens research page`}
-                  className="group/research inline-flex max-w-full items-center gap-2 rounded border border-accent/30 bg-accent/5 px-3 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-accent transition hover:border-accent/60 hover:bg-accent/10 sm:text-xs"
+                  className="group/research inline-flex max-w-full items-center gap-2 rounded border border-accent/30 bg-accent/5 px-3 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-accent sm:tracking-[0.18em] transition hover:border-accent/60 hover:bg-accent/10 sm:text-xs"
                 >
                   <FileText className="h-3.5 w-3.5 shrink-0" aria-hidden />
                   <span className="min-w-0 truncate">
@@ -240,6 +246,30 @@ export default function Experience() {
                   </span>
                   <ArrowUpRight className="h-3 w-3 shrink-0 transition-transform group-hover/research:translate-x-0.5 group-hover/research:-translate-y-0.5" aria-hidden />
                 </Link>
+                {featured.publicationUrl ? (
+                  <a
+                    href={featured.publicationUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={(event) => {
+                      event.stopPropagation()
+                      triggerHaptic()
+                    }}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" || event.key === " ") {
+                        event.stopPropagation()
+                      }
+                    }}
+                    aria-label={`${featured.publicationLabel ?? "Read the paper"}: opens the journal page in a new tab`}
+                    className="group/paper inline-flex max-w-full items-center gap-2 rounded border border-border bg-background/60 px-3 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-muted-foreground sm:tracking-[0.18em] transition hover:border-foreground/40 hover:text-foreground sm:text-xs"
+                  >
+                    <BookOpen className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                    <span className="min-w-0 truncate">
+                      {featured.publicationLabel ?? "Read the paper"}
+                    </span>
+                    <ArrowUpRight className="h-3 w-3 shrink-0 transition-transform group-hover/paper:translate-x-0.5 group-hover/paper:-translate-y-0.5" aria-hidden />
+                  </a>
+                ) : null}
                 {featured.researchHubUrl ? (
                   <Link
                     href={featured.researchHubUrl}
@@ -253,7 +283,7 @@ export default function Experience() {
                       }
                     }}
                     aria-label={`${featured.researchHubLabel ?? "All research"}: opens research hub`}
-                    className="group/hub inline-flex max-w-full items-center gap-2 rounded border border-border bg-background/60 px-3 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground transition hover:border-foreground/40 hover:text-foreground sm:text-xs"
+                    className="group/hub inline-flex max-w-full items-center gap-2 rounded border border-border bg-background/60 px-3 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-muted-foreground sm:tracking-[0.18em] transition hover:border-foreground/40 hover:text-foreground sm:text-xs"
                   >
                     <FlaskConical className="h-3.5 w-3.5 shrink-0" aria-hidden />
                     <span className="min-w-0 truncate">
@@ -467,6 +497,19 @@ export default function Experience() {
                     {selected.researchLabel ?? "Read the research"}
                     <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" />
                   </Link>
+                  {selected.publicationUrl ? (
+                    <a
+                      href={selected.publicationUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={() => triggerHaptic()}
+                      className="group/papercta inline-flex items-center gap-2 rounded border border-border bg-background/60 px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground transition hover:border-foreground/40 hover:text-foreground"
+                    >
+                      <BookOpen className="h-3.5 w-3.5" />
+                      {selected.publicationLabel ?? "Read the paper"}
+                      <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover/papercta:translate-x-0.5 group-hover/papercta:-translate-y-0.5" />
+                    </a>
+                  ) : null}
                   {selected.researchHubUrl ? (
                     <Link
                       href={selected.researchHubUrl}
