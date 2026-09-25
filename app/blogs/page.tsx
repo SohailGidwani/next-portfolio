@@ -72,8 +72,7 @@ export default function BlogsPage() {
           transition={{ duration: 0.5 }}
           className="space-y-4"
         >
-          <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Blogs</p>
-          <h1 className="font-display text-4xl text-foreground sm:text-5xl">Notes, experiments, and write-ups</h1>
+          <h1 className="font-display text-4xl text-foreground sm:text-5xl">Blogs</h1>
           <p className="max-w-2xl text-base text-muted-foreground">
             Articles on AI, engineering, and the systems I like to build.
           </p>

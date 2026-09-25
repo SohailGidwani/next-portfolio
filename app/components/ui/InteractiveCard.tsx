@@ -1,70 +1,42 @@
 "use client"
 
 import { useRef, type ReactNode, type PointerEvent } from "react"
-import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 
 type InteractiveCardProps = {
   children: ReactNode
   className?: string
-  /** Enables the subtle 3D tilt. Spotlight is always on. */
-  tilt?: boolean
-  /** Max tilt in degrees, applied at the card edges. */
-  maxTilt?: number
   /** Scales the card slightly on press, for tap feedback. */
   pressable?: boolean
 }
 
 /**
- * Card wrapper with a cursor-following accent spotlight and an optional,
- * very restrained 3D tilt. Mouse-only: touch input and reduced-motion
- * preferences leave the card completely static.
+ * Card wrapper with a cursor-following accent spotlight. The card itself
+ * never moves on hover: the 3D tilt it used to offer was removed. Touch
+ * anchors the spotlight at the tap point instead of following a cursor.
  */
 export default function InteractiveCard({
   children,
   className = "",
-  tilt = false,
-  maxTilt = 2.5,
   pressable = false,
 }: InteractiveCardProps) {
   const ref = useRef<HTMLDivElement>(null)
   const reduced = useReducedMotion()
 
-  const rx = useMotionValue(0)
-  const ry = useMotionValue(0)
-  const rotateX = useSpring(rx, { stiffness: 220, damping: 24 })
-  const rotateY = useSpring(ry, { stiffness: 220, damping: 24 })
-
-  const shouldTilt = tilt && !reduced
-
   const setSpot = (e: PointerEvent<HTMLDivElement>) => {
     const el = ref.current
-    if (!el) return { x: 0, y: 0, rect: null }
+    if (!el) return
     const rect = el.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-    el.style.setProperty("--spot-x", `${x}px`)
-    el.style.setProperty("--spot-y", `${y}px`)
-    return { x, y, rect }
+    el.style.setProperty("--spot-x", `${e.clientX - rect.left}px`)
+    el.style.setProperty("--spot-y", `${e.clientY - rect.top}px`)
   }
 
   const onPointerMove = (e: PointerEvent<HTMLDivElement>) => {
-    if (e.pointerType !== "mouse") return
-    const { x, y, rect } = setSpot(e)
-    if (shouldTilt && rect) {
-      ry.set((x / rect.width - 0.5) * maxTilt * 2)
-      rx.set(-(y / rect.height - 0.5) * maxTilt * 2)
-    }
+    if (e.pointerType === "mouse") setSpot(e)
   }
 
-  // Touch: anchor the spotlight at the tap point (no tilt).
   const onPointerDown = (e: PointerEvent<HTMLDivElement>) => {
-    if (e.pointerType === "mouse") return
-    setSpot(e)
-  }
-
-  const onPointerLeave = () => {
-    rx.set(0)
-    ry.set(0)
+    if (e.pointerType !== "mouse") setSpot(e)
   }
 
   return (
@@ -72,13 +44,8 @@ export default function InteractiveCard({
       ref={ref}
       onPointerMove={onPointerMove}
       onPointerDown={onPointerDown}
-      onPointerLeave={onPointerLeave}
-      /* Press feedback goes through framer, not an active: class: this
-         element already carries an inline transform for the tilt, and an
-         inline transform beats any class. whileTap composes with it. */
       whileTap={pressable && !reduced ? { scale: 0.98 } : undefined}
       transition={{ duration: 0.16, ease: [0.23, 1, 0.32, 1] }}
-      style={shouldTilt ? { rotateX, rotateY, transformPerspective: 900 } : undefined}
       className={`group/spot relative ${className}`}
     >
       <div

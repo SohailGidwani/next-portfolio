@@ -45,27 +45,17 @@ export default function Education() {
   return (
     <section id="education" className="section-y">
       <div className="container mx-auto px-4">
-        <SectionHeading eyebrow="Education">
-          Structured learning, layered over curiosity.
-        </SectionHeading>
+        <SectionHeading>Education</SectionHeading>
 
         <div className="mt-12">
-          {education.map((item, index) => {
-            const n = String(index + 1).padStart(2, "0")
-
+          {education.map((item) => {
             return (
               <div
                 key={item.degree}
                 className="group/section grid grid-cols-1 gap-5 border-t border-border py-8 sm:py-10 lg:grid-cols-[220px_1fr] lg:gap-10 xl:grid-cols-[260px_1fr]"
               >
-                {/* Left column — number + year + location + cgpa */}
+                {/* Left column: year, location, CGPA */}
                 <div className="flex flex-col justify-start lg:pt-0.5">
-                  <div className="mb-3 flex items-center gap-2">
-                    <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
-                      {n}
-                    </span>
-                    <div className="h-px w-8 origin-left scale-x-50 bg-accent/50 transition-transform duration-500 group-hover/section:scale-x-100" />
-                  </div>
                   <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
                     {item.year}
                   </p>

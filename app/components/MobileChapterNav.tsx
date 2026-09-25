@@ -113,10 +113,6 @@ export default function MobileChapterNav({ items }: { items: TocItem[] }) {
             className="chapter-pill fixed left-1/2 z-40 flex min-h-[44px] max-w-[86vw] items-center gap-2.5 rounded-full border border-border bg-card/95 px-4 py-2.5 shadow-lg backdrop-blur"
           >
             <List aria-hidden className="h-4 w-4 shrink-0 text-accent" />
-            <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent">
-              {String(activeIndex + 1).padStart(2, "0")}
-              <span className="text-muted-foreground">/{items.length}</span>
-            </span>
             <span className="truncate font-body text-xs font-semibold text-foreground">
               {active?.label}
             </span>
@@ -153,13 +149,6 @@ export default function MobileChapterNav({ items }: { items: TocItem[] }) {
                   }`}
                   style={{ animationDelay: `${index * 20}ms` }}
                 >
-                  <span
-                    className={`w-6 shrink-0 font-mono text-[11px] uppercase tracking-[0.15em] ${
-                      isActive ? "text-accent" : "text-muted-foreground/60"
-                    }`}
-                  >
-                    {item.n}
-                  </span>
                   <span className="flex-1 font-body text-sm font-semibold">{item.label}</span>
                   {isActive && <Check aria-hidden className="h-4 w-4 shrink-0 text-accent" />}
                 </button>

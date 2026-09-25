@@ -1,35 +1,30 @@
 import sharp from 'sharp'
-import { writeFileSync } from 'fs'
+import { readFileSync, writeFileSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const publicDir = join(__dirname, '..', 'public')
 
-// Rasterization-safe SVG:
-// - dy="0.35em" instead of dominant-baseline="central" (librsvg on macOS ignores it)
-// - Period is intentionally rendered white first (correct centering), then erased
-//   with a bg rect, then replaced with a real <circle> — librsvg's fallback sans-serif
-//   renders the period glyph as a square, not a circle. Coordinates measured from
-//   actual pixel output: amber center (202, 157), period size ~14.5×14px in 256px space.
-const RASTER_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-  <rect width="256" height="256" rx="48" fill="#080807"/>
-  <text
-    x="128" y="128"
-    dy="0.35em"
-    text-anchor="middle"
-    font-family="sans-serif"
-    font-size="104"
-    font-weight="800"
-    letter-spacing="-2"
-    fill="#f0efe9"
-  >SG.</text>
-  <rect x="183" y="138" width="42" height="38" fill="#080807"/>
-  <circle cx="202" cy="157" r="8" fill="#b85c0e"/>
-</svg>`
+// The mark is public/favicon.svg, with "SG." already outlined as paths from
+// Funnel Display. Rasterizing that one file keeps every size identical to the
+// SVG favicon: the old inline <text> version depended on whatever sans-serif
+// librsvg found, which never matched the site's typeface.
+const MARK_SVG = readFileSync(join(publicDir, 'favicon.svg'))
 
-async function generatePng(size) {
-  return sharp(Buffer.from(RASTER_SVG)).resize(size, size).png().toBuffer()
+// The light-theme mark: the same outlines on the light ground, with the
+// light theme's ultramarine for the dot. The site swaps the tab icons to
+// these when its toggle is set to light (app/components/FaviconSync.tsx).
+// Home-screen icons stay dark: those are fixed when the site is installed.
+const LIGHT_SVG = Buffer.from(
+  MARK_SVG.toString()
+    .replace('fill="#07080b"', 'fill="#f6f7f9"')
+    .replace('fill="#eef0f4"', 'fill="#101114"')
+    .replace('fill="#35b8d4"', 'fill="#1938d7"')
+)
+
+async function generatePng(size, svg = MARK_SVG) {
+  return sharp(svg).resize(size, size).png().toBuffer()
 }
 
 function buildIco(images) {
@@ -85,6 +80,21 @@ async function main() {
   ])
   writeFileSync(join(publicDir, 'favicon.ico'), ico)
   console.log('✓ favicon.ico')
+
+  // Light tab icons: every rel="icon" the layout declares has a light twin
+  // at the same path with "favicon" read as "favicon-light".
+  writeFileSync(join(publicDir, 'favicon-light.svg'), LIGHT_SVG)
+  console.log('✓ favicon-light.svg')
+  const light16 = await generatePng(16, LIGHT_SVG)
+  const light32 = await generatePng(32, LIGHT_SVG)
+  writeFileSync(join(publicDir, 'favicon-light-16x16.png'), light16)
+  writeFileSync(join(publicDir, 'favicon-light-32x32.png'), light32)
+  console.log('✓ favicon-light-16x16.png, favicon-light-32x32.png')
+  writeFileSync(join(publicDir, 'favicon-light.ico'), buildIco([
+    { data: light16, size: 16 },
+    { data: light32, size: 32 },
+  ]))
+  console.log('✓ favicon-light.ico')
 }
 
 main().catch(err => { console.error(err); process.exit(1) })

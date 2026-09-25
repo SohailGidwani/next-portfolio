@@ -119,9 +119,7 @@ export default function Skills() {
   return (
     <section id="skills" className="section-y" onMouseLeave={() => setActiveSkill(null)}>
       <div className="container mx-auto px-4">
-        <SectionHeading eyebrow="Skills">
-          Organized by what you&apos;d hire me to do.
-        </SectionHeading>
+        <SectionHeading>Skills</SectionHeading>
 
         {/* Playbook tabs */}
         <motion.div
@@ -185,9 +183,6 @@ export default function Skills() {
                     onMouseLeave={() => setActiveSkill(null)}
                     className="group flex items-center gap-3 rounded border border-border bg-card/80 p-3 transition hover:border-accent/40 sm:p-4"
                   >
-                    <span className="font-mono text-xs tracking-[0.2em] text-accent">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
                     <span className="flex h-6 w-6 shrink-0 items-center justify-center">
                       {step.logo ? (
                         <Image

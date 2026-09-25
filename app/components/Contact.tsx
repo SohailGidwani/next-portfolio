@@ -73,7 +73,7 @@ export default function Contact() {
           className="space-y-8 md:space-y-10"
         >
           <div className="w-full min-w-0 [container-type:inline-size]">
-            <h2 className="font-display text-[clamp(2rem,10.5cqi,6.25rem)] font-extrabold uppercase leading-[0.95] tracking-[-0.03em] text-pretty">
+            <h2 className="font-display text-[clamp(2.25rem,14.7cqi,10rem)] font-extrabold uppercase leading-[0.95] tracking-[-0.03em] text-pretty">
               <span className="block text-foreground">Let&apos;s work</span>
               <span className="block text-accent">Together.</span>
             </h2>
@@ -106,7 +106,18 @@ export default function Contact() {
                     className="inline-flex min-h-11 min-w-0 items-center gap-1 break-words text-sm font-semibold text-foreground underline-offset-4 hover:text-accent hover:underline sm:min-h-0 md:text-base"
                     aria-label={item.label === "Email" ? emailAriaLabel : `${item.label}: ${item.value}`}
                   >
-                    <span className="min-w-0 break-all">{item.value}</span>
+                    {/* Break only after the @ if the column is too narrow, never
+                        mid-word: break-all split the address as "gmail.co / m". */}
+                    <span className="min-w-0 [overflow-wrap:anywhere]">
+                      {item.value.includes("@") ? (
+                        <>
+                          {item.value.split("@")[0]}@<wbr />
+                          {item.value.split("@")[1]}
+                        </>
+                      ) : (
+                        item.value
+                      )}
+                    </span>
                     {item.external ? <ArrowUpRight className="h-3.5 w-3.5 shrink-0 opacity-70" aria-hidden /> : null}
                   </a>
                   {item.copyValue ? (

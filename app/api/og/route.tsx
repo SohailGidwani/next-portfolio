@@ -3,23 +3,94 @@ import { NextRequest } from 'next/server'
 
 export const runtime = 'edge'
 
-const AMBER = '#b85c0e'
-const BG = '#080807'
-const FG = '#f0efe9'
-const MUTED = '#8a8980'
-const BORDER = '#1c1b18'
-const CARD = '#131211'
+// The site's dark theme: near-black ground, teal-blue accent, cool greys.
+const ACCENT = '#35b8d4'
+const BG = '#07080b'
+const FG = '#eef0f4'
+const MUTED = '#878b95'
+const RULE = '#1a1c22'
 
 const headers = {
   'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800',
 }
 
+const TYPE_LABELS: Record<string, string> = {
+  project: 'Project',
+  research: 'Research paper',
+  'deep-dive': 'Technical deep dive',
+  blog: 'Blog post',
+}
+
+const DEFAULT_ROLE = 'Agentic AI engineer'
+const DEFAULT_STATEMENT =
+  'I build AI systems that hold up in production, and publish the evaluations that say whether they do.'
+
+/**
+ * The site's typefaces, fetched as static TTF instances: the image renderer
+ * cannot read WOFF2 or pick a weight out of a variable font. Any failure
+ * falls back to the renderer's default face rather than failing the image.
+ */
+async function loadFont(family: string, weight: number) {
+  const url = `https://fonts.googleapis.com/css2?family=${family.replace(/ /g, '+')}:wght@${weight}`
+  const css = await (await fetch(url)).text()
+  const src = css.match(/src: url\((.+?)\) format\('(opentype|truetype)'\)/)
+  if (!src) throw new Error(`No TTF for ${family} ${weight}`)
+  const res = await fetch(src[1])
+  if (!res.ok) throw new Error(`Font fetch failed: ${res.status}`)
+  return res.arrayBuffer()
+}
+
+async function fonts() {
+  try {
+    const [d, b, m] = await Promise.all([
+      loadFont('Funnel Display', 800),
+      loadFont('Funnel Sans', 400),
+      loadFont('Funnel Sans', 500),
+    ])
+    return [
+      { name: 'Funnel Display', data: d, weight: 800 as const, style: 'normal' as const },
+      { name: 'Funnel Sans', data: b, weight: 400 as const, style: 'normal' as const },
+      { name: 'Funnel Sans', data: m, weight: 500 as const, style: 'normal' as const },
+    ]
+  } catch {
+    return undefined
+  }
+}
+
+/**
+ * The renderer measures each space-separated word on its own, and with
+ * Funnel that left some gaps visibly wider than others ("Technical  deep").
+ * A no-break space keeps the words in one measured run, and the zero-width
+ * space after it is still a line-break opportunity, so text wraps as before.
+ */
+const even = (text: string) => text.replace(/ /g, '\u00a0\u200b')
+
+/** The "SG." mark, with the dot in the accent, as in the favicon. */
+function Mark({ size }: { size: number }) {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        fontFamily: 'Funnel Display',
+        fontSize: `${size}px`,
+        fontWeight: 800,
+        letterSpacing: '-0.03em',
+        color: FG,
+        lineHeight: 1,
+      }}
+    >
+      SG
+      <span style={{ color: ACCENT }}>.</span>
+    </div>
+  )
+}
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const title = searchParams.get('title')
-  const description = searchParams.get('description')
-  const type = searchParams.get('type')
-  const tags = searchParams.get('tags')?.split(',').slice(0, 5) || []
+  const rawDescription = searchParams.get('description')
+  const type = searchParams.get('type') ?? 'project'
+  const tags = (searchParams.get('tags')?.split(',') ?? []).map((t) => t.trim()).filter(Boolean).slice(0, 5)
 
   if (!title) {
     return new ImageResponse(
@@ -29,157 +100,68 @@ export async function GET(request: NextRequest) {
             height: '100%',
             width: '100%',
             display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
             backgroundColor: BG,
-            padding: '64px 72px',
-            position: 'relative',
+            padding: '72px 80px',
+            fontFamily: 'Funnel Sans',
           }}
         >
-          {/* Subtle amber glow — bottom right */}
-          <div
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              right: 0,
-              width: '480px',
-              height: '320px',
-              background: `radial-gradient(ellipse at 80% 100%, ${AMBER}18, transparent 65%)`,
-              display: 'flex',
-            }}
-          />
+          <Mark size={40} />
 
-          {/* Outer border */}
-          <div
-            style={{
-              position: 'absolute',
-              inset: '24px',
-              border: `1px solid ${BORDER}`,
-              borderRadius: '6px',
-              display: 'flex',
-            }}
-          />
-
-          {/* Left column */}
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              flex: 1,
-              gap: '0px',
-            }}
-          >
-            {/* Role label */}
-            <div
-              style={{
-                fontSize: '13px',
-                letterSpacing: '0.3em',
-                textTransform: 'uppercase',
-                color: AMBER,
-                fontWeight: 600,
-                marginBottom: '20px',
-              }}
-            >
-              AI / CS Engineer
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', fontSize: '28px', fontWeight: 500, color: ACCENT, marginBottom: '16px' }}>
+              {even(DEFAULT_ROLE)}
             </div>
-
-            {/* Name */}
-            <div
-              style={{
-                fontSize: '80px',
-                fontWeight: 800,
-                color: FG,
-                lineHeight: 1.0,
-                letterSpacing: '-0.03em',
-                marginBottom: '24px',
-              }}
-            >
-              Sohail Gidwani
-            </div>
-
-            {/* Description */}
-            <div
-              style={{
-                fontSize: '22px',
-                color: MUTED,
-                lineHeight: 1.5,
-                maxWidth: '560px',
-                marginBottom: '40px',
-              }}
-            >
-              Intelligent systems, full-stack engineering, and AI product design.
-            </div>
-
-            {/* Tag pills */}
-            <div style={{ display: 'flex', gap: '12px' }}>
-              {['AI Systems', 'Product', 'Research'].map((tag) => (
-                <div
-                  key={tag}
-                  style={{
-                    border: `1px solid ${BORDER}`,
-                    color: MUTED,
-                    padding: '6px 14px',
-                    borderRadius: '3px',
-                    fontSize: '11px',
-                    letterSpacing: '0.15em',
-                    textTransform: 'uppercase',
-                    display: 'flex',
-                  }}
-                >
-                  {tag}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Right — large SG. monogram */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: '260px',
-              flexShrink: 0,
-            }}
-          >
             <div
               style={{
                 display: 'flex',
-                fontSize: '140px',
+                fontFamily: 'Funnel Display',
+                fontSize: '112px',
                 fontWeight: 800,
-                letterSpacing: '-4px',
                 color: FG,
-                lineHeight: 1,
-                opacity: 0.9,
+                lineHeight: 0.95,
+                letterSpacing: '-0.035em',
               }}
             >
-              SG
-              <span style={{ color: AMBER }}>.</span>
+              {even('Sohail Gidwani')}
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                fontSize: '30px',
+                color: MUTED,
+                lineHeight: 1.4,
+                maxWidth: '900px',
+                marginTop: '28px',
+              }}
+            >
+              {even(DEFAULT_STATEMENT)}
             </div>
           </div>
 
-          {/* Bottom URL */}
           <div
             style={{
-              position: 'absolute',
-              bottom: '44px',
-              left: '72px',
-              fontSize: '12px',
-              letterSpacing: '0.12em',
-              color: BORDER,
-              textTransform: 'uppercase',
               display: 'flex',
+              borderTop: `1px solid ${RULE}`,
+              paddingTop: '20px',
+              fontSize: '22px',
+              color: MUTED,
             }}
           >
             sohailgidwani.app
           </div>
         </div>
       ),
-      { width: 1200, height: 630, headers }
+      { width: 1200, height: 630, headers, fonts: await fonts() }
     )
   }
 
-  // Project / blog specific OG
-  const typeLabel = type === 'blog' ? 'Blog Post' : 'Project'
+  // `type=none` for index pages, whose title already names the section.
+  const typeLabel = type === 'none' ? '' : TYPE_LABELS[type] ?? TYPE_LABELS.project
+  const description =
+    rawDescription && rawDescription.length > 160 ? `${rawDescription.slice(0, 157)}…` : rawDescription
+  const tagLine = tags.join(' · ')
 
   return new ImageResponse(
     (
@@ -191,158 +173,62 @@ export async function GET(request: NextRequest) {
           flexDirection: 'column',
           justifyContent: 'space-between',
           backgroundColor: BG,
-          padding: '56px 64px',
-          position: 'relative',
+          padding: '64px 80px',
+          fontFamily: 'Funnel Sans',
         }}
       >
-        {/* Amber glow */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '400px',
-            height: '280px',
-            background: `radial-gradient(ellipse at 20% 10%, ${AMBER}14, transparent 60%)`,
-            display: 'flex',
-          }}
-        />
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', fontSize: '26px', fontWeight: 500, color: ACCENT }}>{even(typeLabel)}</div>
+          <Mark size={36} />
+        </div>
 
-        {/* Outer border */}
-        <div
-          style={{
-            position: 'absolute',
-            inset: '20px',
-            border: `1px solid ${BORDER}`,
-            borderRadius: '4px',
-            display: 'flex',
-          }}
-        />
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div
+            style={{
+              display: 'flex',
+              fontFamily: 'Funnel Display',
+              fontSize: title.length > 36 ? '64px' : '84px',
+              fontWeight: 800,
+              color: FG,
+              lineHeight: 1.02,
+              letterSpacing: '-0.02em',
+              maxWidth: '1000px',
+            }}
+          >
+            {even(title)}
+          </div>
+          {description ? (
+            <div
+              style={{
+                display: 'flex',
+                fontSize: '28px',
+                color: MUTED,
+                lineHeight: 1.4,
+                maxWidth: '980px',
+                marginTop: '24px',
+              }}
+            >
+              {even(description)}
+            </div>
+          ) : null}
+        </div>
 
-        {/* Top row: type badge + SG. monogram */}
         <div
           style={{
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
+            borderTop: `1px solid ${RULE}`,
+            paddingTop: '20px',
+            fontSize: '22px',
+            color: MUTED,
           }}
         >
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-              border: `1px solid ${AMBER}60`,
-              color: AMBER,
-              padding: '7px 16px',
-              borderRadius: '3px',
-              fontSize: '11px',
-              fontWeight: 600,
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-            }}
-          >
-            {typeLabel}
-          </div>
-
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-            }}
-          >
-            <div
-              style={{
-                fontSize: '22px',
-                fontWeight: 800,
-                letterSpacing: '-0.5px',
-                color: FG,
-                display: 'flex',
-              }}
-            >
-              SG<span style={{ color: AMBER }}>.</span>
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '2px',
-              }}
-            >
-              <span style={{ fontSize: '14px', fontWeight: 600, color: FG }}>
-                Sohail Gidwani
-              </span>
-              <span style={{ fontSize: '11px', color: MUTED, letterSpacing: '0.05em' }}>
-                sohailgidwani.app
-              </span>
-            </div>
-          </div>
+          <div style={{ display: 'flex' }}>{even(tagLine)}</div>
+          <div style={{ display: 'flex', fontWeight: 500, color: FG }}>{even('Sohail Gidwani')}</div>
         </div>
-
-        {/* Middle: title + description */}
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '20px',
-            flex: 1,
-            justifyContent: 'center',
-            paddingTop: '32px',
-            paddingBottom: '32px',
-          }}
-        >
-          <div
-            style={{
-              fontSize: title.length > 40 ? '52px' : '62px',
-              fontWeight: 800,
-              color: FG,
-              lineHeight: 1.15,
-              letterSpacing: '-0.025em',
-              maxWidth: '900px',
-            }}
-          >
-            {title}
-          </div>
-          {description && (
-            <div
-              style={{
-                fontSize: '22px',
-                color: MUTED,
-                lineHeight: 1.5,
-                maxWidth: '780px',
-              }}
-            >
-              {description.length > 120 ? description.slice(0, 117) + '…' : description}
-            </div>
-          )}
-        </div>
-
-        {/* Bottom: tags */}
-        {tags.length > 0 && (
-          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-            {tags.map((tag) => (
-              <div
-                key={tag}
-                style={{
-                  backgroundColor: CARD,
-                  border: `1px solid ${BORDER}`,
-                  color: MUTED,
-                  padding: '6px 14px',
-                  borderRadius: '3px',
-                  fontSize: '11px',
-                  letterSpacing: '0.15em',
-                  textTransform: 'uppercase',
-                  display: 'flex',
-                }}
-              >
-                {tag.trim()}
-              </div>
-            ))}
-          </div>
-        )}
       </div>
     ),
-    { width: 1200, height: 630, headers }
+    { width: 1200, height: 630, headers, fonts: await fonts() }
   )
 }

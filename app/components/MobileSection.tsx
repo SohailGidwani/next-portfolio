@@ -23,7 +23,6 @@ const DURATION_MS = 320
  */
 export default function MobileSection({
   id,
-  n,
   label,
   summary,
   lead,
@@ -33,7 +32,8 @@ export default function MobileSection({
   children,
 }: {
   id: string
-  n: string
+  /** Kept for the table of contents, which keys on it; not rendered. */
+  n?: string
   label: string
   /**
    * One line, plain language: what a reader gets if they open this. Omit it
@@ -129,15 +129,12 @@ export default function MobileSection({
 
   return (
     <section data-expanded={expanded}>
-      <div id={id} className="mb-6 scroll-mt-24">
-        <div className="mb-2 flex items-center gap-2">
-          <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">{n}</span>
-          <div className="h-px w-5 bg-border" />
-        </div>
-        <h2 className="font-display text-xl font-bold uppercase tracking-tight text-foreground sm:text-2xl">
-          {label}
-        </h2>
-      </div>
+      <h2
+        id={id}
+        className="mb-6 scroll-mt-24 font-display text-xl uppercase tracking-tight text-foreground sm:text-2xl"
+      >
+        {label}
+      </h2>
 
       {summary && !alwaysOpen && (
         <p className="mb-5 text-[15px] leading-[1.7] text-muted-foreground md:hidden">{summary}</p>

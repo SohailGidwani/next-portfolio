@@ -331,3 +331,23 @@ describe("MEMOIR-VLM reflects the accepted paper, not the pre-correction manuscr
     }
   })
 })
+
+describe("tab icon follows the site theme", () => {
+  it("every rel=icon link has a light twin on disk", () => {
+    const layout = read("app/layout.tsx")
+    const hrefs = [...layout.matchAll(/<link rel="icon"[^>]*href="([^"?]+)/g)].map((m) => m[1])
+    expect(hrefs.length).toBeGreaterThanOrEqual(4)
+    for (const href of hrefs) {
+      const light = href.replace("/favicon", "/favicon-light")
+      expect(fs.existsSync(path.join(root, "public", light)), light).toBe(true)
+    }
+  })
+
+  it("swaps the icons after hydration, never before it", () => {
+    // A pre-hydration rename left React unable to match the head links, and
+    // it inserted a second set of icons.
+    expect(read("app/layout.tsx")).toContain("<FaviconSync />")
+    expect(read("app/layout.tsx")).not.toMatch(/favicon-light/)
+    expect(read("app/components/FaviconSync.tsx")).toContain("resolvedTheme")
+  })
+})

@@ -63,6 +63,7 @@ const config = {
         mono: ["var(--fm)", "ui-monospace", "monospace"],
       },
       colors: {
+        "on-accent": withAlpha("--on-accent"),
         border: withAlpha("--border"),
         input: withAlpha("--input"),
         ring: withAlpha("--ring"),

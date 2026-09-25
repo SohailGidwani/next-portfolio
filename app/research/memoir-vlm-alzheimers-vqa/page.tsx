@@ -53,7 +53,7 @@ function Stat({
 }) {
   return (
     <div className={`border-l-2 ${primary ? "border-accent" : "border-border"} pl-4`}>
-      <p className="font-mono text-2xl font-bold text-foreground">{value}</p>
+      <p className="font-mono text-2xl font-medium text-foreground">{value}</p>
       <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
         {label}
       </p>
@@ -180,12 +180,6 @@ export default function MultiModalAlzheimersVQAPage() {
         <div className="border-b border-border bg-card/40 py-16 sm:py-20">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl">
-              <div className="mb-5 flex items-center gap-3">
-                <div className="h-px w-8 bg-accent" />
-                <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
-                  Research / Keck USC
-                </span>
-              </div>
               {/* The published title separates name and subtitle with an em
                   dash; the site renders it with a colon, as everywhere else. */}
               <h1 className="font-display mb-4 text-balance text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl">
@@ -648,7 +642,7 @@ export default function MultiModalAlzheimersVQAPage() {
                     </p>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                       Learned jointly with diagnosis from the same fused embedding, which is also
-                      what retrieval searches in section 07.
+                      what retrieval searches in the VQA extension below.
                     </p>
                   </div>
                 </div>
@@ -1048,7 +1042,7 @@ export default function MultiModalAlzheimersVQAPage() {
                     href={FRONTIERS_URL}
                     target="_blank"
                     rel="noreferrer"
-                    className="group/paper inline-flex items-center gap-2 rounded bg-accent px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-white transition hover:bg-accent/90 active:scale-[0.98]"
+                    className="group/paper inline-flex items-center gap-2 rounded bg-accent px-4 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.15em] text-on-accent transition hover:bg-accent/90 active:scale-[0.98]"
                   >
                     <BookOpen className="h-3.5 w-3.5" aria-hidden />
                     Read on Frontiers
@@ -1056,7 +1050,7 @@ export default function MultiModalAlzheimersVQAPage() {
                   </a>
                   <Link
                     href="/#experience"
-                    className="inline-flex items-center gap-2 rounded border border-border bg-transparent px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-foreground transition hover:border-accent/40 hover:text-accent"
+                    className="inline-flex items-center gap-2 rounded border border-border bg-transparent px-4 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.15em] text-foreground transition hover:border-accent/40 hover:text-accent"
                   >
                     <Home className="h-3.5 w-3.5" />
                     Back to portfolio
@@ -1065,7 +1059,7 @@ export default function MultiModalAlzheimersVQAPage() {
                     href="https://github.com/SohailGidwani"
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-2 rounded border border-border bg-transparent px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground transition hover:border-foreground/40 hover:text-foreground"
+                    className="inline-flex items-center gap-2 rounded border border-border bg-transparent px-4 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.15em] text-muted-foreground transition hover:border-foreground/40 hover:text-foreground"
                   >
                     <Github className="h-3.5 w-3.5" />
                     GitHub profile

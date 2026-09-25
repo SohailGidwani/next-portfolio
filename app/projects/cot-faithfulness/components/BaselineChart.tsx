@@ -26,7 +26,7 @@ function PanelBlock({ title, subtitle, rows }: Panel) {
                   {row.model}
                 </span>
                 <span
-                  className={`font-mono text-xs font-bold tabular-nums ${
+                  className={`font-mono text-xs font-medium tabular-nums ${
                     improved ? "text-accent" : "text-muted-foreground"
                   }`}
                 >
@@ -60,7 +60,7 @@ function PanelBlock({ title, subtitle, rows }: Panel) {
                     />
                   </div>
                   <span
-                    className={`text-right font-mono text-xs font-bold tabular-nums ${
+                    className={`text-right font-mono text-xs font-medium tabular-nums ${
                       improved ? "text-accent" : "text-foreground"
                     }`}
                   >

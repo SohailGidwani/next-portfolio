@@ -5,25 +5,25 @@ import { useState } from "react"
 const SERIES = [
   {
     label: "Llama 3B · Science",
-    color: "#60a5fa",
+    color: "var(--accent)",
     dashed: false,
     data: [17.2, 13.2, 15.6, 13.6],
   },
   {
     label: "Qwen 7B · Science",
-    color: "#3b82f6",
+    color: "var(--accent)",
     dashed: true,
     data: [6.4, 8.8, 16.8, 16.0],
   },
   {
     label: "Llama 3B · Math",
-    color: "#d97706",
+    color: "var(--fg)",
     dashed: false,
     data: [2.0, 1.2, 1.2, 2.0],
   },
   {
     label: "Qwen 7B · Math",
-    color: "#d97706",
+    color: "var(--fg)",
     dashed: true,
     data: [1.6, 2.0, 2.4, 1.2],
   },

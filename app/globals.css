@@ -300,13 +300,16 @@
 @layer base {
   :root {
     /* Design tokens — light */
-    --bg: #f7f6f3;
-    --fg: #111110;
-    --muted: #73726d;
-    --border: #dddbd4;
-    --card: #edecea;
-    --card2: #e6e4e0;
-    --accent: oklch(52% 0.18 50);
+    --bg: #f6f7f9;
+    --fg: #101114;
+    --muted: #686c75;
+    --border: #d8dbe1;
+    --card: #ebedf0;
+    --card2: #e3e6eb;
+    /* Ultramarine. 7.6:1 on the page, 8.1:1 for white text on it. */
+    --accent: #1938d7;
+    /* Text set on a solid accent fill. */
+    --on-accent: #ffffff;
 
     --w: 1080px;
     /* Phone rhythm. Eight sections at 56px each spent close to a full screen
@@ -355,15 +358,21 @@
   .dark {
     /* The dark ramp moved down together (Aug 2026) so the theme reads darker
        while the surface steps keep their spacing: dropping --bg alone would
-       have left the cards floating well above the page. Each value keeps the
-       palette's slight warm cast (blue one step under red and green). */
-    --bg: #080807;
-    --fg: #f0efe9;
-    --muted: #8a8980;
-    --border: #1c1b18;
-    --card: #131211;
-    --card2: #171614;
-    --accent: oklch(52% 0.18 50);
+       have left the cards floating well above the page. Each value carries a
+       slight cool cast (blue a step above red and green) to sit with the
+       ultramarine accent. */
+    --bg: #07080b;
+    --fg: #eef0f4;
+    --muted: #878b95;
+    --border: #1a1c22;
+    --card: #111318;
+    --card2: #15171c;
+    /* Teal-blue on dark. Ultramarine lost its depth against near-black;
+       this reads at 8.5:1 as text on the page. It is too light to carry white
+       text (2.3:1), so solid accent fills take near-black text instead
+       (8.5:1) through --on-accent. */
+    --accent: #35b8d4;
+    --on-accent: #07080b;
 
     --background: var(--bg);
     --foreground: var(--fg);
@@ -390,8 +399,7 @@
     font-family: var(--fb);
     font-size: 15px;
     line-height: 1.55;
-    font-optical-sizing: auto;
-    font-variation-settings: "opsz" 14;
+    font-weight: 400;
     text-rendering: optimizeLegibility;
     transition: background-color 0.3s ease, color 0.3s ease;
     overflow-y: auto;
@@ -415,17 +423,34 @@
     }
   }
 
+  /* Type system. Funnel Display for headings: 700, and 800 only for the two
+     poster headings (the hero name and the contact line). Funnel Sans for
+     everything read: 400 for text, 500 for UI (nav, buttons), 600 as the
+     heaviest. Mono: Martian Mono at its narrowest (75%), since it is a wide
+     face, and only for small labels at 400 or 500. These are base-layer
+     defaults, so an explicit weight utility still wins. */
   .font-display {
     font-family: var(--fd);
-    font-weight: 800;
+    font-weight: 700;
   }
 
   .font-body {
     font-family: var(--fb);
   }
 
-  .font-mono {
+  .font-mono,
+  code,
+  kbd,
+  pre {
     font-family: var(--fm);
+    font-stretch: 75%;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 700;
   }
   
   /* Keep scroll position visible without using the browser's heavy default. */
@@ -754,7 +779,7 @@
   }
 
   /* /about editorial portrait: the print assembles itself on load. Photo
-     settles, the amber board slides out from behind it, registration marks
+     settles, the accent board slides out from behind it, registration marks
      stamp in, the caption rule draws, the credit fades up. Pure CSS, both
      fill, so reduced motion collapses to the finished print instantly. */
   @keyframes portrait-photo-in {
@@ -828,7 +853,7 @@
      does, and it works on a light page too. */
   .portrait-vignette {
     /* Matches the dark --bg so the portrait grades into the page it sits on. */
-    --portrait-burn: 8 8 7;
+    --portrait-burn: 7 8 11;
     background:
       radial-gradient(
         104% 76% at 50% 30%,

@@ -18,8 +18,7 @@ export default function ProjectsPage() {
 
       <div className="container mx-auto px-4 py-12">
         <div className="space-y-4">
-          <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Projects</p>
-          <h1 className="font-display text-4xl text-foreground sm:text-5xl">All projects</h1>
+          <h1 className="font-display text-4xl text-foreground sm:text-5xl">Projects</h1>
           <p className="max-w-2xl text-base text-muted-foreground">
             Everything I've shipped, from AI pipelines to full-stack apps. Click into any of them for the full story.
           </p>
@@ -28,11 +27,10 @@ export default function ProjectsPage() {
         <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {projects.map((project) => (
             <div key={project.id} className="group block h-full">
-              {/* Lift lives on this wrapper: InteractiveCard's tilt owns the card's own
-                  transform, so a hover translate there would be overridden. */}
+              {/* The hover lift lives on this wrapper so the card's own transform
+                  stays free for InteractiveCard's press feedback. */}
               <div className="h-full transition-transform duration-300 ease-out group-hover:-translate-y-1.5 motion-reduce:transition-none motion-reduce:group-hover:translate-y-0">
               <InteractiveCard
-                tilt
                 className="group flex h-full cursor-pointer flex-col rounded border border-foreground/10 bg-card2 p-5 shadow-card transition-[border-color,box-shadow] duration-300 group-hover:border-accent/40 group-hover:shadow-card-hover"
               >
                 <Link
@@ -44,7 +42,7 @@ export default function ProjectsPage() {
                 </Link>
                 <ProjectGlyph id={project.id} />
                 <div className="mt-4 flex-1 space-y-2">
-                  <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-accent">
+                  <p className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-accent">
                     {project.kind}
                   </p>
                   <h2 data-vt-title className="font-display text-xl text-foreground">{project.title}</h2>

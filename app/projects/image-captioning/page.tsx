@@ -105,12 +105,6 @@ The hardest part was honestly the training pipeline. VGG-16 is memory-hungry, th
           <div className="border-b border-border bg-card/40 py-16 sm:py-20">
             <div className="container mx-auto">
               <div className="max-w-3xl">
-                <div className="mb-5 flex items-center gap-3">
-                  <div className="h-px w-8 bg-accent" />
-                  <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
-                    ML / Computer Vision
-                  </span>
-                </div>
                 <h1
                   data-vt-title-target
                   className="font-display mb-5 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl"
@@ -121,15 +115,15 @@ The hardest part was honestly the training pipeline. VGG-16 is memory-hungry, th
                 {/* Qualitative decoder comparison */}
                 <div className="mb-6 flex items-center gap-6">
                   <div className="border-l-2 border-accent pl-4">
-                    <p className="font-mono text-sm font-bold uppercase text-foreground">Transformer</p>
+                    <p className="font-mono text-sm font-medium uppercase text-foreground">Transformer</p>
                     <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">More coherent captions</p>
                   </div>
                   <div className="border-l-2 border-border pl-4">
-                    <p className="font-mono text-sm font-bold uppercase text-foreground">LSTM</p>
+                    <p className="font-mono text-sm font-medium uppercase text-foreground">LSTM</p>
                     <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Recurrent baseline</p>
                   </div>
                   <div className="border-l-2 border-border pl-4">
-                    <p className="font-mono text-sm font-bold uppercase text-foreground">Attention</p>
+                    <p className="font-mono text-sm font-medium uppercase text-foreground">Attention</p>
                     <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Inspectable focus</p>
                   </div>
                 </div>
@@ -241,9 +235,6 @@ The hardest part was honestly the training pipeline. VGG-16 is memory-hungry, th
                     <div className="divide-y divide-border/50">
                       {project.technicalDetails.map((detail, index) => (
                         <div key={index} className="flex items-start gap-4 px-4 py-3">
-                          <span className="w-5 shrink-0 text-right font-mono text-xs text-accent/60">
-                            {String(index + 1).padStart(2, '0')}
-                          </span>
                           <span className="text-sm text-muted-foreground">{detail}</span>
                         </div>
                       ))}

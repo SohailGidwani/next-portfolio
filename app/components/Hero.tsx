@@ -72,7 +72,7 @@ function HeroStats() {
 
 function HeroTitle() {
   const lineClass =
-    "block w-full min-w-0 font-display font-extrabold uppercase leading-[0.95] tracking-[-0.03em] text-foreground text-[clamp(2.25rem,10.25cqi,9.375rem)]"
+    "block w-full min-w-0 font-display font-extrabold uppercase leading-[0.95] tracking-[-0.03em] text-foreground text-[clamp(2.5rem,16cqi,11rem)]"
 
   return (
     <h1 className={lineClass} aria-label="Sohail Gidwani">

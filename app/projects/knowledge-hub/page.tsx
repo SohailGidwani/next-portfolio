@@ -134,12 +134,6 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
           <div className="border-b border-border bg-card/40 py-16 sm:py-20">
             <div className="container mx-auto">
               <div className="max-w-3xl">
-                <div className="mb-5 flex items-center gap-3">
-                  <div className="h-px w-8 bg-accent" />
-                  <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
-                    AI / RAG System
-                  </span>
-                </div>
                 <h1
                   data-vt-title-target
                   className="font-display mb-5 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl"
@@ -150,15 +144,15 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                 {/* Stat callout row */}
                 <div className="mb-6 flex flex-wrap items-center gap-6">
                   <div className="border-l-2 border-accent pl-4">
-                    <p className="font-mono text-2xl font-bold text-foreground">100%</p>
+                    <p className="font-mono text-2xl font-medium text-foreground">100%</p>
                     <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Local / No Cloud</p>
                   </div>
                   <div className="border-l-2 border-border pl-4">
-                    <p className="font-mono text-2xl font-bold text-foreground">Hybrid</p>
+                    <p className="font-mono text-2xl font-medium text-foreground">Hybrid</p>
                     <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Search Mode</p>
                   </div>
                   <div className="border-l-2 border-border pl-4">
-                    <p className="font-mono text-2xl font-bold text-foreground">RAG</p>
+                    <p className="font-mono text-2xl font-medium text-foreground">RAG</p>
                     <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">With Citations</p>
                   </div>
                 </div>
@@ -307,9 +301,6 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                     <div className="divide-y divide-border/50">
                       {project.technicalDetails.map((detail, index) => (
                         <div key={index} className="flex items-start gap-4 px-4 py-3">
-                          <span className="w-5 shrink-0 text-right font-mono text-xs text-accent/60">
-                            {String(index + 1).padStart(2, '0')}
-                          </span>
                           <span className="text-sm text-muted-foreground">{detail}</span>
                         </div>
                       ))}
@@ -360,7 +351,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                   <div className="flex flex-wrap gap-3">
                     <Link
                       href="/projects/knowledge-hub/deep-dive"
-                      className="inline-flex items-center gap-2 rounded bg-accent px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-white transition hover:bg-accent/90"
+                      className="inline-flex items-center gap-2 rounded bg-accent px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-on-accent transition hover:bg-accent/90"
                     >
                       <FolderKanban className="h-4 w-4" />
                       Read Deep Dive

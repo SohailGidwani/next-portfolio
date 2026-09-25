@@ -34,7 +34,7 @@ export default function AboutPage() {
         <div className="container mx-auto flex items-center justify-between gap-4 px-4 py-3">
           <Link
             href="/#about"
-            className="inline-flex items-center gap-2 rounded border border-border bg-card/80 px-3 py-2 font-mono text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground transition hover:border-accent/40 hover:text-foreground"
+            className="inline-flex items-center gap-2 rounded border border-border bg-card/80 px-3 py-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground transition hover:border-accent/40 hover:text-foreground"
           >
             <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
             Portfolio
@@ -47,15 +47,8 @@ export default function AboutPage() {
         <section className="border-b border-border bg-card/40 py-16 sm:py-24">
           <div className="container mx-auto grid gap-12 px-4 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-center">
             <div className="max-w-3xl">
-              <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-accent">
+              <h1 className="text-balance font-display text-4xl leading-tight text-foreground sm:text-5xl">
                 About
-              </p>
-              {/* text-balance: measured line widths go from 464/486/185/513
-                  (spread 328, with "plain" orphaned) to 464/319/351/513
-                  (spread 194). Every max-width tried was worse or added a
-                  fifth line. */}
-              <h1 className="mt-4 text-balance font-display text-3xl leading-tight text-foreground sm:text-4xl lg:text-5xl">
-                I like difficult systems and plain explanations.
               </h1>
               <div className="mt-7 space-y-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
                 <p>
@@ -95,7 +88,7 @@ export default function AboutPage() {
             >
               <PortraitAssemblyGate />
               <div className="group relative">
-                {/* Amber mounting block: slides out from behind the print */}
+                {/* Accent mounting block: slides out from behind the print */}
                 <div
                   aria-hidden
                   className="portrait-mount absolute inset-0 translate-x-2.5 translate-y-2.5 bg-accent"
@@ -136,7 +129,7 @@ export default function AboutPage() {
               <figcaption className="mt-4">
                 <span aria-hidden className="portrait-rule block h-px w-full origin-left bg-border" />
                 <div className="portrait-caption flex items-baseline justify-between gap-3 pt-2.5 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-                  <span>Fig. 01 · Sohail Gidwani</span>
+                  <span>Sohail Gidwani</span>
                   <span className="text-accent">LA · 2026</span>
                 </div>
               </figcaption>
@@ -146,22 +139,16 @@ export default function AboutPage() {
 
         <section className="section-y border-b border-border">
           <div className="container mx-auto px-4">
-            <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-accent">
+            <h2 className="font-display text-[2rem] leading-[1.05] tracking-[-0.02em] text-foreground sm:text-[2.75rem]">
               How I work
-            </p>
-            <h2 className="mt-3 font-display text-3xl text-foreground sm:text-4xl">
-              The principles behind the projects.
             </h2>
             <div className="mt-10 grid gap-5 md:grid-cols-3">
-              {values.map((value, index) => (
+              {values.map((value) => (
                 <article
                   key={value.title}
                   className="border-t-2 border-accent/50 bg-card/60 p-5"
                 >
-                  <p className="font-mono text-xs text-accent">
-                    {String(index + 1).padStart(2, "0")}
-                  </p>
-                  <h3 className="mt-3 font-display text-xl text-foreground">{value.title}</h3>
+                  <h3 className="font-display text-xl text-foreground">{value.title}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{value.body}</p>
                 </article>
               ))}

@@ -1,33 +1,31 @@
 import '@/app/globals.css'
-import { Syne, DM_Sans, JetBrains_Mono } from 'next/font/google'
+import { Funnel_Display, Funnel_Sans, Martian_Mono } from 'next/font/google'
 import ViewTransitions from './components/ViewTransitions'
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { ThemeProvider } from './components/ThemeProvider'
+import FaviconSync from './components/FaviconSync'
 import type { Viewport } from 'next'
 
-// Declared weights are matched to what the pages actually render. A weight the
-// CSS asks for but the font never shipped gets synthesized by the browser, and
-// faux bold on a monospace face looks visibly smeared: 142 elements were
-// rendering that way. A declared weight nothing uses is just wasted range.
-const fd = Syne({
+// Funnel: the Display cut for headings, the Sans cut for everything people
+// read. Both are variable (300 to 800), so every weight the CSS asks for is
+// real and none is synthesized.
+const fd = Funnel_Display({
   subsets: ['latin'],
   variable: '--fd',
-  weight: ['600', '700', '800'],
 })
 
-const fb = DM_Sans({
+const fb = Funnel_Sans({
   subsets: ['latin'],
   variable: '--fb',
-  weight: ['400', '500', '600', '700'],
 })
 
-const fm = JetBrains_Mono({
+const fm = Martian_Mono({
   subsets: ['latin'],
   variable: '--fm',
-  weight: ['400', '500', '600', '700'],
+  axes: ['wdth'],
   // Mono only styles small utility labels, never LCP text; keeping it out of
-  // the preload set frees critical bandwidth for Syne and DM Sans.
+  // the preload set frees critical bandwidth for the text faces.
   preload: false,
 })
 
@@ -36,17 +34,17 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#f7f6f3' },
+    { media: '(prefers-color-scheme: light)', color: '#f6f7f9' },
     // Must track the dark --bg in globals.css: on mobile this paints the
     // browser chrome, so a stale value leaves a visible seam above the page.
-    { media: '(prefers-color-scheme: dark)', color: '#080807' },
+    { media: '(prefers-color-scheme: dark)', color: '#07080b' },
   ],
 }
 
 export const metadata = {
   title: 'Sohail Gidwani - AI Developer | AI Agent Engineer',
-  description: 'Sohail Gidwani is a passionate AI Agent Engineer specializing in RAG, Full Stack Development, and automation. USC Computer Science graduate student interested in AI, gaming, and travel. View portfolio, projects, and experience.',
-  keywords: 'Sohail Gidwani, Software Developer, AI Agent Engineer, AI Developer, RAG Developer, Full Stack Developer, Mumbai, India, Python, React, Node.js, Machine Learning, Artificial Intelligence, Portfolio, Gaming, Travel, Personal Interests',
+  description: 'Sohail Gidwani builds agentic and production AI systems: RAG platforms, agent infrastructure, and the evaluations that test them. M.S. Computer Science at USC. Projects, research, and experience.',
+  keywords: 'Sohail Gidwani, AI Engineer, AI Agent Engineer, Agentic AI, RAG, LLM Evaluation, Machine Learning Engineer, Full Stack Developer, Python, TypeScript, React, Next.js, USC, Los Angeles, Portfolio',
   authors: [{ name: 'Sohail Gidwani' }],
   creator: 'Sohail Gidwani',
   publisher: 'Sohail Gidwani',
@@ -61,7 +59,7 @@ export const metadata = {
   },
   openGraph: {
     title: 'Sohail Gidwani - AI Developer | AI Agent Engineer',
-    description: 'Sohail Gidwani is a passionate AI Developer specializing in RAG, Full Stack Development, and automation. USC Computer Science graduate student interested in AI, gaming, and travel.',
+    description: 'Agentic and production AI engineer: RAG platforms, agent infrastructure, and published evaluations, including a Frontiers paper on multimodal Alzheimer\'s classification. M.S. Computer Science at USC.',
     url: 'https://sohailgidwani.app',
     siteName: 'Sohail Gidwani Portfolio',
     images: [
@@ -78,7 +76,7 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Sohail Gidwani - AI Developer | AI Agent Engineer',
-    description: 'Sohail Gidwani is a passionate AI Developer specializing in RAG, Full Stack Development, and automation. USC CS student interested in AI, gaming, and travel.',
+    description: 'Agentic and production AI engineer: RAG platforms, agent infrastructure, and published evaluations. M.S. Computer Science at USC.',
     images: ['/api/og'],
     creator: '@sohailgidwani',
   },
@@ -106,13 +104,15 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/favicon.svg?v=4" type="image/svg+xml" />
-        <link rel="icon" href="/favicon.ico?v=4" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=4" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=4" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=4" />
-        <link rel="manifest" href="/site.webmanifest" />
-        <meta name="msapplication-TileColor" content="#080807" />
+        {/* FaviconSync swaps the rel="icon" links to their light twins while the
+            site is light. */}
+        <link rel="icon" href="/favicon.svg?v=5" type="image/svg+xml" />
+        <link rel="icon" href="/favicon.ico?v=5" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=5" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=5" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=5" />
+        <link rel="manifest" href="/site.webmanifest?v=5" />
+        <meta name="msapplication-TileColor" content="#07080b" />
         <link rel="author" href="https://sohailgidwani.app" />
         <link rel="alternate" type="text/plain" title="LLM information" href="/llms.txt" />
         <script
@@ -271,6 +271,7 @@ export default function RootLayout({
       <body className={`${fd.variable} ${fb.variable} ${fm.variable} font-body`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ViewTransitions />
+          <FaviconSync />
           {children}
           <Analytics />
           <SpeedInsights />

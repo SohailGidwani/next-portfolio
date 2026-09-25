@@ -22,7 +22,7 @@ function StatusBadge({ status }: { status: ResearchEntry["status"] }) {
   const meta = STATUS_META[status]
   return (
     <span
-      className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] ${meta.badge}`}
+      className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.18em] ${meta.badge}`}
     >
       {meta.pulse ? (
         <span className="relative flex h-1.5 w-1.5">
@@ -40,7 +40,6 @@ function ResearchCard({ entry }: { entry: ResearchEntry }) {
 
   const inner = (
     <InteractiveCard
-      tilt={!isExtension}
       className={`group relative flex h-full flex-col rounded-lg border bg-card/80 p-5 shadow-card transition-colors sm:p-6 ${
         isExtension
           ? "border-dashed border-border hover:border-accent/40"
@@ -49,7 +48,7 @@ function ResearchCard({ entry }: { entry: ResearchEntry }) {
     >
       {/* Type + status */}
       <div className="flex items-start justify-between gap-3">
-        <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-[0.22em] text-accent">
+        <span className="inline-flex items-center gap-1.5 font-mono text-xs font-medium uppercase tracking-[0.22em] text-accent">
           {isExtension ? (
             <>
               <GitBranch className="h-3 w-3" />
@@ -95,7 +94,7 @@ function ResearchCard({ entry }: { entry: ResearchEntry }) {
         <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3">
           {entry.metrics.map((m) => (
             <div key={m.label} className="border-l-2 border-accent/40 pl-3">
-              <p className="font-mono text-lg font-bold leading-none text-foreground">
+              <p className="font-mono text-lg font-medium leading-none text-foreground">
                 {m.value}
               </p>
               <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
@@ -124,7 +123,7 @@ function ResearchCard({ entry }: { entry: ResearchEntry }) {
           {entry.venue} · {entry.year}
         </span>
         {entry.href ? (
-          <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground transition group-hover:text-accent">
+          <span className="inline-flex items-center gap-1.5 font-mono text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground transition group-hover:text-accent">
             Read
             <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </span>
@@ -250,12 +249,6 @@ export default function ResearchHub() {
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             className="max-w-3xl"
           >
-            <div className="mb-5 flex items-center gap-3">
-              <div className="h-px w-8 bg-accent" />
-              <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
-                Research
-              </span>
-            </div>
             <h1 className="font-display mb-5 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl">
               Research &amp; ongoing work
             </h1>

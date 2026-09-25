@@ -38,7 +38,7 @@ export default function DiagramLightbox({ title, children }: DiagramLightboxProp
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="h-[92vh] w-[96vw] max-w-[96vw] grid-rows-[auto_1fr] gap-3 overflow-hidden rounded p-4 sm:w-[96vw] sm:rounded sm:p-6">
-          <DialogTitle className="pr-10 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+          <DialogTitle className="pr-10 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
             {title}
           </DialogTitle>
 

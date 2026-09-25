@@ -73,7 +73,6 @@ export default function SectionTOC({ items }: { items: TocItem[] }) {
                     : "border-transparent text-muted-foreground hover:text-foreground"
                 }`}
               >
-                <span className={isActive ? "text-accent" : "text-muted-foreground/60"}>{item.n}</span>
                 <span className="min-w-0 truncate">{item.label}</span>
               </button>
             </li>

@@ -184,7 +184,7 @@ function Wire({
       />
       {at && (
         <path
-          className={`glyph-charge${accent ? " glyph-charge--accent" : ""}`}
+          className={`glyph-charge ${accent ? " glyph-charge--accent" : ""}`}
           d={path}
           pathLength={100}
           fill="none"

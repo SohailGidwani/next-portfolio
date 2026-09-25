@@ -8,7 +8,7 @@ import { hasAssembled, markAssembled } from "@/app/utils/portraitAssembly"
 
 /**
  * Homepage portrait, running the same print-assembly choreography as /about:
- * the photo settles, the amber board slides out from behind it, registration
+ * the photo settles, the accent board slides out from behind it, registration
  * marks stamp in, the caption rule draws, the credit fades up.
  *
  * /about drives this from CSS keyframes on load, which cannot work here. This
@@ -78,7 +78,7 @@ export default function AboutPortrait() {
   }
 
   // data-vt-portrait goes on the whole print, not just the photo. A print is
-  // one object: naming only the photo left the amber board and the caption
+  // one object: naming only the photo left the accent board and the caption
   // behind in the root snapshot, so they scaled away with the page while the
   // photo stayed put, and the frame came apart from its own picture mid-flight.
   // The value is the route it pairs with, so ViewTransitions only claims the
@@ -98,7 +98,7 @@ export default function AboutPortrait() {
         viewport={{ once: true, amount: 0.4 }}
       >
         <div className="group relative isolate">
-          {/* Amber mounting block: slides out from behind the print */}
+          {/* Accent mounting block: slides out from behind the print */}
           <motion.div aria-hidden variants={board} className="absolute inset-0 -z-10 bg-accent" />
 
           {/* Registration marks stamp in; the block owns the fourth corner */}
@@ -146,7 +146,7 @@ export default function AboutPortrait() {
             variants={caption}
             className="flex items-baseline justify-between gap-3 pt-2.5 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground"
           >
-            <span>Fig. 01 · Sohail Gidwani</span>
+            <span>Sohail Gidwani</span>
             <span className="text-accent">LA · 2026</span>
           </motion.div>
         </figcaption>

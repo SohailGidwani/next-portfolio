@@ -123,9 +123,7 @@ export default function Personal() {
   return (
     <section id="personal" className="section-y">
       <div className="container mx-auto px-4">
-        <SectionHeading eyebrow="Beyond the Code">
-          Stuff I care about when I&apos;m not coding.
-        </SectionHeading>
+        <SectionHeading>Beyond the code</SectionHeading>
 
         {/* Marvel Section */}
         <motion.div

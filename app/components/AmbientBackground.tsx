@@ -82,7 +82,7 @@ export default function AmbientBackground() {
           className="fixed inset-0 transition-opacity duration-500"
           style={{
             opacity: "var(--glow-o, 0)",
-            backgroundImage: "radial-gradient(rgba(251,191,36,0.30) 1px, transparent 1px)",
+            backgroundImage: "radial-gradient(rgba(53,184,212,0.34) 1px, transparent 1px)",
             backgroundSize: "24px 24px",
             WebkitMaskImage: GLOW_MASK,
             maskImage: GLOW_MASK,
@@ -94,7 +94,7 @@ export default function AmbientBackground() {
         <div
           className="fixed inset-0"
           style={{
-            backgroundImage: "radial-gradient(rgba(28,25,23,0.06) 1px, transparent 1px)",
+            backgroundImage: "radial-gradient(rgba(16,17,24,0.06) 1px, transparent 1px)",
             backgroundSize: "24px 24px",
           }}
         />
@@ -102,7 +102,7 @@ export default function AmbientBackground() {
           className="fixed inset-0 transition-opacity duration-500"
           style={{
             opacity: "var(--glow-o, 0)",
-            backgroundImage: "radial-gradient(rgba(180,83,9,0.40) 1px, transparent 1px)",
+            backgroundImage: "radial-gradient(rgba(25,56,215,0.36) 1px, transparent 1px)",
             backgroundSize: "24px 24px",
             WebkitMaskImage: GLOW_MASK,
             maskImage: GLOW_MASK,
@@ -110,15 +110,15 @@ export default function AmbientBackground() {
         />
         <motion.div
           style={{ y: shouldReduceMotion ? 0 : driftSlow, willChange: "transform" }}
-          className="absolute -top-40 right-[-10%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(217,119,6,0.11),transparent_70%)] blur-2xl animate-float-slow"
+          className="absolute -top-40 right-[-10%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(25,56,215,0.10),transparent_70%)] blur-2xl animate-float-slow"
         />
         <motion.div
           style={{ y: shouldReduceMotion ? 0 : driftMedium, willChange: "transform" }}
-          className="absolute top-[20%] left-[-12%] h-[360px] w-[360px] rounded-full bg-[radial-gradient(circle,rgba(120,113,108,0.12),transparent_65%)] blur-3xl animate-float-slower"
+          className="absolute top-[20%] left-[-12%] h-[360px] w-[360px] rounded-full bg-[radial-gradient(circle,rgba(104,110,125,0.12),transparent_65%)] blur-3xl animate-float-slower"
         />
         <motion.div
           style={{ y: shouldReduceMotion ? 0 : driftFast, willChange: "transform" }}
-          className="absolute bottom-[-20%] right-[12%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(180,165,140,0.14),transparent_65%)] blur-3xl animate-float-slow"
+          className="absolute bottom-[-20%] right-[12%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(140,156,196,0.14),transparent_65%)] blur-3xl animate-float-slow"
         />
         <div className="absolute inset-0 grain" />
       </div>

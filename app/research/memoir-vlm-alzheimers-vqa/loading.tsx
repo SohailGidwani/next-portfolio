@@ -5,10 +5,6 @@ export default function Loading() {
       <div className="border-b border-border bg-card/40 py-16 sm:py-20">
         <div className="container mx-auto">
           <div className="max-w-3xl space-y-5">
-            <div className="flex items-center gap-3">
-              <div className="h-px w-8 bg-accent/30" />
-              <div className="h-3 w-28 rounded-sm bg-muted/60 shimmer" />
-            </div>
             <div className="space-y-3">
               <div className="h-9 w-4/5 rounded-sm bg-muted/80 shimmer" />
               <div className="h-9 w-3/5 rounded-sm bg-muted/70 shimmer" />

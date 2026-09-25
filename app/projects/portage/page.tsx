@@ -259,12 +259,6 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
           <div className="border-b border-border bg-card/40 py-16 sm:py-20">
             <div className="container mx-auto px-4">
               <div className="max-w-3xl">
-                <div className="mb-5 flex items-center gap-3">
-                  <div className="h-px w-8 bg-accent" />
-                  <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
-                    Durable Code-Migration Agent / Flask → FastAPI / CLI + MCP
-                  </span>
-                </div>
                 <h1
                   data-vt-title-target
                   className="font-display mb-5 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl"
@@ -277,19 +271,19 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                     would let each hide the other. */}
                 <div className="mb-4 flex flex-wrap items-center gap-6">
                   <div className="border-l-2 border-accent pl-4">
-                    <p className="font-mono text-2xl font-bold text-foreground">10/10</p>
+                    <p className="font-mono text-2xl font-medium text-foreground">10/10</p>
                     <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Development v4 Gate · K=5</p>
                   </div>
                   <div className="border-l-2 border-border pl-4">
-                    <p className="font-mono text-2xl font-bold text-foreground">12/12</p>
+                    <p className="font-mono text-2xl font-medium text-foreground">12/12</p>
                     <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Four Smaller Gates · K=3</p>
                   </div>
                   <div className="border-l-2 border-border pl-4">
-                    <p className="font-mono text-2xl font-bold text-foreground">0/9</p>
+                    <p className="font-mono text-2xl font-medium text-foreground">0/9</p>
                     <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Frozen R5 v1 · Held-Out</p>
                   </div>
                   <div className="border-l-2 border-border pl-4">
-                    <p className="font-mono text-2xl font-bold text-foreground">42 · 34 · 18</p>
+                    <p className="font-mono text-2xl font-medium text-foreground">42 · 34 · 18</p>
                     <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Post-R5 Development K1 Tests</p>
                   </div>
                 </div>
@@ -544,7 +538,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                         {evidenceRows.map((r) => (
                           <tr key={r.set}>
                             <td className="px-4 py-3 font-mono text-xs text-foreground">{r.set}</td>
-                            <td className={`px-4 py-3 font-mono text-xs font-bold ${r.strong ? "text-accent" : "text-muted-foreground"}`}>{r.result}</td>
+                            <td className={`px-4 py-3 font-mono text-xs font-medium ${r.strong ? "text-accent" : "text-muted-foreground"}`}>{r.result}</td>
                             <td className="px-4 py-3 text-xs text-muted-foreground">{r.meaning}</td>
                           </tr>
                         ))}
@@ -585,7 +579,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                           <tr key={r.repo}>
                             <td className="px-4 py-3 font-mono text-xs text-foreground">{r.repo}</td>
                             <td className="px-4 py-3 font-mono text-xs text-muted-foreground">{r.baseline}</td>
-                            <td className="px-4 py-3 font-mono text-xs font-bold text-muted-foreground">{r.result}</td>
+                            <td className="px-4 py-3 font-mono text-xs font-medium text-muted-foreground">{r.result}</td>
                             <td className="px-4 py-3 text-xs text-muted-foreground">{r.failure}</td>
                           </tr>
                         ))}
@@ -675,9 +669,6 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                     <div className="divide-y divide-border/50">
                       {project.technicalDetails.map((detail, index) => (
                         <div key={index} className="flex items-start gap-4 px-4 py-3">
-                          <span className="w-5 shrink-0 text-right font-mono text-xs text-accent/60">
-                            {String(index + 1).padStart(2, "0")}
-                          </span>
                           <span className="text-sm text-muted-foreground">{detail}</span>
                         </div>
                       ))}
@@ -749,7 +740,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                   <div className="flex flex-wrap gap-3">
                     <Link
                       href="/projects/portage/deep-dive"
-                      className="inline-flex items-center gap-2 rounded bg-accent px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-white transition hover:bg-accent/90"
+                      className="inline-flex items-center gap-2 rounded bg-accent px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-on-accent transition hover:bg-accent/90"
                     >
                       <FolderKanban className="h-4 w-4" />
                       Read Deep Dive
@@ -763,7 +754,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded bg-accent px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-white transition hover:bg-accent/90"
+                    className="inline-flex items-center gap-2 rounded bg-accent px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-on-accent transition hover:bg-accent/90"
                   >
                     <Github className="h-4 w-4" />
                     Source Code

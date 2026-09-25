@@ -3,7 +3,7 @@ import { Metadata } from "next"
 export const metadata: Metadata = {
   title: "Portage: Technical Deep Dive | Sohail Gidwani",
   description:
-    "Full technical breakdown of Portage: LangGraph node lifecycle, Postgres checkpoint + lease durability, network-off Docker sandbox with anti-gaming predicates, seven recovery strategies, the Flask → FastAPI recipe system, K=3 eval methodology, and the nine-category failure taxonomy.",
+    "Full technical breakdown of Portage: LangGraph node lifecycle, Postgres checkpoint + lease durability, network-off Docker sandbox with anti-gaming predicates, eight recovery strategies, the Flask → FastAPI recipe system, K-run eval methodology, and the ten-category failure taxonomy.",
   keywords: [
     "Portage",
     "autonomous agent",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     siteName: "Sohail Gidwani Portfolio",
     images: [
       {
-        url: "/api/og?title=Portage%20Technical%20Deep%20Dive&description=Durability%20%2B%20recovery%20%2B%20sandbox%20verification%20%2B%20eval%20methodology%20%2B%20failure%20taxonomy&type=project&tags=LangGraph,FastAPI,Postgres,Docker,MCP",
+        url: "/api/og?title=Portage&description=Durability%2C%20recovery%2C%20sandbox%20verification%2C%20eval%20methodology%2C%20and%20the%20failure%20taxonomy.&type=deep-dive&tags=LangGraph,FastAPI,Postgres,Docker,MCP",
         width: 1200,
         height: 630,
         alt: "Portage Technical Deep Dive | Sohail Gidwani",
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     description:
       "Durability model, recovery strategies, sandbox anti-gaming predicates, eval methodology, and the failure taxonomy.",
     images: [
-      "/api/og?title=Portage%20Technical%20Deep%20Dive&description=Durability%20%2B%20recovery%20%2B%20sandbox%20verification%20%2B%20eval%20methodology%20%2B%20failure%20taxonomy&type=project&tags=LangGraph,FastAPI,Postgres,Docker,MCP",
+      "/api/og?title=Portage&description=Durability%2C%20recovery%2C%20sandbox%20verification%2C%20eval%20methodology%2C%20and%20the%20failure%20taxonomy.&type=deep-dive&tags=LangGraph,FastAPI,Postgres,Docker,MCP",
     ],
     creator: "@sohailgidwani",
   },

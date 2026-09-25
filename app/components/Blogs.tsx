@@ -67,9 +67,8 @@ export default function Blogs({ setActiveSection }: BlogsProps) {
           className="flex flex-wrap items-end justify-between gap-6"
         >
           <div className="space-y-3">
-            <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Journal</p>
-            <h2 className="font-display text-3xl text-foreground sm:text-4xl">
-              Latest notes on AI, systems, and thoughtful software.
+            <h2 className="font-display text-[2rem] leading-[1.05] tracking-[-0.02em] text-foreground sm:text-[2.75rem]">
+              Journal
             </h2>
           </div>
           <Link

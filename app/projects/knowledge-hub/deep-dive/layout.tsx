@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     siteName: "Sohail Gidwani Portfolio",
     images: [
       {
-        url: "/api/og?title=Knowledge%20Hub%20Technical%20Deep%20Dive&description=OCR%20%2B%20pgvector%20%2B%20hybrid%20ranking%20%2B%20local%20RAG%20implementation&type=project&tags=Flask,pgvector,RAG,OCR,Postgres",
+        url: "/api/og?title=Knowledge%20Hub&description=OCR%2C%20pgvector%2C%20hybrid%20ranking%2C%20and%20a%20local%20RAG%20layer%20that%20answers%20with%20citations.&type=deep-dive&tags=Flask,pgvector,RAG,OCR,Postgres",
         width: 1200,
         height: 630,
         alt: "Knowledge Hub Technical Deep Dive | Sohail Gidwani",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     description:
       "OCR pipeline, pgvector semantic search, hybrid ranking, and local RAG with Ollama.",
     images: [
-      "/api/og?title=Knowledge%20Hub%20Technical%20Deep%20Dive&description=OCR%20%2B%20pgvector%20%2B%20hybrid%20ranking%20%2B%20local%20RAG%20implementation&type=project&tags=Flask,pgvector,RAG,OCR,Postgres",
+      "/api/og?title=Knowledge%20Hub&description=OCR%2C%20pgvector%2C%20hybrid%20ranking%2C%20and%20a%20local%20RAG%20layer%20that%20answers%20with%20citations.&type=deep-dive&tags=Flask,pgvector,RAG,OCR,Postgres",
     ],
     creator: "@sohailgidwani",
   },

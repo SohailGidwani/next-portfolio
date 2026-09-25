@@ -1,7 +1,7 @@
 /**
  * Has the editorial portrait already assembled itself in this page session?
  *
- * The print builds itself once: photo, amber board, registration marks, caption
+ * The print builds itself once: photo, accent board, registration marks, caption
  * rule, credit. That is worth watching the first time and tiresome on the
  * fourth, and it actively fights the shared-element transition, which is trying
  * to say "this is the same print, it did not move" while the frame around it

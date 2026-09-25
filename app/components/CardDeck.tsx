@@ -96,10 +96,6 @@ export default function CardDeck({
 
       {/* Position readout: phones only, where the deck is actually a deck. */}
       <div className="mt-1 flex items-center gap-3 sm:hidden">
-        <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-          <span className="text-accent">{String(index + 1).padStart(2, "0")}</span>
-          {` / ${String(count).padStart(2, "0")}`}
-        </span>
         <div className="flex flex-1 items-center gap-1.5">
           {Array.from({ length: count }, (_, i) => (
             <button

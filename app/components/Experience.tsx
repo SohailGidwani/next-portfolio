@@ -161,9 +161,7 @@ export default function Experience() {
   return (
     <section id="experience" className="section-y">
       <div className="container mx-auto px-4">
-        <SectionHeading eyebrow="Experience">
-          Industry, research, and product execution.
-        </SectionHeading>
+        <SectionHeading>Experience</SectionHeading>
 
         <div className="mt-10 space-y-6">
           {featured && (
@@ -238,7 +236,7 @@ export default function Experience() {
                     }
                   }}
                   aria-label={`${featured.researchLabel ?? "Read the research"}: opens research page`}
-                  className="group/research inline-flex max-w-full items-center gap-2 rounded border border-accent/30 bg-accent/5 px-3 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-accent sm:tracking-[0.18em] transition hover:border-accent/60 hover:bg-accent/10 sm:text-xs"
+                  className="group/research inline-flex max-w-full items-center gap-2 rounded border border-accent/30 bg-accent/5 px-3 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-accent sm:tracking-[0.18em] transition hover:border-accent/60 hover:bg-accent/10 sm:text-xs"
                 >
                   <FileText className="h-3.5 w-3.5 shrink-0" aria-hidden />
                   <span className="min-w-0 truncate">
@@ -261,7 +259,7 @@ export default function Experience() {
                       }
                     }}
                     aria-label={`${featured.publicationLabel ?? "Read the paper"}: opens the journal page in a new tab`}
-                    className="group/paper inline-flex max-w-full items-center gap-2 rounded border border-border bg-background/60 px-3 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-muted-foreground sm:tracking-[0.18em] transition hover:border-foreground/40 hover:text-foreground sm:text-xs"
+                    className="group/paper inline-flex max-w-full items-center gap-2 rounded border border-border bg-background/60 px-3 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-muted-foreground sm:tracking-[0.18em] transition hover:border-foreground/40 hover:text-foreground sm:text-xs"
                   >
                     <BookOpen className="h-3.5 w-3.5 shrink-0" aria-hidden />
                     <span className="min-w-0 truncate">
@@ -283,7 +281,7 @@ export default function Experience() {
                       }
                     }}
                     aria-label={`${featured.researchHubLabel ?? "All research"}: opens research hub`}
-                    className="group/hub inline-flex max-w-full items-center gap-2 rounded border border-border bg-background/60 px-3 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-muted-foreground sm:tracking-[0.18em] transition hover:border-foreground/40 hover:text-foreground sm:text-xs"
+                    className="group/hub inline-flex max-w-full items-center gap-2 rounded border border-border bg-background/60 px-3 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-muted-foreground sm:tracking-[0.18em] transition hover:border-foreground/40 hover:text-foreground sm:text-xs"
                   >
                     <FlaskConical className="h-3.5 w-3.5 shrink-0" aria-hidden />
                     <span className="min-w-0 truncate">
@@ -491,7 +489,7 @@ export default function Experience() {
                   <Link
                     href={selected.researchUrl}
                     onClick={() => triggerHaptic()}
-                    className="group/cta inline-flex items-center gap-2 rounded border border-accent/40 bg-accent/5 px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-accent transition hover:border-accent hover:bg-accent/10"
+                    className="group/cta inline-flex items-center gap-2 rounded border border-accent/40 bg-accent/5 px-4 py-2.5 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-accent transition hover:border-accent hover:bg-accent/10"
                   >
                     <FileText className="h-3.5 w-3.5" />
                     {selected.researchLabel ?? "Read the research"}
@@ -503,7 +501,7 @@ export default function Experience() {
                       target="_blank"
                       rel="noreferrer"
                       onClick={() => triggerHaptic()}
-                      className="group/papercta inline-flex items-center gap-2 rounded border border-border bg-background/60 px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground transition hover:border-foreground/40 hover:text-foreground"
+                      className="group/papercta inline-flex items-center gap-2 rounded border border-border bg-background/60 px-4 py-2.5 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground transition hover:border-foreground/40 hover:text-foreground"
                     >
                       <BookOpen className="h-3.5 w-3.5" />
                       {selected.publicationLabel ?? "Read the paper"}
@@ -514,7 +512,7 @@ export default function Experience() {
                     <Link
                       href={selected.researchHubUrl}
                       onClick={() => triggerHaptic()}
-                      className="group/hubcta inline-flex items-center gap-2 rounded border border-border bg-background/60 px-4 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground transition hover:border-foreground/40 hover:text-foreground"
+                      className="group/hubcta inline-flex items-center gap-2 rounded border border-border bg-background/60 px-4 py-2.5 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground transition hover:border-foreground/40 hover:text-foreground"
                     >
                       <FlaskConical className="h-3.5 w-3.5" />
                       {selected.researchHubLabel ?? "All research"}

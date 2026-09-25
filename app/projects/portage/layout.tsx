@@ -12,12 +12,12 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Portage: Autonomous Code-Migration Agent | Sohail Gidwani',
     description:
-      'Autonomous Flask → FastAPI migration agent with checkpoint-resume durability, network-off sandbox verification, bounded recovery, and an honest K=3 eval grid. One engine, two interfaces: CLI + MCP.',
+      'Autonomous Flask → FastAPI migration agent: checkpointed, sandbox-verified, 10/10 on its K=5 development gate and 0/9 on the frozen held-out set, published side by side.',
     url: 'https://sohailgidwani.app/projects/portage',
     siteName: 'Sohail Gidwani Portfolio',
     images: [
       {
-        url: '/api/og?title=Portage&description=Autonomous%20Flask%20%E2%86%92%20FastAPI%20migration%20agent%20%E2%80%94%20checkpointed%2C%20sandbox-verified%2C%20evaluated%20at%20K%3D3&type=project&tags=LangGraph,FastAPI,Postgres,Docker,MCP',
+        url: '/api/og?title=Portage&description=Checkpointed%2C%20sandbox-verified%20Flask%20to%20FastAPI%20migration%20agent.%20Development%20gate%2010%2F10%3B%20frozen%20held-out%20set%200%2F9.&type=project&tags=LangGraph,FastAPI,Postgres,Docker,MCP',
         width: 1200,
         height: 630,
         alt: 'Portage: Autonomous Code-Migration Agent | Sohail Gidwani',
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     description:
       'Autonomous Flask → FastAPI migration agent: checkpointed, sandbox-verified, 10/10 on its K=5 development gate and 0/9 on the frozen held-out set, published side by side.',
     images: [
-      '/api/og?title=Portage&description=Autonomous%20Flask%20%E2%86%92%20FastAPI%20migration%20agent%20%E2%80%94%20checkpointed%2C%20sandbox-verified%2C%20evaluated%20at%20K%3D3&type=project&tags=LangGraph,FastAPI,Postgres,Docker,MCP',
+      '/api/og?title=Portage&description=Checkpointed%2C%20sandbox-verified%20Flask%20to%20FastAPI%20migration%20agent.%20Development%20gate%2010%2F10%3B%20frozen%20held-out%20set%200%2F9.&type=project&tags=LangGraph,FastAPI,Postgres,Docker,MCP',
     ],
     creator: '@sohailgidwani',
   },

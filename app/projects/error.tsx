@@ -58,7 +58,7 @@ export default function ProjectError({
             </button>
             <Link
               href="/projects"
-              className="inline-flex items-center justify-center gap-2 rounded bg-accent px-6 py-3 text-sm font-semibold text-white transition hover:bg-accent/90"
+              className="inline-flex items-center justify-center gap-2 rounded bg-accent px-6 py-3 text-sm font-semibold text-on-accent transition hover:bg-accent/90"
             >
               View All Projects
             </Link>

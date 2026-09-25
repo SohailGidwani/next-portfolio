@@ -82,9 +82,7 @@ export default function Triumphs() {
   return (
     <section id="triumphs" className="section-y">
       <div className="container mx-auto px-4">
-        <SectionHeading eyebrow="Wins">
-          Certifications and wins that shaped my journey.
-        </SectionHeading>
+        <SectionHeading>Wins</SectionHeading>
 
         {/* Featured win */}
         <motion.button

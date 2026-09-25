@@ -26,9 +26,7 @@ export default function Projects() {
     <section id="projects" className="section-y">
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap items-end justify-between gap-6">
-          <SectionHeading eyebrow="Projects">
-            Things I&apos;ve built that I&apos;m proud of.
-          </SectionHeading>
+          <SectionHeading>Projects</SectionHeading>
           <Link
             href="/projects"
             className="inline-flex items-center gap-2 rounded border border-border bg-card/80 px-4 py-2 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground transition hover:border-accent/40 hover:text-foreground"
@@ -50,9 +48,7 @@ export default function Projects() {
                     className="sm:col-span-2"
                   >
                   <InteractiveCard
-                    tilt
                     pressable
-                    maxTilt={1.5}
                     className={`group h-full cursor-pointer rounded border p-6 shadow-card transition-[border-color,box-shadow] duration-300 hover:shadow-card-hover ${
                       primaryHighlighted
                         ? "border-accent/40 bg-accent/5"
@@ -143,7 +139,6 @@ export default function Projects() {
                       viewport={{ once: true }}
                     >
                     <InteractiveCard
-                      tilt
                       pressable
                       className={`group h-full cursor-pointer rounded border p-5 shadow-card transition-[border-color,box-shadow] duration-300 hover:shadow-card-hover ${
                         isHighlighted

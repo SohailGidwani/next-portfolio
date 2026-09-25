@@ -30,9 +30,6 @@ function CodeBlock({ title, rows }: { title: string; rows: string[] }) {
       <div className="divide-y divide-border/50">
         {rows.map((r, i) => (
           <div key={i} className="flex items-start gap-4 px-4 py-3">
-            <span className="w-5 shrink-0 text-right font-mono text-xs text-accent/60">
-              {String(i + 1).padStart(2, "0")}
-            </span>
             <span className="font-mono text-xs text-muted-foreground">{r}</span>
           </div>
         ))}
@@ -212,12 +209,6 @@ export default function TechUpdatesPage() {
           <div className="border-b border-border bg-card/40 py-16 sm:py-20">
             <div className="container mx-auto">
               <div className="max-w-3xl">
-                <div className="mb-5 flex items-center gap-3">
-                  <div className="h-px w-8 bg-accent" />
-                  <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
-                    Full-stack / AI News Aggregator
-                  </span>
-                </div>
                 <h1
                   data-vt-title-target
                   className="font-display mb-5 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl"
@@ -248,7 +239,7 @@ export default function TechUpdatesPage() {
                 <section id="section-01" className="scroll-mt-24">
                   <div className="mb-6">
                     <div className="mb-2 flex items-center gap-2">
-                      <span className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-accent">01</span>
+                      <span className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-accent">01</span>
                       <div className="h-px w-5 bg-border" />
                     </div>
                     <h2 className="font-display text-xl font-bold uppercase tracking-tight text-foreground sm:text-2xl">
@@ -302,9 +293,7 @@ export default function TechUpdatesPage() {
                       "The React frontend fetches categorized_data.json, renders articles as tiles, and shows details in a modal, six per page.",
                     ].map((step, index) => (
                       <li key={index} className="flex items-start gap-3">
-                        <span className="mt-0.5 w-6 shrink-0 font-mono text-xs uppercase tracking-[0.15em] text-accent">
-                          {String(index + 1).padStart(2, "0")}
-                        </span>
+                        <span aria-hidden className="mt-[0.6em] h-1 w-1 shrink-0 bg-accent" />
                         <span>{step}</span>
                       </li>
                     ))}
@@ -481,9 +470,6 @@ export default function TechUpdatesPage() {
                     <div className="divide-y divide-border/50">
                       {project.technicalDetails.map((detail, index) => (
                         <div key={index} className="flex items-start gap-4 px-4 py-3">
-                          <span className="w-5 shrink-0 text-right font-mono text-xs text-accent/60">
-                            {String(index + 1).padStart(2, '0')}
-                          </span>
                           <span className="text-sm text-muted-foreground">{detail}</span>
                         </div>
                       ))}

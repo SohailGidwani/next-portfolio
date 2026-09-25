@@ -22,7 +22,7 @@ export default function Error({
       {/* Ambient background */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-32 right-[-10%] h-[320px] w-[320px] animate-pulse rounded-full bg-[radial-gradient(circle,rgba(239,68,68,0.16),transparent_70%)] blur-2xl" />
-        <div className="absolute bottom-[-20%] left-[-12%] h-[320px] w-[320px] animate-pulse rounded-full bg-[radial-gradient(circle,rgba(251,146,60,0.18),transparent_70%)] blur-3xl" />
+        <div className="absolute bottom-[-20%] left-[-12%] h-[320px] w-[320px] animate-pulse rounded-full bg-[radial-gradient(circle,rgba(25,56,215,0.16),transparent_70%)] blur-3xl" />
         <div className="absolute inset-0 grain" />
       </div>
 

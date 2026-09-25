@@ -46,7 +46,13 @@ const nextConfig = {
               "base-uri 'self'",
               "form-action 'self'",
               "frame-ancestors 'none'",
-              "upgrade-insecure-requests",
+              // Production only. The dev server is plain http://localhost, and
+              // Safari applies this directive there too: it rewrote every
+              // script, stylesheet, font and image request to https://localhost,
+              // which does not exist, so the site rendered with no CSS or
+              // JavaScript and images showed a broken "?". Chrome exempts
+              // localhost, which is why only Safari broke.
+              ...(process.env.NODE_ENV === 'production' ? ["upgrade-insecure-requests"] : []),
             ].join('; '),
           },
           {

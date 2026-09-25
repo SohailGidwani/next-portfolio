@@ -55,3 +55,7 @@ GEMINI.md
 .codex/
 .code-review-graph/
 skills-lock.json
+
+# Local planning notes, kept out of the repo
+/docs/superpowers/
+/PORTFOLIO-ISSUES.md

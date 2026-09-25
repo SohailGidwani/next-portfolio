@@ -6,6 +6,7 @@ import coverImage from "@/public/images/cot_faithfulness.jpeg"
 import ProjectNav from "@/app/components/ProjectNav"
 import ProjectDetailStructuredData from "@/app/components/ProjectDetailStructuredData"
 import ProjectActions from "@/app/projects/components/ProjectActions"
+import ProjectSectionLabel from "@/app/projects/components/ProjectSectionLabel"
 import SectionTOC from "@/app/components/SectionTOC"
 import MobileChapterNav from "@/app/components/MobileChapterNav"
 import MobileSection from "@/app/components/MobileSection"
@@ -118,12 +119,6 @@ export default function CoTFaithfulnessPage() {
         <div className="border-b border-border bg-card/40 py-16 sm:py-20">
           <div className="container mx-auto">
             <div className="max-w-3xl">
-                <div className="mb-5 flex items-center gap-3">
-                  <div className="h-px w-8 bg-accent" />
-                  <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
-                    NLP Research · CSCI-544 @ USC
-                  </span>
-                </div>
                 <h1
                   data-vt-title-target
                   className="font-display mb-5 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl"
@@ -133,19 +128,19 @@ export default function CoTFaithfulnessPage() {
 
                 <div className="mb-6 flex flex-wrap items-center gap-6">
                   <div className="border-l-2 border-accent pl-4">
-                    <p className="font-mono text-2xl font-bold text-foreground">4</p>
+                    <p className="font-mono text-2xl font-medium text-foreground">4</p>
                     <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Experiments</p>
                   </div>
                   <div className="border-l-2 border-border pl-4">
-                    <p className="font-mono text-2xl font-bold text-foreground">~15K</p>
+                    <p className="font-mono text-2xl font-medium text-foreground">~15K</p>
                     <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Model Queries</p>
                   </div>
                   <div className="border-l-2 border-border pl-4">
-                    <p className="font-mono text-2xl font-bold text-foreground">500</p>
+                    <p className="font-mono text-2xl font-medium text-foreground">500</p>
                     <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Benchmark Samples</p>
                   </div>
                   <div className="border-l-2 border-border pl-4">
-                    <p className="font-mono text-2xl font-bold text-foreground">17%</p>
+                    <p className="font-mono text-2xl font-medium text-foreground">17%</p>
                     <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Max SBH Rate</p>
                   </div>
                 </div>
@@ -171,16 +166,8 @@ export default function CoTFaithfulnessPage() {
             <div className="max-w-3xl space-y-16">
 
                 {/* 01 · Preview */}
-                <section id="section-01" className="scroll-mt-24">
-                  <div className="mb-6">
-                    <div className="mb-2 flex items-center gap-2">
-                      <span className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-accent">01</span>
-                      <div className="h-px w-5 bg-border" />
-                    </div>
-                    <h2 className="font-display text-xl font-bold uppercase tracking-tight text-foreground sm:text-2xl">
-                      Preview
-                    </h2>
-                  </div>
+                <section>
+                  <ProjectSectionLabel label="Preview" id="section-01" />
                   <div className="relative aspect-video overflow-hidden rounded border border-border">
                     <Image
                       src={coverImage}
@@ -245,7 +232,7 @@ export default function CoTFaithfulnessPage() {
                   <p className="mb-2 text-sm leading-relaxed text-muted-foreground">
                     Every (model, dataset, question) pair gets two queries: direct and chain-of-thought. On GSM8K, CoT turns near-random guessing into real performance. On ARC, both models do worse when they reason out loud, which suggests the chain is introducing noise on top of knowledge the model already has.
                   </p>
-                  <BaselineChart caption="No-CoT vs CoT accuracy for both models. Amber bar = CoT improved; gray bar = CoT degraded. Deltas shown top-right of each group." />
+                  <BaselineChart caption="No-CoT vs CoT accuracy for both models. Blue bar = CoT improved; gray bar = CoT degraded. Deltas shown top-right of each group." />
                 </MobileSection>
 
                 {/* 05 · Truncation */}
@@ -253,7 +240,7 @@ export default function CoTFaithfulnessPage() {
                   <p className="mb-2 text-sm leading-relaxed text-muted-foreground">
                     The CoT from Experiment 0 gets parsed into discrete steps using a three-level hierarchy (numbered markers, transition words, sentence boundaries). The model then answers using only the first k steps, and we check how often that partial answer matches the full-chain answer. Low SCR at step 1 means the model genuinely needs later steps. Qwen reaches the same ARC answer from step 1 alone in 83% of cases, which means those remaining steps add nothing.
                   </p>
-                  <TruncationChart caption="Step Consistency Rate across truncation steps 1 to 5. Science lines (blue) stay high from the start. Math lines (amber) stay low, showing the model needs the full chain." />
+                  <TruncationChart caption="Step Consistency Rate across truncation steps 1 to 5. Science lines (blue) stay high from the start. Math lines (neutral) stay low, showing the model needs the full chain." />
                 </MobileSection>
 
                 {/* 06 · Corruption */}
@@ -269,7 +256,7 @@ export default function CoTFaithfulnessPage() {
                   <p className="mb-2 text-sm leading-relaxed text-muted-foreground">
                     A hint suggesting a wrong answer is prepended at four strength levels, from a gentle "could the answer perhaps be X?" up to "a Stanford professor mentioned the answer is X." Responses are classified into four outcomes: Faithful Reject (acknowledged the hint, gave correct answer), Faithful Follow (acknowledged it, followed it), Unfaithful Ignore (silently ignored), and Steered-But-Hidden (silently followed it). SBH is the one that matters most. On ARC, Qwen's SBH rate triples from weak to strong hints while the Hint Acknowledgment Rate barely moves. The model is getting more influenced but hiding it better.
                   </p>
-                  <HintsChart caption="Steered-But-Hidden rate by hint strength. Blue lines = science MC (vulnerable). Amber lines = math (nearly flat). Dashed = Qwen 7B." />
+                  <HintsChart caption="Steered-But-Hidden rate by hint strength. Blue lines = science MC (vulnerable). Neutral lines = math (nearly flat). Dashed = Qwen 7B." />
                 </MobileSection>
 
                 {/* 08 · Experiment Design */}
@@ -304,9 +291,6 @@ export default function CoTFaithfulnessPage() {
                     <div className="divide-y divide-border/50">
                       {technicalDetails.map((detail, index) => (
                         <div key={index} className="flex items-start gap-4 px-4 py-3">
-                          <span className="w-5 shrink-0 text-right font-mono text-xs text-accent/60">
-                            {String(index + 1).padStart(2, "0")}
-                          </span>
                           <span className="text-sm text-muted-foreground">{detail}</span>
                         </div>
                       ))}
@@ -352,7 +336,7 @@ export default function CoTFaithfulnessPage() {
                     href={github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded bg-accent px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-white transition hover:bg-accent/90"
+                    className="inline-flex items-center gap-2 rounded bg-accent px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-on-accent transition hover:bg-accent/90"
                   >
                     <Github className="h-4 w-4" />
                     Source Code

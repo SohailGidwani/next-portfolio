@@ -32,18 +32,15 @@ const tocItems = [
 function Stat({ value, label, primary }: { value: string; label: string; primary?: boolean }) {
   return (
     <div className={`border-l-2 ${primary ? "border-accent" : "border-border"} pl-4`}>
-      <p className="font-mono text-2xl font-bold text-foreground">{value}</p>
+      <p className="font-mono text-2xl font-medium text-foreground">{value}</p>
       <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">{label}</p>
     </div>
   )
 }
 
-function CodeRow({ n, text }: { n: number; text: string }) {
+function CodeRow({ text }: { text: string }) {
   return (
     <div className="flex items-start gap-4 px-4 py-3">
-      <span className="w-5 shrink-0 text-right font-mono text-xs text-accent/60">
-        {String(n).padStart(2, "0")}
-      </span>
       <span className="font-mono text-xs text-muted-foreground">{text}</span>
     </div>
   )
@@ -57,7 +54,7 @@ function CodeBlock({ title, rows }: { title: string; rows: string[] }) {
         <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">{title}</span>
       </div>
       <div className="divide-y divide-border/50">
-        {rows.map((r, i) => <CodeRow key={i} n={i + 1} text={r} />)}
+        {rows.map((r, i) => <CodeRow key={i} text={r} />)}
       </div>
     </div>
   )
@@ -168,12 +165,6 @@ export default function PortageDeepDivePage() {
         <div className="border-b border-border bg-card/40 py-16 sm:py-20">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl">
-              <div className="mb-5 flex items-center gap-3">
-                <div className="h-px w-8 bg-accent" />
-                <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
-                  Project / Technical Deep Dive
-                </span>
-              </div>
               <h1 className="font-display mb-5 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl">
                 Portage: Technical Deep Dive
               </h1>
@@ -314,9 +305,7 @@ export default function PortageDeepDivePage() {
                       "tree_state = migrated: original, restored, and hybrid trees score no green and no test-pass credit.",
                     ].map((condition, i) => (
                       <li key={i} className="flex gap-3">
-                        <span className="shrink-0 font-mono text-xs text-accent" aria-hidden>
-                          {String(i + 1).padStart(2, "0")}
-                        </span>
+                        <span aria-hidden className="mt-[0.6em] h-1 w-1 shrink-0 bg-accent" />
                         <span>{condition}</span>
                       </li>
                     ))}
@@ -1105,7 +1094,7 @@ export default function PortageDeepDivePage() {
                     href="https://github.com/SohailGidwani/Portage"
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-2 rounded bg-accent px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-white transition hover:bg-accent/90"
+                    className="inline-flex items-center gap-2 rounded bg-accent px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-on-accent transition hover:bg-accent/90"
                   >
                     <Github className="h-4 w-4" />
                     Source Code

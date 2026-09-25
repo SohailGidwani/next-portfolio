@@ -108,11 +108,11 @@ export default function ShootingStars() {
 
             const gradient = ctx.createLinearGradient(t1.x, t1.y, t2.x, t2.y)
             if (isDark) {
-              gradient.addColorStop(0, `rgba(251, 191, 36, ${trailOpacity * 0.85})`)
-              gradient.addColorStop(1, `rgba(251, 191, 36, ${trailOpacity * 0.25})`)
+              gradient.addColorStop(0, `rgba(92, 204, 226, ${trailOpacity * 0.85})`)
+              gradient.addColorStop(1, `rgba(92, 204, 226, ${trailOpacity * 0.25})`)
             } else {
-              gradient.addColorStop(0, `rgba(180, 95, 20, ${trailOpacity * 0.75})`)
-              gradient.addColorStop(1, `rgba(180, 95, 20, ${trailOpacity * 0.22})`)
+              gradient.addColorStop(0, `rgba(25, 56, 215, ${trailOpacity * 0.75})`)
+              gradient.addColorStop(1, `rgba(25, 56, 215, ${trailOpacity * 0.22})`)
             }
 
             ctx.beginPath()
@@ -131,12 +131,12 @@ export default function ShootingStars() {
         )
         if (isDark) {
           headGlow.addColorStop(0, `rgba(255, 255, 255, ${star.opacity * 0.9})`)
-          headGlow.addColorStop(0.3, `rgba(251, 191, 36, ${star.opacity * 0.55})`)
-          headGlow.addColorStop(1, "rgba(251, 191, 36, 0)")
+          headGlow.addColorStop(0.3, `rgba(92, 204, 226, ${star.opacity * 0.55})`)
+          headGlow.addColorStop(1, "rgba(92, 204, 226, 0)")
         } else {
           headGlow.addColorStop(0, `rgba(255, 255, 255, ${star.opacity * 0.8})`)
-          headGlow.addColorStop(0.3, `rgba(217, 119, 6, ${star.opacity * 0.45})`)
-          headGlow.addColorStop(1, "rgba(217, 119, 6, 0)")
+          headGlow.addColorStop(0.3, `rgba(35, 66, 224, ${star.opacity * 0.45})`)
+          headGlow.addColorStop(1, "rgba(35, 66, 224, 0)")
         }
 
         ctx.beginPath()

@@ -16,9 +16,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { rows } = await pool.query("SELECT title, excerpt FROM blogs WHERE slug = $1 LIMIT 1", [slug])
   const blog = rows[0]
   if (!blog) return { title: "Blog Not Found" }
+  const og = `/api/og?${new URLSearchParams({
+    title: blog.title,
+    type: "blog",
+    ...(blog.excerpt ? { description: blog.excerpt } : {}),
+  }).toString()}`
   return {
     title: `${blog.title} - Blog`,
     description: blog.excerpt || undefined,
+    openGraph: {
+      title: blog.title,
+      description: blog.excerpt || undefined,
+      url: `https://sohailgidwani.app/blogs/${slug}`,
+      type: "article",
+      images: [{ url: og, width: 1200, height: 630, alt: blog.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: blog.title,
+      description: blog.excerpt || undefined,
+      images: [og],
+    },
   }
 }
 

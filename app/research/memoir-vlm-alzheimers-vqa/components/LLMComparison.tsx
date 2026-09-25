@@ -125,7 +125,7 @@ export default function LLMComparison({ rows, caption }: Props) {
             <div />
             {MODELS.map((m) => (
               <div key={m.id} className="text-right">
-                <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground">
+                <p className="font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-foreground">
                   {m.label}
                 </p>
                 <p className="mt-0.5 font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
