@@ -10,6 +10,24 @@
 
 }
 
+/* One button system on every page: a solid primary, an outlined secondary,
+   and an accent text link. All three are sentence case in the body face;
+   mono and letterspacing stay with labels and data. Sizes can still be
+   overridden per use, because utilities outrank this layer. */
+@layer components {
+  .btn-primary {
+    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded bg-foreground px-5 py-2.5 font-body text-sm font-semibold text-background transition-[opacity,transform] hover:opacity-90 active:scale-[0.98];
+  }
+
+  .btn-secondary {
+    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded border border-border px-5 py-2.5 font-body text-sm font-semibold text-foreground transition-[border-color,transform] hover:border-foreground/40 active:scale-[0.98];
+  }
+
+  .link-action {
+    @apply inline-flex items-center gap-1 font-body text-sm font-medium text-accent underline-offset-4 hover:underline;
+  }
+}
+
 /* Radix dialog surfaces: entrances 250ms on the sheet curve, exits 180ms.
    Plain CSS because tailwindcss-animate's duration/ease utilities lose the
    arbitrary-value race to the core transition plugin (measured, not assumed).
@@ -302,7 +320,9 @@
     /* Design tokens — light */
     --bg: #f6f7f9;
     --fg: #101114;
-    --muted: #686c75;
+    /* 4.7:1 on --card2, the darkest light surface. #686c75 passed on the
+       page but fell to 4.2:1 inside cards. */
+    --muted: #60646d;
     --border: #d8dbe1;
     --card: #ebedf0;
     --card2: #e3e6eb;
@@ -312,9 +332,10 @@
     --on-accent: #ffffff;
 
     --w: 1080px;
-    /* Phone rhythm. Eight sections at 56px each spent close to a full screen
-       on padding alone; 44px still separates them clearly at this width. */
-    --sp: 44px;
+    /* Section padding is the only separator between homepage sections (the
+       hairline dividers are gone), so the gap between two sections is 2 x
+       --sp: 104px on phones, 128px on tablets, 160px on desktop. */
+    --sp: 52px;
     --nav-h: 56px;
     --radius-sm: 3px;
     --radius-md: 6px;
@@ -344,13 +365,13 @@
 
   @media (min-width: 601px) {
     :root {
-      --sp: 72px;
+      --sp: 64px;
     }
   }
 
   @media (min-width: 901px) {
     :root {
-      --sp: 96px;
+      --sp: 80px;
       --nav-h: 62px;
     }
   }
@@ -706,11 +727,6 @@
     .text-primary {
       color: #1a1917 !important;
     }
-  }
-
-  /* Custom focus styles */
-  .focus-ring {
-    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900;
   }
 
   /* Enhanced focus-visible styles for accessibility */

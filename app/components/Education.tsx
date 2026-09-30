@@ -83,7 +83,7 @@ export default function Education() {
                       />
                     </div>
                     <div className="min-w-0">
-                      <h3 className="break-words font-display text-2xl font-bold uppercase leading-tight tracking-tight text-foreground sm:text-3xl">
+                      <h3 className="break-words font-display text-2xl font-bold leading-tight tracking-tight text-foreground sm:text-3xl">
                         {item.degree}
                       </h3>
                       <p className="mt-1 text-sm text-muted-foreground">{item.institution}</p>

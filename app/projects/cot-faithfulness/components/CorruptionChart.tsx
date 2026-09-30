@@ -38,7 +38,7 @@ function PanelBlock({ title, subtitle, values, max }: Panel) {
   return (
     <div className="rounded border border-border bg-card/40 p-4 sm:p-5">
       <p className="font-mono text-xs uppercase tracking-[0.22em] text-accent">{title}</p>
-      <p className="mt-0.5 font-mono text-xs tracking-[0.1em] text-muted-foreground/60">{subtitle}</p>
+      <p className="mt-0.5 font-mono text-xs tracking-[0.1em] text-muted-foreground">{subtitle}</p>
       <div className="mt-4 space-y-2">
         {CONDITIONS.map((cond, i) => {
           const val = values[i]

@@ -100,13 +100,15 @@ export default function Triumphs() {
           <h3 className="mt-3 font-display text-2xl text-foreground sm:text-3xl">
             {featuredWin.title}
           </h3>
+          {/* The date travels as one piece: phones otherwise left the year
+              alone on its own line. */}
           <p className="mt-2 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            {featuredWin.issuer} · {featuredWin.date}
+            {featuredWin.issuer} · <span className="whitespace-nowrap">{featuredWin.date}</span>
           </p>
           <p className="mt-4 max-w-2xl text-sm text-muted-foreground">{featuredWin.description}</p>
-          <span className="mt-5 inline-flex items-center gap-1 font-mono text-xs uppercase tracking-[0.22em] text-accent/70 transition group-hover:text-accent">
+          <span className="link-action mt-5 group-hover:underline">
             View certificate
-            <ArrowUpRight className="h-3 w-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden />
           </span>
         </motion.button>
 
@@ -130,15 +132,15 @@ export default function Triumphs() {
                 </span>
                 <span className="mt-0.5 block text-xs text-muted-foreground">
                   {win.issuer}
-                  <span className="font-mono uppercase tracking-[0.15em] text-muted-foreground/60">
+                  <span className="font-mono uppercase tracking-[0.15em] text-muted-foreground">
                     {" "}
                     · {win.tag}
                   </span>
                 </span>
               </span>
-              <span className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground transition group-hover:text-accent">
-                Cert
-                <ArrowUpRight className="h-3 w-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              <span className="link-action group-hover:underline">
+                Certificate
+                <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden />
               </span>
             </motion.button>
           ))}

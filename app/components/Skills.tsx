@@ -199,7 +199,7 @@ export default function Skills() {
                       )}
                     </span>
                     <span className="min-w-0">
-                      <span className="block truncate font-display text-sm font-bold uppercase tracking-tight text-foreground">
+                      <span className="block truncate font-display text-base font-bold tracking-tight text-foreground">
                         {step.tool}
                       </span>
                       <span className="block font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
@@ -220,15 +220,27 @@ export default function Skills() {
           viewport={{ once: true }}
           className="mt-12 border-t border-border pt-6"
         >
-          <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground/60">
+          <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground">
             Full index
           </p>
           <div className="mt-4 space-y-2.5">
             {fullIndex.map((row) => (
               <p key={row.label} className="font-mono text-[11px] leading-relaxed sm:text-xs">
                 <span className="uppercase tracking-[0.2em] text-accent">{row.label}</span>
-                <span className="text-muted-foreground/40"> / </span>
-                <span className="uppercase tracking-[0.08em] text-muted-foreground">{row.items}</span>
+                <span className="text-muted-foreground"> / </span>
+                {/* Each item carries its trailing separator and cannot break
+                    inside, so lines end on "·" and never start with one. */}
+                <span className="uppercase tracking-[0.08em] text-muted-foreground">
+                  {row.items.split(" · ").map((item, i, all) => (
+                    <span key={item}>
+                      <span className="whitespace-nowrap">
+                        {item}
+                        {i < all.length - 1 ? " ·" : ""}
+                      </span>
+                      {i < all.length - 1 ? " " : ""}
+                    </span>
+                  ))}
+                </span>
               </p>
             ))}
           </div>

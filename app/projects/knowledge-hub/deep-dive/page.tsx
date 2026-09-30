@@ -1,28 +1,27 @@
 import Link from "next/link"
-import { Home, ArrowLeft, Github, Database, Brain, Search, FileText, Zap, Shield, Telescope } from "lucide-react"
-import ThemeToggle from "@/app/components/ThemeToggle"
+import { ArrowLeft, Github, Database, Brain, Search, FileText, Zap, Shield, Telescope } from "lucide-react"
 import BreadcrumbStructuredData from "@/app/components/BreadcrumbStructuredData"
-import ReadingProgress from "@/app/components/ReadingProgress"
 import SectionTOC from "@/app/components/SectionTOC"
 import MobileChapterNav from "@/app/components/MobileChapterNav"
 import MobileSection from "@/app/components/MobileSection"
 import DiagramLightbox from "@/app/components/DiagramLightbox"
+import PageNav from "@/app/components/PageNav"
 import SystemArchitecture from "./components/SystemArchitecture"
 import IngestionPipeline from "./components/IngestionPipeline"
 import HybridRanking from "./components/HybridRanking"
 
 const tocItems = [
-  { id: "section-01", n: "01", label: "Architecture Overview" },
-  { id: "section-02", n: "02", label: "Data Model & Storage" },
-  { id: "section-03", n: "03", label: "Ingestion Pipeline" },
-  { id: "section-04", n: "04", label: "Full-Text Search" },
-  { id: "section-05", n: "05", label: "Semantic Search" },
-  { id: "section-06", n: "06", label: "Hybrid Ranking" },
+  { id: "section-01", n: "01", label: "Architecture overview" },
+  { id: "section-02", n: "02", label: "Data model & storage" },
+  { id: "section-03", n: "03", label: "Ingestion pipeline" },
+  { id: "section-04", n: "04", label: "Full-text search" },
+  { id: "section-05", n: "05", label: "Semantic search" },
+  { id: "section-06", n: "06", label: "Hybrid ranking" },
   { id: "section-07", n: "07", label: "RAG with Ollama" },
-  { id: "section-08", n: "08", label: "Performance & Ops" },
-  { id: "section-09", n: "09", label: "Security & Privacy" },
-  { id: "section-10", n: "10", label: "Future Upgrades" },
-  { id: "section-qr", n: "QR", label: "Quick Reference" },
+  { id: "section-08", n: "08", label: "Performance & ops" },
+  { id: "section-09", n: "09", label: "Security & privacy" },
+  { id: "section-10", n: "10", label: "Future upgrades" },
+  { id: "section-qr", n: "QR", label: "Quick reference" },
 ]
 
 function Stat({ value, label, primary }: { value: string; label: string; primary?: boolean }) {
@@ -87,28 +86,13 @@ export default function KnowledgeHubDeepDivePage() {
       <div className="min-h-screen overflow-x-clip bg-background text-foreground">
 
         {/* ─── Top nav ─── */}
-        <div className="sticky top-0 z-40 border-b border-border bg-card/80 backdrop-blur-md">
-          <ReadingProgress />
-          <div className="container mx-auto flex items-center justify-between gap-4 px-4 py-3">
-            <div className="flex items-center gap-2">
-              <Link
-                href="/projects/knowledge-hub"
-                className="inline-flex items-center gap-1.5 rounded border border-border bg-background/70 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground transition hover:border-accent/40 hover:text-foreground"
-              >
-                <ArrowLeft className="h-3.5 w-3.5" />
-                <span className="hidden sm:inline">Knowledge Hub</span>
-              </Link>
-              <Link
-                href="/"
-                className="inline-flex items-center gap-1.5 rounded border border-border bg-background/70 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground transition hover:border-accent/40 hover:text-foreground"
-              >
-                <Home className="h-3.5 w-3.5" />
-                <span className="hidden sm:inline">Portfolio</span>
-              </Link>
-            </div>
-            <ThemeToggle />
-          </div>
-        </div>
+        <PageNav
+          progress
+          items={[
+            { label: "Portfolio", icon: "home", href: "/" },
+            { label: "Knowledge Hub", icon: "back", href: "/projects/knowledge-hub" },
+          ]}
+        />
 
         <SectionTOC items={tocItems} />
         {/* Wayfinding below the 1200px rail: the two never show at once. */}
@@ -145,11 +129,11 @@ export default function KnowledgeHubDeepDivePage() {
         {/* ─── Content ─── */}
         <div className="py-16 sm:py-20">
           <div className="container mx-auto px-4">
-            <div className="mx-auto max-w-3xl space-y-20">
+            <div className="max-w-3xl space-y-20">
 
               {/* 01 — Architecture Overview */}
               <MobileSection
-                n="01" label="Architecture Overview" id="section-01"
+                n="01" label="Architecture overview" id="section-01"
                 summary="One Flask API and one Postgres instance handling both keyword and vector search, with no separate vector database to operate."
                 lead={
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
@@ -180,7 +164,7 @@ export default function KnowledgeHubDeepDivePage() {
 
               {/* 02 — Data Model */}
               <MobileSection
-                n="02" label="Data Model & Storage" id="section-02"
+                n="02" label="Data model & storage" id="section-02"
                 summary="Four tables carry the whole system: the catalogue, the retrieval unit, the vectors, and the multi-user layer."
               >
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
@@ -237,7 +221,7 @@ export default function KnowledgeHubDeepDivePage() {
 
               {/* 03 — Ingestion Pipeline */}
               <MobileSection
-                n="03" label="Ingestion Pipeline" id="section-03"
+                n="03" label="Ingestion pipeline" id="section-03"
                 summary="Upload returns immediately while a background thread does the work, recording per-page errors instead of aborting."
                 lead={
                   <p className="mb-4 text-base leading-relaxed text-muted-foreground">
@@ -298,7 +282,7 @@ export default function KnowledgeHubDeepDivePage() {
 
               {/* 04 — Full-Text Search */}
               <MobileSection
-                n="04" label="Full-Text Search in Postgres" id="section-04"
+                n="04" label="Full-text search in Postgres" id="section-04"
                 summary="Why Postgres native full-text search with a GIN index was fast enough, and no Elasticsearch was needed."
               >
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
@@ -350,7 +334,7 @@ export default function KnowledgeHubDeepDivePage() {
 
               {/* 05 — Semantic Search */}
               <MobileSection
-                n="05" label="Semantic Search with Embeddings (pgvector)" id="section-05"
+                n="05" label="Semantic search with embeddings (pgvector)" id="section-05"
                 summary="Encoding chunks and queries into the same vector space, so search still works when no keywords match."
               >
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
@@ -404,7 +388,7 @@ export default function KnowledgeHubDeepDivePage() {
 
               {/* 06 — Hybrid Ranking */}
               <MobileSection
-                n="06" label="Hybrid Ranking (FTS ⊕ Semantic)" id="section-06"
+                n="06" label="Hybrid ranking (FTS ⊕ semantic)" id="section-06"
                 summary="Blending keyword precision with semantic recall, and the normalisation step that makes the two scores comparable."
                 lead={
                   <p className="mb-4 text-base leading-relaxed text-muted-foreground">
@@ -491,7 +475,7 @@ export default function KnowledgeHubDeepDivePage() {
 
               {/* 08 — Performance & Ops */}
               <MobileSection
-                n="08" label="Performance, Scalability & Ops" id="section-08"
+                n="08" label="Performance, scalability & ops" id="section-08"
                 summary="The indexing, batching, and monitoring choices that keep queries sub-second as the corpus grows."
               >
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -530,7 +514,7 @@ export default function KnowledgeHubDeepDivePage() {
 
               {/* 09 — Security */}
               <MobileSection
-                n="09" label="Security & Privacy" id="section-09"
+                n="09" label="Security & privacy" id="section-09"
                 summary="Local-first storage, per-user access control, and the hashing and escaping rules behind them."
               >
                 <div className="space-y-3">
@@ -553,7 +537,7 @@ export default function KnowledgeHubDeepDivePage() {
 
               {/* 10 — Future Work */}
               <MobileSection
-                n="10" label="Future Upgrades & Research Notes" id="section-10"
+                n="10" label="Future upgrades & research notes" id="section-10"
                 summary="What would change next, and what each upgrade would actually buy."
               >
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -566,7 +550,7 @@ export default function KnowledgeHubDeepDivePage() {
                     { title: "Queue & retries", body: "Replace background threads with Redis/RQ or Celery for durable task queues with a /tasks/:id status API." },
                   ].map((f) => (
                     <div key={f.title} className="rounded border border-border bg-card p-5">
-                      <h3 className="mb-2 font-display text-sm font-bold uppercase tracking-wide text-foreground">{f.title}</h3>
+                      <h3 className="mb-2 font-display text-base font-bold tracking-tight text-foreground">{f.title}</h3>
                       <p className="text-sm leading-relaxed text-muted-foreground">{f.body}</p>
                     </div>
                   ))}
@@ -575,7 +559,7 @@ export default function KnowledgeHubDeepDivePage() {
 
               {/* Quick Reference */}
               <MobileSection
-                n="QR" label="Quick Reference" id="section-qr"
+                n="QR" label="Quick reference" id="section-qr"
                 summary="The stack, the endpoints, and the tuning knobs collected in one block."
               >
                 <CodeBlock
@@ -608,26 +592,26 @@ export default function KnowledgeHubDeepDivePage() {
                     href="https://github.com/SohailGidwani/knowledge_hub"
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-2 rounded bg-accent px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-on-accent transition hover:bg-accent/90"
+                    className="btn-primary"
                   >
                     <Github className="h-4 w-4" />
-                    Source Code
+                    Source code
                   </a>
                   <Link
                     href="/projects/knowledge-hub"
-                    className="inline-flex items-center gap-2 rounded border border-border px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-foreground transition hover:border-foreground/40"
+                    className="btn-secondary"
                   >
                     <ArrowLeft className="h-4 w-4" />
-                    Back to Project
+                    Back to project
                   </Link>
                   <a
                     href="/documents/Knowledge Hub — Technical Deep Dive (design Doc).pdf"
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-2 rounded border border-border px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-muted-foreground transition hover:border-foreground/40 hover:text-foreground"
+                    className="btn-secondary"
                   >
                     <FileText className="h-4 w-4" />
-                    PDF Version
+                    PDF version
                   </a>
                 </div>
               </section>

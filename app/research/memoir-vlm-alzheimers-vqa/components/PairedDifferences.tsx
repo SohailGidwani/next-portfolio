@@ -61,7 +61,7 @@ export default function PairedDifferences({ title, subtitle, rows, domain, capti
           {signed(r.diff)}
         </span>
         {/* Own line: inline, the bracket broke across two at this width. */}
-        <span className="block whitespace-nowrap text-muted-foreground/80">
+        <span className="block whitespace-nowrap text-muted-foreground">
           [{signed(r.lo)}, {signed(r.hi)}]
         </span>
       </p>
@@ -85,7 +85,7 @@ export default function PairedDifferences({ title, subtitle, rows, domain, capti
       <div className="rounded border border-border bg-card/40 p-4 sm:p-5">
         <p className="font-mono text-xs uppercase tracking-[0.22em] text-accent">{title}</p>
         {subtitle ? (
-          <p className="mt-0.5 font-mono text-xs tracking-[0.1em] text-muted-foreground/60">
+          <p className="mt-0.5 font-mono text-xs tracking-[0.1em] text-muted-foreground">
             {subtitle}
           </p>
         ) : null}

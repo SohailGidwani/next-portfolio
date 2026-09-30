@@ -20,7 +20,7 @@ export default function About() {
             </div>
             <Link
               href="/about"
-              className="inline-flex items-center gap-2 rounded border border-border bg-card/80 px-4 py-2.5 font-mono text-xs font-medium uppercase tracking-[0.16em] text-foreground transition hover:border-accent/50"
+              className="btn-secondary"
             >
               Want to know more about me?
               <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />

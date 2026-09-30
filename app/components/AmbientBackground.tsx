@@ -9,7 +9,6 @@ const GLOW_MASK =
 export default function AmbientBackground() {
   const shouldReduceMotion = useReducedMotion()
   const { scrollY } = useScroll()
-  const driftSlow = useTransform(scrollY, [0, 1200], [0, 80])
   const driftMedium = useTransform(scrollY, [0, 1200], [0, -60])
   const driftFast = useTransform(scrollY, [0, 1200], [0, 110])
 
@@ -107,10 +106,6 @@ export default function AmbientBackground() {
             WebkitMaskImage: GLOW_MASK,
             maskImage: GLOW_MASK,
           }}
-        />
-        <motion.div
-          style={{ y: shouldReduceMotion ? 0 : driftSlow, willChange: "transform" }}
-          className="absolute -top-40 right-[-10%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(25,56,215,0.10),transparent_70%)] blur-2xl animate-float-slow"
         />
         <motion.div
           style={{ y: shouldReduceMotion ? 0 : driftMedium, willChange: "transform" }}

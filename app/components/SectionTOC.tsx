@@ -55,7 +55,7 @@ export default function SectionTOC({ items }: { items: TocItem[] }) {
       aria-label="On this page"
       className="fixed right-6 top-1/2 z-30 hidden max-w-[200px] -translate-y-1/2 min-[1200px]:block"
     >
-      <p className="mb-3 pl-4 font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground/60">
+      <p className="mb-3 pl-4 font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground">
         On this page
       </p>
       <ul className="space-y-2 border-l border-border">
@@ -67,13 +67,13 @@ export default function SectionTOC({ items }: { items: TocItem[] }) {
                 type="button"
                 onClick={() => scrollTo(item.id)}
                 aria-current={isActive ? "true" : undefined}
-                className={`-ml-px flex w-full items-baseline gap-2 border-l py-0.5 pl-4 text-left font-mono text-xs uppercase tracking-[0.12em] transition-colors ${
+                className={`-ml-px flex w-full items-baseline gap-2 border-l py-0.5 pl-4 text-left font-body text-[13px] leading-snug transition-colors ${
                   isActive
                     ? "border-accent text-foreground"
                     : "border-transparent text-muted-foreground hover:text-foreground"
                 }`}
               >
-                <span className="min-w-0 truncate">{item.label}</span>
+                <span className="min-w-0">{item.label}</span>
               </button>
             </li>
           )

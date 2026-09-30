@@ -109,16 +109,16 @@ function Screenshot({
 }
 
 const tocItems = [
-  { id: "recovery-proof", n: "01", label: "System Overview" },
-  { id: "section-02", n: "02", label: "Why I Built It" },
-  { id: "section-03", n: "03", label: "How It Works" },
-  { id: "section-04", n: "04", label: "CLI: Autonomous Mode" },
-  { id: "section-05", n: "05", label: "MCP: Co-pilot Mode" },
-  { id: "section-06", n: "06", label: "Dashboard as Proof" },
-  { id: "section-07", n: "07", label: "Key Features" },
-  { id: "section-08", n: "08", label: "Eval Headline" },
-  { id: "section-09", n: "09", label: "Technical Stack" },
-  { id: "section-10", n: "10", label: "Friction & Takeaways" },
+  { id: "recovery-proof", n: "01", label: "System overview" },
+  { id: "section-02", n: "02", label: "Why I built it" },
+  { id: "section-03", n: "03", label: "How it works" },
+  { id: "section-04", n: "04", label: "CLI: autonomous mode" },
+  { id: "section-05", n: "05", label: "MCP: co-pilot mode" },
+  { id: "section-06", n: "06", label: "Dashboard as proof" },
+  { id: "section-07", n: "07", label: "Key features" },
+  { id: "section-08", n: "08", label: "Eval headline" },
+  { id: "section-09", n: "09", label: "Technical stack" },
+  { id: "section-10", n: "10", label: "Friction & takeaways" },
 ]
 
 export default function PortagePage() {
@@ -263,28 +263,41 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                   data-vt-title-target
                   className="font-display mb-5 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl"
                 >
-                  {project.title}
+                  {/* Hyphenated words stay whole: the title broke after
+                      "Code-" at desktop widths. */}
+                  {project.title.split(/(\S+-\S+)/).map((part, i) =>
+                    i % 2 ? (
+                      <span key={i} className="whitespace-nowrap">
+                        {part}
+                      </span>
+                    ) : (
+                      part
+                    ),
+                  )}
                 </h1>
 
                 {/* Separate evidence sets, never one combined rate: averaging a
                     disclosed development gate against a frozen held-out failure
-                    would let each hide the other. */}
-                <div className="mb-4 flex flex-wrap items-center gap-6">
+                    would let each hide the other. Labels are plain language;
+                    the internal names (v4 gate, R5 v1, K1) live in the eval
+                    table below. The fourth counts repositories, not runs, so it
+                    reads "3 of 3" rather than a rate. */}
+                <div className="mb-4 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4">
                   <div className="border-l-2 border-accent pl-4">
                     <p className="font-mono text-2xl font-medium text-foreground">10/10</p>
-                    <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Development v4 Gate · K=5</p>
+                    <p className="mt-1 text-sm leading-snug text-muted-foreground">Main development gate, 5 runs per repo</p>
                   </div>
                   <div className="border-l-2 border-border pl-4">
                     <p className="font-mono text-2xl font-medium text-foreground">12/12</p>
-                    <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Four Smaller Gates · K=3</p>
+                    <p className="mt-1 text-sm leading-snug text-muted-foreground">Four smaller gates, 3 runs each</p>
                   </div>
                   <div className="border-l-2 border-border pl-4">
                     <p className="font-mono text-2xl font-medium text-foreground">0/9</p>
-                    <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Frozen R5 v1 · Held-Out</p>
+                    <p className="mt-1 text-sm leading-snug text-muted-foreground">Frozen held-out set of then-unseen repos</p>
                   </div>
                   <div className="border-l-2 border-border pl-4">
-                    <p className="font-mono text-2xl font-medium text-foreground">42 · 34 · 18</p>
-                    <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Post-R5 Development K1 Tests</p>
+                    <p className="font-mono text-2xl font-medium text-foreground">3 of 3</p>
+                    <p className="mt-1 text-sm leading-snug text-muted-foreground">Held-out repos that later passed once in development</p>
                   </div>
                 </div>
                 <p className="mb-6 font-mono text-xs uppercase tracking-[0.15em] text-accent">
@@ -315,13 +328,13 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
           {/* Content */}
           <div className="py-16 sm:py-20">
             <div className="container mx-auto px-4">
-              <div className="mx-auto max-w-3xl space-y-16">
+              <div className="max-w-3xl space-y-16">
 
                 {/* 01 · System Overview */}
                 {/* Never clamped: this is what the project *is*, and the
                     durability recording is the single strongest proof on the
                     page. Neither should cost a tap. */}
-                <MobileSection n="01" label="System Overview" id="recovery-proof" alwaysOpen>
+                <MobileSection n="01" label="System overview" id="recovery-proof" alwaysOpen>
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                     Portage is a durable, measured code-migration agent. Its current recipe migrates Flask
                     applications to FastAPI.
@@ -376,14 +389,14 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                 </MobileSection>
 
                 {/* 02 · Why I Built It */}
-                <MobileSection n="02" label="Why I Built It" id="section-02">
+                <MobileSection n="02" label="Why I built it" id="section-02">
                   <p className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
                     {project.why}
                   </p>
                 </MobileSection>
 
                 {/* 03 · How It Works */}
-                  <MobileSection n="03" label="How It Works" id="section-03"
+                  <MobileSection n="03" label="How it works" id="section-03"
                   lead={
                     <p className="mb-6 whitespace-pre-line text-base leading-relaxed text-muted-foreground">
                       {project.how}
@@ -398,7 +411,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                 </MobileSection>
 
                 {/* 04 · CLI */}
-                <MobileSection n="04" label="CLI: Autonomous Mode" id="section-04">
+                <MobileSection n="04" label="CLI: autonomous mode" id="section-04">
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                     The <span className="font-mono text-foreground">portage</span> console script is a thin
                     httpx client over the REST API; it never touches the DB or queue directly, the same
@@ -428,7 +441,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                 </MobileSection>
 
                 {/* 05 · MCP */}
-                  <MobileSection n="05" label="MCP: Co-pilot Mode" id="section-05"
+                  <MobileSection n="05" label="MCP: co-pilot mode" id="section-05"
                   lead={
                     <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                       The MCP server exposes the verified core so another AI agent can test its own work before
@@ -454,7 +467,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                 </MobileSection>
 
                 {/* 06 · Dashboard as Proof */}
-                <MobileSection n="06" label="Dashboard as Proof" id="section-06">
+                <MobileSection n="06" label="Dashboard as proof" id="section-06">
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                     Next.js App Router, REST only; the frontend never owns schema. Jobs list with launch
                     form, job detail with live pipeline route, per-file diffs, and attempt tier/model
@@ -482,7 +495,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                      to tocItems above, after section-06, so the chapter
                      navigator lists it.
 
-                <MobileSection n="06.5" label="Try It Live" id="section-06-5">
+                <MobileSection n="06.5" label="Try it live" id="section-06-5">
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                     The hosted Portage dashboard, embedded. Sign in with GitHub, submit a migration against a
                     corpus repo, and watch the task tree, diffs, and recovery timeline update live, or browse
@@ -493,7 +506,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                 */}
 
                 {/* 07 · Key Features */}
-                <MobileSection n="07" label="Key Features" id="section-07">
+                <MobileSection n="07" label="Key features" id="section-07">
                   <div className="grid gap-4 sm:grid-cols-2">
                     {project.features.map((feature, index) => (
                       <InteractiveCard
@@ -502,7 +515,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                       >
                         <div className="mb-3 flex items-center gap-3">
                           <div className="text-accent">{feature.icon}</div>
-                          <h3 className="font-display text-sm font-bold uppercase tracking-wide text-foreground">
+                          <h3 className="font-display text-base font-bold tracking-tight text-foreground">
                             {feature.title}
                           </h3>
                         </div>
@@ -513,7 +526,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                 </MobileSection>
 
                 {/* 08 · Eval Headline */}
-                <MobileSection n="08" label="Eval Headline" id="section-08">
+                <MobileSection n="08" label="Eval headline" id="section-08">
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                     Development performance and unseen-repository performance answer different questions.
                     These are disclosed development milestones and one frozen held-out evaluation, not a claim
@@ -658,7 +671,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                 </MobileSection>
 
                 {/* 09 · Technical Stack */}
-                <MobileSection n="09" label="Technical Stack" id="section-09" summary="Every implementation choice, numbered, from the queue claim to the sandbox runtime.">
+                <MobileSection n="09" label="Technical stack" id="section-09" summary="Every implementation choice, numbered, from the queue claim to the sandbox runtime.">
                   <div className="overflow-hidden rounded border border-border bg-card">
                     <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
                       <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
@@ -677,7 +690,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                 </MobileSection>
 
                 {/* 10 · Friction & Takeaways */}
-                <MobileSection n="10" label="Friction & Takeaways" id="section-10">
+                <MobileSection n="10" label="Friction & takeaways" id="section-10">
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div className="rounded border border-border bg-card p-5">
                       <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
@@ -740,10 +753,10 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                   <div className="flex flex-wrap gap-3">
                     <Link
                       href="/projects/portage/deep-dive"
-                      className="inline-flex items-center gap-2 rounded bg-accent px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-on-accent transition hover:bg-accent/90"
+                      className="btn-primary"
                     >
                       <FolderKanban className="h-4 w-4" />
-                      Read Deep Dive
+                      Read deep dive
                     </Link>
                   </div>
                 </div>
@@ -754,17 +767,17 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded bg-accent px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-on-accent transition hover:bg-accent/90"
+                    className="btn-primary"
                   >
                     <Github className="h-4 w-4" />
-                    Source Code
+                    Source code
                   </a>
                   <Link
                     href="/projects"
-                    className="inline-flex items-center gap-2 rounded border border-border px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-foreground transition hover:border-foreground/40"
+                    className="btn-secondary"
                   >
                     <FolderKanban className="h-4 w-4" />
-                    All Projects
+                    All projects
                   </Link>
                 </div>
 

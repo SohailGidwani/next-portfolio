@@ -10,10 +10,9 @@ type ProjectActionsProps = {
   className?: string
 }
 
-const primary =
-  "inline-flex min-h-10 items-center gap-2 rounded bg-accent px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-on-accent transition hover:bg-accent/90 active:scale-[0.98]"
-const secondary =
-  "inline-flex min-h-10 items-center gap-2 rounded border border-border bg-background/60 px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-foreground transition hover:border-accent/50 active:scale-[0.98]"
+// The site-wide button classes (globals.css), same as every other page.
+const primary = "btn-primary"
+const secondary = "btn-secondary"
 
 export default function ProjectActions({
   github,

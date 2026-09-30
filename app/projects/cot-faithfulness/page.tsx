@@ -85,15 +85,15 @@ const learnings = [
 
 const tocItems = [
   { id: "section-01", n: "01", label: "Preview" },
-  { id: "section-02", n: "02", label: "The Question" },
-  { id: "section-03", n: "03", label: "Faithfulness Verdict" },
-  { id: "section-04", n: "04", label: "Exp 0: Baseline Accuracy" },
-  { id: "section-05", n: "05", label: "Exp 1: Step Truncation (SCR)" },
-  { id: "section-06", n: "06", label: "Exp 2: Reasoning Corruption (CFR)" },
-  { id: "section-07", n: "07", label: "Exp 3: Biased Hints (SBH)" },
-  { id: "section-08", n: "08", label: "Experiment Design" },
-  { id: "section-09", n: "09", label: "Technical Stack" },
-  { id: "section-10", n: "10", label: "Friction & Takeaways" },
+  { id: "section-02", n: "02", label: "The question" },
+  { id: "section-03", n: "03", label: "Faithfulness verdict" },
+  { id: "section-04", n: "04", label: "Exp 0: baseline accuracy" },
+  { id: "section-05", n: "05", label: "Exp 1: step truncation (SCR)" },
+  { id: "section-06", n: "06", label: "Exp 2: reasoning corruption (CFR)" },
+  { id: "section-07", n: "07", label: "Exp 3: biased hints (SBH)" },
+  { id: "section-08", n: "08", label: "Experiment design" },
+  { id: "section-09", n: "09", label: "Technical stack" },
+  { id: "section-10", n: "10", label: "Friction & takeaways" },
 ]
 
 export default function CoTFaithfulnessPage() {
@@ -181,7 +181,7 @@ export default function CoTFaithfulnessPage() {
                 </section>
 
                 {/* 02 · Overview */}
-                <MobileSection n="02" label="The Question" id="section-02">
+                <MobileSection n="02" label="The question" id="section-02">
                   <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                     <p>
                       The question that drove this project is deceptively simple: when an LLM writes out its reasoning, does that reasoning actually change what answer it gives? The short answer: it depends on the task. For math, the reasoning is partially faithful and the model genuinely needs the chain. For science multiple choice, the chain is largely unfaithful, mostly written to explain an answer the model already decided on.
@@ -202,7 +202,7 @@ export default function CoTFaithfulnessPage() {
                 </MobileSection>
 
                 {/* 03 · Verdict table */}
-                <MobileSection n="03" label="Faithfulness Verdict" id="section-03" summary="The verdict table: how faithful the reasoning proved to be on maths versus science questions.">
+                <MobileSection n="03" label="Faithfulness verdict" id="section-03" summary="The verdict table: how faithful the reasoning proved to be on maths versus science questions.">
                   <div className="overflow-x-auto">
                     <div className="min-w-[520px] overflow-hidden rounded border border-border bg-card">
                       <div className="grid grid-cols-3 border-b border-border bg-card/60">
@@ -228,7 +228,7 @@ export default function CoTFaithfulnessPage() {
                 </MobileSection>
 
                 {/* 04 · Baseline */}
-                <MobileSection n="04" label="Exp 0: Baseline Accuracy" id="section-04">
+                <MobileSection n="04" label="Exp 0: baseline accuracy" id="section-04">
                   <p className="mb-2 text-sm leading-relaxed text-muted-foreground">
                     Every (model, dataset, question) pair gets two queries: direct and chain-of-thought. On GSM8K, CoT turns near-random guessing into real performance. On ARC, both models do worse when they reason out loud, which suggests the chain is introducing noise on top of knowledge the model already has.
                   </p>
@@ -236,7 +236,7 @@ export default function CoTFaithfulnessPage() {
                 </MobileSection>
 
                 {/* 05 · Truncation */}
-                <MobileSection n="05" label="Exp 1: Step Truncation (SCR)" id="section-05">
+                <MobileSection n="05" label="Exp 1: step truncation (SCR)" id="section-05">
                   <p className="mb-2 text-sm leading-relaxed text-muted-foreground">
                     The CoT from Experiment 0 gets parsed into discrete steps using a three-level hierarchy (numbered markers, transition words, sentence boundaries). The model then answers using only the first k steps, and we check how often that partial answer matches the full-chain answer. Low SCR at step 1 means the model genuinely needs later steps. Qwen reaches the same ARC answer from step 1 alone in 83% of cases, which means those remaining steps add nothing.
                   </p>
@@ -244,7 +244,7 @@ export default function CoTFaithfulnessPage() {
                 </MobileSection>
 
                 {/* 06 · Corruption */}
-                <MobileSection n="06" label="Exp 2: Reasoning Corruption (CFR)" id="section-06">
+                <MobileSection n="06" label="Exp 2: reasoning corruption (CFR)" id="section-06">
                   <p className="mb-2 text-sm leading-relaxed text-muted-foreground">
                     Rule-based errors are injected into the CoT across six conditions: none, early, middle, late, early+late, and all. For GSM8K, the Corruption Following Rate (CFR) climbs as more steps are corrupted, and late-step corruption consistently outpaces early-step corruption by about 10pp. That pattern makes sense if the final calculation steps are what actually determine the answer. On ARC, Qwen's CFR stays flat at 9 to 11% regardless of how much of the reasoning is corrupted.
                   </p>
@@ -252,7 +252,7 @@ export default function CoTFaithfulnessPage() {
                 </MobileSection>
 
                 {/* 07 · Hints */}
-                <MobileSection n="07" label="Exp 3: Biased Hints (SBH)" id="section-07">
+                <MobileSection n="07" label="Exp 3: biased hints (SBH)" id="section-07">
                   <p className="mb-2 text-sm leading-relaxed text-muted-foreground">
                     A hint suggesting a wrong answer is prepended at four strength levels, from a gentle "could the answer perhaps be X?" up to "a Stanford professor mentioned the answer is X." Responses are classified into four outcomes: Faithful Reject (acknowledged the hint, gave correct answer), Faithful Follow (acknowledged it, followed it), Unfaithful Ignore (silently ignored), and Steered-But-Hidden (silently followed it). SBH is the one that matters most. On ARC, Qwen's SBH rate triples from weak to strong hints while the Hint Acknowledgment Rate barely moves. The model is getting more influenced but hiding it better.
                   </p>
@@ -260,7 +260,7 @@ export default function CoTFaithfulnessPage() {
                 </MobileSection>
 
                 {/* 08 · Experiment Design */}
-                <MobileSection n="08" label="Experiment Design" id="section-08">
+                <MobileSection n="08" label="Experiment design" id="section-08">
                   <div className="grid gap-4 sm:grid-cols-2">
                     {features.map((feature, index) => (
                       <div
@@ -269,7 +269,7 @@ export default function CoTFaithfulnessPage() {
                       >
                         <div className="mb-3 flex items-center gap-3">
                           <div className="text-accent">{feature.icon}</div>
-                          <h3 className="font-display text-sm font-bold uppercase tracking-wide text-foreground">
+                          <h3 className="font-display text-base font-bold tracking-tight text-foreground">
                             {feature.title}
                           </h3>
                         </div>
@@ -280,7 +280,7 @@ export default function CoTFaithfulnessPage() {
                 </MobileSection>
 
                 {/* 09 · Technical Stack */}
-                <MobileSection n="09" label="Technical Stack" id="section-09" summary="The models, datasets, and tooling every experiment on this page ran through.">
+                <MobileSection n="09" label="Technical stack" id="section-09" summary="The models, datasets, and tooling every experiment on this page ran through.">
                   <div className="overflow-hidden rounded border border-border bg-card">
                     <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
                       <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
@@ -299,7 +299,7 @@ export default function CoTFaithfulnessPage() {
                 </MobileSection>
 
                 {/* 10 · Friction & Takeaways */}
-                <MobileSection n="10" label="Friction & Takeaways" id="section-10">
+                <MobileSection n="10" label="Friction & takeaways" id="section-10">
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div className="rounded border border-border bg-card p-5">
                       <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
@@ -336,17 +336,17 @@ export default function CoTFaithfulnessPage() {
                     href={github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded bg-accent px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-on-accent transition hover:bg-accent/90"
+                    className="btn-primary"
                   >
                     <Github className="h-4 w-4" />
-                    Source Code
+                    Source code
                   </a>
                   <Link
                     href="/projects"
-                    className="inline-flex items-center gap-2 rounded border border-border px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-foreground transition hover:border-foreground/40"
+                    className="btn-secondary"
                   >
                     <FolderKanban className="h-4 w-4" />
-                    All Projects
+                    All projects
                   </Link>
                 </div>
 

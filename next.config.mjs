@@ -171,6 +171,14 @@ const nextConfig = {
           source: '/.well-known/llms.txt',
           destination: '/llms.txt',
         },
+        // The blog is hidden until it has real posts: /blogs and every post
+        // under it resolve to a route that does not exist, which is a true
+        // 404. Calling notFound() inside app/blogs was not enough: the root
+        // loading.tsx starts streaming first, so the status went out as 200.
+        // app/blogs, /api/blogs and /admin/blogs are untouched; delete these
+        // two entries to bring the blog back.
+        { source: '/blogs', destination: '/_hidden/blogs' },
+        { source: '/blogs/:path*', destination: '/_hidden/blogs' },
       ],
     }
   },

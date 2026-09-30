@@ -2,13 +2,12 @@ import type { ReactNode } from "react"
 import Link from "next/link"
 import Script from "next/script"
 import { Home, FileText, Github, Brain, Microscope, MessageSquare, ArrowUpRight, BookOpen } from "lucide-react"
-import ThemeToggle from "@/app/components/ThemeToggle"
 import BreadcrumbStructuredData from "@/app/components/BreadcrumbStructuredData"
-import ReadingProgress from "@/app/components/ReadingProgress"
 import SectionTOC from "@/app/components/SectionTOC"
 import MobileChapterNav from "@/app/components/MobileChapterNav"
 import MobileSection from "@/app/components/MobileSection"
 import DiagramLightbox from "@/app/components/DiagramLightbox"
+import PageNav from "@/app/components/PageNav"
 import VLMArchitecture from "./components/VLMArchitecture"
 import VQAPipeline from "./components/VQAPipeline"
 import AblationChart from "./components/AblationChart"
@@ -30,16 +29,16 @@ const FRONTIERS_URL =
   "https://www.frontiersin.org/journals/computational-neuroscience/articles/10.3389/fncom.2026.1902258/abstract"
 
 const tocItems = [
-  { id: "section-01", n: "01", label: "The Clinical Ask" },
+  { id: "section-01", n: "01", label: "The clinical ask" },
   { id: "section-02", n: "02", label: "Dataset" },
-  { id: "section-03", n: "03", label: "Model Architecture" },
-  { id: "section-04", n: "04", label: "Training Procedure" },
+  { id: "section-03", n: "03", label: "Model architecture" },
+  { id: "section-04", n: "04", label: "Training procedure" },
   { id: "section-05", n: "05", label: "Results" },
-  { id: "section-06", n: "06", label: "Modality Ablation" },
-  { id: "section-07", n: "07", label: "RAG VQA Extension" },
-  { id: "section-08", n: "08", label: "LLM Comparison" },
-  { id: "section-09", n: "09", label: "External Validation" },
-  { id: "section-10", n: "10", label: "Key Findings" },
+  { id: "section-06", n: "06", label: "Modality ablation" },
+  { id: "section-07", n: "07", label: "RAG VQA extension" },
+  { id: "section-08", n: "08", label: "LLM comparison" },
+  { id: "section-09", n: "09", label: "External validation" },
+  { id: "section-10", n: "10", label: "Key findings" },
 ]
 
 function Stat({
@@ -158,19 +157,13 @@ export default function MultiModalAlzheimersVQAPage() {
 
       <div className="min-h-screen overflow-x-clip bg-background text-foreground">
         {/* ─── Top nav ─── */}
-        <div className="sticky top-0 z-40 border-b border-border bg-card/80 backdrop-blur-md">
-          <ReadingProgress />
-          <div className="container mx-auto flex items-center justify-between gap-4 px-4 py-3">
-            <Link
-              href="/#experience"
-              className="inline-flex items-center gap-1.5 rounded border border-border bg-background/70 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground transition hover:border-accent/40 hover:text-foreground"
-            >
-              <Home className="h-3.5 w-3.5" />
-              <span className="hidden sm:inline">Portfolio</span>
-            </Link>
-            <ThemeToggle />
-          </div>
-        </div>
+        <PageNav
+          progress
+          items={[
+            { label: "Portfolio", icon: "home", href: "/#experience" },
+            { label: "Research", icon: "research", href: "/research" },
+          ]}
+        />
 
         <SectionTOC items={tocItems} />
         {/* Wayfinding below the 1200px rail: the two never show at once. */}
@@ -183,7 +176,7 @@ export default function MultiModalAlzheimersVQAPage() {
               {/* The published title separates name and subtitle with an em
                   dash; the site renders it with a colon, as everywhere else. */}
               <h1 className="font-display mb-4 text-balance text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-                MEMOIR-VLM: a multimodal vision-language model for Alzheimer&apos;s disease
+                MEMOIR-VLM: a multimodal <span className="whitespace-nowrap">vision-language</span> model for Alzheimer&apos;s disease
                 classification and question answering
               </h1>
 
@@ -196,9 +189,12 @@ export default function MultiModalAlzheimersVQAPage() {
               {/* The DOI stays text until it resolves: the journal registers it
                   at publication, and a dead link is worse than none. */}
               <p className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
+                {/* "In production" is the journal's word for typesetting, but a
+                    reader of an engineering portfolio takes it to mean deployed,
+                    which a medical model is not. Say what is actually out. */}
                 <span className="inline-flex items-center gap-1.5 text-foreground">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" aria-hidden />
-                  Accepted, in production
+                  <span className="h-1.5 w-1.5 bg-accent" aria-hidden />
+                  Accepted, abstract online
                 </span>
                 {/* Phones wrap the journal onto its own line; a separator
                     left there would dangle at the end of the first. */}
@@ -277,10 +273,10 @@ export default function MultiModalAlzheimersVQAPage() {
         {/* ─── Content ─── */}
         <div className="py-16 sm:py-20">
           <div className="container mx-auto px-4">
-            <div className="mx-auto max-w-3xl space-y-20">
+            <div className="max-w-3xl space-y-20">
               {/* 01 · Clinical Motivation */}
               <MobileSection
-                n="01" label="The Clinical Ask" id="section-01"
+                n="01" label="The clinical ask" id="section-01"
                 summary="Why Alzheimer's assessment needs several scan types at once, and why most systems break when one of them is missing."
               >
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
@@ -434,7 +430,7 @@ export default function MultiModalAlzheimersVQAPage() {
 
               {/* 03 · VLM Architecture */}
               <MobileSection
-                n="03" label="Model Architecture" id="section-03"
+                n="03" label="Model architecture" id="section-03"
                 summary="Three modality encoders, per-modality masking, and the cross-attention fusion that feeds five prediction heads."
                 figure={
                   <DiagramLightbox title="VLM Architecture">
@@ -502,7 +498,7 @@ export default function MultiModalAlzheimersVQAPage() {
 
               {/* 04 · Training */}
               <MobileSection
-                n="04" label="Training Procedure" id="section-04"
+                n="04" label="Training procedure" id="section-04"
                 summary="Two stages: contrastive pre-training across modality pairs, then multi-task fine-tuning at differential learning rates."
               >
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
@@ -604,7 +600,7 @@ export default function MultiModalAlzheimersVQAPage() {
                             >
                               {row[1]}
                             </td>
-                            <td className="py-2 pl-4 text-right text-muted-foreground/60">
+                            <td className="py-2 pl-4 text-right text-muted-foreground">
                               {row[2]}
                             </td>
                           </tr>
@@ -650,7 +646,7 @@ export default function MultiModalAlzheimersVQAPage() {
 
               {/* 06 · Modality Ablation */}
               <MobileSection
-                n="06" label="Modality Ablation" id="section-06"
+                n="06" label="Modality ablation" id="section-06"
                 summary="Masking inputs on the same trained model: where the diagnostic signal comes from, and which differences survive a significance test."
               >
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
@@ -696,7 +692,7 @@ export default function MultiModalAlzheimersVQAPage() {
 
               {/* 07 · VQA Pipeline */}
               <MobileSection
-                n="07" label="Retrieval-Augmented VQA Extension" id="section-07"
+                n="07" label="Retrieval-augmented VQA extension" id="section-07"
                 summary="Retrieval, reranking, and generation over similar cases, and the audit that found where its headline accuracy came from."
                 figure={
                   <DiagramLightbox title="RAG VQA Pipeline">
@@ -806,7 +802,7 @@ export default function MultiModalAlzheimersVQAPage() {
 
               {/* 08 · LLM Comparison */}
               <MobileSection
-                n="08" label="LLM Backbone Comparison" id="section-08"
+                n="08" label="LLM backbone comparison" id="section-08"
                 summary="Three backbones on identical retrieved context, and a ranking that flips once the labels are hidden."
               >
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
@@ -912,7 +908,7 @@ export default function MultiModalAlzheimersVQAPage() {
 
               {/* 09 · External Validation */}
               <MobileSection
-                n="09" label="External Validation" id="section-09"
+                n="09" label="External validation" id="section-09"
                 summary="The unchanged ADNI-trained weights, run zero-shot on 1,048 OASIS-3 subjects with no diffusion imaging at all."
               >
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
@@ -964,7 +960,7 @@ export default function MultiModalAlzheimersVQAPage() {
 
               {/* 10 · Key Findings */}
               <MobileSection
-                n="10" label="Key Findings" id="section-10"
+                n="10" label="Key findings" id="section-10"
                 summary="What the corrected results support, and what they do not."
               >
                 <div className="space-y-4">
@@ -1042,7 +1038,7 @@ export default function MultiModalAlzheimersVQAPage() {
                     href={FRONTIERS_URL}
                     target="_blank"
                     rel="noreferrer"
-                    className="group/paper inline-flex items-center gap-2 rounded bg-accent px-4 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.15em] text-on-accent transition hover:bg-accent/90 active:scale-[0.98]"
+                    className="group/paper btn-primary"
                   >
                     <BookOpen className="h-3.5 w-3.5" aria-hidden />
                     Read on Frontiers
@@ -1050,7 +1046,7 @@ export default function MultiModalAlzheimersVQAPage() {
                   </a>
                   <Link
                     href="/#experience"
-                    className="inline-flex items-center gap-2 rounded border border-border bg-transparent px-4 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.15em] text-foreground transition hover:border-accent/40 hover:text-accent"
+                    className="btn-secondary"
                   >
                     <Home className="h-3.5 w-3.5" />
                     Back to portfolio
@@ -1059,7 +1055,7 @@ export default function MultiModalAlzheimersVQAPage() {
                     href="https://github.com/SohailGidwani"
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-2 rounded border border-border bg-transparent px-4 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.15em] text-muted-foreground transition hover:border-foreground/40 hover:text-foreground"
+                    className="btn-secondary"
                   >
                     <Github className="h-3.5 w-3.5" />
                     GitHub profile

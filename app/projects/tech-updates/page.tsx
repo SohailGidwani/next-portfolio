@@ -41,17 +41,17 @@ function CodeBlock({ title, rows }: { title: string; rows: string[] }) {
 const tocItems = [
   { id: "section-01", n: "01", label: "Preview" },
   { id: "section-02", n: "02", label: "Overview" },
-  { id: "section-03", n: "03", label: "Why I Built It" },
-  { id: "section-04", n: "04", label: "How It Works" },
-  { id: "section-05", n: "05", label: "System Architecture" },
-  { id: "section-06", n: "06", label: "Backend Implementation" },
-  { id: "section-07", n: "07", label: "Semantic Search with Qdrant" },
-  { id: "section-08", n: "08", label: "Frontend Implementation" },
-  { id: "section-09", n: "09", label: "Key Features" },
-  { id: "section-10", n: "10", label: "Technical Stack" },
-  { id: "section-11", n: "11", label: "Key Decisions" },
-  { id: "section-12", n: "12", label: "Challenges & Takeaways" },
-  { id: "section-13", n: "13", label: "Future Improvements" },
+  { id: "section-03", n: "03", label: "Why I built it" },
+  { id: "section-04", n: "04", label: "How it works" },
+  { id: "section-05", n: "05", label: "System architecture" },
+  { id: "section-06", n: "06", label: "Backend implementation" },
+  { id: "section-07", n: "07", label: "Semantic search with Qdrant" },
+  { id: "section-08", n: "08", label: "Frontend implementation" },
+  { id: "section-09", n: "09", label: "Key features" },
+  { id: "section-10", n: "10", label: "Technical stack" },
+  { id: "section-11", n: "11", label: "Key decisions" },
+  { id: "section-12", n: "12", label: "Challenges & takeaways" },
+  { id: "section-13", n: "13", label: "Future improvements" },
 ]
 
 export default function TechUpdatesPage() {
@@ -238,11 +238,7 @@ export default function TechUpdatesPage() {
                 {/* 01 — Preview */}
                 <section id="section-01" className="scroll-mt-24">
                   <div className="mb-6">
-                    <div className="mb-2 flex items-center gap-2">
-                      <span className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-accent">01</span>
-                      <div className="h-px w-5 bg-border" />
-                    </div>
-                    <h2 className="font-display text-xl font-bold uppercase tracking-tight text-foreground sm:text-2xl">
+                    <h2 className="font-display text-xl font-bold tracking-tight text-foreground sm:text-2xl">
                       Preview
                     </h2>
                   </div>
@@ -269,7 +265,7 @@ export default function TechUpdatesPage() {
                 </MobileSection>
 
                 {/* 03 — Why I Built It */}
-                <MobileSection n="03" label="Why I Built It" id="section-03">
+                <MobileSection n="03" label="Why I built it" id="section-03">
                   <p className="text-base leading-relaxed text-muted-foreground">
                     The problem was small but real. I was reading tech news from four or five sources, and there was no single place that pulled them together in a way that respected what I cared about. Most aggregators are either too broad (RSS readers that drown you) or too narrow (one source, one perspective).
                   </p>
@@ -279,7 +275,7 @@ export default function TechUpdatesPage() {
                 </MobileSection>
 
                 {/* 04 — How It Works */}
-                <MobileSection n="04" label="How It Works" id="section-04">
+                <MobileSection n="04" label="How it works" id="section-04">
                   <p className="mb-5 text-base leading-relaxed text-muted-foreground">
                     The flow is straightforward, with each step doing one thing:
                   </p>
@@ -304,7 +300,7 @@ export default function TechUpdatesPage() {
                 </MobileSection>
 
                 {/* 05 — System Architecture */}
-                <MobileSection n="05" label="System Architecture" id="section-05">
+                <MobileSection n="05" label="System architecture" id="section-05">
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                     The system has five clear layers. Each one has a single job, and the contract between them is plain JSON.
                   </p>
@@ -363,7 +359,7 @@ export default function TechUpdatesPage() {
                 </MobileSection>
 
                 {/* 06 — Backend Implementation */}
-                <MobileSection n="06" label="Backend Implementation" id="section-06">
+                <MobileSection n="06" label="Backend implementation" id="section-06">
                   <p className="text-base leading-relaxed text-muted-foreground">
                     The backend is a Flask app organized around blueprints and utility modules. The main app file registers the API blueprint under /api, initializes Flask-APScheduler so scraping can run on a schedule, and wires up the routes. Qdrant credentials and the Azure OpenAI key load from a .env file through python-dotenv, which kept secrets out of source control from day one and meant I could publish the repo without a cleanup pass.
                   </p>
@@ -393,7 +389,7 @@ export default function TechUpdatesPage() {
                 </MobileSection>
 
                 {/* 07 — Semantic Search with Qdrant */}
-                <MobileSection n="07" label="Semantic Search with Qdrant" id="section-07">
+                <MobileSection n="07" label="Semantic search with Qdrant" id="section-07">
                   <p className="text-base leading-relaxed text-muted-foreground">
                     Semantic search is what makes the feed feel different from a regular news reader. Instead of matching exact words, it compares the meaning of the query to the meaning of every article in the index.
                   </p>
@@ -415,7 +411,7 @@ export default function TechUpdatesPage() {
                 </MobileSection>
 
                 {/* 08 — Frontend Implementation */}
-                <MobileSection n="08" label="Frontend Implementation" id="section-08">
+                <MobileSection n="08" label="Frontend implementation" id="section-08">
                   <p className="text-base leading-relaxed text-muted-foreground">
                     The frontend is a React + Vite app written in TypeScript. It defines a small <span className="font-mono text-foreground">Article</span> interface with the same fields the backend produces: <span className="font-mono text-foreground">Title</span>, <span className="font-mono text-foreground">Details</span>, <span className="font-mono text-foreground">URL</span>, <span className="font-mono text-foreground">Source</span>, <span className="font-mono text-foreground">Category</span>.
                   </p>
@@ -439,7 +435,7 @@ export default function TechUpdatesPage() {
                 </MobileSection>
 
                 {/* 09 — Key Features */}
-                <MobileSection n="09" label="Key Features" id="section-09">
+                <MobileSection n="09" label="Key features" id="section-09">
                   <div className="grid gap-4 sm:grid-cols-2">
                     {project.features.map((feature, index) => (
                       <div
@@ -448,7 +444,7 @@ export default function TechUpdatesPage() {
                       >
                         <div className="mb-3 flex items-center gap-3">
                           <div className="text-accent">{feature.icon}</div>
-                          <h3 className="font-display text-sm font-bold uppercase tracking-wide text-foreground">
+                          <h3 className="font-display text-base font-bold tracking-tight text-foreground">
                             {feature.title}
                           </h3>
                         </div>
@@ -459,7 +455,7 @@ export default function TechUpdatesPage() {
                 </MobileSection>
 
                 {/* 10 — Technical Stack */}
-                <MobileSection n="10" label="Technical Stack" id="section-10" summary="The full stack behind the pipeline, and what each piece is doing there.">
+                <MobileSection n="10" label="Technical stack" id="section-10" summary="The full stack behind the pipeline, and what each piece is doing there.">
                   <div className="overflow-hidden rounded border border-border bg-card">
                     <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
                       <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
@@ -478,7 +474,7 @@ export default function TechUpdatesPage() {
                 </MobileSection>
 
                 {/* 11 — Key Decisions */}
-                <MobileSection n="11" label="Key Decisions" id="section-11">
+                <MobileSection n="11" label="Key decisions" id="section-11">
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                     A few choices I want to defend, because they are the ones a reviewer would push on first:
                   </p>
@@ -495,7 +491,7 @@ export default function TechUpdatesPage() {
                 </MobileSection>
 
                 {/* 12 — Challenges & Takeaways */}
-                <MobileSection n="12" label="Challenges & Takeaways" id="section-12">
+                <MobileSection n="12" label="Challenges & takeaways" id="section-12">
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div className="rounded border border-border bg-card p-5">
                       <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
@@ -527,7 +523,7 @@ export default function TechUpdatesPage() {
                 </MobileSection>
 
                 {/* 13 — Future Improvements */}
-                <MobileSection n="13" label="Future Improvements" id="section-13">
+                <MobileSection n="13" label="Future improvements" id="section-13">
                   <p className="mb-5 text-base leading-relaxed text-muted-foreground">
                     Things I would do if I picked this up again, roughly in order of how much I would learn from each:
                   </p>

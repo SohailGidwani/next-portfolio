@@ -84,7 +84,10 @@ export default function Contact() {
             open to remote and on-site.
           </p>
 
-          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-12">
+          {/* The email column is wider: at four equal columns the address
+              filled its column and pushed its copy button onto a new line,
+              while the phone's sat inline. */}
+          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.4fr)_repeat(3,minmax(0,1fr))] lg:gap-12">
             {contactRows.map((item, index) => (
               <motion.div
                 key={item.label}
@@ -97,7 +100,9 @@ export default function Contact() {
                 <p className="font-mono text-xs font-medium uppercase tracking-[0.22em] text-muted-foreground">
                   {item.label}
                 </p>
-                <div className="flex flex-wrap items-center gap-2">
+                {/* min-h matches the copy button, so rows with and without one
+                    share a baseline. */}
+                <div className="flex items-center gap-2 sm:min-h-8">
                   <a
                     href={item.href}
                     target={item.external ? "_blank" : undefined}
@@ -181,34 +186,12 @@ export default function Contact() {
           </div>
         </motion.div>
 
-        <footer className="mt-20 flex flex-col gap-6 border-t border-border pt-10 sm:mt-24 sm:flex-row sm:items-center sm:justify-between">
+        {/* GitHub, LinkedIn and email are in the grid just above, so the
+            footer carries only the copyright line. */}
+        <footer className="mt-20 border-t border-border pt-10 sm:mt-24">
           <p className="font-mono text-[11px] tracking-[0.12em] text-muted-foreground">
             © 2026 Sohail Gidwani
           </p>
-          <div className="flex flex-wrap gap-x-8 gap-y-2 font-mono text-[11px] uppercase tracking-[0.18em]">
-            <a
-              href="https://github.com/SohailGidwani"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex min-h-11 items-center text-muted-foreground transition hover:text-foreground sm:min-h-0"
-            >
-              GitHub
-            </a>
-            <a
-              href="https://www.linkedin.com/in/sohail-gidwani/"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex min-h-11 items-center text-muted-foreground transition hover:text-foreground sm:min-h-0"
-            >
-              LinkedIn
-            </a>
-            <a
-              href="mailto:sohailgidwani15@gmail.com"
-              className="inline-flex min-h-11 items-center text-muted-foreground transition hover:text-foreground sm:min-h-0"
-            >
-              Email
-            </a>
-          </div>
         </footer>
       </div>
     </section>

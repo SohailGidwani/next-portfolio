@@ -29,7 +29,7 @@ export default function Projects() {
           <SectionHeading>Projects</SectionHeading>
           <Link
             href="/projects"
-            className="inline-flex items-center gap-2 rounded border border-border bg-card/80 px-4 py-2 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground transition hover:border-accent/40 hover:text-foreground"
+            className="btn-secondary"
             onClick={() => triggerHaptic()}
           >
             View all

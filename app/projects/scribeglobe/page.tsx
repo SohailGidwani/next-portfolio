@@ -11,11 +11,11 @@ import MobileChapterNav from "@/app/components/MobileChapterNav"
 
 const tocItems = [
   { id: "section-01", n: "01", label: "Preview" },
-  { id: "section-02", n: "02", label: "Why I Built It" },
-  { id: "section-03", n: "03", label: "How It Works" },
-  { id: "section-04", n: "04", label: "Key Features" },
-  { id: "section-05", n: "05", label: "Technical Stack" },
-  { id: "section-06", n: "06", label: "Friction & Takeaways" },
+  { id: "section-02", n: "02", label: "Why I built it" },
+  { id: "section-03", n: "03", label: "How it works" },
+  { id: "section-04", n: "04", label: "Key features" },
+  { id: "section-05", n: "05", label: "Technical stack" },
+  { id: "section-06", n: "06", label: "Friction & takeaways" },
 ]
 
 export default function ScribeGlobePage() {
@@ -143,7 +143,7 @@ You can sign up, write posts with markdown, preview them in real time, and publi
 
                 {/* 02 — Why I Built It */}
                 <section>
-                  <ProjectSectionLabel n="02" label="Why I Built It" id="section-02" />
+                  <ProjectSectionLabel n="02" label="Why I built it" id="section-02" />
                   <p className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
                     {project.why}
                   </p>
@@ -151,7 +151,7 @@ You can sign up, write posts with markdown, preview them in real time, and publi
 
                 {/* 03 — How It Works */}
                 <section>
-                  <ProjectSectionLabel n="03" label="How It Works" id="section-03" />
+                  <ProjectSectionLabel n="03" label="How it works" id="section-03" />
                   <p className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
                     {project.how}
                   </p>
@@ -159,7 +159,7 @@ You can sign up, write posts with markdown, preview them in real time, and publi
 
                 {/* 04 — Key Features */}
                 <section>
-                  <ProjectSectionLabel n="04" label="Key Features" id="section-04" />
+                  <ProjectSectionLabel n="04" label="Key features" id="section-04" />
                   <div className="grid gap-4 sm:grid-cols-2">
                     {project.features.map((feature, index) => (
                       <div
@@ -168,7 +168,7 @@ You can sign up, write posts with markdown, preview them in real time, and publi
                       >
                         <div className="mb-3 flex items-center gap-3">
                           <div className="text-accent">{feature.icon}</div>
-                          <h3 className="font-display text-sm font-bold uppercase tracking-wide text-foreground">
+                          <h3 className="font-display text-base font-bold tracking-tight text-foreground">
                             {feature.title}
                           </h3>
                         </div>
@@ -180,7 +180,7 @@ You can sign up, write posts with markdown, preview them in real time, and publi
 
                 {/* 05 — Technical Stack */}
                 <section>
-                  <ProjectSectionLabel n="05" label="Technical Stack" id="section-05" />
+                  <ProjectSectionLabel n="05" label="Technical stack" id="section-05" />
                   <div className="overflow-hidden rounded border border-border bg-card">
                     <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
                       <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
@@ -200,7 +200,7 @@ You can sign up, write posts with markdown, preview them in real time, and publi
 
                 {/* 06 — Friction & Takeaways */}
                 <section>
-                  <ProjectSectionLabel n="06" label="Friction & Takeaways" id="section-06" />
+                  <ProjectSectionLabel n="06" label="Friction & takeaways" id="section-06" />
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div className="rounded border border-border bg-card p-5">
                       <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">

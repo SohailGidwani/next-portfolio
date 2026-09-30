@@ -2,8 +2,9 @@
 
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { FileQuestion, RefreshCw, Home } from 'lucide-react'
+import { FileQuestion, RefreshCw } from 'lucide-react'
 import Link from 'next/link'
+import ProjectNav from '@/app/components/ProjectNav'
 
 export default function ProjectError({
   error,
@@ -18,17 +19,7 @@ export default function ProjectError({
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="border-b border-border bg-card/60 backdrop-blur">
-        <div className="container mx-auto flex flex-wrap items-center justify-between gap-4 px-4 py-6">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground"
-          >
-            <Home className="h-4 w-4" />
-            Back to portfolio
-          </Link>
-        </div>
-      </div>
+      <ProjectNav />
 
       <div className="container mx-auto px-4 py-20">
         <motion.div
@@ -51,16 +42,16 @@ export default function ProjectError({
           <div className="flex flex-col gap-3 pt-4 sm:flex-row sm:justify-center">
             <button
               onClick={reset}
-              className="inline-flex items-center justify-center gap-2 rounded border border-border bg-card/80 px-6 py-3 text-sm font-semibold text-foreground transition hover:border-accent/40"
+              className="btn-secondary"
             >
-              <RefreshCw className="h-4 w-4" />
-              Try Again
+              <RefreshCw className="h-4 w-4" aria-hidden />
+              Try again
             </button>
             <Link
               href="/projects"
-              className="inline-flex items-center justify-center gap-2 rounded bg-accent px-6 py-3 text-sm font-semibold text-on-accent transition hover:bg-accent/90"
+              className="btn-primary"
             >
-              View All Projects
+              View all projects
             </Link>
           </div>
         </motion.div>

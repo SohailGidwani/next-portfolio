@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { ThemeProvider } from './components/ThemeProvider'
 import FaviconSync from './components/FaviconSync'
+import ThemeColorSync from './components/ThemeColorSync'
 import type { Viewport } from 'next'
 
 // Funnel: the Display cut for headings, the Sans cut for everything people
@@ -272,6 +273,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ViewTransitions />
           <FaviconSync />
+          <ThemeColorSync />
           {children}
           <Analytics />
           <SpeedInsights />

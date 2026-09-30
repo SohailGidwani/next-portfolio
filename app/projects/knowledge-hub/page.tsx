@@ -16,14 +16,14 @@ import SectionTOC from "@/app/components/SectionTOC"
 import MobileChapterNav from "@/app/components/MobileChapterNav"
 
 const tocItems = [
-  { id: "section-01", n: "01", label: "System Overview" },
-  { id: "section-02", n: "02", label: "Why I Built It" },
-  { id: "section-03", n: "03", label: "How It Works" },
-  { id: "section-04", n: "04", label: "Upload & Processing" },
-  { id: "section-05", n: "05", label: "AI Question Answering" },
-  { id: "section-06", n: "06", label: "Key Features" },
-  { id: "section-07", n: "07", label: "Technical Stack" },
-  { id: "section-08", n: "08", label: "Friction & Takeaways" },
+  { id: "section-01", n: "01", label: "System overview" },
+  { id: "section-02", n: "02", label: "Why I built it" },
+  { id: "section-03", n: "03", label: "How it works" },
+  { id: "section-04", n: "04", label: "Upload & processing" },
+  { id: "section-05", n: "05", label: "AI question answering" },
+  { id: "section-06", n: "06", label: "Key features" },
+  { id: "section-07", n: "07", label: "Technical stack" },
+  { id: "section-08", n: "08", label: "Friction & takeaways" },
 ]
 
 export default function KnowledgeHubPage() {
@@ -183,7 +183,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
 
                 {/* 01 — System Overview */}
                 <section>
-                  <ProjectSectionLabel n="01" label="System Overview" id="section-01" />
+                  <ProjectSectionLabel n="01" label="System overview" id="section-01" />
                   <ProjectImageTrigger
                     index={0}
                     label={`Expand ${project.images.howItWorks.alt}`}
@@ -207,7 +207,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
 
                 {/* 02 — Why I Built It */}
                 <section>
-                  <ProjectSectionLabel n="02" label="Why I Built It" id="section-02" />
+                  <ProjectSectionLabel n="02" label="Why I built it" id="section-02" />
                   <p className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
                     {project.why}
                   </p>
@@ -215,7 +215,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
 
                 {/* 03 — How It Works */}
                 <section>
-                  <ProjectSectionLabel n="03" label="How It Works" id="section-03" />
+                  <ProjectSectionLabel n="03" label="How it works" id="section-03" />
                   <p className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
                     {project.how}
                   </p>
@@ -223,7 +223,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
 
                 {/* 04 — Upload & Processing */}
                 <section>
-                  <ProjectSectionLabel n="04" label="Upload & Processing" id="section-04" />
+                  <ProjectSectionLabel n="04" label="Upload & processing" id="section-04" />
                   <div className="grid gap-4 sm:grid-cols-2">
                     {project.images.upload.map((image, index) => (
                       <ProjectImageTrigger
@@ -246,7 +246,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
 
                 {/* 05 — AI Question Answering */}
                 <section>
-                  <ProjectSectionLabel n="05" label="AI Question Answering" id="section-05" />
+                  <ProjectSectionLabel n="05" label="AI question answering" id="section-05" />
                   <div className="grid gap-4 sm:grid-cols-2">
                     {project.images.llmResponses.map((image, index) => (
                       <ProjectImageTrigger
@@ -269,7 +269,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
 
                 {/* 06 — Key Features */}
                 <section>
-                  <ProjectSectionLabel n="06" label="Key Features" id="section-06" />
+                  <ProjectSectionLabel n="06" label="Key features" id="section-06" />
                   <div className="grid gap-4 sm:grid-cols-2">
                     {project.features.map((feature, index) => (
                       <div
@@ -278,7 +278,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                       >
                         <div className="mb-3 flex items-center gap-3">
                           <div className="text-accent">{feature.icon}</div>
-                          <h3 className="font-display text-sm font-bold uppercase tracking-wide text-foreground">
+                          <h3 className="font-display text-base font-bold tracking-tight text-foreground">
                             {feature.title}
                           </h3>
                         </div>
@@ -290,7 +290,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
 
                 {/* 07 — Technical Stack */}
                 <section>
-                  <ProjectSectionLabel n="07" label="Technical Stack" id="section-07" />
+                  <ProjectSectionLabel n="07" label="Technical stack" id="section-07" />
                   <div className="overflow-hidden rounded border border-border bg-card">
                     <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
                       <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
@@ -310,7 +310,7 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
 
                 {/* 08 — Friction & Takeaways */}
                 <section>
-                  <ProjectSectionLabel n="08" label="Friction & Takeaways" id="section-08" />
+                  <ProjectSectionLabel n="08" label="Friction & takeaways" id="section-08" />
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div className="rounded border border-border bg-card p-5">
                       <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
@@ -351,19 +351,19 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                   <div className="flex flex-wrap gap-3">
                     <Link
                       href="/projects/knowledge-hub/deep-dive"
-                      className="inline-flex items-center gap-2 rounded bg-accent px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-on-accent transition hover:bg-accent/90"
+                      className="btn-primary"
                     >
                       <FolderKanban className="h-4 w-4" />
-                      Read Deep Dive
+                      Read deep dive
                     </Link>
                     <a
                       href={project.technicalDocument.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded border border-border px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-muted-foreground transition hover:border-foreground/40 hover:text-foreground"
+                      className="btn-secondary"
                     >
                       <FileText className="h-4 w-4" />
-                      PDF Version ({project.technicalDocument.size})
+                      PDF version ({project.technicalDocument.size})
                     </a>
                   </div>
                 </div>
@@ -372,10 +372,10 @@ The whole thing is a Flask API with SQLAlchemy, containerized with Docker so set
                 <div className="flex flex-wrap gap-3 border-t border-border pt-8">
                   <Link
                     href="/projects"
-                    className="inline-flex items-center gap-2 rounded border border-border px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-foreground transition hover:border-foreground/40"
+                    className="btn-secondary"
                   >
                     <FolderKanban className="h-4 w-4" />
-                    All Projects
+                    All projects
                   </Link>
                 </div>
 

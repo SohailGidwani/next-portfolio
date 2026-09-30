@@ -1,32 +1,31 @@
 import Link from "next/link"
-import { Home, ArrowLeft, Github, Shield, Zap, Terminal, Bot, Gauge, Database } from "lucide-react"
-import ThemeToggle from "@/app/components/ThemeToggle"
+import { ArrowLeft, Github, Shield, Zap, Terminal, Bot, Gauge, Database } from "lucide-react"
 import BreadcrumbStructuredData from "@/app/components/BreadcrumbStructuredData"
-import ReadingProgress from "@/app/components/ReadingProgress"
 import SectionTOC from "@/app/components/SectionTOC"
 import MobileChapterNav from "@/app/components/MobileChapterNav"
 import MobileSection from "@/app/components/MobileSection"
 import DiagramLightbox from "@/app/components/DiagramLightbox"
 import DemoVideo from "@/app/components/DemoVideo"
+import PageNav from "@/app/components/PageNav"
 import PortageArchitecture from "../components/PortageArchitecture"
 import MigrationFlow from "../components/MigrationFlow"
 import BlastRadius from "../components/BlastRadius"
 
 const tocItems = [
-  { id: "section-01", n: "01", label: "Architecture Overview" },
-  { id: "section-02", n: "02", label: "Job Lifecycle & Graph Nodes" },
-  { id: "section-03", n: "03", label: "Durability Model" },
-  { id: "section-04", n: "04", label: "Sandbox & Verification" },
-  { id: "section-05", n: "05", label: "Recovery Strategies" },
-  { id: "section-06", n: "06", label: "Recipe System" },
-  { id: "section-06b", n: "6B", label: "Artifact-Producing Plans" },
-  { id: "section-07", n: "07", label: "Eval Methodology" },
-  { id: "section-08", n: "08", label: "Failure Taxonomy" },
-  { id: "section-09", n: "09", label: "Corpus & Admission" },
-  { id: "section-10", n: "10", label: "CLI & MCP Contracts" },
-  { id: "section-11", n: "11", label: "Auth & Demo Protection" },
-  { id: "section-12", n: "12", label: "Stack & Data Model" },
-  { id: "section-qr", n: "QR", label: "Quick Reference" },
+  { id: "section-01", n: "01", label: "Architecture overview" },
+  { id: "section-02", n: "02", label: "Job lifecycle & graph nodes" },
+  { id: "section-03", n: "03", label: "Durability model" },
+  { id: "section-04", n: "04", label: "Sandbox & verification" },
+  { id: "section-05", n: "05", label: "Recovery strategies" },
+  { id: "section-06", n: "06", label: "Recipe system" },
+  { id: "section-06b", n: "6B", label: "Artifact-producing plans" },
+  { id: "section-07", n: "07", label: "Eval methodology" },
+  { id: "section-08", n: "08", label: "Failure taxonomy" },
+  { id: "section-09", n: "09", label: "Corpus & admission" },
+  { id: "section-10", n: "10", label: "CLI & MCP contracts" },
+  { id: "section-11", n: "11", label: "Auth & demo protection" },
+  { id: "section-12", n: "12", label: "Stack & data model" },
+  { id: "section-qr", n: "QR", label: "Quick reference" },
 ]
 
 function Stat({ value, label, primary }: { value: string; label: string; primary?: boolean }) {
@@ -134,28 +133,13 @@ export default function PortageDeepDivePage() {
       <div className="min-h-screen overflow-x-clip bg-background text-foreground">
 
         {/* ─── Top nav ─── */}
-        <div className="sticky top-0 z-40 border-b border-border bg-card/80 backdrop-blur-md">
-          <ReadingProgress />
-          <div className="container mx-auto flex items-center justify-between gap-4 px-4 py-3">
-            <div className="flex items-center gap-2">
-              <Link
-                href="/projects/portage"
-                className="inline-flex items-center gap-1.5 rounded border border-border bg-background/70 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground transition hover:border-accent/40 hover:text-foreground"
-              >
-                <ArrowLeft className="h-3.5 w-3.5" />
-                <span className="hidden sm:inline">Portage</span>
-              </Link>
-              <Link
-                href="/"
-                className="inline-flex items-center gap-1.5 rounded border border-border bg-background/70 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground transition hover:border-accent/40 hover:text-foreground"
-              >
-                <Home className="h-3.5 w-3.5" />
-                <span className="hidden sm:inline">Portfolio</span>
-              </Link>
-            </div>
-            <ThemeToggle />
-          </div>
-        </div>
+        <PageNav
+          progress
+          items={[
+            { label: "Portfolio", icon: "home", href: "/" },
+            { label: "Portage", icon: "back", href: "/projects/portage" },
+          ]}
+        />
 
         <SectionTOC items={tocItems} />
         {/* Wayfinding below the 1200px rail: the two never show at once. */}
@@ -208,13 +192,13 @@ export default function PortageDeepDivePage() {
         {/* ─── Content ─── */}
         <div className="py-16 sm:py-20">
           <div className="container mx-auto px-4">
-            <div className="mx-auto max-w-3xl space-y-20">
+            <div className="max-w-3xl space-y-20">
 
               {/* 01 · Architecture Overview */}
               {/* Never clamped: the architecture is the price of entry for
                   everything below it, so it reads in full at every width. */}
               <MobileSection
-                n="01" label="Architecture Overview" id="section-01"
+                n="01" label="Architecture overview" id="section-01"
                 alwaysOpen
                 lead={
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
@@ -259,7 +243,7 @@ export default function PortageDeepDivePage() {
 
               {/* 02 · Job Lifecycle */}
               <MobileSection
-                n="02" label="Job Lifecycle & Graph Nodes" id="section-02"
+                n="02" label="Job lifecycle & graph nodes" id="section-02"
                 summary="How a queued job becomes a running graph, and what separates a real resume from an accidental restart at Ingest."
                 lead={
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
@@ -320,7 +304,7 @@ export default function PortageDeepDivePage() {
 
               {/* 03 · Durability */}
               <MobileSection
-                n="03" label="Durability Model" id="section-03"
+                n="03" label="Durability model" id="section-03"
                 summary="State is checkpointed after every node, so a worker that dies mid-run is replaced by one that resumes instead of starting over."
                 // The recording is the claim, not decoration, so it sits
                 // outside the clamp. figureAfter keeps desktop's original
@@ -403,7 +387,7 @@ export default function PortageDeepDivePage() {
 
               {/* 04 · Sandbox & Verification */}
               <MobileSection
-                n="04" label="Sandbox & Verification" id="section-04"
+                n="04" label="Sandbox & verification" id="section-04"
                 summary="Every verification runs in a throwaway Docker container with no network, so untrusted migrated code cannot reach the host."
                 lead={
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
@@ -453,7 +437,7 @@ export default function PortageDeepDivePage() {
 
               {/* 05 · Recovery */}
               <MobileSection
-                n="05" label="Recovery Strategies" id="section-05"
+                n="05" label="Recovery strategies" id="section-05"
                 summary="Who owns what when a run goes wrong: rollback, regeneration, and replanning, plus the budgets that stop runaway loops."
               >
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
@@ -539,7 +523,7 @@ export default function PortageDeepDivePage() {
 
               {/* 06 · Recipe System */}
               <MobileSection
-                n="06" label="Recipe System (Flask → FastAPI)" id="section-06"
+                n="06" label="Recipe system (Flask → FastAPI)" id="section-06"
                 summary="What a recipe declares, and why a repo it does not recognize degrades to an honest red rather than a false green."
               >
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
@@ -586,7 +570,7 @@ export default function PortageDeepDivePage() {
 
               {/* 6B · Artifact-Producing Plans */}
               <MobileSection
-                n="6B" label="Artifact-Producing Plans" id="section-06b"
+                n="6B" label="Artifact-producing plans" id="section-06b"
                 summary="The capability that moved the hard repos. Some migrations need entirely new modules, not rewrites of the files already there."
               >
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
@@ -634,7 +618,7 @@ export default function PortageDeepDivePage() {
 
               {/* 07 · Eval Methodology */}
               <MobileSection
-                n="07" label="Eval Methodology" id="section-07"
+                n="07" label="Eval methodology" id="section-07"
                 summary="The oracle behind every score: a behavioral suite that passes before migration has to pass after it too."
               >
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
@@ -691,7 +675,7 @@ export default function PortageDeepDivePage() {
 
               {/* 08 · Failure Taxonomy */}
               <MobileSection
-                n="08" label="Failure Taxonomy" id="section-08"
+                n="08" label="Failure taxonomy" id="section-08"
                 summary="Where the engine converged, where it did not, and the reliability-gate history shown in full so a passing gate cannot read as rerun-until-green."
               >
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
@@ -829,7 +813,7 @@ export default function PortageDeepDivePage() {
 
               {/* 09 · Corpus */}
               <MobileSection
-                n="09" label="Corpus & Admission" id="section-09"
+                n="09" label="Corpus & admission" id="section-09"
                 summary="What a repo must prove before it enters the corpus, and the dependency-pin finding that cost four candidates."
               >
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
@@ -898,7 +882,7 @@ export default function PortageDeepDivePage() {
 
               {/* 10 · CLI & MCP Contracts */}
               <MobileSection
-                n="10" label="CLI & MCP Contracts" id="section-10"
+                n="10" label="CLI & MCP contracts" id="section-10"
                 summary="The full command surface and its exit codes, held to the same honest-green bar as the eval harness."
               >
                 <div className="space-y-6">
@@ -946,7 +930,7 @@ export default function PortageDeepDivePage() {
 
               {/* 11 · Auth */}
               <MobileSection
-                n="11" label="Auth & Demo Protection" id="section-11"
+                n="11" label="Auth & demo protection" id="section-11"
                 summary="How local scripts stay untouched while a hosted demo avoids unbounded model spend."
               >
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground">
@@ -982,7 +966,7 @@ export default function PortageDeepDivePage() {
 
               {/* 12 · Stack & Data Model */}
               <MobileSection
-                n="12" label="Stack & Data Model" id="section-12"
+                n="12" label="Stack & data model" id="section-12"
                 summary="Every technology choice and the tables behind them, from the queue claim down to where each run's evidence is stored."
               >
                 <SimpleTable
@@ -1056,7 +1040,7 @@ export default function PortageDeepDivePage() {
 
               {/* Quick Reference */}
               <MobileSection
-                n="QR" label="Quick Reference" id="section-qr"
+                n="QR" label="Quick reference" id="section-qr"
                 summary="The honesty bar, the budgets, and the queue claim in one block, for when you already know what you are looking for."
               >
                 <CodeBlock
@@ -1094,17 +1078,17 @@ export default function PortageDeepDivePage() {
                     href="https://github.com/SohailGidwani/Portage"
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-2 rounded bg-accent px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-on-accent transition hover:bg-accent/90"
+                    className="btn-primary"
                   >
                     <Github className="h-4 w-4" />
-                    Source Code
+                    Source code
                   </a>
                   <Link
                     href="/projects/portage"
-                    className="inline-flex items-center gap-2 rounded border border-border px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-foreground transition hover:border-foreground/40"
+                    className="btn-secondary"
                   >
                     <ArrowLeft className="h-4 w-4" />
-                    Back to Project
+                    Back to project
                   </Link>
                 </div>
               </section>

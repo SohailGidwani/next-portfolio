@@ -14,7 +14,7 @@ function PanelBlock({ title, subtitle, rows }: Panel) {
   return (
     <div className="rounded border border-border bg-card/40 p-4 sm:p-5">
       <p className="font-mono text-xs uppercase tracking-[0.22em] text-accent">{title}</p>
-      <p className="mt-0.5 font-mono text-xs tracking-[0.1em] text-muted-foreground/60">{subtitle}</p>
+      <p className="mt-0.5 font-mono text-xs tracking-[0.1em] text-muted-foreground">{subtitle}</p>
       <div className="mt-5 space-y-5">
         {rows.map((row) => {
           const delta = +(row.cot - row.noCot).toFixed(1)
@@ -36,7 +36,7 @@ function PanelBlock({ title, subtitle, rows }: Panel) {
               </div>
               <div className="space-y-1.5">
                 <div className="grid grid-cols-[52px_1fr_44px] items-center gap-2">
-                  <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-muted-foreground/60">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-muted-foreground">
                     No CoT
                   </span>
                   <div className="relative h-1.5 overflow-hidden rounded-[2px] bg-border/40">
@@ -50,7 +50,7 @@ function PanelBlock({ title, subtitle, rows }: Panel) {
                   </span>
                 </div>
                 <div className="grid grid-cols-[52px_1fr_44px] items-center gap-2">
-                  <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-muted-foreground/60">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-muted-foreground">
                     CoT
                   </span>
                   <div className="relative h-1.5 overflow-hidden rounded-[2px] bg-border/40">

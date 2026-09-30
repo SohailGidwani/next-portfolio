@@ -90,10 +90,8 @@ const lifestyle = [
 ]
 
 type ModalContent = {
-  type: "game" | "lifestyle"
   title: string
-  image?: string
-  icon?: React.ReactNode
+  image: string
   description: string
 } | null
 
@@ -103,20 +101,9 @@ export default function Personal() {
   const openGameModal = (game: Game) => {
     triggerHaptic()
     setSelected({
-      type: "game",
       title: game.title,
       image: game.image,
       description: game.description,
-    })
-  }
-
-  const openLifestyleModal = (item: (typeof lifestyle)[0]) => {
-    triggerHaptic()
-    setSelected({
-      type: "lifestyle",
-      title: item.label,
-      icon: item.icon,
-      description: item.detail,
     })
   }
 
@@ -225,41 +212,23 @@ export default function Personal() {
             <Sun className="h-3.5 w-3.5 text-accent" />
             <h3 className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">Simple Pleasures</h3>
           </div>
-          <div className="grid gap-3 sm:grid-cols-3">
-            {lifestyle.map((item, index) => (
-              <motion.button
+          {/* Each line is short enough to show whole, so there is nothing to
+              open: the full sentence sits beside its name. Before, a card
+              clipped it to one line and a "Tap any to learn more" hint sent
+              the reader into a dialog to finish it. */}
+          <ul className="max-w-4xl divide-y divide-border border-y border-border">
+            {lifestyle.map((item) => (
+              <li
                 key={item.id}
-                type="button"
-                onClick={() => openLifestyleModal(item)}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                whileHover={{ y: -2 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ duration: 0.3, delay: index * 0.05 }}
-                viewport={{ once: true }}
-                className="group flex items-center gap-4 rounded border border-border bg-card/80 p-5 text-left transition hover:border-accent/40"
+                className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-x-4 gap-y-1 py-4 sm:grid-cols-[auto_8rem_minmax(0,1fr)] sm:items-baseline"
               >
-                <span className="flex h-12 w-12 items-center justify-center rounded bg-accent/10 text-accent transition group-hover:bg-accent/15">
-                  {item.icon}
-                </span>
-                <div>
-                  <span className="font-medium text-foreground">{item.label}</span>
-                  <p className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">{item.detail}</p>
-                </div>
-              </motion.button>
+                <span aria-hidden className="text-accent sm:self-center">{item.icon}</span>
+                <span className="font-medium text-foreground">{item.label}</span>
+                <p className="col-start-2 text-sm leading-relaxed text-muted-foreground sm:col-start-3">{item.detail}</p>
+              </li>
             ))}
-          </div>
+          </ul>
         </motion.div>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          viewport={{ once: true }}
-          className="mt-8 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground"
-        >
-          Tap any to learn more
-        </motion.p>
       </div>
 
       {/* Radix Dialog — focus trap, Escape, aria-modal, overlay all handled */}
@@ -279,14 +248,6 @@ export default function Personal() {
           )}
 
           <div className="p-6">
-            {!selected?.image && selected?.icon && (
-              <div className="mb-4 flex items-center gap-4">
-                <span className="flex h-12 w-12 items-center justify-center rounded bg-accent/10 text-accent">
-                  {selected.icon}
-                </span>
-              </div>
-            )}
-
             <DialogTitle className={`font-display text-xl text-foreground ${selected?.image ? "relative z-10 -mt-6" : ""}`}>
               {selected?.title}
             </DialogTitle>

@@ -61,17 +61,17 @@ export default function Error({
           <div className="flex flex-col gap-3 pt-4 sm:flex-row sm:justify-center">
             <button
               onClick={reset}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition hover:bg-primary/90"
+              className="btn-primary"
             >
-              <RefreshCw className="h-4 w-4" />
-              Try Again
+              <RefreshCw className="h-4 w-4" aria-hidden />
+              Try again
             </button>
             <Link
               href="/"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-card/80 px-6 py-3 text-sm font-semibold text-foreground transition hover:border-primary/40"
+              className="btn-secondary"
             >
-              <Home className="h-4 w-4" />
-              Go Home
+              <Home className="h-4 w-4" aria-hidden />
+              Go home
             </Link>
           </div>
 

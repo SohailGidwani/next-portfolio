@@ -757,7 +757,7 @@ export default function CommandPalette() {
                                     </div>
                                   )}
                                   {cmd.route && (
-                                    <div className="mt-0.5 truncate font-mono text-xs text-muted-foreground/70">
+                                    <div className="mt-0.5 truncate font-mono text-xs text-muted-foreground">
                                       {cmd.route}
                                     </div>
                                   )}

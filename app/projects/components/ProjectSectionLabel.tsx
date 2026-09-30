@@ -13,7 +13,7 @@ export default function ProjectSectionLabel({
   return (
     <h2
       id={id}
-      className="mb-6 scroll-mt-24 font-display text-xl uppercase tracking-tight text-foreground sm:text-2xl"
+      className="mb-6 scroll-mt-24 font-display text-xl tracking-tight text-foreground sm:text-2xl"
     >
       {label}
     </h2>

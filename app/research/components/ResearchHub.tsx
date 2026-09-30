@@ -3,14 +3,14 @@
 import Link from "next/link"
 import { motion, useReducedMotion } from "framer-motion"
 import {
-  Home,
+  Brain,
   FlaskConical,
   ArrowUpRight,
   GitBranch,
   CornerDownRight,
 } from "lucide-react"
-import ThemeToggle from "@/app/components/ThemeToggle"
 import InteractiveCard from "@/app/components/ui/InteractiveCard"
+import PageNav from "@/app/components/PageNav"
 import {
   getResearchRoots,
   getExtensions,
@@ -22,14 +22,8 @@ function StatusBadge({ status }: { status: ResearchEntry["status"] }) {
   const meta = STATUS_META[status]
   return (
     <span
-      className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.18em] ${meta.badge}`}
+      className={`inline-flex shrink-0 items-center rounded-[3px] border px-2.5 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.18em] ${meta.badge}`}
     >
-      {meta.pulse ? (
-        <span className="relative flex h-1.5 w-1.5">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-current opacity-60" />
-          <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-current" />
-        </span>
-      ) : null}
       {meta.label}
     </span>
   )
@@ -40,7 +34,7 @@ function ResearchCard({ entry }: { entry: ResearchEntry }) {
 
   const inner = (
     <InteractiveCard
-      className={`group relative flex h-full flex-col rounded-lg border bg-card/80 p-5 shadow-card transition-colors sm:p-6 ${
+      className={`group relative flex h-full flex-col rounded border bg-card/80 p-5 shadow-card transition-colors sm:p-6 ${
         isExtension
           ? "border-dashed border-border hover:border-accent/40"
           : "border-border hover:border-accent/40"
@@ -54,6 +48,11 @@ function ResearchCard({ entry }: { entry: ResearchEntry }) {
               <GitBranch className="h-3 w-3" />
               Extension
             </>
+          ) : entry.kind === "study" ? (
+            <>
+              <Brain className="h-3 w-3" />
+              Study
+            </>
           ) : (
             <>
               <FlaskConical className="h-3 w-3" />
@@ -66,7 +65,7 @@ function ResearchCard({ entry }: { entry: ResearchEntry }) {
 
       {/* Extends hint */}
       {isExtension ? (
-        <p className="mt-3 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground/70">
+        <p className="mt-3 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
           <CornerDownRight className="h-3 w-3" />
           Extends MEMOIR-VLM
         </p>
@@ -80,7 +79,7 @@ function ResearchCard({ entry }: { entry: ResearchEntry }) {
       >
         {entry.shortTitle}
       </h3>
-      <p className="mt-1 text-sm leading-snug text-muted-foreground/90">
+      <p className="mt-1 text-sm leading-snug text-muted-foreground">
         {entry.title}
       </p>
 
@@ -119,19 +118,17 @@ function ResearchCard({ entry }: { entry: ResearchEntry }) {
 
       {/* Footer */}
       <div className="mt-6 flex items-center justify-between gap-3 border-t border-border/60 pt-4">
-        <span className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground/70">
+        <span className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
           {entry.venue} · {entry.year}
         </span>
+        {/* No placeholder when there is no write-up: the status badge
+            already says the work is in progress. */}
         {entry.href ? (
-          <span className="inline-flex items-center gap-1.5 font-mono text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground transition group-hover:text-accent">
+          <span className="link-action shrink-0 group-hover:underline">
             Read
-            <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden />
           </span>
-        ) : (
-          <span className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground/50">
-            Detail coming soon
-          </span>
-        )}
+        ) : null}
       </div>
     </InteractiveCard>
   )
@@ -198,6 +195,22 @@ function ResearchGroup({ root, idx }: { root: ResearchEntry; idx: number }) {
   const extensions = getExtensions(root.id)
   const rows = [root, ...extensions]
 
+  // The spine and nodes only mean something when a paper has extensions to
+  // connect. A lone entry gets the card alone, flush with the page header,
+  // instead of an indent and a dot that point at nothing.
+  if (extensions.length === 0) {
+    return (
+      <motion.section
+        initial={reduced ? false : { opacity: 0, y: 18 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-60px" }}
+        transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <ResearchCard entry={root} />
+      </motion.section>
+    )
+  }
+
   return (
     <section className="relative">
       {rows.map((entry, i) => (
@@ -221,24 +234,12 @@ export default function ResearchHub() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* ─── Top nav ─── */}
-      <div className="sticky top-0 z-40 border-b border-border bg-card/80 backdrop-blur-md">
-        <div className="container mx-auto flex items-center justify-between gap-4 px-4 py-3">
-          <div className="flex items-center gap-2">
-            <Link
-              href="/#experience"
-              className="inline-flex items-center gap-1.5 rounded border border-border bg-background/70 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground transition hover:border-accent/40 hover:text-foreground"
-            >
-              <Home className="h-3.5 w-3.5" />
-              <span className="hidden sm:inline">Portfolio</span>
-            </Link>
-            <span className="inline-flex items-center gap-1.5 rounded border border-accent/30 bg-accent/5 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-accent">
-              <FlaskConical className="h-3.5 w-3.5" />
-              <span className="hidden sm:inline">Research</span>
-            </span>
-          </div>
-          <ThemeToggle />
-        </div>
-      </div>
+      <PageNav
+        items={[
+          { label: "Portfolio", icon: "home", href: "/#experience" },
+          { label: "Research", icon: "research" },
+        ]}
+      />
 
       {/* ─── Header ─── */}
       <div className="border-b border-border bg-card/40 py-16 sm:py-20">
@@ -253,9 +254,9 @@ export default function ResearchHub() {
               Research &amp; ongoing work
             </h1>
             <p className="max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Accepted and ongoing research, shown as a living lineage:
-              each paper branches into the extensions and follow-up work it makes
-              possible. Follow a node to read the full write-up.
+              Accepted papers and studies still in progress, from my research
+              at Keck School of Medicine of USC. Each paper links to its full
+              write-up.
             </p>
           </motion.div>
         </div>
@@ -264,25 +265,10 @@ export default function ResearchHub() {
       {/* ─── Lineage ─── */}
       <div className="py-16 sm:py-20">
         <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-3xl space-y-16">
+          <div className="max-w-3xl space-y-8">
             {roots.map((root, i) => (
               <ResearchGroup key={root.id} root={root} idx={i} />
             ))}
-          </div>
-
-          {/* Legend */}
-          <div className="mx-auto mt-14 flex max-w-3xl flex-wrap items-center gap-x-6 gap-y-3 border-t border-border/60 pt-6">
-            <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground/60">
-              Legend
-            </span>
-            <span className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
-              <span className="h-3 w-3 rounded-full bg-accent" />
-              Paper
-            </span>
-            <span className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
-              <span className="h-2.5 w-2.5 rounded-full border-2 border-accent bg-background" />
-              Extension
-            </span>
           </div>
         </div>
       </div>

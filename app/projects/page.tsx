@@ -14,7 +14,7 @@ export default function ProjectsPage() {
         id="projects-breadcrumb"
         items={[{ name: "Projects", item: "/projects" }]}
       />
-      <ProjectNav />
+      <ProjectNav index />
 
       <div className="container mx-auto px-4 py-12">
         <div className="space-y-4">
@@ -63,7 +63,7 @@ export default function ProjectsPage() {
                   ))}
                 </div>
                 <div className="mt-4 flex items-center gap-3">
-                  <span className="inline-flex items-center gap-2 rounded border border-border bg-background/70 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground transition group-hover:border-accent/40 group-hover:text-foreground">
+                  <span className="btn-secondary min-h-9 px-3.5 py-1.5 group-hover:border-foreground/40">
                     Details
                     <ArrowUpRight className="h-3.5 w-3.5" />
                   </span>

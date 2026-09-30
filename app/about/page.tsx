@@ -1,9 +1,9 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft, ArrowUpRight } from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 import BreadcrumbStructuredData from "@/app/components/BreadcrumbStructuredData"
 import Personal from "@/app/components/Personal"
-import ThemeToggle from "@/app/components/ThemeToggle"
+import PageNav from "@/app/components/PageNav"
 import PortraitAssemblyGate from "./PortraitAssemblyGate"
 import portrait from "@/public/images/personal/SohailGidwani.jpg"
 
@@ -30,18 +30,7 @@ export default function AboutPage() {
         items={[{ name: "About", item: "/about" }]}
       />
 
-      <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-md">
-        <div className="container mx-auto flex items-center justify-between gap-4 px-4 py-3">
-          <Link
-            href="/#about"
-            className="inline-flex items-center gap-2 rounded border border-border bg-card/80 px-3 py-2 font-mono text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground transition hover:border-accent/40 hover:text-foreground"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
-            Portfolio
-          </Link>
-          <ThemeToggle />
-        </div>
-      </header>
+      <PageNav items={[{ label: "Portfolio", icon: "home", href: "/#about" }]} />
 
       <main id="main-content">
         <section className="border-b border-border bg-card/40 py-16 sm:py-24">
@@ -64,7 +53,7 @@ export default function AboutPage() {
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
                   href="/#projects"
-                  className="inline-flex items-center gap-2 rounded bg-foreground px-5 py-3 text-sm font-semibold text-background"
+                  className="btn-primary"
                 >
                   See my work
                   <ArrowUpRight className="h-4 w-4" aria-hidden />
@@ -73,7 +62,7 @@ export default function AboutPage() {
                   href="/documents/Sohail_Gidwani_Resume.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded border border-border px-5 py-3 text-sm font-semibold text-foreground transition hover:border-foreground/40"
+                  className="btn-secondary"
                 >
                   Resume
                   <ArrowUpRight className="h-4 w-4" aria-hidden />
@@ -142,14 +131,17 @@ export default function AboutPage() {
             <h2 className="font-display text-[2rem] leading-[1.05] tracking-[-0.02em] text-foreground sm:text-[2.75rem]">
               How I work
             </h2>
-            <div className="mt-10 grid gap-5 md:grid-cols-3">
+            {/* Rows, not three equal cards: each principle's name sits beside
+                its explanation, which reads as a list of beliefs rather than a
+                feature grid. */}
+            <div className="mt-10 max-w-4xl divide-y divide-border border-y border-border">
               {values.map((value) => (
                 <article
                   key={value.title}
-                  className="border-t-2 border-accent/50 bg-card/60 p-5"
+                  className="grid gap-2 py-6 md:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] md:gap-10 md:py-8"
                 >
                   <h3 className="font-display text-xl text-foreground">{value.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{value.body}</p>
+                  <p className="text-base leading-relaxed text-muted-foreground">{value.body}</p>
                 </article>
               ))}
             </div>

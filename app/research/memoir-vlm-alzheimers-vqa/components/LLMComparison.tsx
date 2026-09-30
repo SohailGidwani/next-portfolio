@@ -80,7 +80,7 @@ export default function LLMComparison({ rows, caption }: Props) {
                   {row.metric}
                 </p>
                 {row.sublabel ? (
-                  <p className="mt-0.5 font-mono text-[11px] tracking-[0.1em] text-muted-foreground/70">
+                  <p className="mt-0.5 font-mono text-[11px] tracking-[0.1em] text-muted-foreground">
                     {row.sublabel}
                   </p>
                 ) : null}
@@ -151,7 +151,7 @@ export default function LLMComparison({ rows, caption }: Props) {
                       {row.metric}
                     </p>
                     {row.sublabel ? (
-                      <p className="mt-0.5 font-mono text-[11px] tracking-[0.1em] text-muted-foreground/70">
+                      <p className="mt-0.5 font-mono text-[11px] tracking-[0.1em] text-muted-foreground">
                         {row.sublabel}
                       </p>
                     ) : null}
