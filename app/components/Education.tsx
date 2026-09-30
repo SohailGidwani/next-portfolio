@@ -1,4 +1,5 @@
 import Image, { StaticImageData } from "next/image"
+import { Calendar, MapPin } from "lucide-react"
 import SectionHeading from "./SectionHeading"
 import uscLogo from "@/public/images/USC.jpg"
 import tsecLogo from "@/public/images/TSEC.jpeg"
@@ -47,79 +48,60 @@ export default function Education() {
       <div className="container mx-auto px-4">
         <SectionHeading>Education</SectionHeading>
 
-        <div className="mt-12">
-          {education.map((item) => {
-            return (
-              <div
-                key={item.degree}
-                className="group/section grid grid-cols-1 gap-5 border-t border-border py-8 sm:py-10 lg:grid-cols-[220px_1fr] lg:gap-10 xl:grid-cols-[260px_1fr]"
-              >
-                {/* Left column: year, location, CGPA */}
-                <div className="flex flex-col justify-start lg:pt-0.5">
-                  <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
-                    {item.year}
-                  </p>
-                  {item.location && (
-                    <p className="mt-1 font-mono text-xs tracking-[0.1em] text-muted-foreground">
-                      {item.location}
-                    </p>
-                  )}
-                  <p className="mt-3 font-mono text-xs uppercase tracking-[0.15em] text-accent">
-                    {item.cgpa}
-                  </p>
+        {/* The same cards as the roles in Experience, side by side, so the
+            section reads in the page's own language rather than as a ruled
+            ledger. They open nothing, so they carry no hover state. */}
+        <div className="mt-12 grid gap-4 md:grid-cols-2">
+          {education.map((item) => (
+            <article key={item.degree} className="flex h-full flex-col rounded border border-border bg-card/80 p-5 sm:p-6">
+              <div className="flex items-center gap-3">
+                <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded border border-border bg-background">
+                  <Image src={item.logo} alt={`${item.institution} logo`} fill placeholder="blur" className="object-cover" sizes="40px" />
                 </div>
-
-                {/* Right column — institution, description, courses */}
-                <div>
-                  <div className="flex items-start gap-4">
-                    <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded border border-border bg-background">
-                      <Image
-                        src={item.logo}
-                        alt={`${item.institution} logo`}
-                        fill
-                        placeholder="blur"
-                        className="object-cover"
-                        sizes="48px"
-                      />
-                    </div>
-                    <div className="min-w-0">
-                      <h3 className="break-words font-display text-2xl font-bold leading-tight tracking-tight text-foreground sm:text-3xl">
-                        {item.degree}
-                      </h3>
-                      <p className="mt-1 text-sm text-muted-foreground">{item.institution}</p>
-                    </div>
-                  </div>
-
-                  <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                    {item.description}
-                  </p>
-
-                  {item.courses && item.courses.length > 0 && (
-                    <div className="mt-5">
-                      <p className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
-                        Coursework
-                      </p>
-                      <div className="mt-2 flex flex-wrap gap-1.5">
-                        {item.courses.map((course) => (
-                          <span
-                            key={course}
-                            /* Tighter tracking and size on phones: at the full
-                               scale the longest course name is exactly one
-                               container wide, so it alone wraps to two lines
-                               and reads as a box next to single-line chips. */
-                            className="rounded-[3px] border border-border/70 bg-background/60 px-2 py-0.5 font-mono text-[11px] uppercase tracking-[0.04em] text-muted-foreground sm:text-xs sm:tracking-[0.1em]"
-                          >
-                            {course}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                <div className="min-w-0">
+                  <h3 className="font-display text-lg leading-snug text-foreground">{item.degree}</h3>
+                  <p className="text-xs text-muted-foreground">{item.institution}</p>
                 </div>
               </div>
-            )
-          })}
-          <div className="border-t border-border" />
+
+              <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-muted-foreground">
+                <span className="flex items-center gap-2">
+                  <Calendar className="h-3 w-3 text-accent" aria-hidden />
+                  {item.year}
+                </span>
+                {item.location ? (
+                  <span className="flex items-center gap-2">
+                    <MapPin className="h-3 w-3 text-accent" aria-hidden />
+                    {item.location}
+                  </span>
+                ) : null}
+                <span className="font-mono uppercase tracking-[0.15em] text-accent">{item.cgpa}</span>
+              </div>
+
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
+
+              {item.courses && item.courses.length > 0 ? (
+                <div className="mt-5">
+                  <p className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">Coursework</p>
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {item.courses.map((course) => (
+                      <span
+                        key={course}
+                        /* No tracking on phones (and a size down on the
+                           narrowest): inside the card the longest course name
+                           is otherwise a few pixels wider than the card, so
+                           it alone wraps to two lines and reads as a box next
+                           to single-line chips. */
+                        className="rounded-[3px] border border-border/70 bg-background/60 px-2 py-0.5 font-mono text-[11px] uppercase tracking-normal text-muted-foreground max-[379px]:text-[10px] sm:text-xs sm:tracking-[0.1em]"
+                      >
+                        {course}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+            </article>
+          ))}
         </div>
       </div>
     </section>
