@@ -1,7 +1,8 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { motion, useInView, useReducedMotion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
+import { useSettledInView } from "@/app/hooks/useSettledInView"
 
 const EASE_OUT = [0.25, 1, 0.5, 1] as const // --ease-out-soft
 
@@ -54,12 +55,13 @@ type Phase = "idle" | "masked" | "filled"
 /**
  * How a JEPA learns, in one loop: a block of the scan is hidden, and the
  * model fills it back in patch by patch from the context around it (in
- * embedding space, not pixels). Plays once when it scrolls into view, and
+ * embedding space, not pixels). Plays once the visitor has stopped on it, and
  * again whenever `replay` changes.
  */
 export default function JepaPatches({ replay }: { replay: number }) {
   const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, margin: "-80px" })
+  // Plays when the visitor stops on it, not while a flick carries it past.
+  const inView = useSettledInView(ref)
   const reduce = useReducedMotion() ?? false
   // Always idle on first render: the reduced-motion preference is unknown on
   // the server, so choosing the settled phase here would break hydration.

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom"
+import { createChase } from "@/app/utils/chase"
 
 const NAME = "Sohail Gidwani"
 const LINES = ["Sohail", "Gidwani"]
@@ -104,6 +105,9 @@ export default function HeroName({ className, flyClass }: { className: string; f
     let distance = 300
     let assembleUntil = 0.4
     let raf = 0
+    // The flight is drawn from a value that chases the scroll, so a fast
+    // flick still shows the name gliding into the logo.
+    const chase = createChase()
     let running = false
     let lastLogo: HTMLElement | null = null
 
@@ -152,7 +156,9 @@ export default function HeroName({ className, flyClass }: { className: string; f
       lastLogo = target.logo
       if (getComputedStyle(name).fontSize !== size) setup()
 
-      const p = clamp01(scrolledNow() / distance)
+      const { value: p, settled } = chase.step(clamp01(scrolledNow() / distance), performance.now())
+      // Keep drawing until the flight has caught up with the scroll.
+      if (!settled) raf = requestAnimationFrame(render)
       const docked = p >= 1
       // Two beats. First the name assembles into the logo's word at full
       // size: "idwani" fades, the G closes on "Sohail", and the full stop

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom"
+import { createChase } from "@/app/utils/chase"
 
 // How far below the navbar a heading is when it starts to fly, in pixels.
 // It lands as its own top reaches the navbar's bottom edge.
@@ -69,6 +70,10 @@ export default function SectionDock() {
 
     let raf = 0
     let flying: Mark | null = null
+    // Each flight is drawn from a value that chases its scroll position, so a
+    // fast flick still shows the title gliding into the bar. Switches (no
+    // flight) are instant.
+    const chases = marks.map(() => createChase())
     let offset = { x: 0, y: 0 }
 
     /** Dress the flying copy as this heading: its text, at its size, and where its glyph sits in its box. */
@@ -95,10 +100,17 @@ export default function SectionDock() {
       // well into view: as the last section, its top may never reach the
       // navbar before the page runs out.
       const arrive = bar + (window.innerHeight - bar) * 0.4
-      const progress = marks.map((m) => {
+      const now = performance.now()
+      let gliding = false
+      const progress = marks.map((m, i) => {
         const top = m.el.getBoundingClientRect().top
-        return m.flies ? clamp01((bar + RUN_UP - top) / RUN_UP) : top <= arrive ? 1 : 0
+        if (!m.flies) return top <= arrive ? 1 : 0
+        const { value, settled } = chases[i].step(clamp01((bar + RUN_UP - top) / RUN_UP), now)
+        if (!settled) gliding = true
+        return value
       })
+      // Keep drawing until every flight has caught up with the scroll.
+      if (gliding) raf = requestAnimationFrame(render)
       let docked = -1
       let inFlight = -1
       progress.forEach((p, i) => {
@@ -121,7 +133,10 @@ export default function SectionDock() {
         if (s.height && t.height) {
           const scale = 1 + (t.height / s.height - 1) * e
           const x = s.left + (t.left - s.left) * e - offset.x * scale
-          const y = s.top + (t.top - s.top) * e - offset.y * scale
+          // Never above the bar's row: after a fast flick the heading itself
+          // is already far above the screen, and the title should come in
+          // along the bar, not drop down from off the top.
+          const y = Math.max(s.top + (t.top - s.top) * e, t.top) - offset.y * scale
           copy.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) scale(${scale.toFixed(4)})`
           fly.style.visibility = "visible"
         }

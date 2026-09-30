@@ -1,7 +1,8 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { motion, useInView, useReducedMotion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
+import { useSettledInView } from "@/app/hooks/useSettledInView"
 
 const EASE_OUT = [0.25, 1, 0.5, 1] as const // --ease-out-soft
 
@@ -103,12 +104,13 @@ function Glyph({ i, y }: { i: number; y: number }) {
  * MEMOIR-VLM in two beats: T1 MRI, DTI and clinical scores flow into the
  * fusion block and out comes the diagnosis; then T1 goes missing, and the
  * diagnosis still arrives from the other two, which is the point of a
- * missing-modality-aware model. Plays once in view, again whenever `replay`
- * changes.
+ * missing-modality-aware model. Plays once the visitor has stopped on it, again
+ * whenever `replay` changes.
  */
 export default function MemoirFusion({ replay }: { replay: number }) {
   const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, margin: "-80px" })
+  // Plays when the visitor stops on it, not while a flick carries it past.
+  const inView = useSettledInView(ref)
   const reduce = useReducedMotion() ?? false
   // Always idle on first render: the reduced-motion preference is unknown on
   // the server, so choosing the settled phase here would break hydration.
