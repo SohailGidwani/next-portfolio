@@ -1,5 +1,4 @@
 import { PortfolioProvider } from './components/PortfolioProvider'
-import { SkillHighlightProvider } from './components/SkillHighlightProvider'
 import Hero from './components/Hero'
 import About from './components/About'
 import Experience from './components/Experience'
@@ -15,6 +14,7 @@ import ProjectStructuredData from './components/ProjectStructuredData'
 import BreadcrumbStructuredData from './components/BreadcrumbStructuredData'
 import SkipLink from './components/SkipLink'
 import PortfolioShell from './components/PortfolioShell'
+import SectionDock from './components/SectionDock'
 
 export default function Portfolio() {
   return (
@@ -23,7 +23,6 @@ export default function Portfolio() {
       <BreadcrumbStructuredData />
 
       <PortfolioProvider>
-        <SkillHighlightProvider>
         <SkipLink />
         <PortfolioShell>
           <main id="main-content" className="relative" role="main">
@@ -37,8 +36,8 @@ export default function Portfolio() {
             <Triumphs />
             <Contact />
           </main>
+          <SectionDock />
         </PortfolioShell>
-        </SkillHighlightProvider>
       </PortfolioProvider>
     </>
   )

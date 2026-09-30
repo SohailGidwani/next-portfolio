@@ -9,7 +9,6 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Badge } from "@/app/components/ui/badge"
 import { triggerHaptic } from "./ui/haptics"
 import SectionHeading from "./SectionHeading"
-import { useSkillHighlight } from "./SkillHighlightProvider"
 import insaitoLogo from "@/public/images/Insaito.png"
 import iiflLogo from "@/public/images/iifl.png"
 import keckUSC from "@/public/images/keck_USC.png"
@@ -95,9 +94,7 @@ const experiences: ExperienceItem[] = [
 ]
 
 export default function Experience() {
-  const { activeSkill } = useSkillHighlight()
   const [selected, setSelected] = useState<ExperienceItem | null>(null)
-  const normalizedSkill = activeSkill?.toLowerCase()
 
   useEffect(() => {
     const handler = (event: Event) => {
@@ -155,9 +152,6 @@ export default function Experience() {
   }, [selected, sheetY])
 
   const [featured, ...restExperiences] = experiences
-  const featuredHighlighted = normalizedSkill && featured
-    ? featured.tags.some((tag) => tag.toLowerCase() === normalizedSkill)
-    : false
 
   return (
     <section id="experience" className="section-y">
@@ -183,9 +177,7 @@ export default function Experience() {
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.4 }}
               viewport={{ once: true }}
-              className={`group cursor-pointer rounded border border-border border-l-2 border-l-accent bg-card/80 p-6 transition active:scale-[0.99] hover:border-t-accent/50 hover:border-r-accent/50 hover:border-b-accent/50 sm:p-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background ${
-                featuredHighlighted ? "bg-accent/5" : ""
-              }`}
+              className={`group cursor-pointer rounded border border-border border-l-2 border-l-accent bg-card/80 p-6 transition active:scale-[0.99] hover:border-t-accent/50 hover:border-r-accent/50 hover:border-b-accent/50 sm:p-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background`}
             >
               <div className="flex items-start gap-4 sm:gap-5">
                 <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded border border-border bg-background sm:h-16 sm:w-16">
@@ -293,22 +285,15 @@ export default function Experience() {
 
               <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2">
                 <div className="flex flex-wrap gap-2">
-                  {featured.tags.map((tag) => {
-                    const isTagHighlighted = normalizedSkill
-                      ? tag.toLowerCase() === normalizedSkill
-                      : false
-                    return (
-                      <Badge
-                        key={tag}
-                        variant="outline"
-                        className={`border-border/70 bg-background/60 text-xs font-semibold uppercase tracking-[0.2em] ${
-                          isTagHighlighted ? "border-accent/40 bg-accent/10 text-accent" : "text-muted-foreground"
-                        }`}
-                      >
-                        {tag}
-                      </Badge>
-                    )
-                  })}
+                  {featured.tags.map((tag) => (
+                    <Badge
+                      key={tag}
+                      variant="outline"
+                      className="border-border/70 bg-background/60 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground"
+                    >
+                      {tag}
+                    </Badge>
+                  ))}
                 </div>
                 <span className="link-action ml-auto whitespace-nowrap group-hover:underline">
                   View details
@@ -321,9 +306,6 @@ export default function Experience() {
           {restExperiences.length > 0 && (
             <div className="grid gap-4 md:grid-cols-2">
               {restExperiences.map((item, index) => {
-                const isHighlighted = normalizedSkill
-                  ? item.tags.some((tag) => tag.toLowerCase() === normalizedSkill)
-                  : false
 
                 return (
                   <motion.div
@@ -346,9 +328,7 @@ export default function Experience() {
                     /* Flex column so the tag/link footer can be pushed to the
                        bottom: side-by-side cards have different description
                        lengths, which otherwise leaves their footers unaligned. */
-                    className={`group flex h-full cursor-pointer flex-col rounded border bg-card/80 p-5 transition hover:border-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background ${
-                      isHighlighted ? "border-accent/40 bg-accent/5" : "border-border"
-                    }`}
+                    className={`group flex h-full cursor-pointer flex-col rounded border bg-card/80 p-5 transition hover:border-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background border-border`}
                   >
                     <div className="flex items-center gap-3">
                       <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded border border-border bg-background">
@@ -382,22 +362,15 @@ export default function Experience() {
 
                     <div className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-1.5 pt-3">
                       <div className="flex flex-wrap gap-1.5">
-                        {item.tags.map((tag) => {
-                          const isTagHighlighted = normalizedSkill
-                            ? tag.toLowerCase() === normalizedSkill
-                            : false
-                          return (
-                            <Badge
-                              key={tag}
-                              variant="outline"
-                              className={`border-border/70 bg-background/60 text-xs font-semibold uppercase tracking-[0.2em] ${
-                                isTagHighlighted ? "border-accent/40 bg-accent/10 text-accent" : "text-muted-foreground"
-                              }`}
-                            >
-                              {tag}
-                            </Badge>
-                          )
-                        })}
+                        {item.tags.map((tag) => (
+                          <Badge
+                            key={tag}
+                            variant="outline"
+                            className="border-border/70 bg-background/60 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground"
+                          >
+                            {tag}
+                          </Badge>
+                        ))}
                       </div>
                       <span className="link-action ml-auto whitespace-nowrap group-hover:underline">
                         View details

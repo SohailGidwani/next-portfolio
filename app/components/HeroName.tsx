@@ -320,10 +320,14 @@ export default function HeroName({ className, flyClass }: { className: string; f
 
       {/* The flying layer: the logo's seven letters and its square. Portalled
           to the page root: inside the hero's stacking context its z-index
-          could never lift it over the navbar it is flying into. */}
+          could never lift it over the navbar it is flying into. It sits at
+          the navbar's own z-50 and wins by coming later in the page; dialogs
+          (command palette, menu, modals) are z-50 portals appended when they
+          open, so they land on top of it. Anything higher would print the
+          flying letters over an open dialog. */}
       {mounted
         ? createPortal(
-            <div ref={flyRef} aria-hidden className="pointer-events-none invisible fixed left-0 top-0 z-[60] print:hidden">
+            <div ref={flyRef} aria-hidden className="pointer-events-none invisible fixed left-0 top-0 z-50 print:hidden">
               {[...KEPT.map((i) => NAME[i]), ""].map((ch, i) => (
                 <div key={i} data-clone className={`absolute left-0 top-0 origin-top-left whitespace-nowrap will-change-transform ${flyClass}`}>
                   {ch ? <span>{ch}</span> : <span className={`block ${SQUARE}`} />}

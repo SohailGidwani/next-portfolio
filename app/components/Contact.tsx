@@ -63,7 +63,13 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="section-y">
+    <section
+      id="contact"
+      // Its heading is a two-line poster, not a section name, so the navbar
+      // simply switches to "Contact" here instead of flying the heading up.
+      data-section-label="Contact"
+      className="section-y"
+    >
       <div className="container mx-auto px-[18px] sm:px-6 md:px-9">
         <motion.div
           initial={{ opacity: 0, y: reduced ? 0 : 20 }}

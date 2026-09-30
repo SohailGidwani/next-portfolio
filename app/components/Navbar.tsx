@@ -69,20 +69,38 @@ export default function Navbar() {
     >
       <ReadingProgress />
       <div className="container grid h-full grid-cols-2 items-center gap-3 px-[18px] sm:px-6 md:px-9 min-[901px]:grid-cols-[1fr_auto_1fr] min-[901px]:gap-6 min-[901px]:px-4 xl:px-6">
-        <button
-          type="button"
-          onClick={() => scrollToSection("hero")}
-          className="flex justify-start text-left font-display text-base font-extrabold tracking-tight text-foreground"
-          aria-label="SohailG, scroll to top"
-        >
-          {/* data-nav-logo: the hero's name flies into this and lands on it.
-              The square sits on the baseline after the G, a full stop, as it
-              does at the end of the name in the hero. */}
-          <span data-nav-logo className="inline-flex items-baseline gap-0.5">
-            SohailG
-            <span className="inline-block h-1.5 w-1.5 shrink-0 rounded-[2px] bg-accent" aria-hidden />
+        <div className="flex min-w-0 items-baseline">
+          <button
+            type="button"
+            onClick={() => scrollToSection("hero")}
+            className="flex shrink-0 justify-start text-left font-display text-base font-extrabold tracking-tight text-foreground"
+            aria-label="SohailG, scroll to top"
+          >
+            {/* data-nav-logo: the hero's name flies into this and lands on it.
+                The square sits on the baseline after the G, a full stop, as it
+                does at the end of the name in the hero. */}
+            <span data-nav-logo className="inline-flex items-baseline gap-0.5">
+              SohailG
+              <span className="inline-block h-1.5 w-1.5 shrink-0 rounded-[2px] bg-accent" aria-hidden />
+            </span>
+          </button>
+          {/* The section you are in. On the home page each section's title
+              flies up into this as you reach it (see SectionDock); it stays
+              empty and invisible everywhere else. Set in the headings' own
+              face, weight and tracking so a title lands on it exactly. The
+              second, invisible label holds the incoming title for measuring. */}
+          <span
+            data-nav-section
+            aria-hidden
+            className="pointer-events-none ml-2 flex min-w-0 items-baseline gap-2 font-display text-base font-bold tracking-[-0.02em] opacity-0"
+          >
+            <span data-nav-section-slash className="text-muted-foreground">/</span>
+            <span className="grid min-w-0">
+              <span data-nav-section-label className="truncate text-foreground [grid-area:1/1]" />
+              <span data-nav-section-target className="invisible truncate [grid-area:1/1]" />
+            </span>
           </span>
-        </button>
+        </div>
 
         <nav
           className="hidden min-h-0 items-center justify-center gap-4 min-[901px]:flex xl:gap-6"

@@ -8,19 +8,12 @@ import { triggerHaptic } from "./ui/haptics"
 import SectionHeading from "./SectionHeading"
 import CardDeck from "./CardDeck"
 import ProjectGlyph from "./ProjectGlyph"
-import { useSkillHighlight } from "./SkillHighlightProvider"
 import InteractiveCard from "./ui/InteractiveCard"
 import { projects } from "@/app/data/projects"
 
 export default function Projects() {
-  const { activeSkill } = useSkillHighlight()
-  const normalizedSkill = activeSkill?.toLowerCase()
-
   // Home shows the featured subset (1 primary + 2×2 grid); /projects has everything.
   const [primary, ...rest] = projects.filter((p) => p.featured)
-  const primaryHighlighted = primary && normalizedSkill
-    ? primary.tags.some((tag) => tag.toLowerCase() === normalizedSkill)
-    : false
 
   return (
     <section id="projects" className="section-y">
@@ -49,11 +42,7 @@ export default function Projects() {
                   >
                   <InteractiveCard
                     pressable
-                    className={`group h-full cursor-pointer rounded border p-6 shadow-card transition-[border-color,box-shadow] duration-300 hover:shadow-card-hover ${
-                      primaryHighlighted
-                        ? "border-accent/40 bg-accent/5"
-                        : "border-foreground/10 bg-card2 hover:border-accent/40"
-                    }`}
+                    className="group h-full cursor-pointer rounded border border-foreground/10 bg-card2 p-6 shadow-card transition-[border-color,box-shadow] duration-300 hover:border-accent/40 hover:shadow-card-hover"
                   >
                   <Link href={`/projects/${primary.id}`} className="absolute inset-0 z-0 rounded" aria-label={primary.title}>
                     <span className="sr-only">View {primary.title}</span>
@@ -105,31 +94,21 @@ export default function Projects() {
                     {primary.description}
                   </p>
                   <div className="mt-4 flex flex-wrap gap-2">
-                    {primary.tags.map((tag) => {
-                      const isHighlighted = normalizedSkill
-                        ? tag.toLowerCase() === normalizedSkill
-                        : false
-                      return (
-                        <Badge
-                          key={tag}
-                          variant="outline"
-                          className={`border-border/70 bg-background/60 text-xs font-semibold uppercase tracking-[0.2em] ${
-                            isHighlighted ? "border-accent/40 bg-accent/10 text-accent" : "text-muted-foreground"
-                          }`}
-                        >
-                          {tag}
-                        </Badge>
-                      )
-                    })}
+                    {primary.tags.map((tag) => (
+                      <Badge
+                        key={tag}
+                        variant="outline"
+                        className="border-border/70 bg-background/60 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground"
+                      >
+                        {tag}
+                      </Badge>
+                    ))}
                   </div>
                   </InteractiveCard>
                   </motion.div>
               )}
 
             {rest.map((project, index) => {
-                  const isHighlighted = normalizedSkill
-                    ? project.tags.some((tag) => tag.toLowerCase() === normalizedSkill)
-                    : false
                   return (
                     <motion.div
                       key={project.id}
@@ -140,11 +119,7 @@ export default function Projects() {
                     >
                     <InteractiveCard
                       pressable
-                      className={`group h-full cursor-pointer rounded border p-5 shadow-card transition-[border-color,box-shadow] duration-300 hover:shadow-card-hover ${
-                        isHighlighted
-                          ? "border-accent/40 bg-accent/5"
-                          : "border-foreground/10 bg-card2 hover:border-accent/40"
-                      }`}
+                      className="group h-full cursor-pointer rounded border border-foreground/10 bg-card2 p-5 shadow-card transition-[border-color,box-shadow] duration-300 hover:border-accent/40 hover:shadow-card-hover"
                     >
                       <Link href={`/projects/${project.id}`} className="absolute inset-0 z-0 rounded" aria-label={project.title}>
                         <span className="sr-only">View {project.title}</span>
@@ -192,22 +167,15 @@ export default function Projects() {
                         </div>
                       </div>
                       <div className="mt-4 flex flex-wrap gap-2">
-                        {project.tags.map((tag) => {
-                          const tagHighlighted = normalizedSkill
-                            ? tag.toLowerCase() === normalizedSkill
-                            : false
-                          return (
-                            <Badge
-                              key={tag}
-                              variant="outline"
-                              className={`border-border/70 bg-background/60 text-xs font-semibold uppercase tracking-[0.2em] ${
-                                tagHighlighted ? "border-accent/40 bg-accent/10 text-accent" : "text-muted-foreground"
-                              }`}
-                            >
-                              {tag}
-                            </Badge>
-                          )
-                        })}
+                        {project.tags.map((tag) => (
+                          <Badge
+                            key={tag}
+                            variant="outline"
+                            className="border-border/70 bg-background/60 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground"
+                          >
+                            {tag}
+                          </Badge>
+                        ))}
                       </div>
                     </InteractiveCard>
                     </motion.div>
