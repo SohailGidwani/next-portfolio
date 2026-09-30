@@ -1407,6 +1407,29 @@
   animation: reactor-pulse 3.2s ease-in-out infinite;
 }
 
+/* A plan failing: the light drops for a moment and comes straight back. */
+@keyframes reactor-dip {
+  0% {
+    opacity: 1;
+  }
+  18% {
+    opacity: 0.3;
+  }
+  34% {
+    opacity: 0.85;
+  }
+  48% {
+    opacity: 0.45;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.reactor-dip {
+  animation: reactor-dip 0.6s var(--ease-out-soft) both;
+}
+
 /* Sweeps down, then rests off screen for the last third of each loop. */
 @keyframes hud-scan {
   0% {

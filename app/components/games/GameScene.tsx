@@ -7,7 +7,7 @@ import Overgrowth from "./Overgrowth"
 import TsushimaField from "./TsushimaField"
 import CitySkyline from "./CitySkyline"
 import MatchPlay from "./MatchPlay"
-import { ComicBurst, Halftone, HudRings, HudScan, ReactorGlow } from "./MarvelScenes"
+import { ComicBurst, Halftone, HudRings, HudScan, PlanStatus, ReactorGlow } from "./MarvelScenes"
 
 export type GameTheme = "frost" | "fireflies" | "wind" | "webs" | "pitch" | "hud" | "comic"
 
@@ -280,9 +280,11 @@ export default function GameScene({ theme, still }: { theme: GameTheme; still: b
         <>
           <HudRings
             still={still}
+            labels
             className="pointer-events-none absolute left-1/2 top-1/2 hidden h-[min(150vh,1450px)] w-[min(150vh,1450px)] -translate-x-1/2 -translate-y-1/2 md:block"
           />
           {still ? null : <HudScan />}
+          <PlanStatus still={still} />
         </>
       ) : null}
       {theme === "comic" ? <Halftone /> : null}
