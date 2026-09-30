@@ -75,7 +75,10 @@ export default function Navbar() {
           className="flex justify-start text-left font-display text-base font-extrabold tracking-tight text-foreground"
           aria-label="SohailG, scroll to top"
         >
-          <span className="inline-flex items-center gap-0.5">
+          {/* data-nav-logo: the hero's name flies into this and lands on it.
+              The square sits on the baseline after the G, a full stop, as it
+              does at the end of the name in the hero. */}
+          <span data-nav-logo className="inline-flex items-baseline gap-0.5">
             SohailG
             <span className="inline-block h-1.5 w-1.5 shrink-0 rounded-[2px] bg-accent" aria-hidden />
           </span>

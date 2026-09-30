@@ -6,6 +6,7 @@ import { ArrowDown, ArrowUpRight, Github, Linkedin } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
 import { smoothScrollToId } from "@/app/utils/smoothScroll"
 import AnimatedCounter from "./AnimatedCounter"
+import HeroName from "./HeroName"
 
 const ShootingStars = dynamic(() => import("./ShootingStars"), { ssr: false })
 
@@ -69,15 +70,16 @@ function HeroStats() {
   )
 }
 
-function HeroTitle() {
-  const lineClass =
-    "block w-full min-w-0 font-display font-extrabold uppercase leading-[0.95] tracking-[-0.03em] text-foreground text-[clamp(2.5rem,16cqi,11rem)]"
+// The name is set in the navbar logo's case, face and weight, so that it can
+// fly into the logo on scroll and land on it exactly (see HeroName).
+const NAME_TYPE = "font-display font-extrabold leading-[0.95] tracking-[-0.03em] text-foreground"
 
+function HeroTitle() {
   return (
-    <h1 className={lineClass} aria-label="Sohail Gidwani">
-      <span className="block pb-[0.06em] -mb-[0.06em]">Sohail</span>
-      <span className="block pb-[0.06em] -mb-[0.06em]">Gidwani</span>
-    </h1>
+    <HeroName
+      className={`block w-full min-w-0 ${NAME_TYPE} text-[clamp(2.5rem,16cqi,11rem)]`}
+      flyClass={NAME_TYPE}
+    />
   )
 }
 

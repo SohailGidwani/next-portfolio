@@ -1676,3 +1676,13 @@
   opacity: calc(var(--pl-on, 0) * 0.7);
   transition: opacity 400ms var(--ease-out-soft);
 }
+
+/* The logo is the hero's name, shortened: while the name is flying into the
+   corner the logo waits hidden, and the name's script shows it on arrival.
+   If the flight cannot run, the script sets data-hero-flight="off" and the
+   logo shows as normal. With reduced motion nothing flies and it stays. */
+@media (prefers-reduced-motion: no-preference) {
+  html:has([data-hero-name]):not([data-hero-flight="off"]) [data-nav-logo] {
+    opacity: 0;
+  }
+}
