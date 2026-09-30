@@ -44,7 +44,10 @@ export default function InteractiveCard({
       ref={ref}
       onPointerMove={onPointerMove}
       onPointerDown={onPointerDown}
-      whileTap={pressable && !reduced ? { scale: 0.98 } : undefined}
+      // Always set when pressable, so the element (and the tabindex framer
+      // gives tappable elements) is the same on the server and in the
+      // browser; reduced motion swaps the press from a shrink to a dim.
+      whileTap={pressable ? (reduced ? { opacity: 0.9 } : { scale: 0.98 }) : undefined}
       transition={{ duration: 0.16, ease: [0.23, 1, 0.32, 1] }}
       className={`group/spot relative ${className}`}
     >

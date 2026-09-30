@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { useLayoutEffect, useState } from "react"
-import { motion, useReducedMotion, type Variants } from "framer-motion"
+import { motion, type Variants } from "framer-motion"
 import portrait from "@/public/images/personal/SohailGidwani.jpg"
 import { hasAssembled, markAssembled } from "@/app/utils/portraitAssembly"
 
@@ -24,22 +24,21 @@ const EASE_SHEET = [0.32, 0.72, 0, 1] as const
 const BOARD_OFFSET = 10
 
 export default function AboutPortrait() {
-  const reduceMotion = useReducedMotion()
-
   /**
-   * Coming back from /about must not rebuild the print again. This starts false
-   * so the server markup and the first client render agree, then a layout
-   * effect corrects it before the browser paints, so a returning visitor never
-   * sees a frame of the disassembled state.
+   * Coming back from /about must not rebuild the print again, and someone who
+   * asked for less motion should never see it built at all. This starts false
+   * so the server markup and the first client render agree (the server cannot
+   * know either), then a layout effect corrects it before the browser paints,
+   * so neither visitor sees a frame of the disassembled state.
    */
   const [built, setBuilt] = useState(false)
   useLayoutEffect(() => {
-    if (hasAssembled()) setBuilt(true)
+    if (hasAssembled() || window.matchMedia("(prefers-reduced-motion: reduce)").matches) setBuilt(true)
   }, [])
 
   /** Both cases keep every element and skip only the travel: someone who
    *  asked for less motion, and someone who has already watched it build. */
-  const instant = reduceMotion || built
+  const instant = built
   const settle = (duration: number, delay: number, ease: readonly number[]) =>
     instant ? { duration: 0 } : { duration, delay, ease: ease as number[] }
 

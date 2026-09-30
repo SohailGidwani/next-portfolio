@@ -2,7 +2,7 @@
 
 import { useState, type ComponentType, type PointerEvent } from "react"
 import Link from "next/link"
-import { motion, useReducedMotion } from "framer-motion"
+import { motion } from "framer-motion"
 import {
   Brain,
   FlaskConical,
@@ -179,22 +179,23 @@ function LineageRow({
   isFirst,
   isLast,
   index,
-  reduced,
 }: {
   entry: ResearchEntry
   isFirst: boolean
   isLast: boolean
   index: number
-  reduced: boolean
 }) {
   const isExtension = entry.kind === "extension"
 
   return (
     <motion.div
-      initial={reduced ? false : { opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      // Opacity only, like every card entrance on the site, and the same on
+      // the server and in the browser whatever the motion setting, so the
+      // page hydrates cleanly under reduced motion too.
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.5, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.45, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
       className="relative pb-6 pl-12 last:pb-0 sm:pl-16"
     >
       {/* Incoming spine segment (top → node) */}
@@ -222,7 +223,6 @@ function LineageRow({
 }
 
 function ResearchGroup({ root, idx }: { root: ResearchEntry; idx: number }) {
-  const reduced = useReducedMotion() ?? false
   const extensions = getExtensions(root.id)
   const rows = [root, ...extensions]
 
@@ -232,10 +232,10 @@ function ResearchGroup({ root, idx }: { root: ResearchEntry; idx: number }) {
   if (extensions.length === 0) {
     return (
       <motion.section
-        initial={reduced ? false : { opacity: 0, y: 18 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.45, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
       >
         <ResearchCard entry={root} />
       </motion.section>
@@ -251,7 +251,6 @@ function ResearchGroup({ root, idx }: { root: ResearchEntry; idx: number }) {
           isFirst={i === 0}
           isLast={i === rows.length - 1}
           index={idx + i}
-          reduced={reduced}
         />
       ))}
     </section>
@@ -259,7 +258,6 @@ function ResearchGroup({ root, idx }: { root: ResearchEntry; idx: number }) {
 }
 
 export default function ResearchHub() {
-  const reduced = useReducedMotion() ?? false
   const roots = getResearchRoots()
 
   return (
@@ -275,12 +273,9 @@ export default function ResearchHub() {
       {/* ─── Header ─── */}
       <div className="border-b border-border bg-card/40 py-16 sm:py-20">
         <div className="container mx-auto px-4">
-          <motion.div
-            initial={reduced ? false : { opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="max-w-3xl"
-          >
+          {/* Static, like every primary heading on the site: readable in the
+              server HTML before any script runs. */}
+          <div className="max-w-3xl">
             <h1 className="font-display mb-5 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl">
               Research &amp; ongoing work
             </h1>
@@ -289,7 +284,7 @@ export default function ResearchHub() {
               at Keck School of Medicine of USC. Each paper links to its full
               write-up.
             </p>
-          </motion.div>
+          </div>
         </div>
       </div>
 

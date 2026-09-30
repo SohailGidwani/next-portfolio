@@ -41,6 +41,9 @@ export default function Contact() {
   const [copiedLabel, setCopiedLabel] = useState<string | null>(null)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   // Framer bypasses the CSS reduced-motion kill switch; gate movement here.
+  // Only in the transitions: the starting state has to be the same on the
+  // server (which cannot know the setting) and in the browser, so reduced
+  // motion keeps the slide's start and just takes no time over it.
   const reduced = useReducedMotion()
 
   useEffect(() => {
@@ -72,9 +75,9 @@ export default function Contact() {
     >
       <div className="container mx-auto px-[18px] sm:px-6 md:px-9">
         <motion.div
-          initial={{ opacity: 0, y: reduced ? 0 : 20 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.5, y: reduced ? { duration: 0 } : { duration: 0.5 } }}
           viewport={{ once: true }}
           className="space-y-8 md:space-y-10"
         >
@@ -97,9 +100,13 @@ export default function Contact() {
             {contactRows.map((item, index) => (
               <motion.div
                 key={item.label}
-                initial={{ opacity: 0, y: reduced ? 0 : 16 }}
+                initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.08 + index * 0.05 }}
+                transition={{
+                  duration: 0.4,
+                  delay: 0.08 + index * 0.05,
+                  y: reduced ? { duration: 0 } : { duration: 0.4, delay: 0.08 + index * 0.05 },
+                }}
                 viewport={{ once: true }}
                 className="min-w-0 space-y-2"
               >
