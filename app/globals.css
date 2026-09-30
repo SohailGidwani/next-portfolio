@@ -1380,3 +1380,276 @@
   opacity: 0.3;
   animation: rune-glow 4.8s ease-in-out infinite both;
 }
+
+/* The Marvel stage (MarvelScenes.tsx). Each HUD ring holds a full circle, so
+   its fill box is centred on the ring and it turns in place. */
+.hud-spin {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: rune-turn 60s linear infinite;
+}
+
+.hud-reverse {
+  animation-direction: reverse;
+}
+
+@keyframes reactor-pulse {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.reactor-pulse {
+  animation: reactor-pulse 3.2s ease-in-out infinite;
+}
+
+/* Sweeps down, then rests off screen for the last third of each loop. */
+@keyframes hud-scan {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  8%,
+  58% {
+    opacity: 1;
+  }
+  66%,
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+.hud-scan {
+  animation: hud-scan 6s linear infinite;
+}
+
+/* One dot spacing per loop, so each loop picks up where the last left off. */
+@keyframes halftone-drift {
+  to {
+    transform: translate(var(--halftone-step, 14px), var(--halftone-step, 14px));
+  }
+}
+
+.halftone-drift {
+  animation: halftone-drift 4s linear infinite;
+}
+
+.halftone-reverse {
+  animation-direction: reverse;
+}
+
+@keyframes speed-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.speed-flicker {
+  animation: speed-flicker 1.6s ease-in-out infinite;
+}
+
+/* ModalityExplorer: a packet of signal running down each unmasked lane. */
+@keyframes lane-flow {
+  from {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  12%,
+  88% {
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.lane-flow {
+  animation: lane-flow 1.8s linear infinite both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lane-flow {
+    display: none;
+  }
+}
+
+/* Simple pleasures (SimplePleasures.tsx). A line is "on" while hovered with a
+   mouse, or for one play after a tap. Each scene reads its animation from a
+   variable the "on" state sets, so the animation only exists while on and
+   starts from the top every time. The scenes move the icon's own strokes:
+   lucide's Coffee draws its steam as paths 1, 2 and 4, Waves as three paths. */
+.pleasure[data-play] {
+  --pl-on: 1;
+  --pl-steam: pl-steam 1.5s ease-out infinite;
+  --pl-wave: pl-wave 1.8s ease-in-out infinite;
+  --pl-ripple: pl-ripple 1.8s var(--ease-out-soft) infinite;
+  --pl-sink: pl-sink 1.6s var(--ease-out-soft) forwards;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pleasure:hover {
+    --pl-on: 1;
+    --pl-steam: pl-steam 1.5s ease-out infinite;
+    --pl-wave: pl-wave 1.8s ease-in-out infinite;
+    --pl-ripple: pl-ripple 1.8s var(--ease-out-soft) infinite;
+    --pl-sink: pl-sink 1.6s var(--ease-out-soft) forwards;
+  }
+}
+
+.pl-tile {
+  transition: border-color 200ms var(--ease-out-soft);
+}
+
+.pleasure[data-play] .pl-tile {
+  border-color: color-mix(in oklab, var(--accent) 45%, transparent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pleasure:hover .pl-tile {
+    border-color: color-mix(in oklab, var(--accent) 45%, transparent);
+  }
+}
+
+/* Coffee: the three steam strokes rise and thin out, one after another. */
+.pl-steam svg {
+  overflow: visible;
+}
+
+.pl-steam svg > path:not(:nth-child(3)) {
+  animation: var(--pl-steam, none);
+}
+
+.pl-steam svg > path:nth-child(1) {
+  animation-delay: 0.25s;
+}
+
+.pl-steam svg > path:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+@keyframes pl-steam {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(0.6px, -2.5px);
+  }
+  50% {
+    opacity: 0;
+    transform: translate(-0.4px, -5px);
+  }
+  51% {
+    opacity: 0;
+    transform: translate(0, 1.5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+/* Swimming: the waves roll side to side, out of step, over a spreading ring. */
+.pl-swim svg > path {
+  animation: var(--pl-wave, none);
+}
+
+.pl-swim svg > path:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.pl-swim svg > path:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes pl-wave {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(2px);
+  }
+  75% {
+    transform: translateX(-2px);
+  }
+}
+
+.pl-ripple {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+  border: 1px solid currentColor;
+  border-radius: 9999px;
+  opacity: 0;
+  animation: var(--pl-ripple, none);
+}
+
+@keyframes pl-ripple {
+  from {
+    opacity: 0.6;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.7);
+  }
+}
+
+/* Sunsets: the sun sinks to a horizon, turning warm, with a glow behind it. */
+.pl-sunset .pl-icon {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 0 25% 0);
+  transition: color 600ms var(--ease-out-soft);
+  animation: var(--pl-sink, none);
+}
+
+.pleasure[data-play] .pl-sunset .pl-icon {
+  color: #f08a3c;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pleasure:hover .pl-sunset .pl-icon {
+    color: #f08a3c;
+  }
+}
+
+@keyframes pl-sink {
+  to {
+    transform: translateY(12px);
+    clip-path: inset(0 0 calc(25% + 12px) 0);
+  }
+}
+
+.pl-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(70% 55% at 50% 75%, rgba(240, 138, 60, 0.42), transparent 75%);
+  opacity: var(--pl-on, 0);
+  transition: opacity 600ms var(--ease-out-soft);
+}
+
+.pl-horizon {
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  top: 75%;
+  height: 1px;
+  background: #f08a3c;
+  opacity: calc(var(--pl-on, 0) * 0.7);
+  transition: opacity 400ms var(--ease-out-soft);
+}

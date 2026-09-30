@@ -1,13 +1,15 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { Draw, EASE_OUT } from "./Draw"
 import ParticleField from "./ParticleField"
 import Overgrowth from "./Overgrowth"
 import TsushimaField from "./TsushimaField"
 import CitySkyline from "./CitySkyline"
 import MatchPlay from "./MatchPlay"
+import { ComicBurst, Halftone, HudRings, HudScan, ReactorGlow } from "./MarvelScenes"
 
-export type GameTheme = "frost" | "fireflies" | "wind" | "webs" | "pitch"
+export type GameTheme = "frost" | "fireflies" | "wind" | "webs" | "pitch" | "hud" | "comic"
 
 /** A light tint per scene, used for the rule under the stage title. */
 export const THEME_ACCENT: Record<GameTheme, string> = {
@@ -16,6 +18,8 @@ export const THEME_ACCENT: Record<GameTheme, string> = {
   wind: "#d4452f",
   webs: "#e2242f",
   pitch: "#8be08f",
+  hud: "#7fd8ff",
+  comic: "#e63946",
 }
 
 // Each scene brings its own ground colour, so the open stage replaces the
@@ -32,28 +36,10 @@ const BACKDROP: Record<GameTheme, string> = {
     "radial-gradient(55% 50% at 50% 45%, rgba(210,28,40,0.38), transparent 72%), linear-gradient(180deg, #0c0506 0%, #150709 100%)",
   pitch:
     "radial-gradient(70% 60% at 50% 50%, rgba(46,140,72,0.42), transparent 78%), linear-gradient(180deg, #03110a 0%, #06170d 100%)",
-}
-
-const EASE_OUT = [0.25, 1, 0.5, 1] as const // --ease-out-soft
-
-/**
- * Draws a path in unless motion is reduced, in which case it is simply there.
- * No vector-effect="non-scaling-stroke" here: with it, browsers disagree on
- * the length the draw-in dash is measured against, and Safari stopped every
- * line partway (the pitch and webs were left half drawn). Stroke widths are
- * set per scene in drawing units instead.
- */
-function Draw({ d, delay, duration = 0.7, still, ...rest }: { d: string; delay: number; duration?: number; still: boolean } & React.SVGProps<SVGPathElement>) {
-  return (
-    <motion.path
-      d={d}
-      fill="none"
-      initial={{ pathLength: still ? 1 : 0, opacity: still ? 1 : 0 }}
-      animate={{ pathLength: 1, opacity: 1 }}
-      transition={{ pathLength: { duration, delay, ease: EASE_OUT }, opacity: { duration: 0.01, delay } }}
-      {...(rest as object)}
-    />
-  )
+  hud:
+    "radial-gradient(55% 50% at 50% 45%, rgba(60,170,220,0.16), transparent 70%), radial-gradient(90% 60% at 50% 100%, rgba(150,32,24,0.32), transparent 72%), linear-gradient(180deg, #05080c 0%, #0c0a0b 100%)",
+  comic:
+    "radial-gradient(60% 55% at 50% 42%, rgba(30,58,138,0.5), transparent 72%), linear-gradient(180deg, #050814 0%, #0a0f24 100%)",
 }
 
 // Elder Futhark, drawn as strokes on a 10 x 16 grid. The runes are straight
@@ -290,6 +276,36 @@ export default function GameScene({ theme, still }: { theme: GameTheme; still: b
           <MatchPlay still={still} />
         </>
       ) : null}
+      {theme === "hud" ? (
+        <>
+          <HudRings
+            still={still}
+            className="pointer-events-none absolute left-1/2 top-1/2 hidden h-[min(150vh,1450px)] w-[min(150vh,1450px)] -translate-x-1/2 -translate-y-1/2 md:block"
+          />
+          {still ? null : <HudScan />}
+        </>
+      ) : null}
+      {theme === "comic" ? <Halftone /> : null}
     </div>
   )
+}
+
+/**
+ * The parts of a scene that belong to the picture rather than the screen,
+ * drawn behind it on the stage so they line up with it at any size: the
+ * phone rune ring and HUD (desktop draws the big ones in the scene), the arc
+ * reactor's glow, and the comic burst with its speed lines.
+ */
+export function Halo({ theme, still }: { theme: GameTheme; still: boolean }) {
+  const ring = "pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[152%] w-[152%] -translate-x-1/2 -translate-y-1/2 md:hidden"
+  if (theme === "frost") return <RuneRing still={still} className={ring} />
+  if (theme === "hud")
+    return (
+      <>
+        <ReactorGlow still={still} />
+        <HudRings still={still} weight={2.4} className={ring} />
+      </>
+    )
+  if (theme === "comic") return <ComicBurst still={still} />
+  return null
 }

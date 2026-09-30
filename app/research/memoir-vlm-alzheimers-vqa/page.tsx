@@ -11,6 +11,7 @@ import PageNav from "@/app/components/PageNav"
 import VLMArchitecture from "./components/VLMArchitecture"
 import VQAPipeline from "./components/VQAPipeline"
 import AblationChart from "./components/AblationChart"
+import ModalityExplorer from "./components/ModalityExplorer"
 import LLMComparison from "./components/LLMComparison"
 import PairedDifferences from "./components/PairedDifferences"
 
@@ -648,6 +649,7 @@ export default function MultiModalAlzheimersVQAPage() {
               <MobileSection
                 n="06" label="Modality ablation" id="section-06"
                 summary="Masking inputs on the same trained model: where the diagnostic signal comes from, and which differences survive a significance test."
+                figure={<ModalityExplorer />}
               >
                 <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>

@@ -1,6 +1,7 @@
 import Link from "next/link"
 import type { Metadata } from "next"
 import PageNav from "@/app/components/PageNav"
+import GuidingWind from "@/app/components/GuidingWind"
 
 export const metadata: Metadata = {
   title: "Page Not Found | Sohail Gidwani",
@@ -9,7 +10,10 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    // isolate: the wind canvas sits at -z-10, above this background and
+    // under the content.
+    <div className="relative isolate min-h-screen bg-background text-foreground">
+      <GuidingWind />
       <PageNav items={[{ label: "Portfolio", icon: "home", href: "/" }]} />
       <main className="flex min-h-[calc(100dvh-4.5rem)] flex-col items-center justify-center px-4 py-16">
         {/* Decoration at 1.2:1 against the page: the h1 carries the message. */}
@@ -28,6 +32,7 @@ export default function NotFound() {
           <Link
             href="/"
             className="btn-primary"
+            data-wind-target
           >
             Back to home
           </Link>

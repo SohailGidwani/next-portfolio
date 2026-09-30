@@ -1,5 +1,6 @@
 "use client"
 
+import { useState, type ComponentType, type PointerEvent } from "react"
 import Link from "next/link"
 import { motion, useReducedMotion } from "framer-motion"
 import {
@@ -11,6 +12,8 @@ import {
 } from "lucide-react"
 import InteractiveCard from "@/app/components/ui/InteractiveCard"
 import PageNav from "@/app/components/PageNav"
+import JepaPatches from "./JepaPatches"
+import MemoirFusion from "./MemoirFusion"
 import {
   getResearchRoots,
   getExtensions,
@@ -29,8 +32,17 @@ function StatusBadge({ status }: { status: ResearchEntry["status"] }) {
   )
 }
 
+// A small explainer drawn beside an entry's summary, for work whose idea is
+// easier to see than to read. It replays when a mouse moves onto the card.
+const CARD_VISUALS: Record<string, ComponentType<{ replay: number }>> = {
+  "memoir-vlm-alzheimers-vqa": MemoirFusion,
+  "neuro-var-jepa": JepaPatches,
+}
+
 function ResearchCard({ entry }: { entry: ResearchEntry }) {
   const isExtension = entry.kind === "extension"
+  const Visual = CARD_VISUALS[entry.id]
+  const [replay, setReplay] = useState(0)
 
   const inner = (
     <InteractiveCard
@@ -71,38 +83,47 @@ function ResearchCard({ entry }: { entry: ResearchEntry }) {
         </p>
       ) : null}
 
-      {/* Title */}
-      <h3
-        className={`mt-3 font-display tracking-tight text-foreground ${
-          isExtension ? "text-lg" : "text-xl sm:text-2xl"
-        }`}
-      >
-        {entry.shortTitle}
-      </h3>
-      <p className="mt-1 text-sm leading-snug text-muted-foreground">
-        {entry.title}
-      </p>
+      <div className={Visual ? "sm:grid sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-8" : undefined}>
+        <div>
+          {/* Title */}
+          <h3
+            className={`mt-3 font-display tracking-tight text-foreground ${
+              isExtension ? "text-lg" : "text-xl sm:text-2xl"
+            }`}
+          >
+            {entry.shortTitle}
+          </h3>
+          <p className="mt-1 text-sm leading-snug text-muted-foreground">
+            {entry.title}
+          </p>
 
-      {/* Summary */}
-      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-        {entry.summary}
-      </p>
+          {/* Summary */}
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+            {entry.summary}
+          </p>
 
-      {/* Metrics */}
-      {entry.metrics && entry.metrics.length > 0 ? (
-        <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3">
-          {entry.metrics.map((m) => (
-            <div key={m.label} className="border-l-2 border-accent/40 pl-3">
-              <p className="font-mono text-lg font-medium leading-none text-foreground">
-                {m.value}
-              </p>
-              <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
-                {m.label}
-              </p>
+          {/* Metrics */}
+          {entry.metrics && entry.metrics.length > 0 ? (
+            <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3">
+              {entry.metrics.map((m) => (
+                <div key={m.label} className="border-l-2 border-accent/40 pl-3">
+                  <p className="font-mono text-lg font-medium leading-none text-foreground">
+                    {m.value}
+                  </p>
+                  <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
+                    {m.label}
+                  </p>
+                </div>
+              ))}
             </div>
-          ))}
+          ) : null}
         </div>
-      ) : null}
+        {Visual ? (
+          <div className="mt-5 sm:mt-4">
+            <Visual replay={replay} />
+          </div>
+        ) : null}
+      </div>
 
       {/* Tags */}
       <div className="mt-5 flex flex-wrap gap-2">
@@ -133,14 +154,24 @@ function ResearchCard({ entry }: { entry: ResearchEntry }) {
     </InteractiveCard>
   )
 
+  const onPointerEnter = Visual
+    ? (e: PointerEvent) => {
+        if (e.pointerType === "mouse") setReplay((n) => n + 1)
+      }
+    : undefined
+
   if (entry.href) {
     return (
-      <Link href={entry.href} className="block h-full">
+      <Link href={entry.href} className="block h-full" onPointerEnter={onPointerEnter}>
         {inner}
       </Link>
     )
   }
-  return <div className="h-full">{inner}</div>
+  return (
+    <div className="h-full" onPointerEnter={onPointerEnter}>
+      {inner}
+    </div>
+  )
 }
 
 function LineageRow({
