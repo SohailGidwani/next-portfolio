@@ -24,7 +24,10 @@ const values = [
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    // overflow-x-clip: the game posters scatter past the viewport edge when
+    // one opens, and on phones that overflow made the browser zoom the layout
+    // viewport out, which knocked the open stage off centre.
+    <div className="min-h-screen overflow-x-clip bg-background text-foreground">
       <BreadcrumbStructuredData
         id="about-breadcrumb"
         items={[{ name: "About", item: "/about" }]}

@@ -1,54 +1,45 @@
 "use client"
 
-import { useState } from "react"
 import { motion } from "framer-motion"
 import { Coffee, Gamepad2, Film, Sun, Waves, Heart } from "lucide-react"
-import { triggerHaptic } from "./ui/haptics"
 import SectionHeading from "./SectionHeading"
 import Image from "next/image"
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogDescription,
-} from "@/app/components/ui/dialog"
-
-interface Game {
-  id: string
-  title: string
-  image: string
-  description: string
-}
+import GameShowcase, { type Game } from "./games/GameShowcase"
 
 const games: Game[] = [
   {
     id: "god-of-war",
     title: "God of War",
-    image: "/images/personal/god-of-war.webp",
+    image: "/images/personal/god-of-war-ragnarok.webp",
+    theme: "frost",
     description: "Kratos and Atreus. The father-son dynamic, the Norse mythology, the combat. This game just hits different every time I replay it.",
   },
   {
     id: "last-of-us",
     title: "The Last of Us",
-    image: "/images/personal/last-of-us.jpg",
+    image: "/images/personal/last-of-us.webp",
+    theme: "fireflies",
     description: "I don't think any game has wrecked me the way this one did. Joel and Ellie's story is less a game and more something that stays with you.",
   },
   {
     id: "ghost-of-tsushima",
     title: "Ghost of Tsushima",
-    image: "/images/personal/ghost-of-tsushima.jpg",
+    image: "/images/personal/ghost-of-tsushima.webp",
+    theme: "wind",
     description: "Every single frame of this game looks like a painting. And the haiku composing, the wind guiding you around the map. Pure poetry.",
   },
   {
     id: "spiderman-game",
     title: "Spider-Man",
-    image: "/images/personal/spiderman-game.webp",
+    image: "/images/personal/spider-man-remastered.webp",
+    theme: "webs",
     description: "Swinging through NYC never gets old. Insomniac absolutely nailed what it feels like to be Spider-Man.",
   },
   {
     id: "fifa",
     title: "FIFA",
-    image: "/images/personal/fifa.webp",
+    image: "/images/personal/fc-26.webp",
+    theme: "pitch",
     description: "When debates with friends need settling. Nothing like a FIFA showdown to determine who's really right.",
   },
 ]
@@ -89,24 +80,7 @@ const lifestyle = [
   },
 ]
 
-type ModalContent = {
-  title: string
-  image: string
-  description: string
-} | null
-
 export default function Personal() {
-  const [selected, setSelected] = useState<ModalContent>(null)
-
-  const openGameModal = (game: Game) => {
-    triggerHaptic()
-    setSelected({
-      title: game.title,
-      image: game.image,
-      description: game.description,
-    })
-  }
-
   return (
     <section id="personal" className="section-y">
       <div className="container mx-auto px-4">
@@ -170,34 +144,7 @@ export default function Personal() {
             <Gamepad2 className="h-3.5 w-3.5 text-accent" />
             <h3 className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">Story-Driven Games</h3>
           </div>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-            {games.map((game, index) => (
-              <motion.button
-                key={game.id}
-                type="button"
-                onClick={() => openGameModal(game)}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                whileHover={{ y: -2 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ duration: 0.3, delay: index * 0.05 }}
-                viewport={{ once: true }}
-                className="group relative aspect-[3/4] overflow-hidden rounded border border-border bg-card text-left transition-colors hover:border-accent/40"
-              >
-                <Image
-                  src={game.image}
-                  alt={game.title}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/30 to-transparent" />
-                <div className="absolute inset-0 flex flex-col justify-end p-3">
-                  <h4 className="font-display text-sm leading-tight text-foreground">{game.title}</h4>
-                </div>
-              </motion.button>
-            ))}
-          </div>
+          <GameShowcase games={games} />
         </motion.div>
 
         {/* Lifestyle Section */}
@@ -231,33 +178,6 @@ export default function Personal() {
         </motion.div>
       </div>
 
-      {/* Radix Dialog — focus trap, Escape, aria-modal, overlay all handled */}
-      <Dialog open={!!selected} onOpenChange={(open) => !open && setSelected(null)}>
-        <DialogContent className="gap-0 overflow-hidden rounded border-border bg-card p-0 sm:max-w-md [&>button:last-child]:z-20 [&>button:last-child]:h-7 [&>button:last-child]:w-7 [&>button:last-child]:rounded [&>button:last-child]:border [&>button:last-child]:border-border [&>button:last-child]:bg-card [&>button:last-child]:opacity-100">
-          {selected?.image && (
-            <div className="relative h-48 w-full">
-              <Image
-                src={selected.image}
-                alt={selected.title}
-                fill
-                className="object-cover"
-                sizes="(max-width: 640px) 100vw, 448px"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
-            </div>
-          )}
-
-          <div className="p-6">
-            <DialogTitle className={`font-display text-xl text-foreground ${selected?.image ? "relative z-10 -mt-6" : ""}`}>
-              {selected?.title}
-            </DialogTitle>
-
-            <DialogDescription className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              {selected?.description}
-            </DialogDescription>
-          </div>
-        </DialogContent>
-      </Dialog>
     </section>
   )
 }

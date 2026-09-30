@@ -1350,3 +1350,33 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Game stage on /about: the God of War rune ring turns once every two
+   minutes while a glow walks from rune to rune around it. Under reduced
+   motion the global block collapses both to their resting frame. */
+@keyframes rune-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rune-glow {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
+.rune-turn {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: rune-turn 120s linear infinite;
+}
+
+.rune-glow {
+  opacity: 0.3;
+  animation: rune-glow 4.8s ease-in-out infinite both;
+}
