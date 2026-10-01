@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     title:
       "MEMOIR-VLM: Multimodal VLM for Alzheimer's Classification and VQA",
     description:
-      "Missing-modality-aware multimodal deep learning for Alzheimer's disease classification on 2,363 ADNI subjects, plus a retrieval-augmented VQA extension with a three-way LLM comparison.",
+      "Published in Frontiers in Computational Neuroscience (2026). Missing-modality-aware multimodal model for Alzheimer's disease on 2,363 ADNI subjects, with a retrieval-augmented VQA layer.",
     url: "https://sohailgidwani.app/research/memoir-vlm-alzheimers-vqa",
     siteName: "Sohail Gidwani Portfolio",
     images: [
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "MEMOIR-VLM: Multimodal VLM for Alzheimer's Classification and VQA",
     description:
-      "Missing-modality-aware multimodal deep learning for Alzheimer's classification on 2,363 ADNI subjects, plus a retrieval-augmented VQA extension.",
+      "Published in Frontiers in Computational Neuroscience (2026). Missing-modality-aware multimodal model for Alzheimer's disease on 2,363 ADNI subjects, with a retrieval-augmented VQA layer.",
     images: [
       "/api/og?title=MEMOIR-VLM&description=Published%20in%20Frontiers%20in%20Computational%20Neuroscience.%2091.3%25%20balanced%20accuracy%2C%20CN%20vs%20dementia%2C%20on%202%2C363%20ADNI%20subjects.&type=research&tags=VLM,RAG,ADNI,MRI,LLM",
     ],

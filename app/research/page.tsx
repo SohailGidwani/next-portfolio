@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Research | Sohail Gidwani",
     description:
-      "A living lineage of research papers and their extensions, including MEMOIR-VLM for Alzheimer's disease classification and VQA.",
+      "Published and ongoing research, including MEMOIR-VLM, a multimodal model for Alzheimer's disease classification and question answering.",
     url: `${SITE}/research`,
     siteName: "Sohail Gidwani Portfolio",
     type: "website",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Research | Sohail Gidwani",
     description:
-      "A living lineage of research papers and their extensions, including MEMOIR-VLM for Alzheimer's disease classification and VQA.",
+      "Published and ongoing research, including MEMOIR-VLM, a multimodal model for Alzheimer's disease classification and question answering.",
     creator: "@sohailgidwani",
     images: ["/api/og?title=Research&description=Published%20and%20ongoing%20research%2C%20including%20MEMOIR-VLM%2C%20published%20in%20Frontiers%20in%20Computational%20Neuroscience.&type=none"],
   },
