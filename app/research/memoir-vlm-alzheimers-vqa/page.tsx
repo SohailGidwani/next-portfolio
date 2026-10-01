@@ -1,7 +1,7 @@
 import type { ReactNode } from "react"
 import Link from "next/link"
 import Script from "next/script"
-import { Home, FileText, Github, Brain, Microscope, MessageSquare, ArrowUpRight, BookOpen } from "lucide-react"
+import { Home, FileText, Brain, Microscope, MessageSquare, ArrowUpRight, BookOpen, GraduationCap } from "lucide-react"
 import BreadcrumbStructuredData from "@/app/components/BreadcrumbStructuredData"
 import SectionTOC from "@/app/components/SectionTOC"
 import MobileChapterNav from "@/app/components/MobileChapterNav"
@@ -14,20 +14,22 @@ import AblationChart from "./components/AblationChart"
 import ModalityExplorer from "./components/ModalityExplorer"
 import LLMComparison from "./components/LLMComparison"
 import PairedDifferences from "./components/PairedDifferences"
+import CiteThis from "./components/CiteThis"
+import { ORCID_URL, SCHOLAR_URL } from "@/app/data/profiles"
 
-// Every number on this page is from the accepted paper's corrected model,
+// Every number on this page is from the published paper's corrected model,
 // which removed CDR-SB from the clinical inputs. The original (leaky) figures
 // appear only in the labeled comparison table in Results. Some tables in the
 // author's proof still carry pre-correction values (0.707 / 0.933, "six task
 // heads", "6 continuous features"); the corrected prose and Tables 10 and 21
 // win every conflict, so do not "fix" this page back from those tables.
 
+// Published 1 October 2026 (vol. 20, article 1902258). The DOI resolves to the
+// full text on Frontiers, which is also the page the buttons open.
 const DOI = "10.3389/fncom.2026.1902258"
-// The journal's article page: abstract online now, full text to follow at the
-// same address (its /full URL currently redirects here). This is the live link
-// until doi.org resolves the DOI.
+const DOI_URL = `https://doi.org/${DOI}`
 const FRONTIERS_URL =
-  "https://www.frontiersin.org/journals/computational-neuroscience/articles/10.3389/fncom.2026.1902258/abstract"
+  "https://www.frontiersin.org/journals/computational-neuroscience/articles/10.3389/fncom.2026.1902258/full"
 
 const tocItems = [
   { id: "section-01", n: "01", label: "The clinical ask" },
@@ -108,6 +110,7 @@ export default function MultiModalAlzheimersVQAPage() {
         "@type": "Person",
         name: "Sohail Gidwani",
         url: "https://sohailgidwani.app",
+        sameAs: [ORCID_URL, SCHOLAR_URL],
         affiliation: {
           "@type": "Organization",
           name: "Keck School of Medicine of USC",
@@ -120,20 +123,27 @@ export default function MultiModalAlzheimersVQAPage() {
     ],
     identifier: { "@type": "PropertyValue", propertyID: "DOI", value: DOI },
     url: FRONTIERS_URL,
-    isPartOf: { "@type": "Periodical", name: "Frontiers in Computational Neuroscience" },
-    // No datePublished until the journal publishes: schema.org has no
-    // "accepted" state, and a date is a publication claim.
-    dateModified: "2026-09-13",
+    sameAs: DOI_URL,
+    isPartOf: {
+      "@type": "PublicationVolume",
+      volumeNumber: "20",
+      isPartOf: { "@type": "Periodical", name: "Frontiers in Computational Neuroscience" },
+    },
+    datePublished: "2026-10-01",
+    dateModified: "2026-10-01",
+    // The paper's own keywords, as printed.
     keywords: [
       "Alzheimer's disease",
-      "multimodal deep learning",
-      "missing modality",
-      "ADNI",
-      "OASIS-3",
-      "retrieval-augmented VQA",
+      "deep learning",
+      "missing data",
+      "vision-language model",
+      "retrieval-augmented generation",
+      "visual question answering",
+      "diffusion tensor imaging",
+      "large language model",
     ],
     description:
-      "MEMOIR-VLM is a two-stage multimodal vision-language framework for Alzheimer's disease classification using T1 MRI, DTI FA maps, and structured clinical scores, accepted at Frontiers in Computational Neuroscience. A missing-modality-aware encoder performs diagnosis and clinical prediction from any available subset of inputs (91.3% CN vs dementia and 68.2% 3-class balanced accuracy after removing a CDR-SB input leak) and transfers zero-shot to OASIS-3 (78.7% balanced accuracy). A retrieval-augmented language layer serves as an interpretable interface over comparable cases, not as a diagnostic classifier.",
+      "MEMOIR-VLM is a two-stage multimodal vision-language framework for Alzheimer's disease classification using T1 MRI, DTI FA maps, and structured clinical scores, published in Frontiers in Computational Neuroscience. A missing-modality-aware encoder performs diagnosis and clinical prediction from any available subset of inputs (91.3% CN vs dementia and 68.2% 3-class balanced accuracy after removing a CDR-SB input leak) and transfers zero-shot to OASIS-3 (78.7% balanced accuracy). A retrieval-augmented language layer serves as an interpretable interface over comparable cases, not as a diagnostic classifier.",
     isAccessibleForFree: true,
     inLanguage: "en",
     publisher: {
@@ -182,20 +192,26 @@ export default function MultiModalAlzheimersVQAPage() {
               </h1>
 
               <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
-                <span className="text-foreground">Sohail Gidwani</span>, Tamoghna Chattopadhyay,
+                <span className="text-foreground">Sohail Gidwani</span>
+                <a
+                  href={ORCID_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Sohail Gidwani on ORCID (opens in a new tab)"
+                  className="ml-1 inline-flex align-[-2px] opacity-90 transition-opacity hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element -- ORCID's own iD mark, a 2 KB SVG */}
+                  <img src="/brand/orcid-id.svg" alt="" width={14} height={14} className="h-3.5 w-3.5" />
+                </a>
+                , Tamoghna Chattopadhyay,
                 Sophia I. Thomopoulos, Paul M. Thompson, and the Alzheimer&apos;s Disease
                 Neuroimaging Initiative
               </p>
 
-              {/* The DOI stays text until it resolves: the journal registers it
-                  at publication, and a dead link is worse than none. */}
               <p className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
-                {/* "In production" is the journal's word for typesetting, but a
-                    reader of an engineering portfolio takes it to mean deployed,
-                    which a medical model is not. Say what is actually out. */}
                 <span className="inline-flex items-center gap-1.5 text-foreground">
                   <span className="h-1.5 w-1.5 bg-accent" aria-hidden />
-                  Accepted, abstract online
+                  Published 1 Oct 2026
                 </span>
                 {/* Phones wrap the journal onto its own line; a separator
                     left there would dangle at the end of the first. */}
@@ -204,7 +220,7 @@ export default function MultiModalAlzheimersVQAPage() {
                   href={FRONTIERS_URL}
                   target="_blank"
                   rel="noreferrer"
-                  aria-label="Frontiers in Computational Neuroscience: read the abstract (opens in a new tab)"
+                  aria-label="Frontiers in Computational Neuroscience: read the paper (opens in a new tab)"
                   className="group/journal underline decoration-border underline-offset-4 transition hover:text-foreground hover:decoration-accent"
                 >
                   {/* Inline, not inline-flex: on phones the name wraps, and a
@@ -217,7 +233,24 @@ export default function MultiModalAlzheimersVQAPage() {
                   </span>
                 </a>
               </p>
-              <p className="mb-8 mt-1 font-mono text-xs text-muted-foreground">doi: {DOI}</p>
+              <p className="mb-8 mt-1 font-mono text-xs text-muted-foreground">
+                doi:{" "}
+                <a
+                  href={DOI_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline decoration-border underline-offset-4 transition hover:text-foreground hover:decoration-accent"
+                >
+                  {DOI}
+                </a>
+                <span aria-hidden className="mx-2">·</span>
+                <a
+                  href="#cite"
+                  className="underline decoration-border underline-offset-4 transition hover:text-foreground hover:decoration-accent"
+                >
+                  Cite
+                </a>
+              </p>
 
               {/* Equal columns: a flex row let the longest label push the
                   fourth stat onto a line of its own. */}
@@ -1016,20 +1049,29 @@ export default function MultiModalAlzheimersVQAPage() {
                   Publication
                 </p>
                 <h3 className="mt-2 font-display text-xl text-foreground sm:text-2xl">
-                  Accepted · Frontiers in Computational Neuroscience
+                  Published · Frontiers in Computational Neuroscience
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                  Accepted 27 August 2026. The abstract is live on Frontiers, and the full article
-                  will appear at the same address when it is published; the DOI resolves then. The
-                  work was done at the Imaging Genetics Center, Keck School of Medicine of USC.
+                  Open access under CC BY, volume 20. The work was done at the Imaging Genetics
+                  Center, Keck School of Medicine of USC.
                 </p>
-                <p className="mt-4 border-l-2 border-border pl-4 text-sm leading-relaxed text-muted-foreground">
-                  Gidwani S, Chattopadhyay T, Thomopoulos SI, Thompson PM and the Alzheimer&apos;s
-                  Disease Neuroimaging Initiative (2026). MEMOIR-VLM: a multimodal
-                  vision-language model for Alzheimer&apos;s disease classification and question
-                  answering. <em>Front. Comput. Neurosci.</em> 20:1902258.{" "}
-                  <span className="whitespace-nowrap font-mono text-xs">doi: {DOI}</span>
-                </p>
+                {/* The paper's history, from its first page. */}
+                <dl className="mt-5 grid grid-cols-2 gap-x-6 gap-y-3 border-y border-border py-4 sm:grid-cols-4">
+                  {[
+                    ["Received", "7 Jun 2026"],
+                    ["Revised", "30 Jul 2026"],
+                    ["Accepted", "27 Aug 2026"],
+                    ["Published", "1 Oct 2026"],
+                  ].map(([label, date]) => (
+                    <div key={label}>
+                      <dt className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{label}</dt>
+                      <dd className={`mt-1 font-mono text-sm tabular-nums ${label === "Published" ? "text-accent" : "text-foreground"}`}>
+                        {date}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+                <CiteThis />
                 <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
                   Future work extends MEMOIR-VLM to amyloid prediction supervised on PET-derived
                   labels, with cognitive variables kept out of the inputs, the most direct route
@@ -1046,6 +1088,17 @@ export default function MultiModalAlzheimersVQAPage() {
                     Read on Frontiers
                     <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover/paper:translate-x-0.5 group-hover/paper:-translate-y-0.5" aria-hidden />
                   </a>
+                  {/* On a paper page the author's publication record matters
+                      more than a code profile, which the site links elsewhere. */}
+                  <a
+                    href={SCHOLAR_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn-secondary"
+                  >
+                    <GraduationCap className="h-3.5 w-3.5" aria-hidden />
+                    Google Scholar
+                  </a>
                   <Link
                     href="/#experience"
                     className="btn-secondary"
@@ -1053,15 +1106,6 @@ export default function MultiModalAlzheimersVQAPage() {
                     <Home className="h-3.5 w-3.5" />
                     Back to portfolio
                   </Link>
-                  <a
-                    href="https://github.com/SohailGidwani"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="btn-secondary"
-                  >
-                    <Github className="h-3.5 w-3.5" />
-                    GitHub profile
-                  </a>
                 </div>
               </section>
             </div>

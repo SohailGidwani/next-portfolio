@@ -22,6 +22,16 @@
         "network": "LinkedIn",
         "username": "sohail-gidwani",
         "url": "https://linkedin.com/in/sohail-gidwani/"
+      },
+      {
+        "network": "ORCID",
+        "username": "0009-0009-3348-3911",
+        "url": "https://orcid.org/0009-0009-3348-3911"
+      },
+      {
+        "network": "Google Scholar",
+        "username": "bb3RfPcAAAAJ",
+        "url": "https://scholar.google.com/citations?user=bb3RfPcAAAAJ"
       }
     ]
   },
@@ -31,7 +41,7 @@
       "position": "Student Worker - Research Assistant",
       "url": "https://keck.usc.edu",
       "startDate": "2025-10-01",
-      "summary": "Multimodal deep learning for Alzheimer's disease classification and question answering using T1 MRI, DTI imaging, and clinical data; MEMOIR-VLM accepted at Frontiers in Computational Neuroscience.",
+      "summary": "Multimodal deep learning for Alzheimer's disease classification and question answering using T1 MRI, DTI imaging, and clinical data; MEMOIR-VLM published in Frontiers in Computational Neuroscience.",
       "highlights": [
         "Architected multimodal pipeline (MEMOIR-VLM) across 2,363 ADNI subjects; 68.2% balanced accuracy on 3-class diagnosis, 91.3% on binary (CN vs Dementia), 78.7% zero-shot on external OASIS-3",
         "Designed missing-modality fusion via cross-attention with stochastic modality dropout; robust inference with any subset of T1, DTI, and clinical inputs (39.4% DTI coverage)",
@@ -206,8 +216,9 @@
     {
       "name": "MEMOIR-VLM: A Multimodal Vision-Language Model for Alzheimer's Disease Classification and Question Answering",
       "publisher": "Frontiers in Computational Neuroscience",
-      "url": "https://www.frontiersin.org/journals/computational-neuroscience/articles/10.3389/fncom.2026.1902258/abstract",
-      "summary": "Accepted 27 August 2026; abstract online, full article in production. With T. Chattopadhyay, S. I. Thomopoulos, P. M. Thompson, and the Alzheimer's Disease Neuroimaging Initiative. DOI 10.3389/fncom.2026.1902258."
+      "url": "https://www.frontiersin.org/journals/computational-neuroscience/articles/10.3389/fncom.2026.1902258/full",
+      "releaseDate": "2026-10-01",
+      "summary": "Front. Comput. Neurosci. 20:1902258. With T. Chattopadhyay, S. I. Thomopoulos, P. M. Thompson, and the Alzheimer's Disease Neuroimaging Initiative. DOI 10.3389/fncom.2026.1902258."
     }
   ],
   "languages": [

@@ -4,7 +4,7 @@ export const metadata: Metadata = {
   title:
     "MEMOIR-VLM: Multimodal VLM for Alzheimer's Classification and VQA | Sohail Gidwani Research",
   description:
-    "Technical deep dive on MEMOIR-VLM, a two-stage multimodal vision-language framework (T1 MRI, DTI FA, clinical) for Alzheimer's disease classification and question answering, accepted at Frontiers in Computational Neuroscience. 2,363 ADNI subjects, missing-modality cross-attention fusion, 68.2% 3-class and 91.3% CN vs dementia balanced accuracy, zero-shot OASIS-3 validation, and a leakage-audited retrieval-augmented VQA layer compared across Mistral 7B, Gemma 4 26B, and MedGemma 1.5 4B.",
+    "Technical deep dive on MEMOIR-VLM, a two-stage multimodal vision-language framework (T1 MRI, DTI FA, clinical) for Alzheimer's disease classification and question answering, published in Frontiers in Computational Neuroscience. 2,363 ADNI subjects, missing-modality cross-attention fusion, 68.2% 3-class and 91.3% CN vs dementia balanced accuracy, zero-shot OASIS-3 validation, and a leakage-audited retrieval-augmented VQA layer compared across Mistral 7B, Gemma 4 26B, and MedGemma 1.5 4B.",
   keywords: [
     "Alzheimer's disease",
     "multimodal deep learning",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     siteName: "Sohail Gidwani Portfolio",
     images: [
       {
-        url: "/api/og?title=MEMOIR-VLM&description=Accepted%20at%20Frontiers%20in%20Computational%20Neuroscience.%2091.3%25%20balanced%20accuracy%2C%20CN%20vs%20dementia%2C%20on%202%2C363%20ADNI%20subjects.&type=research&tags=VLM,RAG,ADNI,MRI,LLM",
+        url: "/api/og?title=MEMOIR-VLM&description=Published%20in%20Frontiers%20in%20Computational%20Neuroscience.%2091.3%25%20balanced%20accuracy%2C%20CN%20vs%20dementia%2C%20on%202%2C363%20ADNI%20subjects.&type=research&tags=VLM,RAG,ADNI,MRI,LLM",
         width: 1200,
         height: 630,
         alt: "MEMOIR-VLM: Multimodal VLM for Alzheimer's Classification and VQA | Sohail Gidwani Research",
@@ -68,7 +68,7 @@ export const metadata: Metadata = {
     description:
       "Missing-modality-aware multimodal deep learning for Alzheimer's classification on 2,363 ADNI subjects, plus a retrieval-augmented VQA extension.",
     images: [
-      "/api/og?title=MEMOIR-VLM&description=Accepted%20at%20Frontiers%20in%20Computational%20Neuroscience.%2091.3%25%20balanced%20accuracy%2C%20CN%20vs%20dementia%2C%20on%202%2C363%20ADNI%20subjects.&type=research&tags=VLM,RAG,ADNI,MRI,LLM",
+      "/api/og?title=MEMOIR-VLM&description=Published%20in%20Frontiers%20in%20Computational%20Neuroscience.%2091.3%25%20balanced%20accuracy%2C%20CN%20vs%20dementia%2C%20on%202%2C363%20ADNI%20subjects.&type=research&tags=VLM,RAG,ADNI,MRI,LLM",
     ],
     creator: "@sohailgidwani",
   },

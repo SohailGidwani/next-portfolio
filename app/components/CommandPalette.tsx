@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import {
+  BookOpen,
   Bot,
   Briefcase,
   Command,
@@ -15,6 +16,7 @@ import {
   GraduationCap,
   Heart,
   Home,
+  IdCard,
   Linkedin,
   Mail,
   Moon,
@@ -31,6 +33,7 @@ import { triggerHaptic } from "./ui/haptics"
 import { usePortfolio } from "./PortfolioProvider"
 import { smoothScrollToId, smoothScrollToTop } from "@/app/utils/smoothScroll"
 import { switchTheme } from "@/app/utils/themeFade"
+import { ORCID_ID, ORCID_URL, SCHOLAR_URL } from "@/app/data/profiles"
 import {
   Dialog,
   DialogClose,
@@ -448,8 +451,8 @@ export default function CommandPalette() {
       // Research
       {
         id: "research-alzheimers-vqa",
-        label: "Multimodal Alzheimer's VQA",
-        description: "VLM + RAG for clinical visual question answering",
+        label: "MEMOIR-VLM",
+        description: "Published paper · Frontiers 2026",
         route: "/research/memoir-vlm-alzheimers-vqa",
         icon: <FlaskConical className="h-4 w-4" />,
         action: () => {
@@ -458,6 +461,9 @@ export default function CommandPalette() {
         keywords: [
           "research",
           "paper",
+          "memoir",
+          "frontiers",
+          "published",
           "alzheimer",
           "alzheimers",
           "dementia",
@@ -551,6 +557,42 @@ export default function CommandPalette() {
           setIsOpen(false)
         },
         keywords: ["social", "network", "connect"],
+        category: "links",
+      },
+      {
+        id: "read-paper",
+        label: "Read the paper",
+        description: "MEMOIR-VLM on Frontiers",
+        icon: <BookOpen className="h-4 w-4" />,
+        action: () => {
+          window.open("https://www.frontiersin.org/journals/computational-neuroscience/articles/10.3389/fncom.2026.1902258/full", "_blank")
+          setIsOpen(false)
+        },
+        keywords: ["paper", "publication", "frontiers", "memoir", "doi", "journal"],
+        category: "links",
+      },
+      {
+        id: "google-scholar",
+        label: "Google Scholar",
+        description: "Publications and citations",
+        icon: <GraduationCap className="h-4 w-4" />,
+        action: () => {
+          window.open(SCHOLAR_URL, "_blank")
+          setIsOpen(false)
+        },
+        keywords: ["scholar", "publications", "citations", "research"],
+        category: "links",
+      },
+      {
+        id: "orcid",
+        label: "ORCID",
+        description: ORCID_ID,
+        icon: <IdCard className="h-4 w-4" />,
+        action: () => {
+          window.open(ORCID_URL, "_blank")
+          setIsOpen(false)
+        },
+        keywords: ["orcid", "researcher id", "publications", "research"],
         category: "links",
       },
     ],

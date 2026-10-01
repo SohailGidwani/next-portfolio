@@ -32,7 +32,7 @@ function HeroStats() {
     { value: 3, suffix: "+", label: "Years of engineering experience", href: "#experience" },
     { value: 3, label: "Enterprise AI systems shipped", href: "#experience" },
     // Outcome, not corpus size: 2,363 subjects measured the dataset, not the
-    // work. The figure is the CN vs dementia head of the accepted paper's
+    // work. The figure is the CN vs dementia head of the published paper's
     // corrected model; the earlier 93.3% had CDR-SB among its inputs and is
     // retracted. It carries a scoping duty the label no longer states: the href
     // does that job instead, landing on a page whose own header puts 68.2%

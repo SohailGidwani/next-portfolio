@@ -80,7 +80,8 @@ export const research: ResearchEntry[] = [
       "A multimodal vision-language model for Alzheimer's disease classification and question answering",
     summary:
       "A missing-modality-aware encoder over T1 MRI, DTI FA maps, and clinical scores that diagnoses from any available subset, with a retrieval-augmented language layer that surfaces comparable cases. Validated zero-shot on OASIS-3.",
-    status: "accepted",
+    // Published 1 October 2026, Front. Comput. Neurosci. 20:1902258.
+    status: "published",
     year: "2026",
     venue: "Frontiers in Computational Neuroscience",
     tags: ["Multimodal", "ADNI", "OASIS-3", "RAG VQA", "PyTorch"],

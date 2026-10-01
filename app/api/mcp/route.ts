@@ -14,6 +14,8 @@ const profile = {
   profiles: [
     { network: 'GitHub', url: 'https://github.com/SohailGidwani' },
     { network: 'LinkedIn', url: 'https://linkedin.com/in/sohail-gidwani/' },
+    { network: 'ORCID', url: 'https://orcid.org/0009-0009-3348-3911' },
+    { network: 'Google Scholar', url: 'https://scholar.google.com/citations?user=bb3RfPcAAAAJ' },
     { network: 'Portfolio', url: SITE },
   ],
   languages: [
@@ -136,7 +138,7 @@ const experience = [
     endDate: null,
     current: true,
     tags: ['Python', 'PyTorch', 'Deep Learning', 'CLIP', 'RAG', 'FAISS'],
-    summary: 'Multimodal AI for Alzheimer\'s disease classification and question answering: neuroimaging + clinical data, end-to-end experimentation infrastructure. MEMOIR-VLM accepted at Frontiers in Computational Neuroscience (2026).',
+    summary: 'Multimodal AI for Alzheimer\'s disease classification and question answering: neuroimaging + clinical data, end-to-end experimentation infrastructure. MEMOIR-VLM published in Frontiers in Computational Neuroscience (2026).',
     highlights: [
       'Multimodal pipeline (MEMOIR-VLM): T1 MRI + DTI imaging + clinical data across 2,363 ADNI subjects; 68.2% balanced accuracy on 3-class diagnosis, 91.3% on binary (CN vs Dementia), 78.7% zero-shot on external OASIS-3',
       'Missing-modality cross-attention fusion with stochastic modality dropout, enabling robust inference with any subset of T1, DTI, and clinical inputs (39.4% DTI coverage)',
@@ -144,7 +146,7 @@ const experience = [
       'Two-stage training: CLIP contrastive pre-training → multi-task fine-tuning across five heads; modality ablation across 7 combinations with paired-bootstrap significance testing',
     ],
     researchUrl: `${SITE}/research/memoir-vlm-alzheimers-vqa`,
-    publicationUrl: 'https://www.frontiersin.org/journals/computational-neuroscience/articles/10.3389/fncom.2026.1902258/abstract',
+    publicationUrl: 'https://www.frontiersin.org/journals/computational-neuroscience/articles/10.3389/fncom.2026.1902258/full',
   },
   {
     company: 'Insaito, Inc.',
@@ -311,11 +313,10 @@ const research = [
     slug: 'memoir-vlm-alzheimers-vqa',
     url: `${SITE}/research/memoir-vlm-alzheimers-vqa`,
     institution: 'Keck School of Medicine of USC',
-    status: 'accepted; abstract online, full article in production (Frontiers in Computational Neuroscience)',
-    // Registered at acceptance; resolves once the journal publishes.
+    status: 'published 1 October 2026 (Frontiers in Computational Neuroscience, vol. 20, article 1902258)',
     doi: '10.3389/fncom.2026.1902258',
-    // The journal's article page; the full text will appear at the same address.
-    publicationUrl: 'https://www.frontiersin.org/journals/computational-neuroscience/articles/10.3389/fncom.2026.1902258/abstract',
+    // The full text on the journal's site; the DOI resolves here too.
+    publicationUrl: 'https://www.frontiersin.org/journals/computational-neuroscience/articles/10.3389/fncom.2026.1902258/full',
     year: 2026,
     summary: 'Two-stage multimodal vision-language framework for Alzheimer\'s disease classification using T1 MRI, DTI imaging, and clinical data. A missing-modality-aware encoder performs diagnosis and clinical prediction from any subset of inputs; a retrieval-augmented language layer serves as an interpretable interface over comparable cases, not as a diagnostic classifier.',
     // Corrected model (CDR-SB removed from the inputs). The pre-correction

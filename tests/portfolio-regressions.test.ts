@@ -237,7 +237,7 @@ describe("motion system", () => {
   })
 })
 
-describe("MEMOIR-VLM reflects the accepted paper, not the pre-correction manuscript", () => {
+describe("MEMOIR-VLM reflects the published paper, not the pre-correction manuscript", () => {
   const dir = "app/research/memoir-vlm-alzheimers-vqa"
 
   it("reports the corrected model and keeps the leaky numbers out of the headline", () => {
@@ -279,21 +279,47 @@ describe("MEMOIR-VLM reflects the accepted paper, not the pre-correction manuscr
     expect(vqa.match(/top-20 → top-5/g)).toHaveLength(2)
   })
 
-  it("marks the paper accepted, not published, with the DOI as text until it resolves", () => {
+  it("marks the paper published, linking the full text and the DOI", () => {
     const data = read("app/data/research.ts")
     const page = read(`${dir}/page.tsx`)
 
-    expect(data).toMatch(/status: "accepted"/)
+    // Published 1 October 2026, Front. Comput. Neurosci. 20:1902258.
+    expect(data).toMatch(/status: "published"/)
     // The card values, not the comment above them that names what was retracted.
     expect(data).not.toMatch(/value: "(0\.933|93\.3%|0\.707|70\.7%|~70M)"/)
     expect(page).toContain('const DOI = "10.3389/fncom.2026.1902258"')
-    expect(page).not.toMatch(/href=\{?[`"]https:\/\/doi\.org/)
-    // The journal's article page is the live link: header and footer both use it.
-    expect(page).toContain("frontiersin.org/journals/computational-neuroscience/articles/10.3389/fncom.2026.1902258")
+    expect(page).toContain("const DOI_URL = `https://doi.org/${DOI}`")
+    // The full text, header and footer both; the DOI is linked in both places too.
+    expect(page).toContain("frontiersin.org/journals/computational-neuroscience/articles/10.3389/fncom.2026.1902258/full")
     expect(page.match(/href=\{FRONTIERS_URL\}/g)).toHaveLength(2)
-    // The JSON-LD must not claim a publication date the journal has not set.
-    // The property, not the comment explaining its absence.
-    expect(page).not.toMatch(/datePublished\s*:/)
+    // The DOI is linked in the header; the footer's citation links it from the Cite control.
+    expect(page.match(/href=\{DOI_URL\}/g)).toHaveLength(1)
+    expect(read(`${dir}/components/CiteThis.tsx`)).toContain("href={`https://doi.org/${DOI}`}")
+    expect(page).toMatch(/datePublished: "2026-10-01"/)
+    expect(page).not.toMatch(/Accepted, abstract online|Accepted · Frontiers/)
+  })
+
+  it("cites the version of record and links the author's verified profiles", () => {
+    const page = read(`${dir}/page.tsx`)
+    const cite = read(`${dir}/components/CiteThis.tsx`)
+    const layout = read("app/layout.tsx")
+    const profiles = read("app/data/profiles.ts")
+
+    // Checked against ORCID's public API: the record lists this paper's DOI.
+    expect(profiles).toContain('ORCID_ID = "0009-0009-3348-3911"')
+    expect(profiles).toContain('SCHOLAR_URL = "https://scholar.google.com/citations?user=bb3RfPcAAAAJ"')
+    expect(layout).toContain('"https://orcid.org/0009-0009-3348-3911"')
+    expect(layout).toContain('"https://scholar.google.com/citations?user=bb3RfPcAAAAJ"')
+    expect(page).toContain("sameAs: [ORCID_URL, SCHOLAR_URL]")
+
+    // The PDF's own citation block, volume and article number.
+    expect(cite).toContain("Gidwani SH, Chattopadhyay T, Thomopoulos SI and Thompson PM (2026)")
+    expect(cite).toContain("Front. Comput. Neurosci. 20:1902258")
+    expect(cite).toMatch(/volume\s*= \{20\}/)
+    expect(cite).toMatch(/pages\s*= \{1902258\}/)
+    // The paper's keywords, as printed, not paraphrased.
+    expect(page).toContain('"missing data"')
+    expect(page).toContain('"visual question answering"')
   })
 
   it("has no em dash anywhere in the research routes", () => {
@@ -326,8 +352,10 @@ describe("MEMOIR-VLM reflects the accepted paper, not the pre-correction manuscr
       for (const m of text.matchAll(/94\.7%/g)) {
         expect(text.slice(m.index, m.index + 200), file).toMatch(/label/)
       }
-      // Every copy that presents the paper points readers to the journal.
-      expect(text, file).toContain("frontiersin.org/journals/computational-neuroscience/articles/10.3389/fncom.2026.1902258")
+      // Every copy that presents the paper points readers to the full text,
+      // and none still calls it accepted or in production.
+      expect(text, file).toContain("frontiersin.org/journals/computational-neuroscience/articles/10.3389/fncom.2026.1902258/full")
+      expect(text, file).not.toMatch(/1902258\/abstract|accepted at Frontiers|full article in production/)
     }
   })
 })

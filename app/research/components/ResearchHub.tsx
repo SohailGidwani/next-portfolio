@@ -13,6 +13,7 @@ import {
 import InteractiveCard from "@/app/components/ui/InteractiveCard"
 import PageNav from "@/app/components/PageNav"
 import JepaPatches from "./JepaPatches"
+import { ORCID_URL, SCHOLAR_URL } from "@/app/data/profiles"
 import MemoirFusion from "./MemoirFusion"
 import {
   getResearchRoots,
@@ -280,9 +281,19 @@ export default function ResearchHub() {
               Research &amp; ongoing work
             </h1>
             <p className="max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Accepted papers and studies still in progress, from my research
+              Published papers and studies still in progress, from my research
               at Keck School of Medicine of USC. Each paper links to its full
               write-up.
+            </p>
+            <p className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2">
+              <a href={ORCID_URL} target="_blank" rel="noreferrer" className="link-action">
+                ORCID
+                <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
+              </a>
+              <a href={SCHOLAR_URL} target="_blank" rel="noreferrer" className="link-action">
+                Google Scholar
+                <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
+              </a>
             </p>
           </div>
         </div>

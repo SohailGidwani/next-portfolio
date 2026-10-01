@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { ArrowUpRight, Copy } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
+import { ORCID_ID, ORCID_URL, SCHOLAR_URL } from "@/app/data/profiles"
 
 const contactRows = [
   {
@@ -33,6 +34,20 @@ const contactRows = [
     href: "tel:+19736525842",
     external: false,
     copyValue: "+1 9736525842",
+  },
+  {
+    label: "ORCID",
+    value: ORCID_ID,
+    href: ORCID_URL,
+    external: true,
+    copyValue: null as string | null,
+  },
+  {
+    label: "Google Scholar",
+    value: "Publications",
+    href: SCHOLAR_URL,
+    external: true,
+    copyValue: null as string | null,
   },
 ] as const
 
@@ -93,10 +108,11 @@ export default function Contact() {
             open to remote and on-site.
           </p>
 
-          {/* The email column is wider: at four equal columns the address
-              filled its column and pushed its copy button onto a new line,
-              while the phone's sat inline. */}
-          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.4fr)_repeat(3,minmax(0,1fr))] lg:gap-12">
+          {/* Three columns, two rows: email and phone share the wider first
+              column (at equal widths the address filled its column and pushed
+              its copy button onto a new line), code and social sit beside them
+              on the first row, research profiles on the second. */}
+          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.4fr)_repeat(2,minmax(0,1fr))] lg:gap-x-12 lg:gap-y-10">
             {contactRows.map((item, index) => (
               <motion.div
                 key={item.label}

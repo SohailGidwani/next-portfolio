@@ -9,7 +9,7 @@ const SITE = "https://sohailgidwani.app"
 export const metadata: Metadata = {
   title: "Research | Sohail Gidwani",
   description:
-    "Accepted and ongoing research by Sohail Gidwani, shown as a living lineage of papers and their extensions. Includes MEMOIR-VLM, a multimodal vision-language model for Alzheimer's disease classification and question answering, accepted at Frontiers in Computational Neuroscience.",
+    "Published and ongoing research by Sohail Gidwani, shown as a living lineage of papers and their extensions. Includes MEMOIR-VLM, a multimodal vision-language model for Alzheimer's disease classification and question answering, published in Frontiers in Computational Neuroscience.",
   keywords: [
     "Sohail Gidwani research",
     "MEMOIR-VLM",
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     siteName: "Sohail Gidwani Portfolio",
     type: "website",
     locale: "en_US",
-    images: [{ url: "/api/og?title=Research&description=Accepted%20and%20ongoing%20research%2C%20including%20MEMOIR-VLM%2C%20accepted%20at%20Frontiers%20in%20Computational%20Neuroscience.&type=none", width: 1200, height: 630, alt: "Research by Sohail Gidwani" }],
+    images: [{ url: "/api/og?title=Research&description=Published%20and%20ongoing%20research%2C%20including%20MEMOIR-VLM%2C%20published%20in%20Frontiers%20in%20Computational%20Neuroscience.&type=none", width: 1200, height: 630, alt: "Research by Sohail Gidwani" }],
   },
   twitter: {
     card: "summary_large_image",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     description:
       "A living lineage of research papers and their extensions, including MEMOIR-VLM for Alzheimer's disease classification and VQA.",
     creator: "@sohailgidwani",
-    images: ["/api/og?title=Research&description=Accepted%20and%20ongoing%20research%2C%20including%20MEMOIR-VLM%2C%20accepted%20at%20Frontiers%20in%20Computational%20Neuroscience.&type=none"],
+    images: ["/api/og?title=Research&description=Published%20and%20ongoing%20research%2C%20including%20MEMOIR-VLM%2C%20published%20in%20Frontiers%20in%20Computational%20Neuroscience.&type=none"],
   },
 }
 

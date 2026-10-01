@@ -136,7 +136,9 @@ export default function RootLayout({
                   "sameAs": [
                     "https://github.com/SohailGidwani",
                     "https://www.linkedin.com/in/sohail-gidwani/",
-                    "https://x.com/sohailgidwani"
+                    "https://x.com/sohailgidwani",
+                    "https://orcid.org/0009-0009-3348-3911",
+                    "https://scholar.google.com/citations?user=bb3RfPcAAAAJ"
                   ],
                   "address": {
                     "@type": "PostalAddress",

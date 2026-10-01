@@ -40,9 +40,9 @@ const experiences: ExperienceItem[] = [
     company: "Keck School of Medicine of USC",
     date: "Oct 2025 - Present",
     description:
-      "Multimodal AI for Alzheimer's disease across three research projects: MEMOIR-VLM, with a first-author paper accepted at Frontiers in Computational Neuroscience; Neuro-Var-JEPA, self-supervised 3D encoders for brain MRI; and a study of how much uncertainty published scaling curves leave out.",
+      "Multimodal AI for Alzheimer's disease across three research projects: MEMOIR-VLM, with a first-author paper published in Frontiers in Computational Neuroscience; Neuro-Var-JEPA, self-supervised 3D encoders for brain MRI; and a study of how much uncertainty published scaling curves leave out.",
     projects: [
-      "MEMOIR-VLM: Built a multimodal model that fuses T1 MRI, DTI and clinical data across 2,363 ADNI subjects with cross-attention and modality dropout, so it runs on any subset of inputs (DTI covers only 39.4% of subjects). It reaches 91.3% balanced accuracy on CN vs dementia, 68.2% on 3-class diagnosis, and 78.7% zero-shot on OASIS-3 with DTI absent. First-author paper accepted at Frontiers in Computational Neuroscience (2026).",
+      "MEMOIR-VLM: Built a multimodal model that fuses T1 MRI, DTI and clinical data across 2,363 ADNI subjects with cross-attention and modality dropout, so it runs on any subset of inputs (DTI covers only 39.4% of subjects). It reaches 91.3% balanced accuracy on CN vs dementia, 68.2% on 3-class diagnosis, and 78.7% zero-shot on OASIS-3 with DTI absent. First-author paper published in Frontiers in Computational Neuroscience (2026).",
       "Retrieval-Augmented VQA: Extended the frozen encoder with FAISS retrieval, cross-encoder reranking and LLM generation (Mistral 7B, Gemma 4 26B MoE, MedGemma 1.5 4B). A leakage audit traced the headline VQA accuracy to diagnosis labels in retrieved captions, so the encoder does the diagnosis and the RAG layer serves as an interpretable interface.",
       "Neuro-Var-JEPA: Built a self-supervised 3D Vision Transformer (JEPA) pipeline in PyTorch over 16,024 brain MRI scans from 4 cohorts and ran 82 pre-training runs. Found a data-regime crossover: the variational objective beats the deterministic baseline on all 3 tasks at 25% of pre-training data (45 of 48 seed and data-draw cells positive) but loses at full data. Now testing whether predicting brain regions in anatomical order improves transfer to an external cohort (in progress).",
       "Malliavin scaling-law study: Across 1,225 GPU training runs on ADNI, uncertainty bands on accuracy-versus-data-size curves came out 7.1 to 14.4 times wider when the encoder is retrained from scratch on each subsample than when it is frozen, the way these curves are usually reported. Adapter and partial fine-tuning controls point to pretrained initialization, not how much of the model is retrained, as the cause. Unpublished, in progress.",
@@ -54,7 +54,7 @@ const experiences: ExperienceItem[] = [
     researchUrl: "/research/memoir-vlm-alzheimers-vqa",
     researchLabel: "Read the MEMOIR-VLM research",
     publicationUrl:
-      "https://www.frontiersin.org/journals/computational-neuroscience/articles/10.3389/fncom.2026.1902258/abstract",
+      "https://www.frontiersin.org/journals/computational-neuroscience/articles/10.3389/fncom.2026.1902258/full",
     publicationLabel: "Paper on Frontiers",
     researchHubUrl: "/research",
     researchHubLabel: "All research",
