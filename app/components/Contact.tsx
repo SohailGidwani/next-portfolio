@@ -5,6 +5,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { ArrowUpRight, Copy } from "lucide-react"
 import { triggerHaptic } from "./ui/haptics"
 import { ORCID_ID, ORCID_URL, SCHOLAR_URL } from "@/app/data/profiles"
+import ContactHeading from "./ContactHeading"
 
 const contactRows = [
   {
@@ -97,10 +98,9 @@ export default function Contact() {
           className="space-y-8 md:space-y-10"
         >
           <div className="w-full min-w-0 [container-type:inline-size]">
-            <h2 className="font-display text-[clamp(2.25rem,14.7cqi,10rem)] font-extrabold uppercase leading-[0.95] tracking-[-0.03em] text-pretty">
-              <span className="block text-foreground">Let&apos;s work</span>
-              <span className="block text-accent">Together.</span>
-            </h2>
+            {/* Closed by a square torn from the logo's own as the section
+                arrives (see ContactHeading). */}
+            <ContactHeading className="font-display text-[clamp(2.25rem,14.7cqi,10rem)] font-extrabold uppercase leading-[0.95] tracking-[-0.03em] text-pretty" />
           </div>
 
           <p className="max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
