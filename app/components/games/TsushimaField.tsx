@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react"
 import { clamp, pick, rand, runCanvas } from "./canvasLoop"
 
-export const LEAF_COLORS = ["#b3202a", "#d4452f", "#8e1b1f", "#e3a33b", "#c9372c"]
+const LEAF_COLORS = ["#b3202a", "#d4452f", "#8e1b1f", "#e3a33b", "#c9372c"]
 
 type Stalk = { x: number; h: number; lean: number; phase: number; flex: number }
 type Layer = { stalks: Stalk[]; plume: number; alpha: number; stem: number }
