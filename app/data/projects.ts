@@ -30,8 +30,8 @@ export const projects: ProjectData[] = [
     kind: "Agentic AI",
     shortDescription: "An autonomous agent that migrates Flask apps to FastAPI and proves it with the repo's own tests.",
     description:
-      "LangGraph agent that plans the target architecture (creating new modules, not just rewriting files), verifies in a network-off Docker sandbox, and recovers from failures under bounded budgets. Checkpointed to Postgres, so you can kill the worker mid-run and it resumes.",
-    outcome: "10/10 on the K=5 development gate · 0/9 on the frozen held-out set · regression closure in progress",
+      "It plans the new modules a migration needs, checks each change in a sandbox with no network, and picks up from a Postgres checkpoint if the worker dies mid-run.",
+    outcome: "Tested on repos it had never seen, not just its own · limits published",
     image: portage,
     tags: ["LangGraph", "FastAPI", "Postgres", "Docker", "MCP", "Agents"],
     github: "https://github.com/SohailGidwani/Portage",

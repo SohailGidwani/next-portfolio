@@ -61,6 +61,7 @@ const evidenceRows = [
   { set: "Post-R5 ws-example · development K1", result: "42/42 tests · 5/5 tasks", meaning: "One strict autonomous green after becoming a development input.", strong: true },
   { set: "Post-R5 Silicon · development K1", result: "34/34 tests · 14/14 tasks", meaning: "One strict autonomous green after becoming a development input.", strong: true },
   { set: "Post-R5 flask-email-login · development K1", result: "18/18 tests · 15/15 tasks", meaning: "One strict autonomous green after becoming a development input.", strong: true },
+  { set: "Latest Microblog preservation replay · after the post-R5 fixes", result: "red · 1/26 tasks", meaning: "Checked whether the fixes still held on a development repo. They did not; the original code was restored cleanly. 39 calls, $2.056.", strong: false },
 ]
 
 const heldOutRows = [
@@ -139,8 +140,6 @@ Then the first frozen held-out evaluation supplied the correction. On three repo
 
 A later forensic audit then corrected part of that failure explanation. The protected ws-example test file was byte-identical; a truncated read of a long protected test file caused a false oracle-integrity alarm. That correction changes the explanation, not the 0/9, because each sample was independently red for migration reasons.
 
-Development results are strong, but unseen-repository reliability is not yet proven. Frozen R5 v1 remains 0/9. All three former R5 repositories later reached one strict autonomous K1 green as development inputs. Regression closure is still in progress, and another generalization claim requires a genuinely fresh frozen held-out set after that work closes.
-
 One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --watch\` drives the full graph. Co-pilot mode: Claude Code / Cursor call verify_patch_in_sandbox, repo_graph, and blast_radius over MCP, the same verified primitives the eval numbers were measured on. The dashboard is the observability and proof surface, not the front door.`,
     tags: ["Python", "FastAPI", "LangGraph", "Postgres", "pgvector", "LiteLLM", "Docker", "Next.js", "MCP", "pytest"],
     github: "https://github.com/SohailGidwani/Portage",
@@ -163,7 +162,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
       {
         icon: <RefreshCcw className="w-5 h-5" />,
         title: "Bounded Recovery, Targeted First",
-        description: "Uniquely attributable failures repair the single owning artifact (measured: a stray .decode() fixed for $0.011 without touching its ten-file cut). Otherwise: targeted rollback + regenerate, widen-on-repeat, replan, skip-and-continue as last resort, all budget-bounded.",
+        description: "When a failure traces to one file, Portage repairs only that file (a stray .decode() fixed for $0.011 without regenerating its ten-file batch). Since September, a failure it can't pin to one file stops the run with the draft, diff and checkpoints kept, instead of paying to regenerate a batch on a guess. That is cost control, not a measured gain in success rate.",
       },
       {
         icon: <GitBranch className="w-5 h-5" />,
@@ -213,7 +212,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
     ],
     challenges: [
       "Development convergence did not predict held-out generalization. Flaskr and Watchlist reached 10/10 in the disclosed K=5 v4 gate, while frozen R5 v1 was 0/9. Later development K1 greens on those same three repositories show remediation progress, not unseen generalization",
-      "Preservation still matters after a remediation green. A new accepted-plan Microblog replay exposed a source-defined initializer callback that was not retained. Current regression closure remains open",
+      "Fixing one repo can break another. After the held-out fixes, a Microblog replay got past the callback bug it first exposed, then failed on missing imports and database-session handling. It finished 1 of 26 tasks and restored the original code cleanly",
       "One bad file used to sink the whole cut: before coherent-cut checkpointing, a single local mistake inside a ten-file verification batch rolled back everything in it. Checkpointing the last coherent state and restoring that, not the original, is what made the hard repos repeatable",
       "Measurement instruments need the same scrutiny as output. A held-out 0.75 oracle score looked like deleted tests; byte-level reconstruction proved the file was unchanged and both readers had truncated a long protected test file. The readers and the regression are fixed, and the run stayed red for reasons that had nothing to do with the bug",
       "Some migrations are unreachable by rewriting files, proven by migrating flaskr by hand under the same sandbox oracle: 24/24, but only after creating four new modules. That manual run became the acceptance spec, and the engine's missing capability had a name",
@@ -226,7 +225,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
     ],
     learnings: [
       "Publish the held-out result when it fails. R5 v1 stays at 0/9. Repositories that influence fixes become development inputs permanently, and the next generalization test needs a fresh frozen corpus",
-      "Autonomous migrations and MCP reuse the sandbox and structural tools. The MCP demo separately shows a real proposed patch failing, a corrected proposal passing, and an unchanged caller tree. That demonstrates the workflow; it does not prove migration generalization",
+      "Autonomous migrations and MCP reuse the sandbox and structural tools. The MCP demo separately shows a real proposed patch failing, a corrected proposal passing, and an unchanged caller tree. A final check in October repeated it: a passing patch accepted at 4/4 tests, a deliberately broken one rejected at 3/4. That demonstrates the workflow; it does not prove migration generalization",
       "Honesty bars must be structural, not aspirational; every false-green class found in the wild became a hard predicate, and engine crashes count against the score",
       "Give the model judgment, take back the bookkeeping: it decides ownership, grouping, and design; the engine deterministically supplies facts it already derives, and rejects contradictions loudly",
       "Separate your random variables: architect acceptance and generation quality are independent; measuring them together makes every fix unattributable",
@@ -301,7 +300,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                   </div>
                 </div>
                 <p className="mb-6 font-mono text-xs uppercase tracking-[0.15em] text-accent">
-                  Regression closure in progress
+                  Development closed · October 2026
                 </p>
 
                 <p className="mb-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
@@ -335,34 +334,20 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                     durability recording is the single strongest proof on the
                     page. Neither should cost a tap. */}
                 <MobileSection n="01" label="System overview" id="recovery-proof" alwaysOpen>
+                  {/* The quick read: the problem, what it is, the result and the
+                      main limitation, before any of the machinery. The deep dive
+                      is the long read. */}
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
-                    Portage is a durable, measured code-migration agent. Its current recipe migrates Flask
-                    applications to FastAPI.
+                    AI migration demos usually stop once the model has written the code. Portage only calls
+                    a migration done when the repo&apos;s own tests pass. It moves Flask apps to FastAPI: it
+                    plans the new modules the migration needs, writes the code, runs the tests in a sandbox
+                    with no network, and repairs what breaks. Progress is saved to Postgres after every
+                    step, and other coding agents can use the same sandbox through MCP.
                   </p>
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
-                    It surveys a repository, builds a structural graph, and plans the target architecture,
-                    including new modules when the migration needs them. Cross-file interfaces and capability
-                    ownership freeze before generation. Portage executes dependency-aware groups of changes,
-                    rejects invalid code through mechanical AST and topology checks, and runs repository
-                    tests in an ephemeral Docker sandbox with networking disabled.
-                  </p>
-                  <p className="mb-6 text-base leading-relaxed text-muted-foreground">
-                    LangGraph execution checkpoints in Postgres. Recovery runs under bounded attempt and cost
-                    budgets, and a failed targeted repair restores the last coherent cut. A run is green only
-                    when every task is complete, the full suite passes, the test oracle is intact, and the
-                    measured tree is migrated. Passing the original tests after rollback still counts as red.
-                  </p>
-                  <p className="mb-6 text-base leading-relaxed text-muted-foreground">
-                    The CLI drives autonomous migrations. MCP exposes repository graphs, blast-radius
-                    queries, and proposed-patch verification in an isolated copy. The frontend is the
-                    observability and evidence surface.
-                  </p>
-                  <p className="mb-6 text-base leading-relaxed text-muted-foreground">
-                    Development results are strong, but unseen-repository reliability is not yet proven.
-                    Frozen R5 v1 remains 0/9. All three former R5 repositories later reached one strict
-                    autonomous K1 green as development inputs. Regression closure is still in progress, and
-                    another generalization claim requires a genuinely fresh frozen held-out set after that
-                    work closes.
+                    It passed its development gates, then went 0 for 9 on three repos it had never seen. I
+                    publish both side by side. That gap is the main limitation, and I closed development in
+                    October 2026 rather than keep tuning against the same repos.
                   </p>
                   <p className="mb-6 text-base leading-relaxed text-muted-foreground">
                     Below is the core durability claim, live: the worker is killed mid-migration, and a
@@ -561,9 +546,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                   <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
                     Each of the three post-R5 development K1 greens has{" "}
                     <span className="font-mono text-foreground">tree_state=migrated</span> and oracle
-                    integrity 1.0. They do not replace R5 v1 and do not count as held-out evidence. A later
-                    accepted-plan Microblog preservation replay is red, so current regression closure
-                    remains open.
+                    integrity 1.0. They do not replace R5 v1 and do not count as held-out evidence.
                   </p>
 
                   <p className="mb-3 mt-8 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
@@ -621,8 +604,8 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                     <p className="mt-3 text-sm leading-relaxed text-foreground">
                       Once those findings influenced development, all three repositories became development
                       inputs permanently. Their later successful runs cannot supply held-out evidence. The
-                      original result stays visible. The next meaningful generalization test requires a
-                      genuinely fresh, frozen corpus after current regression closure.
+                      original result stays visible. Fresh held-out evaluation is parked, and any future test
+                      of generalization has to keep this 0/9 beside it and use repositories nobody has touched.
                     </p>
                   </div>
                   <div className="mt-4 rounded border border-accent/20 bg-card p-4">
@@ -632,40 +615,28 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                     <p className="mt-2 text-sm leading-relaxed text-foreground">
                       flaskr, the canonical Flask tutorial app (templates + factory + auth + SQLite + Click
                       CLI), went from never green in any grid to 24/24 tests, 12/12 tasks and zero recovery,
-                      and now holds 5/5 at K=5. One stored flaskr job cost $0.154 including retries and
+                      and held 5/5 at K=5. One stored flaskr job cost $0.154 including retries and
                       planning; that is a single run, not a rate across the full history. watchlist, a Flask-SQLAlchemy app that had
-                      never gone green, holds 5/5 at 15/15 tests. Both needed new modules to exist; the engine
+                      never gone green, held 5/5 at 15/15 tests. Both needed new modules to exist; the engine
                       designed and wired them. What made them repeatable rather than occasional was
                       coherent-cut preservation.
                     </p>
                   </div>
                   <div className="mt-4 rounded border border-border bg-card/40 p-4">
                     <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                      Where it stands now
+                      Where it stopped
                     </p>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      All three former R5 repositories have now reached one strict autonomous development K1
-                      green: <span className="font-mono text-foreground">ws-example</span> at 42/42 tests and
-                      5/5 tasks; Silicon at 34/34 and 14/14; flask-email-login at 18/18 and 15/15. All three
-                      have migrated trees and oracle integrity 1.0.
+                      I closed active development on October 8, 2026. That is a stopping point I chose, not a
+                      claim the problem is solved: Portage is not production-ready or proven on repositories it
+                      hasn&apos;t seen. The code and evidence stay up, and I&apos;ll pick it back up only for a
+                      genuinely new idea, not more of the same tuning.
                     </p>
                     <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                      The current R5 remediation goal is not fully closed. A new accepted-plan Microblog
-                      preservation replay exposed a general callback-retention bug involving a source-defined
-                      initializer callback. That is a replay diagnostic, not autonomous evidence. Current
-                      regression closure is still in progress.
-                    </p>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                      Portage has strong development results. It is not production-ready, generally solved, or
-                      held-out validated. Unseen-repository reliability remains unproven. After the current
-                      goal closes, the next meaningful generalization claim requires a newly frozen held-out
-                      corpus.
-                    </p>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                      Evidence reviewed September 8, 2026. Development gate history is from July 2026; frozen
-                      R5 v1 ran in July 2026; the three post-R5 development K1 greens are from August 2026.
-                      These stored runs were inspected again for this page; they were not rerun on the
-                      current tree.
+                      The fixes after the held-out run were meant to keep every earlier result passing, and
+                      Microblog&apos;s replay is still red, so that work stopped incomplete. Gates and the
+                      held-out run are from July 2026, the three later greens from August, the Microblog replay
+                      from September. No migration has been rerun since.
                     </p>
                   </div>
                 </MobileSection>
@@ -746,7 +717,7 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                   </h3>
                   <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
                     Every moving part explained: the animated architecture, graph-node lifecycle, checkpoint
-                    and lease mechanics, sandbox anti-gaming predicates, artifact-producing plans, the eight
+                    and lease mechanics, sandbox anti-gaming predicates, artifact-producing plans, the
                     recovery strategies, K-run eval methodology with non-claims, and the ten-category failure
                     taxonomy with evidence.
                   </p>

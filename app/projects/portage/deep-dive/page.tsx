@@ -156,7 +156,7 @@ export default function PortageDeepDivePage() {
               <div className="mb-6 flex flex-wrap items-center gap-x-6 gap-y-4">
                 <Stat value="10/10" label="K=5 Dev Gates" primary />
                 <Stat value="0/9" label="Frozen Held-Out" />
-                <Stat value="8" label="Recovery Strategies" />
+                <Stat value="8" label="Recovery Strategies (historical)" />
                 <Stat value="10" label="Failure Categories" />
               </div>
 
@@ -174,10 +174,10 @@ export default function PortageDeepDivePage() {
               {/* The publishing date is not the measurement date. Stating both stops
                   a later review pass from reading as a fresh benchmark run. */}
               <p className="mb-8 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-                Evidence reviewed September 8, 2026. Development gate history is from July 2026; frozen R5 v1
-                ran in July 2026; the three post-R5 development K1 greens are from August 2026. Current
-                regression closure remains in progress. These stored runs were inspected again for this page;
-                they were not rerun on the current tree.
+                Active development closed on October 8, 2026, as a deliberate stopping point. The development
+                gates and frozen R5 v1 ran in July 2026, the three post-R5 development K1 greens in August, and
+                the last Microblog preservation replay in September. The October closeout ran local checks
+                only, so no migration result here is newer than September.
               </p>
 
               <div className="flex flex-wrap gap-2 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
@@ -270,7 +270,7 @@ export default function PortageDeepDivePage() {
                       ["Plan", "Everything is frozen here: tasks ordered by a cycle-safe SCC condensation of the real import graph (dependencies first); an interface manifest freezes every cross-file symbol's target shape; a bounded architect call proposes new artifacts and a deterministic contract compiler completes what the engine already knows; executable cuts define which files must be mutually coherent before tests can honestly run; the oracle census freezes what tests may change. Replan may append, never mutate."],
                       ["Execute", "LLM generation in dependency order, in bounded coordinated units. Every draft passes mechanical AST gates before the sandbox: contract shape, defined-vs-invented capability ownership, import direction, decorator/middleware shape, new-cycle rejection. Violations get one accounted repair call. Content-hash idempotent on resume; driver → escalation model ladder."],
                       ["Verify", "Per-cut tests in an ephemeral --network none sandbox, JUnit-parsed, stale report deleted before every run. All-skipped suites are failures (passed > 0 required); Recover sees stdout + stderr."],
-                      ["Recover", "Uniquely attributable failures repair one artifact on a separate bounded ledger; otherwise replan / targeted rollback / widen-on-repeat / skip-and-continue. Failure fingerprints stop no-progress loops."],
+                      ["Recover", "Uniquely attributable failures repair one artifact on a separate bounded ledger. Since September, ambiguous failures stop at Report with the evidence kept rather than regenerating a batch. Failure fingerprints stop no-progress loops."],
                       ["Integrate", "Full suite as the final gate; always recomputes the migration diff from the worktree, never trusting a stale cached diff. An Integrate-only regression can route back through Recover once."],
                       ["Report", "Reloads task truth from Postgres; emits the artifact plan, oracle census, per-call cost ledger, recovery actions, diffs, and verdict."],
                     ]}
@@ -447,6 +447,11 @@ export default function PortageDeepDivePage() {
                   <span className="font-mono text-foreground">max_task_attempts=3</span>,{" "}
                   <span className="font-mono text-foreground">max_recover_visits=4</span>,{" "}
                   <span className="font-mono text-foreground">escalate_after_attempts=2</span>.
+                </p>
+                <p className="mb-6 text-base leading-relaxed text-muted-foreground">
+                  The table is the historical implementation. Since September, a failure that cannot be
+                  pinned on one artifact stops at Report with the draft, diff and checkpoints kept, instead
+                  of regenerating a batch. That is cost control with local tests, not a measured gain.
                 </p>
                 <SimpleTable
                   head={["Strategy", "Trigger", "Action"]}
@@ -667,7 +672,7 @@ export default function PortageDeepDivePage() {
                       ["Immunity to prompt-tuning bias", "Several recipe rules were learned from the development corpus. R5 v1 exposed the consequence rather than disproving it: the known-corpus gates stayed strong while unseen performance was 0/9."],
                       ["Replay results as autonomous results", "Frozen-plan replays isolate generation quality from architect variance. They are diagnostic, tagged as such, and never aggregated into headline green rates."],
                       ["\"Recipe-neutral\" as proven", "The engine contains no corpus identity and the contract machinery is framework-agnostic by construction, but neutrality is only proven by a second recipe, which is deliberately deferred."],
-                      ["Production readiness", "Development results are strong. Portage is not production-ready, generally solved, or held-out validated, and unseen-repository reliability remains unproven. Regression closure is still open: a later accepted-plan Microblog preservation replay is red on a source-defined initializer callback."],
+                      ["Production readiness", "Development results are strong. Portage is not production-ready, generally solved, or held-out validated, and unseen-repository reliability remains unproven. Development closed in October 2026 with preservation incomplete: the latest Microblog preservation replay is red on missing provider imports and database-session handling."],
                     ]}
                   />
                 </div>
@@ -774,11 +779,10 @@ export default function PortageDeepDivePage() {
                       their later successful runs cannot supply held-out evidence.
                     </p>
                     <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                      Remediation is not fully closed. A new accepted-plan Microblog preservation replay
-                      exposed a general callback-retention bug involving a source-defined initializer
-                      callback: a replay diagnostic, not autonomous evidence. Any later held-out claim must
-                      keep this 0/9 visible and use a genuinely fresh frozen corpus scouted after that
-                      closure.
+                      Remediation stopped incomplete: the latest Microblog preservation replay got past
+                      its callback bug but stayed red on missing provider imports and database-session
+                      handling (1/26 tasks, tree restored coherently). Fresh held-out evaluation is parked,
+                      and any later claim must keep this 0/9 visible and use untouched repositories.
                     </p>
                   </div>
                 </div>
@@ -1010,30 +1014,29 @@ export default function PortageDeepDivePage() {
                 </p>
                 <div className="mt-6 rounded border border-border bg-card p-5">
                   <p className="mb-2 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                    Current phase: recipe excellence, not deployment
+                    Where it stopped: recipe excellence, not deployment
                   </p>
                   <p className="text-sm leading-relaxed text-muted-foreground">
-                    After Phase 6, external review made the call that shapes everything since: the strongest
-                    claim is depth, not breadth. Deployment was parked by decision (the repo is deploy-ready)
-                    until the recipe meets a readiness bar set before the work: JSON-API tier ≥90% green,
+                    After Phase 6, external review made the call that shaped everything after it: the strongest
+                    claim is depth, not breadth. Deployment was parked by decision until the recipe meets a readiness bar set before the work: JSON-API tier ≥90% green,
                     template/session tier 70–80%, extension tier supported or honestly rejected, no
                     fault-scenario degradation, no false greens or weakened tests, and results reproduced on
                     held-out repositories never touched during development. The development side is largely
                     met. R5 v1 failed the required final clause at 0/9, so the bar is{" "}
-                    <span className="font-semibold text-foreground">not met yet</span>, and that result is now
+                    <span className="font-semibold text-foreground">not met</span>, and that result is now
                     the governing constraint rather than something met by redefinition. The remediation
-                    work generalizes from the held-out failure classes while preserving every development and
-                    fault gate, before any fresh unseen set is frozen.
+                    work then tried to generalize from the held-out failure classes while preserving every
+                    development and fault gate.
                   </p>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                     All three former R5 repositories have since reached one strict autonomous development K1
                     green: <span className="font-mono text-foreground">ws-example</span> at 42/42 tests and
                     5/5 tasks, Silicon at 34/34 and 14/14, flask-email-login at 18/18 and 15/15, each with a
                     migrated tree and oracle integrity 1.0. None of that revises R5 v1, and none of it is
-                    held-out evidence. The goal is not fully closed either: a new accepted-plan Microblog
-                    preservation replay is red on a source-defined initializer callback that was not
-                    retained, so regression closure is still in progress. Only after it closes does a newly
-                    frozen held-out corpus become meaningful.
+                    held-out evidence. Preservation stayed incomplete: the latest Microblog preservation
+                    replay is red. Active development closed on October 8, 2026. Further recipe work, paid
+                    evaluation and fresh held-out runs are parked, and any resumption has to keep R5 v1
+                    published beside whatever comes next.
                   </p>
                 </div>
               </MobileSection>
@@ -1051,11 +1054,11 @@ export default function PortageDeepDivePage() {
                     "Queue claim:   UPDATE … WHERE id = (SELECT … FOR UPDATE SKIP LOCKED LIMIT 1)",
                     "Resume:        aget_state(config) → pending nodes → ainvoke(None); never re-pass input",
                     "Faults:        bad_patch → rollback+regen · bad_patch_until_escalation → tier switch · drop_task → replan",
-                    "Boundary:      converges strongly on the development corpus; R5 v1 scored 0/9 on unseen repos, so general capability realization is the frontier now",
+                    "Boundary:      converges strongly on the development corpus; R5 v1 scored 0/9 on unseen repos, so generalization was still the open problem when development closed",
                     "Development:   flaskr 5/5 · watchlist 5/5 at K=5 · items/restx/structural/minimal 3/3 at K=3 · fresh full-corpus sweep 6/7",
                     "Held-out:      R5 v1 0/9 strict green · architect 6/9 · trees 4 migrated / 5 restored / 0 hybrid · 119 calls · $3.8643 · 9/9 reports, 0 missing rows",
                     "Remediation:   all three R5 repos are development inputs now, each with one strict autonomous K1 green · ws-example 42/42 (5/5 tasks) · Silicon 34/34 (14/14) · flask-email-login 18/18 (15/15) · development evidence, not a revised R5",
-                    "Open:          a later accepted-plan Microblog preservation replay is red on a source-defined initializer callback; regression closure in progress",
+                    "Stopped:       development closed Oct 8, 2026 · remediation incomplete: the latest Microblog preservation replay is red (1/26 tasks, restored coherent) · fresh held-out evaluation parked",
                     "Integrity:     the ws-example oracle alarm was a truncated read of a long protected test file; files byte-identical, readers fixed, 0/9 unchanged",
                   ]}
                 />
