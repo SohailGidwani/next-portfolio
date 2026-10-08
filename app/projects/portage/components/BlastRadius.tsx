@@ -1,7 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { motion, useReducedMotion } from "framer-motion"
+import { motion } from "framer-motion"
+import { useHydrationSafeReducedMotion } from "@/app/hooks/useHydrationSafeReducedMotion"
 import { RotateCcw } from "lucide-react"
 import { useDiagramInstance, useDiagramVertical } from "@/app/components/DiagramOrientation"
 
@@ -179,7 +180,7 @@ function ImpactEdgeLine({
         initial={reduced ? false : { pathLength: 0 }}
         whileInView={{ pathLength: 1 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: reduced ? 0 : T_GRAPH + 0.2 }}
+        transition={reduced ? { duration: 0 } : { duration: 0.6, delay: T_GRAPH + 0.2 }}
       />
       {/* accent overlay drawn when the wave reaches it */}
       <motion.path
@@ -191,7 +192,7 @@ function ImpactEdgeLine({
         initial={reduced ? false : { pathLength: 0, opacity: 0 }}
         whileInView={{ pathLength: 1, opacity: 1 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: reduced ? 0 : accentDelay, ease: "easeOut" }}
+        transition={reduced ? { duration: 0 } : { duration: 0.5, delay: accentDelay, ease: "easeOut" }}
       />
     </>
   )
@@ -232,7 +233,7 @@ function TestEdgeLine({
       initial={reduced ? false : { pathLength: 0, opacity: 0 }}
       whileInView={{ pathLength: 1, opacity: 0.9 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.55, delay: reduced ? 0 : T_TESTS, ease: "easeOut" }}
+      transition={reduced ? { duration: 0 } : { duration: 0.55, delay: T_TESTS, ease: "easeOut" }}
       markerEnd={`url(#${markerAccent})`}
     />
   )
@@ -464,7 +465,7 @@ function SummaryChip({
       initial={reduced ? false : { opacity: 0, y: 6 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: reduced ? 0 : T_SETTLE + 0.3 }}
+      transition={reduced ? { duration: 0 } : { duration: 0.5, delay: T_SETTLE + 0.3 }}
     >
       <rect x={x} y={y} width={w} height={32} rx="3" fill="var(--accent)" fillOpacity="0.08" stroke="var(--accent)" strokeWidth="1.2" />
       <text x={x + w / 2} y={y + 17} textAnchor="middle" dominantBaseline="middle" className="font-mono" style={{ fontSize: 10.5, fill: "var(--fg)", fontWeight: 600 }}>
@@ -643,7 +644,7 @@ function BlastRadiusVertical({ reduced, uid }: { reduced: boolean; uid: string }
             initial={reduced ? false : { pathLength: 0, opacity: 0 }}
             whileInView={{ pathLength: 1, opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: reduced ? 0 : T_TESTS - 0.2 }}
+            transition={reduced ? { duration: 0 } : { duration: 0.5, delay: T_TESTS - 0.2 }}
           />
 
           {/* test panel */}
@@ -675,7 +676,7 @@ function BlastRadiusVertical({ reduced, uid }: { reduced: boolean; uid: string }
 /* ─────────────────────────── shell with replay ─────────────────────────── */
 
 export default function BlastRadius() {
-  const reduced = useReducedMotion() ?? false
+  const reduced = useHydrationSafeReducedMotion()
   const vertical = useDiagramVertical()
   // Deterministic (SSR-safe) id, unique across the lightbox's mounted copies.
   const uid = `blast-${useDiagramInstance()}`

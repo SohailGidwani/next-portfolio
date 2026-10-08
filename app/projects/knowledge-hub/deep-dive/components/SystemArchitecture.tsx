@@ -1,6 +1,7 @@
 "use client"
 
-import { motion, useReducedMotion } from "framer-motion"
+import { motion } from "framer-motion"
+import { useHydrationSafeReducedMotion } from "@/app/hooks/useHydrationSafeReducedMotion"
 import { useDiagramVertical } from "@/app/components/DiagramOrientation"
 
 interface EdgeProps {
@@ -32,7 +33,7 @@ function Edge({ id, d, accent, dashed, delay = 0, packet, reduced, mk = "" }: Ed
         initial={reduced ? { pathLength: 1 } : { pathLength: 0 }}
         whileInView={{ pathLength: 1 }}
         viewport={{ once: true, margin: "-10%" }}
-        transition={{ duration: 0.9, ease: "easeInOut", delay }}
+        transition={reduced ? { duration: 0 } : { duration: 0.9, ease: "easeInOut", delay }}
       />
       {packet && !reduced ? (
         <circle r="2.5" fill={accent ? "var(--accent)" : "var(--muted)"} opacity={0.9}>
@@ -166,7 +167,7 @@ function SystemArchitectureVertical({ reduced }: { reduced: boolean }) {
 }
 
 export default function SystemArchitecture() {
-  const reduced = useReducedMotion() ?? false
+  const reduced = useHydrationSafeReducedMotion()
   const vertical = useDiagramVertical()
 
   if (vertical) return <SystemArchitectureVertical reduced={reduced} />

@@ -1,7 +1,8 @@
 "use client"
 
 import { useRef, type RefObject } from "react"
-import { motion, useInView, useReducedMotion } from "framer-motion"
+import { motion, useInView } from "framer-motion"
+import { useHydrationSafeReducedMotion } from "@/app/hooks/useHydrationSafeReducedMotion"
 import { useDiagramInstance, useDiagramVertical } from "@/app/components/DiagramOrientation"
 
 /**
@@ -41,7 +42,7 @@ function Edge({ id, d, accent, dashed, opacity = 1, delay = 0, packet, reduced, 
         initial={reduced ? { pathLength: 1 } : { pathLength: 0 }}
         whileInView={{ pathLength: 1 }}
         viewport={{ once: true, margin: "-10%" }}
-        transition={{ duration: 0.9, ease: "easeInOut", delay }}
+        transition={reduced ? { duration: 0 } : { duration: 0.9, ease: "easeInOut", delay }}
       />
       {packet && !reduced ? (
         <circle r="2.5" fill={accent ? "var(--accent)" : "var(--muted)"} opacity={0.9}>
@@ -200,7 +201,7 @@ function MigrationFlowVertical({ reduced, paused, uid }: { reduced: boolean; pau
 /* ─────────────────────────── horizontal ─────────────────────────── */
 
 export default function MigrationFlow() {
-  const prefersReduced = useReducedMotion() ?? false
+  const prefersReduced = useHydrationSafeReducedMotion()
   // reduced gates ENTRANCES (initial props are mount-time-only, so this must
   // never be polluted by the async inView flag); paused gates the infinite
   // pulses so they stop offscreen.

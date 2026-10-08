@@ -1,7 +1,8 @@
 "use client"
 
 import { useRef, type RefObject } from "react"
-import { motion, useInView, useReducedMotion } from "framer-motion"
+import { motion, useInView } from "framer-motion"
+import { useHydrationSafeReducedMotion } from "@/app/hooks/useHydrationSafeReducedMotion"
 import { useDiagramVertical } from "@/app/components/DiagramOrientation"
 
 interface Step {
@@ -38,7 +39,7 @@ function Edge({ id, d, accent, dashed, delay = 0, packet, reduced, mk = "" }: Ed
         initial={reduced ? { pathLength: 1 } : { pathLength: 0 }}
         whileInView={{ pathLength: 1 }}
         viewport={{ once: true, margin: "-10%" }}
-        transition={{ duration: 0.9, ease: "easeInOut", delay }}
+        transition={reduced ? { duration: 0 } : { duration: 0.9, ease: "easeInOut", delay }}
       />
       {packet && !reduced ? (
         <circle r="2.5" fill={accent ? "var(--accent)" : "var(--muted)"} opacity={0.9}>
@@ -175,7 +176,7 @@ function IngestionPipelineVertical({ reduced, paused }: { reduced: boolean; paus
 }
 
 export default function IngestionPipeline() {
-  const prefersReduced = useReducedMotion() ?? false
+  const prefersReduced = useHydrationSafeReducedMotion()
   // reduced gates ENTRANCES (initial props are mount-time-only, so this must
   // never be polluted by the async inView flag); paused gates the infinite
   // pulses so they stop offscreen.

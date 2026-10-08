@@ -1,7 +1,8 @@
 "use client"
 
 import { useRef, type RefObject } from "react"
-import { motion, useInView, useReducedMotion } from "framer-motion"
+import { motion, useInView } from "framer-motion"
+import { useHydrationSafeReducedMotion } from "@/app/hooks/useHydrationSafeReducedMotion"
 import { useDiagramVertical } from "@/app/components/DiagramOrientation"
 
 interface EdgeProps {
@@ -44,7 +45,7 @@ function Edge({
         initial={reduced ? { pathLength: 1 } : { pathLength: 0 }}
         whileInView={{ pathLength: 1 }}
         viewport={{ once: true, margin: "-10%" }}
-        transition={{ duration: 0.9, ease: "easeInOut", delay }}
+        transition={reduced ? { duration: 0 } : { duration: 0.9, ease: "easeInOut", delay }}
       />
       {packet && !reduced ? (
         <circle r="2.5" fill="var(--accent)" opacity={accent ? 1 : 0.85}>
@@ -249,7 +250,7 @@ function VLMArchitectureVertical({ reduced, paused }: { reduced: boolean; paused
 }
 
 export default function VLMArchitecture() {
-  const prefersReduced = useReducedMotion() ?? false
+  const prefersReduced = useHydrationSafeReducedMotion()
   // reduced gates ENTRANCES (initial props are mount-time-only, so this must
   // never be polluted by the async inView flag); paused gates the infinite
   // pulses so they stop offscreen.
