@@ -111,7 +111,6 @@ function Screenshot({
 
 const tocItems = [
   { id: "recovery-proof", n: "01", label: "System overview" },
-  { id: "section-02", n: "02", label: "Why I built it" },
   { id: "section-03", n: "03", label: "How it works" },
   { id: "section-04", n: "04", label: "CLI: autonomous mode" },
   { id: "section-05", n: "05", label: "MCP: co-pilot mode" },
@@ -127,9 +126,6 @@ export default function PortagePage() {
     title: "Portage: Autonomous Code-Migration Agent",
     description:
       "Give it a Flask repo and a recipe; it plans the target architecture, rewrites existing files and creates the new modules the migration requires, verifies against the repo's own tests in a network-off Docker sandbox, recovers from failures under bounded budgets, and reports honestly, including when it fails.",
-    why: `Most "AI migration" demos are single-shot prompts with no verification story. Portage is built around the opposite claim: a migration is only real if the repo's own tests still pass, every planned file was actually migrated, and recovery cannot game the score by giving up.
-
-The governing principle is narrow + measured beats broad + unproven. One hard migration (Flask → FastAPI) instead of a catalogue of half-working recipes. An eval harness that runs the real queue/worker path, not a mocked agent loop. A failure taxonomy with SOLVED / PARTIAL / OPEN statuses and evidence, not an all-green sheet. The autonomous + eval core is the credibility engine for the MCP product: if the verify/recover loop is measured, another agent can trust verify_patch_in_sandbox over a raw sandbox.`,
     how: `v1 ships one recipe: Flask → FastAPI. That target is deliberate. Routing decorators, request/response handling, blueprints → routers, error handlers, app factories, and ambient request context (g, session) need understanding, not mechanical rewriting; deterministic codemods cannot do this reliably. The architecture is recipe-pluggable; the evidence is recipe-specific by design.
 
 The capability that unlocked the hard repos: some migrations are unreachable by rewriting existing files. Flask's g/session have no FastAPI equivalent. A correct port needs a new request-context module, a test-compatibility surface, a rendering layer, and every consumer wired to them coherently. Portage plans those artifacts with a bounded architect call, freezes their contracts before generation, compiles the deterministic parts itself, and enforces that a framework-shaped capability is only valid when the plan owns and implements it, so a model can't reference a helper it wishes existed.
@@ -371,13 +367,6 @@ One core engine, two interfaces. Autonomous mode: \`portage migrate <repo> --wat
                       </p>
                     </div>
                   </div>
-                </MobileSection>
-
-                {/* 02 · Why I Built It */}
-                <MobileSection n="02" label="Why I built it" id="section-02">
-                  <p className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
-                    {project.why}
-                  </p>
                 </MobileSection>
 
                 {/* 03 · How It Works */}

@@ -3,7 +3,7 @@ import { Metadata } from "next"
 export const metadata: Metadata = {
   title: "Portage: Technical Deep Dive | Sohail Gidwani",
   description:
-    "Full technical breakdown of Portage: LangGraph node lifecycle, Postgres checkpoint + lease durability, network-off Docker sandbox with anti-gaming predicates, eight recovery strategies, the Flask → FastAPI recipe system, K-run eval methodology, and the ten-category failure taxonomy.",
+    "Full technical breakdown of Portage: LangGraph node lifecycle, Postgres checkpoint + lease durability, network-off Docker sandbox with anti-gaming predicates, eight historical recovery strategies, the Flask → FastAPI recipe system, K-run eval methodology, and the ten-category failure taxonomy.",
   keywords: [
     "Portage",
     "autonomous agent",
