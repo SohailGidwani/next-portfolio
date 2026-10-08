@@ -44,13 +44,13 @@ export default function AboutPage() {
               </h1>
               <div className="mt-7 space-y-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
                 <p>
-                  I&apos;m Sohail, an AI/ML engineer and M.S. Computer Science student at USC. I work on systems where model behavior has to meet real software constraints: autonomous code migration, multimodal medical-AI research, retrieval pipelines, and the interfaces that make those systems usable.
+                  I&apos;ve been into computers since I was a kid. I used to tag along to my dad&apos;s office just to play games on his PC, until he got me one at home. Then I watched Iron Man for the first time and couldn&apos;t stop thinking about JARVIS. Was there a person behind it? Was it just code? Or something else? That question is what got me into AI.
                 </p>
                 <p>
-                  I started my career at IIFL building internal AI products for employees and support teams. That experience shaped how I think about applied AI: the model is only one part of the product. Reliability, permissions, observability, and a clear fallback matter just as much.
+                  IIFL was my first time inside a company. I saw how work really gets done: no one person owns any part of a project, and even the parts I thought were small had a whole team behind them. It was also the first time real people used something I built and told me what they thought.
                 </p>
                 <p>
-                  At Keck School of Medicine of USC, I now work across imaging, clinical data, multimodal learning, and retrieval-augmented VQA. Outside research, I keep building tools that let me test ideas end to end instead of stopping at a notebook.
+                  Now I&apos;m doing my master&apos;s in computer science at USC and medical-AI research at Keck School of Medicine, and I keep building my own projects on the side.
                 </p>
               </div>
               <div className="mt-8 flex flex-wrap gap-3">
@@ -152,6 +152,19 @@ export default function AboutPage() {
         </section>
 
         <Personal />
+
+        {/* A quiet way out: the page used to stop dead on the last pleasure. */}
+        <section className="border-t border-border py-16 sm:py-20">
+          <div className="container mx-auto px-4">
+            <p className="max-w-2xl text-pretty text-lg leading-relaxed text-foreground sm:text-xl">
+              That&apos;s me outside the code. If you want to talk about something you&apos;re building, a research idea, or which Spider-Man movie is best, I&apos;m always up for it.
+            </p>
+            <Link href="/#contact" className="link-action mt-5">
+              Say hello
+              <ArrowUpRight className="h-4 w-4" aria-hidden />
+            </Link>
+          </div>
+        </section>
       </main>
     </div>
   )

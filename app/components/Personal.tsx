@@ -13,21 +13,21 @@ const games: Game[] = [
     title: "God of War",
     image: "/images/personal/god-of-war-ragnarok.webp",
     theme: "frost",
-    description: "Kratos and Atreus. The father-son dynamic, the Norse mythology, the combat. This game just hits different every time I replay it.",
+    description: "I didn't enjoy Kratos much the first time around. Then the 2018 game came out, and he was older and calm, with a storm still inside him. That Kratos got me.",
   },
   {
     id: "last-of-us",
     title: "The Last of Us",
     image: "/images/personal/last-of-us.webp",
     theme: "fireflies",
-    description: "I don't think any game has wrecked me the way this one did. Joel and Ellie's story is less a game and more something that stays with you.",
+    description: "I heard it's a game to play before you die, so I did. It left me with chills. I wouldn't change one thing about it, least of all the ending. After what happened to Joel's daughter, I get everything he does for Ellie.",
   },
   {
     id: "ghost-of-tsushima",
     title: "Ghost of Tsushima",
     image: "/images/personal/ghost-of-tsushima.webp",
     theme: "wind",
-    description: "Every single frame of this game looks like a painting. And the haiku composing, the wind guiding you around the map. Pure poetry.",
+    description: "It starts slow, but the wind guiding me through those landscapes kept me hooked until the story and the combat clicked too. Ghost of Yotei is a good sequel with better combat, but I still like Tsushima more.",
   },
   {
     id: "spiderman-game",
@@ -38,7 +38,7 @@ const games: Game[] = [
   },
   {
     id: "fifa",
-    title: "FIFA",
+    title: "FC 26",
     image: "/images/personal/fc-26.webp",
     theme: "pitch",
     description: "When debates with friends need settling. Nothing like a FIFA showdown to determine who's really right.",
@@ -52,7 +52,7 @@ const marvelFavorites: Hero[] = [
     image: "/images/personal/spider-man-amazing-suit.webp",
     theme: "comic",
     shape: "wide",
-    description: "No matter how beaten, how outmatched, he gets back up. Every time. That kind of resilience is something I try to carry into my own life.",
+    description: "My favorite since I was a kid. No matter how beaten, how outmatched, he gets back up. Every time.",
   },
   {
     id: "ironman",
@@ -60,7 +60,7 @@ const marvelFavorites: Hero[] = [
     image: "/images/personal/ironman.jpg",
     theme: "hud",
     shape: "square",
-    description: "Always has a backup plan. And a backup for the backup. If one thing goes south, there's already another plan ready. I try to think like that when I'm building systems.",
+    description: "Always has a backup plan. And a backup for the backup. If one thing goes south, there's already another plan ready.",
   },
 ]
 
@@ -119,8 +119,11 @@ export default function Personal() {
         >
           <div className="mb-4 flex items-center gap-2">
             <Gamepad2 className="h-3.5 w-3.5 text-accent" />
-            <h3 className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">Story-Driven Games</h3>
+            <h3 className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">Games I keep coming back to</h3>
           </div>
+          <p className="mb-5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            It&apos;s the characters for me. It started with Spider-Man on the PS2 my dad got me in 2008, because he was already my favorite.
+          </p>
           <GameShowcase games={games} />
         </motion.div>
 

@@ -269,13 +269,12 @@ export default function MultiModalAlzheimersVQAPage() {
               </div>
 
               <p className="mb-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-                MEMOIR-VLM is a two-stage framework for Alzheimer&apos;s disease characterization
-                from T1-weighted MRI, DTI fractional anisotropy maps, and structured clinical
-                scores. A missing-modality-aware encoder does the diagnosis: one set of weights
-                runs on any available subset of inputs and predicts diagnosis, CDR-SB severity,
-                age, and sex. A retrieval-augmented language layer on top retrieves comparable
-                cases and writes readable summaries grounded in them. It is an interpretable
-                interface, not a better classifier.
+                Real Alzheimer&apos;s patients rarely have every scan, so MEMOIR-VLM reads whatever
+                a patient has: MRI, diffusion MRI and clinical scores. One model predicts
+                diagnosis, severity, age and sex, even with a scan missing. Clinical scores carry
+                most of the diagnosis: diffusion MRI adds a small, measurable gain on top of them,
+                and imaging clearly wins only on age. A retrieval layer explains each prediction
+                from similar patients. It doesn&apos;t make it more accurate.
               </p>
 
               <div className="flex flex-wrap gap-2 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
