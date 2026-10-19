@@ -337,11 +337,32 @@ function ScribeGlobeGlyph() {
   )
 }
 
+/** Footnote: the glasses hear a word, it is matched against the glossary, and a card answers. */
+function FootnoteGlyph() {
+  const C = 5
+  return (
+    <>
+      <Stage x={4} y={25} w={50} text="G2 MIC" at={{ cycle: C, phase: 0 }} />
+      <Wire d="M 54 36 L 72 36" at={{ cycle: C, phase: 0.5 }} />
+      <Stage x={72} y={25} w={68} text="TRANSCRIBE" at={{ cycle: C, phase: 1 }} />
+      <Wire d="M 140 36 L 158 36" at={{ cycle: C, phase: 1.6 }} />
+      <Stage x={158} y={25} w={58} text="GLOSSARY" at={{ cycle: C, phase: 2.1 }} />
+      <Wire d="M 216 36 L 236 36" at={{ cycle: C, phase: 2.7 }} accent />
+      <Stage x={236} y={14} w={80} h={44} lines={["BLUEBIRD", "ASK PRIYA"]} accent at={{ cycle: C, phase: 3.2 }} />
+    </>
+  )
+}
+
 const GLYPHS: Record<string, { render: () => React.ReactElement; label: string }> = {
   portage: {
     render: PortageGlyph,
     label:
       "Diagram: a source repository and a pluggable recipe enter the agent, verification runs in a network-off sandbox, a failure returns for repair, and the retry passes the repository's own tests.",
+  },
+  footnote: {
+    render: FootnoteGlyph,
+    label:
+      "Diagram: audio from the glasses is transcribed and matched against a company glossary, and a card shows what the word means and who to ask.",
   },
   "knowledge-hub": {
     render: KnowledgeHubGlyph,

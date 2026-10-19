@@ -1334,6 +1334,61 @@
   }
 }
 
+/* Footnote glasses figure: the gesture marker under the lens. A press
+   ripples, a hold swells and stays, a swipe runs the dot downward. The
+   global reduced-motion block stops all three. */
+.g2-gesture[data-kind="Press"] {
+  animation: g2-ripple 1.4s var(--ease-out-soft) infinite;
+}
+
+.g2-gesture[data-kind="Hold"] {
+  animation: g2-hold 1.6s var(--ease-out-soft) infinite;
+}
+
+.g2-gesture-dot[data-kind="Swipe down"] {
+  animation: g2-swipe 1.2s var(--ease-out-soft) infinite;
+}
+
+@keyframes g2-ripple {
+  from {
+    transform: scale(0.6);
+    opacity: 1;
+  }
+  to {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+@keyframes g2-hold {
+  0% {
+    transform: scale(0.6);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(1.9);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+@keyframes g2-swipe {
+  0% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(14px);
+    opacity: 0;
+  }
+}
+
 /* Chapter navigator pill. Sits bottom-centre in the thumb arc rather
    than up at the top, matching the one-hand reasoning behind the
    mobile nav sheet. */

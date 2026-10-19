@@ -7,6 +7,8 @@ type ProjectActionsProps = {
   demo?: string
   proofHref?: string
   proofLabel?: string
+  /** Extra outbound links, such as a recorded demo or a hackathon listing. */
+  links?: { href: string; label: string; icon?: "play" | "external" }[]
   className?: string
 }
 
@@ -20,6 +22,7 @@ export default function ProjectActions({
   demo,
   proofHref,
   proofLabel = "Watch proof",
+  links = [],
   className = "",
 }: ProjectActionsProps) {
   return (
@@ -56,6 +59,12 @@ export default function ProjectActions({
           {proofLabel}
         </a>
       ) : null}
+      {links.map((link) => (
+        <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className={secondary}>
+          {link.icon === "play" ? <Play className="h-4 w-4" aria-hidden /> : <ExternalLink className="h-4 w-4" aria-hidden />}
+          {link.label}
+        </a>
+      ))}
     </div>
   )
 }

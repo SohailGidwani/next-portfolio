@@ -1,4 +1,5 @@
 import portage from "@/public/images/portage/portal-01-dashboard.png"
+import footnote from "@/public/images/footnote/glasses-light.png"
 import knowledgeHub from "@/public/images/KnowledgeHub_5.png"
 import imagecaption from "@/public/images/BE-Project.jpg"
 import blogsite from "@/public/images/BlogSite.jpg"
@@ -40,6 +41,19 @@ export const projects: ProjectData[] = [
     // "Live" chip on the home page and /projects cards.
     // demo: "https://YOUR_PORTAGE_DEMO_URL",
     featured: true,
+  },
+  {
+    id: "footnote",
+    title: "Footnote",
+    kind: "Wearable AI",
+    shortDescription: "A smart-glasses app that explains company jargon during meetings, so you don't have to interrupt.",
+    description:
+      "Built at LA Hacks with Kartik. The G2 glasses show what a word means and who to ask, one press saves a question, and the follow-up emails only go out once you approve them.",
+    outcome: "Built at LA Hacks 2026 · tested on real Even G2 glasses",
+    image: footnote,
+    tags: ["TypeScript", "FastAPI", "Even G2", "ElevenLabs", "Fetch.ai"],
+    github: "https://github.com/SohailGidwani/Footnote",
+    featured: false,
   },
   {
     id: "knowledge-hub",

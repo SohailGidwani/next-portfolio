@@ -57,6 +57,7 @@ describe("server-first project routes", () => {
   const pages = [
     "app/projects/page.tsx",
     "app/projects/portage/page.tsx",
+    "app/projects/footnote/page.tsx",
     "app/projects/knowledge-hub/page.tsx",
     "app/projects/cot-faithfulness/page.tsx",
     "app/projects/image-captioning/page.tsx",
