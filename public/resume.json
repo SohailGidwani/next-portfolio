@@ -145,6 +145,20 @@
       "type": "application"
     },
     {
+      "name": "Footnote",
+      "description": "Even Realities G2 smart-glasses app, co-built with Kartik Pradip Shelar at LA Hacks 2026, that explains company jargon during meetings: what a word means and who to ask, one press to save a question, and follow-up emails sent only after the user approves them.",
+      "highlights": [
+        "Built the TypeScript glasses and phone app on the Even Hub SDK: gestures, chunked microphone audio, the phone screens and draft review",
+        "Built the React digest page and fixed speech matching so spoken forms like \"run book\" and \"HAL nine\" match the glossary",
+        "Extended the Fetch.ai agent in ASI:One with personalized meeting prep and a per-draft approval step, so no follow-up email goes out without the user's yes",
+        "Deployed the backend, agent and digest to Railway and tested the whole flow on real G2 glasses"
+      ],
+      "keywords": ["TypeScript", "Even Hub SDK", "React", "FastAPI", "SQLite", "ElevenLabs", "StepFun", "Fetch.ai"],
+      "url": "https://sohailgidwani.app/projects/footnote",
+      "roles": ["Co-creator"],
+      "type": "application"
+    },
+    {
       "name": "Knowledge Hub",
       "description": "Document management with OCR, semantic search (pgvector), and RAG Q&A via local LLM (Ollama). Built for personal USC coursework management.",
       "highlights": [
@@ -229,6 +243,6 @@
   "meta": {
     "canonical": "https://sohailgidwani.app/resume.json",
     "version": "v1.0.0",
-    "lastModified": "2026-04-26"
+    "lastModified": "2026-10-19"
   }
 }

@@ -166,6 +166,18 @@ Built an autonomous agent that migrates Flask apps to FastAPI end-to-end: it pla
 
 Technologies: Python 3.12, FastAPI, LangGraph, Postgres 16, pgvector, SQLAlchemy async, Alembic, LiteLLM, Docker, gVisor, FastMCP, Next.js, pytest
 
+### Footnote: Meeting Context on Smart Glasses
+https://github.com/SohailGidwani/Footnote
+https://sohailgidwani.app/projects/footnote
+Demo video: https://youtu.be/yOo_5GBPvQ0
+Devpost: https://devpost.com/software/footnote-dh1fi9
+
+Co-built with Kartik Pradip Shelar at LA Hacks 2026 (October 17-18, 2026). Footnote is an app for Even Realities G2 smart glasses that helps new teammates follow meetings full of internal project names and acronyms. The G2 microphone records the meeting, the phone sends the audio to a FastAPI backend in 4-second chunks, ElevenLabs turns it into text, and known terms come back as a card on the glasses with what the word means and who to ask. Terms the glossary doesn't know are explained by StepFun in the background and show up a little later, marked as a guess. One press saves a question for after the meeting, swiping down stops a term the wearer already knows from showing up, and holding ends the meeting. Afterwards the phone shows follow-up email drafts that are only sent once the user approves them, and a Fetch.ai agent in ASI:One uses the same saved meeting context to answer glossary questions, prepare the user for their next meeting, and send reviewed follow-ups.
+
+Sohail built the glasses and phone app (gestures, chunked microphone audio, the phone screens and draft review), the React digest page, the speech-matching fixes ("run book" matches runbook, "HAL nine" matches HAL-9), the agent's personalized meeting prep and approval step, and the Railway deployment, and tested the whole flow on real G2 glasses. Kartik built the backend, the company data, the first version of the agent, and the final design. The company in the demo (Halcyon Robotics) is made up. The hosted services are now stopped, so the demo video and the public code are the record.
+
+Technologies: TypeScript, Even Hub SDK, React, FastAPI, SQLite, ElevenLabs, StepFun, Fetch.ai, ASI:One, Railway
+
 ### Knowledge Hub: Semantic Search & Study Assistant
 https://github.com/SohailGidwani/knowledge_hub
 https://sohailgidwani.app/projects/knowledge-hub

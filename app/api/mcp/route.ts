@@ -48,6 +48,27 @@ const projects = [
     status: 'development closed 8 October 2026 (deliberate stopping point; remediation incomplete)',
   },
   {
+    name: 'Footnote',
+    slug: 'footnote',
+    url: `${SITE}/projects/footnote`,
+    github: 'https://github.com/SohailGidwani/Footnote',
+    video: 'https://youtu.be/yOo_5GBPvQ0',
+    devpost: 'https://devpost.com/software/footnote-dh1fi9',
+    type: 'application',
+    team: ['Sohail Gidwani', 'Kartik Pradip Shelar'],
+    description:
+      'Even Realities G2 smart-glasses app co-built with Kartik Pradip Shelar at LA Hacks 2026. It explains company jargon during a meeting (what a word means and who to ask), saves a question with one press, and sends follow-up emails only after the user approves them.',
+    highlights: [
+      'The G2 mic records the meeting, the phone sends 4-second audio chunks to a FastAPI + SQLite backend, and ElevenLabs turns them into text; known terms return as cards, unknown ones are explained by StepFun in the background and arrive later marked as a guess',
+      'Gestures: one press saves a question for after the meeting, swipe down stops a known term from showing up, hold ends the meeting',
+      'A Fetch.ai agent in ASI:One reads the saved meeting context for glossary questions and meeting prep, and sends follow-ups only after per-draft approval',
+      'Sohail built the TypeScript glasses and phone app, the React digest page, the speech-matching fixes, the agent\'s personalized meeting prep and approval step, and the Railway deployment, and tested it on real G2 glasses',
+      'Kartik built the backend, the company data (Halcyon Robotics, a made-up company), the first version of the agent, and the final design',
+    ],
+    tags: ['TypeScript', 'Even Hub SDK', 'React', 'FastAPI', 'SQLite', 'ElevenLabs', 'StepFun', 'Fetch.ai'],
+    status: 'built at LA Hacks 2026 (17-18 October); the hosted services are stopped, so the demo video and code are the record',
+  },
+  {
     name: 'Knowledge Hub',
     slug: 'knowledge-hub',
     url: `${SITE}/projects/knowledge-hub`,
@@ -414,6 +435,7 @@ const links = {
   },
   projects: {
     'portage': `${SITE}/projects/portage`,
+    'footnote': `${SITE}/projects/footnote`,
     'knowledge-hub': `${SITE}/projects/knowledge-hub`,
     'cot-faithfulness': `${SITE}/projects/cot-faithfulness`,
     'image-captioning': `${SITE}/projects/image-captioning`,
@@ -428,6 +450,7 @@ const links = {
     profile: 'https://github.com/SohailGidwani',
     repos: {
       'portage': 'https://github.com/SohailGidwani/Portage',
+      'footnote': 'https://github.com/SohailGidwani/Footnote',
       'knowledge-hub': 'https://github.com/SohailGidwani/knowledge_hub',
       'cot-faithfulness': 'https://github.com/SohailGidwani/cot_faithfulness',
       'image-captioning': 'https://github.com/SohailGidwani/Image-Caption',

@@ -22,6 +22,7 @@ const INSAITO: UsedIn = { label: "Insaito", experience: "insaito" }
 const MEMOIR: UsedIn = { label: "MEMOIR-VLM", href: "/research/memoir-vlm-alzheimers-vqa" }
 const JEPA: UsedIn = { label: "Neuro-Var-JEPA", href: "/research" }
 const PORTAGE: UsedIn = { label: "Portage", href: "/projects/portage" }
+const FOOTNOTE: UsedIn = { label: "Footnote", href: "/projects/footnote" }
 const KNOWLEDGE_HUB: UsedIn = { label: "Knowledge Hub", href: "/projects/knowledge-hub" }
 const SCRIBEGLOBE: UsedIn = { label: "ScribeGlobe", href: "/projects/scribeglobe" }
 const TECH_UPDATES: UsedIn = { label: "Tech Updates", href: "/projects/tech-updates" }
@@ -46,9 +47,9 @@ export const SKILL_EVIDENCE: Record<string, UsedIn[]> = {
   FastAPI: [PORTAGE],
   // Sohail: AskPandaAI first ran on EC2, S3 and API Gateway, before the move to Azure.
   AWS: [{ ...IIFL, detail: "AskPandaAI on EC2, S3" }],
-  TypeScript: [SCRIBEGLOBE, TECH_UPDATES],
+  TypeScript: [{ ...FOOTNOTE, detail: "glasses app" }, SCRIBEGLOBE, TECH_UPDATES],
   "Next.js": [{ ...PORTAGE, detail: "frontend" }, THIS_SITE],
-  React: [SCRIBEGLOBE, TECH_UPDATES],
+  React: [{ ...FOOTNOTE, detail: "digest page" }, SCRIBEGLOBE, TECH_UPDATES],
   "Tailwind CSS": [SCRIBEGLOBE, TECH_UPDATES, THIS_SITE],
   "Node.js": [INSAITO],
   PostgreSQL: [PORTAGE, SCRIBEGLOBE, { ...KNOWLEDGE_HUB, detail: "pgvector" }],

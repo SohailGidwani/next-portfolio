@@ -15,6 +15,18 @@ export default function ProjectStructuredData() {
     },
     {
       "@type": "CreativeWork",
+      "name": "Footnote - Meeting Context on Smart Glasses",
+      "description": "Even Realities G2 smart-glasses app co-built at LA Hacks 2026 that explains company jargon during meetings, saves a question with one press, and sends follow-up emails only after the user approves them.",
+      "author": { "@id": "https://sohailgidwani.app/#person" },
+      "contributor": { "@type": "Person", "name": "Kartik Pradip Shelar" },
+      "url": "https://sohailgidwani.app/projects/footnote",
+      "codeRepository": "https://github.com/SohailGidwani/Footnote",
+      "keywords": ["TypeScript", "Even Realities G2", "Smart Glasses", "FastAPI", "ElevenLabs", "Fetch.ai"],
+      "dateCreated": "2026",
+      "genre": "Wearable AI Project"
+    },
+    {
+      "@type": "CreativeWork",
       "name": "Knowledge Hub - AI-Powered Document Management",
       "description": "Document management system with OCR, semantic search, and RAG-powered question answering.",
       "author": { "@id": "https://sohailgidwani.app/#person" },
