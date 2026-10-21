@@ -1506,35 +1506,6 @@
   animation: hud-scan 6s linear infinite;
 }
 
-/* One dot spacing per loop, so each loop picks up where the last left off. */
-@keyframes halftone-drift {
-  to {
-    transform: translate(var(--halftone-step, 14px), var(--halftone-step, 14px));
-  }
-}
-
-.halftone-drift {
-  animation: halftone-drift 4s linear infinite;
-}
-
-.halftone-reverse {
-  animation-direction: reverse;
-}
-
-@keyframes speed-flicker {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.35;
-  }
-}
-
-.speed-flicker {
-  animation: speed-flicker 1.6s ease-in-out infinite;
-}
-
 /* ModalityExplorer: a packet of signal running down each unmasked lane. */
 @keyframes lane-flow {
   from {

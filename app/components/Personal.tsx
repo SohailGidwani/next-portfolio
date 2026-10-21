@@ -50,7 +50,7 @@ const marvelFavorites: Hero[] = [
     id: "spiderman",
     title: "Spider-Man",
     image: "/images/personal/spider-man-amazing-suit.webp",
-    theme: "comic",
+    theme: "cranes",
     shape: "wide",
     description: "My favorite since I was a kid. No matter how beaten, how outmatched, he gets back up. Every time.",
   },

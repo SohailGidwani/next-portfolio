@@ -20,7 +20,8 @@ const layoutId = (id: string) => `hero-picture-${id}`
 /**
  * The Marvel favourites on /about. Same stage as the games: the other card
  * slides away, a scene for the hero takes over the page (a HUD for Iron Man,
- * a comic panel for Spider-Man), and the picture opens beside the reason
+ * rainy Manhattan with its cranes and searchlights for Spider-Man), and the
+ * picture opens beside the reason
  * it is a favourite.
  */
 export default function MarvelShowcase({ heroes }: { heroes: Hero[] }) {

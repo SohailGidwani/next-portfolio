@@ -117,7 +117,8 @@ export default function Stage({
                   media.stacked ? "gap-10" : "gap-7 md:flex-row md:justify-center md:gap-14"
                 }`}
               >
-                <div className="relative shrink-0">
+                {/* Scenes read these two boxes to lay themselves out around the picture and its text. */}
+                <div data-stage-picture className="relative shrink-0">
                   <Halo theme={item.theme} still={reduce} />
                   <motion.div
                     layoutId={layoutId(item.id)}
@@ -144,6 +145,7 @@ export default function Stage({
                 {/* A soft dark pool behind the text keeps it legible over
                     whatever the scene draws there. */}
                 <motion.div
+                  data-stage-text
                   className={`relative isolate text-center before:pointer-events-none before:absolute before:-inset-x-24 before:-inset-y-20 before:-z-10 before:bg-[radial-gradient(closest-side,rgba(0,0,0,0.78),rgba(0,0,0,0.45)_55%,transparent)] ${
                     media.stacked ? "max-w-xl" : "max-w-md md:text-left"
                   }`}

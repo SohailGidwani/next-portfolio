@@ -7,9 +7,10 @@ import Overgrowth from "./Overgrowth"
 import TsushimaField from "./TsushimaField"
 import CitySkyline from "./CitySkyline"
 import MatchPlay from "./MatchPlay"
-import { ComicBurst, Halftone, HudRings, HudScan, PlanStatus, ReactorGlow } from "./MarvelScenes"
+import { HudRings, HudScan, PlanStatus, ReactorGlow } from "./MarvelScenes"
+import CraneScene from "./CraneScene"
 
-export type GameTheme = "frost" | "fireflies" | "wind" | "webs" | "pitch" | "hud" | "comic"
+export type GameTheme = "frost" | "fireflies" | "wind" | "webs" | "pitch" | "hud" | "cranes"
 
 /** A light tint per scene, used for the rule under the stage title. */
 export const THEME_ACCENT: Record<GameTheme, string> = {
@@ -19,7 +20,7 @@ export const THEME_ACCENT: Record<GameTheme, string> = {
   webs: "#e2242f",
   pitch: "#8be08f",
   hud: "#7fd8ff",
-  comic: "#e63946",
+  cranes: "#e63946",
 }
 
 // Each scene brings its own ground colour, so the open stage replaces the
@@ -38,8 +39,7 @@ const BACKDROP: Record<GameTheme, string> = {
     "radial-gradient(70% 60% at 50% 50%, rgba(46,140,72,0.42), transparent 78%), linear-gradient(180deg, #03110a 0%, #06170d 100%)",
   hud:
     "radial-gradient(55% 50% at 50% 45%, rgba(60,170,220,0.16), transparent 70%), radial-gradient(90% 60% at 50% 100%, rgba(150,32,24,0.32), transparent 72%), linear-gradient(180deg, #05080c 0%, #0c0a0b 100%)",
-  comic:
-    "radial-gradient(60% 55% at 50% 42%, rgba(30,58,138,0.5), transparent 72%), linear-gradient(180deg, #050814 0%, #0a0f24 100%)",
+  cranes: "linear-gradient(180deg, #04070b 0%, #0a121a 60%, #121e29 100%)",
 }
 
 // Elder Futhark, drawn as strokes on a 10 x 16 grid. The runes are straight
@@ -287,7 +287,7 @@ export default function GameScene({ theme, still }: { theme: GameTheme; still: b
           <PlanStatus still={still} />
         </>
       ) : null}
-      {theme === "comic" ? <Halftone /> : null}
+      {theme === "cranes" ? <CraneScene still={still} /> : null}
     </div>
   )
 }
@@ -295,8 +295,8 @@ export default function GameScene({ theme, still }: { theme: GameTheme; still: b
 /**
  * The parts of a scene that belong to the picture rather than the screen,
  * drawn behind it on the stage so they line up with it at any size: the
- * phone rune ring and HUD (desktop draws the big ones in the scene), the arc
- * reactor's glow, and the comic burst with its speed lines.
+ * phone rune ring and HUD (desktop draws the big ones in the scene) and the
+ * arc reactor's glow.
  */
 export function Halo({ theme, still }: { theme: GameTheme; still: boolean }) {
   const ring = "pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[152%] w-[152%] -translate-x-1/2 -translate-y-1/2 md:hidden"
@@ -308,6 +308,5 @@ export function Halo({ theme, still }: { theme: GameTheme; still: boolean }) {
         <HudRings still={still} weight={2.4} className={ring} />
       </>
     )
-  if (theme === "comic") return <ComicBurst still={still} />
   return null
 }
