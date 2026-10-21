@@ -8,11 +8,11 @@ import { smoothScrollToId } from "@/app/utils/smoothScroll"
 import AnimatedCounter from "./AnimatedCounter"
 import HeroName from "./HeroName"
 
-const ShootingStars = dynamic(() => import("./ShootingStars"), { ssr: false })
+const PenPlotter = dynamic(() => import("./PenPlotter"), { ssr: false })
 
 function RoleBadge() {
   return (
-    <span className="inline-flex items-center gap-2 rounded border border-border bg-transparent px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-foreground sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.18em]">
+    <span data-hero-badge className="inline-flex items-center gap-2 rounded border border-border bg-transparent px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-foreground sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.18em]">
       <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden />
       <span className="whitespace-nowrap">Agentic AI/ML Engineer</span>
     </span>
@@ -95,7 +95,7 @@ export default function Hero() {
       className="relative min-h-[100svh] border-b border-border pt-[calc(var(--nav-h)+1.25rem)]"
     >
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden>
-        <ShootingStars />
+        <PenPlotter />
       </div>
 
       <div className="container relative z-[1] mx-auto flex min-h-[calc(100svh-var(--nav-h)-1.25rem)] flex-col items-start justify-center pb-16 pt-6 text-left sm:pb-20 md:items-center md:text-center">
